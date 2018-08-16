@@ -8,6 +8,7 @@ var kingjs = require('kingjs');
 
 ### Namespaces
 - [`array`][array]
+- [`enumerable`][enumerable]
 - [`linq`][linq]
 - [`mutate`][mutate]
 - [`poset`][poset]
@@ -18,11 +19,7 @@ var kingjs = require('kingjs');
 - [`assertTheory`][assert-theory]
 - [`assertThrows`][assert-throws]
 - [`caseAt`][case-at]
-- [`defineGenerator`][define-generator]
 - [`dictionary`][dictionary]
-- [`forEach`][for-each]
-- [`fromEach`][from-each]
-- [`odometer`][odometer]
 - [`sequence`][sequence]
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -36,6 +33,7 @@ MIT
 
   [array]: https://www.npmjs.com/package/@kingjs/array
   [linq]: https://www.npmjs.com/package/@kingjs/linq
+  [enumerable]: https://www.npmjs.com/package/@kingjs/enumerable
   [poset]: https://www.npmjs.com/package/@kingjs/poset
   [mutate]: https://www.npmjs.com/package/@kingjs/mutate
 

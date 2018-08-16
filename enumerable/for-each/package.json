@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/for-each",
-  "version": "1.0.3",
-  "description": "Invoke a function for each element in an enumerable.",
+  "name": "@kingjs/enumerable.for-each",
+  "version": "1.0.0",
+  "description": "Invokes a function for each element in a sequence.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -19,6 +19,6 @@
   "dependencies": {},
   "devDependencies": {
     "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.2"
+    "@kingjs/enumerable.create": "^1.0.0"
   }
 }

@@ -1,16 +1,16 @@
-# @kingjs/for-each
-Invoke a function for each element in an enumerable.
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[enumerable](https://www.npmjs.com/package/@kingjs/enumerable).for-each
+Invokes a function for each element in a sequence.
 ## Usage
-Logging if each number in a range is even or odd could be done like this:
+Log if a value has an even or odd index like this:
 ```js
-var forEach = require('@kingjs/for-each');
-var sequence = require('@kingjs/sequence')
+var forEach = require('@kingjs/enumerable.for-each');
+var create = require('@kingjs/enumerable.create')
 
 var result = [];
 
 forEach(function(x, i) {
   result.push(x + ' at ' + i)
-}, sequence('a', 'b', 'c'));
+}, create('a', 'b', 'c'));
 
 result;
 ```
@@ -30,7 +30,7 @@ function forEach(
 );
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `action`: The action to call for each element in `sequence`.
   - `x`: Current element of `sequence`.
@@ -41,7 +41,7 @@ function forEach(
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/for-each
+$ npm install @kingjs/enumerable.for-each
 ```
 ## License
 MIT

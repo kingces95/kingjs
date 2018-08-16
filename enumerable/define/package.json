@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/define",
+  "name": "@kingjs/enumerable.define",
   "version": "1.0.0",
   "description": "Defines a function that returns an Enumerable.",
   "main": "index.js",

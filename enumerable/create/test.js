@@ -1,11 +1,10 @@
 'use strict';
 
+var create = require('./index')
 var assert = require('@kingjs/assert');
 
-var sequence = require('./index')
-
 function test(args, expected) {
-  var enumerable = sequence.apply(this, args);
+  var enumerable = create.apply(this, args);
   var enumerator = enumerable.getEnumerator();
 
   var actual = undefined;

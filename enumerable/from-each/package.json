@@ -1,6 +1,6 @@
 {
-  "name": "@kingjs/from-each",
-  "version": "1.0.5",
+  "name": "@kingjs/enumerable.from-each",
+  "version": "1.0.0",
   "description": "Generates arrays by selecting a single element each from other arrays.",
   "main": "index.js",
   "files": [
@@ -17,8 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/odometer": "^1.0.0",
-    "@kingjs/define-generator": "^1.0.0"
+    "@kingjs/enumerable.odometer": "^1.0.0",
+    "@kingjs/enumerable.define": "^1.0.0"
   },
   "devDependencies": {
     "@kingjs/assert": "^1.0.2",
