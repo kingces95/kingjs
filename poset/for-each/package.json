@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/poset.for-each",
+  "version": "1.0.10",
+  "description": "Perform a depth first walk of a poset expressed as an adjacency list.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/dictionary": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kingjs/assert": "^1.0.2",
+    "@kingjs/assert-theory": "^1.0.0",
+    "@kingjs/assert-throws": "^1.0.1"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/enumerable",
+  "version": "1.0.3",
+  "description": "Exports all `@kingjs/enumerable.*` functionality in one package.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/enumerable.create": "^1.0.0",
+    "@kingjs/enumerable.define": "^1.0.0",
+    "@kingjs/enumerable.for-each": "^1.0.0",
+    "@kingjs/enumerable.from-each": "^1.0.0",
+    "@kingjs/enumerable.odometer": "^1.0.0"
+  },
+  "devDependencies": {}
+}

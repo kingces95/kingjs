@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/poset",
+  "version": "1.0.4",
+  "description": "Exposes @kingjs.poset.*",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/poset.decode": "^1.0.3",
+    "@kingjs/poset.encode": "^1.0.2",
+    "@kingjs/poset.for-each": "^1.0.7",
+    "@kingjs/poset.inherit": "^1.0.0"
+  }
+}

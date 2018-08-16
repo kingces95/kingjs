@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/linq.count",
+  "version": "1.0.4",
+  "description": "Returns the number of elements in a sequence that satisfy a condition.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@kingjs/assert": "^1.0.2",
+    "@kingjs/sequence": "^1.0.0"
+  },
+  "dependencies": {
+    "@kingjs/linq.aggregate": "^1.0.6"
+  }
+}

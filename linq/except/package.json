@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/linq.except",
+  "version": "1.0.10",
+  "description": "Generates the set difference of two sequences.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-generator": "^1.0.2",
+    "@kingjs/dictionary": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kingjs/assert": "^1.0.2",
+    "@kingjs/linq.sequence-equal": "^1.0.2",
+    "@kingjs/linq.to-array": "^1.0.0",
+    "@kingjs/sequence": "^1.0.2"
+  }
+}

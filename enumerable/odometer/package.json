@@ -1,0 +1,19 @@
+{
+  "name": "@kingjs/odometer",
+  "version": "1.0.6",
+  "description": "Generates arrays of odometer digits.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT"
+}

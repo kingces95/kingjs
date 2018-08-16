@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/linq.element-at-or-undefined",
+  "version": "1.0.4",
+  "description": "Returns the element at a specified index in a sequence or undefined if the index is out of range.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@kingjs/assert": "^1.0.2",
+    "@kingjs/assert-throws": "^1.0.1",
+    "@kingjs/sequence": "^1.0.2"
+  },
+  "dependencies": {}
+}
