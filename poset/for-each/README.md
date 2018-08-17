@@ -20,7 +20,7 @@ var totalOrder = [];
 
 forEach(function(vertex) {
   totalOrder.push(vertex);
-}, 'a', poset);
+}, poset);
 
 totalOrder;
 ```

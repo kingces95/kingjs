@@ -15,7 +15,7 @@ decode({
   a$b$c: 1,
   b$d: 2,
   c$d: 3,
-  $d: 4,
+  d: 4,
 });
 ```
 result:

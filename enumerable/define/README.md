@@ -30,9 +30,11 @@ var currentTicks = define(
 var enumerable = currentTicks(3);
 var enumerator = enumerable.getEnumerator();
 
-var actual = [];
+var result = [];
 while (enumerator.moveNext())
-  actual.push(enumerator.current);
+  result.push(enumerator.current);
+
+result;
 ```
 Result is something like this:
 ```js

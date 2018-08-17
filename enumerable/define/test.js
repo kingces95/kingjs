@@ -30,13 +30,13 @@ function readme() {
   var enumerable = currentTicks(3);
   var enumerator = enumerable.getEnumerator();
   
-  var actual = [];
+  var result = [];
   while (enumerator.moveNext())
-    actual.push(enumerator.current);
+    result.push(enumerator.current);
 
-  assert(actual.length == 3);
-  assert(actual[0] < actual[1]);
-  assert(actual[1] < actual[2]);
+  assert(result.length == 3);
+  assert(result[0] < result[1]);
+  assert(result[1] < result[2]);
 }
 readme();
 

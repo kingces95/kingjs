@@ -7,12 +7,12 @@ var assert = testRequire('@kingjs/assert');
 function readme() {
   var enumerable = odometer(10, 10, 10, 10, 10, 10, 10);
   
-  var generator = enumerable.getEnumerator();
+  var enumerator = enumerable.getEnumerator();
 
   var actual = [];
   for (var distance = 0; distance < 11; distance++) {
-    generator.moveNext();
-    var current = generator.current;
+    enumerator.moveNext();
+    var current = enumerator.current;
     actual.push(current.reverse());
   }
 

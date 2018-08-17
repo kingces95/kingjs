@@ -11,18 +11,14 @@ var encode = require('@kingjs/poset.encode');
 //   \ /
 //   d=4
 encode({
-  vertices: {
     a: 1,
     b: 2,
     c: 3,
     d: 4
-  },
-
-  edges: {
+  }, {
     a: [ 'b', 'c' ],
     b: [ 'd' ],
     c: [ 'd' ],
-  }
 });
 ```
 result:

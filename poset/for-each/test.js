@@ -1,6 +1,6 @@
 'use strict';
 
-var forEachDependent = require('.');
+var forEach = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
@@ -15,7 +15,7 @@ function readMe() {
   
   var totalOrder = [];
   
-  forEachDependent(function(vertex) {
+  forEach(function(vertex) {
     totalOrder.push(vertex);
   }, poset);
 
@@ -37,7 +37,7 @@ function cycle() {
   };
   
   var message = assertThrows(function() {
-    forEachDependent(null, poset)
+    forEach(null, poset)
   }, 'Cycle detected: a > b > c > a');
 }
 cycle();
@@ -71,7 +71,7 @@ function manyGraphs() {
     var lastVertexValue = 0;
 
     var count = 0;
-    forEachDependent(function(vertexName) {
+    forEach(function(vertexName) {
       count++;
       var vertexValue = vertices[vertexName];
 

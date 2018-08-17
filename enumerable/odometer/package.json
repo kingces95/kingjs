@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/enumerable.odometer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generates arrays of odometer digits.",
   "main": "index.js",
   "files": [
