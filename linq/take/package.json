@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.take",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Generates a sequence identical to another sequence up to a specified index.",
   "main": "index.js",
   "files": [

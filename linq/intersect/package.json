@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.intersect",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Generates the set intersection of two sequences.",
   "main": "index.js",
   "files": [

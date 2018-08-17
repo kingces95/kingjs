@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.max",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Returns the maximum value in a sequence of values projected from elements of a sequence.",
   "main": "index.js",
   "files": [

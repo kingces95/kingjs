@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/poset",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Exposes @kingjs.poset.*",
   "main": "index.js",
   "files": [

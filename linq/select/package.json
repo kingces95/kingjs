@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.select",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generates a sequence of elements composed of elements of another sequence subject to a transform.",
   "main": "index.js",
   "files": [

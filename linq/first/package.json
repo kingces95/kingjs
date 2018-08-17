@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.first",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Returns the first element of a sequence that satisfies a specified condition.",
   "main": "index.js",
   "files": [

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/enumerable",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Exports all `@kingjs/enumerable.*` functionality in one package.",
   "main": "index.js",
   "files": [

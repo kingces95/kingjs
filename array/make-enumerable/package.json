@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/array.make-enumerable",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Makes an array enumerable by adding a `getEnumerable` method.",
   "main": "index.js",
   "files": [

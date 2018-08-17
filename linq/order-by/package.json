@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.order-by",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Generates a sequence of elements in ascending order according to a key.",
   "main": "index.js",
   "files": [

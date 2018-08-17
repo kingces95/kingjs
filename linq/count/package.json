@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.count",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Returns the number of elements in a sequence that satisfy a condition.",
   "main": "index.js",
   "files": [

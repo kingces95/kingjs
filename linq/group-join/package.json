@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.group-join",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Generates a sequence of elements composed of an element in one sequence and a group of elements in another sequence all of which share a common key.",
   "main": "index.js",
   "files": [

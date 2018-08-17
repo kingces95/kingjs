@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/mutate.copy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Copies own and inherited enumerable property values optionally skipping those already defined.",
   "main": "index.js",
   "files": [

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/mutate.scorch",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Deletes properties with `undefined` value. ",
   "main": "index.js",
   "files": [

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/apply",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Calls a list of functions using each result as the `this` of the next call.",
   "main": "index.js",
   "files": [

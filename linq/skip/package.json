@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.skip",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Generates a sequence identical to another sequence after bypassing a specified number of elements.",
   "main": "index.js",
   "files": [

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.any",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Returns true if any element of a sequence satisfies a condition.",
   "main": "index.js",
   "files": [

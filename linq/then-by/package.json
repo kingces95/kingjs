@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.then-by",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generates a sequence of elements from a sorted sequence where elements previously considered equal are put in ascending order according to a key.",
   "main": "index.js",
   "files": [

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/enumerable.for-each",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Invokes a function for each element in a sequence.",
   "main": "index.js",
   "files": [

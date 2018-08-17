@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/enumerable.from-each",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generates a sequence of arrays or descriptors composed of a single element each from a set of arrays.",
   "main": "index.js",
   "files": [

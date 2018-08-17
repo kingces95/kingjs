@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.select-many",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Generate a sequence by concatenating sequences projected from elements of a sequence.",
   "main": "index.js",
   "files": [

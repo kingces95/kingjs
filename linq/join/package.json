@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.join",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Generates a sequence of elements composed of elements from two sequences that share a common key.",
   "main": "index.js",
   "files": [

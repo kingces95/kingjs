@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.where",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Generates a sequence of elements composed of elements from another sequences which satisfy a specified condition.",
   "main": "index.js",
   "files": [

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.distinct",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Generates a sequence composed of the distinct elements of another sequence.",
   "main": "index.js",
   "files": [

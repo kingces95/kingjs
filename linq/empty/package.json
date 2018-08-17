@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.empty",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Returns an empty sequence.",
   "main": "index.js",
   "files": [

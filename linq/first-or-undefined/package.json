@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.first-or-undefined",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Returns the first element of a sequence that satisfies a specified condition or a undefined.",
   "main": "index.js",
   "files": [

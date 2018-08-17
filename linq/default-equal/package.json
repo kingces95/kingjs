@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.default-equal",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Default equality operator.",
   "main": "index.js",
   "files": [

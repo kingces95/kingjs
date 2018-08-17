@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.contains",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Returns true if a sequence contains a specified element.",
   "main": "index.js",
   "files": [

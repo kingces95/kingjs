@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/poset.for-each",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Perform a depth first walk of a poset expressed as an adjacency list.",
   "main": "index.js",
   "files": [

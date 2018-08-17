@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/case-at",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Functions for testing and setting the case of a character in a string.",
   "main": "index.js",
   "scripts": {

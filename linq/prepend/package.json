@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.prepend",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Generates an sequence identical to another sequence but with a value added to the start.",
   "main": "index.js",
   "files": [
