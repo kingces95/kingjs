@@ -1,5 +1,6 @@
 'use strict';
 
+require('./.index/test');
 require('./aggregate/test');
 require('./all/test');
 require('./any/test');
