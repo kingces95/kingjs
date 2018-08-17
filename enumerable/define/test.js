@@ -7,13 +7,12 @@ var assert = testRequire('@kingjs/assert');
 function readme() {
   var currentTicks = define(
 
-    function generatorFactory() {
-      var generationsRemaining = arguments[0];
+    function generatorFactory(tickCount) {
   
       return function generator() {
-        if (generationsRemaining <= 0)
+        if (tickCount <= 0)
           return false;
-        generationsRemaining--;
+          tickCount--;
 
         // ensure at a tick elapses between generations
         if (this.current_) {
