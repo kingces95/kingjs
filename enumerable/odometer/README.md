@@ -1,16 +1,15 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[enumerable](https://www.npmjs.com/package/@kingjs/enumerable).odometer
 Generates arrays of odometer digits.
 ## Usage
-A typical car odometer has 7 wheels, each wheel has 10 digits, and a new value is generated as the car moves along. These values can be generated like this:
+A typical car odometer has 7 wheels, each wheel has 10 digits, and a new value is generated as the car moves along. These values can be generated for 11 units of distance like this:
 ```js
-var Odometer = require('@kingjs/enumerable.odometer')
+var odometer = require('@kingjs/enumerable.odometer')
 
-var odometer = new Odometer([10, 10, 10, 10, 10, 10, 10]);
-
-var enumerator = odometer.getEnumerator();
+var enumerable = odometer([10, 10, 10, 10, 10, 10, 10]);
+var enumerator = enumerable.getEnumerator();
 
 var actual = [];
-for (var distance = 0; distance < 11; distance++) { // 11 is arbitrary
+for (var distance = 0; distance < 11; distance++) {
   generator.moveNext();
   var current = generator.current;
   actual.push(current.reverse());
@@ -43,11 +42,11 @@ function odometer(
 ### Interfaces
 - `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
-- `bases`: an array of normal numbers specifying the number of "digits" on each wheel of the odometer at each position. May also be passed as an argument list.
+- `bases`: an array of normal numbers specifying the number of digits on each wheel of the odometer at each position. May also be passed as an argument list.
 ### Return Value
-A sequence of arrays composed of the digits produced by an odometer of the specified number of digits and bases. The generator terminates after every combination has been generated.
+Returns a sequence of arrays composed of the digits produced by an odometer of the specified number of digits and bases. The generator terminates after every combination has been generated.
 ## Remarks
-A typical odometer increments digits from right to left. This odometer increments from left to right (which is why the example calls `Array.reverse()`). This is done so digits increment starting at index 0.
+A typical odometer increments digits from right to left however `odometer` increments from left to right so digits increment starting at index 0.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/enumerable.from-each",
   "version": "1.0.0",
-  "description": "Generates arrays by selecting a single element each from other arrays.",
+  "description": "Generates a sequence of arrays or descriptors composed of a single element each from a set of arrays.",
   "main": "index.js",
   "files": [
     "index.js"

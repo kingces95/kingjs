@@ -60,6 +60,7 @@ function theory(enumerable, expected) {
   assert(actualJSON == expectedJSON);
 }
 theory(fromEach());
+theory(fromEach([]));
 theory(fromEach([[0]]), [[0]]);
 theory(fromEach([[0,1]]), [[0], [1]]);
 theory(fromEach([[0,1], [2]]), [[0,2], [1,2]]);
