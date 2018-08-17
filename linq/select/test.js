@@ -1,7 +1,8 @@
-var select = require('./index');
-var assert = require('@kingjs/assert');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
-var sequence = require('@kingjs/sequence');
+var select = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 function readme() {
   function selectLowerCase(x) {

@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function where(predicate) {
   var enumerator = this.getEnumerator();
@@ -22,5 +22,5 @@ function where(predicate) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(where) }
+  exports: { value: define(where) }
 });

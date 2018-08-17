@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function skipWhile(predicate) {
   var enumerator = this.getEnumerator();
@@ -21,5 +21,5 @@ function skipWhile(predicate) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(skipWhile) }
+  exports: { value: define(skipWhile) }
 });

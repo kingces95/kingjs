@@ -1,5 +1,6 @@
-var assertThrows = require('./index')
-var assert = require('@kingjs/assert');
+var assertThrows = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readmeCondition() {
   var result;

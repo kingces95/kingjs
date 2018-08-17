@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 var toLookup = require('@kingjs/linq.to-lookup');
 
 function join(
@@ -57,5 +57,5 @@ function join(
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(join) }
+  exports: { value: define(join) }
 });

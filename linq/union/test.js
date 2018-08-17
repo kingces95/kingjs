@@ -1,7 +1,8 @@
-var union = require('./index');
-var assert = require('@kingjs/assert');
-var sequence = require('@kingjs/sequence');
-var toArray = require('@kingjs/linq.to-array');
+var union = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequence = testRequire('@kingjs/enumerable.create');
+var toArray = testRequire('@kingjs/linq.to-array');
 
 function readme() {
   var result = union.call(

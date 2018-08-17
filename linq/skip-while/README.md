@@ -4,7 +4,7 @@ Generates a sequence identical to another sequence after bypassing the first con
 Skip numbers in `-2`, `-1`, `0`, `-1`, `-2` so long as they're negative like this:
 ```js
 var skipWhile = require('@kingjs/linq.skip-while');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 function isNegative(x) {
@@ -27,7 +27,7 @@ declare function skipWhile(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence.

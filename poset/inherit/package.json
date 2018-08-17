@@ -21,9 +21,5 @@
     "@kingjs/mutate.copy": "^1.0.0",
     "@kingjs/poset.decode": "^1.0.1",
     "@kingjs/poset.for-each": "^1.0.7"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/assert-throws": "^1.0.1"
   }
 }

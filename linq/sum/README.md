@@ -4,7 +4,7 @@ Computes the sum of a sequence of numbers projected from elements of a sequence.
 Sum `1`, `2`, and `3` like this:
 ```js
 var sum = require('@kingjs/linq.sum');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var summation = sum.call(sequence(1, 2, 3));
 ```
@@ -20,7 +20,7 @@ declare function sum(
 ): number;
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: The sequence to sum.
 ### Return Value

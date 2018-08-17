@@ -4,7 +4,7 @@ Returns true if two sequences contain the same number of elements and those that
 Test if `[1,2,3]` is equal to other arrays like this:
 ```js
 var sequenceEqual = require('@kingjs/link.sequence-equal');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var expected = sequence(1, 2, 3);
 
@@ -40,7 +40,7 @@ declare function sequenceEqual(
 ): boolean
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: the first sequence being compared

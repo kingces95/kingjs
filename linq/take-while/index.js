@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function takeWhile(predicate) {
   var enumerator = this.getEnumerator();
@@ -19,5 +19,5 @@ function takeWhile(predicate) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(takeWhile) }
+  exports: { value: define(takeWhile) }
 });

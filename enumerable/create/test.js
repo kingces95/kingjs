@@ -1,7 +1,8 @@
 'use strict';
 
-var create = require('./index')
-var assert = require('@kingjs/assert');
+var create = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function test(args, expected) {
   var enumerable = create.apply(this, args);

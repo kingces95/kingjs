@@ -10,7 +10,7 @@ Join
 like this:
 ```js
 var groupJoin = require('@kingjs/linq.group-join');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var owners = sequence(
@@ -70,7 +70,7 @@ declare function groupJoin(
 )
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: The inner sequence whose elements are matched with a partition of the outer sequence.
 - `outerEnumerable`: The outer sequence whose partitions are joined with elements of the inner sequence. 

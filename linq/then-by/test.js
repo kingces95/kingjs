@@ -1,8 +1,9 @@
-var thenBy = require('./index');
-var orderBy = require('@kingjs/linq.order-by');
-var assert = require('@kingjs/assert');
-var toArray = require('@kingjs/linq.to-array');
-var sequence = require('@kingjs/sequence');
+var thenBy = require('.');
+var testRequire = require('..');
+var orderBy = testRequire('@kingjs/linq.order-by');
+var assert = testRequire('@kingjs/assert');
+var toArray = testRequire('@kingjs/linq.to-array');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 function readme() {
   

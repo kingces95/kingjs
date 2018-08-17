@@ -1,9 +1,10 @@
 'use strict';
 
-var forEachDependent = require('./index');
-var assert = require('@kingjs/assert');
-var assertThrows = require('@kingjs/assert-throws');
-var assertTheory = require('@kingjs/assert-theory');
+var forEachDependent = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
+var assertTheory = testRequire('@kingjs/assert-theory');
 
 function readMe() {
   var poset = {

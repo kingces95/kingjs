@@ -17,12 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/array.make-enumerable": "^1.0.0",
-    "@kingjs/define-generator": "^1.0.2",
+    "@kingjs/enumerable.define": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/linq.to-array": "^1.0.1",
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.2"
   }
 }

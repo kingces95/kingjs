@@ -4,7 +4,7 @@ Generates a sequence of elements in descending order according to a key.
 Sort in descending order the numbers `1`, `0`, `2` in descending order like this:
 ```js
 var orderBy = require('@kingjs/linq.order-by-descending');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var numbers = sequence(1, 0, 2);
@@ -20,7 +20,7 @@ result:
 Sort in descending order the same numbers as before, but now wrapped in objects, like this:
 ```js
 var orderBy = require('@kingjs/linq.order-by-descending');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var numbers = sequence({ value: 1 }, { value: 0 }, { value: 2 });
@@ -37,7 +37,7 @@ result:
 Sort in descending order the numbers `1`, `0`, `2` and letters `b`, `a` so letters compare less than numbers like this:
 ```js
 var orderBy = require('@kingjs/linq.order-by');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var numbers = sequence(1, 0, 2, `b`, `a`);
@@ -59,7 +59,7 @@ result:
 Sort `Bob Smith`, `Alice Smith`, and `Chris King` in descending order by last name then first name like this:
 ```js
 var orderBy = require('@kingjs/linq.order-by');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var people = sequence(
@@ -95,7 +95,7 @@ declare function orderByDescending(
 ): SortedEnumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 - `SortedEnumerable`: See [@kingjs/linq.order-by](https://www.npmjs.com/package/@kingjs/linq.order-by).
 
 ### Parameters

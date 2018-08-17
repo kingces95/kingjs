@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function zip(other, result) {
   var first = this.getEnumerator();
@@ -16,5 +16,5 @@ function zip(other, result) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(zip) }
+  exports: { value: define(zip) }
 });

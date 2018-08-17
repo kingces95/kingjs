@@ -18,10 +18,5 @@
   "dependencies": {
     "@kingjs/dictionary": "^1.0.0",
     "@kingjs/linq.aggregate": "^1.0.9"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/assert-throws": "^1.0.1",
-    "@kingjs/sequence": "^1.0.2"
   }
 }

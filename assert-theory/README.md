@@ -3,7 +3,7 @@ Assert that a theory is true for a combination of observations.
 ## Usage
 Assert that addition and multiplication are [commutative](https://en.wikipedia.org/wiki/Commutative_property) operations for a combination of 3 whole numbers and 3 fractions like this:
 ```js
-var testTheory = require('./index');
+var testTheory = require('@kingjs/assert-theory');
 var assert = require('@kingjs/assert');
 
 var id = 0;

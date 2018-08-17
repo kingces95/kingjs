@@ -1,7 +1,8 @@
-var where = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
-var toArray = require('@kingjs/linq.to-array');
+var where = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
+var toArray = testRequire('@kingjs/linq.to-array');
 
 function readme() {
   var numbers = sequence(0, 1, 2, 3);

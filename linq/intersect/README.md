@@ -4,7 +4,7 @@ Generates the set intersection of two sequences.
 Intersect the numbers `0`, `0`, `1`, `2` with the numbers `1`, `0` like this:
 ```js
 var intersect = require('@kingjs/linq.intersect');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = intersect.call(
@@ -27,7 +27,7 @@ declare function intersect(
 )
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: The first sequence.
 - `second`: The second sequence. 

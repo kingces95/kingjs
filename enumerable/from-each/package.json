@@ -19,9 +19,5 @@
   "dependencies": {
     "@kingjs/enumerable.odometer": "^1.0.0",
     "@kingjs/enumerable.define": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/linq.to-array": "^1.0.2"
   }
 }

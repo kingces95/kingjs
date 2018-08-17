@@ -23,7 +23,7 @@ function range(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `start`: Number at which to start sequence.

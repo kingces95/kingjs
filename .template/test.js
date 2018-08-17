@@ -1,6 +1,6 @@
 'use strict';
 
-var xxx = require('./index');
+var xxx = require('.');
 var assert = require('@kingjs/assert')
 
 function readMe() {

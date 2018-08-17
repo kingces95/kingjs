@@ -1,6 +1,7 @@
-var count = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
+var count = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 assert(3 == count.call(sequence(1, 2, 3)));
 

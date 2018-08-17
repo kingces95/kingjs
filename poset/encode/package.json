@@ -15,9 +15,5 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2"
-  }
+  "license": "MIT"
 }

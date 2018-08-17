@@ -1,7 +1,8 @@
 'use strict';
 
-var copy = require('./index');
-var assert = require('@kingjs/assert')
+var copy = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert')
 
 function readMe(skipIfDefined) {
 

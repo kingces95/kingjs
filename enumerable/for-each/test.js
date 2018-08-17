@@ -1,15 +1,16 @@
 'use strict';
 
-var forEach = require('./index')
-var create = require('@kingjs/enumerable.create')
-var assert = require('@kingjs/assert')
+var forEach = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   var result = [];
   
   forEach(function(x, i) {
     result.push(x + ' at ' + i)
-  }, create('a', 'b', 'c'));
+  }, sequence('a', 'b', 'c'));
   
   assert(result[0] == 'a at 0');
   assert(result[1] == 'b at 1');
@@ -22,4 +23,4 @@ forEach.call(self, function(x, i) {
   assert(this == self);
   assert(x == 'a');
   assert(i == 0);
-}, create('a'));
+}, sequence('a'));

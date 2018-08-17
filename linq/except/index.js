@@ -1,7 +1,7 @@
 'use strict';
 
 var Dictionary = require('@kingjs/dictionary');
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function defaultSelector(x) {
   return x;
@@ -53,5 +53,5 @@ function except(
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(except) }
+  exports: { value: define(except) }
 });

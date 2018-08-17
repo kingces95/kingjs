@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function range(start, count) {    
   return function() {
@@ -17,5 +17,5 @@ function range(start, count) {
 
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(range) }
+  exports: { value: define(range) }
 });

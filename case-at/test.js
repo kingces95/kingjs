@@ -1,6 +1,7 @@
-var caseAt = require('./index')
-var assert = require('@kingjs/assert')
-var assertThrows = require('@kingjs/assert-throws')
+var caseAt = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert')
+var assertThrows = testRequire('@kingjs/assert-throws')
 
 function readmeTest() {
   assert(caseAt.isRaised("Hello World!", 0));

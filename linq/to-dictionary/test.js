@@ -1,7 +1,8 @@
-var toDictionary = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
-var assertThrows = require('@kingjs/assert-throws');
+var toDictionary = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
 
 function readme() {
   var result = toDictionary.call(

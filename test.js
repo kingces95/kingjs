@@ -12,5 +12,3 @@ require('./enumerable/test');
 require('./linq/test');
 require('./mutate/test');
 require('./poset/test');
-
-require('./index');

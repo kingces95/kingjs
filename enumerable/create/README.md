@@ -3,9 +3,9 @@ Creates an Enumerable out of `arguments`.
 ## Usage
 Create an Enumerable from the arguments `1`, `2`, and `3` like this:
 ```js
-var create = require('@kingjs/enumerable.create')
+var sequence = require('@kingjs/enumerable.create')
 
-var enumerable = create(0, 1, 2);
+var enumerable = sequence(0, 1, 2);
 var enumerator = enumerable.getEnumerator();
 
 var result = [];

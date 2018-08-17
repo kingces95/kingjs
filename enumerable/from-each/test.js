@@ -1,8 +1,9 @@
 'use strict';
 
-var fromEach = require('./index');
-var toArray = require('@kingjs/linq.to-array');
-var assert = require('@kingjs/assert');
+var fromEach = require('.');
+var testRequire = require('..');
+var toArray = testRequire('@kingjs/linq.to-array');
+var assert = testRequire('@kingjs/assert');
 
 function assertExpected(actual) {
 

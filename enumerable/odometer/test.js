@@ -1,6 +1,8 @@
 'use strict';
 
-var odometer = require('./index')
+var odometer = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   var enumerable = odometer(10, 10, 10, 10, 10, 10, 10);
@@ -31,8 +33,7 @@ function readme() {
   var actualJSON = JSON.stringify(actual);
   var expectedJSON = JSON.stringify(expected);
 
-  if (actualJSON != expectedJSON)
-    throw (actualJSON + " != " + expectedJSON);
+  assert(actualJSON == expectedJSON);
 }
 readme();
 
@@ -50,8 +51,7 @@ function theory(enumerable, expected) {
   var actualJSON = JSON.stringify(actual);
   var expectedJSON = JSON.stringify(expected);
   
-  if (actualJSON != expectedJSON)
-    throw (actualJSON + " != " + expectedJSON);
+  assert(actualJSON == expectedJSON);
 }
 theory(odometer());
 theory(odometer([1]), [[0]]);

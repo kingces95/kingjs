@@ -4,7 +4,7 @@ Returns the minimum value in a sequence of values projected from elements of a s
 Return the minimum value of `1`, `2`, `3` like this:
 ```js
 var max = require('@kingjs/linq.max');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 max.call(sequence(1, 2, 3));
 ```
@@ -15,7 +15,7 @@ result:
 Return the oldest person like this:
 ```js
 var max = require('@kingjs/linq.max');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var compareAge = function(l, r) { return l.age < r.age; }
 
@@ -37,7 +37,7 @@ declare function min(
 )
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: Sequence to search for max element.
 - `lessThan`: Optional element comparison function.

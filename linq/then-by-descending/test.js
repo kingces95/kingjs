@@ -1,8 +1,9 @@
-var thenByDescending = require('./index');
-var orderByDescending = require('@kingjs/linq.order-by-descending');
-var assert = require('@kingjs/assert');
-var toArray = require('@kingjs/linq.to-array');
-var sequence = require('@kingjs/sequence');
+var thenByDescending = require('.');
+var testRequire = require('..');
+var orderByDescending = testRequire('@kingjs/linq.order-by-descending');
+var assert = testRequire('@kingjs/assert');
+var toArray = testRequire('@kingjs/linq.to-array');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 function readme() {
   

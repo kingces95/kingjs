@@ -4,13 +4,13 @@ Invokes a function for each element in a sequence.
 Log if a value has an even or odd index like this:
 ```js
 var forEach = require('@kingjs/enumerable.for-each');
-var create = require('@kingjs/enumerable.create')
+var sequence = require('@kingjs/enumerable.create')
 
 var result = [];
 
 forEach(function(x, i) {
   result.push(x + ' at ' + i)
-}, create('a', 'b', 'c'));
+}, sequence('a', 'b', 'c'));
 
 result;
 ```

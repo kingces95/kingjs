@@ -18,11 +18,5 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.except": "^1.0.2"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/linq.sequence-equal": "^1.0.2",
-    "@kingjs/linq.to-array": "^1.0.0",
-    "@kingjs/sequence": "^1.0.2"
   }
 }

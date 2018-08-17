@@ -1,7 +1,8 @@
 'use strict';
 
-var encodePoset = require('./index');
-var assert = require('@kingjs/assert');
+var encodePoset = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readMe() {
   var poset = encodePoset({

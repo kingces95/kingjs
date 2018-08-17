@@ -18,10 +18,5 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/dictionary": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/assert-theory": "^1.0.0",
-    "@kingjs/assert-throws": "^1.0.1"
   }
 }

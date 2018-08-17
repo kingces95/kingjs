@@ -1,8 +1,9 @@
-var append = require('./index');
-var assert = require('@kingjs/assert');
-var sequence = require('@kingjs/sequence');
-var toArray = require('@kingjs/linq.to-array');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
+var append = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequence = testRequire('@kingjs/enumerable.create');
+var toArray = testRequire('@kingjs/linq.to-array');
+var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
 
 function readme() {
   var enumerable = sequence(0, 1, 2);

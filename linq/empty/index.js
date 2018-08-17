@@ -1,8 +1,8 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
-var empty = defineGenerator(function() {
+var empty = define(function() {
   return function() { return false; }
 })();
 

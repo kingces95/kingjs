@@ -1,7 +1,8 @@
 'use strict';
 
-var decodePoset = require('./index');
-var assert = require('@kingjs/assert');
+var decodePoset = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readMe() {
 

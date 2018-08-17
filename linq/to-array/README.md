@@ -4,7 +4,7 @@ Creates an array from a sequence.
 Create an array from the sequence `1`, `2`, `3` like this:
 ```js
 var toArray = require('@kingjs/linq.to-array');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 toArray.call(sequence(1, 2, 3));
 ```
@@ -21,7 +21,7 @@ declare function toArray(
 ): any[]
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: Sequence to turn into an array.

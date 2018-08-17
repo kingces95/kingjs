@@ -1,8 +1,9 @@
 'use strict';
 
-var inherit = require('./index');
-var assert = require('@kingjs/assert');
-var assertThrows = require('@kingjs/assert-throws');
+var inherit = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
 
 function readMe() {
   var vehicleDescriptors = {

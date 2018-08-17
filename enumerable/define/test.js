@@ -1,7 +1,8 @@
 'use strict';
 
-var assert = require('@kingjs/assert');
-var define = require('./index');
+var define = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   var currentTicks = define(

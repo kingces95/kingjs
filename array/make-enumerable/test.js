@@ -1,7 +1,8 @@
 'use strict';
 
-var makeEnumerable = require('./index');
-var assert = require('@kingjs/assert');
+var makeEnumerable = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function empty() {
   var sequence = makeEnumerable.call([]);

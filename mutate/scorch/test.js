@@ -1,7 +1,8 @@
 'use strict';
 
-var scorch = require('./index');
-var assert = require('@kingjs/assert')
+var scorch = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert')
 
 function readMe() {
   var source = { a: undefined };

@@ -4,7 +4,7 @@ Exports all `@kingjs/linq.*` functionality in one package.
 Join pets to their owners, sorted by last name, then first name, excluding fishes, like this:
 ```js
 var linq = require('@kingjs/linq');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var apply = require('@kingjs/apply');
 
 var people = sequence(
@@ -75,7 +75,7 @@ $ npm install @kingjs/link
 ```
 ## See Also
 - [@kingjs/apply](https://www.npmjs.com/package/@kingjs/apply)
-- [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence)
+- [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define)
 - [@kingjs/make-enumerable](https://www.npmjs.com/package/@kingjs/make-enumerable)
 - [@kingjs/define-generator](https://www.npmjs.com/package/@kingjs/define-generator)
 ## Acknowledgments

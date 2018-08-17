@@ -18,8 +18,5 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/enumerable.define": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2"
   }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 var makeEnumerable = require('@kingjs/array.make-enumerable');
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 var Dictionary = require('@kingjs/dictionary');
 
 function defaultSelector(x) {
@@ -58,5 +58,5 @@ function groupBy(
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(groupBy) }
+  exports: { value: define(groupBy) }
 });

@@ -4,7 +4,7 @@ Returns the last element of a sequence that satisfies a specified condition or a
 Return the last value of `0`, `1`, `2` like this;
 ```js
 var lastOrUndefined = require('@kingjs/linq.last-or-undefined');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 lastOrUndefined.call(sequence(0, 1, 2));
 ```
@@ -15,7 +15,7 @@ result:
 Return the last odd value of `0`, `1`, `2`, `3`, `4` like this;
 ```js
 var lastOrUndefined = require('@kingjs/linq.last-or-undefined');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var isOdd = function(x) { return x % 2 == 1; }
 
@@ -35,7 +35,7 @@ declare function lastOrUndefined(
 ```
 
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence of which last element is returned.

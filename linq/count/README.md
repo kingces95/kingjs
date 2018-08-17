@@ -4,7 +4,7 @@ Returns the number of elements in a sequence that satisfy a condition.
 Count the number of elements in sequence `1`, `2`, `3` like this:
 ```js
 var count = require('@kingjs/linq.count');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 count.call(sequence(1, 2, 3));
 ```
@@ -15,7 +15,7 @@ result:
 Count the number of odd numbers in sequence `1`, `2`, `3` like this:
 ```js
 var count = require('@kingjs/linq.count');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var isOdd = function(o) { return o % 2 == 1; }
 
@@ -33,7 +33,7 @@ declare function count(
 ): number
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence to count values matching predicate.

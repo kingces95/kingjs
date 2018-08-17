@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function concat(enumerable) {
   var enumerator = this.getEnumerator();
@@ -29,6 +29,6 @@ function concat(enumerable) {
 
 Object.defineProperties(module, {
   exports: { 
-    value: defineGenerator(concat) 
+    value: define(concat) 
   }
 });

@@ -1,6 +1,7 @@
-var all = require('./index');
-var assert = require('@kingjs/assert');
-var sequence = require('@kingjs/sequence');
+var all = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 var enumerable = sequence(0, 1, 2);
 

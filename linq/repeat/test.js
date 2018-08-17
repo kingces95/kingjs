@@ -1,7 +1,8 @@
-var repeat = require('./index');
-var assert = require('@kingjs/assert');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
-var sequence = require('@kingjs/sequence');
+var repeat = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 function test(enumerable, array) {
   assert(

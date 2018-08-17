@@ -1,4 +1,4 @@
-var assert = require('./index')
+var assert = require('.')
 
 function readmeCondition() {
   var result;

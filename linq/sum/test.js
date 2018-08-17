@@ -1,6 +1,7 @@
-var sum = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
+var sum = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   var summation = sum.call(sequence(1, 2, 3));

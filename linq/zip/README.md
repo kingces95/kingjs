@@ -4,7 +4,7 @@ Generates a sequence of elements composed of elements of two sequences which sha
 Zip the numbers `0`, `1`, `2` with the letters `a`, `b` like this:
 ```js
 var zip = require('@kingjs/linq.zip');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = zip.call(
@@ -33,7 +33,7 @@ declare function zip(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: The first sequence.
 - `second`: The second sequence. 

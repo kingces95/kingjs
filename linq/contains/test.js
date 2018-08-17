@@ -1,6 +1,7 @@
-var contains = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
+var contains = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 assert(contains.call(sequence(1, 2, 3), 2));
 
