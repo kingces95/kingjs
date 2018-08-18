@@ -3,7 +3,7 @@ Makes an array enumerable by adding a `getEnumerable` method.
 ## Usage
 Make an array enumerable like this:
 ```js
-makeEnumerable = require('@kingjs/array.make-enumerable');
+var makeEnumerable = require('@kingjs/array.make-enumerable');
 var array = makeEnumerable.call([ 1, 2 ]);
 
 // array is an Array...
@@ -31,7 +31,7 @@ declare function makeEnumerable(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: The array to augment with function `getEnumerator`.
 ### Returns

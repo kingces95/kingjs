@@ -3,8 +3,8 @@ Returns the only element of a sequence that satisfies a specified condition, or 
 ## Usage 
 Return the single odd number in `0`, `1`, `2` like this:
 ```js
-var singleOrUndefined = require('@kingjs/linq.single-or-default');
-var sequence = require('@kingjs/sequence');
+var singleOrUndefined = require('@kingjs/linq.single-or-undefined');
+var sequence = require('@kingjs/enumerable.create');
 
 function isOdd(x) { 
   return x % 2 == 1; 
@@ -24,7 +24,7 @@ declare function singleOrDefault(
 ): any
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The enumerable to search for a single element.

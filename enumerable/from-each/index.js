@@ -1,7 +1,7 @@
 'use strict';
 
-var Odometer = require('@kingjs/odometer');
-var defineGenerator = require('@kingjs/define-generator');
+var odometer = require('@kingjs/enumerable.odometer');
+var define = require('@kingjs/enumerable.define');
 var emptyObject = { };
 
 function fromEach(data) {
@@ -9,28 +9,34 @@ function fromEach(data) {
   if (!data)
     data = emptyObject;
 
-  var keys = Object.keys(data)
-  var odometer = new Odometer(
-    keys.map(
-      function(key) { 
-        return data[key].length; 
-      }
-    )
-  ).getEnumerator();
+  // todo: cache on Enumerable
+  var keys = undefined;
+  var dataIsArray = undefined;
 
-  var dataIsArray = data instanceof Array;
+  var enumerator = undefined;
 
   return function() {
-    if (!odometer.moveNext())
+    if (!enumerator) {
+      keys = Object.keys(data)
+      enumerator = odometer(
+        keys.map(
+          function(key) { 
+            return data[key].length; 
+          }
+        )
+      ).getEnumerator();
+      dataIsArray = data instanceof Array;
+    }
+
+    if (!enumerator.moveNext())
       return false;
       
-    var keyIndex = 0; // todo: move into odometer
     var current = dataIsArray ? [ ] : { };
     
-    odometer.current.forEach(function(i) {
-      var key = keys[keyIndex++];
+    enumerator.current.forEach(function(arrayIndex, keyIndex) {
+      var key = keys[keyIndex];
       var array = data[key];
-      current[key] = array[i]; 
+      current[key] = array[arrayIndex]; 
     });
     
     this.current_ = current;
@@ -39,5 +45,5 @@ function fromEach(data) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(fromEach) }
+  exports: { value: define(fromEach) }
 });

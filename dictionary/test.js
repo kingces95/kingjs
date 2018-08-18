@@ -1,7 +1,8 @@
 'use strict';
 
-var Dictionary = require(`./index`);
-var assert = require(`@kingjs/assert`);
+var Dictionary = require(`.`);
+var testRequire = require(`..`);
+var assert = testRequire(`@kingjs/assert`);
 
 function readme() {
   var dictionary = new Dictionary();

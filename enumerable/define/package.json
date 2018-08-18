@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/define-generator",
+  "name": "@kingjs/enumerable.define",
   "version": "1.0.4",
-  "description": "Define a generator given a 'MoveNext()' factory; Poor man's 'yield'.",
+  "description": "Defines a function that returns an Enumerable.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -15,8 +15,5 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@kingjs/assert": "^1.0.2"
-  }
+  "license": "MIT"
 }

@@ -13,7 +13,7 @@ then create a lookup from
 like this:
 ```js
 var toLookup = require('@kingjs/linq.to-lookup');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var lookup = toLookup.call(
@@ -47,7 +47,7 @@ declare function(
 ): Dictionary
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 - `Dictionary`: See [@kingjs/dictionary](https://www.npmjs.com/package/@kingjs/dictionary).
 ### Parameters
 - `this`: Sequence to partition into named sequences.

@@ -1,7 +1,8 @@
 'use strict';
 
-var testTheory = require('./index');
-var assert = require('@kingjs/assert');
+var testTheory = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   var id = 0;

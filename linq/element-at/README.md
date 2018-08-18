@@ -4,7 +4,7 @@ Returns the element at a specified index in a sequence.
 Return the 2nd element in the sequence `0`, `1`, `2` like this:
 ```js
 var elementAt = require('@kingjs/linq.element-at');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 elementAt.call(sequence(0, 1, 2), 1);
 ```
@@ -21,7 +21,7 @@ declare function elementAt(
 ): any
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence to traverse.

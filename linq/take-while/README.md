@@ -4,14 +4,14 @@ Generates a sequence identical to another sequence so long as the elements conti
 Take numbers in `-2`, `-1`, `0`, `-1`, `-2` so long as they're negative like this:
 ```js
 var takeWhile = require('@kingjs/linq.take-while');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 function isNegative(x) {
   return x < 0;
 }
 
-var result = take.call(sequence(-2, -1, 0, -1, -2), isNegative);
+var result = takeWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
 
 toArray.call(result);
 ```
@@ -27,7 +27,7 @@ declare function takeWhile(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence.

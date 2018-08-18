@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.to-lookup",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Creates a dictionary from a sequence where values are groups of elements keyed by a name common to all members of the group.",
   "main": "index.js",
   "files": [
@@ -18,10 +18,5 @@
   "dependencies": {
     "@kingjs/array.make-enumerable": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.2",
-    "@kingjs/linq.to-array": "^1.0.1"
   }
 }

@@ -4,7 +4,7 @@ Returns the first element of a sequence that satisfies a specified condition or 
 Return the first value of `0`, `1`, `2` like this;
 ```js
 var firstOrUndefined = require('@kingjs/linq.first-or-undefined');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 firstOrUndefined.call(sequence(0, 1, 2));
 ```
@@ -15,7 +15,7 @@ result:
 Return the first odd value of `0`, `1`, `2` like this;
 ```js
 var firstOrUndefined = require('@kingjs/linq.first-or-undefined');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var isOdd = function(x) { return x % 2 == 1; }
 
@@ -35,7 +35,7 @@ declare function firstOrUndefined(
 ```
 
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence of which first element is returned.

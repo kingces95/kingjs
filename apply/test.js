@@ -1,7 +1,8 @@
 'use strict';
 
-var apply = require('./index.js');
-var assert = require('@kingjs/assert');
+var apply = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 assert(apply(0) == 0);
 

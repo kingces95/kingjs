@@ -4,7 +4,7 @@ Generates a sequence identical to another sequence up to a specified index.
 Take the first 2 numbers in `-2`, `-1`, `0`, `1`, `2` like this:
 ```js
 var take = require('@kingjs/linq.take');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = take.call(sequence(-2, -1, 0, 1, 2), 2);
@@ -23,7 +23,7 @@ declare function take(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence.

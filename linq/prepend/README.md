@@ -3,8 +3,8 @@ Generates an sequence identical to another sequence but with a value added to th
 ## Usage
 Prepend `0` to the sequence `1`, `2`, `3` like this:
 ```js
-var append = require('@kingjs/linq.prepend');
-var sequence = require('@kingjs/sequence');
+var prepend = require('@kingjs/linq.prepend');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var numbers = sequence(1, 2, 3);
@@ -25,7 +25,7 @@ declare function prepend(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: A sequence of values. 
 - `value`: The value to prepend.

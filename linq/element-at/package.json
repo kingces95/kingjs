@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.element-at",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Returns the element at a specified index in a sequence.",
   "main": "index.js",
   "files": [
@@ -14,11 +14,5 @@
     "url": "https://github.com/kingces95/kingjs.git"
   },
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/assert-throws": "^1.0.1",
-    "@kingjs/sequence": "^1.0.2"
-  },
-  "dependencies": {}
+  "license": "MIT"
 }

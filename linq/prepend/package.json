@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.prepend",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Generates an sequence identical to another sequence but with a value added to the start.",
   "main": "index.js",
   "files": [
@@ -15,13 +15,8 @@
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/linq.sequence-equal": "^1.0.2",
-    "@kingjs/linq.to-array": "^1.0.0"
-  },
   "dependencies": {
-    "@kingjs/sequence": "^1.0.2",
+    "@kingjs/enumerable.create": "^1.0.0",
     "@kingjs/linq.concat": "^1.0.1"
   }
 }

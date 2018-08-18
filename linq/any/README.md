@@ -5,7 +5,7 @@ Test if any the numbers `0`, `1`, or `2`, equal `2` like this:
 
 ```js
 var any = require('@kingjs/linq.any');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var enumerable = sequence(0, 1, 2);
 
@@ -27,7 +27,7 @@ declare function any(
 ): boolean
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: A sequence of values. 

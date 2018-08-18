@@ -1,9 +1,9 @@
-# @kingjs/from-each
-Given a descriptor where each property value is an array, generates every combination of descriptors where each property is replaced with an element of its corresponding array.
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[enumerable](https://www.npmjs.com/package/@kingjs/enumerable).from-each
+Generates a sequence of arrays or descriptors composed of a single element each from a set of arrays.
 ## Usage
 Generate the cross product of shirts sizes (`small`, `medium`, and `large`) and colors (`red` and `green`) like this: 
 ```js
-var fromEach = require('@kingjs/fromEach');
+var fromEach = require('@kingjs/enumerable.from-each');
 var toArray = require('@kingjs/linq.to-array');
 
 var shirts = fromEach({
@@ -24,9 +24,9 @@ results:
   { size: 'L', color: 'Green' }
 ];
 ```
-Generate the same cross product except use an array instead of a descriptor to express the combinations like this:
+Generate the same cross product except use an array instead of a descriptor to express the set of arrays like this:
 ```js
-var fromEach = require('@kingjs/fromEach');
+var fromEach = require('@kingjs/enumerable.from-each');
 var toArray = require('@kingjs/linq.to-array');
 
 var shirts = fromEach([
@@ -37,7 +37,7 @@ var shirts = fromEach([
 toArray.call(shirts);
 
 ```
-results:
+result:
 ```js
 [
   [ 'S', 'Red' ],
@@ -51,20 +51,20 @@ results:
 ## API
 
 ```ts
-function fromEach(data): Enumerator
+function fromEach(
+  data: any[][] | { [index: string]: any[] }
+): Enumerator
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
-- `data`: An descriptor where the value of every property is an array.
+- `data`: An array of arrays, or a descriptor whose every property is an array.
 ### Return Value
-A sequence of descriptors where each property is replaced with an element of its corresponding array.
-## Remarks
-If `data` is an array or arrays (instead of a descriptor of arrays) then the resulting sequence will be composed of arrays instead of descriptors. Either way, descriptors or arrays, the value of each property (or index) will be drawn from the corresponding `data` array.
+A sequence of arrays or descriptors where each index or property is replaced with an element of its corresponding array.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/from-each
+$ npm install @kingjs/enumerable.from-each
 ```
 ## Acknowledgments
 Like [nUnit](http://nunit.org/) `ValuesAttribute` and `TheoryAttribute` which use an odometer to generate combinations of test values from a set of arrays. 

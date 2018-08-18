@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.any",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Returns true if any element of a sequence satisfies a condition.",
   "main": "index.js",
   "files": [
@@ -14,10 +14,5 @@
     "url": "https://github.com/kingces95/kingjs.git"
   },
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.0"
-  }
+  "license": "MIT"
 }

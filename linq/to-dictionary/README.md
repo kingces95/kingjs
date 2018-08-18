@@ -3,7 +3,7 @@ Creates a dictionary from a sequence where the dictionary keys and values are pr
 ## Usage 
 Create a dictionary of people's ages by their name like this:
 ```js
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toDictionary = require('@kingjs/linq.to-dictionary');
 
 toDictionary.call(
@@ -33,7 +33,7 @@ function toDictionary(
 ): Dictionary
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 - `Dictionary`: See [@kingjs/dictionary](https://www.npmjs.com/package/@kingjs/dictionary).
 ### Parameters
 - `this`: Sequence to turn into a dictionary.

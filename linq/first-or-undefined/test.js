@@ -1,6 +1,7 @@
-var firstOrUndefined = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
+var firstOrUndefined = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   assert(firstOrUndefined.call(sequence(0, 1, 2)) == 0);

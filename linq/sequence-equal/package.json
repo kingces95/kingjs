@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.sequence-equal",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "Returns true if two sequences contain the same number of elements and those that share the same index are equal.",
   "main": "index.js",
   "files": [
@@ -17,9 +17,5 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.default-equal": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.0"
   }
 }

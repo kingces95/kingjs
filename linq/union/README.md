@@ -8,7 +8,7 @@ Create a union of the sequences
 like this:
 ```js
 var union = require('@kingjs/linq.union');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = union.call(
@@ -25,7 +25,7 @@ result:
 Create a union of the same sequences as before but wrapped in an object like this:
 ```js
 var union = require('@kingjs/linq.union');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = union.call(
@@ -49,7 +49,7 @@ function union(
 ): Enumerable;
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 ### Parameters
 - `this`: The first sequence.
 - `second`: The second sequence.

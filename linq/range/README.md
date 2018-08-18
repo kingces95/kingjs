@@ -5,7 +5,7 @@ Generate a range of 3 numbers starting at `1`.
 
 ```js
 var range = require('@kingjs/linq.range');
-var toArray = require('kingjs/linq.to-array');
+var toArray = require('@kingjs/linq.to-array');
 
 toArray.call(range(1, 3));
 ```
@@ -23,7 +23,7 @@ function range(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `start`: Number at which to start sequence.

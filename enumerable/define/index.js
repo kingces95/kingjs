@@ -14,7 +14,7 @@ function defineEnumerableType(moveNextGenerator) {
     Object.defineProperties(this, {
       getEnumerator: {
         value: function getEnumerator() {
-          var moveNext = moveNextGenerator.apply(thisArg, args);
+          var moveNext = null;
           var stillMoving = true;
 
           return Object.defineProperties({ }, {
@@ -22,9 +22,13 @@ function defineEnumerableType(moveNextGenerator) {
             current: getCurrentDescriptor,
             moveNext: {
               value: function() {
+                if (!moveNext)
+                  moveNext = moveNextGenerator.apply(thisArg, args);
+
                 stillMoving = stillMoving && moveNext.call(this);
                 if (!stillMoving)
                   this.current_ = undefined;
+                  
                 return stillMoving;
               }
             }

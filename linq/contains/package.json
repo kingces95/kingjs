@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.contains",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Returns true if a sequence contains a specified element.",
   "main": "index.js",
   "files": [
@@ -17,9 +17,5 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.default-equal": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.0"
   }
 }

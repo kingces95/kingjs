@@ -4,7 +4,7 @@ Returns the average value of a sequence of numbers projected from elements of a 
 Compute the average of `[-2, 0, 2]` like this:
 ```js
 var average = require('@kingjs/linq.average');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 average.call(sequence(-2, 0, 2));
 ```
@@ -21,7 +21,7 @@ declare function average(
 ): number
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence of numbers to average.

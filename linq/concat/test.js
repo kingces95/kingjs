@@ -1,7 +1,8 @@
-var concat = require('./index');
-var sequence = require('@kingjs/sequence');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
-var assert = require('@kingjs/assert');
+var concat = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
+var assert = testRequire('@kingjs/assert');
 
 var result = concat.call(
   sequence(0, 1),

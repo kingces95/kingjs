@@ -1,7 +1,8 @@
-var single = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
-var assertThrows = require('@kingjs/assert-throws');
+var single = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
 
 assert(single.call(sequence(0)) == 0);
 assertThrows(function() { 

@@ -1,6 +1,7 @@
-var max = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
+var max = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
   assert(max.call(sequence(1, 2, 3)) == 3);

@@ -1,16 +1,18 @@
 'use strict';
 
-var Odometer = require('./index')
+var odometer = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
 
 function readme() {
-  var odometer = new Odometer(10, 10, 10, 10, 10, 10, 10);
+  var enumerable = odometer(10, 10, 10, 10, 10, 10, 10);
   
-  var generator = odometer.getEnumerator();
+  var enumerator = enumerable.getEnumerator();
 
   var actual = [];
   for (var distance = 0; distance < 11; distance++) {
-    generator.moveNext();
-    var current = generator.current;
+    enumerator.moveNext();
+    var current = enumerator.current;
     actual.push(current.reverse());
   }
 
@@ -31,13 +33,12 @@ function readme() {
   var actualJSON = JSON.stringify(actual);
   var expectedJSON = JSON.stringify(expected);
 
-  if (actualJSON != expectedJSON)
-    throw (actualJSON + " != " + expectedJSON);
+  assert(actualJSON == expectedJSON);
 }
 readme();
 
-function theory(odometer, expected) {
-  var generator = odometer.getEnumerator();
+function theory(enumerable, expected) {
+  var generator = enumerable.getEnumerator();
 
   var actual = undefined;
   if (generator.moveNext()) {
@@ -50,27 +51,11 @@ function theory(odometer, expected) {
   var actualJSON = JSON.stringify(actual);
   var expectedJSON = JSON.stringify(expected);
   
-  if (actualJSON != expectedJSON)
-    throw (actualJSON + " != " + expectedJSON);
+  assert(actualJSON == expectedJSON);
 }
-theory(new Odometer());
-theory(new Odometer([1]), [[0]]);
-theory(new Odometer([2]), [[0], [1]]);
-theory(new Odometer([1,1]), [[0,0]]);
-theory(new Odometer([1,2]), [[0,0], [0,1]]);
-theory(new Odometer([2,2]), [[0,0], [1,0], [0,1], [1,1]]);
-
-// give 'em a good error message
-function badTheory(bases, error) {
-  try { 
-    theory(new Odometer(bases)); 
-  } 
-  catch(e) {
-    if (e != error)
-      throw('fail');
-  }
-}
-badTheory([0], 'Odometer: ∃x ∈ bases: x <= 0, bases[0] => 0');
-badTheory([-1], 'Odometer: ∃x ∈ bases: x <= 0, bases[0] => -1');
-badTheory([1, 0], 'Odometer: ∃x ∈ bases: x <= 0, bases[1] => 0');
-badTheory([undefined], 'Odometer: ∃x ∈ bases: x <= 0, bases[0] => undefined');
+theory(odometer());
+theory(odometer([1]), [[0]]);
+theory(odometer([2]), [[0], [1]]);
+theory(odometer([1,1]), [[0,0]]);
+theory(odometer([1,2]), [[0,0], [0,1]]);
+theory(odometer([2,2]), [[0,0], [1,0], [0,1], [1,1]]);

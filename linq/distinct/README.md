@@ -4,7 +4,7 @@ Generates a sequence composed of the distinct elements of another sequence.
 Remove duplicates from the sequence `0`, `0` like this:
 ```js
 var distinct = require('@kingjs/linq.distinct');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var justZero = distinct.call(sequence(0, 0));
@@ -18,7 +18,7 @@ result:
 Remove duplicates from a sequence based on an `id` like this:
 ```js
 var distinct = require('@kingjs/linq.distinct');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var enumerable = sequence(
@@ -49,7 +49,7 @@ function distinct(
 ): Enumerable;
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence to deduplicate.

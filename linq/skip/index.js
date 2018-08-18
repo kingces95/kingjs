@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function skip(count) {
   var enumerator = this.getEnumerator();
@@ -18,5 +18,5 @@ function skip(count) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(skip) }
+  exports: { value: define(skip) }
 });

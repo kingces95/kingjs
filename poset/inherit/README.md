@@ -4,6 +4,8 @@ A terse syntax for creating a set of descriptors with default values.
 Create descriptors of the tire counts of `car`, `truck`, and `bigRig` by inheriting common properties from `vehicle` like this:
 
 ```js
+var inherit = require('@kingjs/poset.inherit');
+
 var vehicleDescriptors = {
   car$vehicle: { },
   truck$vehicle: { },

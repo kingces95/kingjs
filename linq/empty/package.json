@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.empty",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Returns an empty sequence.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-generator": "^1.0.2"
+    "@kingjs/enumerable.define": "^1.0.0"
   },
   "devDependencies": {
     "@kingjs/assert": "^1.0.2"

@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/array",
-  "version": "1.0.3",
-  "description": "Exports all `@kingjs/array.*` functionality in one package.",
+  "name": "@kingjs/poset",
+  "version": "1.0.5",
+  "description": "Exposes @kingjs.poset.*",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,7 +17,9 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/array.make-enumerable": "^1.0.0"
-  },
-  "devDependencies": {}
+    "@kingjs/poset.decode": "^1.0.3",
+    "@kingjs/poset.encode": "^1.0.2",
+    "@kingjs/poset.for-each": "^1.0.7",
+    "@kingjs/poset.inherit": "^1.0.0"
+  }
 }

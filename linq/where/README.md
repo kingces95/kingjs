@@ -4,7 +4,7 @@ Generates a sequence of elements composed of elements from another sequences whi
 Filter `0`, `1`, `2`, `3` to even numbers like this: 
 ```js
 var where = require('@kingjs/linq.where');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var numbers = sequence(0, 1, 2, 3);
@@ -22,7 +22,7 @@ result:
 Filter out every other element in `'a'`, `'b'`, `'c'`, `'d'` like this: 
 ```js
 var where = require('@kingjs/linq.where');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var letters = sequence('a', 'b', 'c', 'd');
@@ -47,7 +47,7 @@ declare function where(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The sequence to filter.

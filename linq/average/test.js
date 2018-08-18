@@ -1,6 +1,7 @@
-var sequence = require('@kingjs/sequence');
-var average = require('./index');
-var assert = require('@kingjs/assert');
+var average = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
 
 function test(array, result) {
   assert(average.call(sequence.apply(this, array)) == result);

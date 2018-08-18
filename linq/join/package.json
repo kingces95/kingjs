@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.join",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Generates a sequence of elements composed of elements from two sequences that share a common key.",
   "main": "index.js",
   "files": [
@@ -16,12 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-generator": "^1.0.2",
+    "@kingjs/enumerable.define": "^1.0.0",
     "@kingjs/linq.to-lookup": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/linq.to-array": "^1.0.1",
-    "@kingjs/sequence": "^1.0.2"
   }
 }

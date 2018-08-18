@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/assert-throws",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Throw an exception if a function fails to throw an exception.",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,7 @@
     "url": "https://github.com/kingces95/kingjs/issues"
   },
   "homepage": "https://github.com/kingces95/kingjs#readme",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/assert": "^1.0.9"
+  }
 }

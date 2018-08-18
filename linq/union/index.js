@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 var Dictionary = require('@kingjs/dictionary');
 
 function defaultSelector(x) {
@@ -52,5 +52,5 @@ function union(
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(union) }
+  exports: { value: define(union) }
 });

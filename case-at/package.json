@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/case-at",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Functions for testing and setting the case of a character in a string.",
   "main": "index.js",
   "scripts": {
@@ -19,9 +19,5 @@
   "bugs": {
     "url": "https://github.com/kingces95/kingjs/issues"
   },
-  "homepage": "https://github.com/kingces95/kingjs#readme",
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.1",
-    "@kingjs/assert-throws": "^1.0.0"
-  }
+  "homepage": "https://github.com/kingces95/kingjs#readme"
 }

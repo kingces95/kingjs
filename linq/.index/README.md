@@ -4,7 +4,7 @@ Exports all `@kingjs/linq.*` functionality in one package.
 Join pets to their owners, sorted by last name, then first name, excluding fishes, like this:
 ```js
 var linq = require('@kingjs/linq');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var apply = require('@kingjs/apply');
 
 var people = sequence(
@@ -55,10 +55,10 @@ Bob Smith owns a dog named Spike.
 |[`all`][all]|[`aggregate`][aggregate]|[`distinct`][distinct]|[`range`][range]|[`append`][append]|
 |[`any`][any]|[`average`][average]|[`except`][except]|[`repeat`][repeat]|[`concat`][concat]|
 |[`contains`][contains]|[`count`][count]|[`intersect`][intersect]|[`empty`][empty]|[`prepend`][prepend]|
-|[`elementAt`][element-at][`OrDefault`][element-at-]|[`max`][max]|[`union`][union]|
-|[`first`][first][`OrDefault`][first-]|[`min`][min]||
-|[`last`][last][`OrDefault`][last-]|[`sum`][sum]|
-|[`single`][single][`OrDefault`][single-]|[`equal`][sequence-equal]
+|[`elementAt`][element-at][`OrUndef`][element-at-]|[`max`][max]|[`union`][union]|
+|[`first`][first][`OrUndef`][first-]|[`min`][min]||
+|[`last`][last][`OrUndef`][last-]|[`sum`][sum]|
+|[`single`][single][`OrUndef`][single-]|[`equal`][sequence-equal]
 
 | Sort | Filter | Join | Transform | Container |
 |---|---|---|---|---|
@@ -75,7 +75,7 @@ $ npm install @kingjs/link
 ```
 ## See Also
 - [@kingjs/apply](https://www.npmjs.com/package/@kingjs/apply)
-- [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence)
+- [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define)
 - [@kingjs/make-enumerable](https://www.npmjs.com/package/@kingjs/make-enumerable)
 - [@kingjs/define-generator](https://www.npmjs.com/package/@kingjs/define-generator)
 ## Acknowledgments

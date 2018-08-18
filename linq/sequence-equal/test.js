@@ -1,6 +1,7 @@
-var sequenceEqual = require('./index');
-var assert = require('@kingjs/assert');
-var sequence = require('@kingjs/sequence');
+var sequenceEqual = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 function readme() {
   var expected = sequence(1, 2, 3);

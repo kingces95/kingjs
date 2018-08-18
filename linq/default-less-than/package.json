@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.default-less-than",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Default lessThan operator.",
   "main": "index.js",
   "files": [
@@ -15,9 +15,5 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2"
-  }
+  "license": "MIT"
 }

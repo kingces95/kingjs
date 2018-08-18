@@ -3,8 +3,8 @@ Returns true if two sequences contain the same number of elements and those that
 ## Usage
 Test if `[1,2,3]` is equal to other arrays like this:
 ```js
-var sequenceEqual = require('@kingjs/link.sequence-equal');
-var sequence = require('@kingjs/sequence');
+var sequenceEqual = require('@kingjs/linq.sequence-equal');
+var sequence = require('@kingjs/enumerable.create');
 
 var expected = sequence(1, 2, 3);
 
@@ -14,10 +14,10 @@ var wrongOrder = sequence(3, 2, 1);
 var justRight = sequence(1, 2, 3);
 
 var result = {
-  tooFew: sequenceEqual(expected, toFew),
-  tooMany: sequenceEqual(expected, tooMany),
-  wrongOrder: sequenceEqual(expected, wrongOrder),
-  justRight: sequenceEqual(expected, justRight),
+  tooFew: sequenceEqual.call(expected, toFew),
+  tooMany: sequenceEqual.call(expected, tooMany),
+  wrongOrder: sequenceEqual.call(expected, wrongOrder),
+  justRight: sequenceEqual.call(expected, justRight),
 };
 ```
 
@@ -40,7 +40,7 @@ declare function sequenceEqual(
 ): boolean
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: the first sequence being compared

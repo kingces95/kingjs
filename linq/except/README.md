@@ -4,7 +4,7 @@ Generates the set difference of two sequences.
 Remove duplicates from the sequence `0`, `0`, `1`, `2` and also exclude values `1` and `2` like this:
 ```js
 var except = require('@kingjs/linq.except');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var justZero = except.call(
@@ -20,13 +20,13 @@ result:
 ```
 Remove duplicates from a sequence based on an `id` and also exclude those with `id` equal to `1` like this:
 ```js
-var distinct = require('@kingjs/linq.distinct');
-var sequence = require('@kingjs/sequence');
+var except = require('@kingjs/linq.except');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var enumerable = sequence(
   { id: 0, name: 'foo' },
-  { id: 0, name: 'bar' }
+  { id: 0, name: 'bar' },
   { id: 1, name: 'baz' }
 );
 
@@ -55,7 +55,7 @@ function except(
 ): Enumerable;
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: The first sequence.

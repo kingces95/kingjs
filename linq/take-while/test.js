@@ -1,7 +1,8 @@
-var takeWhile = require('./index');
-var sequence = require('@kingjs/sequence');
-var assert = require('@kingjs/assert');
-var toArray = require('@kingjs/linq.to-array');
+var takeWhile = require('.');
+var testRequire = require('..');
+var sequence = testRequire('@kingjs/enumerable.create');
+var assert = testRequire('@kingjs/assert');
+var toArray = testRequire('@kingjs/linq.to-array');
 
 function readme() {
   function isNegative(x) { return x < 0; };

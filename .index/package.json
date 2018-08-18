@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "Exports all `@kingjs.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -23,15 +23,11 @@
     "@kingjs/assert-theory": "^1.0.0",
     "@kingjs/assert-throws": "^1.0.1",
     "@kingjs/case-at": "^1.0.0",
-    "@kingjs/define-generator": "^1.0.2",
     "@kingjs/dictionary": "^1.0.0",
-    "@kingjs/for-each": "^1.0.0",
-    "@kingjs/from-each": "^1.0.2",
+    "@kingjs/enumerable": "^1.0.0",
     "@kingjs/linq": "^1.0.22",
     "@kingjs/mutate": "^1.0.0",
-    "@kingjs/odometer": "^1.0.2",
-    "@kingjs/poset": "^1.0.1",
-    "@kingjs/sequence": "^1.0.2"
+    "@kingjs/poset": "^1.0.1"
   },
   "devDependencies": {}
 }

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.order-by",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Generates a sequence of elements in ascending order according to a key.",
   "main": "index.js",
   "files": [
@@ -19,9 +19,5 @@
   "dependencies": {
     "@kingjs/linq.to-array": "^1.0.0",
     "@kingjs/linq.default-less-than": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.0"
   }
 }

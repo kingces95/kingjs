@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function defaultCollectionSelector(x, i) {
   return x;
@@ -45,5 +45,5 @@ function selectMany(
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(selectMany) }
+  exports: { value: define(selectMany) }
 });

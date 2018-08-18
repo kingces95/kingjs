@@ -9,6 +9,7 @@ var enumerable = require('@kingjs/enumerable');
 - [`define`][define]
 - [`forEach`][for-each]
 - [`fromEach`][from-each]
+- [`odometer`][odometer]
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function select(selector) {
   var enumerator = this.getEnumerator();
@@ -16,5 +16,5 @@ function select(selector) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(select) }
+  exports: { value: define(select) }
 });

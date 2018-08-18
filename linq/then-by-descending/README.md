@@ -5,7 +5,7 @@ Sort `Bob Smith`, `Alice Smith`, and `Chris King` in descending order by last na
 ```js
 var orderByDescending = require('@kingjs/linq.order-by-descending');
 var thenByDescending = require('@kingjs/linq.then-by-descending');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var people = sequence(

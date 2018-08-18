@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 var toLookup = require('@kingjs/linq.to-lookup');
 var empty = require('@kingjs/linq.empty');
 
@@ -38,5 +38,5 @@ function groupJoin(
 }
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(groupJoin) }
+  exports: { value: define(groupJoin) }
 });

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/apply",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Calls a list of functions using each result as the `this` of the next call.",
   "main": "index.js",
   "files": [
@@ -15,9 +15,5 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@kingjs/assert": "^1.0.2",
-    "@kingjs/sequence": "^1.0.2"
-  }
+  "license": "MIT"
 }

@@ -5,7 +5,7 @@ Test if all the numbers 0, 1, and 2, are less than 3 like this:
 
 ```js
 var all = require('@kingjs/linq.all');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var enumerable = sequence(0, 1, 2);
 
@@ -25,7 +25,7 @@ declare function all(
 ): boolean
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: A sequence of values. 

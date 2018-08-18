@@ -4,7 +4,7 @@ Returns true if a sequence contains a specified element.
 Discover if the sequence `1`, `2`, `3` contains the value `2` like this:
 ```js
 var contains = require('@kingjs/linq.contains');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 contains.call(sequence(1, 2, 3), 2);
 ```
@@ -15,7 +15,7 @@ true
 Discover if `'Chris'` is contained in a list of people like this:
 ```js
 var contains = require('@kingjs/linq.contains');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 var people = sequence(
   { name: 'Alice' },
@@ -43,7 +43,7 @@ declare function contains(
 ): boolean
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
  
 ### Parameters
 - `this`: The sequence to search.

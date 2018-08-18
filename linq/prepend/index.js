@@ -1,7 +1,7 @@
 'use strict';
 
 var concat = require('@kingjs/linq.concat');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 
 function prepend(value) {
   return concat.call(sequence(value), this);

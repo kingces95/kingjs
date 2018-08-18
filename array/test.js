@@ -1,5 +1,4 @@
 'use strict';
 
+require('./.index/test')
 require('./make-enumerable/test');
-
-require('./index');

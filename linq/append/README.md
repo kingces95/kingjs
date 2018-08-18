@@ -5,7 +5,7 @@ Append `3` to the sequence `0`, `1`, `2` like this:
 
 ```js
 var append = require('@kingjs/linq.append');
-var sequence = require('@kingjs/sequence');
+var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var enumerable = sequence(0, 1, 2);
@@ -26,7 +26,7 @@ declare function append(
 ): Enumerable
 ```
 ### Interfaces
-- `Enumerable`: See [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence).
+- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
 - `this`: A sequence of values. 

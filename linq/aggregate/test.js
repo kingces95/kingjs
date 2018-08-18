@@ -1,6 +1,7 @@
-var aggregate = require('./index');
-var assert = require('@kingjs/assert');
-var sequence = require('@kingjs/sequence');
+var aggregate = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var sequence = testRequire('@kingjs/enumerable.create');
 
 var enumerable = sequence(2, 3, 4);
 

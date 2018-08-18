@@ -1,6 +1,6 @@
 'use strict';
 
-var defineGenerator = require('@kingjs/define-generator');
+var define = require('@kingjs/enumerable.define');
 
 function take(count) {
   var enumerator = this.getEnumerator();
@@ -15,5 +15,5 @@ function take(count) {
 };
 
 Object.defineProperties(module, {
-  exports: { value: defineGenerator(take) }
+  exports: { value: define(take) }
 });

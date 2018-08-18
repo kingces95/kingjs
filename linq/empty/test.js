@@ -1,6 +1,7 @@
-var empty = require('./index');
-var assert = require('@kingjs/assert');
-var toArray = require('@kingjs/linq.to-array');
+var empty = require('.');
+var testRequire = require('..');
+var assert = testRequire('@kingjs/assert');
+var toArray = testRequire('@kingjs/linq.to-array');
 
 assert(empty() === empty());
 

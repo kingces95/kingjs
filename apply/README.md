@@ -54,7 +54,7 @@ The only way to achieve that same "dot" syntax in Javascript is to pollute the t
 
 ## See Also
 - [@kingjs/linq](https://www.npmjs.com/package/@kingjs/linq) - A library of algorithms for operating on data that conforms to the Enumerable interface.
-- [@kingjs/sequence](https://www.npmjs.com/package/@kingjs/sequence) - A description of the Enumerable interface and a function for creating instances of Enumerable data.
+- [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define) - A description of the Enumerable interface and a function for creating instances of Enumerable data.
 
 ## Acknowledgments
 Like [C# extension methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods).
