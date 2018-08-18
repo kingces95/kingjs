@@ -3,7 +3,7 @@ Generates an sequence identical to another sequence but with a value added to th
 ## Usage
 Prepend `0` to the sequence `1`, `2`, `3` like this:
 ```js
-var append = require('@kingjs/linq.prepend');
+var prepend = require('@kingjs/linq.prepend');
 var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 

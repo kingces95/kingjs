@@ -3,7 +3,7 @@ Returns the only element of a sequence that satisfies a specified condition, or 
 ## Usage 
 Return the single odd number in `0`, `1`, `2` like this:
 ```js
-var singleOrUndefined = require('@kingjs/linq.single-or-default');
+var singleOrUndefined = require('@kingjs/linq.single-or-undefined');
 var sequence = require('@kingjs/enumerable.create');
 
 function isOdd(x) { 

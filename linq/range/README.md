@@ -5,7 +5,7 @@ Generate a range of 3 numbers starting at `1`.
 
 ```js
 var range = require('@kingjs/linq.range');
-var toArray = require('kingjs/linq.to-array');
+var toArray = require('@kingjs/linq.to-array');
 
 toArray.call(range(1, 3));
 ```

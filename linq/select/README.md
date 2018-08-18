@@ -11,7 +11,7 @@ function selectLowerCase(x) {
   return String.prototype.toLowerCase.call(x);
 }
 
-var result = select(sequence('A', 'B', 'C'), selectLowerCase);
+var result = select.call(sequence('A', 'B', 'C'), selectLowerCase);
 
 toArray.call(result);
 ```

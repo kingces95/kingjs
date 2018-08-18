@@ -55,10 +55,10 @@ Bob Smith owns a dog named Spike.
 |[`all`][all]|[`aggregate`][aggregate]|[`distinct`][distinct]|[`range`][range]|[`append`][append]|
 |[`any`][any]|[`average`][average]|[`except`][except]|[`repeat`][repeat]|[`concat`][concat]|
 |[`contains`][contains]|[`count`][count]|[`intersect`][intersect]|[`empty`][empty]|[`prepend`][prepend]|
-|[`elementAt`][element-at][`OrDefault`][element-at-]|[`max`][max]|[`union`][union]|
-|[`first`][first][`OrDefault`][first-]|[`min`][min]||
-|[`last`][last][`OrDefault`][last-]|[`sum`][sum]|
-|[`single`][single][`OrDefault`][single-]|[`equal`][sequence-equal]
+|[`elementAt`][element-at][`OrUndef`][element-at-]|[`max`][max]|[`union`][union]|
+|[`first`][first][`OrUndef`][first-]|[`min`][min]||
+|[`last`][last][`OrUndef`][last-]|[`sum`][sum]|
+|[`single`][single][`OrUndef`][single-]|[`equal`][sequence-equal]
 
 | Sort | Filter | Join | Transform | Container |
 |---|---|---|---|---|

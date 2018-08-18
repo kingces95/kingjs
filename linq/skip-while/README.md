@@ -11,7 +11,7 @@ function isNegative(x) {
   return x < 0;
 }
 
-var result = skip.call(sequence(-2, -1, 0, -1, -2), isNegative);
+var result = skipWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
 
 toArray.call(result);
 ```

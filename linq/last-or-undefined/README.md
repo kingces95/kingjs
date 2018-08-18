@@ -19,7 +19,7 @@ var sequence = require('@kingjs/enumerable.create');
 
 var isOdd = function(x) { return x % 2 == 1; }
 
-lastOrUndefined.call(sequence(0, 1, 2), isOdd);
+lastOrUndefined.call(sequence(0, 1, 2, 3, 4), isOdd);
 ```
 result:
 ```js

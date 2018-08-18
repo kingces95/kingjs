@@ -3,7 +3,7 @@ Generates a sequence of elements in descending order according to a key.
 ## Usage
 Sort in descending order the numbers `1`, `0`, `2` in descending order like this:
 ```js
-var orderBy = require('@kingjs/linq.order-by-descending');
+var orderByDescending = require('@kingjs/linq.order-by-descending');
 var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
@@ -19,7 +19,7 @@ result:
 ```
 Sort in descending order the same numbers as before, but now wrapped in objects, like this:
 ```js
-var orderBy = require('@kingjs/linq.order-by-descending');
+var orderByDescending = require('@kingjs/linq.order-by-descending');
 var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
@@ -32,7 +32,7 @@ toArray.call(result);
 ```
 result:
 ```js
-[{ value: 2 }, { value: 1 }, { value: 1 }]
+[{ value: 2 }, { value: 1 }, { value: 0 }]
 ```
 Sort in descending order the numbers `1`, `0`, `2` and letters `b`, `a` so letters compare less than numbers like this:
 ```js

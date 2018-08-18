@@ -3,7 +3,7 @@ Returns the element at a specified index in a sequence or undefined if the index
 ## Usage
 Return the 2nd element in the sequence `0`, `1`, `2` like this:
 ```js
-var elementAt = require('@kingjs/linq.element-at');
+var elementAt = require('@kingjs/linq.element-at-or-undefined');
 var sequence = require('@kingjs/enumerable.create');
 
 elementAt.call(sequence(0, 1, 2), 1);

@@ -20,13 +20,13 @@ result:
 ```
 Remove duplicates from a sequence based on an `id` and also exclude those with `id` equal to `1` like this:
 ```js
-var distinct = require('@kingjs/linq.distinct');
+var except = require('@kingjs/linq.except');
 var sequence = require('@kingjs/enumerable.create');
 var toArray = require('@kingjs/linq.to-array');
 
 var enumerable = sequence(
   { id: 0, name: 'foo' },
-  { id: 0, name: 'bar' }
+  { id: 0, name: 'bar' },
   { id: 1, name: 'baz' }
 );
 
