@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/template",
+  "name": "@kingjs/array.nested",
   "version": "1.0.0",
-  "description": "",
+  "description": "Exports all `@kingjs/array.nested.*` functionality in one package.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,5 +16,7 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/array.nested.for-each": "^1.0.0"
+  }
 }

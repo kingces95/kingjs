@@ -5,6 +5,9 @@ Exports all `@kingjs/array.*` functionality in one package.
 var array = require('@kingjs/array');
 ```
 ## API
+### Namespaces
+- [`nested`][nested]
+### Modules
 - [`makeEnumerable`][make-enumerable]
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -16,4 +19,5 @@ MIT
 
 ![Analytics](https://analytics.kingjs.net/array)
 
+  [nested]: https://www.npmjs.com/package/@kingjs/array.nested
   [make-enumerable]: https://www.npmjs.com/package/@kingjs/array.make-enumerable

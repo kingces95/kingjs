@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/array",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Exports all `@kingjs/array.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/array.nested": "^1.0.0",
     "@kingjs/array.make-enumerable": "^1.0.0"
-  },
-  "devDependencies": {}
+  }
 }
