@@ -2,21 +2,17 @@
 
 var Dictionary = require('@kingjs/dictionary');
 
-var emptyDictionary = new Dictionary();
 var noop = function() { };
 
-function walkGraph(action, edges, roots) {
+function forEach(action, roots) {
   if (!roots)
-    roots = Object.keys(edges);
+    roots = Object.keys(this);
   else if (typeof roots == 'string')
     roots = [ roots ];
 
   if (!action)
     action = noop;
 
-  if (!edges)
-  edges = emptyDictionary;
-  
   var visited = new Dictionary();
 
   // ensures callers rely on explicit dependencies
@@ -39,17 +35,17 @@ function walkGraph(action, edges, roots) {
       visited[vertexName] = undefined;
 
       // traverse adjacent vertices
-      var adjacentVertexNames = edges[vertexName];
+      var adjacentVertexNames = this[vertexName];
       if (adjacentVertexNames) {
 
         if (_traverseForward) {
           for (var i = 0; i < adjacentVertexNames.length; i++)
-            visit(adjacentVertexNames[i]);
+            visit.call(this, adjacentVertexNames[i]);
         }
 
         else {
           for (var i = adjacentVertexNames.length -1; i >= 0; i--)
-            visit(adjacentVertexNames[i]);
+            visit.call(this, adjacentVertexNames[i]);
         }
       }
       
@@ -63,9 +59,9 @@ function walkGraph(action, edges, roots) {
   }
 
   for (var i = 0; i < roots.length; i++)
-    visit(roots[i]); 
+    visit.call(this, roots[i]); 
 }
 
 Object.defineProperties(module, {
-  exports: { value: walkGraph }
+  exports: { value: forEach }
 });

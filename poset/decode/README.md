@@ -1,4 +1,4 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[poset](https://www.npmjs.com/package/@kingjs/poset).decode
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[poset][poset].decode
 Decodes a descriptor representing a poset into an adjacency list and a vertex property map.
 
 ## Usage
@@ -6,54 +6,56 @@ Decode an encoded [poset](https://en.wikipedia.org/wiki/Partially_ordered_set) w
 ```js
 var decode = require('@kingjs/poset.decode');
 
+var vertices = { };
 //   a=1
 //   / \
 // b=2 c=3
 //   \ /
 //   d=4
-decode({
-  a$b$c: 1,
-  b$d: 2,
-  c$d: 3,
-  d: 4,
-});
+var result = {
+  edges: decode.call({
+    a$b$c: 1,
+    b$d: 2,
+    c$d: 3,
+    d: 4,
+  }, vertices),
+  
+  vertices: vertices
+}
 ```
 result:
 ```js
 {
-  vertices: {
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4
-  },
-
   edges: {
     a: [ 'b', 'c' ],
     b: [ 'd' ],
     c: [ 'd' ]
   },
+
+  vertices: {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4
+  }
 }
 ```
 ## API
 ```ts
 declare function decode(
-  encodedPoset
-): {
-  vertices,
-  edges: { 
-    [index: string] : string[]
-  }
-}
+  this: EncodedPoset,
+  vertices: VertexProperties
+): AdjacencyList
 ```
+### Interfaces
+- `EncodedPoset`: see [@kingjs/poset][poset]
+- `VertexProperties`: see [@kingjs/poset][poset]
+- `AdjacencyList`: see [@kingjs/poset][poset]
 ### Parameters
-- `encodedPoset`: A descriptor whose property names are a concatenation of a vertex name and its adjacent vertices delimited by `$`. 
+- `this`: An encoded poset.
+- `vertices`: A out descriptor augmented with vertex properties.
 ### Returns
-A descriptor containing two properties:
-- `vertices`: a descriptor whose property names represent vertices and whose values represent a vertex's properties. 
-- `edges`: a descriptor whose property names represent vertices and whose values are arrays of string representing the names of adjacent vertices.
-## Remarks
-`decode` allows for terse syntactic descriptions of posets to be decoded so they might be used by more general poset algorithms such as [@kingjs/poset.for-each](https://www.npmjs.com/package/@kingjs/poset.for-each).
+An descriptor with a property for every vertex that has adjacent vertices. Each property value is an array of names of the adjacent vertices. 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -63,3 +65,5 @@ $ npm install @kingjs/poset.decode
 MIT
 
 ![Analytics](https://analytics.kingjs.net/poset/decode)
+
+  [poset]: https://www.npmjs.com/package/@kingjs/poset

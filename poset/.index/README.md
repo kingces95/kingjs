@@ -4,6 +4,27 @@ Exports all `@kingjs/poset.*` functionality in one package.
 ```js
 var poset = require('@kingjs/poset');
 ```
+## Interfaces
+```ts
+declare interface EncodedPoset {
+  [index: string]: any
+}
+```
+A descriptor whose every property name is a concatenation of a vertex name and its adjacent vertices' names delimited by `$`, and whose every property value contains the properties of the corresponding vertex.
+```ts
+declare interface AdjacencyList {
+  [index: string]: string[]
+}
+```
+A descriptor whose every property name represents a named vertex and whose every property value is an array containing the names of the associated vertices' values.
+
+A vertex found in an adjacency list that has no corresponding property of the same name on the descriptor is still a valid and is simply assumed to have no outbound edges.
+```ts
+declare interface VertexProperties {
+  [index: string]: any
+}
+```
+A descriptor whose every property name a vertex name, and whose every property value contains the properties of the corresponding vertex.
 ## API
 - [`decode`][decode]
 - [`encode`][encode]

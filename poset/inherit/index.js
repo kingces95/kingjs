@@ -1,29 +1,16 @@
 'use strict';
 
 var copy = require('@kingjs/mutate.copy');
-var decode = require('@kingjs/poset.decode');
 var forEach = require('@kingjs/poset.for-each');
 var Dictionary = require('@kingjs/dictionary');
 
-function inheritDispatch() {
-  if (arguments.length == 1)
-    return decodeAndInherit(arguments[0]);
-    
-  return inherit.apply(this, arguments);
-}
+function inherit(vertices) {   
 
-function decodeAndInherit(encodedPoset) {   
-  var poset = decode(encodedPoset);
-  return inherit(poset.vertices, poset.edges)
-}
-
-function inherit(vertices, edges) {   
-
-  forEach(
+  forEach.call(this,
     function(name) {
       var vertex = vertices[name];
       
-      var adjacentNames = edges[name];
+      var adjacentNames = this[name];
       if (!adjacentNames || adjacentNames.length == 0)
         return;
 
@@ -49,7 +36,6 @@ function inherit(vertices, edges) {
 
       copy.call(vertex, values, true);
     }, 
-    edges,
     Object.keys(vertices)
   );
   
@@ -57,5 +43,5 @@ function inherit(vertices, edges) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: inheritDispatch }
+  exports: { value: inherit }
 });

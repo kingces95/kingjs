@@ -5,15 +5,15 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 
 function readMe() {
-  var poset = encodePoset({
+  var poset = encodePoset.call({
+    a: [ 'b', 'c' ],
+    b: [ 'd' ],
+    c: [ 'd' ],
+  }, {
     a: 1,
     b: 2,
     c: 3,
     d: 4
-  }, {
-    a: [ 'b', 'c' ],
-    b: [ 'd' ],
-    c: [ 'd' ],
   });
 
   assert(Object.keys(poset).length == 4);

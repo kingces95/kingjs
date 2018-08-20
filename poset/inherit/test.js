@@ -2,10 +2,18 @@
 
 var inherit = require('.');
 var testRequire = require('..');
+var decode = testRequire('@kingjs/poset.decode');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
 function readMe() {
+
+  var decodeAndInherit = function(encodedPoset) {
+    var vertices = { };
+    var poset = decode.call(encodedPoset, vertices);
+    return inherit.call(poset, vertices);
+  }
+  
   var vehicleDescriptors = {
     car$vehicle: { },
     truck$vehicle: { },
@@ -13,7 +21,8 @@ function readMe() {
     vehicle: { tires: 4 }
   };
   
-  var result = inherit(vehicleDescriptors);
+  var result = decodeAndInherit(vehicleDescriptors);
+
   assert(Object.keys(result).length == 4);
   assert(result.car.tires == 4);
   assert(result.truck.tires == 4);
@@ -23,12 +32,16 @@ function readMe() {
 readMe();
 
 function readMeGeneral() {
-  var result = inherit({
+  var encodedPoset = {
     A$B$C: { a:0 },
     B$D: { b:0 },
     C$D: { c:0 },
     D: { d:0 },
-  });
+  };
+
+  var vertices = { };
+  var poset = decode.call(encodedPoset, vertices);
+  var result = inherit.call(poset, vertices);
 
   assert(Object.keys(result).length == 4);
   assert(result.A.a == 0);
@@ -44,44 +57,22 @@ function readMeGeneral() {
 }
 readMeGeneral();
 
-function readMeDecoded() {
-  var vertices = {
-    A: { a:0 },
-    B: { b:0 },
-    C: { c:0 },
-    D: { d:0 },
-  };
-  var edges = {
-    A: [ 'B', 'C' ],
-    B: [ 'D' ],
-    C: [ 'D' ],
-  };
-  var result = inherit(vertices, edges);
-
-  assert(Object.keys(result).length == 4);
-  assert(result.A.a == 0);
-  assert(result.A.b == 0);
-  assert(result.A.c == 0);
-  assert(result.A.d == 0);
-
-  assert(result.B.b == 0);
-  assert(result.B.d == 0);
-
-  assert(result.C.c == 0);
-  assert(result.C.d == 0);
-}
-readMeDecoded();
-
 function ambiguous() {
 
-  var result = inherit({
+  var decodeAndInherit = function(encodedPoset) {
+    var vertices = { };
+    var poset = decode.call(encodedPoset, vertices);
+    return inherit.call(poset, vertices);
+  }
+
+  var result = decodeAndInherit({
     a$b$c: { x:0 },
     b: { x:1 },
     c: { x:2 },
   });
   assert(result.a.x == 0);  
 
-  inherit({
+  decodeAndInherit({
     a$b$c: { },
     b: { x:0 },
     c: { x:0 },
@@ -90,7 +81,7 @@ function ambiguous() {
 
   assertThrows(
     function() {
-      inherit({
+      decodeAndInherit({
         a$b$c: { },
         b: { x:0 },
         c: { x:1 },

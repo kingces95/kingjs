@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/poset.decode",
   "description": "Decodes a descriptor representing a poset into an adjacency list and a vertex property map.",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "main": "index.js",
   "files": [
     "index.js"

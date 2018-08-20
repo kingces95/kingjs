@@ -15,9 +15,9 @@ function readMe() {
   
   var totalOrder = [];
   
-  forEach(function(vertex) {
+  forEach.call(poset, function(vertex) {
     totalOrder.push(vertex);
-  }, poset);
+  });
 
   assert(totalOrder.length == 4);
   assert(totalOrder[0] == 'd');
@@ -37,7 +37,7 @@ function cycle() {
   };
   
   var message = assertThrows(function() {
-    forEach(null, poset)
+    forEach.call(poset)
   }, 'Cycle detected: a > b > c > a');
 }
 cycle();
@@ -71,7 +71,13 @@ function manyGraphs() {
     var lastVertexValue = 0;
 
     var count = 0;
-    forEach(function(vertexName) {
+    forEach.call({
+      a: [ 0 ],
+      b: [ 0, 1 ],
+      c: [ 0, 1, 2 ],
+      d: [ 0, 1, 2, 3 ],
+      e: [ 4 ]
+    }, function(vertexName) {
       count++;
       var vertexValue = vertices[vertexName];
 
@@ -90,12 +96,6 @@ function manyGraphs() {
     }, adjacencyList, [ 'e' ]);
 
     assert(count == Object.keys(vertices).length);
-  }, {
-    a: [ 0 ],
-    b: [ 0, 1 ],
-    c: [ 0, 1, 2 ],
-    d: [ 0, 1, 2, 3 ],
-    e: [ 4 ]
   })
 }
 manyGraphs();

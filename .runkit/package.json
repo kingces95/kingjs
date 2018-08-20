@@ -1,8 +1,6 @@
 {
   "description": "RunKit like environment for testing readme samples and tests in general.",
   "dependencies": {
-    "@kingjs/array": "^1.0.3",
-    "@kingjs/enumerable": "^1.0.3",
-    "kingjs": "^1.0.22"
+    "kingjs": "^1.0.23"
   }
 }

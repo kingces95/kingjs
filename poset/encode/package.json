@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/poset.encode",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Encodes an adjacency list and vertex property map into a descriptor whose property names, when split on `$`, reveal a vertex name followed by its adjacent vertices, and whose property values correspond to vertex properties.",
   "main": "index.js",
   "files": [
