@@ -13,10 +13,10 @@ function average(selector) {
   var result = aggregate.call(this, { 
       count: 0, 
       sum: 0
-    }, function(a, o) { 
-      a.count++; 
-      a.sum += selector(o); 
-      return a; 
+    }, function(x) { 
+      this.count++; 
+      this.sum += selector(x);
+      return this;
     }
   );
 

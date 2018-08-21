@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.sum",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Computes the sum of a sequence of numbers projected from elements of a sequence.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/linq.aggregate": "^1.0.0"
+    "@kingjs/linq.aggregate": "^1.0.16"
   }
 }

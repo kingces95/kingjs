@@ -3,9 +3,9 @@
 var aggregate = require('@kingjs/linq.aggregate');
 
 function toArray() {      
-  return aggregate.call(this, [], function(a, o) { 
-    a.push(o); 
-    return a; 
+  return aggregate.call(this, [], function(x) { 
+    this.push(x); 
+    return this; 
   });
 };
 

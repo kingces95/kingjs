@@ -8,8 +8,8 @@ var sequence = require('@kingjs/enumerable.create');
 
 var enumerable = sequence(2, 3, 4);
 
-aggregate.call(enumerable, 1, function(a, x) { 
-  return a + x; 
+aggregate.call(enumerable, 1, function(x) { 
+  return this + x; 
 });
 ```
 result:
@@ -21,7 +21,7 @@ result:
 declare function aggregate(
   this: Enumerable,
   seed,
-  accumulator: (a, x) => any,
+  accumulator: (this, x) => any,
   result: (x) => any
 ): any
 ```
@@ -31,10 +31,10 @@ declare function aggregate(
 - `this`: The sequence to aggregate.
 - `seed`: The initial value.
 - `accumulator`: An function which, for each value, returns the next accumulated value given:
-  - `a` the value accumulated thus far (or the initial value)
-  - `x` the next value to accumulate
+  - `this` The value accumulated thus far (or the initial value).
+  - `x` The next value to accumulate.
 ### Return Value
-An single value aggregated from all values in the sequence.
+A value aggregated from all values in the sequence.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

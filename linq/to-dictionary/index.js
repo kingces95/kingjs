@@ -4,17 +4,17 @@ var aggregate = require('@kingjs/linq.aggregate');
 var Dictionary = require('@kingjs/dictionary');
 
 function toDictionary(keySelector, valueSelector) {      
-  return aggregate.call(this, new Dictionary(), function(a, o) { 
-    var key = keySelector(o);
-    if (key in o)
+  return aggregate.call(this, new Dictionary(), function(x) { 
+    var key = keySelector(x);
+    if (key in x)
       throw "toDictionary: key already exists: " + key;
     
-    var value = o;
+    var value = x;
     if (valueSelector)
-      value = valueSelector(o);
+      value = valueSelector(x);
     
-    a[key] = value;
-    return a;
+    this[key] = value;
+    return this;
   });
 };
 

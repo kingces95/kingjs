@@ -3,11 +3,13 @@
 var aggregate = require('@kingjs/linq.aggregate');
 
 function count(predicate) {      
-  return aggregate.call(this, 0, function(a, o) {
-    if (!predicate || predicate(o))
-      a++;
+  return aggregate.call(this, 0, function(x) {
+    var aggregate = this;
+
+    if (!predicate || predicate(x))
+      aggregate++;
     
-    return a; 
+    return aggregate; 
   });
 };
 

@@ -5,7 +5,7 @@ function aggregate(seed, aggregator) {
   
   var result = seed;
   while (enumerator.moveNext())
-    result = aggregator(result, enumerator.current);
+    result = aggregator.call(result, enumerator.current);
   
   return result;
 };
