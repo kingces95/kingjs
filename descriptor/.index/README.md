@@ -2,7 +2,7 @@
 Exports all `@kingjs/descriptor.*` functionality in one package.
 ## Usage
 ```js
-var array = require('@kingjs/descriptor');
+var descriptor = require('@kingjs/descriptor');
 ```
 ## Interfaces
 ```ts

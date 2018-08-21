@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/mutate",
-  "version": "1.0.5",
-  "description": "Exports all `@kingjs/mutate.*` functionality in one package.",
+  "name": "@kingjs/descriptor.family",
+  "version": "1.0.0",
+  "description": "Exports all `@kingjs/descriptor.family.*` functionality in one package.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,9 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/mutate.copy": "^1.0.0",
-    "@kingjs/mutate.inherit": "^1.0.0",
-    "@kingjs/mutate.path": "^1.0.0",
-    "@kingjs/mutate.scorch": "^1.0.0"
+    "@kingjs/descriptor.family.map": "^1.0.0"
   }
 }

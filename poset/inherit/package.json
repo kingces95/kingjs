@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/poset.inherit",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "Inherits properties of dependent vertices.",
   "main": "index.js",
   "files": [
@@ -17,8 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/dictionary": "^1.0.6",
-    "@kingjs/mutate.copy": "^1.0.4",
+    "@kingjs/mutate.inherit": "^1.0.1",
     "@kingjs/poset.for-each": "^1.0.14"
   }
 }

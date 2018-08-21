@@ -6,6 +6,7 @@ var map = require('@kingjs/mutate');
 ```
 ## API
 - [`copy`][copy]
+- [`inherit`][inherit]
 - [`path`][path]
 - [`scorch`][scorch]
 ## Remarks
@@ -21,5 +22,6 @@ MIT
 ![Analytics](https://analytics.kingjs.net/mutate)
 
   [copy]: https://www.npmjs.com/package/@kingjs/mutate.copy
+  [inherit]: https://www.npmjs.com/package/@kingjs/mutate.inherit
   [path]: https://www.npmjs.com/package/@kingjs/mutate.path
   [scorch]: https://www.npmjs.com/package/@kingjs/mutate.scorch
