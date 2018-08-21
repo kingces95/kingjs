@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/apply",
-  "version": "1.0.10",
-  "description": "Calls a list of functions using each result as the `this` of the next call.",
+  "name": "@kingjs/descriptor",
+  "version": "1.0.0",
+  "description": "Exports all `@kingjs/descriptor.*` functionality in one package.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -15,5 +15,9 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.map": "^1.0.0",
+    "@kingjs/descriptor.pluck": "^1.0.0"
+  }
 }

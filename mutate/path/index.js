@@ -3,10 +3,12 @@
 
 function mapPath(path, func) {  
   if (!path || path.length == 0)
-    return;
+    return this;
 
   if (typeof path == 'string')
     path = path.split('.');
+
+  var self = this;
 
   function recurse(index, name) {
     if (!this)
@@ -26,7 +28,7 @@ function mapPath(path, func) {
     if (name in this == false)
       return;
 
-      this[name] = func(this[name]);
+      this[name] = func.call(self, this[name]);
   }
 
   recurse.call(this, 0, path[0]);

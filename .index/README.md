@@ -8,6 +8,7 @@ var kingjs = require('kingjs');
 
 ### Namespaces
 - [`array`][array]
+- [`descriptor`][descriptor]
 - [`enumerable`][enumerable]
 - [`linq`][linq]
 - [`mutate`][mutate]
@@ -32,6 +33,7 @@ MIT
 ![Analytics](https://analytics.kingjs.net)
 
   [array]: https://www.npmjs.com/package/@kingjs/array
+  [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
   [linq]: https://www.npmjs.com/package/@kingjs/linq
   [enumerable]: https://www.npmjs.com/package/@kingjs/enumerable
   [poset]: https://www.npmjs.com/package/@kingjs/poset

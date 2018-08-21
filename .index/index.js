@@ -2,6 +2,7 @@
 
 Object.defineProperties(module.exports, {
   array: { value: require(`@kingjs/array`) },
+  descriptor: { value: require(`@kingjs/descriptor`) },
   linq: { value: require(`@kingjs/linq`) },
   poset: { value: require(`@kingjs/poset`) },
   mutate: { value: require(`@kingjs/mutate`) },

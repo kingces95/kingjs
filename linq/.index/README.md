@@ -20,7 +20,7 @@ var pets = sequence(
   { name: 'Bubbles', type: 'fish', ownerId: 2 },
 );
 
-apply(people,
+apply.call(people,
   linq.orderBy, [ function(x) { return x.lastName; } ],
   linq.thenBy, [ function(x) { return x.firstName; } ],
   linq.join, [

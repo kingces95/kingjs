@@ -2,15 +2,15 @@
 
 var emptyArray = [];
 
-function apply(target) {
-  if (arguments.length < 2)
-    return target;
+function apply() {
 
-  if (arguments.length % 2 == 0)
-    Array.prototype.push.call(arguments, emptyArray);
+  var target = this;
 
-  for (var i = 1; i < arguments.length; ) 
-    target = arguments[i++].apply(target, arguments[i++]);
+  for (var i = 0; i < arguments.length; ) {
+    var func = arguments[i++];
+    var args = arguments[i++];
+    target = func.apply(target, args);
+  }
     
   return target;
 }

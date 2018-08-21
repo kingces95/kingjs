@@ -72,12 +72,23 @@ function starStar() {
 starStar();
 
 function missing() {
-  mapPath.call({ }, undefined, assert);
-  mapPath.call({ }, null, assert);
-  mapPath.call({ }, [], assert);
-  mapPath.call({ }, 'missing', assert);
+  var target = { };
+  assert(mapPath.call(target, undefined, assert) == target);
+  assert(mapPath.call(target, null, assert) == target);
+  assert(mapPath.call(target, [], assert) == target);
+  assert(mapPath.call(target, 'missing', assert) == target);
+  
   mapPath.call({ foo: 0 }, 'missing', assert);
   mapPath.call({ foo: 0 }, 'foo.*', assert);
   mapPath.call({ foo: { bar: 0 }  }, '*.foo', assert);
 }
 missing();
+
+function self() {
+  var target = { a: 0 };
+  mapPath.call(target, '*', function(x) {
+    assert(x == 0);
+    assert(this == target);
+  });
+}
+self();

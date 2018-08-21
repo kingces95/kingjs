@@ -6,7 +6,7 @@ Take the strings `'Foo'`, `'Bar'`, and `'Baz'`, and sort, lower, and join them w
 var apply = require('@kingjs/apply')
 
 function sortLowerAndJoin() {
-  return apply(arguments,
+  return apply.call(arguments,
     Array.prototype.sort, [ ],
     Array.prototype.map, [ function(x) { return x.toLowerCase(); } ],
     Array.prototype.join, [ '-' ]
@@ -22,19 +22,16 @@ result:
 ## API
 ```ts
 function apply(
-  target: any,
+  this: any,
   function: (this: any) => any,
-  args: any[],
-  // ... 
+  ...functionArguments: any[],
 ): any
 ```
 ### Parameters
-- `target`: The initial `this` argument.
-- `function`: The function to apply using the previous result (or `target` if the first function).
-- `args`: An array of arguments to pass to the applied function.
-- `...`: More `function`/`args` pairs to apply
+- `this`: The `this` passed to the first function.
+- `functionArguments`: Alternating function array pairs.
 ### Return Value
-The result of applying the list of functions with their corresponding array of arguments while piping the result of each application into the next application as the `this` argument.
+The result of applying each function in `functionArguments` using the subsequent array as arguments and the previous result as `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

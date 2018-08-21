@@ -40,13 +40,14 @@ result:
 declare function path(
   this,
   path: string | string[],
-  callback: (x) => any
+  callback: (this, x) => any
 ): any
 ```
 ### Parameters
 - `this`: The object whose property's values are updated.
 - `path`: An array of property names and/or the wildcard `'*'` which specify the path(s) to map.
 - `callback`: The update function to apply to each property that matches the path.
+  - `this`: The same this as passed to `path` (which may not be the same as object hosting the property of the value being upated).
   - `x`: The value of the property being updated.
 ### Returns
 Returns `this` after updating properties which matched `path`.
