@@ -24,7 +24,7 @@ result:
 ```ts
 declare function inherit(
   this: any,
-  ...bases: any[]
+  bases: any[]
 ): any
 ```
 ### Parameters

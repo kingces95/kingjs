@@ -10,7 +10,7 @@ function readMe() {
   var teacher = { name: '', ssn: '000-00-0000', pay: 0 };
   var alice = { name: 'Alice' };
   
-  var result = inherit.call(alice, student, teacher);
+  var result = inherit.call(alice, [student, teacher]);
 
   assert(result == alice);
   assert(result.name == 'Alice');
@@ -20,18 +20,25 @@ function readMe() {
 }
 readMe();
 
-function ambiguous() {
+function noBases() {
   var target = { };
+  var result = inherit.call(target);
+  assert(result == target);
+}
+noBases();
+
+function ambiguous() {
+  var target = { value: 0 };
   var x = { value: 1 };
   var y = { value: 2 };
-  var result = inherit.call({ value = 0 }, x, y);
+  var result = inherit.call(target, [x, y]);
   assert(target == result);
   assert(result.value == 0);
 
   assertThrows(function() {
     var x = { value: 0 };
     var y = { value: 1 };
-    inherit.call({ }, x, y);
+    inherit.call({ }, [x, y]);
   });
 }
 ambiguous();

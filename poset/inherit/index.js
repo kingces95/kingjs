@@ -17,7 +17,7 @@ function posetInherit(vertices) {
         return vertices[adjacentName];
       })
 
-      inherit.apply(target, bases);
+      inherit.call(target, bases);
     }, 
     Object.keys(vertices)
   );

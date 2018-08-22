@@ -1,11 +1,11 @@
 var copy = require('@kingjs/mutate.copy');
 var Dictionary = require('@kingjs/dictionary');
 
-function inherit() {
-  var bases = arguments;
+function inherit(bases) {
+  var target = this;
 
   if (!bases || bases.length == 0)
-    return;
+    return this;
 
   var values = new Dictionary();
 
@@ -15,7 +15,7 @@ function inherit() {
     // throw on ambiguous inherited values
     copy.call(values, base, function(name) {
 
-      if (name in this)
+      if (name in target)
         return true;
 
       if (values[name] == base[name])

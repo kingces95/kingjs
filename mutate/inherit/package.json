@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/mutate.inherit",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Copy properties from set of objects which are not present on this.",
   "main": "index.js",
   "files": [

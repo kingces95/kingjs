@@ -1,53 +1,107 @@
 'use strict';
 
-var map = require('.');
+var transform = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 
-function readMe() {
-  var result = map.call({
-    apple: 'a',
-    orange: 'o',
-    banana: 'b'
-  }, function(x) { 
-    return String.prototype.toUpperCase.call(x); 
-  })
-
-  assert(result.apple == 'A');
-  assert(result.orange == 'O');
-  assert(result.banana == 'B');
+function wrapDeclarative() {
+  var result = transform.call('apple', undefined, { wrap: 'name' });
+  assert(result.name == 'apple');  
 }
-readMe();
+wrapDeclarative();
 
-function arg1() {
-  var result = map.call({
-    apple: 'a',
-    orange: 'o',
-    banana: 'b'
-  }, function(x, name) { 
-    return name; 
-  })
-
-  assert(result.apple == 'apple');
-  assert(result.orange == 'orange');
-  assert(result.banana == 'banana');
-}
-arg1();
-
-function arg2() {
-  var fruits = {
-    apple: 'a',
-    orange: 'o',
-    banana: 'b'
-  };
-  var result = map.call(fruits, 
-    function(x, name, descriptor) { 
-      return descriptor; 
+function wrapProcedural() {
+  var result = transform.call('apple', undefined, {
+    wrap: function() {
+      return { name: this };
     }
-  )
-
-  assert(result.apple == fruits);
-  assert(result.orange == fruits);
-  assert(result.banana == fruits)
+  });
+  assert(result.name == 'apple');  
 }
-arg2();
+wrapProcedural();
+
+function shallowCopy() {
+  var apple = {
+    name: 'apple',
+  };
+
+  var result = transform.call(apple);
+
+  assert(result != apple);
+  assert(result.name == 'apple');
+}
+shallowCopy();
+
+function inherit() {
+  var result = transform.call({ }, '$fruit', {
+    bases: {
+      fruit: { type: 'fruit' }  
+    }
+  });
+
+  assert(result.type == 'fruit');
+}
+inherit();
+
+function defaults() {
+  var result = transform.call({ }, undefined, {
+    defaults: {
+      type: 'fruit'
+    }
+  });
+
+  assert(result.type == 'fruit');
+}
+defaults();
+
+function inflate() {
+  var result = transform.call({
+    name: function $(name, key) {
+      assert(key == 'name');
+      return name;
+    }
+   }, 'apple');
+
+  assert(result.name == 'apple');
+}
+inflate();
+
+function thunk() {
+  var result = transform.call({
+    type: 'fruit'
+  }, 'apple', {
+    thunks: {
+      type: function(name, key) {
+        assert(this == 'fruit');
+        assert(name == 'apple');
+        assert(key == 'type');
+        return 'food';
+      }
+    }
+  }); 
+
+  assert(result.type == 'food');
+}
+thunk();
+
+function scorch() {
+  var result = transform.call({
+    name: undefined
+  }); 
+
+  assert('name' in result == false);
+}
+scorch();
+
+function callback() {
+
+  var result = transform.call(
+    { }, 'apple', function(name) {
+      this.name = name;
+      return this; 
+    }
+  );
+
+  assert(result.name == 'apple');
+}
+callback();

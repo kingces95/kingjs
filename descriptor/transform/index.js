@@ -1,6 +1,7 @@
 var apply = require('@kingjs/apply');
 var copy = require('@kingjs/mutate.copy');
 var inherit = require('@kingjs/mutate.inherit');
+var scorch = require('@kingjs/mutate.scorch');
 
 function returnThis() {
   return this;
@@ -35,15 +36,18 @@ function wrap(keyOrFunction) {
 
 function inflate(name) {
   for (var key in this) {
-    if (key[0] != '$')
+    var func = this[key];
+
+    if (func instanceof Function == false)
+      continue;
+    
+    if (func.name != '$')
       continue;
 
-    var value = this[key]
-    if (value instanceof Function == false)
-      continue;
-
-    this[key] = value.call(name, key);
+    this[key] = func(name, key);
   }
+
+  return this; 
 }
 
 function replace(thunks, name) {
@@ -63,23 +67,48 @@ function replace(thunks, name) {
   return this; 
 }
 
-function transform(name, action) {
-  if (action === undefined)
-    action = returnThis;
+function resolve(descriptor) {
+  return this.map(function(name) { 
+    return descriptor[name];
+  });
+}
 
-  if (action instanceof Function)
+function normalizeAction() {
+  var action = this;
+
+  // normalize action
+  if (action === undefined)
+    action = { };
+    
+  else if (action instanceof Function)
     action = { callback: action };
+
+  // assign default callback
+  if (action.callback === undefined)
+    action.callback = returnThis;
+
+  return action;
+}
+
+function transform(name, action) {
+  // assign default name
+  if (name === undefined)
+    name = '';
+
+  action = normalizeAction.call(action);
 
   var baseNames = name.split('$');
   name = baseNames.shift();
+  var bases = resolve.call(baseNames, action.bases); 
 
   return apply.call(this,
     wrap, [action.wrap],
     shallowClone, null,
-    inherit, [bases, baseNames],
+    inherit, [bases],
     copy, [action.defaults, true],
     inflate, [name],
     replace, [action.thunks, name],
+    scorch, null,
     action.callback, [name]
   )
 }

@@ -19,6 +19,7 @@
   "dependencies": {
     "@kingjs/apply": "^1.0.10",
     "@kingjs/mutate.copy": "^1.0.4",
-    "@kingjs/mutate.inherit": "^1.0.1"
+    "@kingjs/mutate.inherit": "^1.0.4",
+    "@kingjs/mutate.scorch": "^1.0.4"
   }
 }
