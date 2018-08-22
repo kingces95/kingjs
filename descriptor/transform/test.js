@@ -105,3 +105,92 @@ function callback() {
   assert(result.name == 'apple');
 }
 callback();
+
+function wrapThenInherit() {
+  var appleName = 'apple';
+  var result = transform.call(appleName, '$fruit', {
+    wrap: 'name',
+    bases: { 
+      fruit: { 
+        type: 'fruit',
+        name: 'unknown',
+      }
+    }
+  })
+  assert(appleName == 'apple');
+  assert(result != appleName); // shallowClone
+  assert(result.name == 'apple'); // wrap, inherit
+  assert(result.type == 'fruit'); // inherit
+}
+wrapThenInherit();
+
+function inheritThenDefaults() {
+  var result = transform.call({ }, '$fruit', {
+    defaults: { 
+      type: 'unknown',
+      color: 'unknown' 
+    },
+    bases: { 
+      fruit: { 
+        type: 'fruit',
+      }
+    }
+  })
+  assert(result.type == 'fruit'); // inherit
+  assert(result.color == 'unknown'); // defaults
+}
+inheritThenDefaults();
+
+function defaultsThenInflate() {
+  var result = transform.call({ }, 'apple', {
+    defaults: { 
+      name: function $(name) {  
+        return name;
+      },
+    },
+  })
+  assert(result.name == 'apple'); // default -> inflate
+}
+defaultsThenInflate();
+
+function inflateThenThunks() {
+  var result = transform.call({
+    name: function $(name) {  
+      return name;
+    }
+   }, 'apple', {
+    thunks: {
+      name: function() {
+        return String.prototype.toUpperCase.call(this);
+      }
+    },
+  })
+  assert(result.name == 'APPLE'); // inflate -> thunks
+}
+inflateThenThunks();
+
+function thunksThenScorch() {
+  var result = transform.call({
+    name: 'apple'
+   }, undefined, {
+    thunks: {
+      name: function() {
+        return undefined;
+      }
+    },
+  })
+  assert(`name` in result == false); // thunks -> scorch
+}
+thunksThenScorch();
+
+function scorchThenCallback() {
+  var result = transform.call({
+    name: undefined
+  }, undefined, function() {
+    assert('name' in this == false);
+    this.name = 'apple';
+    return this;
+  })
+  assert(result.name == 'apple'); // scorch then callback
+}
+scorchThenCallback();

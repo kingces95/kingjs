@@ -106,6 +106,7 @@ function transform(name, action) {
     shallowClone, null,
     inherit, [bases],
     copy, [action.defaults, true],
+    
     inflate, [name],
     replace, [action.thunks, name],
     scorch, null,
