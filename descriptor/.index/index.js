@@ -1,4 +1,4 @@
 Object.defineProperties(module.exports, {
-  map: { value: require('@kingjs/descriptor.map') },
+  mapNames: { value: require('@kingjs/descriptor.map-names') },
   pluck: { value: require('@kingjs/descriptor.pluck') }
 });

@@ -61,3 +61,5 @@ $ npm install @kingjs/descriptor.pluck
 MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor/pluck)
+
+  [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor

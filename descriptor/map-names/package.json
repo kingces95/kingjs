@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor",
-  "version": "1.0.1",
-  "description": "Exports all `@kingjs/descriptor.*` functionality in one package.",
+  "name": "@kingjs/descriptor.map-names",
+  "version": "1.0.4",
+  "description": "Creates a descriptor with a copy of a subset of properties from an existing descriptor with different names.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,8 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/descriptor.map-names": "^1.0.0",
-    "@kingjs/descriptor.pluck": "^1.0.0"
-  }
+  "dependencies": {}
 }

@@ -12,7 +12,7 @@ declare interface Descriptor {
 ```
 A `descriptor` is an object that is typically expressed as an object literal. This is to say, a `descriptor` is an object whose prototype is the same as the prototype of `{ }`.
 ## API
-- [`map`][map]
+- [`mapNames`][map-names]
 - [`pluck`][pluck]
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -24,5 +24,5 @@ MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor)
 
-  [map]: https://www.npmjs.com/package/@kingjs/descriptor.map
+  [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names
   [pluck]: https://www.npmjs.com/package/@kingjs/descriptor.pluck
