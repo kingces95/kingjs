@@ -21,6 +21,7 @@
     "@kingjs/array.make-enumerable": "^1.0.5",
     "@kingjs/array.nested.to-array": "^1.0.1",
     "@kingjs/descriptor.pluck": "^1.0.2",
+    "@kingjs/immutable.copy": "^1.0.1",
     "@kingjs/linq.aggregate": "^1.0.15",
     "@kingjs/mutate.copy": "^1.0.4",
     "@kingjs/mutate.path": "^1.0.7",

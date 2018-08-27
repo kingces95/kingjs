@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/immutable.augment",
-  "version": "1.0.0",
-  "description": "Updates and/or adds properties of/in a literal object tree with corresponding values from a second using binary operators from a third.",
+  "name": "@kingjs/immutable",
+  "version": "1.0.2",
+  "description": "Exports all `@kingjs/immutable.*` functionality in one package.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,5 +16,8 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/immutable.copy": "^1.0.0"
+  },
+  "devDependencies": {}
 }

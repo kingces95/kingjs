@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "Exports all `@kingjs.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -26,6 +26,7 @@
     "@kingjs/case-at": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0",
     "@kingjs/enumerable": "^1.0.0",
+    "@kingjs/immutable": "^1.0.0",
     "@kingjs/linq": "^1.0.22",
     "@kingjs/mutate": "^1.0.0",
     "@kingjs/poset": "^1.0.1"
