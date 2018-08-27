@@ -25,13 +25,16 @@ assert(id == 3 * 3 * 2); // = 18
 ```
 ## API
 ```ts
-function testTheory(theory: (observation, i) => void, data);
+declare function testTheory(
+  theory: (observation, i) => void,
+  observations: { [index: string]: any }
+);
 ```
 ### Parameters
 - `theory`: A function that tests a set of observations.
   - `observation`: The observation generated from `data`.
   - `i`: The number identifying `observation`. 
-- `data`: A descriptor whose properties contain arrays from which a sequence of similar descriptors is generated where each property is replaced with a value from its associated array.
+- `observations`: A descriptor whose every property contains either an array, primitive, or object from which a sequence of similar descriptors is generated where each property is replaced with an array element, the primitive, or a property value respectively.
 ## Remarks
 If an `observation` fails then it can be easily debugged by adding logic to return from `theory` if `i` does not equal the id of the failing `observation` and restarting the test. 
 ## Install

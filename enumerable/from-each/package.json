@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/enumerable.from-each",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generates a sequence of arrays or descriptors composed of a single element each from a set of arrays.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.odometer": "^1.0.0",
-    "@kingjs/enumerable.define": "^1.0.0"
+    "@kingjs/descriptor.keys": "^1.0.0",
+    "@kingjs/enumerable.define": "^1.0.0",
+    "@kingjs/enumerable.odometer": "^1.0.0"
   }
 }

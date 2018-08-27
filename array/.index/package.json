@@ -17,7 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/array.make-enumerable": "^1.0.0",
     "@kingjs/array.nested": "^1.0.0",
-    "@kingjs/array.make-enumerable": "^1.0.0"
+    "test": "^0.6.0"
   }
 }

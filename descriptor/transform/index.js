@@ -1,7 +1,8 @@
 var apply = require('@kingjs/apply');
-var copy = require('@kingjs/mutate.copy');
-var inherit = require('@kingjs/mutate.inherit');
-var scorch = require('@kingjs/mutate.scorch');
+var merge = require('@kingjs/descriptor.merge');
+var takeLeft = require('@kingjs/func.return-arg-0');
+var inherit = require('@kingjs/descriptor.inherit');
+var scorch = require('@kingjs/descriptor.scorch');
 
 function returnThis() {
   return this;
@@ -105,7 +106,7 @@ function transform(name, action) {
     wrap, [action.wrap],
     shallowClone, null,
     inherit, [bases],
-    copy, [action.defaults, true],
+    merge, [action.defaults, takeLeft],
     
     inflate, [name],
     replace, [action.thunks, name],

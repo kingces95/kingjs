@@ -2,6 +2,8 @@
 
 var odometer = require('@kingjs/enumerable.odometer');
 var define = require('@kingjs/enumerable.define');
+var keys = require('@kingjs/descriptor.keys');
+
 var emptyObject = { };
 
 function fromEach(data) {
@@ -10,16 +12,16 @@ function fromEach(data) {
     data = emptyObject;
 
   // todo: cache on Enumerable
-  var keys = undefined;
+  var names = undefined;
   var dataIsArray = undefined;
 
   var enumerator = undefined;
 
   return function() {
     if (!enumerator) {
-      keys = Object.keys(data)
+      names = keys.call(data);
       enumerator = odometer(
-        keys.map(
+        names.map(
           function(key) { 
             return data[key].length; 
           }
@@ -34,7 +36,7 @@ function fromEach(data) {
     var current = dataIsArray ? [ ] : { };
     
     enumerator.current.forEach(function(arrayIndex, keyIndex) {
-      var key = keys[keyIndex];
+      var key = names[keyIndex];
       var array = data[key];
       current[key] = array[arrayIndex]; 
     });

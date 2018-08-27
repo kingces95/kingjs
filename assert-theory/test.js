@@ -22,3 +22,33 @@ function readme() {
   assert(id == 3 * 3 * 2);
 }
 readme();
+
+function primitive() {
+
+  testTheory(function(o) {
+    assert(o.nil === null);
+    assert(o.undef === undefined);
+    assert(o.number === 0);
+    assert(o.string === '');
+  }, {
+    nil: null,
+    undef: undefined,
+    number: 0,
+    string: '',
+  });
+}
+primitive();
+
+function values() {
+
+  var values = { zero: 0 };
+
+  testTheory(function(o) {
+    assert(o.number === values.zero);
+    assert(o.array === 0);
+  }, {
+    number: values,
+    array: [ 0 ]
+  });
+}
+values();

@@ -3,10 +3,9 @@
 Object.defineProperties(module.exports, {
   array: { value: require(`@kingjs/array`) },
   descriptor: { value: require(`@kingjs/descriptor`) },
-  immutable: { value: require(`@kingjs/immutable`) },
+  func: { value: require(`@kingjs/func`) },
   linq: { value: require(`@kingjs/linq`) },
   poset: { value: require(`@kingjs/poset`) },
-  mutate: { value: require(`@kingjs/mutate`) },
   enumerable: { value: require(`@kingjs/enumerable`) },
 
   apply: { value: require(`@kingjs/apply`) },

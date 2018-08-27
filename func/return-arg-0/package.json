@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/func.return-arg-0",
+  "version": "1.0.0",
+  "description": "A function that returns the first argument.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": { }
+}

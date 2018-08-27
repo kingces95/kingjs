@@ -1,0 +1,21 @@
+{
+  "name": "@kingjs/descriptor.nested",
+  "version": "1.0.2",
+  "description": "Exports all `@kingjs/descriptor.nested.*` functionality in one package.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+  }
+}

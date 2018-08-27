@@ -1,11 +1,11 @@
 'use strict';
 
 var linq = require('.');
-require = require('..');
+var testRequire = require('..');
 
-var assert = require('@kingjs/assert');
-var sequence = require('@kingjs/enumerable.create');
-var apply = require('@kingjs/apply');
+var assert = testRequire('@kingjs/assert');
+var sequence = testRequire('@kingjs/enumerable.create');
+var apply = testRequire('@kingjs/apply');
 
 var people = sequence(
   { firstName: 'Bob', lastName: 'Smith', id: 0 },
@@ -20,7 +20,7 @@ var pets = sequence(
   { name: 'Bubbles', type: 'fish', ownerId: 2 },
 );
 
-var result = apply(people,
+var result = apply.call(people,
   linq.orderBy, [ function(x) { return x.lastName; } ],
   linq.thenBy, [ function(x) { return x.firstName; } ],
   linq.join, [

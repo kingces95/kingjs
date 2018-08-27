@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Exports all `@kingjs/descriptor.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,14 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.family": "^1.0.0",
+    "@kingjs/descriptor.inherit": "^1.0.0",
     "@kingjs/descriptor.map-names": "^1.0.0",
-    "@kingjs/descriptor.pluck": "^1.0.0"
+    "@kingjs/descriptor.merge": "^1.0.0",
+    "@kingjs/descriptor.nested": "^1.0.0",
+    "@kingjs/descriptor.path": "^1.0.0",
+    "@kingjs/descriptor.pluck": "^1.0.0",
+    "@kingjs/descriptor.scorch": "^1.0.0",
+    "@kingjs/descriptor.transform": "^1.0.0"
   }
 }

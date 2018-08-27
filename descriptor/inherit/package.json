@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/descriptor.inherit",
+  "version": "1.0.0",
+  "description": "Copy properties from set of objects which are not present on this.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.merge": "^1.0.0",
+    "@kingjs/dictionary": "^1.0.6",
+    "@kingjs/func.return-arg-0": "^1.0.0"
+  }
+}

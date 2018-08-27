@@ -10,9 +10,8 @@ var kingjs = require('kingjs');
 - [`array`][array]
 - [`descriptor`][descriptor]
 - [`enumerable`][enumerable]
-- [`immutable`][immutable]
+- [`func`][func]
 - [`linq`][linq]
-- [`mutate`][mutate]
 - [`poset`][poset]
 
 ### Modules
@@ -35,11 +34,10 @@ MIT
 
   [array]: https://www.npmjs.com/package/@kingjs/array
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
-  [immutable]: https://www.npmjs.com/package/@kingjs/immutable
   [linq]: https://www.npmjs.com/package/@kingjs/linq
   [enumerable]: https://www.npmjs.com/package/@kingjs/enumerable
+  [func]: https://www.npmjs.com/package/@kingjs/func
   [poset]: https://www.npmjs.com/package/@kingjs/poset
-  [mutate]: https://www.npmjs.com/package/@kingjs/mutate
 
   [apply]: https://www.npmjs.com/package/@kingjs/apply
   [array-enumerable]: https://www.npmjs.com/package/@kingjs/array-enumerable

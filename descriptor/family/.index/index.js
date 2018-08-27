@@ -1,3 +1,3 @@
 Object.defineProperties(module.exports, {
-  map: { value: require('@kingjs/descriptor.family.map') },
+  transform: { value: require('@kingjs/descriptor.family.transform') },
 });

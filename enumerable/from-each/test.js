@@ -44,6 +44,18 @@ function readmeArray() {
 }
 readmeArray();
 
+function inherited() {
+  var shirts = fromEach(Object.create({
+    size: [ 'S', 'M', 'L' ],
+    color: [ 'Red', 'Green' ]
+  }));
+  
+  assertExpected(toArray.call(shirts).map(
+    function(x) { return [x.size, x.color ]; }
+  ));
+}
+inherited();
+
 function theory(enumerable, expected) {
   var generator = enumerable.getEnumerator();
 

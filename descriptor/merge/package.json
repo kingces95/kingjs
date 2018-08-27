@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/descriptor.merge",
+  "version": "1.0.0",
+  "description": "Merges own and inherited enumerable property values into `this` using a callback to resolve conflicts.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {}
+}

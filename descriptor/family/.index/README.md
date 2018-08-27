@@ -11,7 +11,7 @@ declare interface DescriptorFamily {
 }
 ```
 ## API
-- [`map`][map]
+- [`transform`][transform]
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -22,4 +22,4 @@ MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor)
 
-  [map]: https://www.npmjs.com/package/@kingjs/descriptor.family.map
+  [transform]: https://www.npmjs.com/package/@kingjs/descriptor.family.transform
