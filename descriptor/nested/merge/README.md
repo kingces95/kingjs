@@ -1,6 +1,71 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor)/[nested](https://www.npmjs.com/package/@kingjs/nested).copy
-Merges each path in source that also exists in resolve into this descriptor using functions found in resolve to resolve conflicting values.
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/nested).merge
+Merges into a nested target descriptor each path in a nested source descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.
 ## Usage
+Derive "worker" from "adult" using nested descriptors that contain a string value at path `wrap`, a descriptor at path `defaults`, and functions at path `preconditions`. The functions should be composed if there is a conflict while the values should be inherited as defaults.
+```js
+var nestedMerge = require('@kingjs/descriptor.nested.merge');
+var merge = require('@kingjs/descriptor.merge');
+var assert = require('@kingjs/assert');
+
+var adult = {
+  wrap: 'name',
+  defaults: {
+    name: 'John Doe',
+    age: 18
+  },
+  preconditions: {
+    age: function isAdult(x) {
+      assert(x >= 18);
+      return x;
+    }
+  }
+}
+
+var worker = {
+  defaults: {
+    age: 40
+  },
+  preconditions: {
+    age: function notRetired(x) {
+      assert(x < 62);
+      return x;
+    }
+  }
+}
+
+var copyOnWrite = true;
+
+function takeLeft(left, right) {
+  return left;
+}
+
+var resolve = {
+  wrap: takeLeft,
+  defaults: function(left, right) { 
+    return merge.call(left, right, takeLeft)
+  },
+  preconditions: function(left, right) {
+    return function(x) {
+      return right(left(x));
+    }
+  }
+}
+
+nestedMerge(worker, adult, resolve, copyOnWrite);
+```
+results:
+```js
+{
+  wrap: 'name',
+  defaults: {
+    name: 'John Doe',
+    age: 40,
+  },
+  preconditions: function(x) {
+    return isAdult(notRetired(x));
+  }
+}
+``` 
 Flip `a0` and `b0` property values from `0` to `1` like this:
 ```js
 var merge = require('@kingjs/descriptor.nested.merge');
@@ -47,41 +112,42 @@ result:
 ```
 ## API
 ```ts
-declare function augment(
+declare function merge(
   target: Descriptor,
   source: Descriptor,
-  action: Descriptor
+  resolve: Descriptor,
+  copyOnWrite: boolean
 ): Descriptor
 ```
 ### Interfaces
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
-- `target`: Descriptor tree to which properties from corresponding `source` paths are copied if a corresponding `action` path exists. Paths are cloned and created as needed.
-- `source`: Descriptor tree from which properties are copied to corresponding `target` paths if a corresponding `action` path exists.
-- `action`: Descriptor tree of functions to combine corresponding property values of `target` and `source` before being copied to a clone of `target`.
+- `target`: Nested descriptor into which properties are merged. Paths are created if necessary.
+- `source`: Nested descriptor from which properties are merged into target but only if the path also exists in `resolve`.
+- `resolve`: Nested descriptor of functions to resolve conflicts should a `target` and `source` path both exists and have different values.
+- `copyOnWrite`: If `true`, then `target` descriptors will be cloned as needed so that `target` remains unmodified.
 ### Returns
-Returns a clone of `target` tree with values copied from `source` tree if those values share paths on `action`.
+Returns a nested descriptor of `target`'s paths merged with paths merged from `source` that also exist in `resolve`.
 ## Remarks
-Imagine `target`, `source`, and `action` as directories of values where a directory is a `descriptor`. 
+A `target`'s path's value is: 
+- overwritten if it is `undefined`
+- preserved if the `source` value is `undefined` or (the same value)
+- otherwise the conflict is resolved using the corresponding `resolve` function
 
-Each value in `source` is copied to its corresponding directory in `target` but only if there is also a corresponding value in `action`. 
+Frozen path segments in `target` are cloned as needed.
 
-Intermediate directories are created or cloned as needed.
-
-A value is overwritten if it's `undefined` or preserved if the `source` value is `undefined`. When neither are `undefined` then, if there is a function at the corresponding `action` directory, that function is used to create the updated value given the values from `this` and `source`. If no function is found at `action` then the value is overwritten with the `source` value.
-
-Exceptions are thrown if the following invariants are violated:
-- `action` contains a value that is not `null`, `undefined`, or a function.
-- A directory in `action` is found to be a value in either `this` or `source`.
+An exception is thrown if:
+- `resolve` contains a value that is not `null`, `undefined`, or a function.
+- A *directory* in `resolve` is found to be a *value* in either `target` or `source`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/immutable.copy
+$ npm install @kingjs/descriptor.nested.merge
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/immutable/copy)
+![Analytics](https://analytics.kingjs.net/descriptor/nested/merge)
 
 
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor

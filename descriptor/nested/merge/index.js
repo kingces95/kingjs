@@ -3,7 +3,7 @@
 var create = require('@kingjs/descriptor.create')
 
 function throwPathException(path, message) {
-  throw message + ' at "' + path.join('.') + '".';
+  throw message + ' at: ' + path.join('.');
 }
 
 function throwMergeConflict(left, right, path) {
@@ -29,13 +29,13 @@ function merge(path, target, source, resolve, copyOnWrite) {
   }
 
   if (typeof resolve != 'object')
-    throwPathException('Expected "resolve" to be an object or function', path);
+    throwPathException(path, 'Expected "resolve" to be an object or function');
 
   if (typeof source != 'object' && source !== undefined)
-    throwPathException('Expected "source" to be an object', path);
+    throwPathException(path, 'Expected "source" to be an object');
 
   if (typeof target != 'object' && target !== undefined)
-    throwPathException('Expected "target" to be an object', path);
+    throwPathException(path, 'Expected "target" to be an object');
 
   if (source === undefined)
     return target;

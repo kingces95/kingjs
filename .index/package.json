@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "Exports all `@kingjs.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -23,7 +23,7 @@
     "@kingjs/assert-theory": "^1.0.11",
     "@kingjs/assert-throws": "^1.0.1",
     "@kingjs/case-at": "^1.0.0",
-    "@kingjs/descriptor": "^1.0.2",
+    "@kingjs/descriptor": "^1.0.7",
     "@kingjs/dictionary": "^1.0.0",
     "@kingjs/enumerable": "^1.0.0",
     "@kingjs/func": "^1.0.2",
