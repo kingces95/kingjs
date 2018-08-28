@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/nested).merge
-Merges into a nested target descriptor each path in a nested source descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.
+Merges into a nested target descriptor each path in a nested delta descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.
 ## Usage
 Derive "worker" from "adult" using nested descriptors that contain a string value at path `wrap`, a descriptor at path `defaults`, and functions at path `preconditions`. The functions should be composed if there is a conflict while the values should be inherited as defaults.
 ```js
@@ -79,7 +79,7 @@ var target = {
   a5: { b0: 0 }
 };
 
-var source = { 
+var delta = { 
   a0: 1,
   a1: 1,
   a3: { b0: 1 },
@@ -97,7 +97,7 @@ var resolve = {
   a5: { b0: takeRight }
 };
 
-merge(target, source, resolve);
+merge(target, delta, resolve);
 ```
 result:
 ```js
@@ -114,7 +114,7 @@ result:
 ```ts
 declare function merge(
   target: Descriptor,
-  source: Descriptor,
+  delta: Descriptor,
   resolve: Descriptor,
   copyOnWrite: boolean
 ): Descriptor
@@ -123,22 +123,22 @@ declare function merge(
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
 - `target`: Nested descriptor into which properties are merged. Paths are created if necessary.
-- `source`: Nested descriptor from which properties are merged into target but only if the path also exists in `resolve`.
-- `resolve`: Nested descriptor of functions to resolve conflicts should a `target` and `source` path both exists and have different values.
+- `delta`: Nested descriptor from which properties are merged into target but only if the path also exists in `resolve`.
+- `resolve`: Nested descriptor of functions to resolve conflicts should a `target` and `delta` path both exists and have different values.
 - `copyOnWrite`: If `true`, then `target` descriptors will be cloned as needed so that `target` remains unmodified.
 ### Returns
-Returns a nested descriptor of `target`'s paths merged with paths merged from `source` that also exist in `resolve`.
+Returns a nested descriptor of `target`'s paths merged with paths merged from `delta` that also exist in `resolve`.
 ## Remarks
 A `target`'s path's value is: 
 - overwritten if it is `undefined`
-- preserved if the `source` value is `undefined` or (the same value)
+- preserved if the `delta` value is `undefined` or (the same value)
 - otherwise the conflict is resolved using the corresponding `resolve` function
 
 Frozen path segments in `target` are cloned as needed.
 
 An exception is thrown if:
 - `resolve` contains a value that is not `null`, `undefined`, or a function.
-- A *directory* in `resolve` is found to be a *value* in either `target` or `source`.
+- A *directory* in `resolve` is found to be a *value* in either `target` or `delta`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

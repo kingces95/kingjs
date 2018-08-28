@@ -1,8 +1,12 @@
+'use strict';
+
+var create = require('@kingjs/descriptor.create');
+
 function throwMergeConflict(left, right, name) {
-  throw 'Merge conflict at "' + name + '".';
+  throw 'Merge conflict at: "' + name;
 }
 
-function merge(delta, resolve) {
+function merge(delta, resolve, copyOnWrite) {
 
   if (!resolve)
     resolve = throwMergeConflict;
@@ -10,7 +14,9 @@ function merge(delta, resolve) {
   if (delta === undefined || delta == null)
     return this;
 
-  var result = Object.isFrozen(this) ? null : this;
+  var clonedIfNeeded = false;
+  var result = this;
+  var wasFrozen = false;
 
   for (var name in delta) {
     var value = delta[name];
@@ -27,13 +33,20 @@ function merge(delta, resolve) {
         continue;
     }
 
-    if (result == null)
-      result = Object.create(this);
+    if (!clonedIfNeeded) {
+      wasFrozen = Object.isFrozen(this);
+      if (copyOnWrite || wasFrozen)
+        result = create(this);
+    }
+    clonedIfNeeded = true;
 
     result[name] = value;
   }
 
-  return result || this;
+  if (wasFrozen)
+    result = Object.freeze(result);
+
+  return result;
 }
 
 Object.defineProperties(module, {

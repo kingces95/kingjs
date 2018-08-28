@@ -16,5 +16,7 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/descriptor.create": "^1.0.0"
+  }
 }

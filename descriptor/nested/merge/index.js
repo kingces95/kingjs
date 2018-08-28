@@ -1,6 +1,6 @@
 'use strict';
 
-var create = require('@kingjs/descriptor.create')
+var create = require('@kingjs/descriptor.create');
 
 function throwPathException(path, message) {
   throw message + ' at: ' + path.join('.');
@@ -10,42 +10,42 @@ function throwMergeConflict(left, right, path) {
   throwPathException(path, 'Merge conflict');
 }
 
-function merge(path, target, source, resolve, copyOnWrite) {
+function merge(path, target, delta, resolve, copyOnWrite) {
 
   if (resolve == null || resolve == undefined)
     resolve = throwMergeConflict;
 
   if (resolve instanceof Function) {
-    if (target === source)
+    if (target === delta)
       return target;
 
     if (target === undefined)
-      return source;
+      return delta;
 
-    if (source === undefined)
+    if (delta === undefined)
       return target;
 
-    return resolve.call(this, target, source, path);
+    return resolve.call(this, target, delta, path);
   }
 
   if (typeof resolve != 'object')
     throwPathException(path, 'Expected "resolve" to be an object or function');
 
-  if (typeof source != 'object' && source !== undefined)
-    throwPathException(path, 'Expected "source" to be an object');
+  if (typeof delta != 'object' && delta !== undefined)
+    throwPathException(path, 'Expected "delta" to be an object');
 
   if (typeof target != 'object' && target !== undefined)
     throwPathException(path, 'Expected "target" to be an object');
 
-  if (source === undefined)
+  if (delta === undefined)
     return target;
 
   var targetFrozen = target && Object.isFrozen(target);
 
-  var cloned = false;
+  var clonedIfNeeded = false;
   for (var name in resolve) {
 
-    if (name in source == false)
+    if (name in delta == false)
       continue;
 
     var originalValue = target ? target[name] : undefined;
@@ -55,7 +55,7 @@ function merge(path, target, source, resolve, copyOnWrite) {
       this,
       path,
       originalValue,
-      source[name],
+      delta[name],
       resolve[name],
       copyOnWrite
     );
@@ -64,10 +64,9 @@ function merge(path, target, source, resolve, copyOnWrite) {
     if (originalValue === mergeValue)
       continue;
 
-    if (!cloned && (!target || copyOnWrite || targetFrozen)) {
+    if (!clonedIfNeeded && (!target || copyOnWrite || targetFrozen))
       target = create(target);
-      cloned = true;
-    }
+    clonedIfNeeded = true;
 
     target[name] = mergeValue;
   }

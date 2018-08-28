@@ -6,97 +6,6 @@ var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var takeLeft = testRequire('@kingjs/func.return-arg-0');
 var takeRight = testRequire('@kingjs/func.return-arg-1');
-var assertTheory = testRequire('@kingjs/assert-theory');
-
-var value = {
-  leftOnly: 'leftOnly',
-  rightOnly: 'rightOnly',
-  same: 'same',
-  different: 'different'
-};
-
-var a = 'a';
-var sameValue = 0;
-var differentValue = 1;
-
-var resolver = {
-  none: undefined,
-  same: function(left, right, name) {
-    assert(name == a); 
-    return left; 
-  },
-  different: function(left, right, name) {
-    assert(name == a);
-   return right; 
-  },
-}
-
-assertTheory(function(test, i) {
-
-  var name = test.name;
-  
-  var left = { };
-  var right = { };
-
-  if (test.value == value.leftOnly) {
-    left[name] = sameValue;
-  } else if (test.value == value.rightOnly) {
-    right[name] = differentValue;
-  } else if (test.value == value.same) {
-    left[name] = right[name] = sameValue
-  } else {
-    left[name] = sameValue;
-    right[name] = differentValue;
-  }
-
-  if (test.frozen)
-    Object.freeze(left);
-
-  if (name in right && !test.enumerable) {
-    Object.defineProperty(right, name, { 
-      enumerable: false
-    });
-  }
-
-  if (test.inherited)
-    right = Object.create(right);
-
-  var func = function() {
-    return merge.call(
-      left,
-      right,
-      test.resolver
-    )
-  }
-
-  var isConflicting =
-    test.value == value.different &&
-    test.enumerable;
-
-  if (isConflicting && 
-    test.resolver == resolver.none)
-    return assertThrows(func);
-
-  var result = func();
-
-  var write = test.enumerable && (
-    test.value == value.rightOnly || (
-      (test.value == value.different) &&
-        (test.resolver == resolver.none || 
-         test.resolver == resolver.different)
-    )
-  );
-
-  assert((test.frozen && write) == (result != left));
-  assert(result[name] == write ? differentValue : sameValue)
-}, {
-  name: a,
-  value: value,
-  frozen: [ false, true ],
-  resolver: resolver,
-  inherited: [ false, true ],
-  enumerable: [ false, true ]
-})
 
 function readMe(skipIfDefined) {
 
@@ -205,3 +114,5 @@ function resolveOnName() {
   assert(target.b == 1);
 }
 resolveOnName();
+
+require('./theory')
