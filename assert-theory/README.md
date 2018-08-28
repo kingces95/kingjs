@@ -26,17 +26,24 @@ assert(id == 3 * 3 * 2); // = 18
 ## API
 ```ts
 declare function testTheory(
-  theory: (observation, i) => void,
-  observations: { [index: string]: any }
+  theory: (
+    this, 
+    observation, 
+    i
+  ) => void,
+  observations: { [index: string]: any },
+  runId?: number
 );
 ```
 ### Parameters
 - `theory`: A function that tests a set of observations.
+  - `this`: The `observations`.
   - `observation`: The observation generated from `data`.
   - `i`: The number identifying `observation`. 
 - `observations`: A descriptor whose every property contains either an array, primitive, or object from which a sequence of similar descriptors is generated where each property is replaced with an array element, the primitive, or a property value respectively.
+- `runId`: If present, runs only the observation with the given `id`.
 ## Remarks
-If an `observation` fails then it can be easily debugged by adding logic to return from `theory` if `i` does not equal the id of the failing `observation` and restarting the test. 
+If an `observation` fails then it can be easily debugged by supplying `runId`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

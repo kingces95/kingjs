@@ -1,9 +1,9 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[immutable](https://www.npmjs.com/package/@kingjs/immutable).copy
-Clone target tree and update its values with a subtree of source tree which have matching paths in the action tree.
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor)/[nested](https://www.npmjs.com/package/@kingjs/nested).copy
+Merges each path in source that also exists in resolve into this descriptor using functions found in resolve to resolve conflicting values.
 ## Usage
 Flip `a0` and `b0` property values from `0` to `1` like this:
 ```js
-var copy = require('@kingjs/immutable.copy');
+var merge = require('@kingjs/descriptor.nested.merge');
 
 var target = {
   a0: 0,
@@ -21,14 +21,18 @@ var source = {
   a4: { b0: 1, b1: 1 }
 };
 
-var action = {
-  a0: null,
-  a2: null,
-  a4: { b0: null, b2: null },
-  a5: { b0: null }
+function takeRight(x, y) { 
+  return y;
+}
+
+var resolve = {
+  a0: takeRight,
+  a2: takeRight,
+  a4: { b0: takeRight, b2: takeRight },
+  a5: { b0: takeRight }
 };
 
-copy(target, source, action);
+merge(target, source, resolve);
 ```
 result:
 ```js

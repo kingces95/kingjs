@@ -1,31 +1,55 @@
+'use strict';
+
 var fromEach = require('@kingjs/enumerable.from-each');
 var forEach = require('@kingjs/enumerable.for-each');
 var keys = require('@kingjs/descriptor.keys');
 
-function assertTheory(theory, observations) {
+function normalizeObservations(observations) {
 
-  var clone;
+  var cloned = false;
   for (var name in observations) {
     var observation = observations[name];
     if (observation instanceof Array)
       continue;
 
-    if (!clone)
-      clone = Object.create(observations);
+    if (!cloned) {
+      observations = Object.create(observations);
+      cloned = true;
+    }
 
     // wrap primitives in an array
     if (typeof observation != 'object' || observation == null) {
-      clone[name] = [ observation ];
+      observations[name] = [ observation ];
       continue;
     }
 
     // select an object property's values into an array
-    clone[name] = keys.call(observation).map(function(key) {
+    observations[name] = keys.call(observation).map(function(key) {
       return observation[key];
     });
   }
 
-  forEach(theory, fromEach(clone || observations));
+  return observations;
+}
+
+function assertTheory(theory, observations, runId) {
+
+  if (runId !== undefined) {
+    var originalTheory = theory;
+    theory = function(observation, id) {
+      if (id != runId)
+        return;
+      originalTheory.apply(this, arguments);
+    }
+  }
+
+  forEach.call(
+    observations, 
+    theory, 
+    fromEach(
+      normalizeObservations(observations)
+    )
+  );
 }
 
 Object.defineProperties(module, {

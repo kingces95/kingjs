@@ -1,8 +1,8 @@
 'use strict';
 
-function copy() {
+function xxx() {
 }
 
 Object.defineProperties(module, {
-  exports: { value: copy }
+  exports: { value: xxx }
 });

@@ -23,6 +23,31 @@ function readme() {
 }
 readme();
 
+function observationsAsThis() {
+  var observations = { 
+    value: 0 
+  };
+
+  testTheory(function() {
+    assert(this === observations); 
+  }, observations);
+}
+observationsAsThis();
+
+function runId() {
+  var ran = false;
+
+  testTheory(function(test, id) {
+    ran = true;
+    assert(id == 1); 
+  }, {
+    yesNo: [ true, false ]
+  }, 1);
+
+  assert(ran);
+}
+runId();
+
 function primitive() {
 
   testTheory(function(o) {

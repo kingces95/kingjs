@@ -1,6 +1,6 @@
 'use strict';
 
-var inherit = require('@kingjs/mutate.inherit');
+var inherit = require('@kingjs/descriptor.inherit');
 var forEach = require('@kingjs/poset.for-each');
 
 function posetInherit(vertices) {   
