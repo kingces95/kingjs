@@ -8,17 +8,8 @@ function create(prototype) {
     return Object.create(prototype);
 
   var clone = { };
-
-  for (var name in prototype) {
-
-    var descriptor = Object.getOwnPropertyDescriptor(prototype, name);
-
-    if (!descriptor.enumerable)
-      continue;
-
+  for (var name in prototype)
     clone[name] = prototype[name];
-  }
-
   return clone;
 }
 

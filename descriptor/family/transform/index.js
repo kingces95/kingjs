@@ -1,17 +1,14 @@
-var transformDescriptor = require('../../transform')
 var apply = require('@kingjs/apply');
 var flatten = require('@kingjs/array.nested.to-array');
-var pluck = require('@kingjs/descriptor.pluck');
-var copy = require('@kingjs/mutate.copy');
-var updatePath = require('@kingjs/mutate.path');
-var aggregate = require('@kingjs/linq.aggregate');
-var selectMany = require('@kingjs/linq.select-many');
 
-var makeEnumerable = require('@kingjs/array.make-enumerable');
+var takeLeft = require('@kingjs/func.return-arg-0');
+var merge = require('@kingjs/descriptor.merge');
+var nestedMerge = require('@kingjs/descriptor.nested.merge');
+var update = require('@kingjs/descriptor.path');
+
 var inherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
-var immutableCopy = require('@kingjs/immutable.copy');
-var mapNames = require('@kingjs/immutable.map-names');
+var mapNames = require('@kingjs/descriptor.map-names');
 
 var metadata = {
   $refs: undefined,
@@ -73,25 +70,29 @@ var familyActionMap = {
   $thunks: 'thunks',
 };
 
-function compose(f, g) {
+function composeLeft(g, f) {
   return function(x) { return f(g(x)); }
 }
 
-var familyActionUpdate = {
-  wrap: null,
-  defaults: null,
-  bases: null,
-  thunks: function(x, y) {
-    return copy(x, y, compose);
-  },
+function mergeLeft(left, right) {
+  return merge(right, left, true);
+}
+
+var resolveAction = {
+  callback: null,
+  wrap: takeLeft,
+  depends: mergeLeft,
+  defaults: mergeLeft,
+  bases: mergeLeft,
+  thunks: composeLeft,
 }
 
 function reduction(promises, family) {
 
-  var familyAction = immutableCopy.call(
-    promises.action,
+  var action = nestedMerge(
     mapNames(family, familyActionMap),
-    familyActionUpdate,
+    promises.action,
+    resolveAction,
   );
 
   for (var name in family) {
@@ -101,10 +102,10 @@ function reduction(promises, family) {
     var descriptor = family[name];
     var bases = name.split('$');
     name = bases.shift();
-    results[name] = selectDependents.call(
+    var dependents = selectDependents.call(
       descriptor,
       bases,
-      familyAction
+      action
     )
   }
 
@@ -112,16 +113,16 @@ function reduction(promises, family) {
 }
 
 function transform(action) {
-  action = normalizeAction(action);
+  action = normalizeAction.call(action);
 
   var promises = [];
   promises.action = action;
 
   return apply.call(this,
     flatten, null,
-    Array.prototype.reduce, [reduction, promises],
-    orderByDependent, [],
-    updatePath, [action.refs, resolve]
+    Array.prototype.reduce, [reduction, promises]
+    //orderByDependent, [],
+    //updatePath, [action.refs, resolve]
   );
 }
 

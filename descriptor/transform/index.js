@@ -3,6 +3,7 @@ var merge = require('@kingjs/descriptor.merge');
 var takeLeft = require('@kingjs/func.return-arg-0');
 var inherit = require('@kingjs/descriptor.inherit');
 var scorch = require('@kingjs/descriptor.scorch');
+var create = require('@kingjs/descriptor.create');
 
 function returnThis() {
   return this;
@@ -104,11 +105,11 @@ function transform(name, action) {
 
   return apply.call(this,
     wrap, [action.wrap],
-    shallowClone, null,
+    //shallowClone, null,
     inherit, [bases],
     merge, [action.defaults, takeLeft],
-    
     inflate, [name],
+
     replace, [action.thunks, name],
     scorch, null,
     action.callback, [name]

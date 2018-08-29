@@ -20,11 +20,14 @@
     "@kingjs/apply": "^1.0.10",
     "@kingjs/array.make-enumerable": "^1.0.5",
     "@kingjs/array.nested.to-array": "^1.0.1",
+    "@kingjs/descriptor.map-names": "^1.0.4",
+    "@kingjs/descriptor.merge": "^1.0.0",
+    "@kingjs/descriptor.nested.merge": "^1.0.3",
+    "@kingjs/descriptor.path": "^1.0.0",
     "@kingjs/descriptor.pluck": "^1.0.2",
+    "@kingjs/func.return-arg-0": "^1.0.0",
     "@kingjs/immutable.copy": "^1.0.1",
     "@kingjs/linq.aggregate": "^1.0.15",
-    "@kingjs/mutate.copy": "^1.0.4",
-    "@kingjs/mutate.path": "^1.0.7",
     "@kingjs/poset.decode": "^1.0.10",
     "@kingjs/poset.inherit": "^1.0.7"
   }

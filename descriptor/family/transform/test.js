@@ -1,11 +1,11 @@
 'use strict';
 
-var map = require('.');
+var transform = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 
 function readMe() {
-  var result = map.call({
+  var result = transform.call({
     apple: 'a',
     orange: 'o',
     banana: 'b'
