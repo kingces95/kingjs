@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Exports all `@kingjs/descriptor.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -19,6 +19,7 @@
   "dependencies": {
     "@kingjs/descriptor.create": "^1.0.0",
     "@kingjs/descriptor.inherit": "^1.0.0",
+    "@kingjs/descriptor.keys": "^1.0.0",
     "@kingjs/descriptor.map-names": "^1.0.0",
     "@kingjs/descriptor.merge": "^1.0.0",
     "@kingjs/descriptor.nested": "^1.0.0",

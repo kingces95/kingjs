@@ -1,6 +1,6 @@
 {
   "description": "RunKit like environment for testing readme samples and tests in general.",
   "dependencies": {
-    "kingjs": "^1.0.33"
+    "kingjs": "^1.0.35"
   }
 }

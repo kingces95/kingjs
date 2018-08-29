@@ -2,6 +2,7 @@
 
 require('./.index/test')
 require('./inherit/test');
+require('./keys/test');
 require('./map-names/test');
 require('./merge/test');
 require('./path/test');

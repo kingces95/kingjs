@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/immutable.copy",
-  "version": "1.0.1",
-  "description": "Clone target tree and update its values with a subtree of source tree which have matching paths in the action tree.",
+  "name": "@kingjs/descriptor.nested.merge",
+  "version": "1.0.3",
+  "description": "Merges into a nested target descriptor each path in a nested delta descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.",
   "main": "index.js",
   "files": [
     "index.js"

@@ -5,78 +5,71 @@ var testRequire = require('..');
 var merge = testRequire('@kingjs/descriptor.merge');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
-var assertTheory = testRequire('@kingjs/assert-theory');
+var takeRight = testRequire('@kingjs/func.return-arg-1')
 
-function takeRight(l, r) { 
-  return r; 
+function readme() {
+  
+  var adult = {
+    wrap: 'name',
+    defaults: {
+      name: 'John Doe',
+      age: 18
+    },
+    preconditions: {
+      age: function isAdult(x) {
+        assert(x >= 18);
+        return x;
+      }
+    }
+  }
+  
+  var worker = {
+    defaults: {
+      age: 40
+    },
+    preconditions: {
+      age: function notRetired(x) {
+        assert(x < 62);
+        return x;
+      }
+    }
+  }
+  
+  var copyOnWrite = true;
+
+  function takeLeft(left, right) {
+    return left;
+  }
+  
+  function compose(left, right) {
+    return function(x) {
+      return right(left(x));
+    }
+  }
+  
+  var resolve = {
+    wrap: takeLeft,
+    defaults: function(left, right) { 
+      return merge.call(left, right, takeLeft)
+    },
+    preconditions: function(left, right) {
+      return merge.call(left, right, compose)
+    }
+  }
+  
+  nestedMerge(worker, adult, resolve, copyOnWrite);
+  
+  var result = nestedMerge(worker, adult, resolve, copyOnWrite);
+
+  assert(result.wrap == 'name');
+  assert(result.defaults.name == 'John Doe');
+  assert(result.defaults.age == 40);
+  assert(result.preconditions.age(18) == 18);
+  assert(result.preconditions.age(61) == 61);
+  assertThrows(function() { result.preconditions.age(17); });
+  assertThrows(function() { result.preconditions.age(62); });
 }
-
-assertTheory(function(test, id) {
-
-  var left = test.left;
-  var right = test.right;
-  var resolver = test.resolver;
-
-  var mergeTest = function() {
-    if (!test.nested) 
-      return nestedMerge(left, right, resolver);
-      
-    var target = { value: left };
-    var copyOnWrite = false;
-    var isFrozen = test.nested == this.nested.yesAndFrozen;
-    if (isFrozen)
-      target = Object.freeze(target);
-    else
-      copyOnWrite = true;
-
-    var source = { value: right };
-
-    var result = nestedMerge(
-      target, 
-      source, 
-      { value: resolver },
-      copyOnWrite
-    );
-
-    var isUpdated = target.value !== source.value && source.value !== undefined;
-    assert(((copyOnWrite || isFrozen) && isUpdated) == (result != target));
-    return result;
-  }
-
-  if (!test.resolver &&
-      left !== right && 
-      left !== undefined && 
-      right !== undefined) {
-    assertThrows(mergeTest);
-    return;
-  }
-    
-  var result = mergeTest.call(this);
-
-  if (test.nested)
-    result = result.value;
-
-  assert(result === (
-    left === right ? left :
-    left === undefined ? right :
-    right === undefined ? left :
-    -1)
-  );
-
-}, {
-  nested: {
-    no: 'no',
-    yes: 'yes',
-    yesAndFrozen: 'yesAndFrozen',
-    yesAndCopyOnWrite: 'yesAndCopyOnWrite'
-  },
-  left: [ undefined, null, 0, 1, { } ],
-  right: [ undefined, null, 0, 1, { } ],
-  resolver: {
-    none: undefined,
-    resolve: function(x, y) { return -1; },
-  }
-});
+readme();
 
 function baseCase() {
   var result = nestedMerge();
@@ -159,51 +152,5 @@ function recursive() {
 }
 recursive();
 
-function readme() {
-  
-  var adult = {
-    wrap: 'name',
-    defaults: {
-      name: 'John Doe',
-      age: 18
-    },
-    preconditions: {
-      age: function isAdult(x) {
-        assert(x >= 18);
-        return x;
-      }
-    }
-  }
-  
-  var worker = {
-    defaults: {
-      age: 40
-    },
-    preconditions: {
-      age: function notRetired(x) {
-        assert(x < 62);
-        return x;
-      }
-    }
-  }
-  
-  var copyOnWrite = true;
-  function takeLeft(left, right) {
-    return left;
-  }
-  
-  var resolve = {
-    wrap: takeLeft,
-    defaults: function(left, right) { 
-      return merge.call(left, right, takeLeft)
-    },
-    preconditions: function(left, right) {
-      return function(x) {
-        return right(left(x));
-      }
-    }
-  }
-  
-  var result = nestedMerge(worker, adult, resolve, copyOnWrite);
-}
-readme();
+
+require('./theory')

@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.merge",
-  "version": "1.0.1",
-  "description": "Merges descriptor property values into `this` from `delta` using a callback to resolve conflicts.",
+  "name": "@kingjs/descriptor.nested.for-each",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,7 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.0"
-  }
+  "dependencies": { }
 }

@@ -20,9 +20,11 @@ function merge(delta, resolve, copyOnWrite) {
 
   for (var name in delta) {
     var value = delta[name];
+    if (value === undefined)
+      continue;
 
-    if (name in this) {
-      var left = this[name];
+    var left = this[name];
+    if (left !== undefined) {
 
       if (left === value)
         continue;

@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "description": "Exports all `@kingjs.*` functionality in one package.",
   "main": "index.js",
   "files": [

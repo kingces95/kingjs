@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).merge
-Merges own and inherited enumerable property values into `this` using a callback to resolve conflicts.
+Merges descriptor property values into `this` from `delta` using a callback to resolve conflicts.
 ## Usage
 Copy properties from `source` to `target` overwriting any existing values like this:
 ```js
@@ -36,7 +36,8 @@ result:
 declare function merge(
   this, 
   delta?, 
-  resolve?: (left, right, name) => any
+  resolve?: (left, right, name) => any,
+  copyOnWrite?: boolean
 ): any
 ```
 ### Parameters
@@ -46,15 +47,12 @@ declare function merge(
   - `left`: The existing value.
   - `right`: The new value.
   - `name`: The name of the conflicting property.
+- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 
 ### Returns
 Returns `this` after merging properties from `delta`. 
 
-If `this` is frozen then a copy created via `Object.create` will be created on the first write and returned instead of `this`.
-## Remarks
-Inherited and own properties are merged; Non-enumerable properties are _not_ merged.
-
-if `delta` is `null` or `undefined`, then `this` is returned unmodified.
+If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

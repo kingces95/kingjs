@@ -6,9 +6,7 @@ var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
-var a = 'a';
-var zero = 0;
-var one = 1;
+var propertyName = 'foo';
 
 assertTheory(function(test, i) {
 
@@ -17,21 +15,11 @@ assertTheory(function(test, i) {
   var left = { };
   var right = { };
 
-  if (test.value == this.value.leftOnly) {
-    left[name] = zero;
+  if (test.hasLeft)
+    left[name] = test.left;
 
-  } else if (test.value == this.value.rightOnly) {
-    right[name] = one;
-
-  } else if (test.value == this.value.same) {
-    left[name] = right[name] = zero
-
-  } else if (test.value == this.value.different) {
-    left[name] = zero;
-    right[name] = one;
-    
-  } else 
-    assert();
+  if (test.hasRight)
+    right[name] = test.right;
 
   if (test.frozen)
     Object.freeze(left);
@@ -54,47 +42,57 @@ assertTheory(function(test, i) {
     )
   }
 
-  var isConflicting =
-    test.value == this.value.different &&
-    test.enumerable;
+  var hasLeft = test.hasLeft && test.left !== undefined;
+  var hasRight = test.hasRight && test.right !== undefined && test.enumerable;
 
-  if (isConflicting && 
-    test.resolver == this.resolver.none)
+  var isConflicting =
+    hasLeft && hasRight &&
+    test.left !== test.right;
+
+  if (isConflicting && test.resolver == this.resolver.none)
     return assertThrows(func);
 
   var result = func();
 
-  var write = test.enumerable && (
-    test.value == this.value.rightOnly || (
-      (test.value == this.value.different) &&
-        (test.resolver == this.resolver.none || 
-         test.resolver == this.resolver.different)
-    )
-  );
+  var copyOnWrite = test.frozen || test.copyOnWrite;
+  var write = 
+    (isConflicting && test.resolver == this.resolver.different) ||
+    (!hasLeft && hasRight);
+    
+  assert((write && copyOnWrite) == (result != left));
 
-  assert(((test.frozen || test.copyOnWrite) && write) == (result != left));
-  assert(result[name] == write ? one : zero)
+  if (write)
+    assert(result[name] == test.right);
+  else
+    assert(!hasLeft || result[name] == test.left);
+
+  if (copyOnWrite) {
+    assert(!test.hasLeft || left[name] == test.left);
+    assert(test.hasLeft || name in left == false);
+  } else {
+    assert(result == left);
+  }
+
+  assert(!test.frozen || Object.isFrozen(result));
 }, {
-  name: a,
-  value: {
-    leftOnly: 'leftOnly',
-    rightOnly: 'rightOnly',
-    same: 'same',
-    different: 'different'
-  },
+  name: propertyName,
+  left: [ undefined, null, 0, 1 ],
+  right: [ undefined, null, 0, 1 ],
+  hasLeft: [ true, false ],
+  hasRight: [ true, false ],
   frozen: [ false, true ],
   copyOnWrite: [ false, true ],
+  inherited: [ false, true ],
+  enumerable: [ false, true ],  
   resolver: {
     none: undefined,
     same: function(left, right, name) {
-      assert(name == a); 
+      assert(name == propertyName); 
       return left; 
     },
     different: function(left, right, name) {
-      assert(name == a);
-     return right; 
+      assert(name == propertyName);
+      return right; 
     },
   },
-  inherited: [ false, true ],
-  enumerable: [ false, true ]
 })

@@ -18,6 +18,7 @@ declare interface Descriptor {
 ### Packages
 - [`create`][create]
 - [`inherit`][inherit]
+- [`keys`][keys]
 - [`mapNames`][map-names]
 - [`merge`][merge]
 - [`path`][path]
@@ -32,6 +33,7 @@ A `descriptor` is
 - **Piped**; Algorithms that could reasonably be construed to operate on a descriptor accept the descriptor as `this` and strive to return the descriptor a clone.
 - **Potentially Frozen, Optionally immutable**; Algorithms anticipate that a descriptor may be frozen and clone via `Object.create` before writing to the object. Such algorithms accept a `copyOnWrite` argument which prevents mutation of the descriptor and instead returns a clone.
 - **Public**; Algorithms ignore properties that are not enumerable and only create properties that are enumerable.
+- **Defined**; Algorithms treat properties with `undefined` values as if they were not defined at all. 
 
 Take care when using the `in` operator with a descriptor; The `in` operator is aware of non-enumerable properties and so is not well matched for the descriptor abstraction which ignores non-enumerable properties. For example, the `in` operator will return `true` for `toString` for an object literal descriptor. To create a descriptor without any non-enumerable properties use [@kingjs/dictionary](https://www.npmjs.com/package/@kingjs/dictionary). 
 ## Install
@@ -49,6 +51,7 @@ MIT
 
   [create]: https://www.npmjs.com/package/@kingjs/descriptor.create
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
+  [keys]: https://www.npmjs.com/package/@kingjs/descriptor.keys
   [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [path]: https://www.npmjs.com/package/@kingjs/descriptor.path

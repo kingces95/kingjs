@@ -1,4 +1,4 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/nested).merge
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).merge
 Merges into a nested target descriptor each path in a nested delta descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.
 ## Usage
 Derive "worker" from "adult" using nested descriptors that contain a string value at path `wrap`, a descriptor at path `defaults`, and functions at path `preconditions`. The functions should be composed if there is a conflict while the values should be inherited as defaults.
@@ -39,15 +39,19 @@ function takeLeft(left, right) {
   return left;
 }
 
+function compose(left, right) {
+  return function(x) {
+    return right(left(x));
+  }
+}
+
 var resolve = {
   wrap: takeLeft,
   defaults: function(left, right) { 
     return merge.call(left, right, takeLeft)
   },
   preconditions: function(left, right) {
-    return function(x) {
-      return right(left(x));
-    }
+    return merge.call(left, right, compose)
   }
 }
 
@@ -61,8 +65,10 @@ results:
     name: 'John Doe',
     age: 40,
   },
-  preconditions: function(x) {
-    return isAdult(notRetired(x));
+  preconditions: {
+    age: function(x) {
+      return isAdult(notRetired(x));
+    } 
   }
 }
 ``` 
