@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.pluck",
-  "version": "1.0.2",
-  "description": "Overwrites each property value on a descriptor with a property value on `this` descriptor which shares the same name, and then deletes the property on `this` descriptor.",
+  "name": "@kingjs/descriptor.family.xxx",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,5 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": { }
 }

@@ -73,8 +73,10 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/link
 ```
+## Remarks
+See [@kingjs/apply](https://www.npmjs.com/package/@kingjs/apply) to understand the benefit of the "odd" `apply` convention. Basically, it allows for the separation of data from algorithm; Data and algorithm separation cannot be achieved in Javascript using the dot syntax without polluting the data object or prototype with a function.
+
 ## See Also
-- [@kingjs/apply](https://www.npmjs.com/package/@kingjs/apply)
 - [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define)
 - [@kingjs/make-enumerable](https://www.npmjs.com/package/@kingjs/make-enumerable)
 - [@kingjs/define-generator](https://www.npmjs.com/package/@kingjs/define-generator)

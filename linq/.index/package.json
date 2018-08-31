@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "Exposes @kingjs/linq.*",
   "main": "index.js",
   "files": [
