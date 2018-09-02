@@ -20,6 +20,14 @@ function readMe() {
 }
 readMe();
 
+function copyOnWrite() {
+  var target = { };
+  var result = inherit.call(target, [ { value: 0 } ], true);
+  assert(result != target);
+  assert(result.value == 0);
+}
+copyOnWrite();
+
 function noBases() {
   var target = { };
   var result = inherit.call(target);

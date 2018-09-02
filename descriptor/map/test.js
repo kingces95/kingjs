@@ -1,6 +1,6 @@
 'use strict';
 
-var wrap = require('.');
+var xxx = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 

@@ -1,19 +1,17 @@
 var apply = require('@kingjs/apply');
+
 var flatten = require('@kingjs/array.nested.to-array');
 
 var takeLeft = require('@kingjs/func.return-arg-0');
+
+var normalize = require('@kingjs/descriptor.normalize');
 var merge = require('@kingjs/descriptor.merge');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
-var update = require('@kingjs/descriptor.path');
+var mapNames = require('@kingjs/descriptor.map-names');
+var inflate = require('./inflate');
 
 var inherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
-var mapNames = require('@kingjs/descriptor.map-names');
-
-var metadata = {
-  $refs: undefined,
-  $defaults: undefined
-}
 
 function decodeAndInherit() {
   var vertexProperties = { };
@@ -28,6 +26,11 @@ function resolve(value) {
     return value;
 
   return this[value];
+}
+
+var emptyObject = { };
+function returnThis() {
+  return this;
 }
 
 function normalizeAction() {
@@ -45,11 +48,6 @@ function normalizeAction() {
     action.callback = returnThis;
 
   return action;
-}
-
-var emptyObject = { };
-function returnThis() {
-  return this;
 }
 
 function selectDependents(bases, action, result) {
@@ -74,53 +72,43 @@ function composeLeft(g, f) {
   return function(x) { return f(g(x)); }
 }
 
-function mergeLeft(left, right) {
-  return merge(right, left, true);
-}
-
 var resolveAction = {
   callback: null,
   wrap: takeLeft,
-  depends: mergeLeft,
-  defaults: mergeLeft,
-  bases: mergeLeft,
+  depends: takeLeft,
+  defaults: takeLeft,
+  bases: takeLeft,
   thunks: composeLeft,
-}
-
-function reduction(promises, family) {
-
-  var action = nestedMerge(
-    mapNames(family, familyActionMap),
-    promises.action,
-    resolveAction,
-  );
-
-  for (var name in family) {
-    if (name.startsWith('$'))
-      continue;
-
-    var descriptor = family[name];
-    var bases = name.split('$');
-    name = bases.shift();
-    var dependents = selectDependents.call(
-      descriptor,
-      bases,
-      action
-    )
-  }
-
-  return this;
 }
 
 function transform(action) {
   action = normalizeAction.call(action);
 
-  var promises = [];
-  promises.action = action;
+  var copyOnWrite = true;
 
   return apply.call(this,
     flatten, null,
-    Array.prototype.reduce, [reduction, promises]
+    selectMany, family => {
+      var familyAction = nestedMerge(
+        mapNames(family, familyActionMap),
+        action,
+        resolveAction,
+      );  
+
+      return apply.call(Object.keys(family),
+        where, [name => name[0] != '$"'],
+        select, [name => { 
+          var bases = name.split('$');
+          name = bases.shift();
+
+          var descriptor = normalize(family[name], copyOnWrite);
+          descriptor = inherit.call(descriptor, bases, copyOnWrite);
+          descriptor = merge.call(descriptor, familyAction.defaults, copyOnWrite);
+          descriptor = inflate.call(descriptor, name, copyOnWrite);
+          return descriptor;
+        }],
+      );      
+    },
     //orderByDependent, [],
     //updatePath, [action.refs, resolve]
   );

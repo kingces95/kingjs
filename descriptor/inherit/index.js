@@ -2,7 +2,7 @@ var merge = require('@kingjs/descriptor.merge');
 var Dictionary = require('@kingjs/dictionary');
 var takeLeft = require('@kingjs/func.return-arg-0');
 
-function inherit(bases) {
+function inherit(bases, copyOnWrite) {
   var target = this;
 
   if (!bases || bases.length == 0)
@@ -26,7 +26,7 @@ function inherit(bases) {
     });
   }
 
-  return merge.call(this, values, takeLeft);  
+  return merge.call(this, values, takeLeft, copyOnWrite);  
 }
 
 Object.defineProperties(module, {

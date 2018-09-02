@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.create",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Returns a new descriptor or a shallow clone of an existing descriptor.",
   "main": "index.js",
   "files": [
@@ -16,6 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-  }
+  "dependencies": {}
 }

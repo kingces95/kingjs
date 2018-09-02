@@ -4,7 +4,8 @@
   "description": "Returns a new descriptor family whose descriptors have been transformed by a callback.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "inflate.js"
   ],
   "scripts": {
     "test": "node test.js"
@@ -23,6 +24,7 @@
     "@kingjs/descriptor.map-names": "^1.0.4",
     "@kingjs/descriptor.merge": "^1.0.0",
     "@kingjs/descriptor.nested.merge": "^1.0.3",
+    "@kingjs/descriptor.normalize": "^1.0.0",
     "@kingjs/descriptor.path": "^1.0.0",
     "@kingjs/descriptor.pluck": "^1.0.2",
     "@kingjs/func.return-arg-0": "^1.0.0",

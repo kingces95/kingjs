@@ -34,12 +34,14 @@ result:
 ## API
 ```ts
 declare function merge(
-  this, 
-  delta?, 
-  resolve?: (left, right, name) => any,
+  this: Descriptor, 
+  delta?: Descriptor, 
+  resolve?: (left, right, name: string) => any,
   copyOnWrite?: boolean
 ): any
 ```
+### Interfaces
+- `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
 - `this`: An object into which properties are merged.
 - `delta`: An object whose properties are merged into `this`.
@@ -62,3 +64,5 @@ $ npm install @kingjs/descriptor.merge
 MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor/merge)
+
+  [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor

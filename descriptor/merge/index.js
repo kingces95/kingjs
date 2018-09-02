@@ -1,56 +1,39 @@
 'use strict';
 
-var create = require('@kingjs/descriptor.create');
+var update = require('@kingjs/descriptor.update');
 
 function throwMergeConflict(left, right, name) {
   throw 'Merge conflict at: "' + name;
 }
 
-function merge(delta, resolve, copyOnWrite) {
+function merge(target, delta, resolve) {
 
   if (!resolve)
     resolve = throwMergeConflict;
 
   if (delta === undefined || delta == null)
-    return this;
-
-  var clonedIfNeeded = false;
-  var result = this;
-  var wasFrozen = false;
+    return target;
 
   for (var name in delta) {
-    var value = delta[name];
-    if (value === undefined)
+    var newValue = delta[name];
+    if (newValue === undefined)
       continue;
 
-    var left = this[name];
-    if (left !== undefined) {
+    var existingValue = this[name];
+    if (existingValue !== undefined) {
 
-      if (left === value)
+      if (existingValue === newValue)
         continue;
 
-      value = resolve(left, value, name);
-
-      if (left === value)
-        continue;
+      newValue = resolve(existingValue, newValue, name);
     }
 
-    if (!clonedIfNeeded) {
-      wasFrozen = Object.isFrozen(this);
-      if (copyOnWrite || wasFrozen)
-        result = create(this);
-    }
-    clonedIfNeeded = true;
-
-    result[name] = value;
+    target = update.call(this, target, name, newValue);
   }
 
-  if (wasFrozen)
-    result = Object.freeze(result);
-
-  return result;
+  return target;
 }
 
 Object.defineProperties(module, {
-  exports: { value: merge }
+  exports: { value: update.define(merge, 2) }
 });

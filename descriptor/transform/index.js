@@ -16,26 +16,6 @@ function shallowClone() {
   return result;
 }
 
-function wrap(keyOrFunction) {
-
-  // noop
-  if (keyOrFunction === undefined)
-    return this;
-
-  // declarative
-  if (typeof keyOrFunction == 'string') {
-    var key = keyOrFunction;
-
-    var result = { };
-    result[key] = this;
-    return result;
-  }
-
-  // procedural
-  var func = keyOrFunction;
-  return func.call(this);
-}
-
 function inflate(name) {
   for (var key in this) {
     var func = this[key];

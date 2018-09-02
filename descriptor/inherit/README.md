@@ -24,12 +24,14 @@ result:
 ```ts
 declare function inherit(
   this: any,
-  bases: any[]
+  bases: any[],
+  copyOnWrite: boolean
 ): any
 ```
 ### Parameters
 - `this`: Object onto which inherited properties are copied.
 - `bases`: An array of objects whose properties will be copied to `this`. 
+- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 ### Returns
 Returns `this` after copying properties from `bases`.
 ## Remarks
