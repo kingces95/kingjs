@@ -79,8 +79,8 @@ function uninitialized(skipIfDefined) {
   assert(target.a === skipIfDefined ? undefined : 0);
   assert(target.b == undefined);
 }
-//uninitialized(false);
-//uninitialized(true);
+uninitialized(false);
+uninitialized(true);
 
 function hidden(skipIfDefined) {
   var target = { };

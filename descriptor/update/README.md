@@ -61,10 +61,10 @@ declare function update(
 ### Interfaces
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
-- `this`: The descriptor whose properties are read by not written.
-- `target`: The descriptor or its clone with updated values.
+- `this`: The descriptor whose property will be updated.
+- `target`: The descriptor where the updated value is written. If null, then replaced with clone of `this` on first write.
 - `name`: The property to update.
-- `value`: The new value.
+- `value`: The updated value.
 ### Returns
 Returns `target` which should be used as `target` to the next `update`. 
 ## Remarks

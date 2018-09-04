@@ -16,10 +16,8 @@ function merge(target, delta, resolve) {
 
   for (var name in delta) {
     var newValue = delta[name];
-    if (newValue === undefined)
-      continue;
-
     var existingValue = this[name];
+    
     if (existingValue !== undefined) {
 
       if (existingValue === newValue)

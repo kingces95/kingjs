@@ -32,7 +32,6 @@ A `descriptor` is
 - **Piped**; Algorithms that could reasonably be construed to operate on a descriptor accept the descriptor as `this` and strive to return the descriptor a clone.
 - **Potentially Frozen, Optionally immutable**; Algorithms anticipate that a descriptor may be frozen and clone via `Object.create` before writing to the object. Such algorithms accept a `copyOnWrite` argument which prevents mutation of the descriptor and instead returns a clone.
 - **Public**; Algorithms ignore properties that are not enumerable and only create properties that are enumerable.
-- **Defined**; Algorithms treat properties with `undefined` values as if they were not defined at all.
 - **Named**; Descriptors are paired with names passed out of band from the descriptor. `Object.DefineProperty` and `Object.DefineProperties` exemplify separation of a descriptor's name from its properties. 
 
 Take care when using the `in` operator with a descriptor; The `in` operator is aware of non-enumerable properties and so is not well matched for the descriptor abstraction which ignores non-enumerable properties. For example, the `in` operator will return `true` for `toString` for an object literal descriptor. To create a descriptor without any non-enumerable properties use [@kingjs/dictionary](https://www.npmjs.com/package/@kingjs/dictionary). 

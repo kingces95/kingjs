@@ -2,11 +2,11 @@
 
 var update = require('@kingjs/descriptor.update');
 
-function map(target, action) {
+function map(target, callback) {
 
   for (var key in this) {
     target = update.call(
-      this, target, key, action(this[key], key)
+      this, target, key, callback(this[key], key)
     );
   }
 

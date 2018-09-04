@@ -2,16 +2,31 @@
 
 var create = require('@kingjs/descriptor.create');
 
+var isEnumerable = Object.prototype.propertyIsEnumerable;
+var makeEnumerable = { 
+  enumerable: true,
+  writable: true,
+  configurable: true
+};
+
 function update(target, key, delta) {
-  if (delta === undefined)
-    return;
-    
+
   var value = this[key];
-  if (value === delta)
-    return target;
+
+  if (value === delta) {
+
+    var keyInThis = value !== undefined || key in this;
+    var keyIsEnumerable = isEnumerable.call(target || this, key);
+
+    if (keyInThis && keyIsEnumerable)
+      return target;
+  }
 
   if (!target)
     target = create(this);
+
+  if (!isEnumerable.call(target, key))
+    Object.defineProperty(target, key, makeEnumerable);
 
   target[key] = delta;
   return target;

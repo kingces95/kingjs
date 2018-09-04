@@ -3,6 +3,7 @@
 var Dictionary = require(`.`);
 var testRequire = require(`..`);
 var assert = testRequire(`@kingjs/assert`);
+var assertThrows = testRequire(`@kingjs/assert-throws`);
 
 function readme() {
   var dictionary = new Dictionary();
@@ -14,3 +15,21 @@ function readme() {
   assert(Object.keys(object) == 0);
 }
 readme();
+
+function trivia() {
+  assert({ }.hasOwnProperty('hasOwnProperty'));
+
+  assertThrows(function() { 
+    new Dictionary().hasOwnProperty('hasOwnProperty'); 
+  });
+
+  var objectPrototype = Object.prototype;
+  var dictionary = new Dictionary();
+  dictionary.x = 0;
+  assert(objectPrototype.hasOwnProperty.call(dictionary, 'x'));
+
+  var inherited = Object.create(dictionary);
+  assert('x' in inherited);
+  assert(objectPrototype.hasOwnProperty.call(inherited, 'x') == false);
+}
+trivia()
