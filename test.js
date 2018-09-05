@@ -10,7 +10,6 @@ require('./dictionary/test');
 require('./empty-object/test');
 require('./enumerable/test');
 require('./func/test');
-require('./immutable/test');
+require('./is-enumerable/test');
 require('./linq/test');
-require('./mutate/test');
 require('./poset/test');

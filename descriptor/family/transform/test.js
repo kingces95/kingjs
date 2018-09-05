@@ -2,19 +2,20 @@
 
 var transform = require('.');
 var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+var assert = testRequire('@kingjs/assert');
+
 
 function readMe() {
   var result = transform.call({
-    apple: 'a',
-    orange: 'o',
-    banana: 'b'
-  }, function(x) { 
-    return String.prototype.toUpperCase.call(x); 
+    apple: 'apple',
+    orange: 'orange',
+    banana: 'banana'
+  }, { 
+    wrap: 'name'
   })
 
-  assert(result.apple == 'A');
-  assert(result.orange == 'O');
-  assert(result.banana == 'B');
+  assert(result.apple.name == 'apple');
+  assert(result.orange.name == 'orange');
+  assert(result.banana.name == 'banana');
 }
 readMe();

@@ -1,9 +1,10 @@
 'use strict';
 
 var update = require('@kingjs/descriptor.update');
+var isEnumerable = require('@kingjs/is-enumerable');
 
 function throwMergeConflict(left, right, name) {
-  throw 'Merge conflict at: "' + name;
+  throw 'Merge conflict at: ' + name;
 }
 
 function merge(target, delta, resolve) {
@@ -18,7 +19,8 @@ function merge(target, delta, resolve) {
     var newValue = delta[name];
     var existingValue = this[name];
     
-    if (existingValue !== undefined) {
+    if (existingValue !== undefined || 
+      isEnumerable.call(target || this, name)) {
 
       if (existingValue === newValue)
         continue;

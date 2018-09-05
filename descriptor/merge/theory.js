@@ -5,10 +5,11 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var isEnumerable = testRequire('@kingjs/is-enumerable');
 
 var propertyName = 'foo';
 
-assertTheory(function(test, i) {
+assertTheory(function(test, id) {
 
   var name = test.name;
   
@@ -42,8 +43,8 @@ assertTheory(function(test, i) {
     )
   }
 
-  var hasLeft = test.hasLeft && test.left !== undefined;
-  var hasRight = test.hasRight && test.right !== undefined && test.enumerable;
+  var hasLeft = test.hasLeft;
+  var hasRight = test.hasRight && test.enumerable;
 
   var isConflicting =
     hasLeft && hasRight &&
@@ -53,6 +54,8 @@ assertTheory(function(test, i) {
     return assertThrows(func);
 
   var result = func();
+  
+  assert(!hasRight || isEnumerable.call(result, name));
 
   var copyOnWrite = test.frozen || test.copyOnWrite;
   var write = 

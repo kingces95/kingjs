@@ -5,6 +5,7 @@ var testRequire = require('..');
 var Dictionary = testRequire('@kingjs/dictionary');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var isEnumerable = testRequire('@kingjs/is-enumerable');
 
 function readMe() {
 
@@ -57,18 +58,21 @@ function args() {
 args();
 
 function sanity() {
-  var isEnumerable = Object.prototype.propertyIsEnumerable;
+  var isOwnEnumerable = Object.prototype.propertyIsEnumerable;
 
   var base = { x: 0 };
-  var baseEnumerable = isEnumerable.call(base, 'x');
+  var baseEnumerable = isOwnEnumerable.call(base, 'x');
   assert(baseEnumerable);
 
   var inherited = Object.create(base);
   assert(inherited.x == 0);
 
   // only tests ownProperties apparently
-  var inheritedEnumerable = isEnumerable.call(inherited, 'x');
+  var inheritedEnumerable = isOwnEnumerable.call(inherited, 'x');
   assert(!inheritedEnumerable);
+
+  inheritedEnumerable = isEnumerable.call(inherited, 'x');
+  assert(inheritedEnumerable);
 }
 sanity();
 
@@ -110,7 +114,7 @@ assertTheory(function(test, id) {
   assert(test.name in result);
 
   assert(
-    Object.prototype.propertyIsEnumerable.call(result, test.name)
+    isEnumerable.call(result, test.name)
   );
 
   var actual = result[test.name];

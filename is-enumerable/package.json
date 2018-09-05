@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.map",
-  "version": "1.0.5",
-  "description": "Updates values of a descriptor using a callback.",
+  "name": "@kingjs/is-enumerable",
+  "version": "1.0.0",
+  "description": "Returns true if own or inherited property is enumerable.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,9 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/descriptor.merge": "^1.0.1",
-    "@kingjs/descriptor.update": "^1.0.5",
-    "@kingjs/func.return-arg-1": "^1.0.0"
-  }
+  "dependencies": { }
 }

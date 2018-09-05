@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.merge",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Merges descriptor property values into `this` from `delta` using a callback to resolve conflicts.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.update": "^1.0.5"
+    "@kingjs/descriptor.update": "^1.0.5",
+    "@kingjs/is-enumerable": "^1.0.0"
   }
 }

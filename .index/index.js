@@ -13,5 +13,6 @@ Object.defineProperties(module.exports, {
   assertTheory: { value: require(`@kingjs/assert-theory`) },
   assertThrows: { value: require(`@kingjs/assert-throws`) },
   caseAt: { value: require(`@kingjs/case-at`) },
-  dictionary: { value: require(`@kingjs/dictionary`) }
+  dictionary: { value: require(`@kingjs/dictionary`) },
+  isEnumerable: { value: require(`@kingjs/is-enumerable`) }
 });

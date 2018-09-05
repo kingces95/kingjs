@@ -7,8 +7,8 @@ var takeLeft = require('@kingjs/func.return-arg-0');
 var normalize = require('@kingjs/descriptor.normalize');
 var merge = require('@kingjs/descriptor.merge');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
+var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
-var inflate = require('./inflate');
 
 var inherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
@@ -50,6 +50,19 @@ function normalizeAction() {
   return action;
 }
 
+function inflate(name, copyOnWrite) {
+  return map.call(this, function(value, key) {
+
+    if (value instanceof Function == false)
+      return value;
+    
+    if (value.name != '$')
+      return value;
+
+    return value(name, key);    
+  }, copyOnWrite)
+}
+
 function selectDependents(bases, action, result) {
 
   var depends = action.depends || emptyObject;
@@ -84,34 +97,61 @@ var resolveAction = {
 function transform(action) {
   action = normalizeAction.call(action);
 
-  var copyOnWrite = true;
+  var result = flatten.call(this);
 
-  return apply.call(this,
-    flatten, null,
-    selectMany, family => {
-      var familyAction = nestedMerge(
-        mapNames(family, familyActionMap),
-        action,
-        resolveAction,
-      );  
+  result = result.map(function(encodedFamily) {
+    var familyAction = nestedMerge(
+      mapNames(encodedFamily, familyActionMap),
+      action,
+      resolveAction,
+    );
 
-      return apply.call(Object.keys(family),
-        where, [name => name[0] != '$"'],
-        select, [name => { 
-          var bases = name.split('$');
-          name = bases.shift();
+    var keys = Object.keys(encodedFamily);
+    var names = keys.filter(function(key) {
+      return key[0] != '$';
+    });
 
-          var descriptor = normalize(family[name], copyOnWrite);
-          descriptor = inherit.call(descriptor, bases, copyOnWrite);
-          descriptor = merge.call(descriptor, familyAction.defaults, copyOnWrite);
-          descriptor = inflate.call(descriptor, name, copyOnWrite);
-          return descriptor;
-        }],
-      );      
-    },
-    //orderByDependent, [],
-    //updatePath, [action.refs, resolve]
-  );
+    var descriptors = names.reduce(function(family, name) {
+
+      var bases;
+
+      if (name.indexOf('$') != -1) {
+        bases = name.split('$');
+        name = bases.shift();
+      }
+
+      var oldDescriptor = encodedFamily[name];
+      var newDescriptor = oldDescriptor;
+
+      if (familyAction.wrap)
+        newDescriptor = normalize(newDescriptor, familyAction.wrap);
+
+      if (bases)
+        newDescriptor = inherit.call(newDescriptor, bases, oldDescriptor == newDescriptor);
+
+      if (familyAction.defaults)
+        newDescriptor = merge.call(newDescriptor, familyAction.defaults, oldDescriptor == newDescriptor);
+
+      newDescriptor = inflate.call(newDescriptor, name, oldDescriptor == newDescriptor);
+      
+      family[name] = newDescriptor;
+
+      return family;
+    }, { });
+
+    return descriptors;
+  });
+
+  if (result.length == 1) {
+    result = result[0];
+  }
+  else {
+    result = result.reduce(function(aggregate, value) {
+      return merge.call(aggregate, value);
+    }, { });
+  }
+
+  return result;
 }
 
 Object.defineProperties(module, {

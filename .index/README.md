@@ -21,6 +21,7 @@ var kingjs = require('kingjs');
 - [`assertThrows`][assert-throws]
 - [`caseAt`][case-at]
 - [`dictionary`][dictionary]
+- [`isEnumerable`][is-enumerable]
 - [`sequence`][sequence]
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -50,4 +51,5 @@ MIT
   [for-each]: https://www.npmjs.com/package/@kingjs/for-each
   [from-each]: https://www.npmjs.com/package/@kingjs/from-each
   [odometer]: https://www.npmjs.com/package/@kingjs/odometer
+  [is-enumerable]: https://www.npmjs.com/package/@kingjs/is-enumerable
   [sequence]: https://www.npmjs.com/package/@kingjs/sequence

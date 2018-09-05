@@ -1,8 +1,8 @@
 'use strict';
 
 var create = require('@kingjs/descriptor.create');
+var isEnumerable = require('@kingjs/is-enumerable');
 
-var isEnumerable = Object.prototype.propertyIsEnumerable;
 var makeEnumerable = { 
   enumerable: true,
   writable: true,
