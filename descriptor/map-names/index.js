@@ -6,12 +6,15 @@ function mapNames(action) {
 }
 
 function mapNamesProcedural(callback) {
-  var result = { };
+  var result = null;
 
   for (var name in this) {
     var newName = callback(name);
     if (newName === undefined)
       continue;
+
+    if (!result)
+      result = { };
 
     result[newName] = this[name];
   }
@@ -20,11 +23,14 @@ function mapNamesProcedural(callback) {
 }
 
 function mapNamesDeclarative(names) {
-  var result = { };
+  var result = null;
 
   for (var name in names) {
     if (name in this == false)
       continue;
+
+    if (!result)
+      result = { };
 
     result[names[name]] = this[name];
   }

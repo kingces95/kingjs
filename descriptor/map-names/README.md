@@ -69,7 +69,7 @@ declare function mapNames(
   - A descriptor containing a mapping of property names on `this` to names on the new descriptor. Properties on `this` not included in `map` will not be copied.
   - A callback which maps names on `this` to names on the new descriptor. If the callback returns `undefined` then the property value is not copied.
 ### Returns
-A new descriptor with a copy of a subset of properties from `this` but with different property names according to `map`.
+A new descriptor with a copy of a subset of properties from `this` but with different property names according to `map` or `null` if no properties were copied.
 ## Remarks
 No check is made to ensure mapped names are unique. Behavior is undefined when if duplicate names are provided.
 ## Install

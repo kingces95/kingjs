@@ -42,3 +42,9 @@ function readMeProcedural() {
   assert(result.delta == 2);
 }
 readMeProcedural();
+
+function empty() {
+  assert(mapNames.call({ }, { foo: 'bar' }) === null);
+  assert(mapNames.call({ }, () => undefined) === null);
+}
+empty();

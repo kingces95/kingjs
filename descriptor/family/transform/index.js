@@ -84,8 +84,6 @@ function selectDependents(bases, action, result) {
   families[name] = descriptor;
 }
 
-function mergeAll() {}
-
 var familyActionMap = {
   $defaults: 'defaults',
   $bases: 'bases',
@@ -106,62 +104,81 @@ var resolveAction = {
   thunks: composeLeft,
 }
 
-function transform(action) {
-  action = normalizeAction.call(action);
+function wrapInheritMergeInflate(actions, encodedFamily) {
 
-  var result = flatten.call(this);
-
-  result = result.map(function(encodedFamily) {
-    var familyAction = mapNames(encodedFamily, familyActionMap);
-
-    familyAction = !familyAction ? action : nestedMerge(
+  var action = actions.$;
+  var names = Object.keys(encodedFamily);
+  var familyAction = mapNames(encodedFamily, familyActionMap);
+  if (familyAction) {
+    action = nestedMerge(
       familyAction,
       action,
       resolveAction,
     );
 
-    var keys = Object.keys(encodedFamily);
-    var names = keys.filter(function(key) {
-      return key[0] != '$';
-    });
+    names = names.filter((key) => key[0] != '$');
+  }
 
-    var descriptors = names.reduce(function(family, encodedName) {
+  var family = names.reduce((family, encodedName) => {
 
-      var baseNames;
+    var baseNames;
+    var name = encodedName;
+    if (encodedName.indexOf('$') != -1) {
+      baseNames = encodedName.split('$');
+      name = baseNames.shift();
+    }
 
-      var name = encodedName;
-      if (encodedName.indexOf('$') != -1) {
-        baseNames = encodedName.split('$');
-        name = baseNames.shift();
-      }
+    var oldDescriptor = encodedFamily[encodedName];
+    var newDescriptor = oldDescriptor;
 
-      var oldDescriptor = encodedFamily[encodedName];
-      var newDescriptor = oldDescriptor;
+    if (action.wrap)
+      newDescriptor = normalize(newDescriptor, action.wrap);
 
-      if (familyAction.wrap)
-        newDescriptor = normalize(newDescriptor, familyAction.wrap);
+    if (baseNames) {
+      var bases = baseNames.map(baseName => action.bases[baseName]);
 
-      if (baseNames) {
-        var bases = baseNames.map(baseName => familyAction.bases[baseName]);
-        newDescriptor = inherit.call(newDescriptor, bases, oldDescriptor == newDescriptor);
-      }
+      newDescriptor = inherit.call(
+        newDescriptor, 
+        bases, 
+        oldDescriptor == newDescriptor
+      );
+    }
 
-      if (familyAction.defaults)
-        newDescriptor = merge.call(newDescriptor, familyAction.defaults, oldDescriptor == newDescriptor);
+    if (action.defaults) {
+      newDescriptor = merge.call(
+        newDescriptor, 
+        action.defaults,
+        takeLeft,
+        oldDescriptor == newDescriptor
+      );
+    }
 
-      newDescriptor = inflate.call(newDescriptor, name, oldDescriptor == newDescriptor);
-      
-      family[name] = newDescriptor;
+    newDescriptor = inflate.call(
+      newDescriptor, 
+      name, 
+      oldDescriptor == newDescriptor
+    );
+    
+    family[name] = newDescriptor;
+    actions[name] = action;
 
-      return family;
-    }, { });
-
-    return descriptors;
-  });
-
-  result = result.reduce(function(aggregate, value) {
-    return merge.call(aggregate, value);
+    return family;
   }, { });
+
+  return family;
+}
+
+function transform(action) {
+
+  var actions = { 
+    $: normalizeAction.call(action)
+  };
+
+  result = flatten.call(this).reduce(
+    (aggregate, family) => merge.call(
+      aggregate, wrapInheritMergeInflate(actions, family)
+    ), { }
+  );
 
   return result;
 }

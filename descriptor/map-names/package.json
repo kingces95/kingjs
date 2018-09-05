@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.map-names",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Creates a descriptor with a copy of a subset of properties from an existing descriptor with different names.",
   "main": "index.js",
   "files": [

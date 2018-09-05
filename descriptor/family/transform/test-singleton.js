@@ -90,7 +90,7 @@ function thunk() {
 
   assert(result.type == 'food');
 }
-thunk();
+//thunk();
 
 function scorch() {
   var result = transform.call({
@@ -99,7 +99,7 @@ function scorch() {
 
   assert('name' in result == false);
 }
-scorch();
+//scorch();
 
 function callback() {
 
@@ -112,7 +112,7 @@ function callback() {
 
   assert(result.name == 'apple');
 }
-callback();
+//callback();
 
 function wrapThenInherit() {
   var appleName = 'apple';
@@ -175,7 +175,7 @@ function inflateThenThunks() {
   })
   assert(result.name == 'APPLE'); // inflate -> thunks
 }
-inflateThenThunks();
+//inflateThenThunks();
 
 function thunksThenScorch() {
   var result = transform.call({
@@ -189,7 +189,7 @@ function thunksThenScorch() {
   })
   assert(`name` in result == false); // thunks -> scorch
 }
-thunksThenScorch();
+//thunksThenScorch();
 
 function scorchThenCallback() {
   var result = transform.call({
@@ -201,4 +201,4 @@ function scorchThenCallback() {
   })
   assert(result.name == 'apple'); // scorch then callback
 }
-scorchThenCallback();
+//scorchThenCallback();
