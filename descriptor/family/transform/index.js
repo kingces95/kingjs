@@ -9,8 +9,8 @@ var merge = require('@kingjs/descriptor.merge');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
+var inherit = require('@kingjs/descriptor.inherit');
 
-var inherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
 
 function decodeAndInherit() {
@@ -63,6 +63,16 @@ function inflate(name, copyOnWrite) {
   }, copyOnWrite)
 }
 
+function replace(name, thunks, copyOnWrite) {
+  return map.call(this, function(value, key) {
+    var thunk = thunks[key];
+    if (!thunk)
+      return value;
+
+    return thunk.call(value, name, key);
+  }, copyOnWrite);
+}
+
 function selectDependents(bases, action, result) {
 
   var depends = action.depends || emptyObject;
@@ -73,6 +83,8 @@ function selectDependents(bases, action, result) {
 
   families[name] = descriptor;
 }
+
+function mergeAll() {}
 
 var familyActionMap = {
   $defaults: 'defaults',
@@ -100,8 +112,10 @@ function transform(action) {
   var result = flatten.call(this);
 
   result = result.map(function(encodedFamily) {
-    var familyAction = nestedMerge(
-      mapNames(encodedFamily, familyActionMap),
+    var familyAction = mapNames(encodedFamily, familyActionMap);
+
+    familyAction = !familyAction ? action : nestedMerge(
+      familyAction,
       action,
       resolveAction,
     );
@@ -111,23 +125,26 @@ function transform(action) {
       return key[0] != '$';
     });
 
-    var descriptors = names.reduce(function(family, name) {
+    var descriptors = names.reduce(function(family, encodedName) {
 
-      var bases;
+      var baseNames;
 
-      if (name.indexOf('$') != -1) {
-        bases = name.split('$');
-        name = bases.shift();
+      var name = encodedName;
+      if (encodedName.indexOf('$') != -1) {
+        baseNames = encodedName.split('$');
+        name = baseNames.shift();
       }
 
-      var oldDescriptor = encodedFamily[name];
+      var oldDescriptor = encodedFamily[encodedName];
       var newDescriptor = oldDescriptor;
 
       if (familyAction.wrap)
         newDescriptor = normalize(newDescriptor, familyAction.wrap);
 
-      if (bases)
+      if (baseNames) {
+        var bases = baseNames.map(baseName => familyAction.bases[baseName]);
         newDescriptor = inherit.call(newDescriptor, bases, oldDescriptor == newDescriptor);
+      }
 
       if (familyAction.defaults)
         newDescriptor = merge.call(newDescriptor, familyAction.defaults, oldDescriptor == newDescriptor);
@@ -142,14 +159,9 @@ function transform(action) {
     return descriptors;
   });
 
-  if (result.length == 1) {
-    result = result[0];
-  }
-  else {
-    result = result.reduce(function(aggregate, value) {
-      return merge.call(aggregate, value);
-    }, { });
-  }
+  result = result.reduce(function(aggregate, value) {
+    return merge.call(aggregate, value);
+  }, { });
 
   return result;
 }
