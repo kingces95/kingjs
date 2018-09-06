@@ -11,14 +11,16 @@ var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
 var inherit = require('@kingjs/descriptor.inherit');
 
+var posetInherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
 
 function decodeAndInherit() {
-  var vertexProperties = { };
-  return apply.call(this,
-    decode, [vertexProperties],
-    inherit, [vertexProperties]
-  );
+  var vertices = { };
+
+  var encodedPoset = this;
+  var edges = decode.call(encodedPoset, vertices);
+  result = posetInherit.call(edges, vertices);
+  return result;
 }
 
 function resolve(value) {
@@ -46,6 +48,9 @@ function normalizeAction() {
   // assign default callback
   if (action.callback === undefined)
     action.callback = returnThis;
+
+  if (action.bases)
+    action.bases = decodeAndInherit.call(action.bases);
 
   return action;
 }
@@ -111,7 +116,7 @@ function wrapInheritMergeInflate(actions, encodedFamily) {
   var familyAction = mapNames(encodedFamily, familyActionMap);
   if (familyAction) {
     action = nestedMerge(
-      familyAction,
+      normalizeAction.call(familyAction),
       action,
       resolveAction,
     );
