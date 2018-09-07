@@ -2,7 +2,7 @@
 
 var update = require('@kingjs/descriptor.update');
 
-function forEach(value, func, path, copyOnWrite) {
+function nestedUpdate(value, func, path, copyOnWrite) {
 
   if (!path)
     path = func;
@@ -18,12 +18,12 @@ function forEach(value, func, path, copyOnWrite) {
 
   // else if value is node, then recurse
   if (value !== null && typeof value == 'object')
-    return forEachNode.call(value, func, path, copyOnWrite);
+    return nestedUpdateNode.call(value, func, path, copyOnWrite);
 
   return value;
 }
 
-function forEachNode(target, func, path, copyOnWrite) {
+function nestedUpdateNode(target, func, path, copyOnWrite) {
 
   var starAction;
   for (var name in path) {
@@ -35,7 +35,7 @@ function forEachNode(target, func, path, copyOnWrite) {
 
     target = update.call(
       this, target, name, 
-      forEach(target[name], func, path[name], copyOnWrite)
+      nestedUpdate(this[name], func, path[name], copyOnWrite)
     );
   }
 
@@ -46,7 +46,7 @@ function forEachNode(target, func, path, copyOnWrite) {
 
       target = update.call(
         this, target, name, 
-        forEach(target[name], func, path[name], copyOnWrite)
+        nestedUpdate(this[name], func, path[name], copyOnWrite)
       );
     }
   }
@@ -55,8 +55,8 @@ function forEachNode(target, func, path, copyOnWrite) {
 }
 
 // install update stubs
-var forEachNode = update.define(forEachNode, 2);
+nestedUpdateNode = update.define(nestedUpdateNode, 2);
 
 Object.defineProperties(module, {
-  exports: { value: forEach }
+  exports: { value: nestedUpdate }
 });
