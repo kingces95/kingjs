@@ -17,6 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.update": "^1.0.6"
+    "@kingjs/descriptor.update": "^1.0.6",
+    "@kingjs/func.return-arg-0": "^1.0.0"
   }
 }

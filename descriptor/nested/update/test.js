@@ -31,7 +31,7 @@ assertTheory(function(test, id) {
   if (test.pathNested)
     path = { [test.name]: path };
 
-  var result = update(value, func, path, test.copyOnWrite);
+  var result = update(value, path, func, test.copyOnWrite);
 
   if (test.pathNested) {
 
@@ -48,7 +48,7 @@ assertTheory(function(test, id) {
         assert(result === test.value);
     }
     else {
-      
+
     }
 
   } else {
@@ -61,6 +61,6 @@ assertTheory(function(test, id) {
   copyOnWrite: [ false, true ],
   func: [ false, true ],
   path: [ false, true ],
-  valueNested: [ true ],
-  pathNested: [ false, true ]
+  valueNested: [ true, false ],
+  pathNested: [ true, false ]
 }, 16);

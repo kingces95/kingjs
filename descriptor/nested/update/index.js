@@ -1,62 +1,41 @@
 'use strict';
 
-var update = require('@kingjs/descriptor.update');
+var updateNode = require('../update-node');
+var identity = require('@kingjs/func.return-arg-0');
 
-function nestedUpdate(value, func, path, copyOnWrite) {
+function update(value, callback, tree, _, copyOnWrite) {
 
-  if (!path)
-    path = func;
+  if (!callback)
+    callback = identity;
 
-  // if path => value is leaf, then take action
-  if (path instanceof Function) {
+  if (!tree)
+    tree = callback;
 
-    if (!func)
-      func = path;
+  if (tree instanceof Function) {
 
-    return func.call(this, value);
+    if (!callback)
+      callback = tree;
+
+    return callback(value);
   }
 
-  // else if value is node, then recurse
-  if (value !== null && typeof value == 'object')
-    return nestedUpdateNode.call(value, func, path, copyOnWrite);
+  if (typeof value != 'object' || value == null)
+    return value;
 
-  return value;
+  return updateNode.call(
+    value,
+    update,
+    callback,
+    tree, 
+    null,
+    copyOnWrite
+  );
 }
-
-function nestedUpdateNode(target, func, path, copyOnWrite) {
-
-  var starAction;
-  for (var name in path) {
-
-    if (name == '*') {
-      starAction = path[name];
-      continue;
-    }
-
-    target = update.call(
-      this, target, name, 
-      nestedUpdate(this[name], func, path[name], copyOnWrite)
-    );
-  }
-
-  if (starAction) {
-    for (var name in target) {
-      if (name in path)
-        continue;
-
-      target = update.call(
-        this, target, name, 
-        nestedUpdate(this[name], func, path[name], copyOnWrite)
-      );
-    }
-  }
-
-  return target;
-}
-
-// install update stubs
-nestedUpdateNode = update.define(nestedUpdateNode, 2);
 
 Object.defineProperties(module, {
-  exports: { value: nestedUpdate }
+  exports: { 
+    value: function(value, tree, callback, copyOnWrite) {
+      return update(value, callback, tree, null, copyOnWrite);
+    }
+  }
 });
