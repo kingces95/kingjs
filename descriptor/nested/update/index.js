@@ -1,41 +1,56 @@
 'use strict';
 
-var updateNode = require('../update-node');
-var identity = require('@kingjs/func.return-arg-0');
+var updateDescriptor = require('@kingjs/descriptor.update');
+var isObject = require('../../../is-object');
+var mergeWildcards = require('../merge-wildcards');
 
-function update(value, callback, tree, _, copyOnWrite) {
+var updateNode = updateDescriptor.define(
+  function(
+    target,
+    tree,
+    copyOnWrite) {
+  
+    for (var name in tree) {
+  
+      var result = update(
+        this[name],
+        tree[name],
+        copyOnWrite
+      );
+  
+      target = updateDescriptor.call(
+        this, target, name, result
+      );
+    }
+  
+    return target;
+  }, 1
+);
 
-  if (!callback)
-    callback = identity;
+function update(value, tree, copyOnWrite) {
 
-  if (!tree)
-    tree = callback;
+  if (tree instanceof Function)
+    return tree(value, copyOnWrite);
 
-  if (tree instanceof Function) {
-
-    if (!callback)
-      callback = tree;
-
-    return callback(value);
-  }
-
-  if (typeof value != 'object' || value == null)
+  if (!isObject(tree))
     return value;
+
+  if (!isObject(value))
+    return value;
+
+  tree = mergeWildcards(tree, value);
 
   return updateNode.call(
     value,
-    update,
-    callback,
     tree, 
-    null,
     copyOnWrite
   );
 }
 
 Object.defineProperties(module, {
   exports: { 
-    value: function(value, tree, callback, copyOnWrite) {
-      return update(value, callback, tree, null, copyOnWrite);
+    value: function(value, tree, copyOnWrite) {
+      return update(value, tree, null, copyOnWrite);
     }
   }
 });

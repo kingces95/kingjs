@@ -62,7 +62,8 @@ update.define = function(func, copyOnWriteArg) {
       arguments[1],
       arguments[2],
       arguments[3],
-      arguments[4]
+      arguments[4],
+      arguments[5]
     );
     return update.epilog.call(this, result);
   }

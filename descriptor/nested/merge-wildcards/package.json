@@ -1,6 +1,6 @@
 {
-  "name": "@kingjs/descriptor.update",
-  "version": "1.0.7",
+  "name": "@kingjs/descriptor.nested.merge-wildcards",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "files": [
@@ -17,7 +17,5 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.1",
-    "@kingjs/is-enumerable": "^1.0.0"
   }
 }

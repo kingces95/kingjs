@@ -1,87 +1,73 @@
 'use strict';
 
-var create = require('@kingjs/descriptor.create');
+var updateDescriptor = require('@kingjs/descriptor.update');
+var isObject = require('../../../is-object');
 
-function throwPathException(path, message) {
-  throw message + ' at: ' + path.join('.');
+function throwMergeConflict(left, right, copyOnWrite) {
+  throw 'Merge conflict';
 }
 
-function throwMergeConflict(left, right, path) {
-  throwPathException(path, 'Merge conflict');
-}
+var mergeNode = updateDescriptor.define(
+  function(
+    target,
+    update,
+    resolve,
+    copyOnWrite) {
+  
+    for (var name in resolve) {
+  
+      var result = merge(
+        this[name],
+        update[name],
+        resolve[name],
+        copyOnWrite
+      );
+  
+      target = updateDescriptor.call(
+        this, target, name, result
+      );
+    }
+  
+    return target;
+  }, 2
+);
 
-function merge(path, target, delta, resolve, copyOnWrite) {
+function merge(value, update, resolve, copyOnWrite) {
 
   if (resolve == null || resolve == undefined)
     resolve = throwMergeConflict;
 
   if (resolve instanceof Function) {
-    if (target === delta)
-      return target;
 
-    if (target === undefined)
-      return delta;
+    if (value === update)
+      return value;
 
-    if (delta === undefined)
-      return target;
+    if (value === undefined)
+      return update;
 
-    return resolve.call(this, target, delta, path);
+    if (update === undefined)
+      return value;
+
+    return resolve(value, update, copyOnWrite);
   }
 
-  if (typeof resolve != 'object')
-    throwPathException(path, 'Expected "resolve" to be an object or function');
+  if (!isObject(update))
+    return value;
 
-  if (typeof delta != 'object' && delta !== undefined)
-    throwPathException(path, 'Expected "delta" to be an object');
+  if (value === undefined)
+    value = { };
 
-  if (typeof target != 'object' && target !== undefined)
-    throwPathException(path, 'Expected "target" to be an object');
+  if (!isObject(value))
+    return value;
 
-  if (delta === undefined)
-    return target;
-
-  var targetFrozen = target && Object.isFrozen(target);
-
-  var clonedIfNeeded = false;
-  for (var name in resolve) {
-
-    if (name in delta == false)
-      continue;
-
-    var originalValue = target ? target[name] : undefined;
-
-    path.push(name);
-    var mergeValue = merge.call(
-      this,
-      path,
-      originalValue,
-      delta[name],
-      resolve[name],
-      copyOnWrite
-    );
-    path.pop();
-
-    if (originalValue === mergeValue)
-      continue;
-
-    if (!clonedIfNeeded && (!target || copyOnWrite || targetFrozen))
-      target = create(target);
-    clonedIfNeeded = true;
-
-    target[name] = mergeValue;
-  }
-
-  if (targetFrozen)
-    Object.freeze(target);
-
-  return target;
+  return mergeNode.call(
+    value,
+    update, 
+    resolve,
+    copyOnWrite
+  );
 }
 
 Object.defineProperties(module, {
-  exports: {
-    value: function (target, source, resolve, copyOnWrite) {
-      var path = [];
-      return merge.call(this, path, target, source, resolve, copyOnWrite);
-    }
-  }
+  exports: { value: merge }
 });

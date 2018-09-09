@@ -11,20 +11,15 @@ result:
 declare function xxx(
 ): any
 ```
-### Interfaces
-- `xxx`: see [@kingjs/xxx][xxx]
 ### Parameters
 ### Returns
 ## Remarks
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/xxx
+$ npm install @kingjs/xx
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/unknown)
-
-
-  [xxx]: https://www.npmjs.com/package/@kingjs/xxx
+![Analytics](https://analytics.kingjs.net/xxx)

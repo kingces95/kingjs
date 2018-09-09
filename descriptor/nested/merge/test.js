@@ -57,8 +57,6 @@ function readme() {
     }
   }
   
-  nestedMerge(worker, adult, resolve, copyOnWrite);
-  
   var result = nestedMerge(worker, adult, resolve, copyOnWrite);
 
   assert(result.wrap == 'name');
@@ -75,7 +73,7 @@ function baseCase() {
   var result = nestedMerge();
   assert(result === undefined);
 
-  result = nestedMerge(0);
+  result = nestedMerge(0, undefined);
   assert(result == 0);
 
   result = nestedMerge(undefined, 0);
@@ -89,15 +87,15 @@ function baseCase() {
   assert(result == 2);
 
   assertThrows(function() { nestedMerge(0, 1); });
-  assertThrows(function() { nestedMerge(0, { }, { }); });
-  assertThrows(function() { nestedMerge({ }, 1, { }); });
+  assertThrows(function() { nestedMerge(0, { }); });
+  assertThrows(function() { nestedMerge({ }, 1); });
 }
 baseCase();
 
 function newObject() {
 
   var result = nestedMerge(null, { x: 0 }, { x: null });
-  assert(result.x == 0);
+  assert(result === null);
 
   result = nestedMerge(undefined, { x: 0 }, { x: null });
   assert(result.x == 0);

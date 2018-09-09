@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/descriptor.nested.update-node",
+  "name": "@kingjs/descriptor.nested.for-each",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,6 +17,5 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.update": "^1.0.6"
   }
 }
