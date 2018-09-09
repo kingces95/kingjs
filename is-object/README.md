@@ -1,19 +1,42 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/is-object
+Returns true if the type of a value is object and is not null.
 ## Usage
+Test if `undefined`, `10`, `null`, `'Hi!'`, `function() { }`, `[]`, `{ }` are objects like this: 
 ```js
-var copy = require('@kingjs/is-object');
+var isObject = require('@kingjs/is-object');
+
+{
+  undef: isObject(),
+  nll: isObject(null),
+  number: isObject(10),
+  string: isObject('Hi!'),
+  func: isObject(function() { }),
+  array: isObject([ ]), 
+  literal: isObject({ }), 
+}
 ```
 result:
 ```js
+{
+  undef: false,
+  nll: false,
+  number: false,
+  string: false,
+  func: false,
+  array: true, 
+  literal: true, 
+}
 ```
 ## API
 ```ts
 declare function isObject(
-): any
+  value: any
+): boolean
 ```
 ### Parameters
+- `value`: The value to test.
 ### Returns
-## Remarks
+Returns true if the type of the value is object and the value is not null.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

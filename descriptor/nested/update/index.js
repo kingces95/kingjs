@@ -1,7 +1,7 @@
 'use strict';
 
 var updateDescriptor = require('@kingjs/descriptor.update');
-var isObject = require('../../../is-object');
+var isObject = require('@kingjs/is-object');
 var mergeWildcards = require('../merge-wildcards');
 
 var updateNode = updateDescriptor.define(

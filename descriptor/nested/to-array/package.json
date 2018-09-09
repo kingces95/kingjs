@@ -17,5 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/is-object": "^1.0.0"
   }
 }

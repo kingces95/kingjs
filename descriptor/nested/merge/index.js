@@ -1,7 +1,7 @@
 'use strict';
 
 var updateDescriptor = require('@kingjs/descriptor.update');
-var isObject = require('../../../is-object');
+var isObject = require('@kingjs/is-object');
 
 function throwMergeConflict(left, right, copyOnWrite) {
   throw 'Merge conflict';
