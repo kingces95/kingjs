@@ -1,6 +1,6 @@
 'use strict';
 
-var mergeWildcards = require('../merge-wildcards');
+var mergeWildcards = require('../../merge-wildcards');
 var isObject = require('@kingjs/is-object');
 
 function toArray(result, value, tree) {
@@ -17,7 +17,7 @@ function toArray(result, value, tree) {
   if (!isObject(value))
     return result;
 
-  tree = mergeWildcards(tree, value);
+  tree = mergeWildcards.call(tree, value, true);
 
   for (var name in tree)
     result = toArray(result, value[name], tree[name]);

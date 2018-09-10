@@ -19,9 +19,11 @@
   "dependencies": {
     "@kingjs/descriptor.create": "^1.0.0",
     "@kingjs/descriptor.inherit": "^1.0.0",
+    "@kingjs/descriptor.is-object": "^1.0.0",
     "@kingjs/descriptor.keys": "^1.0.0",
     "@kingjs/descriptor.map-names": "^1.0.0",
     "@kingjs/descriptor.merge": "^1.0.0",
+    "@kingjs/descriptor.merge-wildcards": "^1.0.0",
     "@kingjs/descriptor.nested": "^1.0.0",
     "@kingjs/descriptor.path": "^1.0.0",
     "@kingjs/descriptor.scorch": "^1.0.0",

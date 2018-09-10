@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.nested.merge-wildcards",
+  "name": "@kingjs/descriptor.merge-wildcards",
   "version": "1.0.0",
-  "description": "",
+  "description": "If a descriptor contains a property named `'*'`, then replace it with new properties with the same value but whose names are found on another descriptor but not on itself.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,5 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.update": "^1.0.8",
+    "@kingjs/is-enumerable": "^1.0.1"
   }
 }

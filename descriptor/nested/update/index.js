@@ -2,7 +2,7 @@
 
 var updateDescriptor = require('@kingjs/descriptor.update');
 var isObject = require('@kingjs/is-object');
-var mergeWildcards = require('../merge-wildcards');
+var mergeWildcards = require('../../merge-wildcards');
 
 var updateNode = updateDescriptor.define(
   function(
@@ -38,7 +38,7 @@ function update(value, tree, copyOnWrite) {
   if (!isObject(value))
     return value;
 
-  tree = mergeWildcards(tree, value);
+  tree = mergeWildcards.call(tree, value, true);
 
   return updateNode.call(
     value,

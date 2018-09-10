@@ -50,10 +50,9 @@ declare function merge(
   - `right`: The new value.
   - `name`: The name of the conflicting property.
 - `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
-
 ### Returns
 Returns `this` after merging properties from `delta`. 
-
+## Remarks 
 If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run

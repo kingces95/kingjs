@@ -2,9 +2,7 @@
 
 var update = require('.');
 var testRequire = require('..');
-var Dictionary = testRequire('@kingjs/dictionary');
 var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
 var isEnumerable = testRequire('@kingjs/is-enumerable');
 
 function readMe() {
@@ -76,69 +74,4 @@ function sanity() {
 }
 sanity();
 
-assertTheory(function(test, id) {
-
-  var source = new Dictionary();
-
-  if (test.defined) {
-    Object.defineProperty(source, test.name, {
-      value: test.value,
-      enumerable: test.enumerable,
-      writable: true,
-      configurable: true
-    });
-  }
-
-  if (test.inherited)
-    source = Object.create(source);
-
-  if (test.frozen)
-    Object.freeze(source);
-
-  var func = update.define(
-    function(target) {
-      target = update.call(
-        this, target, test.name, test.delta
-      );
-      return target;
-    }, 0
-  );
-
-  var result = func.call(source, test.copyOnWrite);
-
-  assert(
-    Object.isFrozen(source) == 
-    Object.isFrozen(result)
-  );
-
-  assert(test.name in result);
-
-  assert(
-    isEnumerable.call(result, test.name)
-  );
-
-  var actual = result[test.name];
-  var expected = test.delta;
-
-  assert(
-    actual === expected
-  );
-
-  var copyOnWrite = Object.isFrozen(source) || test.copyOnWrite;
-
-  assert(
-    (source == result) == (
-      (actual === test.value && test.defined) || !copyOnWrite
-    )
-  )  
-}, {
-  name: [ 'foo' ],
-  inherited: [ false, true ],
-  enumerable: [ true, false ],
-  defined: [ true, false ],
-  frozen: [ false, true ],
-  copyOnWrite: [ true, false ],
-  value: [ undefined, null, 0, 1 ],
-  delta: [ undefined, null, 0, 1 ]
-}, 1);
-
+require('./theory');

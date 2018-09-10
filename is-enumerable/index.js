@@ -8,10 +8,8 @@ function isEnumerable(name) {
 
   while (object) {
     
-    if (hasOwnProperty.call(object, name)) {
-      if (isOwnPropertyEnumerable.call(object, name))
-        return true;
-    }
+    if (hasOwnProperty.call(object, name))
+      return isOwnPropertyEnumerable.call(object, name);
  
     object = Object.getPrototypeOf(object);
   }

@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/is-object
-Returns true if the type of a value is object and is not null.
+Returns true if the `typeof` a value is `'object'` and is not `null`.
 ## Usage
 Test if `undefined`, `10`, `null`, `'Hi!'`, `function() { }`, `[]`, `{ }` are objects like this: 
 ```js

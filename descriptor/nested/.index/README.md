@@ -6,6 +6,8 @@ var nested = require('@kingjs/descriptor.nested');
 ```
 ## API
 - [`merge`][merge]
+- [`toArray`][to-array]
+- [`update`][update]
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -17,3 +19,5 @@ MIT
 ![Analytics](https://analytics.kingjs.net/descriptor/nested)
 
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.nested.merge
+  [to-array]: https://www.npmjs.com/package/@kingjs/descriptor.nested.to-array
+  [update]: https://www.npmjs.com/package/@kingjs/descriptor.nested.update

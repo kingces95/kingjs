@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.update",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "files": [
@@ -18,6 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.create": "^1.0.1",
-    "@kingjs/is-enumerable": "^1.0.0"
+    "@kingjs/is-enumerable": "^1.0.1"
   }
 }

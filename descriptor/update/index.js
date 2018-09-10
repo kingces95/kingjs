@@ -9,6 +9,12 @@ var makeEnumerable = {
   configurable: true
 };
 
+var makeNotEnumerable = { 
+  enumerable: false,
+  writable: true,
+  configurable: true
+};
+
 function update(target, key, delta) {
 
   var value = this[key];
@@ -29,6 +35,18 @@ function update(target, key, delta) {
     Object.defineProperty(target, key, makeEnumerable);
 
   target[key] = delta;
+  return target;
+}
+
+update.clear = function(target, key) {
+  if (!isEnumerable.call(target || this, key))
+    return target;
+
+  if (!target)
+    target = create(this);
+
+  Object.defineProperty(target, key, makeNotEnumerable);
+
   return target;
 }
 

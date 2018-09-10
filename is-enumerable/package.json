@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/is-enumerable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Returns true if own or inherited property is enumerable.",
   "main": "index.js",
   "files": [
@@ -16,5 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {}
 }
