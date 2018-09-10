@@ -2,7 +2,7 @@
 
 var updateDescriptor = require('@kingjs/descriptor.update');
 var isObject = require('@kingjs/is-object');
-var mergeWildcards = require('../../merge-wildcards');
+var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 var updateNode = updateDescriptor.define(
   function(
