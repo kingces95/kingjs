@@ -6,35 +6,35 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
-  var value = test.value;
+  var tree = test.tree;
 
-  if (test.valueNested) {
-    value = { [test.name]: value };
+  if (test.treeNested) {
+    tree = { [test.name]: tree };
 
     if (test.frozen)
-      Object.freeze(value);
+      Object.freeze(tree);
   }
 
-  var path = null;
-  if (test.path)
-    path = x => x + 'path';
+  var paths = null;
+  if (test.hasPath)
+    paths = x => x + 'path';
 
   if (test.pathNested)
-    path = { [test.name]: path };
+    paths = { [test.name]: paths };
 
-  var result = update(value, path, test.copyOnWrite);
+  var result = update(tree, paths, test.copyOnWrite);
 
   if (test.pathNested) {
 
-    if (test.valueNested) {
+    if (test.treeNested) {
       assert(Object.isFrozen(result) == test.frozen);
 
       result = result[test.name];
 
-      if (test.path)
-        assert(result == test.value + 'path');
+      if (test.hasPath)
+        assert(result == test.tree + 'path');
       else
-        assert(result === test.value);
+        assert(result === test.tree);
     }
     else {
 
@@ -45,10 +45,10 @@ assertTheory(function(test, id) {
 
 }, {
   name: 'foo',
-  value: [ undefined, null, 0, 1 ],
+  tree: [ undefined, null, 0, 1 ],
+  treeNested: [ true, false ],
   frozen: [ false, true ],
   copyOnWrite: [ false, true ],
-  path: [ false, true ],
-  valueNested: [ true, false ],
+  hasPath: [ false, true ],
   pathNested: [ true, false ]
 }, 16);

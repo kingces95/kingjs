@@ -22,13 +22,13 @@ function readMe() {
     }
   };
 
-  var callback = function(name) {
+  var paths = function(name) {
     return people[name];
   };
 
   var result = update(
     people,
-    { '*': { follows: callback } }
+    { '*': { follows: paths } }
   )
 
   assert(result.alice.follows == people.bob);

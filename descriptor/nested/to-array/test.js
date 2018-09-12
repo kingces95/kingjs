@@ -36,7 +36,18 @@ function readMe() {
 readMe();
 
 function nullIfNoMatches() {
-  var result = toArray();
+  var result = toArray(undefined, { });
+  assert(result == null);
+
+  var result = toArray(0, { });
   assert(result == null);
 }
 nullIfNoMatches();
+
+function nullIfNoTree() {
+  var result = toArray();
+  assert(result == null);
+}
+nullIfNoTree();
+
+require('./theory');

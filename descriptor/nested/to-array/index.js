@@ -3,35 +3,35 @@
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 var isObject = require('@kingjs/is-object');
 
-function toArray(result, value, tree) {
+function toArray(result, tree, paths) {
 
-  if (!isObject(tree)) {
+  if (!isObject(paths)) {
     if (!result)
       result = [ ];
 
-    result.push(value);
+    result.push(tree);
 
     return result;
   }
 
-  if (!isObject(value))
+  if (!isObject(tree))
     return result;
 
-  tree = mergeWildcards.call(tree, value, true);
+  paths = mergeWildcards.call(paths, tree, true);
 
-  for (var name in tree)
-    result = toArray(result, value[name], tree[name]);
+  for (var name in paths)
+    result = toArray(result, tree[name], paths[name]);
 
   return result;
 }
 
 Object.defineProperties(module, {
   exports: { 
-    value: function(value, tree) {
-      if (tree === undefined)
+    value: function(tree, paths) {
+      if (paths === undefined)
         return null;
 
-      return toArray(null, value, tree);
+      return toArray(null, tree, paths);
     }
   }
 });

@@ -4,17 +4,19 @@ var updateDescriptor = require('@kingjs/descriptor.update');
 var isObject = require('@kingjs/is-object');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
+var copyOnWriteArgPosition = 1;
+
 var updateNode = updateDescriptor.define(
   function(
     target,
-    tree,
+    paths,
     copyOnWrite) {
   
-    for (var name in tree) {
+    for (var name in paths) {
   
       var result = update(
         this[name],
-        tree[name],
+        paths[name],
         copyOnWrite
       );
   
@@ -24,33 +26,33 @@ var updateNode = updateDescriptor.define(
     }
   
     return target;
-  }, 1
+  }, copyOnWriteArgPosition
 );
 
-function update(value, tree, copyOnWrite) {
+function update(tree, paths, copyOnWrite) {
 
-  if (tree instanceof Function)
-    return tree(value, copyOnWrite);
+  if (paths instanceof Function)
+    return paths(tree, copyOnWrite);
+
+  if (!isObject(paths))
+    return tree;
 
   if (!isObject(tree))
-    return value;
+    return tree;
 
-  if (!isObject(value))
-    return value;
-
-  tree = mergeWildcards.call(tree, value, true);
+  paths = mergeWildcards.call(paths, tree, true);
 
   return updateNode.call(
-    value,
-    tree, 
+    tree,
+    paths, 
     copyOnWrite
   );
 }
 
 Object.defineProperties(module, {
   exports: { 
-    value: function(value, tree, copyOnWrite) {
-      return update(value, tree, null, copyOnWrite);
+    value: function(tree, paths, copyOnWrite) {
+      return update(tree, paths, null, copyOnWrite);
     }
   }
 });
