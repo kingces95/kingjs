@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/descriptor.nested.for-each",
+  "name": "@kingjs/descriptor.nested.to-array",
   "version": "1.0.0",
   "description": "Returns an array of leaf values that correspond to as set of paths.",
   "main": "index.js",

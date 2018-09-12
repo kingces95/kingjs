@@ -7,19 +7,21 @@ function throwMergeConflict(left, right, copyOnWrite) {
   throw 'Merge conflict';
 }
 
+var copyOnWriteArgPosition = 2;
+
 var mergeNode = updateDescriptor.define(
   function(
     target,
-    update,
-    resolve,
+    delta,
+    path,
     copyOnWrite) {
   
-    for (var name in resolve) {
+    for (var name in path) {
   
       var result = merge(
         this[name],
-        update[name],
-        resolve[name],
+        delta[name],
+        path[name],
         copyOnWrite
       );
   
@@ -29,41 +31,41 @@ var mergeNode = updateDescriptor.define(
     }
   
     return target;
-  }, 2
+  }, copyOnWriteArgPosition
 );
 
-function merge(value, update, resolve, copyOnWrite) {
+function merge(tree, delta, paths, copyOnWrite) {
 
-  if (resolve == null || resolve == undefined)
-    resolve = throwMergeConflict;
+  if (paths == null || paths == undefined)
+    paths = throwMergeConflict;
 
-  if (resolve instanceof Function) {
+  if (paths instanceof Function) {
 
-    if (value === update)
-      return value;
+    if (tree === delta)
+      return tree;
 
-    if (value === undefined)
-      return update;
+    if (tree === undefined)
+      return delta;
 
-    if (update === undefined)
-      return value;
+    if (delta === undefined)
+      return tree;
 
-    return resolve(value, update, copyOnWrite);
+    return paths(tree, delta, copyOnWrite);
   }
 
-  if (!isObject(update))
-    return value;
+  if (!isObject(delta))
+    return tree;
 
-  if (value === undefined)
-    value = { };
+  if (tree === undefined)
+    tree = { };
 
-  if (!isObject(value))
-    return value;
+  if (!isObject(tree))
+    return tree;
 
   return mergeNode.call(
-    value,
-    update, 
-    resolve,
+    tree,
+    delta, 
+    paths,
     copyOnWrite
   );
 }

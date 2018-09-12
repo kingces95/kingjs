@@ -1,7 +1,7 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).merge
-Merges into a nested target descriptor each path in a nested delta descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.
+Merges values at paths found in one tree into another tree. 
 ## Usage
-Derive "worker" from "adult" using nested descriptors that contain a string value at path `wrap`, a descriptor at path `defaults`, and functions at path `preconditions`. The functions should be composed if there is a conflict while the values should be inherited as defaults.
+Derive "worker" from "adult" using custom operations to merge conflicting fields like this:
 ```js
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var merge = require('@kingjs/descriptor.merge');
@@ -33,8 +33,6 @@ var worker = {
   }
 }
 
-var copyOnWrite = true;
-
 function takeLeft(left, right) {
   return left;
 }
@@ -45,7 +43,7 @@ function compose(left, right) {
   }
 }
 
-var resolve = {
+var paths = {
   wrap: takeLeft,
   defaults: function(left, right) { 
     return merge.call(left, right, takeLeft)
@@ -55,7 +53,8 @@ var resolve = {
   }
 }
 
-nestedMerge(worker, adult, resolve, copyOnWrite);
+var copyOnWrite = true;
+nestedMerge(worker, adult, paths, copyOnWrite);
 ```
 results:
 ```js
@@ -76,7 +75,7 @@ Flip `a0` and `b0` property values from `0` to `1` like this:
 ```js
 var merge = require('@kingjs/descriptor.nested.merge');
 
-var target = {
+var tree = {
   a0: 0,
   a1: 0,
   a2: 0,
@@ -96,14 +95,14 @@ function takeRight(x, y) {
   return y;
 }
 
-var resolve = {
+var paths = {
   a0: takeRight,
   a2: takeRight,
   a4: { b0: takeRight, b2: takeRight },
   a5: { b0: takeRight }
 };
 
-merge(target, delta, resolve);
+merge(tree, delta, paths);
 ```
 result:
 ```js
@@ -119,32 +118,30 @@ result:
 ## API
 ```ts
 declare function merge(
-  target: Descriptor,
+  tree: Descriptor,
   delta: Descriptor,
-  resolve: Descriptor,
+  paths: Descriptor,
   copyOnWrite: boolean
 ): Descriptor
 ```
 ### Interfaces
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
-- `target`: Nested descriptor into which properties are merged. Paths are created if necessary.
-- `delta`: Nested descriptor from which properties are merged into target but only if the path also exists in `resolve`.
-- `resolve`: Nested descriptor of functions to resolve conflicts should a `target` and `delta` path both exists and have different values.
-- `copyOnWrite`: If `true`, then `target` descriptors will be cloned as needed so that `target` remains unmodified.
+- `tree`: Tree into which delta is merged. Nodes are created if necessary.
+- `delta`: Tree to merge into `tree`. 
+- `paths`: Paths of `delta` to merge into `tree`. Functions found in `paths` will be used used to resolve conflicting tree values.
+- `copyOnWrite`: If `true`, then `tree` descriptors will be cloned as needed so that `tree` remains unmodified.
 ### Returns
-Returns a nested descriptor of `target`'s paths merged with paths merged from `delta` that also exist in `resolve`.
+Returns a nested descriptor of `tree`'s paths merged with paths merged from `delta` that also exist in `paths`.
 ## Remarks
-A `target`'s path's value is: 
+A `tree`'s path's value is: 
 - overwritten if it is `undefined`
 - preserved if the `delta` value is `undefined` or (the same value)
-- otherwise the conflict is resolved using the corresponding `resolve` function
+- otherwise the conflict is resolved using the corresponding `paths` function
 
-Frozen path segments in `target` are cloned as needed.
+Frozen path segments in `tree` are cloned as needed.
 
-An exception is thrown if:
-- `resolve` contains a value that is not `null`, `undefined`, or a function.
-- A *directory* in `resolve` is found to be a *value* in either `target` or `delta`.
+An exception is thrown if there exists a path in `paths` without a resolution function and a conflict is found between values at that path in `tree` and `delta`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

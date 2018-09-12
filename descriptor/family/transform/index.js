@@ -1,16 +1,12 @@
-var apply = require('@kingjs/apply');
-
 var flatten = require('@kingjs/array.nested.to-array');
-
 var takeLeft = require('@kingjs/func.return-arg-0');
-
 var normalize = require('@kingjs/descriptor.normalize');
 var merge = require('@kingjs/descriptor.merge');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
 var inherit = require('@kingjs/descriptor.inherit');
-
+var nested = require('@kingjs/descriptor.nested');
 var posetInherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
 

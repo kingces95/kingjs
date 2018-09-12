@@ -35,8 +35,6 @@ function readme() {
     }
   }
   
-  var copyOnWrite = true;
-
   function takeLeft(left, right) {
     return left;
   }
@@ -57,6 +55,7 @@ function readme() {
     }
   }
   
+  var copyOnWrite = true;
   var result = nestedMerge(worker, adult, resolve, copyOnWrite);
 
   assert(result.wrap == 'name');

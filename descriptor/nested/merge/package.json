@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/descriptor.nested.merge",
-  "version": "1.0.3",
-  "description": "Merges into a nested target descriptor each path in a nested delta descriptor that also exists in a nested resolve descriptor using functions found in the latter to resolve any merge conflicts.",
+  "version": "1.0.5",
+  "description": "Merges values at paths found in one tree into another tree.",
   "main": "index.js",
   "files": [
     "index.js"
