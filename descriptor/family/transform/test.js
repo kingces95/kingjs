@@ -24,7 +24,7 @@ function depends() {
   object: { id: 0, name: 'Object' },
     truck: { id: 1, name: 'Truck', base: 'object' }
   }, { 
-    defaults: { base: undefined },
+    defaults: { base: null },
     depends: { base: o => o.id }
   })
 

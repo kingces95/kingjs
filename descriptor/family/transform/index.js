@@ -6,6 +6,7 @@ var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
 var inherit = require('@kingjs/descriptor.inherit');
+var update = require('@kingjs/descriptor.update');
 var nested = require('@kingjs/descriptor.nested');
 var posetInherit = require('@kingjs/poset.inherit');
 var decode = require('@kingjs/poset.decode');
@@ -52,7 +53,7 @@ function normalizeAction() {
 }
 
 function inflate(name, copyOnWrite) {
-  return updateEach.call(this, function(value, key) {
+  return update.call(this, function(value, key) {
 
     if (value instanceof Function == false)
       return value;
@@ -65,7 +66,7 @@ function inflate(name, copyOnWrite) {
 }
 
 function replace(name, thunks, copyOnWrite) {
-  return updateEach.call(this, function(value, key) {
+  return update.call(this, function(value, key) {
     var thunk = thunks[key];
     if (!thunk)
       return value;

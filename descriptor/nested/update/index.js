@@ -1,12 +1,12 @@
 'use strict';
 
-var updateDescriptor = require('@kingjs/descriptor.update');
+var write = require('@kingjs/descriptor.write');
 var isObject = require('@kingjs/is-object');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 var copyOnWriteArgPosition = 1;
 
-var updateNode = updateDescriptor.define(
+var updateNode = write.define(
   function(
     target,
     paths,
@@ -20,7 +20,7 @@ var updateNode = updateDescriptor.define(
         copyOnWrite
       );
   
-      target = updateDescriptor.call(
+      target = write.call(
         this, target, name, result
       );
     }

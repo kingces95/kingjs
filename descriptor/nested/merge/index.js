@@ -1,6 +1,6 @@
 'use strict';
 
-var updateDescriptor = require('@kingjs/descriptor.update');
+var write = require('@kingjs/descriptor.write');
 var isObject = require('@kingjs/is-object');
 
 function throwMergeConflict(left, right, copyOnWrite) {
@@ -9,7 +9,7 @@ function throwMergeConflict(left, right, copyOnWrite) {
 
 var copyOnWriteArgPosition = 2;
 
-var mergeNode = updateDescriptor.define(
+var mergeNode = write.define(
   function(
     target,
     delta,
@@ -25,7 +25,7 @@ var mergeNode = updateDescriptor.define(
         copyOnWrite
       );
   
-      target = updateDescriptor.call(
+      target = write.call(
         this, target, name, result
       );
     }

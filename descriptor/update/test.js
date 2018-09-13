@@ -3,75 +3,54 @@
 var update = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var isEnumerable = testRequire('@kingjs/is-enumerable');
+var assertTheory = testRequire('@kingjs/assert-theory');
 
 function readMe() {
-
-  var makeEven = update.define(
-    function(target) {
-      for (var name in this) {
-        var value = this[name];
-        if (value % 2 == 0)
-          continue;
-        
-        target = update.call(
-          this, target, name, value + 1
-        );
-      }
-      return target;
-    }, 0
-  );
-  
-  var numbers = {
-    x: 0,
-    y: 1,
-    z: 2
+  function invoke(value, key) {
+    return value + 1;
   }
   
-  Object.freeze(numbers);
+  var descriptor = {
+    foo: 0,
+    bar: 1,
+  }
   
-  var copyOnWrite = true;
-  var evenNumbers = makeEven.call(numbers, copyOnWrite);
-  
-  assert(evenNumbers != numbers);
-  assert(Object.isFrozen(evenNumbers));
-  assert(evenNumbers.x == 0);
-  assert(evenNumbers.y == 2);
-  assert(evenNumbers.z == 2);
+  var result = update.call(descriptor, invoke);
+  assert(result.foo == 1);
+  assert(result.bar == 2);
 }
 readMe();
 
-function args() {
-  var argValue = 'foo';
+assertTheory(function(test, id) {
+  var descriptor = { };
+  descriptor[test.key] = test.value;
 
-  var func = update.define(
-    function(target, arg) {
-      assert(arg == argValue);
-      return target;
-    }, 1
+  if (test.frozen)
+    Object.freeze(descriptor);
+
+  var result = update.call(descriptor, function(value, key) {
+    assert(key == test.key);
+    assert(value === test.value);
+    return test.update;
+  }, test.copyOnWrite);
+
+  assert(
+    Object.isFrozen(descriptor) ==
+    Object.isFrozen(result)
   );
 
-  func.call({ }, argValue, false);
-}
-args();
+  var copyOnWrite = test.copyOnWrite || test.frozen;
 
-function sanity() {
-  var isOwnEnumerable = Object.prototype.propertyIsEnumerable;
+  assert(result[test.key] === test.update);
 
-  var base = { x: 0 };
-  var baseEnumerable = isOwnEnumerable.call(base, 'x');
-  assert(baseEnumerable);
-
-  var inherited = Object.create(base);
-  assert(inherited.x == 0);
-
-  // only tests ownProperties apparently
-  var inheritedEnumerable = isOwnEnumerable.call(inherited, 'x');
-  assert(!inheritedEnumerable);
-
-  inheritedEnumerable = isEnumerable.call(inherited, 'x');
-  assert(inheritedEnumerable);
-}
-sanity();
-
-require('./theory');
+  assert(
+    (result === descriptor) ==
+    (test.update === test.value || !copyOnWrite)
+  )
+}, {
+  key: 'foo',
+  value: [ undefined, null, 0, 1 ],
+  update: [ undefined, null, 0, 1 ],
+  copyOnWrite: [ false, true ],
+  frozen: [ false, true ]
+})

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/descriptor.family.map",
+  "name": "@kingjs/descriptor.family.transform",
   "version": "1.0.0",
   "description": "Returns a new descriptor family whose descriptors have been transformed by a callback.",
   "main": "index.js",
@@ -20,10 +20,12 @@
   "dependencies": {
     "@kingjs/array.nested.to-array": "^1.0.1",
     "@kingjs/descriptor.inherit": "^1.0.1",
-    "@kingjs/descriptor.map-names": "^1.0.5",
-    "@kingjs/descriptor.merge": "^1.0.2",
-    "@kingjs/descriptor.nested": "^1.0.3",
+    "@kingjs/descriptor.map": "^1.0.6",
+    "@kingjs/descriptor.map-names": "^1.0.6",
+    "@kingjs/descriptor.merge": "^1.0.3",
+    "@kingjs/descriptor.nested": "^1.0.4",
     "@kingjs/descriptor.normalize": "^1.0.0",
+    "@kingjs/descriptor.update": "^1.0.12",
     "@kingjs/func.return-arg-0": "^1.0.0",
     "@kingjs/poset.decode": "^1.0.10",
     "@kingjs/poset.inherit": "^1.0.7"

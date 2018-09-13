@@ -28,6 +28,7 @@
     "@kingjs/descriptor.nested": "^1.0.0",
     "@kingjs/descriptor.scorch": "^1.0.0",
     "@kingjs/descriptor.transform": "^1.0.0",
-    "@kingjs/descriptor.update-each": "^1.0.0"
+    "@kingjs/descriptor.update": "^1.0.0",
+    "@kingjs/descriptor.write": "^1.0.0"
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-var update = require('@kingjs/descriptor.update');
+var write = require('@kingjs/descriptor.write');
 var isEnumerable = require('@kingjs/is-enumerable');
 
 var wildcardName = '*';
@@ -11,7 +11,7 @@ function mergeWildcards(target, value) {
 
   var wildcard = this[wildcardName];
 
-  target = update.clear.call(
+  target = write.clear.call(
     this, target, wildcardName
   ) || this;
 
@@ -25,5 +25,5 @@ function mergeWildcards(target, value) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: update.define(mergeWildcards, 1) }
+  exports: { value: write.define(mergeWildcards, 1) }
 });

@@ -9,5 +9,6 @@ Object.defineProperties(module.exports, {
   mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },
   nested: { value: require('@kingjs/descriptor.nested') },
   scorch: { value: require('@kingjs/descriptor.scorch') },
-  updateEach: { value: require('@kingjs/descriptor.udpate-each') }
+  update: { value: require('@kingjs/descriptor.update') },
+  write: { value: require('@kingjs/descriptor.write') }
 });

@@ -21,11 +21,12 @@ declare interface Descriptor {
 - [`isObject`][is-object]
 - [`keys`][keys]
 - [`mergeWildcards`][merge-wildcards]
+- [`write`][write]
 
 ### Update/Transform
 |Update|Transform|
 |---|---|
-|[`updateEach`][update-each]|[`map`][map]|
+|[`update`][update]|[`map`][map]|
 |rename|[`mapNames`][map-names]|
 |[`scorch`][scorch]|[`filter`][filter]|
 |[`merge`][merge]|mapMerge|
@@ -65,4 +66,5 @@ MIT
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
   [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.scorch
-  [update-each]: https://www.npmjs.com/package/@kingjs/descriptor.update-each
+  [update]: https://www.npmjs.com/package/@kingjs/descriptor.update
+  [write]: https://www.npmjs.com/package/@kingjs/descriptor.write

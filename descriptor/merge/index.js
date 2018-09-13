@@ -1,6 +1,6 @@
 'use strict';
 
-var update = require('@kingjs/descriptor.update');
+var write = require('@kingjs/descriptor.write');
 var isEnumerable = require('@kingjs/is-enumerable');
 
 function throwMergeConflict(left, right, name) {
@@ -28,12 +28,12 @@ function merge(target, delta, resolve) {
       newValue = resolve(existingValue, newValue, name);
     }
 
-    target = update.call(this, target, name, newValue);
+    target = write.call(this, target, name, newValue);
   }
 
   return target;
 }
 
 Object.defineProperties(module, {
-  exports: { value: update.define(merge, 2) }
+  exports: { value: write.define(merge, 2) }
 });

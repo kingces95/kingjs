@@ -1,92 +1,20 @@
 'use strict';
 
-var create = require('@kingjs/descriptor.create');
-var isEnumerable = require('@kingjs/is-enumerable');
+var write = require('@kingjs/descriptor.write');
 
-var makeEnumerable = { 
-  enumerable: true,
-  writable: true,
-  configurable: true
-};
+var copyOnWriteArgPosition = 1;
 
-var makeNotEnumerable = { 
-  enumerable: false,
-  writable: true,
-  configurable: true
-};
+function updateEach(target, callback) {
 
-function update(target, key, delta) {
-
-  var value = this[key];
-
-  if (value === delta) {
-
-    var keyInThis = value !== undefined || key in this;
-    var keyIsEnumerable = isEnumerable.call(target || this, key);
-
-    if (keyInThis && keyIsEnumerable)
-      return target;
-  }
-
-  if (!target)
-    target = create(this);
-
-  if (!isEnumerable.call(target, key))
-    Object.defineProperty(target, key, makeEnumerable);
-
-  target[key] = delta;
-  return target;
-}
-
-update.clear = function(target, key) {
-  if (!isEnumerable.call(target || this, key))
-    return target;
-
-  if (!target)
-    target = create(this);
-
-  Object.defineProperty(target, key, makeNotEnumerable);
-
-  return target;
-}
-
-update.prolog = function(copyOnWrite) {
-  if (copyOnWrite)
-    return null;
-
-  if (Object.isFrozen(this))
-    return null;
-
-  return this;
-}
-
-update.epilog = function(target) {
-  if (target == null)
-    return this;
-
-  if (Object.isFrozen(this))
-    Object.freeze(target);
-
-  return target;
-}
-
-update.define = function(func, copyOnWriteArg) {
-  return function() {
-    var copyOnWrite = arguments[copyOnWriteArg];
-    var target = update.prolog.call(this, copyOnWrite);
-    var result = func.call(this,
-      target,
-      arguments[0],
-      arguments[1],
-      arguments[2],
-      arguments[3],
-      arguments[4],
-      arguments[5]
+  for (var key in this) {
+    target = write.call(
+      this, target, key, callback(this[key], key)
     );
-    return update.epilog.call(this, result);
   }
+
+  return target;
 }
 
 Object.defineProperties(module, {
-  exports: { value: update }
+  exports: { value: write.define(updateEach, copyOnWriteArgPosition) }
 });

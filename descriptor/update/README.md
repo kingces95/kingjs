@@ -1,74 +1,48 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).update
-Define a function that copies a descriptor on the first write if copyOnWrite is true or the descriptor is frozen. 
+Updates values of a descriptor using a callback.
 ## Usage
-Update a descriptor to add one to any odd numbers found as descriptor values.
+Increment all descriptor values like this:
 ```js
 var update = require('@kingjs/descriptor.update');
 
-var copyOnWriteArg = 0;
-var makeEven = update.define(
-  function(target) {
-    for (var name in this) {
-      var value = this[name];
-      if (value % 2 == 0)
-        continue;
-      
-      target = update.call(
-        this, target, name, value + 1
-      );
-    }
-  }, copyOnWriteArg
-);
-
-var numbers = {
-  x: 0,
-  y: 1,
-  z: 2
+function callback(value, key) {
+  return value + 1;
 }
 
-Object.freeze(numbers);
-
-var copyOnWrite = true;
-var evenNumbers = makeEven.call(numbers, copyOnWrite);
-
-return {
-  modified: evenNumbers == numbers,
-  frozen: Object.isFrozen(evenNumbers),
-  value: evenNumbers
+var descriptor = {
+  foo: 0,
+  bar: 1,
 }
+
+update.call(descriptor, callback);
 ```
 result:
 ```js
 {
-  modified: true,
-  frozen: true,
-  value: {
-    x: 0,
-    y: 2,
-    z: 2
-  }
+  foo: 1,
+  bar: 2
 }
 ```
 ## API
 ```ts
 declare function update(
   this: Descriptor,
-  target: Descriptor,
-  name: string,
-  value: any
+  callback: (value, key: string) => any,
+  copyOnWrite: boolean
 ): Descriptor
 ```
 ### Interfaces
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
-- `this`: The descriptor whose property will be updated.
-- `target`: The descriptor where the updated value is written. If null, then replaced with clone of `this` on first write.
-- `name`: The property to update.
-- `value`: The updated value.
+- `this`: The descriptor whose properties are to be mapped.
+- `callback`: A mapping function called for each property of `this`.
+  - `value`: The value being mapped.
+  - `key`: The name of the property being mapped.
+- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 ### Returns
-Returns `target` which should be used as `target` to the next `update`. 
-## Remarks
-The function which uses `update` must have prolog and epilog stubs installed using `update.define`. The prolog expects the `this` parameter to be the descriptor and to be passed the position of `copyOnWrite`. The prolog will insert `target` as the first argument before invoking the function. The epilog expects the function to return `target`. The function will return `this` or a clone of `this` with updated properties. If `this` is frozen then its returned clone will also be frozen.
+Returns `this` after mapping properties using the `callback`. 
+
+If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
