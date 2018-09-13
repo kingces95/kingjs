@@ -170,13 +170,15 @@ function wrapInheritMergeInflate(actions, encodedFamily) {
   return family;
 }
 
+var hide = { enumerable: false };
+
 function transform(action) {
 
   var actions = { 
     $: normalizeAction.call(action)
   };
 
-  Object.defineProperty(actions, '$', { enumerable: false });
+  Object.defineProperty(actions, '$', hide);
 
   result = flatten.call(this).reduce(
     (aggregate, family) => merge.call(
