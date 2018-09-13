@@ -52,7 +52,7 @@ function normalizeAction() {
 }
 
 function inflate(name, copyOnWrite) {
-  return map.call(this, function(value, key) {
+  return updateEach.call(this, function(value, key) {
 
     if (value instanceof Function == false)
       return value;
@@ -65,7 +65,7 @@ function inflate(name, copyOnWrite) {
 }
 
 function replace(name, thunks, copyOnWrite) {
-  return map.call(this, function(value, key) {
+  return updateEach.call(this, function(value, key) {
     var thunk = thunks[key];
     if (!thunk)
       return value;
@@ -175,10 +175,16 @@ function transform(action) {
     $: normalizeAction.call(action)
   };
 
+  Object.defineProperty(actions, '$', { enumerable: false });
+
   result = flatten.call(this).reduce(
     (aggregate, family) => merge.call(
       aggregate, wrapInheritMergeInflate(actions, family)
     ), { }
+  );
+
+  edges = map.call(result, (descriptor, key) =>
+    nested.toArray(descriptor, actions[key].depends)
   );
 
   return result;

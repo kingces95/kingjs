@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.map",
-  "version": "1.0.5",
-  "description": "Creates a shallow copy of a descriptor optionally using a callback to transform values.",
+  "name": "@kingjs/descriptor.write",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,5 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.create": "^1.0.1",
+    "@kingjs/is-enumerable": "^1.0.1"
   }
 }

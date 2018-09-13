@@ -20,11 +20,16 @@ declare interface Descriptor {
 - [`inherit`][inherit]
 - [`isObject`][is-object]
 - [`keys`][keys]
-- [`mapNames`][map-names]
-- [`merge`][merge]
 - [`mergeWildcards`][merge-wildcards]
-- [`path`][path]
-- [`scorch`][scorch]
+
+### Update/Transform
+|Update|Transform|
+|---|---|
+|[`updateEach`][update-each]|[`map`][map]|
+|rename|[`mapNames`][map-names]|
+|[`scorch`][scorch]|[`filter`][filter]|
+|[`merge`][merge]|mapMerge|
+
 ## Remarks
 A `descriptor` is
 - **Data**; Functions are not meant to be invoked from a descriptor (except for the default `Array` operations). Algorithms do not create accessor properties nor make allowance for accessor properties.
@@ -51,11 +56,13 @@ MIT
   [nested]: https://www.npmjs.com/package/@kingjs/descriptor.nested
 
   [create]: https://www.npmjs.com/package/@kingjs/descriptor.create
+  [filter]: https://www.npmjs.com/package/@kingjs/descriptor.filter
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
   [is-object]: https://www.npmjs.com/package/@kingjs/descriptor.is-object
   [keys]: https://www.npmjs.com/package/@kingjs/descriptor.keys
+  [map]: https://www.npmjs.com/package/@kingjs/descriptor.map
   [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
-  [path]: https://www.npmjs.com/package/@kingjs/descriptor.path
   [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.scorch
+  [update-each]: https://www.npmjs.com/package/@kingjs/descriptor.update-each

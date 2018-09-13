@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).map
-Updates values of a descriptor using a callback.
+Creates a shallow copy of a descriptor optionally using a callback to transform values.
 ## Usage
 Increment all descriptor values like this:
 ```js
@@ -27,8 +27,7 @@ result:
 ```ts
 declare function map(
   this: Descriptor,
-  callback: (value, key: string) => any,
-  copyOnWrite: boolean
+  callback: (value, key: string) => any
 ): Descriptor
 ```
 ### Interfaces
@@ -38,11 +37,6 @@ declare function map(
 - `callback`: A mapping function called for each property of `this`.
   - `value`: The value being mapped.
   - `key`: The name of the property being mapped.
-- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
-### Returns
-Returns `this` after mapping properties using the `callback`. 
-
-If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -52,6 +46,5 @@ $ npm install @kingjs/descriptor.map
 MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor/map)
-
 
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor

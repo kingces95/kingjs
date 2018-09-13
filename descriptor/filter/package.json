@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.map",
-  "version": "1.0.5",
-  "description": "Creates a shallow copy of a descriptor optionally using a callback to transform values.",
+  "name": "@kingjs/descriptor.filter",
+  "version": "1.0.0",
+  "description": "Creates a new descriptor with properties filtered by a callback.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,6 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-  }
+  "dependencies": {}
 }

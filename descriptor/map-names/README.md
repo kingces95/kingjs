@@ -80,7 +80,7 @@ $ npm install @kingjs/descriptor.map-names
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/unknown)
+![Analytics](https://analytics.kingjs.net/descriptor/map-names)
 
 
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor

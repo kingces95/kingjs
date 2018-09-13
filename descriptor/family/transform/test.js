@@ -4,7 +4,6 @@ var transform = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 
-
 function readMe() {
   var result = transform.call({
     apple: 'apple',
@@ -18,4 +17,17 @@ function readMe() {
   assert(result.orange.name == 'orange');
   assert(result.banana.name == 'banana');
 }
-readMe();
+//readMe();
+
+function depends() {
+  var result = transform.call({
+  object: { id: 0, name: 'Object' },
+    truck: { id: 1, name: 'Truck', base: 'object' }
+  }, { 
+    defaults: { base: undefined },
+    depends: { base: o => o.id }
+  })
+
+  assert(result.truck.base.id == 0);
+}
+depends();

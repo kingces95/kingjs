@@ -1,18 +1,18 @@
 'use strict';
 
-var update = require('@kingjs/descriptor.update');
-
-function map(target, callback) {
+function map(callback) {
+  var result = null;
 
   for (var key in this) {
-    target = update.call(
-      this, target, key, callback(this[key], key)
-    );
+    if (!result)
+      result = { };
+
+    result[key] = callback(this[key], key);
   }
 
-  return target;
+  return result;
 }
 
 Object.defineProperties(module, {
-  exports: { value: update.define(map, 1) }
+  exports: { value: map }
 });

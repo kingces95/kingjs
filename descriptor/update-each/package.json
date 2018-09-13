@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.path",
+  "name": "@kingjs/descriptor.update-each",
   "version": "1.0.0",
-  "description": "Updates property values matched by a path.",
+  "description": "Updates values of a descriptor using a callback.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -15,5 +15,8 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.update": "^1.0.5"
+  }
 }
