@@ -18,6 +18,7 @@ A `NestedDescriptor` can be though of like
 APIs take at least two descriptors. The first, a tree, is the data to be selected, mutated, or merged according to the second, a set of paths, which acts as metatdata to distinguish nodes from leafs in the tree as well as drive the operation.
 ## API
 - [`merge`][merge]
+- [`reduce`][reduce]
 - [`toArray`][to-array]
 - [`update`][update]
 ## Install
@@ -31,5 +32,6 @@ MIT
 ![Analytics](https://analytics.kingjs.net/descriptor/nested)
 
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.nested.merge
+  [reduce]: https://www.npmjs.com/package/@kingjs/descriptor.nested.reduce
   [to-array]: https://www.npmjs.com/package/@kingjs/descriptor.nested.to-array
   [update]: https://www.npmjs.com/package/@kingjs/descriptor.nested.update

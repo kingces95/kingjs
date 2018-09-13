@@ -1,37 +1,18 @@
 'use strict';
 
-var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
-var isObject = require('@kingjs/is-object');
+var reduce = require('@kingjs/descriptor.nested.reduce');
 
-function toArray(result, tree, paths) {
+function accumulate(array, leaf) {
+  if (!array)
+    array = [];
+  array.push(leaf);
+  return array;
+}
 
-  if (!isObject(paths)) {
-    if (!result)
-      result = [ ];
-
-    result.push(tree);
-
-    return result;
-  }
-
-  if (!isObject(tree))
-    return result;
-
-  paths = mergeWildcards.call(paths, tree, true);
-
-  for (var name in paths)
-    result = toArray(result, tree[name], paths[name]);
-
-  return result;
+function toArray(tree, paths) {
+  return reduce(tree, paths, accumulate);
 }
 
 Object.defineProperties(module, {
-  exports: { 
-    value: function(tree, paths) {
-      if (paths === undefined)
-        return null;
-
-      return toArray(null, tree, paths);
-    }
-  }
+  exports: { value: toArray }
 });

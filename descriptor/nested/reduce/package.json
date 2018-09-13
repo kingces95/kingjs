@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.nested.to-array",
-  "version": "1.0.1",
-  "description": "Returns an array of leaf values that correspond to as set of paths.",
+  "name": "@kingjs/descriptor.nested.reduce",
+  "version": "1.0.0",
+  "description": "Accumulates the values of leafs at specific paths using a callback.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -13,12 +13,11 @@
     "type": "git",
     "url": "https://github.com/kingces95/kingjs.git"
   },
-  "keywords": [],
+  "keywords": [ ],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.merge-wildcards": "^1.0.0",
-    "@kingjs/descriptor.nested.reduce": "^1.0.0",
     "@kingjs/is-object": "^1.0.0"
   }
 }
