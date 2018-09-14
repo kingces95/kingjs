@@ -22,7 +22,7 @@ function noop() {
 
   assert(result == apple);
 }
-noop();
+//noop();
 
 function wrapDeclarative() {
   var result = transform.call('apple', undefined, { wrap: 'name' });
@@ -90,7 +90,7 @@ function thunk() {
 
   assert(result.type == 'food');
 }
-//thunk();
+thunk();
 
 function scorch() {
   var result = transform.call({
@@ -104,15 +104,15 @@ function scorch() {
 function callback() {
 
   var result = transform.call(
-    { }, 'apple', function(name) {
-      this.name = name;
-      return this; 
+    { }, 'apple', function(descriptor, name) {
+      descriptor.name = name;
+      return descriptor; 
     }
   );
 
   assert(result.name == 'apple');
 }
-//callback();
+callback();
 
 function wrapThenInherit() {
   var appleName = 'apple';
