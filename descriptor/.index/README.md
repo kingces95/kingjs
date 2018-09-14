@@ -18,7 +18,6 @@ declare interface Descriptor {
 ### Packages
 - [`create`][create]
 - [`inherit`][inherit]
-- [`isObject`][is-object]
 - [`keys`][keys]
 - [`mergeWildcards`][merge-wildcards]
 - [`write`][write]
@@ -59,7 +58,6 @@ MIT
   [create]: https://www.npmjs.com/package/@kingjs/descriptor.create
   [filter]: https://www.npmjs.com/package/@kingjs/descriptor.filter
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
-  [is-object]: https://www.npmjs.com/package/@kingjs/descriptor.is-object
   [keys]: https://www.npmjs.com/package/@kingjs/descriptor.keys
   [map]: https://www.npmjs.com/package/@kingjs/descriptor.map
   [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names

@@ -7,7 +7,12 @@ var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var mapNames = require('@kingjs/descriptor.map-names');
 var inherit = require('@kingjs/descriptor.inherit');
 var update = require('@kingjs/descriptor.update');
-var nested = require('@kingjs/descriptor.nested');
+
+var nested = {
+  update: require('@kingjs/descriptor.nested.update'),
+  merge: require('@kingjs/descriptor.nested.merge'),
+  reduce: require('@kingjs/descriptor.nested.reduce'),
+}
 
 var poset = {
   decode: require('@kingjs/poset.decode'),
@@ -24,7 +29,7 @@ function decodeAndInherit() {
   return result;
 }
 
-function resolveAndSelect(selector, name) {
+function resolveAndSelect(name, selector) {
   if (typeof name != 'string')
     return name;
 
@@ -110,7 +115,7 @@ var resolveAction = {
 var hide = { enumerable: false };
 function setContext(value) {
   this['$'] = value;
-  Object.defineProperty(actions, '$', hide);
+  Object.defineProperty(this, '$', hide);
 }
 
 function accumulateStrings(accumulator, value) {
@@ -164,8 +169,8 @@ function wrapInheritDefaults(encodedFamily, result, actions, originalDescriptor)
   for (var encodedName in encodedFamily) {
 
     // filter out family specific action metadata
-    if (encodedName[0] != '$')
-      return family;
+    if (encodedName[0] == '$')
+      continue;
   
     var encodedDescriptor = encodedFamily[encodedName];
     var descriptor = encodedDescriptor;
@@ -248,7 +253,6 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action, originalDesc
   return descriptor;
 }
 
-
 function resolve(descriptors, name, action, originalDescriptor) {
 
   var descriptor = descriptors[name];
@@ -279,14 +283,17 @@ function transform(action) {
   for (var i = 0; i < encodedFamilies.length; i++)
     wrapInheritDefaults(encodedFamilies[i], result, actions, originals);
 
-  // 4-8; Depends, Inflate, Thunks, Scorch, Update
-  var update = name => dependsInflateThunkScorchUpdate(
-    result, name, actions[name], originals[name]
-  );
+  // close update function over intermediate results
+  var update = function(name) {
+    result[name] = dependsInflateThunkScorchUpdate(
+      result, name, actions[name], originals[name]
+    );
+  }
 
+  // 4-8; Depends, Inflate, Thunks, Scorch, Update
   var adjacencyList = mapToAdjacencyList(result, actions);
   if (adjacencyList)
-    poset.forEach.call(edges, update);
+    poset.forEach.call(adjacencyList, update, Object.keys(result));
   else
     for (var name in result) update(name);
 

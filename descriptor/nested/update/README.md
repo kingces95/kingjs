@@ -21,13 +21,11 @@ var people = {
   }
 };
 
-var paths = function(name) {
-  return people[name];
-};
-
-update(
+var result = update.call(
   people,
-  { '*': { follows: paths } }
+  people,
+  { '*': { follows: null } },
+  function(name) { return this[name]; }
 )
 ```
 result:
@@ -51,8 +49,8 @@ result:
 ```ts
 declare function update(
   tree: NestedDescriptor,
-  path: NestedDescriptor | 
-    (value: any, copyOnWrite: boolean) => any,
+  path: NestedDescriptor,
+  callback: (leaf, path, copyOnWrite: boolean) => any,
   copyOnWrite: boolean
 ): NestedDescriptor
 ```
@@ -60,9 +58,10 @@ declare function update(
 - `NestedDescriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
 - `tree`: The tree whose leafs are going to be updated.
-- `path`: The paths of the values to be updated. Each path must be a function that returns an updated value when given:
-  - `value`: The leaf value to transform.
-  - `copyOnWrite`: The copy on write value passed to update.
+- `path`: The paths of the values to be updated. 
+- `callback`: Used to update `paths` of `tree`:
+  - `leaf`: The leaf value.
+  - `path`: The path value.
 - `updateOnWrite`: If `true`, then `target` descriptors will be cloned as needed so that `target` remains unmodified.
 ### Returns
 Returns `tree` with updated values for the leafs found at `paths`.

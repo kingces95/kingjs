@@ -21,13 +21,13 @@ readMe();
 
 function depends() {
   var result = transform.call({
-  object: { id: 0, name: 'Object' },
+    object: { id: 0, name: 'Object' },
     truck: { id: 1, name: 'Truck', base: 'object' }
   }, { 
     defaults: { base: null },
     depends: { base: o => o.id }
   })
 
-  //assert(result.truck.base.id == 0);
+  assert(result.truck.base == 0);
 }
 depends();
