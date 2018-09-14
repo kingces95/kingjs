@@ -1,33 +1,41 @@
 var flatten = require('@kingjs/array.nested.to-array');
 var takeLeft = require('@kingjs/func.return-arg-0');
+
 var normalize = require('@kingjs/descriptor.normalize');
 var merge = require('@kingjs/descriptor.merge');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
-var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
 var inherit = require('@kingjs/descriptor.inherit');
 var update = require('@kingjs/descriptor.update');
 var nested = require('@kingjs/descriptor.nested');
-var posetInherit = require('@kingjs/poset.inherit');
-var decode = require('@kingjs/poset.decode');
+
+var poset = {
+  decode: require('@kingjs/poset.decode'),
+  forEach: require('@kingjs/poset.for-each'),
+  inherit: require('@kingjs/poset.inherit')
+}
 
 function decodeAndInherit() {
   var vertices = { };
 
   var encodedPoset = this;
-  var edges = decode.call(encodedPoset, vertices);
-  result = posetInherit.call(edges, vertices);
+  var edges = poset.decode.call(encodedPoset, vertices);
+  result = poset.inherit.call(edges, vertices);
   return result;
 }
 
-function resolve(value) {
-  if (typeof value != 'string')
-    return value;
+function resolveAndSelect(selector, name) {
+  if (typeof name != 'string')
+    return name;
 
-  return this[value];
+  var result = this[name];
+
+  if (selector)
+    result = selector(result);
+
+  return result;
 }
 
-var emptyObject = { };
 function returnThis() {
   return this;
 }
@@ -75,22 +83,13 @@ function replace(name, thunks, copyOnWrite) {
   }, copyOnWrite);
 }
 
-function selectDependents(bases, action, result) {
-
-  var depends = action.depends || emptyObject;
-  for (var name in depends) {
-    var selector = depends[name] || returnThis;
-
-  }
-
-  families[name] = descriptor;
-}
-
 var familyActionMap = {
   $defaults: 'defaults',
   $bases: 'bases',
   $wrap: 'wrap',
   $thunks: 'thunks',
+  $depends: 'depends',
+  $refs: 'refs'
 };
 
 function composeLeft(g, f) {
@@ -100,16 +99,58 @@ function composeLeft(g, f) {
 var resolveAction = {
   callback: null,
   wrap: takeLeft,
-  depends: takeLeft,
   defaults: takeLeft,
   bases: takeLeft,
   thunks: composeLeft,
+  depends: takeLeft,
+  refs: takeLeft,
 }
 
-function wrapInheritMergeInflate(actions, encodedFamily) {
+// used to optimize away closure allocation by passing context in $ instead
+var hide = { enumerable: false };
+function setContext(value) {
+  this['$'] = value;
+  Object.defineProperty(actions, '$', hide);
+}
 
-  var action = actions.$;
-  var names = Object.keys(encodedFamily);
+function accumulateStrings(accumulator, value) {
+  if (typeof value != 'string')
+    return accumulator;
+
+  if (!accumulator)
+    accumulator = [ ];
+  
+  accumulator.push(value);
+  
+  return accumulator;
+}
+
+function mapToAdjacencyList(result, actions) {
+  var adjacencyList;
+
+  for (var name in result) {
+    var edges = nested.reduce(
+      result[name], 
+      actions[name].depends,
+      accumulateStrings
+    );
+
+    if (!edges)
+      continue;
+
+    if (!adjacencyList)
+      adjacencyList = { };
+
+    adjacencyList[name] = edges;
+  }
+
+  return adjacencyList;
+}
+
+function wrapInheritDefaults(encodedFamily, result, actions, originalDescriptor) {
+
+  var action = actions.$;  
+
   var familyAction = mapNames(encodedFamily, familyActionMap);
   if (familyAction) {
     action = nestedMerge(
@@ -117,12 +158,23 @@ function wrapInheritMergeInflate(actions, encodedFamily) {
       action,
       resolveAction,
     );
-
-    names = names.filter((key) => key[0] != '$');
   }
 
-  var family = names.reduce((family, encodedName) => {
+  // accumulate decoded family members
+  for (var encodedName in encodedFamily) {
 
+    // filter out family specific action metadata
+    if (encodedName[0] != '$')
+      return family;
+  
+    var encodedDescriptor = encodedFamily[encodedName];
+    var descriptor = encodedDescriptor;
+  
+    // 1. Wrap
+    if (action.wrap)
+      descriptor = normalize(descriptor, action.wrap);
+  
+    // encodedName -> baseNames + name
     var baseNames;
     var name = encodedName;
     if (encodedName.indexOf('$') != -1) {
@@ -130,65 +182,117 @@ function wrapInheritMergeInflate(actions, encodedFamily) {
       name = baseNames.shift();
     }
 
-    var oldDescriptor = encodedFamily[encodedName];
-    var newDescriptor = oldDescriptor;
-
-    if (action.wrap)
-      newDescriptor = normalize(newDescriptor, action.wrap);
-
+    originalDescriptor[name] = encodedDescriptor;
+  
+    // 2. Inherit
     if (baseNames) {
-      var bases = baseNames.map(baseName => action.bases[baseName]);
-
-      newDescriptor = inherit.call(
-        newDescriptor, 
-        bases, 
-        oldDescriptor == newDescriptor
+      descriptor = inherit.call(
+        descriptor, 
+        baseNames.map(baseName => action.bases[baseName]), 
+        encodedDescriptor == descriptor
       );
     }
-
+  
+    // 3. Merge
     if (action.defaults) {
-      newDescriptor = merge.call(
-        newDescriptor, 
+      descriptor = merge.call(
+        descriptor, 
         action.defaults,
         takeLeft,
-        oldDescriptor == newDescriptor
+        encodedDescriptor == descriptor
       );
     }
-
-    newDescriptor = inflate.call(
-      newDescriptor, 
-      name, 
-      oldDescriptor == newDescriptor
-    );
     
-    family[name] = newDescriptor;
+    // accumulate
     actions[name] = action;
-
-    return family;
-  }, { });
-
-  return family;
+    result[name] = descriptor;
+  }
 }
 
-var hide = { enumerable: false };
+function dependsInflateThunkScorchUpdate(descriptors, name, action, originalDescriptor) {
+
+  var descriptor = descriptors[name];
+
+  // 4. Depends
+  if (action.depends) {
+    descriptor = nested.update.call(
+      descriptors,
+      descriptor,
+      action.depends,
+      resolveAndSelect,
+      originalDescriptor == descriptor
+    )
+  }
+
+  // 5. Inflate
+  descriptor = inflate.call(
+    descriptor, 
+    name, 
+    originalDescriptor == descriptor
+  );
+
+  // 6. Thunk
+  if (action.thunks) {
+    descriptor = replace.call(
+      descriptor, 
+      name,
+      action.thunks,
+      originalDescriptor == descriptor
+    );
+  }
+  
+  // 7. Scorch
+
+  // 8. Update
+  
+  return descriptor;
+}
+
+
+function resolve(descriptors, name, action, originalDescriptor) {
+
+  var descriptor = descriptors[name];
+
+  // 9. Resolve
+  if (action.depends) {
+    descriptor = nested.update.call(
+      descriptors,
+      descriptor,
+      action.ref,
+      resolveAndSelect,
+      originalDescriptor == descriptor
+    )
+  }
+  
+  return descriptor;
+}
 
 function transform(action) {
+  var result = { };
+  var actions = { };
+  var originals = { };
+  
+  setContext.call(actions, normalizeAction.call(action));
 
-  var actions = { 
-    $: normalizeAction.call(action)
-  };
+  // 1-3; Wrap, Inherit, Defaults
+  var encodedFamilies = flatten.call(this);
+  for (var i = 0; i < encodedFamilies.length; i++)
+    wrapInheritDefaults(encodedFamilies[i], result, actions, originals);
 
-  Object.defineProperty(actions, '$', hide);
-
-  result = flatten.call(this).reduce(
-    (aggregate, family) => merge.call(
-      aggregate, wrapInheritMergeInflate(actions, family)
-    ), { }
+  // 4-8; Depends, Inflate, Thunks, Scorch, Update
+  var update = name => dependsInflateThunkScorchUpdate(
+    result, name, actions[name], originals[name]
   );
 
-  edges = map.call(result, (descriptor, key) =>
-    nested.toArray(descriptor, actions[key].depends)
-  );
+  var adjacencyList = mapToAdjacencyList(result, actions);
+  if (adjacencyList)
+    poset.forEach.call(edges, update);
+  else
+    for (var name in result) update(name);
+
+  // 9; Resolve
+  for (var name in result) 
+    resolve(result, name, actions[name], originals[name]);
 
   return result;
 }

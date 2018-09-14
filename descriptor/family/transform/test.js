@@ -17,7 +17,7 @@ function readMe() {
   assert(result.orange.name == 'orange');
   assert(result.banana.name == 'banana');
 }
-//readMe();
+readMe();
 
 function depends() {
   var result = transform.call({
@@ -28,6 +28,6 @@ function depends() {
     depends: { base: o => o.id }
   })
 
-  assert(result.truck.base.id == 0);
+  //assert(result.truck.base.id == 0);
 }
 depends();

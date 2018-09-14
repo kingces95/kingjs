@@ -1,6 +1,6 @@
 'use strict';
 
-function map(callback) {
+function reduce(callback) {
   var result = null;
 
   for (var key in this) {
@@ -14,5 +14,5 @@ function map(callback) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: map }
+  exports: { value: reduce }
 });
