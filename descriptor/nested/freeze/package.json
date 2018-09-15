@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/descriptor.nested.to-array",
+  "version": "1.0.0",
+  "description": "Freezes tree of marked objects.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is-object": "^1.0.0"
+  }
+}

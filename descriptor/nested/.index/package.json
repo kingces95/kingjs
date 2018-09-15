@@ -17,6 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.nested.freeze": "^1.0.0",
     "@kingjs/descriptor.nested.merge": "^1.0.0",
     "@kingjs/descriptor.nested.reduce": "^1.0.0",
     "@kingjs/descriptor.nested.to-array": "^1.0.0",

@@ -7,6 +7,13 @@ function throwMergeConflict(left, right, name) {
   throw 'Merge conflict at: ' + name;
 }
 
+function get(name) {
+  if (!isEnumerable.call(this, name))
+    return undefined;
+    
+  return this[name];
+}
+
 function merge(target, delta, resolve) {
 
   if (!resolve)
@@ -17,7 +24,7 @@ function merge(target, delta, resolve) {
 
   for (var name in delta) {
     var newValue = delta[name];
-    var existingValue = this[name];
+    var existingValue = get.call(this, name);
     
     if (existingValue !== undefined || 
       isEnumerable.call(target || this, name)) {
