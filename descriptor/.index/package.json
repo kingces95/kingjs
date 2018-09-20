@@ -25,6 +25,7 @@
     "@kingjs/descriptor.merge": "^1.0.3",
     "@kingjs/descriptor.merge-wildcards": "^1.0.0",
     "@kingjs/descriptor.nested": "^1.0.0",
+    "@kingjs/descriptor.normalize": "^1.0.0",
     "@kingjs/descriptor.scorch": "^1.0.0",
     "@kingjs/descriptor.transform": "^1.0.0",
     "@kingjs/descriptor.update": "^1.0.0",

@@ -58,7 +58,8 @@ declare function mapNames(
     [index: number]: string | number 
   } | { 
     (name: string): string | number
-  }
+  },
+  thisArgs?
 ): Descriptor
 ```
 ### Interfaces
@@ -68,6 +69,7 @@ declare function mapNames(
 - `map`: Either 
   - A descriptor containing a mapping of property names on `this` to names on the new descriptor. Properties on `this` not included in `map` will not be copied.
   - A callback which maps names on `this` to names on the new descriptor. If the callback returns `undefined` then the property value is not copied.
+- `thisArg`: The `this` argument to pass to `map` should `map` be a function.
 ### Returns
 A new descriptor with a copy of a subset of properties from `this` but with different property names according to `map` or `null` if no properties were copied.
 ## Remarks

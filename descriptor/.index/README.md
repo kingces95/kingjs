@@ -20,6 +20,7 @@ declare interface Descriptor {
 - [`inherit`][inherit]
 - [`keys`][keys]
 - [`mergeWildcards`][merge-wildcards]
+- [`normalize`][normalize]
 - [`write`][write]
 
 ### Update/Transform
@@ -63,6 +64,7 @@ MIT
   [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
+  [normalize]: https://www.npmjs.com/package/@kingjs/descriptor.normalize
   [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.scorch
   [update]: https://www.npmjs.com/package/@kingjs/descriptor.update
   [write]: https://www.npmjs.com/package/@kingjs/descriptor.write

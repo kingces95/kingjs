@@ -7,6 +7,7 @@ Object.defineProperties(module.exports, {
   merge: { value: require('@kingjs/descriptor.merge') },
   mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },
   nested: { value: require('@kingjs/descriptor.nested') },
+  normalize: { value: require('@kingjs/descriptor.normalize') },
   scorch: { value: require('@kingjs/descriptor.scorch') },
   update: { value: require('@kingjs/descriptor.update') },
   write: { value: require('@kingjs/descriptor.write') }

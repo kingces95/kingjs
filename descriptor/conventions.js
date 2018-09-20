@@ -1,14 +1,17 @@
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 
+var normalize = require('./normalize');
 var write = require('./write');
 
 //var inherit = require('./inherit');
-//var merge = require('./merge');
 //var scorch = require('./scorch');
+var merge = require('./merge');
 var update = require('./update');
 var filter = require('./filter');
 var map = require('./map');
+var mapNames = require('./map-names');
+var reduce = require('./reduce');
 
 // var nested = {
 //   merge: require('./nested/merge'),
@@ -17,49 +20,73 @@ var map = require('./map');
 //   update: require('./nested/update')
 // }
 
-// var isCopyOnWrite = {
-//   inherit: inherit,
-//   merge: merge,
-//   scorch: scorch,
-//   update: update
-// };
-
 // var isTransform = {
 //   filter: filter, 
 //   map: map
 // }
 
-var hasCallback = {
-  filter: {
-    func: filter,
-    callbackAt: 0
-  },
-  update: {
-    func: update,
-    callbackAt: 0
-  },
-  //merge: filter,
-  map: {
-    func: update,
-    callbackAt: 0
+var thisArg = { };
+var descriptor = { x:0 };
+
+var isCopyOnWrite = {
+  //scorch: scorch,
+  inherit: inherit,
+  merge: merge,
+  update: update
+};
+
+function isCopyOnWriteTest() {
+
+  for (var name in isCopyOnWrite) {
+    for (var i = 0; i < 1; i++) {
+      var copyOnWrite = i == 1;
+
+      var test = normalize(isCopyOnWrite[name], 'func');
+      var func = test.func;
+      var ctx = Object.create(test.ctx || descriptor);
+      var args = test.args || [];
+      args.push(copyOnWrite);
+
+      var result = func.apply(ctx, args);
+      assert((result === ctx) == (copyOnWrite == false));
+    }
   }
+}
+isCopyOnWriteTest();
+
+var hasCallback = {
+  filter: filter,
+  update: update,
+  map: map,
+  mapNames: mapNames,
+  merge: {
+    func: merge,
+    args: [{ x:1 }]
+  },
+  reduce: {
+    func: reduce,
+    args: [{ }]
+  },
 };
 
 function hasCallbackTest() {
-  var called = false;
-  var thisArg = { }
+
   var callback = function() {
     assert(thisArg == this);
     called = true;
   };
 
+  var called = false;
   for (var name in hasCallback) {
-    var test = hasCallback[name];
-    var args = [callback, thisArg];
-    for (var i = 0; i < test.callbackAt; i++)
-      args.unshift({ x:0 });
+    var test = normalize(hasCallback[name], 'func');
+    var func = test.func;
+    var args = test.args || [];
+    var ctx = Object.create(test.ctx || descriptor);
+    
+    args.push(callback);
+    args.push(thisArg);
 
-    test.func.apply({ x:0 }, args);
+    func.apply(ctx, args);
     
     assert(called);
     called = false;
