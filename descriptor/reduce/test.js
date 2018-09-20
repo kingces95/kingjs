@@ -21,7 +21,3 @@ function readMe() {
   assert(result.bar == 2);
 }
 readMe();
-
-assertTheory(function(test, id) {
-}, {
-})

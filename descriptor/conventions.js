@@ -1,10 +1,11 @@
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
+var assertTheory = testRequire('@kingjs/assert-theory');
 
 var normalize = require('./normalize');
 var write = require('./write');
 
-//var inherit = require('./inherit');
+var inherit = require('./inherit');
 //var scorch = require('./scorch');
 var merge = require('./merge');
 var update = require('./update');
@@ -28,68 +29,64 @@ var reduce = require('./reduce');
 var thisArg = { };
 var descriptor = { x:0 };
 
-var isCopyOnWrite = {
-  //scorch: scorch,
-  inherit: inherit,
-  merge: merge,
-  update: update
-};
+assertTheory(function(test, id) {
 
-function isCopyOnWriteTest() {
+  var meta = normalize(test.meta, 'func')
+  var func = meta.func;
+  var ctx = Object.create(meta.ctx || descriptor);
+  var args = Object.create(meta.args || []);
+  args.push(test.copyOnWrite);
 
-  for (var name in isCopyOnWrite) {
-    for (var i = 0; i < 1; i++) {
-      var copyOnWrite = i == 1;
+  var result = func.apply(ctx, args);
 
-      var test = normalize(isCopyOnWrite[name], 'func');
-      var func = test.func;
-      var ctx = Object.create(test.ctx || descriptor);
-      var args = test.args || [];
-      args.push(copyOnWrite);
-
-      var result = func.apply(ctx, args);
-      assert((result === ctx) == (copyOnWrite == false));
+  var copied = result !== ctx;
+  assert(copied == test.copyOnWrite);
+}, {
+  meta: [
+    //scorch: scorch,
+    {
+      func: merge,
+      args: [{ y:0 }, null, null]
+    }, {
+      func: inherit,
+      args: [[{ y:0 }]]
+    }, {
+      func: update,
+      args: [() => 1, null]
     }
-  }
-}
-isCopyOnWriteTest();
+  ],
+  copyOnWrite: [ true, false ]
+});
 
-var hasCallback = {
-  filter: filter,
-  update: update,
-  map: map,
-  mapNames: mapNames,
-  merge: {
-    func: merge,
-    args: [{ x:1 }]
-  },
-  reduce: {
-    func: reduce,
-    args: [{ }]
-  },
-};
-
-function hasCallbackTest() {
-
+assertTheory(function(test, id) {
+  var called = false;
   var callback = function() {
     assert(thisArg == this);
     called = true;
   };
 
-  var called = false;
-  for (var name in hasCallback) {
-    var test = normalize(hasCallback[name], 'func');
-    var func = test.func;
-    var args = test.args || [];
-    var ctx = Object.create(test.ctx || descriptor);
-    
-    args.push(callback);
-    args.push(thisArg);
+  var meta = normalize(test.meta, 'func');
+  var func = meta.func;
+  var args = Object.create(meta.args || []);
+  var ctx = Object.create(meta.ctx || descriptor);
+  
+  args.push(callback);
+  args.push(thisArg);
 
-    func.apply(ctx, args);
-    
-    assert(called);
-    called = false;
-  }
-}
-hasCallbackTest();
+  func.apply(ctx, args);
+  
+  assert(called);
+}, {
+  meta: [
+    filter,
+    update,
+    map,
+    mapNames, {
+      func: merge,
+      args: [{ x:1 }]
+    }, {
+      func: reduce,
+      args: [{ }]
+    },
+  ]
+})

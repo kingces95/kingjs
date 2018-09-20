@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.update",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Updates values of a descriptor using a callback.",
   "main": "index.js",
   "files": [

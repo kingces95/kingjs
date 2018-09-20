@@ -26,7 +26,7 @@ function inherit(bases, copyOnWrite) {
     });
   }
 
-  return merge.call(this, values, takeLeft, copyOnWrite);  
+  return merge.call(this, values, takeLeft, null, copyOnWrite);  
 }
 
 Object.defineProperties(module, {
