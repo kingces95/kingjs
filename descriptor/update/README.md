@@ -27,8 +27,9 @@ result:
 ```ts
 declare function update(
   this: Descriptor,
-  callback: (value, key: string) => any,
-  copyOnWrite: boolean
+  callback: (this, value, key: string) => any,
+  thisArg?,
+  copyOnWrite?: boolean
 ): Descriptor
 ```
 ### Interfaces
@@ -38,6 +39,7 @@ declare function update(
 - `callback`: A mapping function called for each property of `this`.
   - `value`: The value being mapped.
   - `key`: The name of the property being mapped.
+- `thisArg`: The `this` argument to pass to `callback`.
 - `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 ### Returns
 Returns `this` after mapping properties using the `callback`. 

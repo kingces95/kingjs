@@ -24,7 +24,8 @@ result:
 ```ts
 declare function filter(
   this: Descriptor,
-  predicate: (value: any, name: string): boolean
+  predicate: (this, value, name: string): boolean,
+  thisArg?,
 ): Descriptor
 ```
 ### Interfaces
@@ -32,6 +33,7 @@ declare function filter(
 ### Parameters
 - `this`: The descriptor whose properties will be filtered and copied to a new descriptor.
 - `predicate`: A predicate used to test which properties should be copied to the filtered descriptor.
+- `thisArg`: The `this` argument to pass to `callback`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

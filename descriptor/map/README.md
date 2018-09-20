@@ -27,7 +27,8 @@ result:
 ```ts
 declare function map(
   this: Descriptor,
-  callback: (value, key: string) => any
+  callback: (this, value, key: string) => any,
+  thisArg?,
 ): Descriptor
 ```
 ### Interfaces
@@ -37,6 +38,7 @@ declare function map(
 - `callback`: A mapping function called for each property of `this`.
   - `value`: The value being mapped.
   - `key`: The name of the property being mapped.
+- `thisArg`: The `this` argument to pass to `callback`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

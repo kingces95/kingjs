@@ -28,25 +28,25 @@ assertTheory(function(test, id) {
   if (test.frozen)
     Object.freeze(descriptor);
 
+  var thisArg = { };
+
   var result = update.call(descriptor, function(value, key) {
     assert(key == test.key);
     assert(value === test.value);
+    assert(this === thisArg);
     return test.update;
-  }, test.copyOnWrite);
-
-  assert(
-    Object.isFrozen(descriptor) ==
-    Object.isFrozen(result)
-  );
+  }, thisArg, test.copyOnWrite);
 
   var copyOnWrite = test.copyOnWrite || test.frozen;
 
   assert(result[test.key] === test.update);
 
-  assert(
-    (result === descriptor) ==
-    (test.update === test.value || !copyOnWrite)
+  var copied = result !== descriptor;
+  assert(copied ==
+    (test.update !== test.value && copyOnWrite)
   )
+
+  assert(Object.isFrozen(result) == (!copied && test.frozen));
 }, {
   key: 'foo',
   value: [ undefined, null, 0, 1 ],

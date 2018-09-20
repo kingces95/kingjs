@@ -9,8 +9,7 @@ function readMe() {
     zero: 0,
     include: null,
     exclude: null,
-  }, (value, name) => 
-    name == 'include' || value == 0, 
+  }, (value, name) => name == 'include' || value == 0, 
   );
 
   assert(Object.keys(result).length == 2);

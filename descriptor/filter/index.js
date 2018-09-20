@@ -1,10 +1,10 @@
 'use strict';
 
-function filter(callback) {
+function filter(callback, thisArg) {
   var result = null;
 
   for (var name in this) {
-    var include = callback(this[name], name);
+    var include = callback.call(thisArg, this[name], name);
     if (!include)
       continue;
 

@@ -36,7 +36,8 @@ result:
 declare function merge(
   this: Descriptor, 
   delta?: Descriptor, 
-  resolve?: (left, right, name: string) => any,
+  resolve?: (this, left, right, name: string) => any,
+  thisArg?,
   copyOnWrite?: boolean
 ): any
 ```
@@ -49,6 +50,7 @@ declare function merge(
   - `left`: The existing value.
   - `right`: The new value.
   - `name`: The name of the conflicting property.
+- `thisArg`: The `this` argument to pass to `callback`.
 - `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 ### Returns
 Returns `this` after merging properties from `delta`. 
