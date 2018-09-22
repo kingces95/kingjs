@@ -28,15 +28,19 @@ assertTheory(function(test, id) {
       tree = { [test.nestedName]: tree };
   }
 
+  var initialValue = test.hasInitialValue ? [ ] : undefined;
+
   var result = reduce(value, tree, (a, o) => {
-    if (!a)
+    if (a instanceof Array == false) {
+      assert(a === o);
       a = [];
+    }
     a.push(o);
     return a;
-  });
+  }, initialValue);
 
   if (!test.hasPaths || !test.hasTree) {
-    assert(result === null);
+    assert(result === initialValue);
     return;
   }
 
@@ -52,4 +56,5 @@ assertTheory(function(test, id) {
   enumerable: [ false, true ],
   inherited: [ false, true ],
   nested: [ false, true ],
+  hasInitialValue: [ false, true ],
 })

@@ -27,11 +27,9 @@ function readMe() {
   }
 
   var result = reduce(people, tree, (a, o) => {
-    if (!a)
-      a = [];
     a.push(o);
     return a;
-  });
+  }, []);
 
   assert(result.length == 4);
   assert(result.indexOf('tiger') != -1);

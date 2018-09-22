@@ -52,7 +52,7 @@ function update(tree, paths, callback, thisArg, copyOnWrite) {
 Object.defineProperties(module, {
   exports: { 
     value: function(tree, paths, callback, thisArg, copyOnWrite) {
-      if (paths === undefined || tree === undefined)
+      if (tree === undefined || paths === undefined)
         return tree;
 
       return update(tree, paths, callback, thisArg, copyOnWrite);

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.reduce",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Accumulates the values of leafs at specific paths using a callback.",
   "main": "index.js",
   "files": [
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/kingces95/kingjs.git"
   },
-  "keywords": [ ],
+  "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
