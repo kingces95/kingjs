@@ -13,7 +13,7 @@ function mergeWildcards(value, copyOnWrite) {
   var wildcard = this[wildcardName];
 
   var updatedThis = clear.call(
-    this, updatedThis, wildcardName, copyOnWrite
+    this, wildcardName, copyOnWrite
   );
 
   for (var name in value) {

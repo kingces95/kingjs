@@ -50,6 +50,9 @@ function assertTheory(theory, observations, runId) {
       normalizeObservations(observations)
     )
   );
+
+  if (runId !== undefined)
+    throw 'Passed! Remove runId: ' + runId;
 }
 
 Object.defineProperties(module, {

@@ -3,6 +3,7 @@
 var testTheory = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
 
 function readme() {
   var id = 0;
@@ -34,7 +35,7 @@ function observationsAsThis() {
 }
 observationsAsThis();
 
-function runId() {
+assertThrows(function() {
   var ran = false;
 
   testTheory(function(test, id) {
@@ -45,8 +46,7 @@ function runId() {
   }, 1);
 
   assert(ran);
-}
-runId();
+});
 
 function primitive() {
 

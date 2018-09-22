@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/assert-theory",
-  "version": "1.0.11",
+  "version": "1.0.14",
   "description": "Calls a theory with every combination of elements from an array set.",
   "main": "index.js",
   "files": [

@@ -5,14 +5,16 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 var normalize = require('./normalize');
 var write = require('./write');
 
-var inherit = require('./inherit');
 //var scorch = require('./scorch');
+var create = require('./create');
+var inherit = require('./inherit');
 var merge = require('./merge');
 var update = require('./update');
 var filter = require('./filter');
 var map = require('./map');
 var mapNames = require('./map-names');
 var reduce = require('./reduce');
+var mergeWildcards = require('./merge-wildcards');
 
 // var nested = {
 //   merge: require('./nested/merge'),
@@ -29,11 +31,11 @@ var reduce = require('./reduce');
 var thisArg = { };
 var descriptor = { x:0 };
 
-assertTheory(function(test, id) {
+assertTheory(function copyOnWriteTest(test, id) {
 
   var meta = normalize(test.meta, 'func')
   var func = meta.func;
-  var ctx = Object.create(meta.ctx || descriptor);
+  var ctx = create(meta.ctx || descriptor, true);
   var args = Object.create(meta.args || []);
   args.push(test.copyOnWrite);
 
@@ -42,9 +44,14 @@ assertTheory(function(test, id) {
   var copied = result !== ctx;
   assert(copied == test.copyOnWrite);
 }, {
+  copyOnWrite: [ false, true ],
   meta: [
     //scorch: scorch,
     {
+      func: mergeWildcards,
+      ctx: { '*':null },
+      args: [{ x:0 }]
+    }, {
       func: merge,
       args: [{ y:0 }, null, null]
     }, {
@@ -54,11 +61,10 @@ assertTheory(function(test, id) {
       func: update,
       args: [() => 1, null]
     }
-  ],
-  copyOnWrite: [ true, false ]
+  ]
 });
 
-assertTheory(function(test, id) {
+assertTheory(function thisArgCallbackTest(test, id) {
   var called = false;
   var callback = function() {
     assert(thisArg == this);

@@ -7,12 +7,13 @@ function clear(name, copyOnWrite) {
   if (name in this == false)
     return this;
 
-  if (name in Object.getPrototypeOf(this))
+  var prototype = Object.getPrototypeOf(this);
+  if (prototype && name in prototype)
     copyOnWrite = true;
 
   var updatedThis = this;
   if (copyOnWrite || Object.isFrozen(this))
-    updatedThis = create(updatedThis);
+    updatedThis = create(updatedThis, true);
 
   delete updatedThis[name];
   return updatedThis;

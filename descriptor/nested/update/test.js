@@ -22,11 +22,11 @@ function readMe() {
     }
   };
 
-  var result = update.call(
-    people,
+  var result = update(
     people,
     { '*': { follows: null } },
-    function(name) { return this[name]; }
+    function(name) { return this[name]; },
+    people
   )
 
   assert(result.alice.follows == people.bob);

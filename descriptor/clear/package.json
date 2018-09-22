@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/descriptor.clear",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Returns a descriptor with a named property removed.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.1"
+    "@kingjs/descriptor.create": "^1.0.2"
   }
 }
