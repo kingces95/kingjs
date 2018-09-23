@@ -6,6 +6,19 @@ var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
+function assertResult(test, result, left, right) {
+  assert(result === (
+    left === right ? left :
+    left === undefined ? right :
+    right === undefined ? left :
+    test.resolver == this.resolver.right ? right :
+    test.resolver == this.resolver.left ? left :
+    -1
+  ));
+}
+
+var thisArg = { };
+
 assertTheory(function(test, id) {
 
   var left = test.left;
@@ -13,15 +26,12 @@ assertTheory(function(test, id) {
   var resolver = test.resolver;
 
   var mergeTest = function() {
-    if (!test.nested) 
-      return merge(left, right, resolver);
       
-    var tree = { value: left };
-    var delta = { value: right };
-    var path = { value: resolver };
-    var thisArg = null;
+    var tree = test.leftNested ? { value: left } : left;
+    var delta = test.rightNested ? { value: right } : right;
+    var path = test.pathNested ? { value: resolver } : resolver;
 
-    if (test.frozen)
+    if (test.leftNested && test.frozen)
       Object.freeze(tree);
 
     var result = merge(
@@ -30,53 +40,110 @@ assertTheory(function(test, id) {
       path,
       thisArg,
       test.copyOnWrite
-    );
+    ); 
+
+    if (!test.pathNested) {
+      assertResult.call(this, test, result, tree, delta);
+      return result;
+    }
+
+    assert(test.pathNested);
+
+    if (!test.leftNested) {
+
+      if (test.left === undefined) {
+        if (test.rightNested)
+          assert(result.value === test.right);
+        else
+          assert(result === test.left);
+
+        return result;
+      }
+
+      assert(result === test.left);
+      return result;
+    }
+
+    assert(test.leftNested);
 
     var copied = result != tree;
+
+    if (!test.rightNested) {
+      assert(!copied);
+      assert(result.value == left);
+      return result;
+    }
+
+    assert(test.rightNested);
+
     var differentValues = tree.value !== delta.value;
     var implicitWrite = differentValues && tree.value === undefined
     var merged = differentValues && delta.value !== undefined && tree.value !== undefined;
     var mergeWrite = merged && 
       (resolver == this.resolver.neither ||
-       resolver == this.resolver.right);
+      resolver == this.resolver.right);
     var write = mergeWrite || implicitWrite;
 
     assert((write && (test.copyOnWrite || test.frozen)) == copied);
+
+    assertResult.call(this, test, result.value, left, right);
     return result;
   }
 
-  if (!test.resolver &&
-      left !== right && 
-      left !== undefined && 
-      right !== undefined) {
-    assertThrows(mergeTest);
-    return;
+
+  if (!test.resolver) {
+    var nodesConflict = test.leftNested && !test.rightNested && !test.pathNested;
+    if (nodesConflict && test.right !== undefined) {
+      assertThrows(mergeTest);
+      return;
+    }
+
+    var nodesConflict = !test.leftNested && test.rightNested && !test.pathNested;
+    if (nodesConflict && test.left !== undefined) {
+      assertThrows(mergeTest);
+      return;
+    }
+
+    var nodesConflict = test.leftNested && test.rightNested && !test.pathNested;
+    if (nodesConflict) {
+      assertThrows(mergeTest);
+      return;
+    }
+
+    var allNested = test.leftNested && test.rightNested && test.pathNested;
+    var noneNested = !test.leftNested && !test.rightNested && !test.pathNested;
+    if (allNested || noneNested) {
+      if (left !== right && 
+        left !== undefined && 
+        right !== undefined) {
+        assertThrows(mergeTest);
+        return;
+      }
+    }
   }
-    
-  var result = mergeTest.call(this);
 
-  if (test.nested)
-    result = result.value;
-
-  assert(result === (
-    left === right ? left :
-    left === undefined ? right :
-    right === undefined ? left :
-    test.resolver == this.resolver.right ? right :
-    test.resolver == this.resolver.left ? left :
-    -1)
-  );
-
+  mergeTest.call(this);
 }, {
-  nested: [ true, false ],
+  leftNested: [ true, false ],
+  rightNested: [ true, false ],
+  pathNested: [ true, false ],
   frozen: [ true, false ],
   copyOnWrite: [ true, false ],
-  left: [ undefined, null, 0, 1, { } ],
-  right: [ undefined, null, 0, 1, { } ],
+  left: [ undefined, null, 0, 1 ],
+  right: [ undefined, null, 0, 1 ],
   resolver: {
     none: undefined,
-    neither: function(x, y) { return -1; },
-    left: function(x, y) { return x; },
-    right: function(x, y) { return y; },
+    neither: function(x, y) {
+      assert(this == thisArg);
+      return -1; 
+    },
+    left: function(x, y) {
+      assert(this == thisArg);
+      return x; 
+    },
+    right: function(x, y) { 
+      assert(this == thisArg);
+      return y; 
+    },
   }
 });
