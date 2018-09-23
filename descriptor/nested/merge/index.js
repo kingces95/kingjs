@@ -1,5 +1,6 @@
 'use strict';
 
+var create = require(`@kingjs/descriptor.create`);
 var write = require('@kingjs/descriptor.write');
 var isObject = require('@kingjs/is-object');
 
@@ -7,34 +8,33 @@ function throwMergeConflict(left, right, copyOnWrite) {
   throw 'Merge conflict';
 }
 
-var copyOnWriteArgPosition = 2;
+function mergeNode(
+  delta,
+  path,
+  thisArg, 
+  copyOnWrite) {
 
-var mergeNode = write.define(
-  function(
-    target,
-    delta,
-    path,
-    copyOnWrite) {
-  
-    for (var name in path) {
-  
-      var result = merge(
-        this[name],
-        delta[name],
-        path[name],
-        copyOnWrite
-      );
-  
-      target = write.call(
-        this, target, name, result
-      );
-    }
-  
-    return target;
-  }, copyOnWriteArgPosition
-);
+  var updatedThis = this;
 
-function merge(tree, delta, paths, copyOnWrite) {
+  for (var name in path) {
+
+    var result = merge(
+      this[name],
+      delta[name],
+      path[name],
+      thisArg, 
+      copyOnWrite
+    );
+
+    updatedThis = write.call(
+      this, updatedThis, name, result, copyOnWrite
+    );
+  }
+
+  return updatedThis;
+}
+
+function merge(tree, delta, paths, thisArg, copyOnWrite) {
 
   if (paths == null || paths == undefined)
     paths = throwMergeConflict;
@@ -50,14 +50,14 @@ function merge(tree, delta, paths, copyOnWrite) {
     if (delta === undefined)
       return tree;
 
-    return paths(tree, delta, copyOnWrite);
+    return paths.call(thisArg, tree, delta, copyOnWrite);
   }
 
   if (!isObject(delta))
     return tree;
 
   if (tree === undefined)
-    tree = { };
+    tree = create();
 
   if (!isObject(tree))
     return tree;
@@ -66,6 +66,7 @@ function merge(tree, delta, paths, copyOnWrite) {
     tree,
     delta, 
     paths,
+    thisArg, 
     copyOnWrite
   );
 }

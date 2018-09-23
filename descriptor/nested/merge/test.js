@@ -56,7 +56,8 @@ function readme() {
   }
   
   var copyOnWrite = true;
-  var result = nestedMerge(worker, adult, resolve, copyOnWrite);
+  var thisArg = null;
+  var result = nestedMerge(worker, adult, resolve, thisArg, copyOnWrite);
 
   assert(result.wrap == 'name');
   assert(result.defaults.name == 'John Doe');
@@ -148,6 +149,5 @@ function recursive() {
 
 }
 recursive();
-
 
 require('./theory')

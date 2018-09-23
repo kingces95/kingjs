@@ -1,6 +1,6 @@
 'use strict';
 
-var nestedMerge = require('.');
+var merge = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
@@ -14,27 +14,34 @@ assertTheory(function(test, id) {
 
   var mergeTest = function() {
     if (!test.nested) 
-      return nestedMerge(left, right, resolver);
+      return merge(left, right, resolver);
       
-    var target = { value: left };
-    var copyOnWrite = false;
-    var isFrozen = test.nested == this.nested.yesAndFrozen;
-    if (isFrozen)
-      target = Object.freeze(target);
-    else
-      copyOnWrite = true;
+    var tree = { value: left };
+    var delta = { value: right };
+    var path = { value: resolver };
+    var thisArg = null;
 
-    var source = { value: right };
+    if (test.frozen)
+      Object.freeze(tree);
 
-    var result = nestedMerge(
-      target, 
-      source, 
-      { value: resolver },
-      copyOnWrite
+    var result = merge(
+      tree, 
+      delta, 
+      path,
+      thisArg,
+      test.copyOnWrite
     );
 
-    var isUpdated = target.value !== source.value && source.value !== undefined;
-    assert(((copyOnWrite || isFrozen) && isUpdated) == (result != target));
+    var copied = result != tree;
+    var differentValues = tree.value !== delta.value;
+    var implicitWrite = differentValues && tree.value === undefined
+    var merged = differentValues && delta.value !== undefined && tree.value !== undefined;
+    var mergeWrite = merged && 
+      (resolver == this.resolver.neither ||
+       resolver == this.resolver.right);
+    var write = mergeWrite || implicitWrite;
+
+    assert((write && (test.copyOnWrite || test.frozen)) == copied);
     return result;
   }
 
@@ -55,20 +62,21 @@ assertTheory(function(test, id) {
     left === right ? left :
     left === undefined ? right :
     right === undefined ? left :
+    test.resolver == this.resolver.right ? right :
+    test.resolver == this.resolver.left ? left :
     -1)
   );
 
 }, {
-  nested: {
-    no: 'no',
-    yes: 'yes',
-    yesAndFrozen: 'yesAndFrozen',
-    yesAndCopyOnWrite: 'yesAndCopyOnWrite'
-  },
+  nested: [ true, false ],
+  frozen: [ true, false ],
+  copyOnWrite: [ true, false ],
   left: [ undefined, null, 0, 1, { } ],
   right: [ undefined, null, 0, 1, { } ],
   resolver: {
     none: undefined,
-    resolve: function(x, y) { return -1; },
+    neither: function(x, y) { return -1; },
+    left: function(x, y) { return x; },
+    right: function(x, y) { return y; },
   }
 });
