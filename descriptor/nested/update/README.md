@@ -51,8 +51,8 @@ declare function update(
   tree: NestedDescriptor,
   path: NestedDescriptor,
   callback: (leaf, path, copyOnWrite: boolean) => any,
-  thisArg,
-  copyOnWrite: boolean
+  thisArg?,
+  copyOnWrite?: boolean
 ): NestedDescriptor
 ```
 ### Interfaces

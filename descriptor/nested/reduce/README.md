@@ -36,8 +36,8 @@ declare function reduce(
   tree: NestedDescriptor,
   paths: NestedDescriptor,
   callback: (accumulator, value) => any,
-  initialValue,
-  thisArg
+  initialValue?,
+  thisArg?
 ): any
 ```
 ### Interfaces

@@ -29,7 +29,7 @@ declare function reduce(
   this: Descriptor,
   accumulator: any,
   callback: (this, value, key: string) => any,
-  thisArg
+  thisArg?
 ): Descriptor
 ```
 ### Interfaces

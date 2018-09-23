@@ -36,7 +36,7 @@ result:
 declare function mergeWildcards(
   this: Descriptor,
   other: Descriptor,
-  copyOnWrite: boolean
+  copyOnWrite?: boolean
 ): Descriptor
 ```
 ### Interfaces

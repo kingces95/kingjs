@@ -17,7 +17,7 @@ var reduce = require('./reduce');
 var mergeWildcards = require('./merge-wildcards');
 
 var nested = {
-  //merge: require('./nested/merge'),
+  merge: require('./nested/merge'),
   reduce: require('./nested/reduce'),
   //toArray: require('./nested/to-array'),
   update: require('./nested/update')
@@ -50,6 +50,10 @@ assertTheory(function copyOnWriteTest(test, id) {
   meta: [
     //scorch: scorch,
     {
+      func: nested.merge,
+      ctx: null,
+      args: [{ }, { x:0 }, { x:null }, null]
+    }, {
       func: nested.update,
       ctx: null,
       args: [{ }, { x:0 }, (_, x) => x, null]
@@ -92,6 +96,10 @@ assertTheory(function thisArgCallbackTest(test, id) {
 }, {
   meta: [
     {
+      func: nested.merge,
+      ctx: null,
+      args: [0, 1],
+    }, {
       func: nested.reduce,
       ctx: null,
       args: [{ }, { x:0 }],

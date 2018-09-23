@@ -25,7 +25,7 @@ result:
 declare function inherit(
   this: any,
   bases: any[],
-  copyOnWrite: boolean
+  copyOnWrite?: boolean
 ): any
 ```
 ### Parameters

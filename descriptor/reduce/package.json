@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.reduce",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Accumulate properties of a descriptor using a callback.",
   "main": "index.js",
   "files": [

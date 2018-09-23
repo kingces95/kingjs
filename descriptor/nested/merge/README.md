@@ -122,8 +122,8 @@ declare function merge(
   tree: Descriptor,
   delta: Descriptor,
   paths: Descriptor,
-  thisArg,
-  copyOnWrite: boolean
+  thisArg?,
+  copyOnWrite?: boolean
 ): Descriptor
 ```
 ### Interfaces

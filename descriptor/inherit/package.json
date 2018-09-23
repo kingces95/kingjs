@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.inherit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Copy properties from set of objects which are not present on this.",
   "main": "index.js",
   "files": [
