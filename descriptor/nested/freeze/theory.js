@@ -2,53 +2,38 @@
 
 var freeze = require('.');
 var testRequire = require('..');
+var isObject = testRequire('@kingjs/is-object');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
-var $freeze = '$freeze';
-
 assertTheory(function(test, id) {
 
-  var value = test.value;
-  if (test.hasValue) {
-    value = { [test.name]: value };
-    if (test.isFrozen)
-      value.$freeze = true;
+  var value = isObject(test.value) ? { } : test.value;
+  if (test.valueNested) 
+    value = { value: value };
 
-    if (test.isNested) {
-      value = { [test.nestedName]: value };
-      if (test.isNestedFrozen)
-        value.$freeze = true;
-    }
-  }
+  var path = test.path;
+  if (test.pathNested) 
+    path = { [test.wildName ? '*' : 'value']: path };
 
-  freeze(value);
+  freeze(value, path);
 
-  if (test.hasValue) {
+  if (!isObject(value))
+    return;
 
-    if (test.isNested) {
-      var isFrozen = Object.isFrozen(value);
-      assert(isFrozen == test.isNestedFrozen);
-      assert($freeze in value == false);
+  var expectFrozen = path !== undefined;
+  assert(Object.isFrozen(value) == expectFrozen);
 
-      value = value[test.nestedName];
-    }
+  if (!isObject(value.value))
+    return;
+  value = value.value;
 
-    var isFrozen = Object.isFrozen(value);
-    assert(isFrozen == (test.isFrozen && (!test.isNested || test.isNestedFrozen)));
-    assert($freeze in value == (test.isFrozen && test.isNested && !test.isNestedFrozen));
-
-    value = value[test.name];
-  }
-
-  assert(value === test.value);
-
+  expectFrozen = isObject(path);
+  assert(Object.isFrozen(value) == expectFrozen);
 }, {
-  name: 'foo',
-  nestedName: 'bar',
-  value: [ undefined, null, 0, 1 ],
-  hasValue: [ false, true ],
-  isNested: [ false, true ],
-  isFrozen: [ false, true ],
-  isNestedFrozen: [ false, true ]
+  valueNested: [ false, true ],
+  value: [ undefined, null, 0, 1, { } ],
+  pathNested: [ false, true ],
+  path: [ undefined, null, 0, 1 ],
+  wildName: [ false, true ]
 })

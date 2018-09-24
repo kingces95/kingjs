@@ -7,44 +7,50 @@ Freeze a tree of descriptors like this:
 
 var freeze = require('@kingjs/descriptor.nested.freeze');
 
-var values = {        $freeze = true,
-  alice: {            $freeze = true,
-    pet: 'tiger' 
+var values = {
+  alice: {
+    pet: { name: 'tiger' }
   },
-  bob: {              $freeze = true,
-    pet: 'snuggles' 
+  bob: {
+    pet: { name: 'snuggles' }
   },
-  chris: {            $freeze = true,
-    pet: 'spike'
+  chris: {
+    pet: { name: 'spike' }
   },
 }
 
-var result = freeze(values);
+freeze(values, {
+  '*': { pet: null }
+});
+
+values;
 ```
 result:
 ```js
 {
   alice: {
-    pet: 'tiger' 
+    pet: { name: 'tiger' }
   },
   bob: {
-    pet: 'snuggles' 
+    pet: { name: 'snuggles' }
   },
   chris: {
-    pet: 'spike'
-  }
+    pet: { name: 'spike' }
+  },
 }
 ```
 ## API
 ```ts
 declare function freeze(
-  tree: NestedDescriptor
+  tree: NestedDescriptor,
+  paths: NestedDescriptor
 ): void
 ```
 ### Interfaces
 - `NestedDescriptor`: see [@kingjs/descriptor/nested][nested-descriptor]
 ### Parameters
-- `tree`: A descriptor tree whose nodes marked with `$freeze` are frozen.
+- `tree`: The tree whose nodes will be frozen.
+- `paths`: The paths of the tree to freeze.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

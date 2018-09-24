@@ -7,31 +7,27 @@ var assert = testRequire('@kingjs/assert')
 function readMe() {
   'use strict';
 
-  var values = { $freeze = true,
-    alice: { $freeze = true,
-      pet: 'tiger' 
+  var values = {
+    alice: {
+      pet: { name: 'tiger' }
     },
-    bob: { $freeze = true,
-      pet: 'snuggles' 
+    bob: {
+      pet: { name: 'snuggles' }
     },
-    chris: { $freeze = true,
-      pet: 'spike'
+    chris: {
+      pet: { name: 'spike' }
     },
   }
 
-  var result = freeze(values);
+  freeze(values, { '*': { pet: null } });
 
-  assert(Object.isFrozen(result));
-  assert('$isFrozen' in result == result);
-
-  assert(Object.isFrozen(result.alice));
-  assert('$isFrozen' in result.alice == result);
-
-  assert(Object.isFrozen(result.bob));
-  assert('$isFrozen' in result.bob == result);
-
-  assert(Object.isFrozen(result.chris));
-  assert('$isFrozen' in result.chris == result);
+  assert(Object.isFrozen(values));
+  assert(Object.isFrozen(values.alice));
+  assert(Object.isFrozen(values.alice.pet));
+  assert(Object.isFrozen(values.bob));
+  assert(Object.isFrozen(values.bob.pet));
+  assert(Object.isFrozen(values.chris));
+  assert(Object.isFrozen(values.chris.pet));
 }
 readMe();
 

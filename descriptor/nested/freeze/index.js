@@ -1,31 +1,44 @@
 'use strict';
 
 var isObject = require('@kingjs/is-object');
+var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
-function forEach(value, callback) {
-  if (!callback.call(this, value))
-    return;
+function freezeNode(paths) {
 
-  for (var name in value)
-    forEach.call(this, value[name], callback);
+  for (var name in paths) {
+
+    freeze(
+      this[name],
+      paths[name]
+    );
+  }
 }
 
-function freeze(value) {
-  if (!isObject(value))
-    return false;
+function freeze(tree, paths) {
 
-  if (!value.$freeze)
-    return false;
+  if (!isObject(tree))
+    return;
 
-  delete value.$freeze;
-  Object.freeze(value);
-  return true;
+  Object.freeze(tree);
+
+  if (!isObject(paths))
+    return;
+
+  paths = mergeWildcards.call(paths, tree, true);
+
+  freezeNode.call(
+    tree,
+    paths
+  );
 }
 
 Object.defineProperties(module, {
   exports: { 
-    value: function(value) { 
-      forEach.call(this, value, freeze); 
-    } 
+    value: function(tree, paths) {
+      if (paths === undefined)
+        return;
+      
+      freeze(tree, paths);
+    }
   }
 });
