@@ -1,6 +1,7 @@
 {
   "description": "RunKit like environment for testing readme samples and tests in general.",
   "dependencies": {
+    "@kingjs/assert-theory": "^1.0.14",
     "kingjs": "^1.0.38"
   }
 }

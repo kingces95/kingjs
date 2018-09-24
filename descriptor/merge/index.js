@@ -1,39 +1,33 @@
 'use strict';
 
 var write = require('@kingjs/descriptor.write');
-var isEnumerable = require('@kingjs/is-enumerable');
 
 function throwMergeConflict(left, right, name) {
   throw 'Merge conflict at: ' + name;
 }
 
-function merge(target, delta, resolve) {
+function merge(delta, resolve, thisArg, copyOnWrite) {
+  var thisUpdated = this;
 
   if (!resolve)
     resolve = throwMergeConflict;
 
   if (delta === undefined || delta == null)
-    return target;
+    return thisUpdated;
 
   for (var name in delta) {
-    var newValue = delta[name];
+    var value = delta[name];
     var existingValue = this[name];
-    
-    if (existingValue !== undefined || 
-      isEnumerable.call(target || this, name)) {
 
-      if (existingValue === newValue)
-        continue;
+    if (existingValue !== value && existingValue !== undefined)
+      value = resolve.call(thisArg, existingValue, value, name);
 
-      newValue = resolve(existingValue, newValue, name);
-    }
-
-    target = write.call(this, target, name, newValue);
+    thisUpdated = write.call(this, thisUpdated, name, value, copyOnWrite);
   }
 
-  return target;
+  return thisUpdated;
 }
 
 Object.defineProperties(module, {
-  exports: { value: write.define(merge, 2) }
+  exports: { value: merge }
 });

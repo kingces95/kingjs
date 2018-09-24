@@ -22,11 +22,9 @@ var tree = {
 }
 
 reduce(people, tree, (a, o) => {
-  if (!a)
-    a = [];
   a.push(o);
   return a;
-});
+}, []);
 ```
 result:
 ```js
@@ -37,7 +35,9 @@ result:
 declare function reduce(
   tree: NestedDescriptor,
   paths: NestedDescriptor,
-  callback: (accumulator, value) => any
+  callback: (accumulator, value) => any,
+  initialValue?,
+  thisArg?
 ): any
 ```
 ### Interfaces
@@ -48,6 +48,8 @@ declare function reduce(
 - `callback`: A callback invoked on each value accumulated. Return the newly accumulated value.
   - `accumulator`: The accumulated value so far. Will be `null` by default.
   - `value`: The leaf being currently accumulated.
+- `initialValue`: Value to use as the first argument of the callback. If no initial value is supplied, the first value visited will be used.
+- `thisArg`: The `this` argument to pass to `callback`.
 ### Returns
 Returns the accumulated value or `null` if no values were accumulated..
 ## Install

@@ -26,42 +26,32 @@ assertTheory(function(test, id) {
   if (test.frozen)
     Object.freeze(source);
 
-  var func = write.define(
-    function(target) {
-      target = test.clear ? write.clear.call(
-        this, target, test.name
-      ) : write.call(
-        this, target, test.name, test.delta
-      );
-      return target;
-    }, 0
-  );
+  function func() {
+    var thisUpdated = this;
+    thisUpdated = write.call(
+      this, thisUpdated, test.name, test.delta, test.copyOnWrite
+    );
+    return thisUpdated;
+  }
 
-  var result = func.call(source, test.copyOnWrite);
-
-  assert(
-    Object.isFrozen(source) == 
-    Object.isFrozen(result)
-  );
-
-  var enumerable = isEnumerable.call(result, test.name);
-  assert(enumerable == !test.clear);
+  var result = func.call(source, source, test.copyOnWrite);
 
   var copyOnWrite = Object.isFrozen(source) || test.copyOnWrite;
   var copied = source !== result;
 
-  if (test.clear) {
-    var didWrite = test.defined && test.enumerable;
-    assert(copied == (copyOnWrite && didWrite));
-    return;
-  } 
-
-  var didWrite = !test.defined || test.value !== test.delta || !test.enumerable;
+  var didWrite = !test.defined || test.value !== test.delta;
   assert(copied == (copyOnWrite && didWrite));  
+  assert(Object.isFrozen(result) == (test.frozen && !didWrite));
 
   var actual = result[test.name];
-  var expected = test.clear ? undefined : test.delta;
+  var expected = test.delta;
   assert(actual === expected);
+
+  var enumerable = isEnumerable.call(result, test.name);
+
+  // this is a gotcha; descriptor logic assumes properties are enumerable and
+  // makes no effort to verify or enforce that for performance reasons. 
+  assert(enumerable == (test.enumerable || !test.defined || copied || (didWrite && test.inherited)));
 
 }, {
   name: [ 'foo' ],
@@ -71,7 +61,6 @@ assertTheory(function(test, id) {
   frozen: [ false, true ],
   copyOnWrite: [ true, false ],
   value: [ undefined, null, 0, 1 ],
-  delta: [ undefined, null, 0, 1 ],
-  clear: [ false, true ]
-}, 546);
+  delta: [ undefined, null, 0, 1 ]
+});
 

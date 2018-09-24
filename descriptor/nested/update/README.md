@@ -51,7 +51,8 @@ declare function update(
   tree: NestedDescriptor,
   path: NestedDescriptor,
   callback: (leaf, path, copyOnWrite: boolean) => any,
-  copyOnWrite: boolean
+  thisArg?,
+  copyOnWrite?: boolean
 ): NestedDescriptor
 ```
 ### Interfaces
@@ -62,6 +63,7 @@ declare function update(
 - `callback`: Used to update `paths` of `tree`:
   - `leaf`: The leaf value.
   - `path`: The path value.
+- `thisArg`: The `this` argument to pass to `callback`.
 - `updateOnWrite`: If `true`, then `target` descriptors will be cloned as needed so that `target` remains unmodified.
 ### Returns
 Returns `tree` with updated values for the leafs found at `paths`.

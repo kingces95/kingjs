@@ -39,11 +39,11 @@ declare function testTheory(
 - `theory`: A function that tests a set of observations.
   - `this`: The `observations`.
   - `observation`: The observation generated from `data`.
-  - `i`: The number identifying `observation`. 
+  - `id`: The number identifying `observation`. 
 - `observations`: A descriptor whose every property contains either an array, primitive, or object from which a sequence of similar descriptors is generated where each property is replaced with an array element, the primitive, or a property value respectively.
 - `runId`: If present, runs only the observation with the given `id`.
 ## Remarks
-If an `observation` fails then it can be easily debugged by supplying `runId`.
+If an `observation` fails then it can be easily debugged by supplying `runId`. If `runId` is specified an exception is still thrown after the test pass to ensure that the `runId` is removed.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

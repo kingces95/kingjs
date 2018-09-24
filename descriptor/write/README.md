@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).write
-Define a function that copies a descriptor on the first write if copyOnWrite is true or the descriptor is frozen. 
+Define a function that copies a descriptor on the first write if the descriptor is frozen. 
 ## Usage
 Update a descriptor to add one to any odd numbers found as descriptor values.
 ```js
@@ -28,8 +28,7 @@ var numbers = {
 
 Object.freeze(numbers);
 
-var copyOnWrite = true;
-var evenNumbers = makeEven.call(numbers, copyOnWrite);
+var evenNumbers = makeEven.call(numbers);
 
 return {
   modified: evenNumbers == numbers,
@@ -52,8 +51,7 @@ result:
 ## API
 ```ts
 declare function write(
-  this: Descriptor,
-  target: Descriptor,
+  descriptor: Descriptor,
   name: string,
   value: any
 ): Descriptor
@@ -62,7 +60,6 @@ declare function write(
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
 - `this`: The descriptor whose property will be updated.
-- `target`: The descriptor where the updated value is written. If null, then replaced with clone of `this` on first write.
 - `name`: The property to write.
 - `value`: The updated value.
 ### Returns

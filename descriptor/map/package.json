@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.map",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Creates a shallow copy of a descriptor optionally using a callback to transform values.",
   "main": "index.js",
   "files": [

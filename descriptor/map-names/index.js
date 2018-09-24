@@ -1,15 +1,15 @@
-function mapNames(action) {
-  if (action instanceof Function)
-    return mapNamesProcedural.call(this, action);
+function mapNames(callback, thisArg) {
+  if (callback instanceof Function)
+    return mapNamesProcedural.call(this, callback, thisArg);
 
-  return mapNamesDeclarative.call(this, action);
+  return mapNamesDeclarative.call(this, callback);
 }
 
-function mapNamesProcedural(callback) {
+function mapNamesProcedural(callback, thisArg) {
   var result = null;
 
   for (var name in this) {
-    var newName = callback(name);
+    var newName = callback.call(thisArg, name);
     if (newName === undefined)
       continue;
 

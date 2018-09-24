@@ -2,19 +2,19 @@
 
 var write = require('@kingjs/descriptor.write');
 
-var copyOnWriteArgPosition = 1;
-
-function updateEach(target, callback) {
+function update(callback, thisArg, copyOnWrite) {
+  var thisUpdated = this;
 
   for (var key in this) {
-    target = write.call(
-      this, target, key, callback(this[key], key)
+    var value = callback.call(thisArg, this[key], key);
+    thisUpdated = write.call(
+      this, thisUpdated, key, value, copyOnWrite
     );
   }
 
-  return target;
+  return thisUpdated;
 }
 
 Object.defineProperties(module, {
-  exports: { value: write.define(updateEach, copyOnWriteArgPosition) }
+  exports: { value: update }
 });

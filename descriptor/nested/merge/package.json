@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.merge",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Merges values at paths found in one tree into another tree.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.create": "^1.0.2",
     "@kingjs/descriptor.write": "^1.0.0",
     "@kingjs/is-object": "^1.0.0"
   }

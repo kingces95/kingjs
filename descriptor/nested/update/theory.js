@@ -39,8 +39,8 @@ assertTheory(function(test, id) {
     return expected = test.returnLeft ? leaf : path;
   }
 
-  var result = update.call(context, 
-    tree, paths, callback,
+  var result = update(
+    tree, paths, callback, context,
   test.copyOnWrite);
 
   if (!test.hasTree) {
@@ -54,11 +54,14 @@ assertTheory(function(test, id) {
     var actual = result;
     if (test.pathNested == test.treeNested) {
       if (test.treeNested) {
-        assert(isObject(result) && test.frozen == Object.isFrozen(result));
-        actual = actual[test.name];
+        assert(isObject(result));
 
+        actual = actual[test.name];
         var write = actual !== test.treeValue;
-        assert((write && (test.frozen || test.copyOnWrite)) == (result !== tree));
+        assert(!test.frozen || (Object.isFrozen(result) == !write));
+
+        var copied = result !== tree;
+        assert((write && (test.frozen || test.copyOnWrite)) == copied);
       }
       assert(actual === expected);
     }

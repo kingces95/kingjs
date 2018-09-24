@@ -1,8 +1,9 @@
 'use strict';
 
-function reduce(callback, result) {
+function reduce(accumulator, callback, thisArg) {
   for (var key in this)
-    result = callback(result, this[key], key);
+    accumulator = callback.call(thisArg, accumulator, this[key], key);
+  return accumulator;
 }
 
 Object.defineProperties(module, {

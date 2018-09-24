@@ -10,7 +10,7 @@ function accumulate(array, leaf) {
 }
 
 function toArray(tree, paths) {
-  return reduce(tree, paths, accumulate);
+  return reduce(tree, paths, accumulate, null);
 }
 
 Object.defineProperties(module, {

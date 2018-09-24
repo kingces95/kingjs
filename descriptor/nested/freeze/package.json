@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.values",
-  "version": "1.0.11",
-  "description": "Generate the key/value pairs for a descriptor.",
+  "name": "@kingjs/descriptor.nested.freeze",
+  "version": "1.0.0",
+  "description": "Freezes tree of marked objects.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,6 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.define": "^1.0.0"
+    "@kingjs/descriptor.merge-wildcards": "^1.0.4",
+    "@kingjs/is-object": "^1.0.0"
   }
 }

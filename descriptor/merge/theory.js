@@ -5,7 +5,6 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var isEnumerable = testRequire('@kingjs/is-enumerable');
 
 var propertyName = 'foo';
 
@@ -25,49 +24,46 @@ assertTheory(function(test, id) {
   if (test.frozen)
     Object.freeze(left);
 
-  if (name in right && !test.enumerable) {
-    Object.defineProperty(right, name, { 
-      enumerable: false
-    });
-  }
-
   if (test.inherited)
     right = Object.create(right);
+
+  var thisArg = { };
 
   var func = function() {
     return merge.call(
       left,
       right,
       test.resolver,
+      thisArg,
       test.copyOnWrite
     )
   }
 
-  var hasLeft = test.hasLeft;
-  var hasRight = test.hasRight && test.enumerable;
-
   var isConflicting =
-    hasLeft && hasRight &&
-    test.left !== test.right;
+    test.hasLeft && test.hasRight && 
+    test.left !== test.right &&
+    test.left !== undefined;
 
   if (isConflicting && test.resolver == this.resolver.none)
     return assertThrows(func);
 
   var result = func();
   
-  assert(!hasRight || isEnumerable.call(result, name));
+  var implicitWrite =
+    (!test.hasLeft && test.hasRight) ||
+    (test.hasLeft && test.left === undefined && 
+     test.hasRight && test.right !== undefined);
 
   var copyOnWrite = test.frozen || test.copyOnWrite;
-  var write = 
-    (isConflicting && test.resolver == this.resolver.different) ||
-    (!hasLeft && hasRight);
+  var write = implicitWrite ||
+    (isConflicting && test.resolver == this.resolver.different);
     
   assert((write && copyOnWrite) == (result != left));
 
   if (write)
     assert(result[name] == test.right);
   else
-    assert(!hasLeft || result[name] == test.left);
+    assert(!test.hasLeft || result[name] == test.left);
 
   if (copyOnWrite) {
     assert(!test.hasLeft || left[name] == test.left);
@@ -76,7 +72,7 @@ assertTheory(function(test, id) {
     assert(result == left);
   }
 
-  assert(!test.frozen || Object.isFrozen(result));
+  assert(Object.isFrozen(result) == (test.frozen && !write));
 }, {
   name: propertyName,
   left: [ undefined, null, 0, 1 ],
@@ -86,7 +82,6 @@ assertTheory(function(test, id) {
   frozen: [ false, true ],
   copyOnWrite: [ false, true ],
   inherited: [ false, true ],
-  enumerable: [ false, true ],  
   resolver: {
     none: undefined,
     same: function(left, right, name) {

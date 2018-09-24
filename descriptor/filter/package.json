@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.filter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Creates a new descriptor with properties filtered by a callback.",
   "main": "index.js",
   "files": [
