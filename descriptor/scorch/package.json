@@ -15,5 +15,8 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.clear": "^1.0.1"
+  }
 }
