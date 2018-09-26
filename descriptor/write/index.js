@@ -1,26 +1,30 @@
 'use strict';
 
 var create = require('@kingjs/descriptor.create');
+var assert = require('@kingjs/assert');
 
-function writeSlowPath(descriptor, key, value, copyOnWrite) {
+var $version = Symbol.for('@kingjs/descriptor.write::version');
 
-  if (value === descriptor[key] && (value !== undefined || key in descriptor))
-    return descriptor;
+function write(key, value, version) {
+  var hasVersion = version !== undefined;
 
-  if (copyOnWrite || Object.isFrozen(descriptor))
-    descriptor = create(descriptor);
+  assert(!hasVersion || typeof version == 'symbol');
+  assert(!hasVersion || Symbol.keyFor(version) === undefined);
 
-  descriptor[key] = value;
-  return descriptor;
-}
+  if (value === this[key] && (value !== undefined || key in this))
+    return this;
 
-function write(descriptor, key, value, copyOnWrite) {
+  var updatedThis = this;
 
-  if (this === descriptor)
-    return writeSlowPath(descriptor, key, value, copyOnWrite);
+  if ((hasVersion && updatedThis[$version] !== version) || Object.isFrozen(updatedThis)) {
+    updatedThis = create(updatedThis);
 
-  descriptor[key] = value;
-  return descriptor;
+    if (hasVersion)
+      updatedThis[$version] = version;
+  }
+
+  updatedThis[key] = value;
+  return updatedThis;
 }
 
 Object.defineProperties(module, {

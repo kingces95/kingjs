@@ -7,14 +7,12 @@ var isEnumerable = testRequire('@kingjs/is-enumerable');
 
 function readMe() {
 
-  function increment(copyOnWrite) {
+  function increment(version) {
     var thisUpdated = this;
 
     for (var name in thisUpdated) {
       var value = this[name] + 1;
-      thisUpdated = write.call(
-        this, thisUpdated, name, value, copyOnWrite
-      );
+      thisUpdated = write.call(thisUpdated, name, value, version);
     }
 
     return thisUpdated;
@@ -25,8 +23,8 @@ function readMe() {
     y: 1,
   }
   
-  var copyOnWrite = true;
-  var result = increment.call(target, copyOnWrite);
+  var version = Symbol();
+  var result = increment.call(target, version);
   
   assert(result != target);
   assert(Object.isFrozen(result) == false);
