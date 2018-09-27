@@ -1,29 +1,34 @@
 'use strict';
 
 var create = require('@kingjs/descriptor.create');
-var assert = require('@kingjs/assert');
+var snapshot = require('@kingjs/descriptor.snapshot');
 
-var $version = Symbol.for('@kingjs/descriptor.write::version');
+var $version = Symbol.for('@kingjs/descriptor.write');
+
+function touch(version) {
+
+  if (version === undefined)
+    version = snapshot();
+
+  if (this[$version] === version && !Object.isFrozen(this)) 
+    return this;
+  
+  var updatedThis = create(updatedThis);
+
+  updatedThis[$version] = version;
+
+  return updatedThis;
+}
 
 function write(key, value, version) {
-  var hasVersion = version !== undefined;
-
-  assert(!hasVersion || typeof version == 'symbol');
-  assert(!hasVersion || Symbol.keyFor(version) === undefined);
 
   if (value === this[key] && (value !== undefined || key in this))
     return this;
 
-  var updatedThis = this;
-
-  if ((hasVersion && updatedThis[$version] !== version) || Object.isFrozen(updatedThis)) {
-    updatedThis = create(updatedThis);
-
-    if (hasVersion)
-      updatedThis[$version] = version;
-  }
+  var updatedThis = touch.call(this, version);
 
   updatedThis[key] = value;
+
   return updatedThis;
 }
 
