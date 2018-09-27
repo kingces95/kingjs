@@ -2,20 +2,17 @@
 
 var create = require('@kingjs/descriptor.create');
 var snapshot = require('@kingjs/descriptor.snapshot');
-
-var $version = Symbol.for('@kingjs/descriptor.write');
+var getVersion = require('@kingjs/descriptor.version').get;
 
 function touch(version) {
 
   if (version === undefined)
     version = snapshot();
 
-  if (this[$version] === version && !Object.isFrozen(this)) 
+  if (getVersion.call(this) === version && !Object.isFrozen(this)) 
     return this;
   
-  var updatedThis = create(updatedThis);
-
-  updatedThis[$version] = version;
+  var updatedThis = create(updatedThis, version);
 
   return updatedThis;
 }

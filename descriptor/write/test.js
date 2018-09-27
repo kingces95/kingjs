@@ -4,6 +4,7 @@ var write = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var isEnumerable = testRequire('@kingjs/is-enumerable');
+var snapshot = testRequire('@kingjs/descriptor.snapshot');
 
 function readMe() {
 
@@ -23,7 +24,7 @@ function readMe() {
     y: 1,
   }
   
-  var version = Symbol();
+  var version = snapshot();
   var result = increment.call(target, version);
   
   assert(result != target);

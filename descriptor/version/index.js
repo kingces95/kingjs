@@ -1,14 +1,10 @@
 'use strict';
 
-var $version = Symbol.keyFor('@kingjs/descriptor.version');
+var $version = Symbol.for('@kingjs/descriptor.write');
 
-if ($version in global == false)
-  global[$version] = 0;
-
-function snapshot() {
-  return global[$version]++;
+function xxx() {
 }
 
 Object.defineProperties(module, {
-  exports: { value: snapshot }
+  exports: { value: xxx }
 });

@@ -21,6 +21,7 @@ declare interface Descriptor {
 - [`keys`][keys]
 - [`mergeWildcards`][merge-wildcards]
 - [`normalize`][normalize]
+- [`snapshot`][snapshot]
 - [`write`][write]
 
 ### Update/Transform
@@ -67,4 +68,5 @@ MIT
   [normalize]: https://www.npmjs.com/package/@kingjs/descriptor.normalize
   [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.scorch
   [update]: https://www.npmjs.com/package/@kingjs/descriptor.update
+  [snapshot]: https://www.npmjs.com/package/@kingjs/descriptor.snapshot
   [write]: https://www.npmjs.com/package/@kingjs/descriptor.write

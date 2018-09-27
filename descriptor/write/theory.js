@@ -5,19 +5,18 @@ var testRequire = require('..');
 var Dictionary = testRequire('@kingjs/dictionary');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var isEnumerable = testRequire('@kingjs/is-enumerable');
+var snapshot = testRequire('@kingjs/descriptor.snapshot');
 
 assertTheory(function(test, id) {
 
-  var source = new Dictionary();
+  var version = snapshot();
 
+  var source = new Dictionary();
+  
   if (test.defined) {
-    Object.defineProperty(source, test.name, {
-      value: test.value,
-      enumerable: test.enumerable,
-      writable: true,
-      configurable: true
-    });
+    source = write.call(
+      source, test.name, test.delta, version
+    );
   }
 
   if (test.inherited)
@@ -26,15 +25,12 @@ assertTheory(function(test, id) {
   if (test.frozen)
     Object.freeze(source);
 
-  function func() {
-    var thisUpdated = this;
-    thisUpdated = write.call(
-      this, thisUpdated, test.name, test.delta, test.copyOnWrite
-    );
-    return thisUpdated;
-  }
+  if (test.copyOnWrite)
+    version = snapshot();
 
-  var result = func.call(source, source, test.copyOnWrite);
+  var result = write.call(
+    source, test.name, test.delta, version
+  )
 
   var copyOnWrite = Object.isFrozen(source) || test.copyOnWrite;
   var copied = source !== result;
@@ -47,16 +43,9 @@ assertTheory(function(test, id) {
   var expected = test.delta;
   assert(actual === expected);
 
-  var enumerable = isEnumerable.call(result, test.name);
-
-  // this is a gotcha; descriptor logic assumes properties are enumerable and
-  // makes no effort to verify or enforce that for performance reasons. 
-  assert(enumerable == (test.enumerable || !test.defined || copied || (didWrite && test.inherited)));
-
 }, {
   name: [ 'foo' ],
   inherited: [ false, true ],
-  enumerable: [ true, false ],
   defined: [ true, false ],
   frozen: [ false, true ],
   copyOnWrite: [ true, false ],

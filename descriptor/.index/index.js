@@ -9,6 +9,7 @@ Object.defineProperties(module.exports, {
   nested: { value: require('@kingjs/descriptor.nested') },
   normalize: { value: require('@kingjs/descriptor.normalize') },
   scorch: { value: require('@kingjs/descriptor.scorch') },
+  snapshot: { value: require('@kingjs/descriptor.snapshot') },
   update: { value: require('@kingjs/descriptor.update') },
   write: { value: require('@kingjs/descriptor.write') }
 });

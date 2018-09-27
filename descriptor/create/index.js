@@ -1,8 +1,9 @@
 'use strict';
 
 var Dictionary = require('@kingjs/dictionary');
+var setVersion = require('@kingjs/descriptor.version').set;
 
-function create(prototype, alwaysCopy) {
+function create(prototype, version) {
   if (prototype === undefined || prototype === null)
     return new Dictionary();
 

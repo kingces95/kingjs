@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.write",
-  "version": "1.0.1",
-  "description": "",
+  "name": "@kingjs/descriptor.snapshot",
+  "version": "1.0.0",
+  "description": "Returns a unique snapshot id.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,8 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.2",
-    "@kingjs/descriptor.snapshot": "^1.0.0"
-  }
+  "dependencies": { }
 }
