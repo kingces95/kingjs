@@ -29,12 +29,12 @@ assertTheory(function(test, id) {
   if (test.freeze)
     Object.freeze(descriptor);
 
-  var result = clear.call(descriptor, test.name, test.copyOnWrite);
+  var result = clear.call(descriptor, test.name);
   assert(test.name in result == false);
 
   var hasInheritedValue = test.hasPrototype && test.hasInheritedValue;
   var hasValue = test.hasValue || hasInheritedValue;
-  var notCopied = !hasValue || (!hasInheritedValue && !test.copyOnWrite && !test.freeze);
+  var notCopied = !hasValue || (!hasInheritedValue && !test.freeze);
   assert((result === descriptor) == notCopied);
 
 }, {
@@ -44,6 +44,5 @@ assertTheory(function(test, id) {
   hasPrototype: [ true, false ],
   hasInheritedValue: [ true, false ],
   inheritedValue: [ undefined, null, 0, 1 ],
-  freeze: [ false, true ],
-  copyOnWrite: [ false, true ]
+  freeze: [ false, true ]
 })

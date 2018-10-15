@@ -16,8 +16,7 @@ result:
 ```ts
 declare function clear(
   this: Descriptor,
-  name: string,
-  copyOnWrite?: boolean
+  name: string
 ): Descriptor
 ```
 ### Interfaces
@@ -25,9 +24,8 @@ declare function clear(
 ### Parameters
 - `this`: The descriptor from which property 'name' will be removed.
 - `name`: The name of the property to be removed.
-- `copyOnWrite`: If true, will return a copy of the descriptor assuming the property `name` exists on descriptor to begin with. 
 ### Returns
-Returns a descriptor with property `name` removed. A copy is returned if the descriptor has a property named `name` and either `copyOnWrite` is true, or the descriptor is frozen, or the descriptor has an inherited property of `name`.  
+Returns a descriptor with property `name` removed. A copy is returned if the descriptor has an inherited property `name` or the descriptor is frozen.  
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

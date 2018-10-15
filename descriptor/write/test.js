@@ -8,29 +8,17 @@ var snapshot = testRequire('@kingjs/descriptor.snapshot');
 
 function readMe() {
 
-  function increment(version) {
-    var thisUpdated = this;
-
-    for (var name in thisUpdated) {
-      var value = this[name] + 1;
-      thisUpdated = write.call(thisUpdated, name, value, version);
-    }
-
-    return thisUpdated;
-  }
-  
   var target = {
-    x: 0,
-    y: 1,
+    value: 0,
   }
-  
-  var version = snapshot();
-  var result = increment.call(target, version);
+   
+  Object.freeze(target);
+
+  var result = write.call(target, 'value', 1);
   
   assert(result != target);
   assert(Object.isFrozen(result) == false);
-  assert(result.x == 1);
-  assert(result.y == 2);
+  assert(result.value == 1);
 }
 readMe();
 
