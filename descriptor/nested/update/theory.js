@@ -39,9 +39,7 @@ assertTheory(function(test, id) {
     return expected = test.returnLeft ? leaf : path;
   }
 
-  var result = update(
-    tree, paths, callback, context,
-  test.copyOnWrite);
+  var result = update(tree, paths, callback, context);
 
   if (!test.hasTree) {
     assert(result === undefined);
@@ -61,7 +59,7 @@ assertTheory(function(test, id) {
         assert(!test.frozen || (Object.isFrozen(result) == !write));
 
         var copied = result !== tree;
-        assert((write && (test.frozen || test.copyOnWrite)) == copied);
+        assert((write && test.frozen) == copied);
       }
       assert(actual === expected);
     }
@@ -76,7 +74,6 @@ assertTheory(function(test, id) {
   name: 'foo',
   wildPath: [ false, true ],
   frozen: [ false, true ],
-  copyOnWrite: [ false, true ],
   hasTree: [ false, true ],
   treeValue: [ null, 0, 1 ],
   treeNested: [ true, false ],

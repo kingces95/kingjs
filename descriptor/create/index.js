@@ -3,15 +3,14 @@
 var Dictionary = require('@kingjs/dictionary');
 
 function create(prototype) {
-  if (prototype === undefined || prototype === null)
-    return new Dictionary();
-
-  if (!Object.isFrozen(prototype))
-    return Object.create(prototype);
-
   var clone = new Dictionary();
+
+  if (prototype === undefined || prototype === null)
+    return clone;
+
   for (var name in prototype)
     clone[name] = prototype[name];
+    
   return clone;
 }
 

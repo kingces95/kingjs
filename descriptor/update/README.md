@@ -28,8 +28,7 @@ result:
 declare function update(
   this: Descriptor,
   callback: (this, value, key: string) => any,
-  thisArg?,
-  copyOnWrite?: boolean
+  thisArg?
 ): Descriptor
 ```
 ### Interfaces
@@ -40,11 +39,10 @@ declare function update(
   - `value`: The value being mapped.
   - `key`: The name of the property being mapped.
 - `thisArg`: The `this` argument to pass to `callback`.
-- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 ### Returns
 Returns `this` after mapping properties using the `callback`. 
 
-If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
+If `this` is frozen then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

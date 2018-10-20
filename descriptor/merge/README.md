@@ -37,8 +37,7 @@ declare function merge(
   this: Descriptor, 
   delta?: Descriptor, 
   resolve?: (this, left, right, name: string) => any,
-  thisArg?,
-  copyOnWrite?: boolean
+  thisArg?
 ): any
 ```
 ### Interfaces
@@ -50,12 +49,11 @@ declare function merge(
   - `left`: The existing value.
   - `right`: The new value.
   - `name`: The name of the conflicting property.
-- `thisArg`: The `this` argument to pass to `callback`.
-- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
+- `thisArg`: The `this` argument to pass to `callback`.write and returned instead of `this`.
 ### Returns
 Returns `this` after merging properties from `delta`. 
 ## Remarks 
-If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
+If `this` is frozen then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

@@ -4,15 +4,14 @@ var create = require(`@kingjs/descriptor.create`);
 var write = require('@kingjs/descriptor.write');
 var isObject = require('@kingjs/is-object');
 
-function throwMergeConflict(left, right, copyOnWrite) {
+function throwMergeConflict(left, right) {
   throw 'Merge conflict';
 }
 
 function mergeNode(
   delta,
   path,
-  thisArg, 
-  copyOnWrite) {
+  thisArg) {
 
   var updatedThis = this;
 
@@ -22,19 +21,18 @@ function mergeNode(
       this[name],
       delta[name],
       path[name],
-      thisArg, 
-      copyOnWrite
+      thisArg
     );
 
     updatedThis = write.call(
-      this, updatedThis, name, result, copyOnWrite
+      updatedThis, name, result
     );
   }
 
   return updatedThis;
 }
 
-function merge(tree, delta, paths, thisArg, copyOnWrite) {
+function merge(tree, delta, paths, thisArg) {
 
   if (paths == null || paths == undefined)
     paths = throwMergeConflict;
@@ -50,7 +48,7 @@ function merge(tree, delta, paths, thisArg, copyOnWrite) {
     if (delta === undefined)
       return tree;
 
-    return paths.call(thisArg, tree, delta, copyOnWrite);
+    return paths.call(thisArg, tree, delta);
   }
 
   if (!isObject(delta))
@@ -66,8 +64,7 @@ function merge(tree, delta, paths, thisArg, copyOnWrite) {
     tree,
     delta, 
     paths,
-    thisArg, 
-    copyOnWrite
+    thisArg
   );
 }
 

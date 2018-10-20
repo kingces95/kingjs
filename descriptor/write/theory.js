@@ -30,9 +30,14 @@ assertTheory(function(test, id) {
   assert(copied == (copyOnWrite && didWrite));  
   assert(Object.isFrozen(result) == (test.frozen && !didWrite));
 
-  var actual = result[test.name];
-  var expected = test.delta;
-  assert(actual === expected);
+  var actualSource = source[test.name];
+  var expectedSource = didWrite && !copyOnWrite ? test.delta : 
+    test.defined ? test.value : undefined;
+  assert(actualSource === expectedSource);
+
+  var actualResult = result[test.name];
+  var expectedResult = test.delta;
+  assert(actualResult === expectedResult);
 
 }, {
   name: [ 'foo' ],

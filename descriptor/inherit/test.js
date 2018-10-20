@@ -22,7 +22,8 @@ readMe();
 
 function copyOnWrite() {
   var target = { };
-  var result = inherit.call(target, [ { value: 0 } ], true);
+  Object.freeze(target);
+  var result = inherit.call(target, [ { value: 0 } ]);
   assert(result != target);
   assert(result.value == 0);
 }

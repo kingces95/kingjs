@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.merge",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Merges values at paths found in one tree into another tree.",
   "main": "index.js",
   "files": [

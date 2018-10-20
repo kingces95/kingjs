@@ -4,7 +4,7 @@ var clear = require('@kingjs/descriptor.clear');
 
 var wildcardName = '*';
 
-function mergeWildcards(value, copyOnWrite) {
+function mergeWildcards(value) {
   var updatedThis = this;
 
   if (wildcardName in this == false)
@@ -13,7 +13,7 @@ function mergeWildcards(value, copyOnWrite) {
   var wildcard = this[wildcardName];
 
   var updatedThis = clear.call(
-    this, wildcardName, copyOnWrite
+    this, wildcardName
   );
 
   for (var name in value) {

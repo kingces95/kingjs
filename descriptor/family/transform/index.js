@@ -125,12 +125,12 @@ function accumulateStrings(accumulator, value) {
   return accumulator;
 }
 
-function mapToAdjacencyList(result, actions) {
+function mapToAdjacencyList(descriptors, actions) {
   var adjacencyList;
 
-  for (var name in result) {
+  for (var name in descriptors) {
     var edges = nested.reduce(
-      result[name], 
+      descriptors[name], 
       actions[name].depends,
       accumulateStrings
     );
@@ -152,7 +152,7 @@ function forEachDependent(descriptors, actions, callback) {
 
   if (!adjacencyList) {
     for (var name in descriptors) 
-    callback(name);
+      callback(name);
     return;
   }
 
@@ -160,7 +160,7 @@ function forEachDependent(descriptors, actions, callback) {
   poset.forEach.call(adjacencyList, callback, roots);
 }
 
-function wrapInheritDefaults(encodedFamily, result, actions, originalDescriptor) {
+function wrapInheritDefaults(encodedFamily, result, actions) {
 
   var action = actions.$;  
 
@@ -194,15 +194,12 @@ function wrapInheritDefaults(encodedFamily, result, actions, originalDescriptor)
       baseNames = encodedName.split('$');
       name = baseNames.shift();
     }
-
-    originalDescriptor[name] = encodedDescriptor;
   
     // 2. Inherit
     if (baseNames) {
       descriptor = inherit.call(
         descriptor, 
-        baseNames.map(baseName => action.bases[baseName]), 
-        encodedDescriptor == descriptor
+        baseNames.map(baseName => action.bases[baseName])
       );
     }
   
@@ -211,8 +208,7 @@ function wrapInheritDefaults(encodedFamily, result, actions, originalDescriptor)
       descriptor = merge.call(
         descriptor, 
         action.defaults,
-        takeLeft,
-        encodedDescriptor == descriptor
+        takeLeft
       );
     }
     
@@ -222,7 +218,7 @@ function wrapInheritDefaults(encodedFamily, result, actions, originalDescriptor)
   }
 }
 
-function dependsInflateThunkScorchUpdate(descriptors, name, action, originalDescriptor) {
+function dependsInflateThunkScorchUpdate(descriptors, name, action) {
 
   var descriptor = descriptors[name];
 
@@ -232,16 +228,14 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action, originalDesc
       descriptors,
       descriptor,
       action.depends,
-      resolveAndSelect,
-      originalDescriptor == descriptor
+      resolveAndSelect
     )
   }
 
   // 5. Inflate
   descriptor = inflate.call(
     descriptor, 
-    name, 
-    originalDescriptor == descriptor
+    name
   );
 
   // 6. Thunk
@@ -249,26 +243,20 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action, originalDesc
     descriptor = replace.call(
       descriptor, 
       name,
-      action.thunks,
-      originalDescriptor == descriptor
+      action.thunks
     );
   }
   
   // 7. Scorch
 
   // 8. Update
-  if (action.callback) {
-    descriptor = update.call(
-      descriptor,
-      action.callback,
-      originalDescriptor == descriptor
-    )
-  }
+  if (action.callback)
+    descriptor = action.callback(descriptor, name)
   
   descriptors[name] = descriptor;
 }
 
-function resolve(descriptors, name, action, originalDescriptor) {
+function resolve(descriptors, name, action) {
 
   var descriptor = descriptors[name];
 
@@ -278,8 +266,7 @@ function resolve(descriptors, name, action, originalDescriptor) {
       descriptors,
       descriptor,
       action.ref,
-      resolveAndSelect,
-      originalDescriptor == descriptor
+      resolveAndSelect
     )
   }
   
@@ -289,25 +276,24 @@ function resolve(descriptors, name, action, originalDescriptor) {
 function transform(action) {
   var result = { };
   var actions = { };
-  var originals = { };
   
   setContext.call(actions, normalizeAction.call(action));
 
   // Pass I: 1-3; Wrap, Inherit, Defaults
   var encodedFamilies = flatten.call(this);
   for (var i = 0; i < encodedFamilies.length; i++)
-    wrapInheritDefaults(encodedFamilies[i], result, actions, originals);
+    wrapInheritDefaults(encodedFamilies[i], result, actions);
 
   // Pass II: 4-8; Depends, Inflate, Thunks, Scorch, Update
   forEachDependent(result, actions, name =>
     dependsInflateThunkScorchUpdate(
-      result, name, actions[name], originals[name]
+      result, name, actions[name]
     )
   );
 
   // Pass III: 9; Resolve
   for (var name in result) 
-    resolve(result, name, actions[name], originals[name]);
+    resolve(result, name, actions[name]);
 
   return result;
 }

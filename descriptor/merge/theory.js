@@ -34,8 +34,7 @@ assertTheory(function(test, id) {
       left,
       right,
       test.resolver,
-      thisArg,
-      test.copyOnWrite
+      thisArg
     )
   }
 
@@ -54,7 +53,7 @@ assertTheory(function(test, id) {
     (test.hasLeft && test.left === undefined && 
      test.hasRight && test.right !== undefined);
 
-  var copyOnWrite = test.frozen || test.copyOnWrite;
+  var copyOnWrite = test.frozen;
   var write = implicitWrite ||
     (isConflicting && test.resolver == this.resolver.different);
     
@@ -80,7 +79,6 @@ assertTheory(function(test, id) {
   hasLeft: [ true, false ],
   hasRight: [ true, false ],
   frozen: [ false, true ],
-  copyOnWrite: [ false, true ],
   inherited: [ false, true ],
   resolver: {
     none: undefined,

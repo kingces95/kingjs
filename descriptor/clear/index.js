@@ -17,7 +17,7 @@ function clear(name) {
 
   var updatedThis = this;
   if (copyOnWrite)
-    updatedThis = create(updatedThis, true);
+    updatedThis = create(updatedThis);
 
   delete updatedThis[name];
   return updatedThis;

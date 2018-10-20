@@ -4,7 +4,6 @@ var write = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var isEnumerable = testRequire('@kingjs/is-enumerable');
-var snapshot = testRequire('@kingjs/descriptor.snapshot');
 
 function readMe() {
 
@@ -18,6 +17,7 @@ function readMe() {
   
   assert(result != target);
   assert(Object.isFrozen(result) == false);
+  assert(target.value == 0);
   assert(result.value == 1);
 }
 readMe();

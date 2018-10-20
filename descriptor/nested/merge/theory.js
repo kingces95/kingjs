@@ -38,8 +38,7 @@ assertTheory(function(test, id) {
       tree, 
       delta, 
       path,
-      thisArg,
-      test.copyOnWrite
+      thisArg
     ); 
 
     if (!test.pathNested) {
@@ -84,7 +83,7 @@ assertTheory(function(test, id) {
       resolver == this.resolver.right);
     var write = mergeWrite || implicitWrite;
 
-    assert((write && (test.copyOnWrite || test.frozen)) == copied);
+    assert((write && test.frozen) == copied);
 
     assertResult.call(this, test, result.value, left, right);
     return result;
@@ -128,7 +127,6 @@ assertTheory(function(test, id) {
   rightNested: [ true, false ],
   pathNested: [ true, false ],
   frozen: [ true, false ],
-  copyOnWrite: [ true, false ],
   left: [ undefined, null, 0, 1 ],
   right: [ undefined, null, 0, 1 ],
   resolver: {
