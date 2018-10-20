@@ -97,11 +97,18 @@ thunk();
 function scorch() {
   var result = transform.call({
     name: undefined
-  }); 
+  }, decodedName, { scorch: { } }); 
 
   assert('name' in result == false);
+
+  var result = transform.call({
+    name: { foo: undefined, bar: undefined }
+  }, decodedName, { scorch: { foo: null } }); 
+
+  assert('foo' in result == false);
+  assert('bar' in result == true);
 }
-//scorch();
+scorch();
 
 function callback() {
 

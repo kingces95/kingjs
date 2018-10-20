@@ -8,7 +8,10 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var value = isObject(test.value) ? { } : test.value;
+  if (isObject(test.value))
+    test.value = { };
+
+  var value = test.value;
   if (test.valueNested) 
     value = { value: value };
 
@@ -16,20 +19,18 @@ assertTheory(function(test, id) {
   if (test.pathNested) 
     path = { [test.wildName ? '*' : 'value']: path };
 
-  scorch(value, path);
+  var result = scorch(value, path);
 
-  if (!isObject(value))
+  if (!isObject(result))
     return;
 
-  var expectFrozen = path !== undefined;
-  assert(Object.isFrozen(value) == expectFrozen);
-
-  if (!isObject(value.value))
+  if (!isObject(result.value))
     return;
-  value = value.value;
+
+    result = result.value;
 
   expectFrozen = isObject(path);
-  assert(Object.isFrozen(value) == expectFrozen);
+  assert(Object.isFrozen(result) == expectFrozen);
 }, {
   valueNested: [ false, true ],
   value: [ undefined, null, 0, 1, { } ],

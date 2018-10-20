@@ -8,6 +8,8 @@ var inherit = require('@kingjs/descriptor.inherit');
 var update = require('@kingjs/descriptor.update');
 
 var nested = {
+  scorch: require('@kingjs/descriptor.nested.scorch'),
+  freeze: require('@kingjs/descriptor.nested.freeze'),
   update: require('@kingjs/descriptor.nested.update'),
   merge: require('@kingjs/descriptor.nested.merge'),
   reduce: require('@kingjs/descriptor.nested.reduce'),
@@ -38,10 +40,6 @@ function resolveAndSelect(name, selector) {
     result = selector(result);
 
   return result;
-}
-
-function returnThis() {
-  return this;
 }
 
 function normalizeAction() {
@@ -84,6 +82,7 @@ function replace(name, thunks, copyOnWrite) {
 }
 
 var familyActionMap = {
+  $scorch: 'scorch',
   $defaults: 'defaults',
   $bases: 'bases',
   $wrap: 'wrap',
@@ -98,6 +97,7 @@ function composeLeft(g, f) {
 
 var resolveAction = {
   callback: null,
+  scorch: takeLeft,
   wrap: takeLeft,
   defaults: takeLeft,
   bases: takeLeft,
@@ -248,6 +248,8 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action) {
   }
   
   // 7. Scorch
+  if (action.scorch)
+    descriptor = nested.scorch(descriptor, action.scorch);
 
   // 8. Update
   if (action.callback)
