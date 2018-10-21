@@ -23,12 +23,5 @@ function reduce(tree, paths, callback, accumulator, thisArg) {
 }
 
 Object.defineProperties(module, {
-  exports: { 
-    value: function(tree, paths, callback, initialValue, thisArg) {
-      if (tree === undefined || paths === undefined)
-        return initialValue;
-
-      return reduce(tree, paths, callback, initialValue, thisArg);
-    }
-  }
+  exports: { value: reduce }
 });

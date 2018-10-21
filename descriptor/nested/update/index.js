@@ -47,12 +47,5 @@ function update(tree, paths, callback, thisArg) {
 }
 
 Object.defineProperties(module, {
-  exports: { 
-    value: function(tree, paths, callback, thisArg) {
-      if (tree === undefined || paths === undefined)
-        return tree;
-
-      return update(tree, paths, callback, thisArg);
-    }
-  }
+  exports: { value: update }
 });

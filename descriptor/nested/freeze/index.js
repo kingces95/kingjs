@@ -17,12 +17,12 @@ function freezeNode(paths) {
 function freeze(tree, paths) {
 
   if (!isObject(tree))
-    return;
+    return tree;
 
   Object.freeze(tree);
 
   if (!isObject(paths))
-    return;
+    return tree;
 
   paths = mergeWildcards.call(paths, tree, true);
 
@@ -30,15 +30,10 @@ function freeze(tree, paths) {
     tree,
     paths
   );
+
+  return tree;
 }
 
 Object.defineProperties(module, {
-  exports: { 
-    value: function(tree, paths) {
-      if (paths === undefined)
-        return;
-      
-      freeze(tree, paths);
-    }
-  }
+  exports: { value: freeze }
 });

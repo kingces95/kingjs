@@ -8,32 +8,50 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var value = isObject(test.value) ? { } : test.value;
+  var tree = { };
+  if (!isObject(test.leafValue))
+    tree = test.leafValue;
   if (test.valueNested) 
-    value = { value: value };
+    tree = { [test.name]: tree };
 
-  var path = test.path;
+  var path = test.pathValue;
   if (test.pathNested) 
-    path = { [test.wildName ? '*' : 'value']: path };
+    path = { [test.wildName ? '*' : test.name]: path };
 
-  freeze(value, path);
+  var result = freeze(tree, path);
 
+  assert(result === tree);
+  if (!isObject(result))
+    return; 
+
+  assert(Object.isFrozen(result) == true);
+
+  if (test.leafNested && !test.pathNested) {
+    var value = result[test.name];
+    if (!isObject(value))
+      return;
+
+    assert(Object.isFrozen(value) == false);
+    return;
+  }
+
+  if (!test.leafNested && test.pathNested)
+    return;
+
+  assert(test.leafNested == test.pathNested);
+  var value = tree;
+  if (test.leafNested)
+    value = value[test.name];
+  
   if (!isObject(value))
     return;
 
-  var expectFrozen = path !== undefined;
-  assert(Object.isFrozen(value) == expectFrozen);
-
-  if (!isObject(value.value))
-    return;
-  value = value.value;
-
-  expectFrozen = isObject(path);
-  assert(Object.isFrozen(value) == expectFrozen);
+  assert(Object.isFrozen(value));
 }, {
-  valueNested: [ false, true ],
-  value: [ undefined, null, 0, 1, { } ],
+  name: 'foo',
+  leafNested: [ false, true ],
+  leafValue: [ undefined, null, 0, 1, { } ],
   pathNested: [ false, true ],
-  path: [ undefined, null, 0, 1 ],
+  pathValue: [ undefined, null, 0, 1 ],
   wildName: [ false, true ]
 })
