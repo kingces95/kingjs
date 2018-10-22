@@ -23,31 +23,25 @@ function readMe() {
 }
 readMe();
 
-function noop() {
-  var result = scorch({ foo: undefined });
-  assert('foo' in result == true);
-
-  var result = scorch({ foo: undefined }, { });
-  assert('foo' in result == true);
-}
-noop();
-
 function simplest() {
-  var result = scorch({ foo: undefined }, { foo: null });
+  var result = scorch({ foo: undefined });
   assert('foo' in result == false);
 
-  var result = scorch({ foo: undefined }, { '*': null });
+  var result = scorch({ foo: undefined }, { });
   assert('foo' in result == false);
 }
 simplest();
 
 function nested() {
-  var result = scorch({ bar: { foo: undefined } }, { bar: { foo: null } });
+  var result = scorch({ bar: { foo: undefined } }, { bar: undefined });
   assert('foo' in result.bar === false);
 
-  var result = scorch({ bar: { foo: undefined } }, { '*': { '*': null } });
+  var result = scorch({ bar: { foo: undefined } }, { '*': undefined });
   assert('foo' in result.bar === false);
+
+  var result = scorch({ bar: { foo: undefined } }, { });
+  assert('foo' in result.bar === true);
 }
 nested();
 
-//require('./theory');
+require('./theory');

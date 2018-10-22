@@ -1,13 +1,13 @@
 var clear = require('@kingjs/descriptor.clear');
 
-function scorch(copyOnWrite) {
+function scorch() {
   var updatedThis = this;
 
   for (var name in this) {
-    if (this[name] === undefined) {
-      updatedThis = clear.call(updatedThis, name, copyOnWrite);
-      copyOnWrite = copyOnWrite && updatedThis === this;
-    }
+    if (this[name] !== undefined)
+      continue;
+      
+    updatedThis = clear.call(updatedThis, name);
   }
 
   return updatedThis;

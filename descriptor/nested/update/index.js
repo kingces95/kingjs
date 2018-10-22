@@ -7,17 +7,18 @@ var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 function updateNode(
   paths,
   callback,
-  thisArg) {
+  thisArg,
+  updateNodes) {
 
   var updatedThis = this;
 
   for (var name in paths) {
-
     var delta = update(
       this[name],
       paths[name],
       callback,
-      thisArg
+      thisArg,
+      updateNodes
     );
 
     updatedThis = write.call(
@@ -28,7 +29,7 @@ function updateNode(
   return updatedThis;
 }
 
-function update(tree, paths, callback, thisArg) {
+function update(tree, paths, callback, thisArg, updateNodes) {
 
   if (!isObject(paths))
     return callback.call(thisArg, tree, paths);
@@ -38,12 +39,18 @@ function update(tree, paths, callback, thisArg) {
 
   paths = mergeWildcards.call(paths, tree);
 
-  return updateNode.call(
+  var result = updateNode.call(
     tree,
     paths,
     callback,
-    thisArg
+    thisArg,
+    updateNodes
   );
+
+  if (updateNodes)
+    result = callback.call(thisArg, result, paths);
+
+  return result;
 }
 
 Object.defineProperties(module, {

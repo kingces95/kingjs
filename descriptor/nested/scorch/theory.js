@@ -8,38 +8,37 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var value = test.value;
-  if (test.valueNested) 
-    value = { value: value };
+  var tree = test.leafValue;
+  if (test.valueNested) {
+    tree = { [test.name]: tree };
 
-  if (test.freeze && isObject(value))
-    Object.freeze(value);
+    if (test.freeze)
+      Object.freeze(tree);
+  }
 
-  var path = test.path;
+  var path = test.pathValue;
   if (test.pathNested) 
-    path = { [test.wildName ? '*' : 'value']: path };
+    path = { [test.wildName ? '*' : test.name]: path };
 
-  var result = scorch(value, path);
+  var result = scorch(tree, path);
 
+  assert(result === tree);
   if (!isObject(result))
     return;
-  
-  assert(!Object.isFrozen(result));
-  var copied = result != value;
 
-  if (test.valueNested != test.pathNested) {
-    assert(!copied);
+  if (test.leafValue !== undefined) {
+    assert(result[test.name] === test.leafValue);
     return;
   }
 
-  if (!test.valueNested)
-    return;
+  assert(test.name in result == false);
 
 }, {
+  name: 'name',
   freeze: [ false, true ],
   valueNested: [ false, true ],
-  value: [ undefined, null, 0, 1 ],
+  leafValue: [ undefined, null, 0, 1 ],
   pathNested: [ false, true ],
-  path: [ undefined, null, 0, 1 ],
+  pathValue: [ undefined, null, 0, 1 ],
   wildName: [ false, true ]
-})
+}, 3)

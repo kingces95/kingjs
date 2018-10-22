@@ -102,11 +102,14 @@ function scorch() {
   assert('name' in result == false);
 
   var result = transform.call({
-    name: { foo: undefined, bar: undefined }
+    foo: { value: undefined }, 
+    bar: { value: undefined },
+    baz: undefined
   }, decodedName, { scorch: { foo: null } }); 
 
-  assert('foo' in result == false);
-  assert('bar' in result == true);
+  assert('baz' in result == false);
+  assert('value' in result.foo == false);
+  assert('value' in result.bar == true);
 }
 scorch();
 
@@ -183,12 +186,13 @@ function inflateThenThunks() {
   })
   assert(result.name == 'APPLE'); // inflate -> thunks
 }
-//inflateThenThunks();
+inflateThenThunks();
 
 function thunksThenScorch() {
   var result = transform.call({
     name: 'apple'
-   }, undefined, {
+  }, undefined, {
+    scorch: { },
     thunks: {
       name: function() {
         return undefined;
@@ -197,16 +201,22 @@ function thunksThenScorch() {
   })
   assert(`name` in result == false); // thunks -> scorch
 }
-//thunksThenScorch();
+thunksThenScorch();
 
 function scorchThenCallback() {
   var result = transform.call({
+    foo: 0,
     name: undefined
-  }, undefined, function() {
-    assert('name' in this == false);
-    this.name = 'apple';
-    return this;
-  })
+  }, undefined, {
+    scorch: { },
+    callback: function(value) {
+      assert(value.foo == 0);
+      assert('name' in value == false);
+      value.name = 'apple';
+      return value;
+    }
+  });
+
   assert(result.name == 'apple'); // scorch then callback
 }
-//scorchThenCallback();
+scorchThenCallback();
