@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.nested.reduce",
-  "version": "1.0.5",
-  "description": "Accumulates the values of leafs at specific paths using a callback.",
+  "name": "@kingjs/descriptor.family.tree",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,7 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.merge-wildcards": "^1.0.5",
-    "@kingjs/is-object": "^1.0.0"
+    "@kingjs/descriptor.family.transform": "^1.0.0"
   }
 }

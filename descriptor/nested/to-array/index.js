@@ -8,7 +8,9 @@ function accumulate(array, leaf) {
     
   if (!array)
     array = [];
+
   array.push(leaf);
+  
   return array;
 }
 

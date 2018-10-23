@@ -19,7 +19,7 @@ assertTheory(function(test, id) {
 
   var result = reduce(tree, path, (a, o) => {
     if (a instanceof Array == false) {
-      assert(a === o);
+      assert(a === undefined);
       a = [];
     }
     a.push(o);

@@ -5,11 +5,8 @@ var isObject = require('@kingjs/is-object');
 
 function reduce(tree, paths, callback, accumulator, thisArg) {
 
-  if (!isObject(paths)) {
-    if (accumulator === undefined)
-      accumulator = tree;
+  if (!isObject(paths))
     return callback.call(thisArg, accumulator, tree);
-  }
 
   if (!isObject(tree))
     return accumulator;

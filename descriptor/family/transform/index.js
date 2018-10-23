@@ -83,6 +83,7 @@ function replace(name, thunks, copyOnWrite) {
 
 var familyActionMap = {
   $scorch: 'scorch',
+  $freeze: 'freeze',
   $defaults: 'defaults',
   $bases: 'bases',
   $wrap: 'wrap',
@@ -98,6 +99,7 @@ function composeLeft(g, f) {
 var resolveAction = {
   callback: null,
   scorch: takeLeft,
+  freeze: takeLeft,
   wrap: takeLeft,
   defaults: takeLeft,
   bases: takeLeft,
@@ -224,11 +226,11 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action) {
 
   // 4. Depends
   if (action.depends) {
-    descriptor = nested.update.call(
-      descriptors,
+    descriptor = nested.update(
       descriptor,
       action.depends,
-      resolveAndSelect
+      resolveAndSelect,
+      descriptors
     )
   }
 
@@ -248,12 +250,14 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action) {
   }
   
   // 7. Scorch
-  if (action.scorch)
+  if (action.scorch) {
     descriptor = nested.scorch(descriptor, action.scorch);
+  }
 
   // 8. Update
-  if (action.callback)
+  if (action.callback) {
     descriptor = action.callback(descriptor, name)
+  }
   
   descriptors[name] = descriptor;
 }
@@ -271,6 +275,8 @@ function resolve(descriptors, name, action) {
       resolveAndSelect
     )
   }
+  
+  // 10. Freeze
   
   return descriptor;
 }

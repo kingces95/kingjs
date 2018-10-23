@@ -21,8 +21,8 @@ readMe();
 
 function depends() {
   var result = transform.call({
-    object: { id: 0, name: 'Object' },
-    truck: { id: 1, name: 'Truck', base: 'object' }
+    vehicle: { id: 0, name: 'Vehicle' },
+    truck: { id: 1, name: 'Truck', base: 'vehicle' }
   }, { 
     defaults: { base: null },
     depends: { base: o => o.id }

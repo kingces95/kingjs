@@ -24,7 +24,7 @@
     "@kingjs/descriptor.merge": "^1.0.5",
     "@kingjs/descriptor.nested.freeze": "^1.0.3",
     "@kingjs/descriptor.nested.merge": "^1.0.9",
-    "@kingjs/descriptor.nested.reduce": "^1.0.2",
+    "@kingjs/descriptor.nested.reduce": "^1.0.5",
     "@kingjs/descriptor.nested.scorch": "^1.0.1",
     "@kingjs/descriptor.nested.update": "^1.0.9",
     "@kingjs/descriptor.normalize": "^1.0.0",
