@@ -1,6 +1,7 @@
 'use strict';
 
 var transform = require('@kingjs/descriptor.family.transform');
+var assert = require('@kingjs/assert');
 
 var OnTargetsSuffix = 'OnTargets';
 
@@ -8,6 +9,57 @@ var ConstPropertyAttributes = {
   configurable: false,
   enumerable: false,
   writable: false
+}
+
+function pluralOf(x) {
+  return x + 's';
+}
+
+function isString(o) { 
+  return typeof o == 'string'; 
+}
+
+function isFunction(x) { 
+  return typeof x == 'function'; 
+}
+
+function isObjectLiteral(x) {
+  return typeof x == 'object' && x != null && x.constructor == Object;
+}
+
+function isNamedFunction(x) { 
+  return isFunction(x) && isNonEmptyString(x.name);
+}
+
+function bindArg(func, index, value) {
+  assert(func);
+  
+  return function() { 
+    Array.prototype.splice.call(arguments, index, 0, value);
+    return func.apply(this, arguments); 
+  };
+}
+
+function bind1st(func, value) {
+  return bindArg(func, 0, value);
+}
+
+function bindProxy(func, proxy) {
+  assert(isFunction(func));
+  assert(isFunction(proxy));
+  
+  return function() { 
+    Array.prototype.unshift.call(arguments, func);
+    return proxy.apply(this, arguments); 
+  };
+}
+
+function findValue(source, predicate) {
+  for (var name in source) {
+    var value = source[name];
+    if (predicate(value))
+      return value;
+  }
 }
 
 function normalizeDefineFunction(next, target, name, descriptor) {
@@ -68,52 +120,7 @@ function normalizeDefineAccessor(next, target, name, descriptor) {
   return next.call(this, target, name, descriptor);        
 }
 
-transform.call({
-
-  'Function': {
-    namedConfigurations: {
-      define:             { configurable: false, enumerable: false, writable: false }
-    }, 
-    proxy: normalizeDefineFunction
-  },
-  
-  'Property': {
-    namedConfigurations: { 
-      set:                { configurable: true, enumerable: true, writable: true },
-      setConst:           { configurable: true, enumerable: true, writable: false },
-      setHidden:          { configurable: true, enumerable: false, writable: true },
-      setConstHidden:     { configurable: true, enumerable: false, writable: false },
-      define:             { configurable: false, enumerable: true, writable: true },
-      defineConst:        { configurable: false, enumerable: true, writable: false },
-      defineHidden:       { configurable: false, enumerable: false, writable: true },
-      defineConstHidden:  { configurable: false, enumerable: true, writable: false }
-    }, 
-    proxy: normalizeDefineProperty
-  },
-  
-  'Accessor': {
-    namedConfigurations: { 
-      set:                { configurable: true, enumerable: true },
-      setHidden:          { configurable: true, enumerable: false },
-      define:             { configurable: false, enumerable: true },
-      defineHidden:       { configurable: false, enumerable: false },
-    },
-    proxy: normalizeDefineAccessor
-  }
-
-}, function(suffix, descriptor) {
-
-  transform.call(
-    function(prefix, configuration) {
-      var name = prefix + suffix;
-      var define = createDefineConfiguredProperty(configuration, descriptor.proxy);
-      exportDefineConfiguredPropertyFamily(name, define);
-    },
-    descriptor.namedConfigurations
-  );      
-});
-
-function createDefineConfiguredProperty(configuration, proxy) {
+function bindDefineConfiguredProperty(configuration, proxy) {
 
   // close over configuration
   var define = function(target, name, descriptor) {
@@ -147,7 +154,7 @@ function exportDefineConfiguredPropertyFamily(name, define) {
   var defineMany = exportConstProperty(
     pluralName, 
     function(target, descriptors) {
-      return mapDescriptor(bind1st(define, target), descriptors);
+      return transform.call(descriptors, bind1st(define, target));
     }
   );
   
@@ -166,3 +173,51 @@ function exportConstProperty(name, value) {
   Object.defineProperty(exports, name, ConstPropertyAttributes);
   return value;
 }
+
+transform.call({
+
+  'Function': {
+    namedConfigurations: {
+      define:             { configurable: false, enumerable: false, writable: false }
+    }, 
+    proxy: normalizeDefineFunction
+  },
+  
+  'Property': {
+    namedConfigurations: { 
+      set:                { configurable: true, enumerable: true, writable: true },
+      setConst:           { configurable: true, enumerable: true, writable: false },
+      setHidden:          { configurable: true, enumerable: false, writable: true },
+      setConstHidden:     { configurable: true, enumerable: false, writable: false },
+      define:             { configurable: false, enumerable: true, writable: true },
+      defineConst:        { configurable: false, enumerable: true, writable: false },
+      defineHidden:       { configurable: false, enumerable: false, writable: true },
+      defineConstHidden:  { configurable: false, enumerable: true, writable: false }
+    }, 
+    proxy: normalizeDefineProperty
+  },
+  
+  'Accessor': {
+    namedConfigurations: { 
+      set:                { configurable: true, enumerable: true },
+      setHidden:          { configurable: true, enumerable: false },
+      define:             { configurable: false, enumerable: true },
+      defineHidden:       { configurable: false, enumerable: false },
+    },
+    proxy: normalizeDefineAccessor
+  }
+
+}, function(descriptor, suffix) {
+
+  transform.call(
+    descriptor.namedConfigurations,
+    function(configuration, prefix) {
+      var name = prefix + suffix;
+      var define = bindDefineConfiguredProperty(configuration, descriptor.proxy);
+      exportDefineConfiguredPropertyFamily(name, define);
+    }
+  );      
+});
+
+var debug = exports;
+return;
