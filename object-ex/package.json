@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/template",
+  "name": "@kingjs/object-ex",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,6 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
-    "@kingjs/descriptor.family.transform": "^1.0.0"
+    "@kingjs/descriptor.family.transform": "^1.0.1"
   }
 }

@@ -58,7 +58,7 @@ function normalizeAction() {
   return action;
 }
 
-function inflate(name, copyOnWrite) {
+function inflate(name) {
   return update.call(this, function(value, key) {
 
     if (value instanceof Function == false)
@@ -68,17 +68,17 @@ function inflate(name, copyOnWrite) {
       return value;
 
     return value(name, key);    
-  }, copyOnWrite)
+  })
 }
 
-function replace(name, thunks, copyOnWrite) {
+function replace(name, thunks) {
   return update.call(this, function(value, key) {
     var thunk = thunks[key];
     if (!thunk)
       return value;
 
-    return thunk.call(value, name, key);
-  }, copyOnWrite);
+    return thunk(name, value, key);
+  });
 }
 
 var familyActionMap = {
@@ -251,12 +251,18 @@ function dependsInflateThunkScorchUpdate(descriptors, name, action) {
   
   // 7. Scorch
   if (action.scorch) {
-    descriptor = nested.scorch(descriptor, action.scorch);
+    descriptor = nested.scorch(
+      descriptor, 
+      action.scorch
+    );
   }
 
   // 8. Update
   if (action.callback) {
-    descriptor = action.callback(descriptor, name)
+    descriptor = action.callback(
+      name,
+      descriptor 
+    )
   }
   
   descriptors[name] = descriptor;

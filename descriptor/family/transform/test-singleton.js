@@ -81,8 +81,8 @@ function thunk() {
     type: 'fruit'
   }, decodedName, {
     thunks: {
-      type: function(name, key) {
-        assert(this == 'fruit');
+      type: function(name, value, key) {
+        assert(value == 'fruit');
         assert(name == decodedName);
         assert(key == 'type');
         return 'food';
@@ -116,7 +116,7 @@ scorch();
 function callback() {
 
   var result = transform.call(
-    { }, decodedName, function(descriptor, name) {
+    { }, decodedName, function(name, descriptor) {
       descriptor.name = name;
       return descriptor; 
     }
@@ -179,8 +179,8 @@ function inflateThenThunks() {
     }
    }, 'apple', {
     thunks: {
-      name: function() {
-        return String.prototype.toUpperCase.call(this);
+      name: function(name, value, key) {
+        return String.prototype.toUpperCase.call(value);
       }
     },
   })
@@ -191,10 +191,10 @@ inflateThenThunks();
 function thunksThenScorch() {
   var result = transform.call({
     name: 'apple'
-  }, undefined, {
+  }, decodedName, {
     scorch: { },
     thunks: {
-      name: function() {
+      name: function(name, value, key) {
         return undefined;
       }
     },
@@ -207,9 +207,9 @@ function scorchThenCallback() {
   var result = transform.call({
     foo: 0,
     name: undefined
-  }, undefined, {
+  }, decodedName, {
     scorch: { },
-    callback: function(value) {
+    callback: function(name, value) {
       assert(value.foo == 0);
       assert('name' in value == false);
       value.name = 'apple';

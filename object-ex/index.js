@@ -185,10 +185,7 @@ function exportDefineConfiguredPropertyFamily(name, define) {
   var defineMany = exportConstProperty(
     pluralName, 
     function(target, descriptors) {
-      //return transform.call(descriptors, bind1st(define, target));
-      return transform.call(descriptors, function(descriptor, name) {
-        define(target, name, descriptor);
-      });
+      return transform.call(descriptors, bind1st(define, target));
     }
   );
   
@@ -241,11 +238,11 @@ transform.call({
     proxy: normalizeDefineAccessor
   }
 
-}, function(descriptor, suffix) {
+}, function(suffix, descriptor) {
 
   transform.call(
     descriptor.namedConfigurations,
-    function(configuration, prefix) {
+    function(prefix, configuration) {
       var name = prefix + suffix;
       var wrapped = suffix != 'Property';
       var define = bindDefineConfiguredProperty(configuration, descriptor.proxy, wrapped);
