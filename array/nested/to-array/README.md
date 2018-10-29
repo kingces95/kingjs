@@ -5,7 +5,7 @@ Flatten nested arrays like this:
 ```js
 var toArray = require('@kingjs/array.nested.toArray');
 
-var result = toArray.call([
+var result = toArray([
   'a', [
     'b', [
       'c'
@@ -22,11 +22,11 @@ result:
 ## API
 ```ts
 declare function toArray(
-  this: any | any[]
+  target: any | any[]
 ): any[]
 ```
 ### Parameters
-- `this`: An non-array leaf or an array of nested array nodes interspersed with non-array leafs.
+- `target`: An non-array leaf or an array of nested array nodes interspersed with non-array leafs.
 ### Returns
 Returns an array containing the non-array leafs of a tree whose internal nodes are nested arrays. 
 ## Install

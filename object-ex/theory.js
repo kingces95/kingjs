@@ -5,22 +5,19 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
-function buildName(test, suffix) {
+function buildName(test, suffix, pluralSuffix) {
+  if (!pluralSuffix)
+    pluralSuffix = suffix + 's';
+
   var name = test.configurable ? 'set' : 'define';
   if (test.enumerable === false)
     name += 'Hidden';
   if (test.writable === false)
     name += 'Const';
-  name += suffix;
-  if (test.plural)
-    name = pluralOf(name);
+  name += test.plural ? pluralSuffix : suffix;
   if (test.onTargets === true)
     name += 'OnTargets';
   return name;
-}
-
-function pluralOf(x) {
-  return x + 's';
 }
 
 function assertDescriptor(test, target, name) {
@@ -32,7 +29,7 @@ function assertDescriptor(test, target, name) {
 }
 
 assertTheory(function(test, id) {
-  var name = buildName(test, 'Property');
+  var name = buildName(test, 'Property', 'Properties');
 
   var target = { };
   var targetOrTargets = test.onTargets ? [target] : target;

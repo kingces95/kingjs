@@ -7,7 +7,7 @@ var assert = testRequire('@kingjs/assert')
 function readMe() {
   var result = [];
   
-  forEach.call([
+  forEach([
     'a', [
       'b', [
         'c'
@@ -26,18 +26,45 @@ function readMe() {
 }
 readMe();
 
-function arrayLike() {
-  var arrayLike = {
-    length: 0
-  };
-
+function undefTest() {
   var result = [];
   
-  forEach.call(arrayLike, function(x) {
+  forEach([
+  ], function(x) {
+    result.push(x);
+  });
+
+  assert(result.length == 0);
+}
+undefTest();
+
+function nullTest() {
+  var result = [];
+  
+  forEach([
+    null
+  ], function(x) {
     result.push(x);
   });
 
   assert(result.length == 1);
-  assert(result[0] == arrayLike);
+  assert(result[0] == null);
+}
+nullTest();
+
+function arrayLike() {
+  var arrayLike = {
+    length: 1,
+    '0': 0
+  };
+
+  var result = [];
+  
+  forEach(arrayLike, function(x) {
+    result.push(x);
+  });
+
+  assert(result.length == 1);
+  assert(result[0] === 0);
 }
 arrayLike();

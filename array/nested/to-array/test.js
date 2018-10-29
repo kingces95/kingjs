@@ -5,7 +5,7 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 
 function readMe() {
-  var result = toArray.call([
+  var result = toArray([
     'a', [
       'b', [
         'c'

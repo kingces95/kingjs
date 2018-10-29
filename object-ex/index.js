@@ -1,5 +1,6 @@
 'use strict';
 
+var is = require('@kingjs/is');
 var transform = require('@kingjs/descriptor.family.transform');
 var assert = require('@kingjs/assert');
 
@@ -9,30 +10,6 @@ var ConstPropertyAttributes = {
   configurable: false,
   enumerable: false,
   writable: false
-}
-
-function pluralOf(x) {
-  return x + 's';
-}
-
-function isString(o) { 
-  return typeof o == 'string'; 
-}
-
-function isFunction(x) { 
-  return typeof x == 'function'; 
-}
-
-function isNonEmptyString(x) { 
-  return isString(x) && x.length > 0; 
-}
-
-function isObjectLiteral(x) {
-  return typeof x == 'object' && x != null && x.constructor == Object;
-}
-
-function isNamedFunction(x) { 
-  return isFunction(x) && isNonEmptyString(x.name);
 }
 
 function assign(target, source) {
@@ -60,8 +37,8 @@ function bind1st(func, value) {
 }
 
 function bindProxy(func, proxy) {
-  assert(isFunction(func));
-  assert(isFunction(proxy));
+  assert(is.function(func));
+  assert(is.function(proxy));
   
   return function() { 
     Array.prototype.unshift.call(arguments, func);
@@ -77,34 +54,34 @@ function findValue(source, predicate) {
   }
 }
 
-function normalizeDefineFunction(next, target, name, descriptor) {
+function createFunctionDescriptor(next, target, name, descriptor) {
       
   // e.g. function foo() { ... } => 'foo', function foo() { ... }
-  if (isNamedFunction(name)) {
+  if (is.namedFunction(name)) {
     descriptor = name;
     name = descriptor.name;
   }
   
   // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }
-  if (isFunction(descriptor))
+  if (is.function(descriptor))
     descriptor = { value: descriptor };
   
   return next.call(this, target, name, descriptor);
 }
 
-function normalizeDefineAccessor(next, target, name, descriptor) {
+function createAccessorDescriptor(next, target, name, descriptor) {
       
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
-  if (isObjectLiteral(name)) {
+  if (is.objectLiteral(name)) {
     descriptor = name;
-    name = findValue(descriptor, isNamedFunction).name;
+    name = findValue(descriptor, is.namedFunction).name;
   }
   
-  else if (!isObjectLiteral(descriptor)) {
+  else if (!is.objectLiteral(descriptor)) {
     var get, set;
     
     // e.g. function foo() { ... } => 'foo', { get: function foo() { ... } }
-    if (isFunction(name)) {
+    if (is.function(name)) {
       get = name;
       set = descriptor;
       name = get.name;
@@ -121,37 +98,32 @@ function normalizeDefineAccessor(next, target, name, descriptor) {
     if (set) descriptor.set = set;
   }
   
-  assert(isString(name));
+  assert(is.string(name));
   assert(descriptor.get || descriptor.set);
-  assert(!descriptor.get || isFunction(descriptor.get));
-  assert(!descriptor.set || isFunction(descriptor.set));
+  assert(!descriptor.get || is.function(descriptor.get));
+  assert(!descriptor.set || is.function(descriptor.set));
   
   return next.call(this, target, name, descriptor);        
 }
 
-function bindDefineConfiguredProperty(configuration, proxy, wrapped) {
+function bindDefineConfiguredValue(configuration) {
 
   // close over configuration
-  var define = function(target, name, descriptor) {
+  var define = function(target, name, value) {
 
-    // common case: set property not previously defined 
-    if (!wrapped && (name in target == false)) {
-      target[name] = descriptor;
+    var descriptor = null;
 
+    // optimized case: set property not previously defined 
+    if (name in target == false) {
+      target[name] = value;
       descriptor = configuration;
     } 
 
-    // hard case: e.g. override inherited readonly property
+    // general case: e.g. override inherited readonly property
     else {
-
-      // common case avoids this allocation
-      if (!wrapped)
-        descriptor = { value: descriptor }; 
-
-      descriptor = assign(descriptor, configuration);
+      descriptor = assign({ value: value }, configuration);
     }
 
-    // BAM! Configure the property. 
     return Object.defineProperty(
       target, 
       name, 
@@ -159,14 +131,21 @@ function bindDefineConfiguredProperty(configuration, proxy, wrapped) {
     );
   }
 
-  // add normalizing proxy
-  if (proxy)
-    define = bindProxy(define, proxy);
-
   return define;
 }
 
-function exportDefineConfiguredPropertyFamily(name, define) {
+function bindDefineConfiguredProperty(configuration, proxy) {
+  return bindProxy(function(target, name, descriptor) {
+    return Object.defineProperty(
+      target, 
+      name, 
+      // close over configuration
+      assign(descriptor, configuration)
+    );
+  }, proxy);
+}
+
+function exportDefineConfiguredPropertyFamily(name, pluralName, define) {
   
   // (define|set)[Const][Hidden](Property|Accessor)(target, name, descriptor);
   exportConstProperty(name, define);
@@ -181,7 +160,6 @@ function exportDefineConfiguredPropertyFamily(name, define) {
   );
   
   // (define|set)[Const][Hidden](Properties|Accessors)(target, descriptors)
-  var pluralName = pluralOf(name);
   var defineMany = exportConstProperty(
     pluralName, 
     function(target, descriptors) {
@@ -206,15 +184,9 @@ function exportConstProperty(name, value) {
 }
 
 transform.call({
-
-  'Function': {
-    namedConfigurations: {
-      define:             { configurable: false, enumerable: false, writable: false }
-    }, 
-    proxy: normalizeDefineFunction
-  },
   
   'Property': {
+    pluralName: 'Properties',
     namedConfigurations: { 
       set:                { configurable: true, enumerable: true, writable: true },
       setConst:           { configurable: true, enumerable: true, writable: false },
@@ -225,31 +197,45 @@ transform.call({
       defineHidden:       { configurable: false, enumerable: false, writable: true },
       defineHiddenConst:  { configurable: false, enumerable: false, writable: false }
     }, 
-    proxy: null
   },
-  
+
+  'Function': {
+    pluralName: 'Functions',
+    namedConfigurations: {
+      define:             { configurable: false, enumerable: false, writable: false }
+    }, 
+    proxy: createFunctionDescriptor
+  },
+
   'Accessor': {
+    pluralName: 'Accessors',
     namedConfigurations: { 
       set:                { configurable: true, enumerable: true },
       setHidden:          { configurable: true, enumerable: false },
       define:             { configurable: false, enumerable: true },
       defineHidden:       { configurable: false, enumerable: false },
     },
-    proxy: normalizeDefineAccessor
+    proxy: createAccessorDescriptor
   }
 
 }, function(suffix, descriptor) {
 
+  var pluralSuffix = descriptor.pluralName;
+  var proxy = descriptor.proxy;
+
   transform.call(
     descriptor.namedConfigurations,
     function(prefix, configuration) {
-      var name = prefix + suffix;
-      var wrapped = suffix != 'Property';
-      var define = bindDefineConfiguredProperty(configuration, descriptor.proxy, wrapped);
-      exportDefineConfiguredPropertyFamily(name, define);
+
+      var define = proxy ?
+        bindDefineConfiguredProperty(configuration, proxy) :
+        bindDefineConfiguredValue(configuration);
+
+      exportDefineConfiguredPropertyFamily(
+        prefix + suffix, 
+        prefix + pluralSuffix,
+        define
+      );
     }
   );      
 });
-
-var debug = exports;
-return;

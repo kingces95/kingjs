@@ -1,8 +1,8 @@
 var forEach = require('@kingjs/array.nested.for-each');
 
-function toArray() {
+function toArray(target) {
   var result = [ ];
-  forEach.call(this, function(x) {
+  forEach(target, function(x) {
     result.push(x);
   });
   return result;

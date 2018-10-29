@@ -1,12 +1,14 @@
-function forEach(action) {
+var is = require('@kingjs/is');
 
-  if (!(this instanceof Array)) {
-    action(this);
+function forEach(target, callback, argThis) {
+
+  if (is.arrayLike(target)) {
+    for (var i = 0; i < target.length; i++)
+      forEach.call(argThis, target[i], callback);    
     return;
   }
   
-  for (var i = 0; i < this.length; i++)
-    forEach.call(this[i], action);
+  callback.call(argThis, target);
 }
 
 Object.defineProperties(module, {

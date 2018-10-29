@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/array.nested.for-each",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Invokes a callback on leafs of a tree whose internal nodes are nested arrays and whose leafs are any non-array value.",
   "main": "index.js",
   "files": [
@@ -15,5 +15,8 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.3"
+  }
 }

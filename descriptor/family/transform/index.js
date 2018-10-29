@@ -131,9 +131,13 @@ function mapToAdjacencyList(descriptors, actions) {
   var adjacencyList;
 
   for (var name in descriptors) {
+    var depends = actions[name].depends;
+    if (!depends)
+      continue;
+
     var edges = nested.reduce(
       descriptors[name], 
-      actions[name].depends,
+      depends,
       accumulateStrings
     );
 
@@ -147,19 +151,6 @@ function mapToAdjacencyList(descriptors, actions) {
   }
 
   return adjacencyList;
-}
-
-function forEachDependent(descriptors, actions, callback) {
-  var adjacencyList = mapToAdjacencyList(descriptors, actions); 
-
-  if (!adjacencyList) {
-    for (var name in descriptors) 
-      callback(name);
-    return;
-  }
-
-  var roots = Object.keys(descriptors);
-  poset.forEach.call(adjacencyList, callback, roots);
 }
 
 function wrapInheritDefaults(encodedFamily, result, actions) {
@@ -294,16 +285,28 @@ function transform(action) {
   setContext.call(actions, normalizeAction.call(action));
 
   // Pass I: 1-3; Wrap, Inherit, Defaults
-  var encodedFamilies = flatten.call(this);
+  var encodedFamilies = flatten(this);
   for (var i = 0; i < encodedFamilies.length; i++)
     wrapInheritDefaults(encodedFamilies[i], result, actions);
 
   // Pass II: 4-8; Depends, Inflate, Thunks, Scorch, Update
-  forEachDependent(result, actions, name =>
-    dependsInflateThunkScorchUpdate(
-      result, name, actions[name]
-    )
-  );
+  var adjacencyList = mapToAdjacencyList(result, actions); 
+  if (adjacencyList) {
+    poset.forEach.call(
+      adjacencyList, 
+      name => dependsInflateThunkScorchUpdate(
+        result, name, actions[name]
+      ), 
+      Object.keys(result)
+    );
+  } 
+  else {
+    for (var name in result) {
+      dependsInflateThunkScorchUpdate(
+        result, name, actions[name]
+      )
+    }
+  }
 
   // Pass III: 9; Resolve
   for (var name in result) 

@@ -7,7 +7,7 @@ var forEach = require('@kingjs/array.nested.for-each');
 
 var result = [];
 
-forEach.call([
+forEach([
   'a', [
     'b', [
       'c'
@@ -26,13 +26,13 @@ result:
 ## API
 ```ts
 declare function forEach(
-  this: any | any[],
-  action: (x) => void
+  target: any | any[],
+  callback: (x) => void
 )
 ```
 ### Parameters
-- `this`: An non-array leaf or an array of nested array nodes interspersed with non-array leafs.
-- `action`: Callback to invoke for each non-array element.
+- `target`: An non-array leaf or an array of nested array nodes interspersed with non-array leafs.
+- `callback`: Callback to invoke for each non-array element.
   - `x`: Current non-array leaf. 
 ## Install
 With [npm](https://npmjs.org/) installed, run
