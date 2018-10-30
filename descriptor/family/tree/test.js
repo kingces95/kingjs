@@ -8,9 +8,14 @@ var assert = testRequire('@kingjs/assert')
 function readMe() {
   var node = defineNodes({ }, {
     root: { 
-      children: { namespace: null }
+      children: {
+         namespace: null,
+         fooOrBar: null
+      }
     },
-    namespace: { },
+    namespace: { 
+      children: { fooOrBar: null }
+    },
     fooOrBar: { },
     bar: { 
       base: 'fooOrBar',
@@ -30,13 +35,27 @@ function readMe() {
     },
   });
 
-  var Root = node.Root;
-  var Namespace = node.Namespace;
-  var FooOrBar = node.FooOrBar;
-  var Foo = node.Foo;
-  var Bar = node.Bar;
+  var Root = node.root;
+  assert('defineNamespace' in Root.prototype);
+  assert('defineNamespaces' in Root.prototype);
+  assert('defineFooOrBar' in Root.prototype);
+  assert('defineFooOrBars' in Root.prototype);
+
+  var Namespace = node.namespace;
+  assert('defineFooOrBars' in Namespace.prototype);
+  assert('defineFooOrBars' in Namespace.prototype);
+
+  var FooOrBar = node.fooOrBar;
+  var Foo = node.foo;
+  var Bar = node.bar;
 
   var root = new Root();
+  root.defineChildren({
+    namespaces: { 
+      myNs: { }
+    }
+  });
+
   var ns = new Namespace(root, 'myNs');
   var foo = new Foo(ns, 'myFoo', { 
     myNumber: 42  

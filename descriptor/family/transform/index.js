@@ -264,12 +264,12 @@ function resolve(descriptors, name, action) {
   var descriptor = descriptors[name];
 
   // 9. Resolve
-  if (action.depends) {
-    descriptor = nested.update.call(
-      descriptors,
+  if (action.refs) {
+    descriptor = nested.update(
       descriptor,
-      action.ref,
-      resolveAndSelect
+      action.refs,
+      resolveAndSelect,
+      descriptors
     )
   }
   

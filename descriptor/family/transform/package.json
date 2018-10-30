@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.family.transform",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Returns a new descriptor family whose descriptors have been transformed by a callback.",
   "main": "index.js",
   "files": [

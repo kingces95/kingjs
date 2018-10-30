@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
-    "@kingjs/descriptor.family.transform": "^1.0.4",
+    "@kingjs/descriptor.family.transform": "^1.0.5",
     "@kingjs/is": "^1.0.3",
     "@kingjs/object-ex": "^1.0.4",
     "@kingjs/string-ex": "^1.0.0"

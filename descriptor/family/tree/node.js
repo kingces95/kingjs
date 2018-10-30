@@ -2,6 +2,7 @@
 
 var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
+var stringEx = require('@kingjs/string-ex');
 var assert = require('@kingjs/assert');
 
 function Node(parent, name, descriptor) {
@@ -32,7 +33,19 @@ function Node(parent, name, descriptor) {
   //  this.defineChildren(nodeInfo.children[childrenName], descriptor[childrenName]);
 };
 
+var defineChildrenNames = { };
+
 objectEx.defineFunctions(Node.prototype, {
+
+  defineChildren: function(descriptors) {
+    for (var name in descriptors) {
+      var descriptor = descriptors[name];
+      var define = defineChildrenNames[name];
+      if (!define)
+        define = defineChildrenNames[name] = 'define' + stringEx.capitalize(name);
+      this[define](descriptor);
+    }
+  },
   
   getAncestor: function(ctor) {
     if (!ctor)

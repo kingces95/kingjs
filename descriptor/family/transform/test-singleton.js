@@ -126,6 +126,23 @@ function callback() {
 }
 callback();
 
+function refs() {
+
+  var result = transformFamily.call({ 
+    foo: { 
+      id: 0
+    },
+    bar: { 
+      foo: 'foo'
+    }
+  }, {
+    refs: { foo: null }
+  });
+
+  assert(result.bar.foo.id == 0);
+}
+refs();
+
 function wrapThenInherit() {
   var appleName = 'apple';
   var result = transform.call(appleName, decodedName + '$fruit', {
