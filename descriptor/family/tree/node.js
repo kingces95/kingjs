@@ -26,10 +26,10 @@ function Node(parent, name, descriptor) {
   objectEx.defineHiddenConstProperty(this, 'children__', { });
 
   // add subTrees of children
-  var ctor = this.constructor;
-  var nodeInfo = ctor.nodeInfo || emptyObject;    
-  for (var childrenName in nodeInfo.children)
-    this.defineChildren(nodeInfo.children[childrenName], descriptor[childrenName]);
+  //var ctor = this.constructor;
+  //var nodeInfo = ctor.nodeInfo || emptyObject;    
+  //for (var childrenName in nodeInfo.children)
+  //  this.defineChildren(nodeInfo.children[childrenName], descriptor[childrenName]);
 };
 
 objectEx.defineFunctions(Node.prototype, {
@@ -101,36 +101,6 @@ objectEx.defineFunctions(Node.prototype, {
     Assert.fail('Failed to load: ' + ref);
   },
   
-  defineChild: function(childInfo, name, descriptor) {
-    
-    // normalize functions
-    if (isFunction(name)) {     
-      descriptor = name;
-      name = descriptor.name;
-    }
-    
-    // children containing a single child
-    var children = { };
-    children[name] = descriptor;
-    
-    this.defineChildren(childInfo, children);
-  },
-  
-  defineChildren: function(childInfo, children) {
-    var ctor = childInfo.func;
-    var parent = this;
-    
-    mapDescriptor(
-      createMapDescriptorMetadata(
-        function(name, descriptor) {
-          buildTree(ctor, parent, name, descriptor)
-        }, 
-        childInfo, // custom defaults
-        ctor.nodeInfo // general defaults
-      ), children    
-    );
-  },
-
   onLoad: /* virtual */ function() { },
  
   attachChild: /* virtual */ function(name, child) {  

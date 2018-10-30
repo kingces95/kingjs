@@ -7,21 +7,25 @@ var assert = testRequire('@kingjs/assert')
 
 function readMe() {
   var node = defineNodes({ }, {
-    Root: { },
-    Namespace: { },
-    FooOrBar: { },
-    Bar: { 
-      base: 'FooOrBar',
+    root: { 
+      children: { namespace: null }
     },
-    Foo: { 
-      base: 'FooOrBar',
+    namespace: { },
+    fooOrBar: { },
+    bar: { 
+      base: 'fooOrBar',
+    },
+    foo: { 
+      base: 'fooOrBar',
       methods: {
         getField: function(x) { return this[x]; },
         setField: function(x,v) { this[x] = v; }
       },
       accessors: {
-        pi: { defaultValue: 3.14159 },
-        namespace: { ancestor: 'Namespace' }
+        pi: 3.14159,
+        e: () => 2.71828,
+        sibling: { ref: '' },
+        namespace: { ancestor: () => node.Namespace }
       }
     },
   });
@@ -32,9 +36,11 @@ function readMe() {
   var Foo = node.Foo;
   var Bar = node.Bar;
 
-  var root = new Root(null);
+  var root = new Root();
   var ns = new Namespace(root, 'myNs');
-  var foo = new Foo(ns, 'myFoo');
+  var foo = new Foo(ns, 'myFoo', { 
+    myNumber: 42  
+  });
   var bar = new Bar(ns, 'myBar');
 
   assert(foo instanceof Node);
@@ -45,8 +51,9 @@ function readMe() {
   assert(foo.isFooOrBar);
   assert(foo.name == 'myFoo');
   assert(foo.fullName == 'myNs.myFoo');
-
+  
   assert(foo.pi == 3.14159);
+  assert(foo.e == 2.71828);
   assert(foo.namespace == ns);
 
   assert('getField' in foo);

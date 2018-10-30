@@ -104,19 +104,22 @@ function defineAccessor(target, name, descriptor) {
   if (type == Boolean)
     name = 'is' + capitalize(name);
 
-  var value = defaultValue || ref || ancestor;
+  var value = defaultValue || ref;
   
   // define
   objectEx.defineAccessor(target, name, function() {
 
-    if (get && (!lazy || value === undefined))      
+    if (get && (!lazy || is.undefined(value)))      
       value = get.call(this);
 
-    if ((ref || ancestor) && is.string(value))
+    if (ref && is.string(value))
       value = this.resolve(value, type);
 
-    if (ancestor && value === undefined)
-      value = this.getAncestor(value);
+    if (ancestor && is.undefined(value)) {
+      if (is.function(ancestor))
+        ancestor = ancestor();
+      value = this.getAncestor(ancestor);
+    }
     
     if (is.undefined(value))
       value = defaultValue;
@@ -125,8 +128,22 @@ function defineAccessor(target, name, descriptor) {
   });          
 }
 
-function defineNodes(target, nodeDescriptors) {
-  transform.call(nodeDescriptors, {
+function defineNodes(target, descriptors) {
+
+  // declare type and type metadata
+  descriptors = firstPass(descriptors);
+
+  // declare methods dependent on type metadata
+  descriptors = secondPass(descriptors);
+
+  // publish
+  for (var name in descriptors)          
+    objectEx.defineFunction(target, name, descriptors[name].func);
+  return target;
+}
+
+function firstPass(descriptors) {
+  return transform.call(descriptors, {
     defaults: { 
       base: Node
     },
@@ -167,88 +184,120 @@ function defineNodes(target, nodeDescriptors) {
         var accessors = transform.call([
           descriptor.accessors,
           flagsToAccessor(descriptor.flags)
-        ], { wrap: 'func' }); 
+        ], { wrap: o => ({ [is.function(o) ? 'get' : 'defaultValue']: o }) }); 
 
         transform.call(accessors, (n, d) => defineAccessor(func.prototype, n, d));
       }
-      
-      // add nodeInfo to func
-      func.nodeInfo = {
-        name: name,
-        wrap: descriptor.wrap,
-        thunks: descriptor.thunks,
-        defaults: descriptor.defaults,
-      };
-      
-      objectEx.defineFunction(target, name, func);
 
+      if (descriptor.fields) {
+
+      }
+      
       return {
         func: func,
-        name: descriptor.name,
-        children: descriptor.children
+        name: name,
+        children: descriptor.children,
+        pluralName: descriptor.pluralName || name + 's',
+        action: {
+          wrap: descriptor.wrap,
+          thunks: descriptor.thunks,
+          defaults: descriptor.defaults,
+        }
       };
     }
-  });
-
-  return target;
+  });  
 }
 
-function secondPass(name, nodeDescriptor) {      
-  var func = nodeDescriptor.func;
+function defineGetMethods(target, name, pluralName, func) {
+  var pluralName = stringEx.capitalize(pluralName);
+  var singularName = 'get' + name;
+  
+  if (pluralName in target)
+    return;
+  
+  // define 'getMyChild(name)'
+  defineConstHiddenProperty(target, pluralName, bind1st(Node.prototype.children, func));
 
-  // define 'getFoo(name)' and 'foos()'
-  var defineGetMethods = function(target, childFunc) {
-    var childName = childFunc.nodeInfo.name;
-    var pluralName = decapitalize(pluralOf(childName));
-    var singularName = 'get' + childName;
-    
-    if (pluralName in target)
-      return;
-    
-    defineConstHiddenProperty(target, pluralName, bind1st(Node.prototype.children, childFunc));
-    defineConstHiddenProperty(target, singularName, bind2nd(Node.prototype.getChild, childFunc));
-  };
+  // define 'MyChildren()'
+  defineConstHiddenProperty(target, singularName, bind2nd(Node.prototype.getChild, func));
+};
+
+function defineAllGetMethods(target, name, pluralName, func) {
+  defineGetMethods(target, name, pluralName, func);
   
-  // define get methods up the child hierarchy; `getBaseFoo(name)` and 'baseFoos()'
-  var defineAllGetMethods = function(target, childFunc) {
-    defineGetMethods(target, childFunc);
-    
-    var baseChildCtor = Object.getPrototypeOf(childFunc.prototype).constructor;
-    if (baseChildCtor == Node)
-      return;
-    
-    // recurse
-    defineAllGetMethods(target, baseChildCtor);
-  }      
+  // define get methods up the child hierarchy
+  var baseChildCtor = Object.getPrototypeOf(func.prototype).constructor;
+  if (baseChildCtor == Node)
+    return;
   
-  // add child/children accessors to prototype
-  var children = func.nodeInfo.children = 
-    mapDescriptor({ wrap: 'func' }, nodeDescriptor.children) || emptyArray;
-  for (var childrenName in children) {
-    var target = func.prototype;
+  defineAllGetMethods(target, baseChildCtor);
+}      
+
+function defineDefineChildren(target, action, name, pluralName) {
 
     // define; `defineMethod(name, descriptor)' and `defineMethods(descriptor)`
     var childInfo = children[childrenName];
     var defineChildrenName = 'define' + capitalize(childrenName);
     defineConstHiddenProperty(target, defineChildrenName, bind1st(Node.prototype.defineChildren, childInfo));
     defineConstHiddenProperty(target, singularOf(defineChildrenName), bind1st(Node.prototype.defineChild, childInfo));
-    
-    // reflect; `getMethod(name)' and `methods()`
-    var childFunc = childInfo.func;
-    forEachBase(function(baseChildFunc) {         
-      var childBaseName = baseChildFunc.nodeInfo.name;
-      var getBaseChildrenName = decapitalize(pluralOf(childBaseName));
-      var getBaseChildName = 'get' + childBaseName;
-      
-      if (getBaseChildrenName in target)
-        return;
-      
-      defineConstHiddenProperty(target, getBaseChildrenName, bind1st(Node.prototype.children, baseChildFunc));
-      defineConstHiddenProperty(target, getBaseChildName, bind2nd(Node.prototype.getChild, baseChildFunc));          
-    }, childFunc, Node);
-  }
+}
+
+function bindDefineChildren(ctor, action, defaultAction) { 
+  return function(descriptors) {
+    if (!descriptors)
+      return;
+
+    transform.call(
+      descriptors, [
+        (name, descriptor) => 
+          new ctor(this, name, descriptor),
+        action, 
+        defaultAction
+      ]
+    );
+  }  
+}
+
+function defineChildMethods(descriptors, target, name, action) {
+  var descriptor = descriptors[name];
+  var ctor = descriptor.func;
+  var defaultAction = descriptor.action;
   
-  return nodeDescriptor;
+  var defineChildrenName = 'define' + stringEx.capitalize(descriptor.pluralName);
+  var defineChildren = bindDefineChildren(ctor, action, defaultAction);
+
+  var defineChildName = 'define' + stringEx.capitalize(name);
+  var defineChild = function(name, descriptor) {
+    this[defineChildren]({ [name]: descriptor });
+  }
+
+  objectEx.defineFunctions(target, {
+    [defineChildrenName]: defineChildren,
+    [defineChildName]: defineChild
+  })
+}
+
+function secondPass(descriptors) {   
+  return transform.call(descriptors, function(name, descriptor) {
+
+    var children = descriptor.children;
+    if (!children)
+      return descriptor;
+
+    // add child/children accessors to prototype
+    for (var childName in children) {
+      var child = children[childName];
+
+      defineChildMethods(
+        descriptors,
+        descriptor.func.prototype,
+        childName,
+        child
+      )
+    }
+    
+    return descriptor;
+  });
 }
 
 Object.defineProperties(module, {
