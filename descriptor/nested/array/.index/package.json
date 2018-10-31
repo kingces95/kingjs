@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.nested",
-  "version": "1.0.0",
-  "description": "Exports all `@kingjs/descriptor.nested.*` functionality in one package.",
+  "name": "@kingjs/descriptor.nested.array",
+  "version": "1.0.5",
+  "description": "Exports all `@kingjs/descriptor.nested.array.*` functionality in one package.",
   "main": "index.js",
   "files": [
     "index.js"

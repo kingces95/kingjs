@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/descriptor.nested.array.to-array",
+  "version": "1.0.0",
+  "description": "Returns an array of leaf values of an array tree.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.0",
+    "@kingjs/descriptor.nested.to-array": "^1.0.0"
+  }
+}
