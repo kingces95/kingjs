@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.family.transform",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Returns a new descriptor family whose descriptors have been transformed by a callback.",
   "main": "index.js",
   "files": [
@@ -18,12 +18,12 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/array.nested.to-array": "^1.0.4",
+    "@kingjs/array.nested.to-array": "^1.0.5",
     "@kingjs/descriptor.inherit": "^1.0.4",
     "@kingjs/descriptor.map-names": "^1.0.6",
     "@kingjs/descriptor.merge": "^1.0.5",
     "@kingjs/descriptor.nested.freeze": "^1.0.3",
-    "@kingjs/descriptor.nested.merge": "^1.0.9",
+    "@kingjs/descriptor.nested.merge": "^1.0.10",
     "@kingjs/descriptor.nested.reduce": "^1.0.5",
     "@kingjs/descriptor.nested.scorch": "^1.0.1",
     "@kingjs/descriptor.nested.update": "^1.0.9",
@@ -31,6 +31,7 @@
     "@kingjs/descriptor.update": "^1.0.15",
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/func.return-arg-0": "^1.0.0",
+    "@kingjs/is": "^1.0.3",
     "@kingjs/poset.decode": "^1.0.10",
     "@kingjs/poset.inherit": "^1.0.7"
   }

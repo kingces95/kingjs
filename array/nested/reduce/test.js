@@ -1,21 +1,23 @@
 'use strict';
 
-var forEach = require('.');
+var reduce = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 
+var toArrayReduction = (a, o) => {
+  if (!a) a = [];
+  a.push(o); 
+  return a 
+};
+
 function readMe() {
-  var result = [];
-  
-  forEach([
+  var result = reduce([
     'a', [
       'b', [
         'c'
       ], 'd'
     ], 'e'
-  ], function(x) {
-    result.push(x);
-  });
+  ], toArrayReduction);
 
   assert(result.length == 5);
   assert(result[0] == 'a');
@@ -27,25 +29,17 @@ function readMe() {
 readMe();
 
 function undefTest() {
-  var result = [];
-  
-  forEach([
-  ], function(x) {
-    result.push(x);
-  });
+  var result = reduce([
+  ], toArrayReduction);
 
-  assert(result.length == 0);
+  assert(result === undefined);
 }
 undefTest();
 
 function nullTest() {
-  var result = [];
-  
-  forEach([
+  var result = reduce([
     null
-  ], function(x) {
-    result.push(x);
-  });
+  ], toArrayReduction);
 
   assert(result.length == 1);
   assert(result[0] == null);

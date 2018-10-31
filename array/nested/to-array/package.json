@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/array.nested.to-array",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Returns an array containing the non-array leafs of a tree whose internal nodes are nested arrays.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/array.nested.for-each": "^1.0.3"
+    "@kingjs/array.nested.for-each": "^1.0.6"
   }
 }

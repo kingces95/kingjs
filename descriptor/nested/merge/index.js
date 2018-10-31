@@ -3,6 +3,7 @@
 var create = require(`@kingjs/descriptor.create`);
 var write = require('@kingjs/descriptor.write');
 var isObject = require('@kingjs/is-object');
+var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 function throwMergeConflict(left, right) {
   throw 'Merge conflict';
@@ -59,6 +60,8 @@ function merge(tree, delta, paths, thisArg) {
 
   if (!isObject(tree))
     return tree;
+
+  paths = mergeWildcards.call(paths, delta);
 
   return mergeNode.call(
     tree,

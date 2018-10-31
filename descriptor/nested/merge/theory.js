@@ -29,7 +29,7 @@ assertTheory(function(test, id) {
       
     var tree = test.leftNested ? { value: left } : left;
     var delta = test.rightNested ? { value: right } : right;
-    var path = test.pathNested ? { value: resolver } : resolver;
+    var path = test.pathNested ? { [test.wildPath ? '*' : 'value']: resolver } : resolver;
 
     if (test.leftNested && test.frozen)
       Object.freeze(tree);
@@ -129,6 +129,7 @@ assertTheory(function(test, id) {
   frozen: [ true, false ],
   left: [ undefined, null, 0, 1 ],
   right: [ undefined, null, 0, 1 ],
+  wildPath: [ false, true ],
   resolver: {
     none: undefined,
     neither: function(x, y) {

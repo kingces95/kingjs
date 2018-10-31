@@ -11,7 +11,7 @@ function reduce(tree, paths, callback, accumulator, thisArg) {
   if (!isObject(tree))
     return accumulator;
 
-  paths = mergeWildcards.call(paths, tree, true);
+  paths = mergeWildcards.call(paths, tree);
 
   for (var name in paths)
     accumulator = reduce(tree[name], paths[name], callback, accumulator, thisArg);

@@ -1,11 +1,16 @@
-var flatten = require('@kingjs/array.nested.to-array');
 var takeLeft = require('@kingjs/func.return-arg-0');
+var is = require('@kingjs/is');
 
 var normalize = require('@kingjs/descriptor.normalize');
 var merge = require('@kingjs/descriptor.merge');
 var mapNames = require('@kingjs/descriptor.map-names');
 var inherit = require('@kingjs/descriptor.inherit');
 var update = require('@kingjs/descriptor.update');
+
+var nestedArray = {
+  flatten: require('@kingjs/array.nested.to-array'),
+  forEach: require('@kingjs/array.nested.for-each')
+}
 
 var nested = {
   scorch: require('@kingjs/descriptor.nested.scorch'),
@@ -42,8 +47,14 @@ function resolveAndSelect(name, selector) {
   return result;
 }
 
-function normalizeAction() {
-  var action = this;
+function reduceActions(array) {
+  array = nestedArray.flatten(array);
+  return array.reduce((a, o) => 
+    nested.merge(a, o, actionMergePaths)
+  );
+}
+
+function normalizeAction(action) {
 
   // normalize action
   if (action === undefined)
@@ -96,23 +107,23 @@ function composeLeft(g, f) {
   return function(x) { return f(g(x)); }
 }
 
-var resolveAction = {
+var actionMergePaths = {
   callback: null,
   scorch: takeLeft,
   freeze: takeLeft,
   wrap: takeLeft,
-  defaults: takeLeft,
-  bases: takeLeft,
-  thunks: composeLeft,
-  depends: takeLeft,
-  refs: takeLeft,
+  defaults: { '*': takeLeft },
+  bases: { '*': takeLeft },
+  thunks: { '*': composeLeft },
+  depends: { '*': takeLeft },
+  refs: { '*': takeLeft },
 }
 
 // used to optimize away closure allocation by passing context in $ instead
-var hide = { enumerable: false };
-function setContext(value) {
-  this['$'] = value;
-  Object.defineProperty(this, '$', hide);
+var hiddenPropertyDescriptor = { enumerable: false };
+function setHiddenProperty(target, name, value) {
+  target[name] = value;
+  Object.defineProperty(target, name, hiddenPropertyDescriptor);
 }
 
 function accumulateStrings(accumulator, value) {
@@ -158,13 +169,10 @@ function wrapInheritDefaults(encodedFamily, result, actions) {
   var action = actions.$;  
 
   var familyAction = mapNames.call(encodedFamily, familyActionMap);
-  if (familyAction) {
-    action = nested.merge(
-      normalizeAction.call(familyAction),
-      action,
-      resolveAction,
-    );
-  }
+  if (familyAction)
+    action = [normalizeAction(familyAction), action];
+
+  action = reduceActions(action);
 
   // accumulate decoded family members
   for (var encodedName in encodedFamily) {
@@ -282,12 +290,20 @@ function transform(action) {
   var result = { };
   var actions = { };
   
-  setContext.call(actions, normalizeAction.call(action));
+  // normalize default action
+  if (!is.array(action))
+    action = normalizeAction(action); // optimization
+  else
+    nestedArray.forEach(action, o => normalizeAction(o)); // bug: need forEach -> update so normalizeAction is updated
+
+  // assign default action
+  setHiddenProperty(actions, '$', action);
 
   // Pass I: 1-3; Wrap, Inherit, Defaults
-  var encodedFamilies = flatten(this);
-  for (var i = 0; i < encodedFamilies.length; i++)
-    wrapInheritDefaults(encodedFamilies[i], result, actions);
+  if (!is.array(this))
+    wrapInheritDefaults(this, result, actions); // optimization
+  else
+    nestedArray.forEach(this, o => wrapInheritDefaults(o, result, actions));
 
   // Pass II: 4-8; Depends, Inflate, Thunks, Scorch, Update
   var adjacencyList = mapToAdjacencyList(result, actions); 

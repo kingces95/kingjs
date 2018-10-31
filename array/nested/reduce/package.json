@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/array.nested.for-each",
-  "version": "1.0.7",
-  "description": "Invokes a callback on leafs of a tree whose internal nodes are nested arrays and whose leafs are any non-array value.",
+  "name": "@kingjs/array.nested.reduce",
+  "version": "1.0.0",
+  "description": ".",
   "main": "index.js",
   "files": [
     "index.js"
