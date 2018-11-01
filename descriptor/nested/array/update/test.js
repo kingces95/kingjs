@@ -10,31 +10,25 @@ function readMe() {
 
     alice: {
       name: 'Alice',
-      follows: 'bob'
     },
     bob: {
       name: 'Bob', 
-      follows: 'chris'
     },
     chris: {
       name: 'Chris',
-      follows: 'alice'
     }
   };
 
+  var tree = [['bob'], 'chris', 'alice'];
+
   var result = update(
-    people,
-    { '*': { follows: null } },
-    function(name) { return this[name]; },
-    people
+    tree,
+    x => people[x]
   )
 
-  assert(result.alice.follows == people.bob);
-  assert(result.alice.name == 'Alice');
-  assert(result.bob.follows == people.chris);
-  assert(result.bob.name == 'Bob');
-  assert(result.chris.follows == people.alice);
-  assert(result.chris.name == 'Chris');
+  assert(result[0][0] == people.bob);
+  assert(result[1] == people.chris);
+  assert(result[2] == people.alice);
 }
 readMe();
 

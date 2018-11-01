@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/descriptor.nested.array.freeze",
   "version": "1.0.3",
-  "description": "Freezes a array tree.",
+  "description": "Freezes an array tree and it's values.",
   "main": "index.js",
   "files": [
     "index.js"

@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).update
-Updates the leafs of a tree to values returned by a callback which takes the current value.
+Updates the values of a array tree to values returned by a callback which takes the current value.
 ## Usage
 Replace the name of the person followed with the object representing the person being followed like this:
 ```js
@@ -9,48 +9,41 @@ var people = {
 
   alice: {
     name: 'Alice',
-    follows: 'bob'
   },
   bob: {
     name: 'Bob', 
-    follows: 'chris'
   },
   chris: {
     name: 'Chris',
-    follows: 'alice'
   }
 };
 
-var result = update.call(
-  people,
-  people,
-  { '*': { follows: null } },
-  function(name) { return this[name]; }
+var tree = ['bob', 'chris', 'alice'];
+
+var result = update(
+  tree,
+  x => people[x]
 )
 ```
 result:
 ```js
-{
-  alice: {
-    name: 'Alice',
-    follows: { /* bob */ }
-  },
+[
   bob: {
     name: 'Bob', 
-    follows: { /* chris */ }
   },
   chris: {
     name: 'Chris',
-    follows: { /* alice */ }
+  },
+  alice: {
+    name: 'Alice',
   }
-}
+]
 ```
 ## API
 ```ts
 declare function update(
   tree: NestedDescriptor,
-  path: NestedDescriptor,
-  callback: (leaf, path, copyOnWrite: boolean) => any,
+  callback: (value) => any,
   thisArg?
 ): NestedDescriptor
 ```
@@ -58,16 +51,12 @@ declare function update(
 - `NestedArray`: see [@kingjs/descriptor/nested/array][nested-array-descriptor]
 - `NestedDescriptor`: see [@kingjs/descriptor][nested-descriptor]
 ### Parameters
-- `tree`: The tree whose leafs are going to be updated.
-- `path`: The paths of the values to be updated. 
-- `callback`: Used to update `paths` of `tree`:
-  - `leaf`: The leaf value.
-  - `path`: The path value.
+- `tree`: The array tree whose values are going to be updated.
+- `callback`: Used to update values of `tree`:
+  - `value`: The current value.
 - `thisArg`: The `this` argument to pass to `callback`.
 ### Returns
-Returns `tree` with updated values for the leafs found at `paths`.
-## Remarks
-If `this` is frozen then a copy of `this` will be created on the first write and returned instead of `this`.
+Returns `tree` with updated values updated.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

@@ -12,13 +12,9 @@ assertTheory(function(test, id) {
   if (!isObject(test.leafValue))
     tree = test.leafValue;
   if (test.valueNested) 
-    tree = { [test.name]: tree };
+    tree = [ tree ];
 
-  var path = test.pathValue;
-  if (test.pathNested) 
-    path = { [test.wildName ? '*' : test.name]: path };
-
-  var result = freeze(tree, path);
+  var result = freeze(tree);
 
   assert(result === tree);
   if (!isObject(result))
@@ -26,32 +22,15 @@ assertTheory(function(test, id) {
 
   assert(Object.isFrozen(result) == true);
 
-  if (test.leafNested && !test.pathNested) {
-    var value = result[test.name];
-    if (!isObject(value))
-      return;
-
-    assert(Object.isFrozen(value) == false);
-    return;
-  }
-
-  if (!test.leafNested && test.pathNested)
-    return;
-
-  assert(test.leafNested == test.pathNested);
   var value = tree;
   if (test.leafNested)
-    value = value[test.name];
+    value = value[0];
   
   if (!isObject(value))
     return;
 
   assert(Object.isFrozen(value));
 }, {
-  name: 'foo',
   leafNested: [ false, true ],
   leafValue: [ undefined, null, 0, 1, { } ],
-  pathNested: [ false, true ],
-  pathValue: [ undefined, null, 0, 1 ],
-  wildName: [ false, true ]
 })

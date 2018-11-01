@@ -11,55 +11,30 @@ var context = { };
 assertTheory(function(test, id) {
   var tree = test.leafValue;
   if (test.leafNested) {
-    tree = { [test.name]: tree };
+    tree = [ tree ];
 
     if (test.frozen)
       Object.freeze(tree);
   }
 
-  var paths = test.pathValue;
-  if (test.pathNested) 
-    paths = { [test.wildPath ? '*' : test.name]: test.pathValue }
-
   var expected = test.leafValue;
 
-  function callback(leaf, path) {
+  function callback(leaf) {
     assert(context === this);
 
-    assert(path === test.pathValue);
-
-    if (test.pathNested == test.leafNested)
+    if (test.leafNested)
       assert(leaf === test.leafValue);
-    else if (test.leafNested)
-      assert(leaf === tree);
-    else
-      assert();
 
-    return expected = test.returnLeaf ? leaf : path;
+    return expected = test.returnLeaf ? leaf : null;
   }
 
-  var treeResult = update(tree, paths, callback, context);
+  var treeResult = update(tree, callback, context);
 
-  if (test.pathNested && !test.leafNested) {
-    assert(treeResult === test.leafValue);
-    return;
-  }
-
-  if (!test.pathNested && test.leafNested) {
-    var leafResult = treeResult;
-    var expectedLeaf = test.returnLeaf ? tree : test.pathValue;
-
-    assert(!isObject(treeResult) || (test.frozen == Object.isFrozen(treeResult)));  
-    assert(leafResult == expectedLeaf);
-    return;
-  }
-
-  assert(test.pathNested === test.leafNested);
   var leafResult = treeResult;
-  var expectedLeaf = test.returnLeaf ? test.leafValue : test.pathValue;
+  var expectedLeaf = test.returnLeaf ? test.leafValue : null;
 
   if (test.leafNested) {
-    leafResult = treeResult[test.name];
+    leafResult = treeResult[0];
 
     var written = expectedLeaf !== test.leafValue;
     assert(Object.isFrozen(treeResult) == (test.frozen && !written));
@@ -67,12 +42,8 @@ assertTheory(function(test, id) {
 
   assert(leafResult == expectedLeaf);
 }, {
-  name: 'foo',
-  wildPath: [ false, true ],
   frozen: [ false, true ],
   leafValue: [ undefined, null, 0, 1 ],
   leafNested: [ false, true ],
-  pathValue: [ undefined, null, 0, 1 ],
-  pathNested: [ false, true ],
   returnLeaf: [ false, true ]
 });
