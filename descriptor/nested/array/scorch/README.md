@@ -1,11 +1,11 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).scorch
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).scorch
 Clears a tree of descriptor properties with `undefined` value.
 ## Usage
 Scorch a tree of descriptors like this:
 ```js
 'use strict';
 
-var scorch = require('@kingjs/descriptor.nested.scorch');
+var scorch = require('@kingjs/descriptor.nested.array.scorch');
 
 var values = {
   alice: {
@@ -41,6 +41,7 @@ declare function scorch(
 ): void
 ```
 ### Interfaces
+- `NestedArray`: see [@kingjs/descriptor/nested/array][nested-array-descriptor]
 - `NestedDescriptor`: see [@kingjs/descriptor/nested][nested-descriptor]
 ### Parameters
 - `tree`: The tree whose nodes will be purged of properties with undefined value.
@@ -48,11 +49,12 @@ declare function scorch(
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.nested.freeze
+$ npm install @kingjs/descriptor.nested.array.freeze
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/descriptor/nested/freeze)
+![Analytics](https://analytics.kingjs.net/descriptor/nested/array/freeze)
 
-  [nested-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested
+[nested-array-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested/array  
+[nested-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested

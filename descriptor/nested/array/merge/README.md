@@ -1,9 +1,9 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).merge
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).merge
 Merges values at paths found in one tree into another tree. 
 ## Usage
 Derive "worker" from "adult" using custom operations to merge conflicting fields like this:
 ```js
-var nestedMerge = require('@kingjs/descriptor.nested.merge');
+var nestedMerge = require('@kingjs/descriptor.nested.array.merge');
 var merge = require('@kingjs/descriptor.merge');
 var assert = require('@kingjs/assert');
 
@@ -74,7 +74,7 @@ results:
 ``` 
 Flip `a0` and `b0` property values from `0` to `1` like this:
 ```js
-var merge = require('@kingjs/descriptor.nested.merge');
+var merge = require('@kingjs/descriptor.nested.array.merge');
 
 var tree = {
   a0: 0,
@@ -126,7 +126,8 @@ declare function merge(
 ): Descriptor
 ```
 ### Interfaces
-- `Descriptor`: see [@kingjs/descriptor][descriptor]
+- `NestedArray`: see [@kingjs/descriptor/nested/array][nested-array-descriptor]
+- `NestedDescriptor`: see [@kingjs/descriptor/nested][nested-descriptor]
 ### Parameters
 - `tree`: Tree into which delta is merged. Nodes are created if necessary.
 - `delta`: Tree to merge into `tree`. 
@@ -146,12 +147,12 @@ An exception is thrown if there exists a path in `paths` without a resolution fu
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.nested.merge
+$ npm install @kingjs/descriptor.nested.array.merge
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/descriptor/nested/merge)
+![Analytics](https://analytics.kingjs.net/descriptor/nested/array/merge)
 
-
-  [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
+[nested-array-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested/array  
+[nested-descriptor]: https://www.npmjs.com/package/@kingjs/nested/descriptor

@@ -1,9 +1,9 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).update
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).update
 Updates the leafs of a tree to values returned by a callback which takes the current value.
 ## Usage
 Replace the name of the person followed with the object representing the person being followed like this:
 ```js
-var update = require('@kingjs/descriptor.nested.update');
+var update = require('@kingjs/descriptor.nested.array.update');
 
 var people = {
 
@@ -55,7 +55,8 @@ declare function update(
 ): NestedDescriptor
 ```
 ### Interfaces
-- `NestedDescriptor`: see [@kingjs/descriptor][descriptor]
+- `NestedArray`: see [@kingjs/descriptor/nested/array][nested-array-descriptor]
+- `NestedDescriptor`: see [@kingjs/descriptor][nested-descriptor]
 ### Parameters
 - `tree`: The tree whose leafs are going to be updated.
 - `path`: The paths of the values to be updated. 
@@ -70,11 +71,12 @@ If `this` is frozen then a copy of `this` will be created on the first write and
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.nested.update
+$ npm install @kingjs/descriptor.nested.array.update
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/descriptor/nested/update)
+![Analytics](https://analytics.kingjs.net/descriptor/nested/array/update)
 
-  [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
+[nested-array-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested/array  
+[nested-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested

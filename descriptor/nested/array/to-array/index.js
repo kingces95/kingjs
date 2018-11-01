@@ -1,21 +1,11 @@
 'use strict';
 
-var reduce = require('@kingjs/descriptor.nested.reduce');
+var toPaths = require('@kingjs/descriptor.nested.array.to-paths');
+var toArrayHelper = require('@kingjs/descriptor.nested.to-array');
 
-function accumulate(array, leaf) {
-  if (leaf === undefined)
-    return array;
-    
-  if (!array)
-    array = [];
-
-  array.push(leaf);
-  
-  return array;
-}
-
-function toArray(tree, paths) {
-  return reduce(tree, paths, accumulate, null);
+function toArray(tree) {
+  var paths = toPaths(tree);
+  return toArrayHelper(tree, paths);
 }
 
 Object.defineProperties(module, {

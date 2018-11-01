@@ -1,11 +1,11 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).to-array
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).to-array
 Freezes paths of a tree.
 ## Usage
 Freeze a tree of descriptors like this:
 ```js
 'use strict';
 
-var freeze = require('@kingjs/descriptor.nested.freeze');
+var freeze = require('@kingjs/descriptor.nested.array.freeze');
 
 var values = {
   alice: {
@@ -47,6 +47,7 @@ declare function freeze(
 ): void
 ```
 ### Interfaces
+- `NestedArray`: see [@kingjs/descriptor/nested/array][nested-array-descriptor]
 - `NestedDescriptor`: see [@kingjs/descriptor/nested][nested-descriptor]
 ### Parameters
 - `tree`: The tree whose nodes will be frozen.
@@ -54,11 +55,12 @@ declare function freeze(
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.nested.freeze
+$ npm install @kingjs/descriptor.nested.array.freeze
 ```
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor/nested/freeze)
 
-  [nested-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested
+[nested-array-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested/array  
+[nested-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested

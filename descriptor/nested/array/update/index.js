@@ -1,56 +1,11 @@
 'use strict';
 
-var write = require('@kingjs/descriptor.write');
-var isObject = require('@kingjs/is-object');
-var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
+var toPaths = require('@kingjs/descriptor.nested.array.to-paths');
+var updateHelper = require('@kingjs/descriptor.nested.update');
 
-function updateNode(
-  paths,
-  callback,
-  thisArg,
-  updateNodes) {
-
-  var updatedThis = this;
-
-  for (var name in paths) {
-    var delta = update(
-      this[name],
-      paths[name],
-      callback,
-      thisArg,
-      updateNodes
-    );
-
-    updatedThis = write.call(
-      updatedThis, name, delta
-    );
-  }
-
-  return updatedThis;
-}
-
-function update(tree, paths, callback, thisArg, updateNodes) {
-
-  if (!isObject(paths))
-    return callback.call(thisArg, tree, paths);
-
-  if (!isObject(tree))
-    return tree;
-
-  paths = mergeWildcards.call(paths, tree);
-
-  var result = updateNode.call(
-    tree,
-    paths,
-    callback,
-    thisArg,
-    updateNodes
-  );
-
-  if (updateNodes)
-    result = callback.call(thisArg, result, paths);
-
-  return result;
+function update(tree, callback, thisArg) {
+  var paths = toPaths(tree);
+  return updateHelper(tree, paths, callback, thisArg);
 }
 
 Object.defineProperties(module, {

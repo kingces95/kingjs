@@ -1,62 +1,53 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).to-paths
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).to-paths
 Returns paths constructed of nodes that satisfy a predicate.
 ## Usage
 Return an array of pet names like this:
 ```js
-var toPaths = require('@kingjs/descriptor.nested.to-paths');
+var toPaths = require('@kingjs/descriptor.nested.array.to-paths');
 
-var people = {
-  alice: { 
-    pet: 'tiger' 
-  },
-  bob: { 
-    pet: 'snuggles' 
-  },
-  chris: {
-    pet: 'spike'
-  }
-};
-
-var result = toPaths(
-  people, 
-  x => x instanceof Object, 
-  null
-);
+  var pets = [
+    ['tiger'],
+    ['snuggles'], 
+    ['spike'],
+  ];
+  
+  var result = toPaths(
+    pets, 
+    null
+  );
 ```
 result:
 ```js
 {
-  { 
-    alice: { pet: null },
-    bob: { pet: null },
-    chris: { pet: null },
-  }
+  '0': { '0': null },
+  '1': { '0': null },
+  '2': { '0': null },
 }
 ```
 ## API
 ```ts
 declare function toPaths(
-  tree: NestedDescriptor,
-  predicate: () => boolean,
+  tree: NestedArray,
   value?: any
 ): NestedDescriptor
 ```
 ### Interfaces
+- `NestedArray`: see [@kingjs/descriptor/nested/array][nested-array-descriptor]
 - `NestedDescriptor`: see [@kingjs/descriptor/nested][nested-descriptor]
 ### Parameters
-- `tree`: A tree from which a subtree worth of nodes is selected that satisfy a predicate.
-- `predicate`: Selects which nodes to include in the subtree.
+- `tree`: An array tree whose paths are returned.
 - `value`: Optional leaf value.
 ### Returns
-Returns an subtree of `tree` where each node satisfies the `predicate`.
+Returns paths of the array tree.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.nested.to-paths
+$ npm install @kingjs/descriptor.nested.array.to-paths
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/descriptor/nested/to-paths)
+![Analytics](https://analytics.kingjs.net/descriptor/nested/array/to-paths)
 
+  [nested-array-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested/array
   [nested-descriptor]: https://www.npmjs.com/package/@kingjs/descriptor/nested
