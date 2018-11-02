@@ -1,125 +1,91 @@
 'use strict';
 
-var nestedMerge = require('.');
+var merge = require('.');
 var testRequire = require('..');
-var merge = testRequire('@kingjs/descriptor.merge');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var takeRight = testRequire('@kingjs/func.return-arg-1')
 
 function readme() {
   
-  var adult = {
-    wrap: 'name',
-    defaults: {
-      name: 'John Doe',
-      age: 18
-    },
-    preconditions: {
-      age: function isAdult(x) {
-        assert(x >= 18);
-        return x;
-      }
-    }
-  }
-  
-  var worker = {
-    defaults: {
-      age: 40
-    },
-    preconditions: {
-      age: function notRetired(x) {
-        assert(x < 62);
-        return x;
-      }
-    }
-  }
-  
-  function takeLeft(left, right) {
-    return left;
-  }
-  
-  function compose(left, right) {
-    return function(x) {
-      return right(left(x));
-    }
-  }
-  
-  var resolve = {
-    wrap: takeLeft,
-    defaults: function(left, right) { 
-      return merge.call(left, right, takeLeft)
-    },
-    preconditions: function(left, right) {
-      return merge.call(left, right, compose)
-    }
-  }
-  
-  var copyOnWrite = true;
-  var thisArg = null;
-  var result = nestedMerge(worker, adult, resolve, thisArg, copyOnWrite);
+  var lhs = [
+    0, [
+      1, [
+        2
+      ],
+      3
+    ],
+    4
+  ];
 
-  assert(result.wrap == 'name');
-  assert(result.defaults.name == 'John Doe');
-  assert(result.defaults.age == 40);
-  assert(result.preconditions.age(18) == 18);
-  assert(result.preconditions.age(61) == 61);
-  assertThrows(function() { result.preconditions.age(17); });
-  assertThrows(function() { result.preconditions.age(62); });
+  var rhs = [
+    4, [
+      3, [
+        2,
+      ],
+      1
+    ],
+    0
+  ]
+  
+  var result = merge(lhs, rhs, (l,r) => l + r);
+
+  assert(result[0] == 4);
+  assert(result[1][0] == 4);
+  assert(result[1][1][0] == 2); // no conflict; 2 == 2
+  assert(result[1][2] == 4); 
+  assert(result[2] == 4);
 }
 readme();
 
 function baseCase() {
-  var result = nestedMerge();
+  var result = merge();
   assert(result === undefined);
 
-  result = nestedMerge(0, undefined);
+  result = merge(0, undefined);
   assert(result == 0);
 
-  result = nestedMerge(undefined, 0);
+  result = merge(undefined, 0);
   assert(result == 0);
 
-  result = nestedMerge(0, 1, function(target, source) {
+  result = merge(0, 1, function(target, source) {
     assert(target == 0);
     assert(source == 1);
     return 2;
   });
   assert(result == 2);
 
-  assertThrows(function() { nestedMerge(0, 1); });
-  assertThrows(function() { nestedMerge(0, { }); });
-  assertThrows(function() { nestedMerge({ }, 1); });
+  assertThrows(function() { merge(0, 1); });
+  assert(merge(0, [ ]) == 0);
+  assertThrows(function() { merge([ ], 1); });
 }
 baseCase();
 
 function newObject() {
 
-  var result = nestedMerge(null, { x: 0 }, { x: null });
+  var result = merge(null, [ 0 ]);
   assert(result === null);
 
-  result = nestedMerge(undefined, { x: 0 }, { x: null });
-  assert(result.x == 0);
+  result = merge(undefined, [ 0 ]);
+  assert(result[0] == 0);
 }
 newObject();
 
 function createPaths() {
-  var b = { value: 0, name: 'b' };
-  var a = { b: b, name: 'a' };
+  var b = { };
+  var a = [ [ b, 'a' ] ];
 
-  var aCopy = nestedMerge(undefined, a, { b: takeRight });
+  var aCopy = merge(undefined, a, takeRight);
   assert(aCopy != a);
-  assert(aCopy.b == b);
-
-  var aCopy = nestedMerge(undefined, a, { b: { value: takeRight } });
-  assert(aCopy != a);
-  assert(aCopy.b != b);  
-  assert(aCopy.b.value == 0);  
+  assert(aCopy instanceof Array == false);
+  assert(aCopy[0][0] == b);
+  assert(aCopy[0][1] == 'a');
 }
 createPaths();
 
 function recursive() {
 
-  var result = nestedMerge({
+  var result = merge({
     a0: 0,
     a1: 0,
     a2: 0,

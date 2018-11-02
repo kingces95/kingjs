@@ -3,7 +3,6 @@
 var clear = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
 
 function readMe() {
   var descriptor = { x:0 };
@@ -12,37 +11,22 @@ function readMe() {
 }
 readMe();
 
-assertTheory(function(test, id) {
-  var prototype = null;
+function popArray() {
+  var descriptor = [ 0 ];
+  var result = clear.call(descriptor, 0);
+  assert(result == descriptor);
+  assert(result.length == 0);
+}
+popArray();
 
-  if (test.hasPrototype) {
-    prototype = { };
-    if (test.hasInheritedValue)
-      prototype[test.name] = test.inheritedValue;
-  }
+function shiftArray() {
+  var descriptor = [ 0, 1, 2 ];
+  var result = clear.call(descriptor, 1);
+  assert(result != descriptor);
+  assert(result.length == 2);
+  assert(result[0] == 0);
+  assert(result[1] == 2);
+}
+shiftArray();
 
-  var descriptor = Object.create(prototype);
-  if (test.hasValue) {
-    descriptor[test.name] = test.value;
-  }
-
-  if (test.freeze)
-    Object.freeze(descriptor);
-
-  var result = clear.call(descriptor, test.name);
-  assert(test.name in result == false);
-
-  var hasInheritedValue = test.hasPrototype && test.hasInheritedValue;
-  var hasValue = test.hasValue || hasInheritedValue;
-  var notCopied = !hasValue || (!hasInheritedValue && !test.freeze);
-  assert((result === descriptor) == notCopied);
-
-}, {
-  name: 'foo',
-  hasValue: [ true, false ],
-  value: [ undefined, null, 0, 1 ],
-  hasPrototype: [ true, false ],
-  hasInheritedValue: [ true, false ],
-  inheritedValue: [ undefined, null, 0, 1 ],
-  freeze: [ false, true ]
-})
+require('./theory');

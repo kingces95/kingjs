@@ -7,19 +7,15 @@ var assert = testRequire('@kingjs/assert')
 function readMe() {
   'use strict';
 
-  var values = {
-    alice: {
-      pet: { name: 'tiger' }
-    },
-    bob: {
-      pet: { name: undefined }
-    },
-  }
+  var values = [
+      ['tiger'],
+      [undefined]
+  ]
 
-  scorch(values, { '*': { pet: null } });
+  scorch(values);
 
-  assert(values.alice.pet.name == 'tiger');
-  assert('name' in values.bob.pet == false);
+  assert(values[0] == 'tiger');
+  assert('1' in values == false);
 }
 readMe();
 

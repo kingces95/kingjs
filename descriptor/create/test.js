@@ -28,6 +28,14 @@ function prototype() {
 }
 prototype();
 
+function arrayPrototype() {
+  var arr = [ ];
+  var clone = create(arr);
+  assert(Object.getPrototypeOf(clone) !== arr);
+  assert(clone instanceof Array);
+}
+arrayPrototype();
+
 function hidden() {
   var obj = { };
   Object.defineProperty(obj, 'value', {

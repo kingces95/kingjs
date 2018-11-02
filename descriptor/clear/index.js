@@ -2,16 +2,46 @@
 
 var create = require('@kingjs/descriptor.create');
 
-function clear(name) {
+function shouldCopyOnWrite(isArray, key) {
 
-  if (name in this == false)
+  if (Object.isFrozen(this))
+    return true;
+
+  // array case
+  if (isArray)
+    return key != this.length - 1;
+
+  return false;
+}
+
+function clearKey(isArray, key) {
+
+  // array case
+  if (isArray) {
+    while (key != this.length - 1) {
+      this[key] = this[key + 1];
+      key++;
+    }
+     
+    this.pop();
+    return;
+  }
+
+  delete this[key];
+}
+
+function clear(key) {
+
+  var isArray = this instanceof Array;
+
+  if (key in this == false)
     return this;
 
-  var copyOnWrite = Object.isFrozen(this);
+  var copyOnWrite = shouldCopyOnWrite.call(this, isArray, key);
 
   if (!copyOnWrite) {
     var prototype = Object.getPrototypeOf(this);
-    if (prototype && name in prototype)
+    if (prototype && key in prototype)
       copyOnWrite = true;
   }
 
@@ -19,7 +49,7 @@ function clear(name) {
   if (copyOnWrite)
     updatedThis = create(updatedThis);
 
-  delete updatedThis[name];
+  clearKey.call(updatedThis, isArray, key);
   return updatedThis;
 }
 
