@@ -1,6 +1,6 @@
 'use strict';
 
-var clear = require('@kingjs/descriptor.clear');
+var remove = require('@kingjs/descriptor.remove');
 
 var wildcardName = '*';
 
@@ -12,7 +12,7 @@ function mergeWildcards(value) {
 
   var wildcard = this[wildcardName];
 
-  var updatedThis = clear.call(
+  var updatedThis = remove.call(
     this, wildcardName
   );
 

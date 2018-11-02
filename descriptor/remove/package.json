@@ -1,6 +1,6 @@
 {
-  "name": "@kingjs/descriptor.clear",
-  "version": "1.0.2",
+  "name": "@kingjs/descriptor.remove",
+  "version": "1.0.0",
   "description": "Returns a descriptor with a named property removed.",
   "main": "index.js",
   "files": [

@@ -14,7 +14,7 @@ function shouldCopyOnWrite(isArray, key) {
   return false;
 }
 
-function clearKey(isArray, key) {
+function removeKey(isArray, key) {
 
   // array case
   if (isArray) {
@@ -30,7 +30,7 @@ function clearKey(isArray, key) {
   delete this[key];
 }
 
-function clear(key) {
+function remove(key) {
 
   var isArray = this instanceof Array;
 
@@ -49,10 +49,10 @@ function clear(key) {
   if (copyOnWrite)
     updatedThis = create(updatedThis);
 
-  clearKey.call(updatedThis, isArray, key);
+  removeKey.call(updatedThis, isArray, key);
   return updatedThis;
 }
 
 Object.defineProperties(module, {
-  exports: { value: clear }
+  exports: { value: remove }
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-var clear = require('.');
+var remove = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
@@ -22,7 +22,7 @@ assertTheory(function(test, id) {
   if (test.freeze)
     Object.freeze(descriptor);
 
-  var result = clear.call(descriptor, test.name);
+  var result = remove.call(descriptor, test.name);
   assert(test.name in result == false);
 
   var hasInheritedValue = test.hasPrototype && test.hasInheritedValue;
@@ -53,7 +53,7 @@ assertTheory(function(test, id) {
   if (test.freeze)
     Object.freeze(descriptor);
 
-  var result = clear.call(descriptor, test.index);
+  var result = remove.call(descriptor, test.index);
   var indexValid = test.index < test.values;
   assert(result.length == test.values - (indexValid ? 1 : 0));
 

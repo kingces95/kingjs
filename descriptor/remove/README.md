@@ -1,12 +1,12 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).clear
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).remove
 Returns a descriptor with a property removed.
 ## Usage
 Remove the property 'x' like this:
 ```js
-var clear = require('@kingjs/descriptor.clear');
+var remove = require('@kingjs/descriptor.remove');
 
 var descriptor = { x:0 };
-clear.call(descriptor, 'x');
+remove.call(descriptor, 'x');
 ```
 result:
 ```js
@@ -14,7 +14,7 @@ result:
 ```
 ## API
 ```ts
-declare function clear(
+declare function remove(
   this: Descriptor,
   key: string
 ): Descriptor
@@ -29,12 +29,11 @@ Returns a descriptor with property `key` removed. A copy is returned if the desc
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.clear
+$ npm install @kingjs/descriptor.remove
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/descriptor/clear)
-
+![Analytics](https://analytics.kingjs.net/descriptor/remove)
 
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
