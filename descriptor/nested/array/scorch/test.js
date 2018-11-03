@@ -8,8 +8,9 @@ function readMe() {
   'use strict';
 
   var values = [
-      ['tiger'],
-      [undefined]
+    undefined,
+    ['tiger'],
+    [undefined]
   ]
 
   scorch(values);

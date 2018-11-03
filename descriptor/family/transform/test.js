@@ -17,7 +17,7 @@ function readMe() {
   assert(result.orange.name == 'orange');
   assert(result.banana.name == 'banana');
 }
-//readMe();
+readMe();
 
 function mergeDefaultAction() {
   var result = transform.call({
@@ -40,7 +40,7 @@ function mergeDefaultAction() {
   assert(result.apple.name == 'apple');
   assert(result.apple.type == 'food');
 }
-//mergeDefaultAction();
+mergeDefaultAction();
 
 function familyAction() {
   var id = 0;
@@ -55,7 +55,7 @@ function familyAction() {
     tomato: 'tomato'
   }, {
     bread: 'bread'
-  }], [o => o.id = id++, { 
+  }], [(_,o) => { o.id = id++; return o; }, { 
     wrap: 'name',
     defaults: { type: 'food' }
   }, { 

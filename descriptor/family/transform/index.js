@@ -8,8 +8,9 @@ var inherit = require('@kingjs/descriptor.inherit');
 var update = require('@kingjs/descriptor.update');
 
 var nestedArray = {
-  flatten: require('@kingjs/array.nested.to-array'),
-  forEach: require('@kingjs/array.nested.for-each')
+  flatten: require('@kingjs/descriptor.nested.array.to-array'),
+  update: require('@kingjs/descriptor.nested.array.update'),
+  forEach: require('@kingjs/descriptor.nested.array.for-each')
 }
 
 var nested = {
@@ -294,7 +295,7 @@ function transform(action) {
   if (!is.array(action))
     action = normalizeAction(action); // optimization
   else
-    nestedArray.forEach(action, o => normalizeAction(o)); // bug: need forEach -> update so normalizeAction is updated
+    nestedArray.update(action, o => normalizeAction(o));
 
   // assign default action
   setHiddenProperty(actions, '$', action);

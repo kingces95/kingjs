@@ -11,7 +11,7 @@ assertTheory(function(test, id) {
   var tree = { };
   if (!isObject(test.leafValue))
     tree = test.leafValue;
-  if (test.valueNested) 
+  if (test.leafNested) 
     tree = { [test.name]: tree };
 
   var path = test.pathValue;

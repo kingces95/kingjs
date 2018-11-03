@@ -3,16 +3,16 @@
 var isObject = require('@kingjs/is-object');
 var update = require('@kingjs/descriptor.nested.update');
 
-function freezeCallback(tree) {
+function callback(tree) {
   if (isObject(tree))
     Object.freeze(tree);
   return tree;
 }
 
-function freezeWithUpdate(tree, paths) {
-  return update(tree, paths, freezeCallback, this, true);
+function freeze(tree, paths) {
+  return update(tree, paths, callback, this, true);
 }
 
 Object.defineProperties(module, {
-  exports: { value: freezeWithUpdate }
+  exports: { value: freeze }
 });
