@@ -15,30 +15,25 @@ function readMe() {
 
   scorch(values);
 
+  assert(values.length == 2);
   assert(values[0] == 'tiger');
-  assert('1' in values == false);
+  assert(values[1].length == 0);
 }
 readMe();
 
-function simplest() {
-  var result = scorch({ foo: undefined });
-  assert('foo' in result == false);
+function simple() {
+  var result = scorch();
+  assert(result === undefined);
+  
+  var result = scorch([]);
+  assert(result.length == 0);
 
-  var result = scorch({ foo: undefined }, { });
-  assert('foo' in result == false);
+  var result = scorch([ undefined ]);
+  assert(result.length == 0);
+
+  var result = scorch([ [ undefined ] ]);
+  assert(result[0].length = 0);
 }
-simplest();
-
-function nested() {
-  var result = scorch({ bar: { foo: undefined } }, { bar: undefined });
-  assert('foo' in result.bar === false);
-
-  var result = scorch({ bar: { foo: undefined } }, { '*': undefined });
-  assert('foo' in result.bar === false);
-
-  var result = scorch({ bar: { foo: undefined } }, { });
-  assert('foo' in result.bar === true);
-}
-nested();
+simple();
 
 require('./theory');

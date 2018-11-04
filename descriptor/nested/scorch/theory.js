@@ -8,15 +8,12 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var isFrozen = false;
   var tree = test.leafValue;
   if (test.valueNested) {
     tree = { [test.name]: tree };
 
-    if (test.freeze) {
+    if (test.freeze)
       Object.freeze(tree);
-      isFrozen = true;
-    }
   }
 
   var path = test.pathValue;
@@ -28,6 +25,7 @@ assertTheory(function(test, id) {
   var copied = result !== tree;
   var written = test.valueNested && test.leafValue === undefined;
   var copyOnWrite = test.freeze;
+  
   assert(copied == (copyOnWrite && written));
 
   if (!isObject(result))

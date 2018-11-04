@@ -26,9 +26,9 @@
     "@kingjs/descriptor.merge-wildcards": "^1.0.0",
     "@kingjs/descriptor.nested": "^1.0.0",
     "@kingjs/descriptor.normalize": "^1.0.0",
-    "@kingjs/descriptor.snapshot": "^1.0.0",
+    "@kingjs/descriptor.reduce": "^1.0.0",
+    "@kingjs/descriptor.remove": "^1.0.0",
     "@kingjs/descriptor.scorch": "^1.0.0",
-    "@kingjs/descriptor.transform": "^1.0.0",
     "@kingjs/descriptor.update": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.0"
   }

@@ -31,11 +31,12 @@ assertTheory(function(test, id) {
   var result = mergeWildcards.call(target, source);
 
   assert(star in result == false);
-  assert(test.frozen == Object.isFrozen(result));
 
   var write = test.targetHasWildcard;
-  var copyOnWrite = test.frozen;
-  assert((write && copyOnWrite) == (target != result));
+  assert((test.frozen && !write) == Object.isFrozen(result));
+
+  var copied = write && test.frozen;
+  assert(copied == (target != result));
 
   var expected;
   if (test.targetHasValue)
@@ -46,7 +47,7 @@ assertTheory(function(test, id) {
   
 }, {
   name: 'foo',
-  frozen: [ false ],
+  frozen: [ false, true ],
   targetHasValue: [ false, true ],
   targetValue: [ undefined, null, 0, 1 ],
   targetHasWildcard: [ false, true ],

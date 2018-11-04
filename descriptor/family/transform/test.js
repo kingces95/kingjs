@@ -36,9 +36,9 @@ function mergeDefaultAction() {
   }])
 
   assert(result.apple.size == 1);
-  assert(result.apple.weight == 0);
   assert(result.apple.name == 'apple');
   assert(result.apple.type == 'food');
+  assert(result.apple.weight == 0);
 }
 mergeDefaultAction();
 

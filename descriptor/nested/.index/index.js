@@ -1,8 +1,10 @@
 Object.defineProperties(module.exports, {
+  forEach: { value: require('@kingjs/descriptor.nested.forEach') },
   freeze: { value: require('@kingjs/descriptor.nested.freeze') },
   merge: { value: require('@kingjs/descriptor.nested.merge') },
   reduce: { value: require('@kingjs/descriptor.nested.reduce') },
-  reduce: { value: require('@kingjs/descriptor.nested.scorch') },
+  scorch: { value: require('@kingjs/descriptor.nested.scorch') },
   toArray: { value: require('@kingjs/descriptor.nested.to-array') },
+  toPaths: { value: require('@kingjs/descriptor.nested.to-paths') },
   update: { value: require('@kingjs/descriptor.nested.update') },
 });

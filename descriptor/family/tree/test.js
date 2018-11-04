@@ -9,12 +9,14 @@ function readMe() {
   var node = defineNodes({ }, {
     root: { 
       children: {
-         namespace: null,
-         fooOrBar: null
+         namespace: 'namespace',
+         fooOrBar: 'fooOrBar'
       }
     },
     namespace: { 
-      children: { fooOrBar: null }
+      children: { 
+        fooOrBar: null 
+      }
     },
     fooOrBar: { },
     bar: { 

@@ -1,7 +1,7 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).[nested](https://www.npmjs.com/package/@kingjs/descriptor.nested).[array](https://www.npmjs.com/package/@kingjs/descriptor.nested.array).scorch
 Clears an array tree of `undefined` values.
 ## Usage
-Scorch an array tree of descriptors like this:
+Scorch an array tree of values like this:
 ```js
 'use strict';
 
@@ -17,7 +17,7 @@ values;
 ```
 result:
 ```js
-[ [ 'tiger'] ]
+[ [ 'tiger'] [ ] ]
 ```
 ## API
 ```ts

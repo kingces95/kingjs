@@ -21,6 +21,8 @@ declare interface Descriptor {
 - [`keys`][keys]
 - [`mergeWildcards`][merge-wildcards]
 - [`normalize`][normalize]
+- [`reduce`][reduce]
+- [`remove`][remove]
 - [`snapshot`][snapshot]
 - [`write`][write]
 
@@ -36,10 +38,9 @@ declare interface Descriptor {
 A `descriptor` is
 - **Data**; Functions are not meant to be invoked from a descriptor (except for the default `Array` operations). Algorithms do not create accessor properties nor make allowance for accessor properties.
 - **Flat**; Algorithms do not differentiate between between inherited and own properties.
-- **Treeish**; Algorithms assume a descriptor is a tree unless they explicitly state otherwise.
 - **Anonymous**; Two descriptors are equal if they have the same properties with the same values. 
 - **Piped**; Algorithms that could reasonably be construed to operate on a descriptor accept the descriptor as `this` and strive to return the descriptor a clone.
-- **Potentially Frozen, Optionally immutable**; Algorithms anticipate that a descriptor may be frozen and clone via `Object.create` before writing to the object. Such algorithms accept a `copyOnWrite` argument which prevents mutation of the descriptor and instead returns a clone.
+- **Potentially Frozen, Optionally immutable**; Algorithms anticipate that a descriptor may be frozen and in which case they'll clone before writing to the object. 
 - **Public**; Algorithms ignore properties that are not enumerable and only create properties that are enumerable.
 - **Named**; Descriptors are paired with names passed out of band from the descriptor. `Object.DefineProperty` and `Object.DefineProperties` exemplify separation of a descriptor's name from its properties. 
 
@@ -66,7 +67,8 @@ MIT
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
   [normalize]: https://www.npmjs.com/package/@kingjs/descriptor.normalize
+  [reduce]: https://www.npmjs.com/package/@kingjs/descriptor.reduce
+  [remove]: https://www.npmjs.com/package/@kingjs/descriptor.remove
   [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.scorch
   [update]: https://www.npmjs.com/package/@kingjs/descriptor.update
-  [snapshot]: https://www.npmjs.com/package/@kingjs/descriptor.snapshot
   [write]: https://www.npmjs.com/package/@kingjs/descriptor.write

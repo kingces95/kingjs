@@ -17,11 +17,13 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.nested.for-each": "^1.0.0",
     "@kingjs/descriptor.nested.freeze": "^1.0.0",
     "@kingjs/descriptor.nested.merge": "^1.0.0",
     "@kingjs/descriptor.nested.reduce": "^1.0.0",
     "@kingjs/descriptor.nested.scorch": "^1.0.0",
     "@kingjs/descriptor.nested.to-array": "^1.0.0",
+    "@kingjs/descriptor.nested.to-paths": "^1.0.0",
     "@kingjs/descriptor.nested.update": "^1.0.0"
   }
 }

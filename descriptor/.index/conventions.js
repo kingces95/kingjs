@@ -2,19 +2,19 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
-var normalize = require('./normalize');
-var write = require('./write');
+var normalize = require('@kingjs/descriptor.normalize');
+var write = require('@kingjs/descriptor/write');
 
 //var scorch = require('./scorch');
-var create = require('./create');
-var inherit = require('./inherit');
-var merge = require('./merge');
-var update = require('./update');
-var filter = require('./filter');
-var map = require('./map');
-var mapNames = require('./map-names');
-var reduce = require('./reduce');
-var mergeWildcards = require('./merge-wildcards');
+var create = require('@kingjs/descriptor/create');
+var inherit = require('@kingjs/descriptor/inherit');
+var merge = require('@kingjs/descriptor/merge');
+var update = require('@kingjs/descriptor/update');
+var filter = require('@kingjs/descriptor/filter');
+var map = require('@kingjs/descriptor/map');
+var mapNames = require('@kingjs/descriptor/map-names');
+var reduce = require('@kingjs/descriptor/reduce');
+var mergeWildcards = require('@kingjs/descriptor/merge-wildcards');
 
 var nested = {
   merge: require('./nested/merge'),

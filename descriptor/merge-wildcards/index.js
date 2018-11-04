@@ -10,7 +10,7 @@ function mergeWildcards(value) {
   if (wildcardName in this == false)
     return this;
 
-  var wildcard = this[wildcardName];
+  var wildcardValue = this[wildcardName];
 
   var updatedThis = remove.call(
     this, wildcardName
@@ -20,7 +20,7 @@ function mergeWildcards(value) {
     if (name in updatedThis)
       continue;
 
-    updatedThis[name] = wildcard;
+    updatedThis[name] = wildcardValue;
   }
 
   return updatedThis;

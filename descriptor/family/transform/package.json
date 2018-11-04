@@ -18,10 +18,12 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/assert": "^1.0.10",
     "@kingjs/descriptor.inherit": "^1.0.4",
     "@kingjs/descriptor.map-names": "^1.0.6",
     "@kingjs/descriptor.merge": "^1.0.5",
     "@kingjs/descriptor.nested.array.for-each": "^1.0.0",
+    "@kingjs/descriptor.nested.array.reduce": "^1.0.0",
     "@kingjs/descriptor.nested.array.to-array": "^1.0.0",
     "@kingjs/descriptor.nested.array.update": "^1.0.0",
     "@kingjs/descriptor.nested.freeze": "^1.0.3",

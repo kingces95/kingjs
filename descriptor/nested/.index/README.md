@@ -20,7 +20,9 @@ APIs take at least two descriptors. The first, a tree, is the data to be selecte
 - [`freeze`][freeze]
 - [`merge`][merge]
 - [`reduce`][reduce]
+- [`scorch`][scorch]
 - [`toArray`][to-array]
+- [`toPaths`][to-paths]
 - [`update`][update]
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -35,5 +37,7 @@ MIT
   [freeze]: https://www.npmjs.com/package/@kingjs/descriptor.nested.freeze
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.nested.merge
   [reduce]: https://www.npmjs.com/package/@kingjs/descriptor.nested.reduce
+  [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.nested.scorch
   [to-array]: https://www.npmjs.com/package/@kingjs/descriptor.nested.to-array
+  [to-paths]: https://www.npmjs.com/package/@kingjs/descriptor.nested.to-paths
   [update]: https://www.npmjs.com/package/@kingjs/descriptor.nested.update

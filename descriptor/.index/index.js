@@ -8,8 +8,9 @@ Object.defineProperties(module.exports, {
   mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },
   nested: { value: require('@kingjs/descriptor.nested') },
   normalize: { value: require('@kingjs/descriptor.normalize') },
+  reduce: { value: require('@kingjs/descriptor.reduce') },
+  remove: { value: require('@kingjs/descriptor.remove') },
   scorch: { value: require('@kingjs/descriptor.scorch') },
-  snapshot: { value: require('@kingjs/descriptor.snapshot') },
   update: { value: require('@kingjs/descriptor.update') },
   write: { value: require('@kingjs/descriptor.write') }
 });

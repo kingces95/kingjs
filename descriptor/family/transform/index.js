@@ -10,7 +10,8 @@ var update = require('@kingjs/descriptor.update');
 var nestedArray = {
   flatten: require('@kingjs/descriptor.nested.array.to-array'),
   update: require('@kingjs/descriptor.nested.array.update'),
-  forEach: require('@kingjs/descriptor.nested.array.for-each')
+  forEach: require('@kingjs/descriptor.nested.array.for-each'),
+  reduce: require('@kingjs/descriptor.nested.array.reduce')
 }
 
 var nested = {
@@ -27,15 +28,6 @@ var poset = {
   inherit: require('@kingjs/poset.inherit')
 }
 
-function decodeAndInherit() {
-  var vertices = { };
-
-  var encodedPoset = this;
-  var edges = poset.decode.call(encodedPoset, vertices);
-  result = poset.inherit.call(edges, vertices);
-  return result;
-}
-
 function resolveAndSelect(name, selector) {
   if (typeof name != 'string')
     return name;
@@ -48,24 +40,37 @@ function resolveAndSelect(name, selector) {
   return result;
 }
 
-function reduceActions(array) {
-  array = nestedArray.flatten(array);
-  return array.reduce((a, o) => 
-    nested.merge(a, o, actionMergePaths)
-  );
+function composeLeft(g, f) {
+  return function(x) { return f(g(x)); }
 }
+
+var actionMergePaths = nested.freeze({
+  callback: null,
+  scorch: takeLeft,
+  freeze: takeLeft,
+  wrap: takeLeft,
+  defaults: { '*': takeLeft },
+  bases: { '*': takeLeft },
+  thunks: { '*': composeLeft },
+  depends: { '*': takeLeft },
+  refs: { '*': takeLeft },
+}, { '*': null });
 
 function normalizeAction(action) {
 
-  // normalize action
   if (action === undefined)
     action = { };
     
   else if (action instanceof Function)
     action = { callback: action };
 
-  if (action.bases)
-    action.bases = decodeAndInherit.call(action.bases);
+  else if (is.array(action)) {
+    action = nestedArray.flatten(action);
+    action = nestedArray.update(action, o => normalizeAction(o));
+    action = nestedArray.reduce(action, 
+      (x, o) => nested.merge(x, o, actionMergePaths)
+    );
+  }
 
   return action;
 }
@@ -103,22 +108,6 @@ var familyActionMap = {
   $depends: 'depends',
   $refs: 'refs'
 };
-
-function composeLeft(g, f) {
-  return function(x) { return f(g(x)); }
-}
-
-var actionMergePaths = {
-  callback: null,
-  scorch: takeLeft,
-  freeze: takeLeft,
-  wrap: takeLeft,
-  defaults: { '*': takeLeft },
-  bases: { '*': takeLeft },
-  thunks: { '*': composeLeft },
-  depends: { '*': takeLeft },
-  refs: { '*': takeLeft },
-}
 
 // used to optimize away closure allocation by passing context in $ instead
 var hiddenPropertyDescriptor = { enumerable: false };
@@ -165,15 +154,24 @@ function mapToAdjacencyList(descriptors, actions) {
   return adjacencyList;
 }
 
+function decodeAndInherit() {
+  var vertices = { };
+
+  var encodedPoset = this;
+  var edges = poset.decode.call(encodedPoset, vertices);
+  result = poset.inherit.call(edges, vertices);
+  return result;
+}
+
 function wrapInheritDefaults(encodedFamily, result, actions) {
 
   var action = actions.$;  
 
   var familyAction = mapNames.call(encodedFamily, familyActionMap);
   if (familyAction)
-    action = [normalizeAction(familyAction), action];
+    action = normalizeAction([familyAction, action]);
 
-  action = reduceActions(action);
+  var bases = decodeAndInherit.call(action.bases);
 
   // accumulate decoded family members
   for (var encodedName in encodedFamily) {
@@ -182,26 +180,25 @@ function wrapInheritDefaults(encodedFamily, result, actions) {
     if (encodedName[0] == '$')
       continue;
   
-    var encodedDescriptor = encodedFamily[encodedName];
-    var descriptor = encodedDescriptor;
-  
-    // 1. Wrap
-    if (action.wrap)
-      descriptor = normalize(descriptor, action.wrap);
-  
-    // encodedName -> baseNames + name
+    // decode name
     var baseNames;
     var name = encodedName;
     if (encodedName.indexOf('$') != -1) {
       baseNames = encodedName.split('$');
       name = baseNames.shift();
     }
+
+    var descriptor = encodedFamily[encodedName];
+      
+    // 1. Wrap
+    if (action.wrap)
+      descriptor = normalize(descriptor, action.wrap);
   
     // 2. Inherit
-    if (baseNames) {
+    if (bases && baseNames) {
       descriptor = inherit.call(
         descriptor, 
-        baseNames.map(baseName => action.bases[baseName])
+        baseNames.map(baseName => bases[baseName])
       );
     }
   
@@ -288,19 +285,16 @@ function resolve(descriptors, name, action) {
 }
 
 function transform(action) {
-  var result = { };
-  var actions = { };
   
-  // normalize default action
-  if (!is.array(action))
-    action = normalizeAction(action); // optimization
-  else
-    nestedArray.update(action, o => normalizeAction(o));
+  // normalize action
+  action = normalizeAction(action);
 
   // assign default action
+  var actions = { };
   setHiddenProperty(actions, '$', action);
 
   // Pass I: 1-3; Wrap, Inherit, Defaults
+  var result = { };
   if (!is.array(this))
     wrapInheritDefaults(this, result, actions); // optimization
   else
