@@ -114,6 +114,6 @@ function recursive() {
   assert(result.a3.b0 == 0);
 
 }
-recursive();
+//recursive();
 
-require('./theory')
+//require('./theory')

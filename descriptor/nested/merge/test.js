@@ -102,6 +102,19 @@ function newObject() {
 }
 newObject();
 
+function missingTreePath() {
+  var result = nestedMerge(1, { x: 0}, { x: null });
+  assert(result == 1);
+}
+missingTreePath();
+
+function missingDeltaPath() {
+  var tree = { x: 0 };
+  var result = nestedMerge(tree, 1, { x: null });
+  assert(result == tree);
+}
+missingDeltaPath();
+
 function createPaths() {
   var b = { value: 0, name: 'b' };
   var a = { b: b, name: 'a' };
