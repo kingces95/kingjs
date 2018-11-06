@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.array.merge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Merges values at paths found in one array tree into another array tree.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.array.to-paths": "^1.0.0",
-    "@kingjs/descriptor.nested.merge": "^1.0.11"
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.1",
+    "@kingjs/descriptor.nested.merge": "^1.0.12"
   }
 }

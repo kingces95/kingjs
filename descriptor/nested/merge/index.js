@@ -70,7 +70,7 @@ function merge(tree, delta, paths, thisArg) {
     return tree;
 
   if (tree === undefined)
-    tree = create();
+    tree = paths instanceof Array ? [ ] : create();
 
   paths = mergeWildcards.call(paths, delta);
 

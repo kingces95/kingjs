@@ -17,6 +17,7 @@ assertTheory(function(test, id) {
     return;
   }
 
+  assert(result instanceof Array);
   assert(result.length == 1);
   assert(result[0] === test.leafValue);
 },{

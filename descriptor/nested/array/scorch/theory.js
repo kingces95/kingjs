@@ -24,6 +24,7 @@ assertTheory(function(test, id) {
     return; 
   }
   assert(test.nested);
+  assert(result instanceof Array);
 
   var copied = result != tree;
   var copyOnWrite = test.freeze;

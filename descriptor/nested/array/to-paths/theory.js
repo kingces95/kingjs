@@ -17,6 +17,7 @@ assertTheory(function(test, id) {
 
   if (test.nested) {
     assert(test.length = 1);
+    assert(result instanceof Array);
     result = result[0];
   }
 

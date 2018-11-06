@@ -19,6 +19,7 @@ function readMe() {
     ], 'e'
   ], toArrayReduction);
 
+  assert(result instanceof Array);
   assert(result.length == 5);
   assert(result[0] == 'a');
   assert(result[1] == 'b');

@@ -26,6 +26,7 @@ assertTheory(function(test, id) {
   if (result)
     assert(test.hasInitialValue == (result === initialValue));
 
+  assert(result instanceof Array);
   assert(result.length == 1);
   assert(result[0] === test.leafValue);
 },{

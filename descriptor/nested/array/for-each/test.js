@@ -20,4 +20,4 @@ function readMe() {
 }
 readMe();
 
-//require('./theory');
+require('./theory');

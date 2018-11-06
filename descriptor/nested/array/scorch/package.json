@@ -18,6 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.nested.array.to-paths": "^1.0.0",
-    "@kingjs/descriptor.nested.scorch": "^1.0.0"
+    "@kingjs/descriptor.nested.scorch": "^1.0.3"
   }
 }

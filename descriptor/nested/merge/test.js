@@ -126,6 +126,24 @@ function createPaths() {
 }
 createPaths();
 
+function createArrayPaths() {
+  var b = [ 'b' ];
+  var a = [ b, 'a' ];
+
+  var aCopy = nestedMerge(undefined, a, [ undefined ]);
+  assert(aCopy != a);
+  assert(aCopy instanceof Array);
+  assert(aCopy[0] == b);
+
+  var aCopy = nestedMerge(undefined, a, [ [ undefined ], undefined ]);
+  assert(aCopy != a);
+  assert(aCopy instanceof Array);
+  assert(aCopy[0] != b);  
+  assert(aCopy[0] instanceof Array);
+  assert(aCopy[0][0] == 'b');  
+}
+createArrayPaths();
+
 function recursive() {
 
   var result = nestedMerge({

@@ -21,6 +21,27 @@ function readMe() {
 }
 readMe();
 
+function readMeFrozen() {
+  'use strict';
+
+  var values = [
+    undefined,
+    ['tiger'],
+    [undefined]
+  ]
+
+  Object.freeze(values);
+
+  var result = scorch(values);
+
+  assert(result != values);
+  assert(result instanceof Array);
+  assert(result.length == 2);
+  assert(result[0] == 'tiger');
+  assert(result[1].length == 0);
+}
+readMeFrozen();
+
 function simple() {
   var result = scorch();
   assert(result === undefined);

@@ -34,6 +34,7 @@ assertTheory(function(test, id) {
   var expectedLeaf = test.returnLeaf ? test.leafValue : null;
 
   if (test.leafNested) {
+    assert(treeResult instanceof Array);
     leafResult = treeResult[0];
 
     var written = expectedLeaf !== test.leafValue;

@@ -30,10 +30,16 @@ function readme() {
   
   var result = merge(lhs, rhs, (l,r) => l + r);
 
+  assert(result instanceof Array);
   assert(result[0] == 4);
+
+  assert(result[1] instanceof Array);
   assert(result[1][0] == 4);
+
+  assert(result[1][1] instanceof Array);
   assert(result[1][1][0] == 2); // no conflict; 2 == 2
   assert(result[1][2] == 4); 
+
   assert(result[2] == 4);
 }
 readme();
@@ -63,6 +69,7 @@ baseCase();
 
 function newObject() {
   var result = merge(undefined, [ 0 ]);
+  assert(result instanceof Array);
   assert(result[0] == 0);
 }
 newObject();
@@ -73,7 +80,7 @@ function createPaths() {
 
   var aCopy = merge(undefined, a, takeRight);
   assert(aCopy != a);
-  assert(aCopy instanceof Array == false);
+  assert(aCopy instanceof Array);
   assert(aCopy[0][0] == b);
   assert(aCopy[0][1] == 'a');
 }
@@ -81,34 +88,34 @@ createPaths();
 
 function recursive() {
 
-  var result = merge({
-    a0: 0,
-    a1: 0,
-    a2: 0,
-    a3: { b0: 0 },
-    a4: { b0: 0, b1: 0, b2: 0 },
-    a5: { b0: 0 }
-  }, { 
-    a0: 1,
-    a1: 1,
-    a3: { b0: 1 },
-    a4: { b0: 1, b1: 1 }
-  }, {
-    a0: takeRight,
-    a2: takeRight,
-    a4: { b0: takeRight, b2: takeRight },
-    a5: { b0: takeRight }
-  });
+  var result = merge([
+    0, 0, 0,
+    [0], 
+    [0, 0, 0], 
+    [0]
+  ],[
+    1, 1, undefined,
+    [1], 
+    [1, 1, undefined],
+    [1, 1]
+  ], takeRight);
 
-  assert(result.a0 == 1);
-  assert(result.a2 == 0);
-  assert(result.a1 == 0);
-  assert(result.a3.b0 == 0);
-  assert(result.a4.b0 == 1);
-  assert(result.a4.b1 == 0);
-  assert(result.a4.b2 == 0);
-  assert(result.a3.b0 == 0);
+  assert(result instanceof Array);
+  assert(result[0] == 1);
+  assert(result[1] == 1);
+  assert(result[2] == 0);
 
+  assert(result[3] instanceof Array);
+  assert(result[3][0] == 1);
+
+  assert(result[4] instanceof Array);
+  assert(result[4][0] == 1);
+  assert(result[4][1] == 1);
+  assert(result[4][2] == 0);
+
+  assert(result[5] instanceof Array);
+  assert(result[5][0] == 1);
+  assert(result[5][1] == 1);
 }
 recursive();
 

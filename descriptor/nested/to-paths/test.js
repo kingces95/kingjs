@@ -30,4 +30,28 @@ function readMe() {
 }
 readMe();
 
+function arrayTest() {
+
+  var people = [
+    [ 'tiger' ],
+    [ 'snuggles' ],
+    [ [ 'spike' ] ],
+  ];
+  
+  var result = toPaths(
+    people, 
+    x => x instanceof Object, 
+    null
+  );
+
+  assert(result instanceof Array);
+  assert(result[0] instanceof Array);
+  assert(result[2][0] instanceof Array);
+
+  assert(result[0][0] === null);
+  assert(result[1][0] === null);
+  assert(result[2][0][0] === null);
+}
+arrayTest();
+
 require('./theory');

@@ -13,12 +13,13 @@ function readMe() {
     0
   ]
 
-  freeze(values);
+  var result = freeze(values);
 
-  assert(Object.isFrozen(values));
-  assert(Object.isFrozen(values[0]));
-  assert(Object.isFrozen(values[0]));
-  assert(Object.isFrozen(values[0][0]));
+  assert(values == result);
+  assert(Object.isFrozen(result));
+  assert(Object.isFrozen(result[0]));
+  assert(Object.isFrozen(result[0]));
+  assert(Object.isFrozen(result[0][0]));
 }
 readMe();
 

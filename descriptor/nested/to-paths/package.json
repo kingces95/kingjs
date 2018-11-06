@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.to-paths",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Returns paths constructed of nodes that satisfy a predicate.",
   "main": "index.js",
   "files": [
@@ -16,6 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
