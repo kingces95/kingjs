@@ -17,7 +17,7 @@ function assertResult(test, result, left, right) {
   ));
 }
 
-var thisArg = { };
+var thisArg = { thisArg: -1 };
 
 assertTheory(function(test, id) {
 
@@ -34,9 +34,9 @@ assertTheory(function(test, id) {
     if (test.leftNested && test.frozen)
       Object.freeze(tree);
 
-    var result = merge(tree, delta, thisArg); 
+    var result = merge(tree, delta, resolver, thisArg); 
 
-    if (!test.pathNested) {
+    if (!pathNested) {
       assertResult.call(this, test, result, tree, delta);
       return result;
     }
@@ -46,10 +46,12 @@ assertTheory(function(test, id) {
     if (!test.leftNested) {
       assert(test.left === undefined);
 
-      if (test.rightNested)
-        assert(result.value === test.right);
-      else
+      if (test.rightNested) {
+        assert(result[0] === test.right);
+        assert(result instanceof Array);
+      } else {
         assert(result === test.left);
+      }
 
       return result;
     }
@@ -61,15 +63,15 @@ assertTheory(function(test, id) {
     if (!test.rightNested) {
       assert(right === undefined);
       assert(!copied);
-      assert(result.value == left);
+      assert(result[0] == left);
       return result;
     }
 
     assert(test.rightNested);
 
-    var differentValues = tree.value !== delta.value;
-    var implicitWrite = differentValues && tree.value === undefined
-    var merged = differentValues && delta.value !== undefined && tree.value !== undefined;
+    var differentValues = tree[0] !== delta[0];
+    var implicitWrite = differentValues && tree[0] === undefined
+    var merged = differentValues && delta[0] !== undefined && tree[0] !== undefined;
     var mergeWrite = merged && 
       (resolver == this.resolver.neither ||
       resolver == this.resolver.right);
@@ -77,7 +79,7 @@ assertTheory(function(test, id) {
 
     assert((write && test.frozen) == copied);
 
-    assertResult.call(this, test, result.value, left, right);
+    assertResult.call(this, test, result[0], left, right);
     return result;
   }
 
@@ -90,26 +92,26 @@ assertTheory(function(test, id) {
   }
 
   if (!test.resolver) {
-    var nodesConflict = test.leftNested && !test.rightNested && !test.pathNested;
+    var nodesConflict = test.leftNested && !test.rightNested && !pathNested;
     if (nodesConflict && test.right !== undefined) {
       assertThrows(mergeTest);
       return;
     }
 
-    var nodesConflict = !test.leftNested && test.rightNested && !test.pathNested;
+    var nodesConflict = !test.leftNested && test.rightNested && !pathNested;
     if (nodesConflict && test.left !== undefined) {
       assertThrows(mergeTest);
       return;
     }
 
-    var nodesConflict = test.leftNested && test.rightNested && !test.pathNested;
+    var nodesConflict = test.leftNested && test.rightNested && !pathNested;
     if (nodesConflict) {
       assertThrows(mergeTest);
       return;
     }
 
-    var allNested = test.leftNested && test.rightNested && test.pathNested;
-    var noneNested = !test.leftNested && !test.rightNested && !test.pathNested;
+    var allNested = test.leftNested && test.rightNested && pathNested;
+    var noneNested = !test.leftNested && !test.rightNested && !pathNested;
     if (allNested || noneNested) {
       if (left !== right && 
         left !== undefined && 
