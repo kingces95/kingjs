@@ -86,32 +86,28 @@ function baseCase() {
   });
   assert(result == 2);
 
-  assertThrows(function() { nestedMerge(0, 1); });
-  assertThrows(function() { nestedMerge(0, { }); });
-  assertThrows(function() { nestedMerge({ }, 1); });
+  assertThrows(() => nestedMerge(0, 1));
+  assertThrows(() => nestedMerge(0, { }));
+  assertThrows(() => nestedMerge({ }, 1));
 }
 baseCase();
 
 function newObject() {
 
-  var result = nestedMerge(null, { x: 0 }, { x: null });
-  assert(result === null);
+  assertThrows(() => nestedMerge(null, { x: 0 }, { x: null }));
 
-  result = nestedMerge(undefined, { x: 0 }, { x: null });
+  var result = nestedMerge(undefined, { x: 0 }, { x: null });
   assert(result.x == 0);
 }
 newObject();
 
 function missingTreePath() {
-  var result = nestedMerge(1, { x: 0}, { x: null });
-  assert(result == 1);
+  assertThrows(() => nestedMerge(1, { x: 0}, { x: null }));
 }
 missingTreePath();
 
 function missingDeltaPath() {
-  var tree = { x: 0 };
-  var result = nestedMerge(tree, 1, { x: null });
-  assert(result == tree);
+  assertThrows(() => nestedMerge({ x: 0 }, 1, { x: null }));
 }
 missingDeltaPath();
 

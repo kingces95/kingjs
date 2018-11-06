@@ -9,6 +9,14 @@ function throwMergeConflict(left, right) {
   throw 'Merge conflict';
 }
 
+function throwUnexpectedTreeLeaf(value) {
+  throw 'Unexpected tree leaf: ' + value;
+}
+
+function throwUnexpectedDeltaLeaf(value) {
+  throw 'Unexpected delta leaf: ' + value;
+}
+
 function mergeNode(
   delta,
   path,
@@ -52,14 +60,17 @@ function merge(tree, delta, paths, thisArg) {
     return paths.call(thisArg, tree, delta);
   }
 
-  if (!isObject(delta))
+  if (delta !== undefined && !isObject(delta))
+    throwUnexpectedDeltaLeaf(delta);
+
+  if (tree !== undefined && !isObject(tree))
+    throwUnexpectedTreeLeaf(tree);
+
+  if (delta === undefined)
     return tree;
 
   if (tree === undefined)
     tree = create();
-
-  if (!isObject(tree))
-    return tree;
 
   paths = mergeWildcards.call(paths, delta);
 

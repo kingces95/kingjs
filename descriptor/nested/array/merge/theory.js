@@ -24,42 +24,33 @@ assertTheory(function(test, id) {
   var left = test.left;
   var right = test.right;
   var resolver = test.resolver;
+  var pathNested = test.rightNested;
 
   var mergeTest = function() {
       
-    var tree = test.leftNested ? { value: left } : left;
-    var delta = test.rightNested ? { value: right } : right;
-    var path = test.pathNested ? { [test.wildPath ? '*' : 'value']: resolver } : resolver;
+    var tree = test.leftNested ? [ left ] : left;
+    var delta = test.rightNested ? [ right ] : right;
 
     if (test.leftNested && test.frozen)
       Object.freeze(tree);
 
-    var result = merge(
-      tree, 
-      delta, 
-      path,
-      thisArg
-    ); 
+    var result = merge(tree, delta, thisArg); 
 
     if (!test.pathNested) {
       assertResult.call(this, test, result, tree, delta);
       return result;
     }
 
-    assert(test.pathNested);
+    assert(pathNested);
 
     if (!test.leftNested) {
+      assert(test.left === undefined);
 
-      if (test.left === undefined) {
-        if (test.rightNested)
-          assert(result.value === test.right);
-        else
-          assert(result === test.left);
+      if (test.rightNested)
+        assert(result.value === test.right);
+      else
+        assert(result === test.left);
 
-        return result;
-      }
-
-      assert(result === test.left);
       return result;
     }
 
@@ -68,6 +59,7 @@ assertTheory(function(test, id) {
     var copied = result != tree;
 
     if (!test.rightNested) {
+      assert(right === undefined);
       assert(!copied);
       assert(result.value == left);
       return result;
@@ -89,6 +81,13 @@ assertTheory(function(test, id) {
     return result;
   }
 
+  var unexpectedTreeLeaf = pathNested && !test.leftNested && left !== undefined;
+  var unexpectedDeltaLeaf = pathNested && !test.rightNested && right !== undefined;
+  var unexpectedLeaf = unexpectedTreeLeaf || unexpectedDeltaLeaf;
+  if (unexpectedLeaf) {
+    assertThrows(mergeTest);
+    return;
+  }
 
   if (!test.resolver) {
     var nodesConflict = test.leftNested && !test.rightNested && !test.pathNested;
@@ -125,11 +124,9 @@ assertTheory(function(test, id) {
 }, {
   leftNested: [ true, false ],
   rightNested: [ true, false ],
-  pathNested: [ true, false ],
   frozen: [ true, false ],
   left: [ undefined, null, 0, 1 ],
   right: [ undefined, null, 0, 1 ],
-  wildPath: [ false, true ],
   resolver: {
     none: undefined,
     neither: function(x, y) {

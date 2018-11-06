@@ -55,18 +55,14 @@ function baseCase() {
   });
   assert(result == 2);
 
-  assertThrows(function() { merge(0, 1); });
-  assert(merge(0, [ ]) == 0);
-  assertThrows(function() { merge([ ], 1); });
+  assertThrows(() => merge(0, 1));
+  assertThrows(() => merge(0, [ ]));
+  assertThrows(() => merge([ ], 1));
 }
 baseCase();
 
 function newObject() {
-
-  var result = merge(null, [ 0 ]);
-  assert(result === null);
-
-  result = merge(undefined, [ 0 ]);
+  var result = merge(undefined, [ 0 ]);
   assert(result[0] == 0);
 }
 newObject();
@@ -114,6 +110,6 @@ function recursive() {
   assert(result.a3.b0 == 0);
 
 }
-//recursive();
+recursive();
 
 //require('./theory')
