@@ -19,7 +19,7 @@
   "dependencies": {
     "@kingjs/descriptor.create": "^1.0.2",
     "@kingjs/descriptor.merge-wildcards": "^1.0.5",
-    "@kingjs/descriptor.write": "^1.0.3",
+    "@kingjs/descriptor.write": "^1.0.4",
     "@kingjs/is-object": "^1.0.1"
   }
 }

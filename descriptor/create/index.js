@@ -14,7 +14,7 @@ function create(prototype) {
 
   for (var name in prototype)
     clone[name] = prototype[name];
-    
+
   return clone;
 }
 

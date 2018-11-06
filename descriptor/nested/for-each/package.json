@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.update": "^1.0.9"
+    "@kingjs/descriptor.nested.update": "^1.0.11"
   }
 }

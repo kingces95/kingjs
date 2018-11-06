@@ -11,7 +11,7 @@ var context = { };
 assertTheory(function(test, id) {
   var tree = test.leafValue;
   if (test.leafNested) {
-    tree = { [test.name]: tree };
+    tree = test.arrayTree ? [ tree ] : { [test.name]: tree };
 
     if (test.frozen)
       Object.freeze(tree);
@@ -19,7 +19,8 @@ assertTheory(function(test, id) {
 
   var paths = test.pathValue;
   if (test.pathNested) 
-    paths = { [test.wildPath ? '*' : test.name]: test.pathValue }
+    paths = test.arrayPath ? [ test.pathValue ] :
+      { [test.wildPath ? '*' : test.name]: test.pathValue }
 
   var expected = test.leafValue;
 
@@ -63,16 +64,21 @@ assertTheory(function(test, id) {
 
     var written = expectedLeaf !== test.leafValue;
     assert(Object.isFrozen(treeResult) == (test.frozen && !written));
+
+    assert(isObject(treeResult));
+    assert(treeResult instanceof Array == test.arrayTree);
   }
 
   assert(leafResult == expectedLeaf);
 }, {
-  name: 'foo',
+  name: '0',
   wildPath: [ false, true ],
   frozen: [ false, true ],
   leafValue: [ undefined, null, 0, 1 ],
   leafNested: [ false, true ],
   pathValue: [ undefined, null, 0, 1 ],
   pathNested: [ false, true ],
-  returnLeaf: [ false, true ]
+  returnLeaf: [ false, true ],
+  arrayTree: [ false, true ],
+  arrayPath: [ false, true ],
 });

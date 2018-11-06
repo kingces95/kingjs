@@ -8,7 +8,7 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var source = new Dictionary();
+  var source = test.array ? [ ] : new Dictionary();
   
   if (test.defined)
     source[test.name] = test.value;
@@ -22,6 +22,8 @@ assertTheory(function(test, id) {
   var result = write.call(
     source, test.name, test.delta
   )
+
+  assert(source instanceof Array == result instanceof Array);
 
   var copyOnWrite = Object.isFrozen(source);
   var copied = source !== result;
@@ -40,11 +42,12 @@ assertTheory(function(test, id) {
   assert(actualResult === expectedResult);
 
 }, {
-  name: [ 'foo' ],
+  name: [ '0' ],
   inherited: [ false, true ],
   defined: [ true, false ],
   frozen: [ false, true ],
   value: [ undefined, null, 0, 1 ],
-  delta: [ undefined, null, 0, 1 ]
+  delta: [ undefined, null, 0, 1 ],
+  array: [ false, true ]
 });
 

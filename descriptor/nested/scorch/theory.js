@@ -25,7 +25,7 @@ assertTheory(function(test, id) {
   var copied = result !== tree;
   var written = test.valueNested && test.leafValue === undefined;
   var copyOnWrite = test.freeze;
-  
+
   assert(copied == (copyOnWrite && written));
 
   if (!isObject(result))
