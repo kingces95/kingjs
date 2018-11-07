@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.for-each",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Invoke a callback for each path.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.update": "^1.0.11"
+    "@kingjs/descriptor.nested.update": "^1.0.12"
   }
 }

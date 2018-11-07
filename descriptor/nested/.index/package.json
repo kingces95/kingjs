@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "Exports all `@kingjs/descriptor.nested.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -17,13 +17,13 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.array": "^1.0.0",
-    "@kingjs/descriptor.nested.for-each": "^1.0.0",
-    "@kingjs/descriptor.nested.freeze": "^1.0.0",
+    "@kingjs/descriptor.nested.array": "^1.0.7",
+    "@kingjs/descriptor.nested.for-each": "^1.0.3",
+    "@kingjs/descriptor.nested.freeze": "^1.0.5",
     "@kingjs/descriptor.nested.merge": "^1.0.0",
-    "@kingjs/descriptor.nested.reduce": "^1.0.0",
+    "@kingjs/descriptor.nested.reduce": "^1.0.7",
     "@kingjs/descriptor.nested.scorch": "^1.0.0",
-    "@kingjs/descriptor.nested.to-array": "^1.0.0",
+    "@kingjs/descriptor.nested.to-array": "^1.0.6",
     "@kingjs/descriptor.nested.to-paths": "^1.0.0",
     "@kingjs/descriptor.nested.update": "^1.0.0"
   }

@@ -17,7 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.merge": "^1.0.5",
+    "@kingjs/descriptor.merge": "^1.0.7",
     "@kingjs/dictionary": "^1.0.6",
     "@kingjs/func.return-arg-0": "^1.0.0"
   }

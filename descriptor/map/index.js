@@ -1,16 +1,20 @@
 'use strict';
 
+var write = require('@kingjs/descriptor.write');
+
 function reduce(callback, thisArg) {
   var result = null;
-
+  var thisUpdated = this;
+  
   for (var key in this) {
-    if (!result)
-      result = { };
+    var value = callback.call(thisArg, this[key], key);
 
-    result[key] = callback.call(thisArg, this[key], key);
+    thisUpdated = write.call(
+      thisUpdated, key, value
+    );
   }
 
-  return result;
+  return thisUpdated;
 }
 
 Object.defineProperties(module, {

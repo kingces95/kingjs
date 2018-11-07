@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.update",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Updates values of a descriptor using a callback.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.write": "^1.0.3"
+    "@kingjs/descriptor.write": "^1.0.4"
   }
 }

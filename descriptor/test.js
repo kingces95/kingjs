@@ -6,7 +6,7 @@ require('./create/test');
 require('./filter/test');
 require('./inherit/test');
 require('./keys/test');
-//require('./map/test');
+require('./map/test');
 require('./map-names/test');
 require('./merge/test');
 require('./merge-wildcards/test');
@@ -16,4 +16,4 @@ require('./reduce/test');
 require('./remove/test');
 require('./scorch/test');
 require('./update/test');
-//require('./write/test');
+require('./write/test');4
