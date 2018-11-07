@@ -17,19 +17,20 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.0",
-    "@kingjs/descriptor.filter": "^1.0.0",
-    "@kingjs/descriptor.inherit": "^1.0.1",
+    "@kingjs/descriptor.create": "^1.0.4",
+    "@kingjs/descriptor.filter": "^1.0.1",
+    "@kingjs/descriptor.inherit": "^1.0.4",
     "@kingjs/descriptor.keys": "^1.0.0",
+    "@kingjs/descriptor.map": "^1.0.6",
     "@kingjs/descriptor.map-names": "^1.0.6",
-    "@kingjs/descriptor.merge": "^1.0.3",
-    "@kingjs/descriptor.merge-wildcards": "^1.0.0",
-    "@kingjs/descriptor.nested": "^1.0.0",
+    "@kingjs/descriptor.merge": "^1.0.5",
+    "@kingjs/descriptor.merge-wildcards": "^1.0.6",
+    "@kingjs/descriptor.nested": "^1.0.1",
     "@kingjs/descriptor.normalize": "^1.0.0",
     "@kingjs/descriptor.reduce": "^1.0.0",
     "@kingjs/descriptor.remove": "^1.0.0",
-    "@kingjs/descriptor.scorch": "^1.0.0",
-    "@kingjs/descriptor.update": "^1.0.0",
-    "@kingjs/descriptor.write": "^1.0.0"
+    "@kingjs/descriptor.scorch": "^1.0.3",
+    "@kingjs/descriptor.update": "^1.0.15",
+    "@kingjs/descriptor.write": "^1.0.4"
   }
 }

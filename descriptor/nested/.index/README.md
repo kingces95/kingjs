@@ -16,7 +16,10 @@ A `NestedDescriptor` can be though of like
 - a collection of paths composed of directories and files.
  
 APIs take at least two descriptors. The first, a tree, is the data to be selected, mutated, or merged according to the second, a set of paths, which acts as metatdata to distinguish nodes from leafs in the tree as well as drive the operation.
+## Namespace
+- [`array`][array]
 ## API
+- [`forEach`][for-each]
 - [`freeze`][freeze]
 - [`merge`][merge]
 - [`reduce`][reduce]
@@ -34,6 +37,8 @@ MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor/nested)
 
+  [array]: https://www.npmjs.com/package/@kingjs/descriptor.nested.array
+  [for-each]: https://www.npmjs.com/package/@kingjs/descriptor.nested.for-each
   [freeze]: https://www.npmjs.com/package/@kingjs/descriptor.nested.freeze
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.nested.merge
   [reduce]: https://www.npmjs.com/package/@kingjs/descriptor.nested.reduce

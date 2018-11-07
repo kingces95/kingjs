@@ -1,7 +1,7 @@
 'use strict';
 
 var write = require('@kingjs/descriptor.write');
-var isObject = require('@kingjs/is-object');
+var is = require('@kingjs/is');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 function updateNode(
@@ -31,10 +31,10 @@ function updateNode(
 
 function update(tree, paths, callback, thisArg, updateNodes) {
 
-  if (!isObject(paths))
+  if (!is.object(paths))
     return callback.call(thisArg, tree, paths);
 
-  if (!isObject(tree))
+  if (!is.object(tree))
     return tree;
 
   paths = mergeWildcards.call(paths, tree);

@@ -2,7 +2,7 @@
 
 var create = require(`@kingjs/descriptor.create`);
 var write = require('@kingjs/descriptor.write');
-var isObject = require('@kingjs/is-object');
+var is = require('@kingjs/is');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 function throwMergeConflict(left, right) {
@@ -60,10 +60,10 @@ function merge(tree, delta, paths, thisArg) {
     return paths.call(thisArg, tree, delta);
   }
 
-  if (delta !== undefined && !isObject(delta))
+  if (delta !== undefined && !is.object(delta))
     throwUnexpectedDeltaLeaf(delta);
 
-  if (tree !== undefined && !isObject(tree))
+  if (tree !== undefined && !is.object(tree))
     throwUnexpectedTreeLeaf(tree);
 
   if (delta === undefined)

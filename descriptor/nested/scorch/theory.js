@@ -2,7 +2,7 @@
 
 var scorch = require('.');
 var testRequire = require('..');
-var isObject = testRequire('@kingjs/is-object');
+var is = testRequire('@kingjs/is');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
@@ -10,7 +10,7 @@ assertTheory(function(test, id) {
 
   var tree = test.leafValue;
   if (test.valueNested) {
-    tree = { [test.name]: tree };
+    tree = test.array ? [ tree ] : { [test.name]: tree };
 
     if (test.freeze)
       Object.freeze(tree);
@@ -28,8 +28,12 @@ assertTheory(function(test, id) {
 
   assert(copied == (copyOnWrite && written));
 
-  if (!isObject(result))
+  if (!is.object(result)) {
+    assert(test.valueNested == false);
     return;
+  }
+
+  assert(tree instanceof Array == result instanceof Array);
 
   if (test.leafValue !== undefined) {
     assert(result[test.name] === test.leafValue);
@@ -39,7 +43,8 @@ assertTheory(function(test, id) {
   assert(test.name in result == false);
 
 }, {
-  name: 'name',
+  name: '0',
+  array: [ false, true ],
   freeze: [ false, true ],
   valueNested: [ false, true ],
   leafValue: [ undefined, null, 0, 1 ],

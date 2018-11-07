@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.scorch",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Clears a tree of descriptor properties with `undefined` value.",
   "main": "index.js",
   "files": [
@@ -17,9 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.merge-wildcards": "^1.0.6",
-    "@kingjs/descriptor.nested.update": "^1.0.11",
+    "@kingjs/descriptor.nested.update": "^1.0.12",
     "@kingjs/descriptor.scorch": "^1.0.3",
-    "@kingjs/is-object": "^1.0.1"
+    "@kingjs/is": "^1.0.3"
   }
 }

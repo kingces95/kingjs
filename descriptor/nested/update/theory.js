@@ -4,7 +4,7 @@ var update = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var isObject = testRequire('@kingjs/is-object');
+var is = testRequire('@kingjs/is');
 
 var context = { };
 
@@ -50,7 +50,7 @@ assertTheory(function(test, id) {
     var leafResult = treeResult;
     var expectedLeaf = test.returnLeaf ? tree : test.pathValue;
 
-    assert(!isObject(treeResult) || (test.frozen == Object.isFrozen(treeResult)));  
+    assert(!is.object(treeResult) || (test.frozen == Object.isFrozen(treeResult)));  
     assert(leafResult == expectedLeaf);
     return;
   }
@@ -65,7 +65,7 @@ assertTheory(function(test, id) {
     var written = expectedLeaf !== test.leafValue;
     assert(Object.isFrozen(treeResult) == (test.frozen && !written));
 
-    assert(isObject(treeResult));
+    assert(is.object(treeResult));
     assert(treeResult instanceof Array == test.arrayTree);
   }
 

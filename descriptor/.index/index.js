@@ -3,6 +3,7 @@ Object.defineProperties(module.exports, {
   filter: { value: require('@kingjs/descriptor.filter') },
   inherit: { value: require('@kingjs/descriptor.inherit') },
   keys: { value: require('@kingjs/descriptor.keys') },
+  map: { value: require('@kingjs/descriptor.map') },
   mapNames: { value: require('@kingjs/descriptor.map-names') },
   merge: { value: require('@kingjs/descriptor.merge') },
   mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },

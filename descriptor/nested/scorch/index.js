@@ -1,11 +1,11 @@
 'use strict';
 
 var scorchObject = require('@kingjs/descriptor.scorch');
-var isObject = require('@kingjs/is-object');
+var is = require('@kingjs/is');
 var update = require('@kingjs/descriptor.nested.update');
 
 function scorchCallback(tree) {
-  if (isObject(tree))
+  if (is.object(tree))
     tree = scorchObject.call(tree);
   return tree;
 }

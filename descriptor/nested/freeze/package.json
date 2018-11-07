@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.freeze",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Freezes tree of marked objects.",
   "main": "index.js",
   "files": [
@@ -18,6 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.nested.update": "^1.0.11",
-    "@kingjs/is-object": "^1.0.1"
+    "@kingjs/is": "^1.0.0"
   }
 }

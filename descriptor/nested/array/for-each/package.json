@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.array.for-each",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Invokes a callback on each value of a array tree.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.array.to-paths": "^1.0.0",
-    "@kingjs/descriptor.nested.for-each": "^1.0.1"
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.2",
+    "@kingjs/descriptor.nested.for-each": "^1.0.2"
   }
 }

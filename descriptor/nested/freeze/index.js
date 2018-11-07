@@ -1,10 +1,10 @@
 'use strict';
 
-var isObject = require('@kingjs/is-object');
+var is = require('@kingjs/is');
 var update = require('@kingjs/descriptor.nested.update');
 
 function callback(tree) {
-  if (isObject(tree))
+  if (is.object(tree))
     Object.freeze(tree);
   return tree;
 }
