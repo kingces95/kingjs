@@ -3,9 +3,9 @@
 var update = require('@kingjs/descriptor.nested.update');
 
 function forEach(tree, paths, callback, thisArg) {
-  return update(tree, paths, function(o, p) { 
-    callback.call(this, o, p); 
-    return o; 
+  return update(tree, paths, function(value, index) { 
+    callback.call(this, value, index); 
+    return value; 
   }, thisArg);
 }
 

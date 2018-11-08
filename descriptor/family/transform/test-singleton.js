@@ -24,7 +24,7 @@ function noop() {
 
   assert(result == apple);
 }
-//noop();
+noop();
 
 function wrapDeclarative() {
   var result = transform.call('apple', decodedName, { wrap: 'name' });

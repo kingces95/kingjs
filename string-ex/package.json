@@ -17,7 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.1",
+    "@kingjs/is": "^1.0.4",
     "@kingjs/object-ex": "^1.0.1"
   }
 }

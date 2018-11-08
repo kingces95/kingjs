@@ -19,6 +19,6 @@
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
     "@kingjs/descriptor.family.transform": "^1.0.3",
-    "@kingjs/is": "^1.0.3"
+    "@kingjs/is": "^1.0.4"
   }
 }

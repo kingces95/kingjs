@@ -23,13 +23,14 @@ defineFunctions(is, {
   boolean: o => typeof o == 'boolean' || o instanceof Boolean,
   number: o => typeof o == 'number' || o instanceof Number,
   string: o => typeof o == 'string' || o instanceof String,
+  
   nonEmptyString: o => is.string(o) && o.length > 0,
 
   function: o => typeof o == 'function', 
   namedFunction: o => is.function(o) && is.nonEmptyString(o.name),
 
   objectLiteral: o => typeof o == 'object' && !is.null(o) && o.constructor == Object,
-  object: o => (typeof o == 'object' && !is.null(o)) || is.function(o),
+  object: o => (typeof o == 'object' && !is.null(o)),
 
   array: o => Array.isArray(o),
   arrayLike: o => is.array(o) || (is.object(o) && 'length' in o),

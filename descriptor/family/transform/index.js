@@ -28,21 +28,9 @@ var poset = {
   inherit: require('@kingjs/poset.inherit')
 }
 
-function resolveAndSelect(name, selector) {
-  if (typeof name != 'string')
-    return name;
-
-  var result = this[name];
-
-  if (selector)
-    result = selector(result);
-
-  return result;
-}
-
-function composeLeft(g, f) {
-  return function(x) { return f(g(x)); }
-}
+var hiddenPropertyDescriptor = { 
+  enumerable: false 
+};
 
 var actionMergePaths = nested.freeze({
   callback: null,
@@ -55,6 +43,26 @@ var actionMergePaths = nested.freeze({
   depends: { '*': takeLeft },
   refs: { '*': takeLeft },
 }, { '*': null });
+
+var familyActionMap = {
+  $scorch: 'scorch',
+  $freeze: 'freeze',
+  $defaults: 'defaults',
+  $bases: 'bases',
+  $wrap: 'wrap',
+  $thunks: 'thunks',
+  $depends: 'depends',
+  $refs: 'refs'
+};
+
+function composeLeft(g, f) {
+  return function(x) { return f(g(x)); }
+}
+
+function setHiddenProperty(target, name, value) {
+  target[name] = value;
+  Object.defineProperty(target, name, hiddenPropertyDescriptor);
+}
 
 function normalizeAction(action) {
 
@@ -73,6 +81,18 @@ function normalizeAction(action) {
   }
 
   return action;
+}
+
+function resolveAndSelect(name, selector) {
+  if (typeof name != 'string')
+    return name;
+
+  var result = this[name];
+
+  if (selector)
+    result = selector(result);
+
+  return result;
 }
 
 function inflate(name) {
@@ -96,24 +116,6 @@ function replace(name, thunks) {
 
     return thunk(name, value, key);
   });
-}
-
-var familyActionMap = {
-  $scorch: 'scorch',
-  $freeze: 'freeze',
-  $defaults: 'defaults',
-  $bases: 'bases',
-  $wrap: 'wrap',
-  $thunks: 'thunks',
-  $depends: 'depends',
-  $refs: 'refs'
-};
-
-// used to optimize away closure allocation by passing context in $ instead
-var hiddenPropertyDescriptor = { enumerable: false };
-function setHiddenProperty(target, name, value) {
-  target[name] = value;
-  Object.defineProperty(target, name, hiddenPropertyDescriptor);
 }
 
 function accumulateStrings(accumulator, value) {

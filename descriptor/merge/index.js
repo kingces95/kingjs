@@ -6,11 +6,11 @@ function throwMergeConflict(left, right, name) {
   throw 'Merge conflict at: ' + name;
 }
 
-function merge(delta, resolve, thisArg) {
+function merge(delta, callback, thisArg) {
   var thisUpdated = this;
 
-  if (!resolve)
-    resolve = throwMergeConflict;
+  if (!callback)
+  callback = throwMergeConflict;
 
   if (delta === undefined || delta == null)
     return thisUpdated;
@@ -20,7 +20,7 @@ function merge(delta, resolve, thisArg) {
     var existingValue = this[name];
 
     if (existingValue !== value && existingValue !== undefined)
-      value = resolve.call(thisArg, existingValue, value, name);
+      value = callback.call(thisArg, existingValue, value, name);
 
     thisUpdated = write.call(thisUpdated, name, value);
   }

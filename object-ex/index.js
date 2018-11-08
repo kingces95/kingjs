@@ -28,7 +28,6 @@ function bindArg(func, index, value) {
   
   return function() { 
     Array.prototype.splice.call(arguments, index, 0, value);
-    return func.apply(this, arguments); 
   };
 }
 

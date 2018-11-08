@@ -3,119 +3,98 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
 var normalize = require('@kingjs/descriptor.normalize');
-var write = require('@kingjs/descriptor/write');
-
-//var scorch = require('./scorch');
-var create = require('@kingjs/descriptor/create');
-var inherit = require('@kingjs/descriptor/inherit');
-var merge = require('@kingjs/descriptor/merge');
-var update = require('@kingjs/descriptor/update');
-var filter = require('@kingjs/descriptor/filter');
-var map = require('@kingjs/descriptor/map');
-var mapNames = require('@kingjs/descriptor/map-names');
-var reduce = require('@kingjs/descriptor/reduce');
-var mergeWildcards = require('@kingjs/descriptor/merge-wildcards');
+var write = require('@kingjs/descriptor.write');
+var scorch = require('@kingjs/descriptor.scorch');
+var create = require('@kingjs/descriptor.create');
+var inherit = require('@kingjs/descriptor.inherit');
+var merge = require('@kingjs/descriptor.merge');
+var update = require('@kingjs/descriptor.update');
+var filter = require('@kingjs/descriptor.filter');
+var map = require('@kingjs/descriptor.map');
+var mapNames = require('@kingjs/descriptor.map-names');
+var reduce = require('@kingjs/descriptor.reduce');
+var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 var nested = {
-  merge: require('./nested/merge'),
-  reduce: require('./nested/reduce'),
-  //toArray: require('./nested/to-array'),
-  update: require('./nested/update')
+  merge: require('@kingjs/descriptor.nested.merge'),
+  reduce: require('@kingjs/descriptor.nested.reduce'),
+  toArray: require('@kingjs/descriptor.nested.to-array'),
+  update: require('@kingjs/descriptor.nested.update'),
+  forEach: require('@kingjs/descriptor.nested.for-each')
 }
-
-// var isTransform = {
-//   filter: filter, 
-//   map: map
-// }
 
 var thisArg = { };
 var descriptor = { x:0 };
 
 // merge theory; undefined target is always overwritten
+assertTheory(function thisArgCallbackTest(test, id) {
+}, { 
+  // filter
+  // map
+  // write(key, value)
 
-assertTheory(function copyOnWriteTest(test, id) {
-
-  var meta = normalize(test.meta, 'func')
-  var func = meta.func;
-  var args = Object.create(meta.args || []);
-  var ctx = meta.ctx === null ? args[0] : create(meta.ctx || descriptor, true);
-  args.push(test.copyOnWrite);
-
-  var result = func.apply(ctx, args);
-
-  var copied = result !== ctx;
-  assert(copied == test.copyOnWrite);
-}, {
-  copyOnWrite: [ true, false ],
-  meta: [
-    //scorch: scorch,
-    {
-      func: nested.merge,
-      ctx: null,
-      args: [{ }, { x:0 }, { x:null }, null]
-    }, {
-      func: nested.update,
-      ctx: null,
-      args: [{ }, { x:0 }, (_, x) => x, null]
-    }, {
-      func: mergeWildcards,
-      ctx: { '*':null },
-      args: [{ x:0 }]
-    }, {
-      func: merge,
-      args: [{ y:0 }, null, null]
-    }, {
-      func: inherit,
-      args: [[{ y:0 }]]
-    }, {
-      func: update,
-      args: [() => 1, null]
-    }
-  ]
+  // merge
+  // reduce
+  // update
+  // nested.for-each
+  // nested.merge
+  // nested.reduce
+  // nested.update
 });
 
 assertTheory(function thisArgCallbackTest(test, id) {
   var called = false;
-  var callback = function() {
+  var callback = function(value, name) {
     assert(thisArg == this);
     called = true;
   };
 
   var meta = normalize(test.meta, 'func');
-  var func = meta.func;
-  var args = (meta.args || []).slice();
   var ctx = Object.create(meta.ctx || descriptor);
   
+  var args = (meta.args || []).slice();
   args.push(callback);
   args = args.concat(meta.afterCallbackArgs || []);
   args.push(thisArg);
 
-  func.apply(ctx, args);
+  // args => this, [arguments..., callback, this]
+
+  meta.func.apply(ctx, args);
   
   assert(called);
 }, {
   meta: [
     {
+      func: nested.forEach,
+      ctx: null,
+      args: [{ x:0 }, { x: null }],
+    }, 
+    {
       func: nested.merge,
       ctx: null,
       args: [0, 1],
-    }, {
+    }, 
+    {
       func: nested.reduce,
       ctx: null,
       args: [{ }, { x:0 }],
       afterCallbackArgs: [null]
-    }, {
+    }, 
+    {
       func: nested.update,
       args: [0, null]
-    }, filter,
-    update,
-    map,
-    mapNames, {
+    }, 
+    filter,
+    map, 
+    mapNames,
+    {
       func: merge,
       args: [{ x:1 }]
-    }, {
+    }, 
+    {
       func: reduce,
       args: [{ }]
     },
+    update,
   ]
 })
