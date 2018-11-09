@@ -7,11 +7,6 @@ var nestedArray = {
   forEach: require('@kingjs/descriptor.nested.array.for-each'),
 }
 
-var poset = {
-  decode: require('@kingjs/poset.decode'),
-  inherit: require('@kingjs/poset.inherit')
-}
-
 var normalizeAction = require('./normalizeAction');
 
 var familyActionMap = {
@@ -39,18 +34,13 @@ function normalizeDescriptors(encodedFamily, action, result, actions) {
   if (familyAction)
     action = normalizeAction([familyAction, action]);
 
-  // normalize bases
-  action = write.call(action, 'bases', 
-    decodeAndInherit.call(action.bases)
-  );
-
   // accumulate decoded family members
   for (var encodedName in encodedFamily) {
 
     // filter out family specific action metadata
     if (encodedName[0] == '$')
       continue;
-  
+
     // decode name
     var name = encodedName;
     if (encodedName.indexOf('$') != -1) {
@@ -65,15 +55,6 @@ function normalizeDescriptors(encodedFamily, action, result, actions) {
     result[name] = encodedFamily[encodedName];
     actions[name] = action;
   }
-}
-
-function decodeAndInherit() {
-  var vertices = { };
-
-  var encodedPoset = this;
-  var edges = poset.decode.call(encodedPoset, vertices);
-  result = poset.inherit.call(edges, vertices);
-  return result;
 }
 
 Object.defineProperties(module, {

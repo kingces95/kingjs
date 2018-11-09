@@ -82,6 +82,19 @@ function familyAction() {
 }
 familyAction();
 
+function isolateFamilyAction() {
+  var result = transform.call([{
+    $defaults: { id: 0 },
+    foo: { }
+  }, {
+    $defaults: { id: 1 },
+    bar: { }
+  }, {
+    baz: { }
+  }]);
+}
+isolateFamilyAction();
+
 function depends() {
   var result = transform.call({
     vehicle: { id: 0, name: 'Vehicle' },

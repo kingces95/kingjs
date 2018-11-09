@@ -1,6 +1,13 @@
 var takeLeft = require('@kingjs/func.return-arg-0');
 var is = require('@kingjs/is');
 
+var write = require('@kingjs/descriptor.write');
+
+var poset = {
+  decode: require('@kingjs/poset.decode'),
+  inherit: require('@kingjs/poset.inherit')
+}
+
 var nested = {
   merge: require('@kingjs/descriptor.nested.merge'),
   freeze: require('@kingjs/descriptor.nested.freeze'),
@@ -28,14 +35,30 @@ function normalizeAction(action) {
     );
   }
 
+  if (action.bases) {
+    action = write.call(action, 'bases', 
+      decodeAndInherit(action.bases)
+    );
+  }
+
   return action;
+}
+
+function decodeAndInherit(encodedPoset) {
+  var vertices = { };
+  var edges = poset.decode.call(encodedPoset, vertices);
+  return poset.inherit.call(edges, vertices);
+}
+
+function freezeAction(action) {
+  return nested.freeze(action, { '*': null });  
 }
 
 function composeLeft(g, f) {
   return function(x) { return f(g(x)); }
 }
 
-var actionMergePaths = nested.freeze({
+var actionMergePaths = freezeAction({
   callback: null,
   scorch: takeLeft,
   freeze: takeLeft,
@@ -45,7 +68,7 @@ var actionMergePaths = nested.freeze({
   thunks: { '*': composeLeft },
   depends: { '*': takeLeft },
   refs: { '*': takeLeft },
-}, { '*': null });
+});
 
 Object.defineProperties(module, {
   exports: { value: normalizeAction }
