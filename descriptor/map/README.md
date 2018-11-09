@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).map
-Creates a shallow copy of a descriptor optionally using a callback to transform values.
+Maps every property value on a descriptor via a callback.
 ## Usage
 Increment all descriptor values like this:
 ```js

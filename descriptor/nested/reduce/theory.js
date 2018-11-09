@@ -6,55 +6,52 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
-  var value;
-  if (test.hasTree) {
-    value = { };
-    Object.defineProperty(value, test.name, {
-      enumerable: test.enumerable,
-      value: test.treeValue
-    })
 
-    if (test.inherited)
-      value = Object.create(value);
+  var tree = test.leafValue
+  if (test.leafNested)
+    tree = { [test.name]: tree };
 
-    if (test.nested)
-      value = { [test.nestedName]: value };
-  }
-
-  var tree;
-  if (test.hasPaths) {
-    tree = { [test.name]: test.pathValue };
-    if (test.nested)
-      tree = { [test.nestedName]: tree };
-  }
+  var path = test.pathValue;
+  if (test.pathNested)
+    path = { [test.wildPath ? '*' : test.name]: path };
 
   var initialValue = test.hasInitialValue ? [ ] : undefined;
 
-  var result = reduce(value, tree, (a, o) => {
+  var result = reduce(tree, path, (a, o) => {
     if (a instanceof Array == false) {
-      assert(a === o);
+      assert(a === undefined);
       a = [];
     }
     a.push(o);
     return a;
   }, initialValue);
 
-  if (!test.hasPaths || !test.hasTree) {
-    assert(result === initialValue);
+  if (result)
+    assert(test.hasInitialValue == (result === initialValue));
+
+  if (test.leafNested && !test.pathNested) {
+    assert(result.length == 1);
+    assert(result[0] == tree);
     return;
   }
 
+  if (!test.leafNested && test.pathNested) {
+    if (test.hasInitialValue)
+      assert(result.length == 0);
+    else
+      assert(result === undefined);
+    return;
+  }
+
+  assert(test.leafNested == test.pathNested);
   assert(result.length == 1);
-  assert(result[0] === test.treeValue);
+  assert(result[0] === test.leafValue);
 },{
   name: 'foo',
-  nestedName: 'bar',
-  hasTree: [ false, true ],
-  hasPaths: [ false, true ],
-  treeValue: [ undefined, null, 0, 1 ],
-  pathValue: [ undefined, null, 0, 1, function() { } ],
-  enumerable: [ false, true ],
-  inherited: [ false, true ],
-  nested: [ false, true ],
+  wildPath: [ false, true ],
+  leafValue: [ undefined, null, 0, 1 ],
+  leafNested: [ false, true ],
+  pathValue: [ undefined, null, 0, 1 ],
+  pathNested: [ false, true ],
   hasInitialValue: [ false, true ],
 })

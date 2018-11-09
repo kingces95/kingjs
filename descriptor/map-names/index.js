@@ -1,8 +1,8 @@
-function mapNames(callback, thisArg) {
-  if (callback instanceof Function)
-    return mapNamesProcedural.call(this, callback, thisArg);
+function mapNames(callbackOrNames, thisArg) {
+  if (callbackOrNames instanceof Function)
+    return mapNamesProcedural.call(this, callbackOrNames, thisArg);
 
-  return mapNamesDeclarative.call(this, callback);
+  return mapNamesDeclarative.call(this, callbackOrNames);
 }
 
 function mapNamesProcedural(callback, thisArg) {

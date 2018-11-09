@@ -2,38 +2,56 @@
 
 var freeze = require('.');
 var testRequire = require('..');
-var isObject = testRequire('@kingjs/is-object');
+var is = testRequire('@kingjs/is');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var value = isObject(test.value) ? { } : test.value;
-  if (test.valueNested) 
-    value = { value: value };
+  var tree = { };
+  if (!is.object(test.leafValue))
+    tree = test.leafValue;
+  if (test.leafNested) 
+    tree = { [test.name]: tree };
 
-  var path = test.path;
+  var path = test.pathValue;
   if (test.pathNested) 
-    path = { [test.wildName ? '*' : 'value']: path };
+    path = { [test.wildName ? '*' : test.name]: path };
 
-  freeze(value, path);
+  var result = freeze(tree, path);
 
-  if (!isObject(value))
+  assert(result === tree);
+  if (!is.object(result))
+    return; 
+
+  assert(Object.isFrozen(result) == true);
+
+  if (test.leafNested && !test.pathNested) {
+    var value = result[test.name];
+    if (!is.object(value))
+      return;
+
+    assert(Object.isFrozen(value) == false);
+    return;
+  }
+
+  if (!test.leafNested && test.pathNested)
     return;
 
-  var expectFrozen = path !== undefined;
-  assert(Object.isFrozen(value) == expectFrozen);
-
-  if (!isObject(value.value))
+  assert(test.leafNested == test.pathNested);
+  var value = tree;
+  if (test.leafNested)
+    value = value[test.name];
+  
+  if (!is.object(value))
     return;
-  value = value.value;
 
-  expectFrozen = isObject(path);
-  assert(Object.isFrozen(value) == expectFrozen);
+  assert(Object.isFrozen(value));
 }, {
-  valueNested: [ false, true ],
-  value: [ undefined, null, 0, 1, { } ],
+  name: 'foo',
+  leafNested: [ false, true ],
+  leafValue: [ undefined, null, 0, 1, { } ],
   pathNested: [ false, true ],
-  path: [ undefined, null, 0, 1 ],
+  pathValue: [ undefined, null, 0, 1 ],
   wildName: [ false, true ]
 })

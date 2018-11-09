@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/descriptor.remove",
+  "version": "1.0.0",
+  "description": "Returns a descriptor with a named property removed.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.create": "^1.0.4"
+  }
+}

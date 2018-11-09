@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.update",
-  "version": "1.0.6",
+  "version": "1.0.13",
   "description": "",
   "main": "index.js",
   "files": [
@@ -17,8 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.merge-wildcards": "^1.0.3",
-    "@kingjs/descriptor.write": "^1.0.0",
-    "@kingjs/is-object": "^1.0.1"
+    "@kingjs/descriptor.merge-wildcards": "^1.0.6",
+    "@kingjs/descriptor.write": "^1.0.4",
+    "@kingjs/is": "^1.0.4"
   }
 }

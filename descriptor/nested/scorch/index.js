@@ -1,16 +1,19 @@
 'use strict';
 
 var scorchObject = require('@kingjs/descriptor.scorch');
+var is = require('@kingjs/is');
 var update = require('@kingjs/descriptor.nested.update');
 
-function scorchCallback(value, path) {
-  return scorchObject.call(value, copyOnWrite);
+function scorchCallback(tree) {
+  if (is.object(tree))
+    tree = scorchObject.call(tree);
+  return tree;
 }
 
-function scorchUpdate(tree, paths, copyOnWrite) {
-  return update(tree, path, scorchCallback, null, copyOnWrite);
+function scorch(tree, paths) {
+  return update(tree, paths, scorchCallback, this, true);
 }
 
 Object.defineProperties(module, {
-  exports: { value: scorchUpdate }
+  exports: { value: scorch }
 });

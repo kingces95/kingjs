@@ -2,16 +2,19 @@
 
 var Dictionary = require('@kingjs/dictionary');
 
-function create(prototype, alwaysCopy) {
+function create(prototype) {
+
   if (prototype === undefined || prototype === null)
     return new Dictionary();
 
-  if (!alwaysCopy && !Object.isFrozen(prototype))
-    return Object.create(prototype);
+  if (prototype instanceof Array)
+    return prototype.slice();
 
   var clone = new Dictionary();
+
   for (var name in prototype)
     clone[name] = prototype[name];
+
   return clone;
 }
 

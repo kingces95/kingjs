@@ -26,19 +26,18 @@ result:
 ## API
 ```ts
 declare function create(
-  prototype?: Descriptor,
-  alwaysCopy?: boolean
+  prototype?: Descriptor
 ): any
 ```
 ### Interfaces
+- `Dictionary`: see [@kingjs/dictionary][dictionary]
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
 - `prototype`: The descriptor to clone.
-- `alwaysCopy`: Always copy the properties from `prototype` onto a new object.
 ### Returns
 A new descriptor or a shallow clone of every enumerable property on `prototype`.
 ## Remarks
-If `prototype` is frozen, then a new object is created, otherwise `prototype` is used as the prototype for the new descriptor.
+If `prototype` is an `Array` then the clone will be an `Array`, otherwise the clone will be a `Dictionary`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -50,3 +49,4 @@ MIT
 ![Analytics](https://analytics.kingjs.net/descriptor/create)
 
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
+  [dictionary]: https://www.npmjs.com/package/@kingjs/dictionary

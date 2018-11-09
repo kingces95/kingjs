@@ -39,19 +39,19 @@ function readMe() {
 }
 readMe();
 
-function nullIfNoMatches() {
+function noMatches() {
   var result = reduce(undefined, { });
-  assert(result == null);
+  assert(result === undefined);
 
   var result = reduce(0, { });
-  assert(result == null);
+  assert(result === undefined);
 }
-nullIfNoMatches();
+noMatches();
 
-function nullIfNoTree() {
-  var result = reduce();
-  assert(result == null);
+function noTree() {
+  var result = reduce(undefined, undefined, (a, x) => x);
+  assert(result == undefined);
 }
-nullIfNoTree();
+noTree();
 
 require('./theory');

@@ -35,9 +35,9 @@ assertTheory(function(test, id) {
     assert(value === test.value);
     assert(this === thisArg);
     return test.update;
-  }, thisArg, test.copyOnWrite);
+  }, thisArg);
 
-  var copyOnWrite = test.copyOnWrite || test.frozen;
+  var copyOnWrite = test.frozen;
 
   assert(result[test.key] === test.update);
 
@@ -51,6 +51,5 @@ assertTheory(function(test, id) {
   key: 'foo',
   value: [ undefined, null, 0, 1 ],
   update: [ undefined, null, 0, 1 ],
-  copyOnWrite: [ false, true ],
   frozen: [ false, true ]
 })

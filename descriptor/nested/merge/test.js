@@ -86,21 +86,30 @@ function baseCase() {
   });
   assert(result == 2);
 
-  assertThrows(function() { nestedMerge(0, 1); });
-  assertThrows(function() { nestedMerge(0, { }); });
-  assertThrows(function() { nestedMerge({ }, 1); });
+  assertThrows(() => nestedMerge(0, 1));
+  assertThrows(() => nestedMerge(0, { }));
+  assertThrows(() => nestedMerge({ }, 1));
 }
 baseCase();
 
 function newObject() {
 
-  var result = nestedMerge(null, { x: 0 }, { x: null });
-  assert(result === null);
+  assertThrows(() => nestedMerge(null, { x: 0 }, { x: null }));
 
-  result = nestedMerge(undefined, { x: 0 }, { x: null });
+  var result = nestedMerge(undefined, { x: 0 }, { x: null });
   assert(result.x == 0);
 }
 newObject();
+
+function missingTreePath() {
+  assertThrows(() => nestedMerge(1, { x: 0}, { x: null }));
+}
+missingTreePath();
+
+function missingDeltaPath() {
+  assertThrows(() => nestedMerge({ x: 0 }, 1, { x: null }));
+}
+missingDeltaPath();
 
 function createPaths() {
   var b = { value: 0, name: 'b' };
@@ -116,6 +125,24 @@ function createPaths() {
   assert(aCopy.b.value == 0);  
 }
 createPaths();
+
+function createArrayPaths() {
+  var b = [ 'b' ];
+  var a = [ b, 'a' ];
+
+  var aCopy = nestedMerge(undefined, a, [ undefined ]);
+  assert(aCopy != a);
+  assert(aCopy instanceof Array);
+  assert(aCopy[0] == b);
+
+  var aCopy = nestedMerge(undefined, a, [ [ undefined ], undefined ]);
+  assert(aCopy != a);
+  assert(aCopy instanceof Array);
+  assert(aCopy[0] != b);  
+  assert(aCopy[0] instanceof Array);
+  assert(aCopy[0][0] == 'b');  
+}
+createArrayPaths();
 
 function recursive() {
 

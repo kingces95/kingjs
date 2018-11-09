@@ -122,8 +122,7 @@ declare function merge(
   tree: Descriptor,
   delta: Descriptor,
   paths: Descriptor,
-  thisArg?,
-  copyOnWrite?: boolean
+  thisArg?
 ): Descriptor
 ```
 ### Interfaces
@@ -133,7 +132,6 @@ declare function merge(
 - `delta`: Tree to merge into `tree`. 
 - `paths`: Paths of `delta` to merge into `tree`. Functions found in `paths` will be used used to resolve conflicting tree values.
 - `thisArg`: The `this` argument to pass to `callback`'s found in `paths`.
-- `copyOnWrite`: If `true`, then `tree` descriptors will be cloned as needed so that `tree` remains unmodified.
 ### Returns
 Returns a nested descriptor of `tree`'s paths merged with paths merged from `delta` that also exist in `paths`.
 ## Remarks

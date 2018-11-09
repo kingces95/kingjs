@@ -17,7 +17,7 @@ declare function xxx(
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/xx
+$ npm install @kingjs/xxx
 ```
 ## License
 MIT

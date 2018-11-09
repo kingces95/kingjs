@@ -35,8 +35,7 @@ result:
 ```ts
 declare function mergeWildcards(
   this: Descriptor,
-  other: Descriptor,
-  copyOnWrite?: boolean
+  other: Descriptor
 ): Descriptor
 ```
 ### Interfaces
@@ -44,11 +43,10 @@ declare function mergeWildcards(
 ### Parameters
 - `this`: The descriptor whose wildcard property `*` is expanded.
 - `other`: The descriptor whose names not present on `this` become the property names of the wildcard expansion.
-- `copyOnWrite`: If true, then a copy of `this` will be created on the first write and returned instead of `this`.
 ### Returns
 Returns `this` with it's wildcard property `*` replaced with copies whose names are found on `other` but not on `this`.
 ## Remarks
-If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
+If `this` is frozen then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

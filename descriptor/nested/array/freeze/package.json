@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/descriptor.nested.array.freeze",
+  "version": "1.0.5",
+  "description": "Freezes an array tree and it's values.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.2",
+    "@kingjs/descriptor.nested.freeze": "^1.0.5"
+  }
+}

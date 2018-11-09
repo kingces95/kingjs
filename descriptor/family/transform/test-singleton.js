@@ -2,7 +2,9 @@
 
 var transformFamily = require('.');
 var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+var assert = testRequire('@kingjs/assert');
+
+var decodedName = 'myName';
 
 function transform(encodedName, action) {
   var family = { };
@@ -22,16 +24,16 @@ function noop() {
 
   assert(result == apple);
 }
-//noop();
+noop();
 
 function wrapDeclarative() {
-  var result = transform.call('apple', undefined, { wrap: 'name' });
+  var result = transform.call('apple', decodedName, { wrap: 'name' });
   assert(result.name == 'apple');  
 }
 wrapDeclarative();
 
 function wrapProcedural() {
-  var result = transform.call('apple', undefined, {
+  var result = transform.call('apple', decodedName, {
     wrap: function(name) {
       return { name: name };
     }
@@ -41,7 +43,7 @@ function wrapProcedural() {
 wrapProcedural();
 
 function inherit() {
-  var result = transform.call({ }, 'name$fruit', {
+  var result = transform.call({ }, decodedName + '$fruit', {
     bases: {
       fruit: { type: 'fruit' }  
     }
@@ -52,7 +54,7 @@ function inherit() {
 inherit();
 
 function defaults() {
-  var result = transform.call({ }, undefined, {
+  var result = transform.call({ }, decodedName, {
     defaults: {
       type: 'fruit'
     }
@@ -68,20 +70,20 @@ function inflate() {
       assert(key == 'name');
       return name;
     }
-   }, 'apple');
+   }, decodedName);
 
-  assert(result.name == 'apple');
+  assert(result.name == decodedName);
 }
 inflate();
 
 function thunk() {
   var result = transform.call({
     type: 'fruit'
-  }, 'apple', {
+  }, decodedName, {
     thunks: {
-      type: function(name, key) {
-        assert(this == 'fruit');
-        assert(name == 'apple');
+      type: function(name, value, key) {
+        assert(value == 'fruit');
+        assert(name == decodedName);
         assert(key == 'type');
         return 'food';
       }
@@ -95,28 +97,55 @@ thunk();
 function scorch() {
   var result = transform.call({
     name: undefined
-  }); 
+  }, decodedName, { scorch: { } }); 
 
   assert('name' in result == false);
+
+  var result = transform.call({
+    foo: { value: undefined }, 
+    bar: { value: undefined },
+    baz: undefined
+  }, decodedName, { scorch: { foo: null } }); 
+
+  assert('baz' in result == false);
+  assert('value' in result.foo == false);
+  assert('value' in result.bar == true);
 }
-//scorch();
+scorch();
 
 function callback() {
 
   var result = transform.call(
-    { }, 'apple', function(descriptor, name) {
+    { }, decodedName, function(name, descriptor) {
       descriptor.name = name;
       return descriptor; 
     }
   );
 
-  assert(result.name == 'apple');
+  assert(result.name == decodedName);
 }
 callback();
 
+function refs() {
+
+  var result = transformFamily.call({ 
+    foo: { 
+      id: 0
+    },
+    bar: { 
+      foo: 'foo'
+    }
+  }, {
+    refs: { foo: null }
+  });
+
+  assert(result.bar.foo.id == 0);
+}
+refs();
+
 function wrapThenInherit() {
   var appleName = 'apple';
-  var result = transform.call(appleName, '$fruit', {
+  var result = transform.call(appleName, decodedName + '$fruit', {
     wrap: 'name',
     bases: { 
       fruit: { 
@@ -125,15 +154,14 @@ function wrapThenInherit() {
       }
     }
   })
-  assert(appleName == 'apple');
-  assert(result != appleName); // shallowClone
+
   assert(result.name == 'apple'); // wrap, inherit
   assert(result.type == 'fruit'); // inherit
 }
 wrapThenInherit();
 
 function inheritThenDefaults() {
-  var result = transform.call({ }, '$fruit', {
+  var result = transform.call({ }, decodedName + '$fruit', {
     defaults: { 
       type: 'unknown',
       color: 'unknown' 
@@ -150,14 +178,14 @@ function inheritThenDefaults() {
 inheritThenDefaults();
 
 function defaultsThenInflate() {
-  var result = transform.call({ }, 'apple', {
+  var result = transform.call({ }, decodedName, {
     defaults: { 
       name: function $(name) {  
         return name;
       },
     },
   })
-  assert(result.name == 'apple'); // default -> inflate
+  assert(result.name == decodedName); // default -> inflate
 }
 defaultsThenInflate();
 
@@ -168,37 +196,44 @@ function inflateThenThunks() {
     }
    }, 'apple', {
     thunks: {
-      name: function() {
-        return String.prototype.toUpperCase.call(this);
+      name: function(name, value, key) {
+        return String.prototype.toUpperCase.call(value);
       }
     },
   })
   assert(result.name == 'APPLE'); // inflate -> thunks
 }
-//inflateThenThunks();
+inflateThenThunks();
 
 function thunksThenScorch() {
   var result = transform.call({
     name: 'apple'
-   }, undefined, {
+  }, decodedName, {
+    scorch: { },
     thunks: {
-      name: function() {
+      name: function(name, value, key) {
         return undefined;
       }
     },
   })
   assert(`name` in result == false); // thunks -> scorch
 }
-//thunksThenScorch();
+thunksThenScorch();
 
 function scorchThenCallback() {
   var result = transform.call({
+    foo: 0,
     name: undefined
-  }, undefined, function() {
-    assert('name' in this == false);
-    this.name = 'apple';
-    return this;
-  })
+  }, decodedName, {
+    scorch: { },
+    callback: function(name, value) {
+      assert(value.foo == 0);
+      assert('name' in value == false);
+      value.name = 'apple';
+      return value;
+    }
+  });
+
   assert(result.name == 'apple'); // scorch then callback
 }
-//scorchThenCallback();
+scorchThenCallback();

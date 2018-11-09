@@ -1,13 +1,41 @@
-var clear = require('@kingjs/descriptor.clear');
+var remove = require('@kingjs/descriptor.remove');
 
-function scorch(copyOnWrite) {
+function scorchArray() {
+  var source = this;
+  var target = this;
+
+  var count = 0;
+  for (var i = 0; i < source.length; i++) {
+    if (source[i] === undefined) {
+      if (Object.isFrozen(target))
+        target = source.slice(0, i);
+      count++;
+      continue;
+    }
+    
+    if (count > 0)
+      target[i - count] = source[i];
+  }
+
+  if (source == target) {
+    while (count-- > 0)
+      target.pop();
+  }
+
+  return target;
+}
+
+function scorch() {
+  if (this instanceof Array)
+    return scorchArray.call(this);
+
   var updatedThis = this;
 
   for (var name in this) {
-    if (this[name] === undefined) {
-      updatedThis = clear.call(updatedThis, name, copyOnWrite);
-      copyOnWrite = copyOnWrite && updatedThis === this;
-    }
+    if (this[name] !== undefined)
+      continue;
+      
+    updatedThis = remove.call(updatedThis, name);
   }
 
   return updatedThis;

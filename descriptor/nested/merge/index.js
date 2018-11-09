@@ -2,17 +2,25 @@
 
 var create = require(`@kingjs/descriptor.create`);
 var write = require('@kingjs/descriptor.write');
-var isObject = require('@kingjs/is-object');
+var is = require('@kingjs/is');
+var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
-function throwMergeConflict(left, right, copyOnWrite) {
+function throwMergeConflict(left, right) {
   throw 'Merge conflict';
+}
+
+function throwUnexpectedTreeLeaf(value) {
+  throw 'Unexpected tree leaf: ' + value;
+}
+
+function throwUnexpectedDeltaLeaf(value) {
+  throw 'Unexpected delta leaf: ' + value;
 }
 
 function mergeNode(
   delta,
   path,
-  thisArg, 
-  copyOnWrite) {
+  thisArg) {
 
   var updatedThis = this;
 
@@ -22,19 +30,18 @@ function mergeNode(
       this[name],
       delta[name],
       path[name],
-      thisArg, 
-      copyOnWrite
+      thisArg
     );
 
     updatedThis = write.call(
-      this, updatedThis, name, result, copyOnWrite
+      updatedThis, name, result
     );
   }
 
   return updatedThis;
 }
 
-function merge(tree, delta, paths, thisArg, copyOnWrite) {
+function merge(tree, delta, paths, thisArg) {
 
   if (paths == null || paths == undefined)
     paths = throwMergeConflict;
@@ -50,24 +57,28 @@ function merge(tree, delta, paths, thisArg, copyOnWrite) {
     if (delta === undefined)
       return tree;
 
-    return paths.call(thisArg, tree, delta, copyOnWrite);
+    return paths.call(thisArg, tree, delta);
   }
 
-  if (!isObject(delta))
+  if (delta !== undefined && !is.object(delta))
+    throwUnexpectedDeltaLeaf(delta);
+
+  if (tree !== undefined && !is.object(tree))
+    throwUnexpectedTreeLeaf(tree);
+
+  if (delta === undefined)
     return tree;
 
   if (tree === undefined)
-    tree = create();
+    tree = paths instanceof Array ? [ ] : create();
 
-  if (!isObject(tree))
-    return tree;
+  paths = mergeWildcards.call(paths, delta);
 
   return mergeNode.call(
     tree,
     delta, 
     paths,
-    thisArg, 
-    copyOnWrite
+    thisArg
   );
 }
 

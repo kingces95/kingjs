@@ -4,84 +4,81 @@ var update = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var isObject = testRequire('@kingjs/is-object');
+var is = testRequire('@kingjs/is');
 
 var context = { };
 
 assertTheory(function(test, id) {
-  var tree;
-  if (test.hasTree) {
-    tree = test.treeValue;
+  var tree = test.leafValue;
+  if (test.leafNested) {
+    tree = test.arrayTree ? [ tree ] : { [test.name]: tree };
 
-    if (test.treeNested) {
-      tree = { [test.name]: tree };
-
-      if (test.frozen)
-        Object.freeze(tree);
-    }
+    if (test.frozen)
+      Object.freeze(tree);
   }
 
-  var paths;
-  if (test.hasPath) {
-    paths = test.pathValue;
+  var paths = test.pathValue;
+  if (test.pathNested) 
+    paths = test.arrayPath ? [ test.pathValue ] :
+      { [test.wildPath ? '*' : test.name]: test.pathValue }
 
-    if (test.pathNested) 
-      paths = { [test.wildPath ? '*' : test.name]: test.pathValue }
-  }
-
-  var expected = test.treeValue;
+  var expected = test.leafValue;
 
   function callback(leaf, path) {
     assert(context === this);
-    assert(path === test.pathValue);
-    assert(leaf === (test.pathNested ? test.treeValue : tree));
 
-    return expected = test.returnLeft ? leaf : path;
+    assert(path === test.pathValue);
+
+    if (test.pathNested == test.leafNested)
+      assert(leaf === test.leafValue);
+    else if (test.leafNested)
+      assert(leaf === tree);
+    else
+      assert();
+
+    return expected = test.returnLeaf ? leaf : path;
   }
 
-  var result = update(
-    tree, paths, callback, context,
-  test.copyOnWrite);
+  var treeResult = update(tree, paths, callback, context);
 
-  if (!test.hasTree) {
-    assert(result === undefined);
-  } 
-  else if (!test.hasPath) {
-    assert(result === tree);
-  } 
-  else {
+  if (test.pathNested && !test.leafNested) {
+    assert(treeResult === test.leafValue);
+    return;
+  }
 
-    var actual = result;
-    if (test.pathNested == test.treeNested) {
-      if (test.treeNested) {
-        assert(isObject(result));
+  if (!test.pathNested && test.leafNested) {
+    var leafResult = treeResult;
+    var expectedLeaf = test.returnLeaf ? tree : test.pathValue;
 
-        actual = actual[test.name];
-        var write = actual !== test.treeValue;
-        assert(!test.frozen || (Object.isFrozen(result) == !write));
+    assert(!is.object(treeResult) || (test.frozen == Object.isFrozen(treeResult)));  
+    assert(leafResult == expectedLeaf);
+    return;
+  }
 
-        var copied = result !== tree;
-        assert((write && (test.frozen || test.copyOnWrite)) == copied);
-      }
-      assert(actual === expected);
-    }
-    else if (test.treeNested) {
-      assert(actual === expected);
-    } 
-    else {
-      assert(actual === tree);
-    }
-  }  
+  assert(test.pathNested === test.leafNested);
+  var leafResult = treeResult;
+  var expectedLeaf = test.returnLeaf ? test.leafValue : test.pathValue;
+
+  if (test.leafNested) {
+    leafResult = treeResult[test.name];
+
+    var written = expectedLeaf !== test.leafValue;
+    assert(Object.isFrozen(treeResult) == (test.frozen && !written));
+
+    assert(is.object(treeResult));
+    assert(treeResult instanceof Array == test.arrayTree);
+  }
+
+  assert(leafResult == expectedLeaf);
 }, {
-  name: 'foo',
+  name: '0',
   wildPath: [ false, true ],
   frozen: [ false, true ],
-  copyOnWrite: [ false, true ],
-  hasTree: [ false, true ],
-  treeValue: [ null, 0, 1 ],
-  treeNested: [ true, false ],
-  hasPath: [ false, true ],
-  pathValue: [ null, 0, 1 ],
-  pathNested: [ true, false ],
-  returnLeft: [ true, false ]
+  leafValue: [ undefined, null, 0, 1 ],
+  leafNested: [ false, true ],
+  pathValue: [ undefined, null, 0, 1 ],
+  pathNested: [ false, true ],
+  returnLeaf: [ false, true ],
+  arrayTree: [ false, true ],
+  arrayPath: [ false, true ],
 });

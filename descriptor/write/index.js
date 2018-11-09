@@ -2,25 +2,18 @@
 
 var create = require('@kingjs/descriptor.create');
 
-function writeSlowPath(descriptor, key, value, copyOnWrite) {
+function write(key, value) {
 
-  if (value === descriptor[key] && (value !== undefined || key in descriptor))
-    return descriptor;
+  if (value === this[key] && (value !== undefined || key in this))
+    return this;
 
-  if (copyOnWrite || Object.isFrozen(descriptor))
-    descriptor = create(descriptor);
+  var updatedThis = this;
+  if (Object.isFrozen(updatedThis))
+    updatedThis = create(updatedThis);
 
-  descriptor[key] = value;
-  return descriptor;
-}
+  updatedThis[key] = value;
 
-function write(descriptor, key, value, copyOnWrite) {
-
-  if (this === descriptor)
-    return writeSlowPath(descriptor, key, value, copyOnWrite);
-
-  descriptor[key] = value;
-  return descriptor;
+  return updatedThis;
 }
 
 Object.defineProperties(module, {

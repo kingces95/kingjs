@@ -3,9 +3,14 @@
 var reduce = require('@kingjs/descriptor.nested.reduce');
 
 function accumulate(array, leaf) {
+  if (leaf === undefined)
+    return array;
+    
   if (!array)
     array = [];
+
   array.push(leaf);
+  
   return array;
 }
 

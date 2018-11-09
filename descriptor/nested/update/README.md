@@ -51,8 +51,7 @@ declare function update(
   tree: NestedDescriptor,
   path: NestedDescriptor,
   callback: (leaf, path, copyOnWrite: boolean) => any,
-  thisArg?,
-  copyOnWrite?: boolean
+  thisArg?
 ): NestedDescriptor
 ```
 ### Interfaces
@@ -64,11 +63,10 @@ declare function update(
   - `leaf`: The leaf value.
   - `path`: The path value.
 - `thisArg`: The `this` argument to pass to `callback`.
-- `updateOnWrite`: If `true`, then `target` descriptors will be cloned as needed so that `target` remains unmodified.
 ### Returns
 Returns `tree` with updated values for the leafs found at `paths`.
 ## Remarks
-If `this` is frozen or `copyOnWrite` specified then a copy of `this` will be created on the first write and returned instead of `this`.
+If `this` is frozen then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

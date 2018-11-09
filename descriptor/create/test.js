@@ -24,9 +24,17 @@ readMe();
 function prototype() {
   var obj = { };
   var clone = create(obj);
-  assert(Object.getPrototypeOf(clone) == obj);
+  assert(Object.getPrototypeOf(clone) !== obj);
 }
 prototype();
+
+function arrayPrototype() {
+  var arr = [ ];
+  var clone = create(arr);
+  assert(Object.getPrototypeOf(clone) !== arr);
+  assert(clone instanceof Array);
+}
+arrayPrototype();
 
 function hidden() {
   var obj = { };

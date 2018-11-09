@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.write",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "files": [
@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.1"
+    "@kingjs/descriptor.create": "^1.0.4"
   }
 }

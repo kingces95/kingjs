@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/descriptor.nested.array.update",
+  "version": "1.0.2",
+  "description": "Updates the values of a array tree to values returned by a callback which takes the current value.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.2",
+    "@kingjs/descriptor.nested.update": "^1.0.12"
+  }
+}

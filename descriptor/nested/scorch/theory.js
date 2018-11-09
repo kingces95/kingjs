@@ -2,38 +2,53 @@
 
 var scorch = require('.');
 var testRequire = require('..');
-var isObject = testRequire('@kingjs/is-object');
+var is = testRequire('@kingjs/is');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 
-  var value = isObject(test.value) ? { } : test.value;
-  if (test.valueNested) 
-    value = { value: value };
+  var tree = test.leafValue;
+  if (test.valueNested) {
+    tree = test.array ? [ tree ] : { [test.name]: tree };
 
-  var path = test.path;
+    if (test.freeze)
+      Object.freeze(tree);
+  }
+
+  var path = test.pathValue;
   if (test.pathNested) 
-    path = { [test.wildName ? '*' : 'value']: path };
+    path = { [test.wildName ? '*' : test.name]: path };
 
-  scorch(value, path);
+  var result = scorch(tree, path);
 
-  if (!isObject(value))
+  var copied = result !== tree;
+  var written = test.valueNested && test.leafValue === undefined;
+  var copyOnWrite = test.freeze;
+
+  assert(copied == (copyOnWrite && written));
+
+  if (!is.object(result)) {
+    assert(test.valueNested == false);
     return;
+  }
 
-  var expectFrozen = path !== undefined;
-  assert(Object.isFrozen(value) == expectFrozen);
+  assert(tree instanceof Array == result instanceof Array);
 
-  if (!isObject(value.value))
+  if (test.leafValue !== undefined) {
+    assert(result[test.name] === test.leafValue);
     return;
-  value = value.value;
+  }
 
-  expectFrozen = isObject(path);
-  assert(Object.isFrozen(value) == expectFrozen);
+  assert(test.name in result == false);
+
 }, {
+  name: '0',
+  array: [ false, true ],
+  freeze: [ false, true ],
   valueNested: [ false, true ],
-  value: [ undefined, null, 0, 1, { } ],
+  leafValue: [ undefined, null, 0, 1 ],
   pathNested: [ false, true ],
-  path: [ undefined, null, 0, 1 ],
+  pathValue: [ undefined, null, 0, 1 ],
   wildName: [ false, true ]
 })

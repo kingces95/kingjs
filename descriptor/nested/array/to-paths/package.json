@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/descriptor.nested.array.to-paths",
+  "version": "1.0.3",
+  "description": "Returns paths of an array tree.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.nested.to-paths": "^1.0.1",
+    "@kingjs/is": "^1.0.4"
+  }
+}

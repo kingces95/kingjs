@@ -22,6 +22,8 @@ declare function scorch(
 - `this`: Object whose properties with `undefined` values are to be deleted.
 ### Returns
 Returns `this` after properties with `undefined` value have been deleted.
+## Remarks
+If `this` is an array then `undefined` values will be spliced out of the array.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

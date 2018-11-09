@@ -1,20 +1,17 @@
 'use strict';
 
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
-var isObject = require('@kingjs/is-object');
+var is = require('@kingjs/is');
 
 function reduce(tree, paths, callback, accumulator, thisArg) {
 
-  if (!isObject(paths)) {
-    if (accumulator === undefined)
-      accumulator = tree;
+  if (!is.object(paths))
     return callback.call(thisArg, accumulator, tree);
-  }
 
-  if (!isObject(tree))
+  if (!is.object(tree))
     return accumulator;
 
-  paths = mergeWildcards.call(paths, tree, true);
+  paths = mergeWildcards.call(paths, tree);
 
   for (var name in paths)
     accumulator = reduce(tree[name], paths[name], callback, accumulator, thisArg);
@@ -23,12 +20,5 @@ function reduce(tree, paths, callback, accumulator, thisArg) {
 }
 
 Object.defineProperties(module, {
-  exports: { 
-    value: function(tree, paths, callback, initialValue, thisArg) {
-      if (tree === undefined || paths === undefined)
-        return initialValue;
-
-      return reduce(tree, paths, callback, initialValue, thisArg);
-    }
-  }
+  exports: { value: reduce }
 });
