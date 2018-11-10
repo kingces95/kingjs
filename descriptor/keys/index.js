@@ -1,3 +1,5 @@
+'use strict';
+
 function keys() {
   var result = [];
   for (var key in this)

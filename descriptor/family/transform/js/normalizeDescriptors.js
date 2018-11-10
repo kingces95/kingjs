@@ -1,6 +1,8 @@
+'use strict';
+
 var is = require('@kingjs/is');
 
-var mapNames = require('@kingjs/descriptor.map-names');
+var filter = require('@kingjs/descriptor.filter');
 var write = require('@kingjs/descriptor.write');
 
 var nestedArray = {
@@ -9,7 +11,7 @@ var nestedArray = {
 
 var normalizeAction = require('./normalizeAction');
 
-var familyActionMap = {
+var familyActionFilter = {
   $scorch: 'scorch',
   $freeze: 'freeze',
   $defaults: 'defaults',
@@ -30,7 +32,7 @@ function normalizeDescriptors(encodedFamily, action, result, actions) {
   }
 
   // merge family actions
-  var familyAction = mapNames.call(encodedFamily, familyActionMap);
+  var familyAction = filter.call(encodedFamily, familyActionFilter);
   if (familyAction)
     action = normalizeAction([familyAction, action]);
 

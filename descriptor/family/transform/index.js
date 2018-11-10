@@ -1,3 +1,5 @@
+'use strict';
+
 var takeLeft = require('@kingjs/func.return-arg-0');
 
 var normalize = require('@kingjs/descriptor.normalize');

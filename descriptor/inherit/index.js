@@ -1,3 +1,5 @@
+'use strict';
+
 var merge = require('@kingjs/descriptor.merge');
 var Dictionary = require('@kingjs/dictionary');
 var takeLeft = require('@kingjs/func.return-arg-0');

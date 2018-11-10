@@ -22,7 +22,6 @@
     "@kingjs/descriptor.inherit": "^1.0.4",
     "@kingjs/descriptor.is-frozen": "^1.0.0",
     "@kingjs/descriptor.keys": "^1.0.0",
-    "@kingjs/descriptor.map-names": "^1.0.6",
     "@kingjs/descriptor.merge": "^1.0.7",
     "@kingjs/descriptor.merge-wildcards": "^1.0.6",
     "@kingjs/descriptor.nested": "^1.0.1",

@@ -4,74 +4,64 @@ var scorch = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var write = testRequire('@kingjs/descriptor.write');
+var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 
 assertTheory(function (test, id) { 
-  var value = { };
-  if (test.hasValue) {
-    value.value = test.value;
+  var target = { };
+  target[test.name] = test.value;
 
-    if (test.inherited) {
-      value = Object.create(value);
-
-      if (test.hasInheritedValue)
-        value.value = test.inheritedValue;
-    }
+  assert(isFrozen.call(target));
+  if (!test.frozen) {
+    target = write.call(target, 'cloneMe', { });
+    assert(!isFrozen.call(target));
   }
 
-  if (test.frozen)
-    Object.freeze(value);
+  var result = scorch.call(target);  
+  var copied = result !== target;
+  var written = test.value === undefined;
 
-  var result = scorch.call(value);  
-
-  var undefinedValue = test.hasValue && test.value === undefined;
-  if (test.hasValue && test.inherited && test.hasInheritedValue)
-    undefinedValue = test.inheritedValue === undefined;
-
-  assert('value' in result == (result.value !== undefined));
-  assert('value' in result == (test.hasValue && !undefinedValue));
-
-  var copied = result !== value;
-  assert(copied == (
-    (test.frozen || test.inherited) && undefinedValue
-  ));
+  assert((test.frozen && !written) == isFrozen.call(result));
+  assert(!written == (test.name in result));
+  assert(copied == (test.frozen && written));
   
 }, {
-  hasValue: [ false, true ],
+  name: 'foo',
   value: [ undefined, null, 0, 1 ],
-  inherited: [ false, true ],
-  hasInheritedValue: [ false, true ],
-  inheritedValue: [ undefined, null, 0, 1 ],
   frozen: [ false, true ],
 })
 
 assertTheory(function (test, id) { 
-  var value = [];
+  var target = [];
   for (var i = 0; i < test.length; i++)
-    value[i] = i;
+    target[i] = i;
 
-  if (test.first < value.length)
-    value[test.first] = undefined;
+  if (test.first < target.length)
+    target[test.first] = undefined;
 
-  if (test.second < value.length)
-    value[test.second] = undefined;
+  if (test.second < target.length)
+    target[test.second] = undefined;
 
-  var firstValid = test.first < value.length;
-  var secondValid = test.first != test.second && test.second < value.length;
+  var firstValid = test.first < target.length;
+  var secondValid = test.first != test.second && test.second < target.length;
 
-  if (test.frozen)
-    Object.freeze(value);
+  assert(isFrozen.call(target));
+  if (!test.frozen) {
+    target = write.call(target, 'cloneMe', { });
+    assert(!isFrozen.call(target));
+  }
   
   var count = 0;
   if (firstValid) count++;
   if (secondValid) count++;
 
-  var result = scorch.call(value);  
+  var result = scorch.call(target);  
 
   assert(result.length == test.length - count);
 
-  var write = firstValid || secondValid;
-  var copied = result != value;
-  assert(copied == (write && test.frozen));
+  var written = firstValid || secondValid;
+  var copied = result != target;
+  assert(copied == (written && test.frozen));
 
   for (var i = 0, j = 0; i < test.length; i++) {
     if (i == test.first)
@@ -85,4 +75,4 @@ assertTheory(function (test, id) {
   first: [ 0,1,2,3,4,5 ],
   second: [ 0,1,2,3,4,5 ],
   frozen: [ false, true ],
-})
+}, 224)

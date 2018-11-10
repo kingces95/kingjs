@@ -17,23 +17,20 @@ declare interface Descriptor {
 
 ### Packages
 - [`freeze`][freeze]
-- [`inherit`][inherit]
 - [`isFrozen`][is-frozen]
-- [`keys`][keys]
-- [`mergeWildcards`][merge-wildcards]
 - [`normalize`][normalize]
-- [`reduce`][reduce]
 - [`remove`][remove]
-- [`snapshot`][snapshot]
+- [`keys`][keys]
+- [`slice`][slice]
 - [`write`][write]
-- [`update`][update]
 
-### Update/Transform
-|Update|Transform|
-|---|---|
-|rename|[`mapNames`][map-names]|
-|[`scorch`][scorch]|[`filter`][filter]|
-|[`merge`][merge]|mapMerge|
+- [`filter`][filter]
+- [`inherit`][inherit]
+- [`merge`][merge]
+- [`mergeWildcards`][merge-wildcards]
+- [`reduce`][reduce]
+- [`scorch`][scorch]
+- [`update`][update]
 
 ## Remarks
 A `descriptor` is
@@ -64,7 +61,6 @@ MIT
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
   [is-frozen]: https://www.npmjs.com/package/@kingjs/descriptor.is-frozen
   [keys]: https://www.npmjs.com/package/@kingjs/descriptor.keys
-  [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
   [normalize]: https://www.npmjs.com/package/@kingjs/descriptor.normalize

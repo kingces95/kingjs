@@ -5,15 +5,17 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var write = testRequire('@kingjs/descriptor.write');
+var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 
-var propertyName = 'foo';
+var propertyName = '0';
 
 assertTheory(function(test, id) {
 
   var name = test.name;
   
-  var left = { };
-  var right = { };
+  var left = test.leftArray ? [ ] : { };
+  var right = test.rightArray ? [ ] : { };
 
   if (test.hasLeft)
     left[name] = test.left;
@@ -21,11 +23,11 @@ assertTheory(function(test, id) {
   if (test.hasRight)
     right[name] = test.right;
 
-  if (test.frozen)
-    Object.freeze(left);
-
-  if (test.inherited)
-    right = Object.create(right);
+  assert(isFrozen.call(left));
+  if (!test.frozen) {
+    left = write.call(left, 'cloneMe', { });
+    assert(!isFrozen.call(left));
+  }
 
   var thisArg = { };
 
@@ -47,6 +49,8 @@ assertTheory(function(test, id) {
     return assertThrows(func);
 
   var result = func();
+
+  assert(result instanceof Array == test.leftArray);
   
   var implicitWrite =
     (!test.hasLeft && test.hasRight) ||
@@ -54,12 +58,12 @@ assertTheory(function(test, id) {
      test.hasRight && test.right !== undefined);
 
   var copyOnWrite = test.frozen;
-  var write = implicitWrite ||
+  var written = implicitWrite ||
     (isConflicting && test.resolver == this.resolver.different);
     
-  assert((write && copyOnWrite) == (result != left));
+  assert((written && copyOnWrite) == (result != left));
 
-  if (write)
+  if (written)
     assert(result[name] == test.right);
   else
     assert(!test.hasLeft || result[name] == test.left);
@@ -71,15 +75,16 @@ assertTheory(function(test, id) {
     assert(result == left);
   }
 
-  assert(Object.isFrozen(result) == (test.frozen && !write));
+  assert(isFrozen.call(result) == (test.frozen && !written));
 }, {
   name: propertyName,
+  leftArray: [ false, true ],
+  rightArray: [ false, true ],
   left: [ undefined, null, 0, 1 ],
   right: [ undefined, null, 0, 1 ],
   hasLeft: [ true, false ],
   hasRight: [ true, false ],
   frozen: [ false, true ],
-  inherited: [ false, true ],
   resolver: {
     none: undefined,
     same: function(left, right, name) {

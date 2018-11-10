@@ -1,4 +1,7 @@
+'use strict';
+
 var remove = require('@kingjs/descriptor.remove');
+var isFrozen = require('@kingjs/descriptor.is-frozen');
 
 function scorchArray() {
   var source = this;
@@ -7,7 +10,7 @@ function scorchArray() {
   var count = 0;
   for (var i = 0; i < source.length; i++) {
     if (source[i] === undefined) {
-      if (Object.isFrozen(target))
+      if (isFrozen.call(target))
         target = source.slice(0, i);
       count++;
       continue;

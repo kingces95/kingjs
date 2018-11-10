@@ -1,3 +1,5 @@
+'use strict';
+
 var is = require('@kingjs/is');
 
 function resolveAndSelect(name, selector) {

@@ -1,3 +1,5 @@
+'use strict';
+
 var takeLeft = require('@kingjs/func.return-arg-0');
 var is = require('@kingjs/is');
 

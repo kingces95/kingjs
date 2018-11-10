@@ -6,6 +6,7 @@ var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var takeLeft = testRequire('@kingjs/func.return-arg-0');
 var takeRight = testRequire('@kingjs/func.return-arg-1');
+var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 
 function readMe(skipIfDefined) {
 
@@ -22,11 +23,17 @@ function readMe(skipIfDefined) {
   var resolve = skipIfDefined ? takeLeft : takeRight;
   var result = merge.call(target, delta, resolve);
 
-  assert(target == result);
-  assert(Object.keys(target).length == 3);
+  assert(target != result);
   assert(target.a == 0);
-  assert(target.b == skipIfDefined ? 1 : 2);
-  assert(target.c == 3);
+  assert(target.b == 1);
+  
+  assert(!Object.isFrozen(result));
+  assert(!isFrozen.call(result));
+
+  assert(Object.keys(result).length == 3);
+  assert(result.a == 0);
+  assert(result.b == skipIfDefined ? 1 : 2);
+  assert(result.c == 3);
 }
 readMe(false);
 readMe(true);
@@ -94,28 +101,15 @@ function hidden(skipIfDefined) {
 hidden(false);
 hidden(true);
 
-function inherited(skipIfDefined) {
-  var target = { };
-  var delta = { };
-  Object.setPrototypeOf(delta, { a: 0 });
-
-  var resolve = skipIfDefined ? takeLeft : takeRight;
-  var result = merge.call(target, delta, resolve);
-  assert(Object.keys(result).length == 1);
-  assert(target.a == 0);
-}
-inherited(false);
-inherited(true);
-
 function resolveOnName() {
   var target = { a:0, b:0 };
   var delta = { a:1, b:1 };
 
-  merge.call(target, delta, function(left, right, name) {
+  var result = merge.call(target, delta, function(left, right, name) {
     return name == 'a' ? left : right;
   });
-  assert(target.a == 0);
-  assert(target.b == 1);
+  assert(result.a == 0);
+  assert(result.b == 1);
 }
 resolveOnName();
 
