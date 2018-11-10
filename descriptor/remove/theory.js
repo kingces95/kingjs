@@ -4,64 +4,56 @@ var remove = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
+var write = testRequire('@kingjs/descriptor.write');
 
 assertTheory(function(test, id) {
-  var prototype = null;
 
-  if (test.hasPrototype) {
-    prototype = { };
-    if (test.hasInheritedValue)
-      prototype[test.name] = test.inheritedValue;
-  }
-
-  var descriptor = Object.create(prototype);
+  var descriptor = test.array ? [ ] : { };
+  var length = 0;
+  var hasSecondValue = false;
   if (test.hasValue) {
     descriptor[test.name] = test.value;
+    length++;
+
+    if (test.hasSecondValue) {
+      descriptor[test.secondName] = test.secondValue;
+      hasSecondValue = true;
+      length++;
+    }
   }
 
-  if (test.freeze)
-    Object.freeze(descriptor);
+  assert(isFrozen.call(descriptor));
+  if (!test.freeze) {
+    descriptor = write.call(descriptor, 'cloneMe', 0);
+    assert(!isFrozen.call(descriptor));
+  }
 
   var result = remove.call(descriptor, test.name);
-  assert(test.name in result == false);
+  assert(result instanceof Array == test.array);
 
-  var hasInheritedValue = test.hasPrototype && test.hasInheritedValue;
-  var hasValue = test.hasValue || hasInheritedValue;
-  var notCopied = !hasValue || (!hasInheritedValue && !test.freeze);
-  assert((result === descriptor) == notCopied);
+  var copied = result != descriptor;
+
+  if (test.array) {
+    assert(!length || (result.length == length - 1));
+    assert(!hasSecondValue || (result[0] == test.secondValue));
+  } else {
+    assert(test.name in result == false);
+    assert(!hasSecondValue || (result[test.secondName] == test.secondValue))
+  }
+
+  var written = test.hasValue;
+  var frozen = test.freeze;
+  assert(copied == (written && frozen));
+  assert(isFrozen.call(result) == (!written && frozen));
 
 }, {
-  name: 'foo',
+  name: '0',
+  secondName: '1',
+  array: [ true, false ],
   hasValue: [ true, false ],
   value: [ undefined, null, 0, 1 ],
-  hasPrototype: [ true, false ],
-  hasInheritedValue: [ true, false ],
-  inheritedValue: [ undefined, null, 0, 1 ],
-  freeze: [ false, true ]
-})
-
-function foo() {
-  this.pop();
-}
-
-assertTheory(function(test, id) {
-
-  var descriptor = [];
-  for (var i = 0; i < test.values; i++)
-    descriptor.push(i);
-
-  if (test.freeze)
-    Object.freeze(descriptor);
-
-  var result = remove.call(descriptor, test.index);
-  var indexValid = test.index < test.values;
-  assert(result.length == test.values - (indexValid ? 1 : 0));
-
-  var copied = test.index < test.values - (test.freeze ? 0 : 1);
-  assert(copied == (result != descriptor));
-
-}, {
-  values: [ 0, 1, 2, 3 ],
-  index: [ 0, 1, 2, 3 ],
-  freeze: [ false, true ]
+  hasSecondValue: [ false, true ],
+  secondValue: [ undefined, null, 0, 1 ],
+  freeze: [ false, true ],
 })

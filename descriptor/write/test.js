@@ -3,42 +3,52 @@
 var write = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var isEnumerable = testRequire('@kingjs/is-enumerable');
+var freeze = testRequire('@kingjs/descriptor.freeze');
+var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 
 function readMe() {
+  var target = { foo: 0 };
 
-  var target = {
-    value: 0,
-  }
-   
-  Object.freeze(target);
+  function setAFewProperties(value) {
+    assert(value == target);
 
-  var result = write.call(target, 'value', 1);
+    // write treats value as if it were frozen => arguments are never mutated
+    // Object.freeze(value);
   
+    // this will not clone value if foo is already 0
+    var value0 = write.call(value, 'foo', 0);
+    assert(value0 == target);
+  
+    // this will clone value0 if bar is not already 1
+    var value1 = write.call(value0, 'bar', 1);
+    assert(value1 != target);
+  
+    // this call will not clone value1 if value1 was cloned above
+    var value2 = write.call(value1, 'baz', 2);
+    assert(value2 == value1);
+  
+    // value will have been cloned at most once
+  
+    // freeze value before exposing to users
+    var value3 = freeze.call(value2);
+    assert(value3 == value2);
+    assert(Object.isFrozen(value3));
+
+    return value3;
+  }
+  
+  // target is born frozen
+  var bornFrozen = isFrozen.call(target);
+  assert(bornFrozen);
+
+  var result = setAFewProperties(target);
+
   assert(result != target);
-  assert(Object.isFrozen(result) == false);
-  assert(target.value == 0);
-  assert(result.value == 1);
+  assert(result.foo == 0);
+  assert(result.bar == 1);
+  assert(result.baz == 2);
 }
 readMe();
 
-function sanity() {
-  var isOwnEnumerable = Object.prototype.propertyIsEnumerable;
-
-  var base = { x: 0 };
-  var baseEnumerable = isOwnEnumerable.call(base, 'x');
-  assert(baseEnumerable);
-
-  var inherited = Object.create(base);
-  assert(inherited.x == 0);
-
-  // only tests ownProperties apparently
-  var inheritedEnumerable = isOwnEnumerable.call(inherited, 'x');
-  assert(!inheritedEnumerable);
-
-  inheritedEnumerable = isEnumerable.call(inherited, 'x');
-  assert(inheritedEnumerable);
-}
-sanity();
 
 require('./theory');

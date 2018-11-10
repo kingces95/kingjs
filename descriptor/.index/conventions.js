@@ -5,12 +5,10 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 var normalize = require('@kingjs/descriptor.normalize');
 var write = require('@kingjs/descriptor.write');
 var scorch = require('@kingjs/descriptor.scorch');
-var create = require('@kingjs/descriptor.create');
 var inherit = require('@kingjs/descriptor.inherit');
 var merge = require('@kingjs/descriptor.merge');
 var update = require('@kingjs/descriptor.update');
 var filter = require('@kingjs/descriptor.filter');
-var map = require('@kingjs/descriptor.map');
 var mapNames = require('@kingjs/descriptor.map-names');
 var reduce = require('@kingjs/descriptor.reduce');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
@@ -30,7 +28,6 @@ var descriptor = { x:0 };
 assertTheory(function thisArgCallbackTest(test, id) {
 }, { 
   // filter
-  // map
   // write(key, value)
 
   // merge
@@ -85,7 +82,6 @@ assertTheory(function thisArgCallbackTest(test, id) {
       args: [0, null]
     }, 
     filter,
-    map, 
     mapNames,
     {
       func: merge,

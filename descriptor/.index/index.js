@@ -1,9 +1,9 @@
 Object.defineProperties(module.exports, {
-  create: { value: require('@kingjs/descriptor.create') },
   filter: { value: require('@kingjs/descriptor.filter') },
+  freeze: { value: require('@kingjs/descriptor.freeze') },
   inherit: { value: require('@kingjs/descriptor.inherit') },
+  isFrozen: { value: require('@kingjs/descriptor.is-frozen') },
   keys: { value: require('@kingjs/descriptor.keys') },
-  map: { value: require('@kingjs/descriptor.map') },
   mapNames: { value: require('@kingjs/descriptor.map-names') },
   merge: { value: require('@kingjs/descriptor.merge') },
   mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },

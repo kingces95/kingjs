@@ -17,6 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.freeze": "^1.0.0",
+    "@kingjs/descriptor.is-frozen": "^1.0.0",
     "@kingjs/descriptor.nested.update": "^1.0.13",
     "@kingjs/is": "^1.0.4"
   }

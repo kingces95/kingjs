@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.create",
-  "version": "1.0.4",
-  "description": "Returns a new descriptor or a shallow clone of an existing descriptor.",
+  "name": "@kingjs/descriptor.freeze",
+  "version": "1.0.0",
+  "description": "Freezes a descriptor.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,7 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/dictionary": "^1.0.6"
-  }
+  "dependencies": { }
 }

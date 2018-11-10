@@ -2,7 +2,10 @@
   "description": "RunKit like environment for testing readme samples and tests in general.",
   "dependencies": {
     "@kingjs/assert-theory": "^1.0.14",
-    "@kingjs/is": "^1.0.0",
+    "@kingjs/descriptor.freeze": "^1.0.0",
+    "@kingjs/descriptor.is-frozen": "^1.0.0",
+    "@kingjs/descriptor.write": "^1.0.6",
+    "@kingjs/is": "^1.0.4",
     "kingjs": "1.0.40"
   }
 }

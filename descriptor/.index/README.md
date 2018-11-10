@@ -16,8 +16,9 @@ declare interface Descriptor {
 - [`nested`][nested]
 
 ### Packages
-- [`create`][create]
+- [`freeze`][freeze]
 - [`inherit`][inherit]
+- [`isFrozen`][is-frozen]
 - [`keys`][keys]
 - [`mergeWildcards`][merge-wildcards]
 - [`normalize`][normalize]
@@ -25,11 +26,11 @@ declare interface Descriptor {
 - [`remove`][remove]
 - [`snapshot`][snapshot]
 - [`write`][write]
+- [`update`][update]
 
 ### Update/Transform
 |Update|Transform|
 |---|---|
-|[`update`][update]|[`map`][map]|
 |rename|[`mapNames`][map-names]|
 |[`scorch`][scorch]|[`filter`][filter]|
 |[`merge`][merge]|mapMerge|
@@ -58,11 +59,11 @@ MIT
   [family]: https://www.npmjs.com/package/@kingjs/descriptor.family
   [nested]: https://www.npmjs.com/package/@kingjs/descriptor.nested
 
-  [create]: https://www.npmjs.com/package/@kingjs/descriptor.create
   [filter]: https://www.npmjs.com/package/@kingjs/descriptor.filter
+  [freeze]: https://www.npmjs.com/package/@kingjs/descriptor.freeze
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
+  [is-frozen]: https://www.npmjs.com/package/@kingjs/descriptor.is-frozen
   [keys]: https://www.npmjs.com/package/@kingjs/descriptor.keys
-  [map]: https://www.npmjs.com/package/@kingjs/descriptor.map
   [map-names]: https://www.npmjs.com/package/@kingjs/descriptor.map-names
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards

@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.map",
-  "version": "1.0.8",
-  "description": "Maps every property value on a descriptor via a callback.",
+  "name": "@kingjs/descriptor.is-frozen",
+  "version": "1.0.0",
+  "description": "Test if a descriptor is frozen.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,7 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/descriptor.write": "^1.0.4"
-  }
+  "dependencies": { }
 }

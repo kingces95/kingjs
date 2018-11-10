@@ -1,23 +1,16 @@
 'use strict';
 
-var create = require('@kingjs/descriptor.create');
-
-function shouldCopyOnWrite(isArray, key) {
-
-  if (Object.isFrozen(this))
-    return true;
-
-  // array case
-  if (isArray)
-    return key != this.length - 1;
-
-  return false;
+var descriptor = {
+  write: require('@kingjs/descriptor.write'),
+  isFrozen: require('@kingjs/descriptor.is-frozen')
 }
+var singleton = { };
 
-function removeKey(isArray, key) {
+function deleteOrShiftPop(key) {
 
-  // array case
-  if (isArray) {
+  if (this instanceof Array) {
+    key = Number(key);
+    
     while (key != this.length - 1) {
       this[key] = this[key + 1];
       key++;
@@ -32,25 +25,22 @@ function removeKey(isArray, key) {
 
 function remove(key) {
 
-  var isArray = this instanceof Array;
-
   if (key in this == false)
     return this;
 
-  var copyOnWrite = shouldCopyOnWrite.call(this, isArray, key);
+  var isFrozen = descriptor.isFrozen.call(this);
 
-  if (!copyOnWrite) {
-    var prototype = Object.getPrototypeOf(this);
-    if (prototype && key in prototype)
-      copyOnWrite = true;
+  var mutableThis = this;
+
+  if (isFrozen) {
+    // small hack; writing a value guaranteed to be different than 
+    // the existing value will force write to clone the descriptor.
+    mutableThis = descriptor.write.call(this, key, singleton);
   }
 
-  var updatedThis = this;
-  if (copyOnWrite)
-    updatedThis = create(updatedThis);
+  deleteOrShiftPop.call(mutableThis, key);
 
-  removeKey.call(updatedThis, isArray, key);
-  return updatedThis;
+  return mutableThis;
 }
 
 Object.defineProperties(module, {

@@ -17,11 +17,11 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.create": "^1.0.4",
     "@kingjs/descriptor.filter": "^1.0.1",
+    "@kingjs/descriptor.freeze": "^1.0.0",
     "@kingjs/descriptor.inherit": "^1.0.4",
+    "@kingjs/descriptor.is-frozen": "^1.0.0",
     "@kingjs/descriptor.keys": "^1.0.0",
-    "@kingjs/descriptor.map": "^1.0.8",
     "@kingjs/descriptor.map-names": "^1.0.6",
     "@kingjs/descriptor.merge": "^1.0.7",
     "@kingjs/descriptor.merge-wildcards": "^1.0.6",

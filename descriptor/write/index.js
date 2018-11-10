@@ -1,6 +1,28 @@
 'use strict';
 
-var create = require('@kingjs/descriptor.create');
+var Dictionary = require('@kingjs/dictionary');
+var isFrozen = require('@kingjs/descriptor.is-frozen');
+
+var writableTag = Symbol.for('@kingjs/descriptor.writableTag');
+
+function shallowCopy() {
+
+  var clone;
+
+  if (this instanceof Array) {
+    clone = this.slice();
+  } 
+  
+  else {
+    var clone = new Dictionary();
+    for (var name in this)
+      clone[name] = this[name];
+  }
+
+  clone[writableTag] = undefined;
+
+  return clone;
+}
 
 function write(key, value) {
 
@@ -8,8 +30,9 @@ function write(key, value) {
     return this;
 
   var updatedThis = this;
-  if (Object.isFrozen(updatedThis))
-    updatedThis = create(updatedThis);
+  
+  if (isFrozen.call(this))
+    updatedThis = shallowCopy.call(this);
 
   updatedThis[key] = value;
 
