@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/descriptor.normalize",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Returns a descriptor given a primitive value.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,5 +16,9 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/is": "^1.0.0",
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0"
+  }
 }

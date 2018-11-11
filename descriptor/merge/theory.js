@@ -5,8 +5,7 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var write = testRequire('@kingjs/descriptor.write');
-var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
+var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
 
 var propertyName = '0';
 
@@ -22,12 +21,6 @@ assertTheory(function(test, id) {
 
   if (test.hasRight)
     right[name] = test.right;
-
-  assert(isFrozen.call(left));
-  if (!test.frozen) {
-    left = write.call(left, 'cloneMe', { });
-    assert(!isFrozen.call(left));
-  }
 
   var thisArg = { };
 
@@ -57,25 +50,21 @@ assertTheory(function(test, id) {
     (test.hasLeft && test.left === undefined && 
      test.hasRight && test.right !== undefined);
 
-  var copyOnWrite = test.frozen;
   var written = implicitWrite ||
     (isConflicting && test.resolver == this.resolver.different);
     
-  assert((written && copyOnWrite) == (result != left));
+  var copied = result != left;
+  assert(written == copied);
 
   if (written)
     assert(result[name] == test.right);
   else
     assert(!test.hasLeft || result[name] == test.left);
 
-  if (copyOnWrite) {
-    assert(!test.hasLeft || left[name] == test.left);
-    assert(test.hasLeft || name in left == false);
-  } else {
-    assert(result == left);
-  }
+  assert(!test.hasLeft || left[name] == test.left);
+  assert(test.hasLeft || name in left == false);
 
-  assert(isFrozen.call(result) == (test.frozen && !written));
+  assert(isFrozen.call(result));
 }, {
   name: propertyName,
   leftArray: [ false, true ],
@@ -84,7 +73,6 @@ assertTheory(function(test, id) {
   right: [ undefined, null, 0, 1 ],
   hasLeft: [ true, false ],
   hasRight: [ true, false ],
-  frozen: [ false, true ],
   resolver: {
     none: undefined,
     same: function(left, right, name) {

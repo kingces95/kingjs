@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/descriptor.scorch",
-  "version": "1.0.4",
-  "description": "Deletes properties with `undefined` value. ",
+  "version": "1.0.5",
+  "description": "Deletes properties with `undefined` value.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,7 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.is-frozen": "^1.0.0",
-    "@kingjs/descriptor.remove": "^1.0.1"
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.remove": "^1.0.0"
   }
 }

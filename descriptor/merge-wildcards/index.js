@@ -1,14 +1,16 @@
 'use strict';
 
-var remove = require('@kingjs/descriptor.remove');
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
+var remove = require('@kingjs/descriptor.object.remove');
 
 var wildcardName = '*';
 
 function mergeWildcards(value) {
-  var updatedThis = this;
+  var updatedThis = prolog.call(this);
 
   if (wildcardName in this == false)
-    return this;
+    return epilog.call(this);
 
   var wildcardValue = this[wildcardName];
 
@@ -23,7 +25,7 @@ function mergeWildcards(value) {
     updatedThis[name] = wildcardValue;
   }
 
-  return updatedThis;
+  return epilog.call(updatedThis);
 }
 
 Object.defineProperties(module, {

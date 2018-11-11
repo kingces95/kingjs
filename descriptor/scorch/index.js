@@ -1,19 +1,20 @@
 'use strict';
 
-var remove = require('@kingjs/descriptor.remove');
-var isFrozen = require('@kingjs/descriptor.is-frozen');
-var writableSymbol = require('@kingjs/descriptor.writable-symbol');
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
+var remove = require('@kingjs/descriptor.object.remove');
 
 function scorchArray() {
   var source = this;
   var target = this;
+  var sliced = false;
 
   var count = 0;
   for (var i = 0; i < source.length; i++) {
     if (source[i] === undefined) {
-      if (isFrozen.call(target)) {
+      if (!sliced) {
         target = source.slice(0, i);
-        target[writableSymbol] = undefined;
+        sliced = true;
       }
       count++;
       continue;
@@ -32,6 +33,8 @@ function scorchArray() {
 }
 
 function scorch() {
+  prolog.call(this);
+
   if (this instanceof Array)
     return scorchArray.call(this);
 
@@ -44,7 +47,7 @@ function scorch() {
     updatedThis = remove.call(updatedThis, name);
   }
 
-  return updatedThis;
+  return epilog.call(updatedThis);
 }
 
 Object.defineProperties(module, {

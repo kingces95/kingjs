@@ -1,10 +1,16 @@
 'use strict';
 
-function filter(callbackOrNames, thisArg) {
-  if (callbackOrNames instanceof Function)
-    return filterProcedural.call(this, callbackOrNames, thisArg);
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
 
-  return filterDeclarative.call(this, callbackOrNames);
+function filter(callbackOrNames, thisArg) {
+  prolog.call(this);
+
+  var result = callbackOrNames instanceof Function ?
+    filterProcedural.call(this, callbackOrNames, thisArg) :
+    filterDeclarative.call(this, callbackOrNames);
+
+  return epilog.call(result);
 }
 
 function filterProcedural(callback, thisArg) {

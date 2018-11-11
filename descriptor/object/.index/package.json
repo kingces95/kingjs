@@ -1,0 +1,30 @@
+{
+  "name": "@kingjs/descriptor.object",
+  "version": "1.0.13",
+  "description": "Exports all `@kingjs/descriptor.object.*` functionality in one package.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.object.clone": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.freeze": "^1.0.0",
+    "@kingjs/descriptor.object.is-frozen": "^1.0.0",
+    "@kingjs/descriptor.object.keys": "^1.0.0",
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.remove": "^1.0.0",
+    "@kingjs/descriptor.object.writable-symbol": "^1.0.0",
+    "@kingjs/descriptor.object.write": "^1.0.0"
+  }
+}

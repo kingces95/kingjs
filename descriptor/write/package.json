@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.write",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "",
   "main": "index.js",
   "files": [
@@ -17,7 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.is-frozen": "^1.0.0",
-    "@kingjs/descriptor.clone": "^1.0.0"
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.write": "^1.0.0"
   }
 }

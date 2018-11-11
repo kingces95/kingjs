@@ -1,21 +1,13 @@
 'use strict';
 
-var isFrozen = require('@kingjs/descriptor.is-frozen');
-var clone = require('@kingjs/descriptor.clone');
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
+var writeHelper = require('@kingjs/descriptor.object.write');
 
 function write(key, value) {
-
-  if (value === this[key] && (value !== undefined || key in this))
-    return this;
-
-  var updatedThis = this;
-  
-  if (isFrozen.call(this))
-    updatedThis = clone.call(this);
-
-  updatedThis[key] = value;
-
-  return updatedThis;
+  prolog.call(this);
+  var result = writeHelper.call(this, key, value);
+  return epilog.call(result);
 }
 
 Object.defineProperties(module, {

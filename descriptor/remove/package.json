@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.remove",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Returns a descriptor with a named property removed.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.is-frozen": "^1.0.0",
-    "@kingjs/descriptor.write": "^1.0.7"
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.remove": "^1.0.0"
   }
 }

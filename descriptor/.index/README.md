@@ -14,6 +14,7 @@ declare interface Descriptor {
 ## Namespaces
 - [`family`][family]
 - [`nested`][nested]
+- [`object`][object]
 
 ## Packages
 These packages all take a descriptor as `this` and will clone on write if they need to change a property value.
@@ -23,20 +24,14 @@ These packages all take a descriptor as `this` and will clone on write if they n
 - [`keys`][keys]
 - [`merge`][merge]
 - [`mergeWildcards`][merge-wildcards]
+- [`nested`][nested]
 - [`normalize`][normalize]
 - [`reduce`][reduce]
+- [`remove`][remove]
 - [`scorch`][scorch]
 - [`update`][update]
-
-## Packages (Internal)
-These packages can be used to implement a descriptor transform. 
-
-- [`clone`][clone]
-- [`freeze`][freeze]
-- [`isFrozen`][is-frozen]
-- [`remove`][remove]
-- [`writableSymbol`][writable-symbol]
 - [`write`][write]
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -52,20 +47,15 @@ MIT
 
   [family]: https://www.npmjs.com/package/@kingjs/descriptor.family
   [nested]: https://www.npmjs.com/package/@kingjs/descriptor.nested
+  [object]: https://www.npmjs.com/package/@kingjs/descriptor.object
   
   [filter]: https://www.npmjs.com/package/@kingjs/descriptor.filter
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
-  [keys]: https://www.npmjs.com/package/@kingjs/descriptor.keys
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
   [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
   [normalize]: https://www.npmjs.com/package/@kingjs/descriptor.normalize
   [reduce]: https://www.npmjs.com/package/@kingjs/descriptor.reduce
+  [remove]: https://www.npmjs.com/package/@kingjs/descriptor.remove
   [scorch]: https://www.npmjs.com/package/@kingjs/descriptor.scorch
   [update]: https://www.npmjs.com/package/@kingjs/descriptor.update
-
-  [clone]: https://www.npmjs.com/package/@kingjs/descriptor.clone
-  [freeze]: https://www.npmjs.com/package/@kingjs/descriptor.freeze
-  [is-frozen]: https://www.npmjs.com/package/@kingjs/descriptor.is-frozen
-  [remove]: https://www.npmjs.com/package/@kingjs/descriptor.remove
-  [writable-symbol]: https://www.npmjs.com/package/@kingjs/descriptor.writable-symbol
   [write]: https://www.npmjs.com/package/@kingjs/descriptor.write

@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/descriptor.object.freeze",
+  "version": "1.0.1",
+  "description": "Freezes a descriptor.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/descriptor.object.writable-symbol": "^1.0.0"
+  }
+}

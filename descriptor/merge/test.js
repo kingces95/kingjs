@@ -7,6 +7,7 @@ var assertThrows = testRequire('@kingjs/assert-throws');
 var takeLeft = testRequire('@kingjs/func.return-arg-0');
 var takeRight = testRequire('@kingjs/func.return-arg-1');
 var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
+var clone = testRequire('@kingjs/descriptor.object.clone');
 
 function readMe(skipIfDefined) {
 
@@ -27,8 +28,8 @@ function readMe(skipIfDefined) {
   assert(target.a == 0);
   assert(target.b == 1);
   
-  assert(!Object.isFrozen(result));
-  assert(!isFrozen.call(result));
+  assert(Object.isFrozen(result));
+  assert(isFrozen.call(result));
 
   assert(Object.keys(result).length == 3);
   assert(result.a == 0);
@@ -112,5 +113,12 @@ function resolveOnName() {
   assert(result.b == 1);
 }
 resolveOnName();
+
+function precondition() {
+  var thawed = clone.call({ });
+  assert(!isFrozen.call(thawed));
+  assertThrows(() => merge.call(thawed));
+}
+precondition();
 
 require('./theory')

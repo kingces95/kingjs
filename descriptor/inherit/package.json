@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.inherit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Copy properties from set of objects which are not present on this.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
     "@kingjs/descriptor.merge": "^1.0.7",
     "@kingjs/dictionary": "^1.0.6",
     "@kingjs/func.return-arg-0": "^1.0.0"

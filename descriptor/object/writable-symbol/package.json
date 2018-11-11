@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/descriptor.object.writable-symbol",
+  "version": "1.0.0",
+  "description": "Symbol whose presence indicates a descriptor is mutable.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": { }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.merge-wildcards",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "If a descriptor contains a property named `'*'`, then replace it with new properties with the same value but whose names are found on another descriptor but not on itself.",
   "main": "index.js",
   "files": [
@@ -17,6 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.remove": "^1.0.1"
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.remove": "^1.0.0"
   }
 }

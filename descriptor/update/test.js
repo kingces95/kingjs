@@ -3,7 +3,9 @@
 var update = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+var assertThrows = testRequire('@kingjs/assert-throws');
+var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+var clone = testRequire('@kingjs/descriptor.object.clone');
 
 function readMe() {
   function invoke(value, key) {
@@ -21,35 +23,11 @@ function readMe() {
 }
 readMe();
 
-assertTheory(function(test, id) {
-  var descriptor = { };
-  descriptor[test.key] = test.value;
+function precondition() {
+  var thawed = clone.call({ });
+  assert(!isFrozen.call(thawed));
+  assertThrows(() => update.call(thawed));
+}
+precondition();
 
-  if (test.frozen)
-    Object.freeze(descriptor);
-
-  var thisArg = { };
-
-  var result = update.call(descriptor, function(value, key) {
-    assert(key == test.key);
-    assert(value === test.value);
-    assert(this === thisArg);
-    return test.update;
-  }, thisArg);
-
-  var copyOnWrite = test.frozen;
-
-  assert(result[test.key] === test.update);
-
-  var copied = result !== descriptor;
-  assert(copied ==
-    (test.update !== test.value && copyOnWrite)
-  )
-
-  assert(Object.isFrozen(result) == (!copied && test.frozen));
-}, {
-  key: 'foo',
-  value: [ undefined, null, 0, 1 ],
-  update: [ undefined, null, 0, 1 ],
-  frozen: [ false, true ]
-})
+require('./theory');

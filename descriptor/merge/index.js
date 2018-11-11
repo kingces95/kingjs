@@ -1,19 +1,21 @@
 'use strict';
 
-var write = require('@kingjs/descriptor.write');
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
+var write = require('@kingjs/descriptor.object.write');
 
 function throwMergeConflict(left, right, name) {
   throw 'Merge conflict at: ' + name;
 }
 
 function merge(delta, callback, thisArg) {
-  var thisUpdated = this;
+  var thisUpdated = prolog.call(this);
 
   if (!callback)
-  callback = throwMergeConflict;
+    callback = throwMergeConflict;
 
   if (delta === undefined || delta == null)
-    return thisUpdated;
+    return epilog.call(thisUpdated);
 
   for (var name in delta) {
     var value = delta[name];
@@ -25,7 +27,7 @@ function merge(delta, callback, thisArg) {
     thisUpdated = write.call(thisUpdated, name, value);
   }
 
-  return thisUpdated;
+  return epilog.call(thisUpdated);
 }
 
 Object.defineProperties(module, {

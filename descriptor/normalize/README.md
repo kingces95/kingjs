@@ -1,4 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).normalize
+Returns a descriptor given a primitive value.
 ## Usage
 ```js
 var normalize = require('@kingjs/descriptor.normalize');

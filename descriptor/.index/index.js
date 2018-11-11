@@ -1,10 +1,15 @@
 Object.defineProperties(module.exports, {
-  clone: { value: require('@kingjs/descriptor.clone') },
-  freeze: { value: require('@kingjs/descriptor.freeze') },
-  isFrozen: { value: require('@kingjs/descriptor.is-frozen') },
-  keys: { value: require('@kingjs/descriptor.keys') },
-  //map: { value: require('@kingjs/descriptor.map') },
+  //family: { value: require('@kingjs/descriptor.family') },
+  filter: { value: require('@kingjs/descriptor.filter') },
+  inherit: { value: require('@kingjs/descriptor.inherit') },
+  merge: { value: require('@kingjs/descriptor.merge') },
+  mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },
+  nested: { value: require('@kingjs/descriptor.nested') },
+  normalize: { value: require('@kingjs/descriptor.normalize') },
+  object: { value: require('@kingjs/descriptor.object') },
+  reduce: { value: require('@kingjs/descriptor.reduce') },
   remove: { value: require('@kingjs/descriptor.remove') },
-  writableSymbol: { value: require('@kingjs/descriptor.writable-symbol') },
-  write: { value: require('@kingjs/descriptor.write') }
+  scorch: { value: require('@kingjs/descriptor.scorch') },
+  update: { value: require('@kingjs/descriptor.update') },
+  write: { value: require('@kingjs/descriptor.write') },
 });

@@ -4,7 +4,6 @@ var mergeWildcards = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var clone = testRequire('@kingjs/descriptor.clone');
 var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 
 var star = '*';
@@ -19,9 +18,6 @@ assertTheory(function(test, id) {
   if (test.targetHasValue)
     target[test.name] = test.targetValue;
 
-  if (!test.frozen) 
-    target = clone.call(target);
-
   var source;
   if (test.hasSource) {
     source = { };
@@ -35,10 +31,10 @@ assertTheory(function(test, id) {
   assert(star in result == false);
 
   var written = test.targetHasWildcard;
-  assert((test.frozen && !written) == isFrozen.call(result));
+  assert(isFrozen.call(result));
 
-  var copied = written && test.frozen;
-  assert(copied == (target != result));
+  var copied = target != result
+  assert(written == copied);
 
   var expected;
   if (test.targetHasValue)
@@ -49,7 +45,6 @@ assertTheory(function(test, id) {
   
 }, {
   name: 'foo',
-  frozen: [ false, true ],
   targetHasValue: [ false, true ],
   targetValue: [ undefined, null, 0, 1 ],
   targetHasWildcard: [ false, true ],

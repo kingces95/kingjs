@@ -4,6 +4,8 @@ var normalize = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
+var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+var clone = testRequire('@kingjs/descriptor.object.clone');
 
 function readMe() {
 
@@ -37,3 +39,10 @@ function fail() {
   assertThrows(() => normalize('Bob'));
 }
 fail();
+
+function precondition() {
+  var thawed = clone.call({ });
+  assert(!isFrozen.call(thawed));
+  assertThrows(() => normalize(thawed));
+}
+precondition();

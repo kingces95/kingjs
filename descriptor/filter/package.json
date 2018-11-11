@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.filter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Filters and renames properties.",
   "main": "index.js",
   "files": [
@@ -16,5 +16,8 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0"
+  }
 }

@@ -1,9 +1,14 @@
 'use strict';
 
-function normalize(value, nameOrSelector) {
+var is = require('@kingjs/is');
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
 
-  if (typeof value == 'object' && value != null)
-    return value;
+function normalize(value, nameOrSelector) {
+  prolog.call(value);
+
+  if (is.object(value))
+    return epilog.call(value);
 
   // declarative
   if (typeof nameOrSelector == 'string') {
@@ -11,12 +16,14 @@ function normalize(value, nameOrSelector) {
 
     var result = { };
     result[name] = value;
-    return result;
+    return epilog.call(result);
   }
 
   // procedural
-  if (nameOrSelector instanceof Function)
-    return nameOrSelector(value);
+  if (nameOrSelector instanceof Function) {
+    var result = nameOrSelector(value);
+    return epilog.call(result);
+  }
 
   throw 'Failed to normalize value ' + value;
 }
