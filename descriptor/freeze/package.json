@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.freeze",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Freezes a descriptor.",
   "main": "index.js",
   "files": [
@@ -16,5 +16,7 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/descriptor.writable-symbol": "^1.0.0"
+  }
 }

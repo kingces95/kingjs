@@ -23,6 +23,7 @@ defineFunctions(is, {
   boolean: o => typeof o == 'boolean' || o instanceof Boolean,
   number: o => typeof o == 'number' || o instanceof Number,
   string: o => typeof o == 'string' || o instanceof String,
+  symbol: o => typeof o == 'symbol',
   
   nonEmptyString: o => is.string(o) && o.length > 0,
 

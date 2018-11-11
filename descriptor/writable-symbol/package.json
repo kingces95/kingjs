@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.remove",
-  "version": "1.0.2",
-  "description": "Returns a descriptor with a named property removed.",
+  "name": "@kingjs/descriptor.writable-symbol",
+  "version": "1.0.0",
+  "description": "Symbol whose presence indicates a descriptor is mutable.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,8 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/descriptor.is-frozen": "^1.0.0",
-    "@kingjs/descriptor.write": "^1.0.7"
-  }
+  "dependencies": { }
 }

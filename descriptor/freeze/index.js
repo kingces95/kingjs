@@ -1,7 +1,7 @@
-var writableTag = Symbol.for('@kingjs/descriptor.writableTag');
+var writableSymbol = require('@kingjs/descriptor.writable-symbol');
 
 function freeze() {
-  delete this[writableTag];
+  delete this[writableSymbol];
   Object.freeze(this);
   return this;
 }

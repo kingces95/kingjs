@@ -17,12 +17,19 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.clone": "^1.0.0",
+    "@kingjs/descriptor.filter": "^1.0.1",
     "@kingjs/descriptor.freeze": "^1.0.0",
+    "@kingjs/descriptor.inherit": "^1.0.4",
     "@kingjs/descriptor.is-frozen": "^1.0.0",
     "@kingjs/descriptor.keys": "^1.0.0",
+    "@kingjs/descriptor.merge": "^1.0.7",
+    "@kingjs/descriptor.merge-wildcards": "^1.0.6",
+    "@kingjs/descriptor.nested": "^1.0.1",
+    "@kingjs/descriptor.normalize": "^1.0.0",
+    "@kingjs/descriptor.reduce": "^1.0.0",
     "@kingjs/descriptor.remove": "^1.0.0",
-    "@kingjs/descriptor.writable-symbol": "^1.0.0",
+    "@kingjs/descriptor.scorch": "^1.0.3",
+    "@kingjs/descriptor.update": "^1.0.16",
     "@kingjs/descriptor.write": "^1.0.4"
   }
 }

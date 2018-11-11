@@ -17,7 +17,7 @@ readMe();
 function arrayScorch() {
   var source = [ undefined ];
   var result = scorch.call(source);
-  assert(result == source);  
+  assert(result != source);  
 
   assert(result.length == 0);  
 }
@@ -26,7 +26,7 @@ arrayScorch();
 function arrayCompactor() {
   var source = [ 0, undefined, 1, undefined, 2 ];
   var result = scorch.call(source);
-  assert(result == source);  
+  assert(result != source);  
 
   assert(result.length == 3);  
   assert(result[0] == 0);  

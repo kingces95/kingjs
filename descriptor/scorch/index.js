@@ -2,6 +2,7 @@
 
 var remove = require('@kingjs/descriptor.remove');
 var isFrozen = require('@kingjs/descriptor.is-frozen');
+var writableSymbol = require('@kingjs/descriptor.writable-symbol');
 
 function scorchArray() {
   var source = this;
@@ -10,8 +11,10 @@ function scorchArray() {
   var count = 0;
   for (var i = 0; i < source.length; i++) {
     if (source[i] === undefined) {
-      if (isFrozen.call(target))
+      if (isFrozen.call(target)) {
         target = source.slice(0, i);
+        target[writableSymbol] = undefined;
+      }
       count++;
       continue;
     }

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.write",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "index.js",
   "files": [
@@ -18,7 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.is-frozen": "^1.0.0",
-    "@kingjs/dictionary": "^1.0.6",
-    "@kingjs/is": "^1.0.4"
+    "@kingjs/descriptor.clone": "^1.0.0"
   }
 }

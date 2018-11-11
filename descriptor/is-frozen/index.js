@@ -1,10 +1,13 @@
-var writableTag = Symbol.for('@kingjs/descriptor.writableTag');
+var assert = require('@kingjs/assert');
+var writableSymbol = require('@kingjs/descriptor.writable-symbol');
 
 function isFrozen() {
-  if (Object.isFrozen(this))
+  if (Object.isFrozen(this)) {
+    assert(writableSymbol in this == false);
     return true;
+  }
     
-  if (writableTag in this)
+  if (writableSymbol in this)
     return false;
 
   return true;

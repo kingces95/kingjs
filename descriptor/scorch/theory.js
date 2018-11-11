@@ -4,18 +4,15 @@ var scorch = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
-var write = testRequire('@kingjs/descriptor.write');
+var clone = testRequire('@kingjs/descriptor.clone');
 var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 
 assertTheory(function (test, id) { 
   var target = { };
   target[test.name] = test.value;
 
-  assert(isFrozen.call(target));
-  if (!test.frozen) {
-    target = write.call(target, 'cloneMe', { });
-    assert(!isFrozen.call(target));
-  }
+  if (!test.frozen)
+    target = clone.call(target);
 
   var result = scorch.call(target);  
   var copied = result !== target;
@@ -45,11 +42,8 @@ assertTheory(function (test, id) {
   var firstValid = test.first < target.length;
   var secondValid = test.first != test.second && test.second < target.length;
 
-  assert(isFrozen.call(target));
-  if (!test.frozen) {
-    target = write.call(target, 'cloneMe', { });
-    assert(!isFrozen.call(target));
-  }
+  if (!test.frozen)
+    target = clone.call(target);
   
   var count = 0;
   if (firstValid) count++;
@@ -75,4 +69,4 @@ assertTheory(function (test, id) {
   first: [ 0,1,2,3,4,5 ],
   second: [ 0,1,2,3,4,5 ],
   frozen: [ false, true ],
-}, 224)
+})

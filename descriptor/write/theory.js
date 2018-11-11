@@ -4,6 +4,7 @@ var write = require('.');
 var testRequire = require('..');
 
 var testRequire = require('..');
+var clone = testRequire('@kingjs/descriptor.clone');
 var freeze = testRequire('@kingjs/descriptor.freeze');
 var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
 var Dictionary = testRequire('@kingjs/dictionary');
@@ -13,17 +14,20 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 assertTheory(function(test, id) {
 
   var source = test.array ? [ ] : new Dictionary();
+  assert(isFrozen.call(source));
   
   if (test.defined)
     source[test.name] = test.value;
 
-  if (test.descriptorFrozen)
+  if (test.clone) {
+    source = clone.call(source);
+    assert(!isFrozen.call(source));
+  }
+
+  if (test.frozen) {
     freeze.call(source);
-
-  if (test.frozen)
-    Object.freeze(source);
-
-  assert(isFrozen.call(source));
+    assert(isFrozen.call(source));
+  }
 
   var result = write.call(
     source, test.name, test.delta
@@ -32,13 +36,11 @@ assertTheory(function(test, id) {
   assert(source instanceof Array == result instanceof Array);
 
   var copied = source !== result;
-  var frozen = test.descriptorFrozen || test.frozen;
-  assert(Object.isFrozen(result) == (frozen && !copied));
-  assert(isFrozen.call(result) == !copied);
-
-  var didWrite = !test.defined || test.value !== test.delta;
-  assert(copied == didWrite);  
-  assert(!didWrite || !isFrozen.call(result));
+  var wasFrozen = !test.clone || test.frozen;
+  var written = !test.defined || test.value !== test.delta;
+  assert(copied == (written && wasFrozen));  
+  assert(isFrozen.call(result) == !written);
+  assert(Object.isFrozen(result) == (test.frozen && !written));
 
   var actualSource = source[test.name];
   var expectedSource = test.defined ? test.value : undefined;
@@ -57,7 +59,7 @@ assertTheory(function(test, id) {
   name: [ '0' ],
   defined: [ true, false ],
   frozen: [ false, true ],
-  descriptorFrozen: [ false, true ],
+  cloned: [ false, true ],
   value: [ undefined, null, 0, 1 ],
   delta: [ undefined, null, 0, 1 ],
   array: [ false, true ]

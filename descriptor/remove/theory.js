@@ -5,7 +5,7 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
-var write = testRequire('@kingjs/descriptor.write');
+var clone = testRequire('@kingjs/descriptor.clone');
 
 assertTheory(function(test, id) {
 
@@ -23,11 +23,8 @@ assertTheory(function(test, id) {
     }
   }
 
-  assert(isFrozen.call(descriptor));
-  if (!test.freeze) {
-    descriptor = write.call(descriptor, 'cloneMe', 0);
-    assert(!isFrozen.call(descriptor));
-  }
+  if (!test.freeze) 
+    descriptor = clone.call(descriptor);
 
   var result = remove.call(descriptor, test.name);
   assert(result instanceof Array == test.array);

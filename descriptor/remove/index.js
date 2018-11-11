@@ -2,9 +2,9 @@
 
 var descriptor = {
   write: require('@kingjs/descriptor.write'),
-  isFrozen: require('@kingjs/descriptor.is-frozen')
+  isFrozen: require('@kingjs/descriptor.is-frozen'),
+  clone: require('@kingjs/descriptor.clone')
 }
-var singleton = { };
 
 function deleteOrShiftPop(key) {
 
@@ -32,11 +32,8 @@ function remove(key) {
 
   var mutableThis = this;
 
-  if (isFrozen) {
-    // small hack; writing a value guaranteed to be different than 
-    // the existing value will force write to clone the descriptor.
-    mutableThis = descriptor.write.call(this, key, singleton);
-  }
+  if (isFrozen)
+    mutableThis = descriptor.clone.call(this);
 
   deleteOrShiftPop.call(mutableThis, key);
 
