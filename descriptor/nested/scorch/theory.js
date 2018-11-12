@@ -9,12 +9,8 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 assertTheory(function(test, id) {
 
   var tree = test.leafValue;
-  if (test.valueNested) {
+  if (test.valueNested)
     tree = test.array ? [ tree ] : { [test.name]: tree };
-
-    if (test.freeze)
-      Object.freeze(tree);
-  }
 
   var path = test.pathValue;
   if (test.pathNested) 
@@ -24,9 +20,8 @@ assertTheory(function(test, id) {
 
   var copied = result !== tree;
   var written = test.valueNested && test.leafValue === undefined;
-  var copyOnWrite = test.freeze;
 
-  assert(copied == (copyOnWrite && written));
+  assert(copied == written);
 
   if (!is.object(result)) {
     assert(test.valueNested == false);
@@ -45,7 +40,6 @@ assertTheory(function(test, id) {
 }, {
   name: '0',
   array: [ false, true ],
-  freeze: [ false, true ],
   valueNested: [ false, true ],
   leafValue: [ undefined, null, 0, 1 ],
   pathNested: [ false, true ],

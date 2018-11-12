@@ -13,7 +13,7 @@ function readMe() {
     [undefined]
   ]
 
-  scorch(values);
+  values = scorch(values);
 
   assert(values.length == 2);
   assert(values[0] == 'tiger');
@@ -29,8 +29,6 @@ function readMeFrozen() {
     ['tiger'],
     [undefined]
   ]
-
-  Object.freeze(values);
 
   var result = scorch(values);
 

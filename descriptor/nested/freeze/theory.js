@@ -48,7 +48,7 @@ assertTheory(function(test, id) {
 
   assert(Object.isFrozen(value));
 }, {
-  name: 'foo',
+  name: '0',
   leafNested: [ false, true ],
   leafValue: [ undefined, null, 0, 1, { } ],
   pathNested: [ false, true ],

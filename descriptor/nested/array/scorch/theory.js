@@ -5,6 +5,7 @@ var testRequire = require('..');
 var isObject = testRequire('@kingjs/is-object');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
 
 assertTheory(function(test, id) {
 
@@ -13,8 +14,6 @@ assertTheory(function(test, id) {
     tree = test.leaf;
   if (test.nested) {
     tree = [ tree ];
-    if (test.freeze)
-      Object.freeze(tree);
   }
 
   var result = scorch(tree);
@@ -27,11 +26,10 @@ assertTheory(function(test, id) {
   assert(result instanceof Array);
 
   var copied = result != tree;
-  var copyOnWrite = test.freeze;
   var written = test.nested && test.leaf === undefined;
-  assert(copied == (copyOnWrite && written));
+  assert(copied == written);
 
-  assert(Object.isFrozen(result) == (test.freeze && !written));
+  assert(isFrozen.call(result));
 
   if (test.leaf !== undefined) {
     assert(result[0] == test.leaf);
@@ -40,7 +38,6 @@ assertTheory(function(test, id) {
 
   assert(result.length == 0);
 }, {
-  freeze: [ false, true ],
   nested: [ false, true ],
   leaf: [ undefined, null, 0, 1 ],
 })

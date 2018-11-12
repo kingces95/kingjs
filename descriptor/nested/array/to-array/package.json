@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.array.to-array",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Returns an array of values of an array tree.",
   "main": "index.js",
   "files": [

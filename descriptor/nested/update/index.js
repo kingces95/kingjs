@@ -1,8 +1,10 @@
 'use strict';
 
-var write = require('@kingjs/descriptor.write');
+var write = require('@kingjs/descriptor.object.write');
 var is = require('@kingjs/is');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
 
 function updateNode(
   paths,
@@ -10,9 +12,13 @@ function updateNode(
   thisArg,
   updateNodes) {
 
-  var updatedThis = this;
+  var updatedThis = prolog.call(this);
 
   for (var name in paths) {
+
+    if (name in this == false)
+      continue;
+
     var delta = update(
       this[name],
       paths[name],
@@ -26,7 +32,7 @@ function updateNode(
     );
   }
 
-  return updatedThis;
+  return epilog.call(updatedThis);
 }
 
 function update(tree, paths, callback, thisArg, updateNodes) {

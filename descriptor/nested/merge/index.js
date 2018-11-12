@@ -1,8 +1,10 @@
 'use strict';
 
-var create = require(`@kingjs/descriptor.create`);
-var write = require('@kingjs/descriptor.write');
 var is = require('@kingjs/is');
+var Dictionary = require(`@kingjs/dictionary`);
+var prolog = require('@kingjs/descriptor.object.prolog');
+var epilog = require('@kingjs/descriptor.object.epilog');
+var write = require('@kingjs/descriptor.object.write');
 var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 
 function throwMergeConflict(left, right) {
@@ -22,9 +24,13 @@ function mergeNode(
   path,
   thisArg) {
 
-  var updatedThis = this;
+  var updatedThis = prolog.call(this);
 
   for (var name in path) {
+
+    if (name in delta == false &&
+      name in this == false)
+      continue;
 
     var result = merge(
       this[name],
@@ -38,7 +44,7 @@ function mergeNode(
     );
   }
 
-  return updatedThis;
+  return epilog.call(updatedThis);
 }
 
 function merge(tree, delta, paths, thisArg) {
@@ -70,7 +76,7 @@ function merge(tree, delta, paths, thisArg) {
     return tree;
 
   if (tree === undefined)
-    tree = paths instanceof Array ? [ ] : create();
+    tree = paths instanceof Array ? [ ] : new Dictionary();
 
   paths = mergeWildcards.call(paths, delta);
 

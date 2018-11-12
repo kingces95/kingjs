@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.array.update",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Updates the values of a array tree to values returned by a callback which takes the current value.",
   "main": "index.js",
   "files": [

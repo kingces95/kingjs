@@ -1,6 +1,7 @@
 'use strict';
 
 require('./.index/test')
+require('./array/test');
 require('./for-each/test');
 require('./freeze/test');
 require('./merge/test');

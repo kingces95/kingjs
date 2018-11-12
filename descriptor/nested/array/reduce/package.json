@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.array.reduce",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Accumulates the values of an array tree using a callback.",
   "main": "index.js",
   "files": [

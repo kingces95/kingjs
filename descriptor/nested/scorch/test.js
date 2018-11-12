@@ -16,7 +16,7 @@ function readMe() {
     },
   }
 
-  scorch(values, { '*': { pet: null } });
+  values = scorch(values, { '*': { pet: null } });
 
   assert(values.alice.pet.name == 'tiger');
   assert('name' in values.bob.pet == false);

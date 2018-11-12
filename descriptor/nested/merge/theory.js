@@ -74,8 +74,8 @@ assertTheory(function(test, id) {
         assert(result instanceof Array == test.pathArray);
         assert(result[test.name] === test.right);
       } else {
-        assert(test.right === undefined);
-        assert(result === undefined);
+        assert(result == left);
+        return;
       }
 
       return result;
@@ -103,7 +103,7 @@ assertTheory(function(test, id) {
       resolver == this.resolver.right);
     var write = mergeWrite || implicitWrite;
 
-    assert((write && test.frozen) == copied);
+    assert(write == copied);
 
     assertResult.call(this, test, result[test.name], left, right);
     return result;

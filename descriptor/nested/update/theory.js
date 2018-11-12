@@ -5,16 +5,17 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var is = testRequire('@kingjs/is');
+var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
 
 var context = { };
 
 assertTheory(function(test, id) {
   var tree = test.leafValue;
   if (test.leafNested) {
-    tree = test.arrayTree ? [ tree ] : { [test.name]: tree };
-
-    if (test.frozen)
-      Object.freeze(tree);
+    if (!test.leafDefined)
+      tree = test.arrayTree ? [ ] : { };
+    else
+      tree = test.arrayTree ? [ tree ] : { [test.name]: tree };
   }
 
   var paths = test.pathValue;
@@ -22,7 +23,9 @@ assertTheory(function(test, id) {
     paths = test.arrayPath ? [ test.pathValue ] :
       { [test.wildPath ? '*' : test.name]: test.pathValue }
 
-  var expected = test.leafValue;
+  var leafValue = test.leafValue;
+  if (test.leafNested && !test.leafDefined)
+    leafValue = undefined;
 
   function callback(leaf, path) {
     assert(context === this);
@@ -36,13 +39,13 @@ assertTheory(function(test, id) {
     else
       assert();
 
-    return expected = test.returnLeaf ? leaf : path;
+    return test.returnLeaf ? leaf : path;
   }
 
   var treeResult = update(tree, paths, callback, context);
 
   if (test.pathNested && !test.leafNested) {
-    assert(treeResult === test.leafValue);
+    assert(treeResult === leafValue);
     return;
   }
 
@@ -50,21 +53,24 @@ assertTheory(function(test, id) {
     var leafResult = treeResult;
     var expectedLeaf = test.returnLeaf ? tree : test.pathValue;
 
-    assert(!is.object(treeResult) || (test.frozen == Object.isFrozen(treeResult)));  
+    assert(!is.object(treeResult) || isFrozen.call(treeResult));  
     assert(leafResult == expectedLeaf);
     return;
   }
 
   assert(test.pathNested === test.leafNested);
   var leafResult = treeResult;
-  var expectedLeaf = test.returnLeaf ? test.leafValue : test.pathValue;
+  var expectedLeaf = test.returnLeaf ? leafValue : test.pathValue;
 
   if (test.leafNested) {
     leafResult = treeResult[test.name];
+    
+    if (!test.leafDefined) {
+      expectedLeaf = undefined;
+      assert(test.name in treeResult == false);
+    }
 
-    var written = expectedLeaf !== test.leafValue;
-    assert(Object.isFrozen(treeResult) == (test.frozen && !written));
-
+    assert(isFrozen.call(treeResult));
     assert(is.object(treeResult));
     assert(treeResult instanceof Array == test.arrayTree);
   }
@@ -73,9 +79,9 @@ assertTheory(function(test, id) {
 }, {
   name: '0',
   wildPath: [ false, true ],
-  frozen: [ false, true ],
   leafValue: [ undefined, null, 0, 1 ],
   leafNested: [ false, true ],
+  leafDefined: [ false, true ],
   pathValue: [ undefined, null, 0, 1 ],
   pathNested: [ false, true ],
   returnLeaf: [ false, true ],

@@ -65,8 +65,6 @@ declare function update(
 - `thisArg`: The `this` argument to pass to `callback`.
 ### Returns
 Returns `tree` with updated values for the leafs found at `paths`.
-## Remarks
-If `this` is frozen then a copy of `this` will be created on the first write and returned instead of `this`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
