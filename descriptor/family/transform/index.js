@@ -5,7 +5,6 @@ var takeLeft = require('@kingjs/func.return-arg-0');
 var normalize = require('@kingjs/descriptor.normalize');
 var merge = require('@kingjs/descriptor.merge');
 var inherit = require('@kingjs/descriptor.inherit');
-var update = require('@kingjs/descriptor.update');
 
 var nested = {
   scorch: require('@kingjs/descriptor.nested.scorch'),
@@ -16,27 +15,6 @@ var normalizeAction = require('./js/normalizeAction');
 var resolveAndSelect = require('./js/resolveAndSelect');
 var depends = require('./js/depends');
 var normalizeDescriptors = require('./js/normalizeDescriptors');
-
-function inflate(value, key, path) {
-  if (value instanceof Function == false)
-    return value;
-  
-  if (value.name != '$')
-    return value;
-
-  return value(this, key, path);    
-}
-
-function replace(name, thunks) {
-  return update.call(this, function(value, key) {
-    var thunk = thunks[key];
-    if (!thunk)
-      return value;
-
-    return thunk(this, value, key);
-  }, name);
-}
-
 
 function wrapInheritDefaults(descriptor, action) {
 
@@ -64,6 +42,20 @@ function wrapInheritDefaults(descriptor, action) {
   return descriptor;
 }
 
+function inflateCallback(value, key, path) {
+  if (value instanceof Function == false)
+    return value;
+  
+  if (value.name != '$')
+    return value;
+
+  return value(this, key, path);    
+}
+
+function thunkCallback(value, key, callback) {
+  return callback(value, this, key);
+}
+
 function inflateThunkScorchUpdate(descriptor, name, action) {
 
   // 5. Inflate
@@ -71,17 +63,18 @@ function inflateThunkScorchUpdate(descriptor, name, action) {
     descriptor = nested.update(
       descriptor, 
       action.inflate, 
-      inflate,
+      inflateCallback,
       name,
     );
   }
 
   // 6. Thunk
   if (action.thunks) {
-    descriptor = replace.call(
-      descriptor, 
-      name,
-      action.thunks
+    descriptor = nested.update(
+      descriptor,
+      action.thunks,
+      thunkCallback,
+      name
     );
   }
   
@@ -96,8 +89,8 @@ function inflateThunkScorchUpdate(descriptor, name, action) {
   // 8. Update
   if (action.callback) {
     descriptor = action.callback(
-      name,
-      descriptor 
+      descriptor,
+      name
     )
   }
 
@@ -142,7 +135,7 @@ function transform(action) {
   for (var name in result)
     result[name] = inflateThunkScorchUpdate(result[name], name, actions[name]);
 
-  // Pass IV: 9; Resolve
+  // Pass IV: 9-10; Resolve, Freeze
   for (var name in result) 
     result[name] = resolve(result, name, actions[name]);
 

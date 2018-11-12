@@ -32,7 +32,6 @@
     "@kingjs/descriptor.nested.scorch": "^1.0.8",
     "@kingjs/descriptor.nested.update": "^1.0.18",
     "@kingjs/descriptor.normalize": "^1.0.1",
-    "@kingjs/descriptor.update": "^1.0.17",
     "@kingjs/descriptor.write": "^1.0.9",
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/func.return-arg-0": "^1.0.0",

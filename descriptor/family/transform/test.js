@@ -56,7 +56,7 @@ function familyAction() {
     tomato: 'tomato'
   }, {
     bread: 'bread'
-  }], [(_,o) => write.call(o, 'id', id++), { 
+  }], [(o) => write.call(o, 'id', id++), { 
     wrap: 'name',
     defaults: { type: 'food' }
   }, { 

@@ -21,15 +21,37 @@ var nestedArray = {
   reduce: require('@kingjs/descriptor.nested.array.reduce')
 }
 
+var actionMergePaths = {
+  callback: null,
+  scorch: takeLeft,
+  freeze: takeLeft,
+  wrap: takeLeft,
+  defaults: { '*': takeLeft },
+  bases: { '*': takeLeft },
+  thunks: { '*': composeLeft },
+  depends: { '*': takeLeft },
+  refs: { '*': takeLeft },
+};
+
+function composeLeft(g, f) {
+  return function(x) { return f(g(x)); }
+}
+
+function decodeAndInherit(encodedPoset) {
+  var vertices = { };
+  var edges = poset.decode.call(encodedPoset, vertices);
+  return poset.inherit.call(edges, vertices);
+}
+
 function normalizeAction(action) {
 
   if (action === undefined)
-    action = { };
-    
-  else if (is.function(action))
-    action = { callback: action };
+    return { };
 
-  else if (is.array(action)) {
+  if (is.function(action))
+    return { callback: action };
+
+  if (is.array(action)) {
     action = nestedArray.flatten(action);
     action = nestedArray.update(action, o => normalizeAction(o));
     action = nestedArray.reduce(action, 
@@ -45,32 +67,6 @@ function normalizeAction(action) {
 
   return action;
 }
-
-function decodeAndInherit(encodedPoset) {
-  var vertices = { };
-  var edges = poset.decode.call(encodedPoset, vertices);
-  return poset.inherit.call(edges, vertices);
-}
-
-function freezeAction(action) {
-  return nested.freeze(action, { '*': null });  
-}
-
-function composeLeft(g, f) {
-  return function(x) { return f(g(x)); }
-}
-
-var actionMergePaths = freezeAction({
-  callback: null,
-  scorch: takeLeft,
-  freeze: takeLeft,
-  wrap: takeLeft,
-  defaults: { '*': takeLeft },
-  bases: { '*': takeLeft },
-  thunks: { '*': composeLeft },
-  depends: { '*': takeLeft },
-  refs: { '*': takeLeft },
-});
 
 Object.defineProperties(module, {
   exports: { value: normalizeAction }

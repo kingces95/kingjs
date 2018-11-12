@@ -87,7 +87,7 @@ function thunk() {
     type: 'fruit'
   }, decodedName, {
     thunks: {
-      type: function(name, value, key) {
+      type: function(value, name, key) {
         assert(value == 'fruit');
         assert(name == decodedName);
         assert(key == 'type');
@@ -122,7 +122,7 @@ scorch();
 function callback() {
 
   var result = transform.call(
-    { }, decodedName, function(name, descriptor) {
+    { }, decodedName, function(descriptor, name) {
       descriptor.name = name;
       return descriptor; 
     }
@@ -234,8 +234,9 @@ function scorchThenCallback() {
     name: undefined
   }, decodedName, {
     scorch: { },
-    callback: function(name, value) {
+    callback: function(value, name) {
       assert(value.foo == 0);
+      assert(name == decodedName);
       assert('name' in value == false);
       return write.call(value, 'name', 'apple');
     }
