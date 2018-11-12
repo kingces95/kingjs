@@ -9,8 +9,10 @@ function callback(tree) {
   return tree;
 }
 
+callback.onNode = callback;
+
 function freeze(tree, paths) {
-  return update(tree, paths, callback, this, true);
+  return update(tree, paths, callback, this);
 }
 
 Object.defineProperties(module, {

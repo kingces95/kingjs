@@ -9,6 +9,7 @@ var clone = testRequire('@kingjs/descriptor.object.clone');
 
 function readMe() {
   function invoke(value, key) {
+    assert(key == 'foo' || key == 'bar');
     return value + 1;
   }
   

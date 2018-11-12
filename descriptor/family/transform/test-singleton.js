@@ -3,6 +3,7 @@
 var transformFamily = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
+var write = testRequire('@kingjs/descriptor.object.write');
 
 var decodedName = 'myName';
 
@@ -65,15 +66,16 @@ function defaults() {
 defaults();
 
 function inflate() {
-  var path = { };
+
   var result = transform.call({
-    name: function $(name, key) {
+    name: function $(name, key, path) {
       assert(key == 'name');
       assert(name == decodedName);
+      assert(path == 0);
       return name;
     }
    }, decodedName, { 
-     inflate: { '*': path }
+     inflate: { '*': 0 }
    });
 
   assert(result.name == decodedName);
@@ -183,6 +185,7 @@ inheritThenDefaults();
 
 function defaultsThenInflate() {
   var result = transform.call({ }, decodedName, {
+    inflate: { '*': null },
     defaults: { 
       name: function $(name) {  
         return name;
@@ -198,7 +201,8 @@ function inflateThenThunks() {
     name: function $(name) {  
       return name;
     }
-   }, 'apple', {
+  }, 'apple', {
+    inflate: { '*': null },
     thunks: {
       name: function(name, value, key) {
         return String.prototype.toUpperCase.call(value);
@@ -233,8 +237,7 @@ function scorchThenCallback() {
     callback: function(name, value) {
       assert(value.foo == 0);
       assert('name' in value == false);
-      value.name = 'apple';
-      return value;
+      return write.call(value, 'name', 'apple');
     }
   });
 

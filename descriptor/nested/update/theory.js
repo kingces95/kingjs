@@ -27,10 +27,16 @@ assertTheory(function(test, id) {
   if (test.leafNested && !test.leafDefined)
     leafValue = undefined;
 
-  function callback(leaf, path) {
+  function callback(leaf, name, path, stack) {
     assert(context === this);
-
     assert(path === test.pathValue);
+
+    assert(stack === undefined);
+    if (test.pathNested) {
+      assert(name == test.name);
+    } else {
+      assert(name === undefined);
+    }
 
     if (test.pathNested == test.leafNested)
       assert(leaf === test.leafValue);

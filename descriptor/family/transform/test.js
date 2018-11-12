@@ -3,6 +3,7 @@
 var transform = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
+var write = testRequire('@kingjs/descriptor.object.write');
 
 function readMe() {
   var result = transform.call({
@@ -55,7 +56,7 @@ function familyAction() {
     tomato: 'tomato'
   }, {
     bread: 'bread'
-  }], [(_,o) => { o.id = id++; return o; }, { 
+  }], [(_,o) => write.call(o, 'id', id++), { 
     wrap: 'name',
     defaults: { type: 'food' }
   }, { 

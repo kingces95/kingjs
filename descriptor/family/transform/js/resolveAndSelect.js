@@ -2,7 +2,7 @@
 
 var is = require('@kingjs/is');
 
-function resolveAndSelect(name, selector) {
+function resolveAndSelect(name, _, selector) {
   if (!is.string(name))
     return name;
 

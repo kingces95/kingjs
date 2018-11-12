@@ -43,11 +43,35 @@ function defaultPath() {
     foo: 0,
     bar: 1
   }, { '*': 'default', bar: 'specific' },
-  (value, path) => path);
+  (value, name, path) => path);
 
   assert(result.foo == 'default');
   assert(result.bar == 'specific');
 }
 defaultPath();
+
+function twoDeep(hasStack) {
+  function callback(leaf, name, path, stack) {
+    assert(leaf == 'leaf');
+    assert(name == 'two');
+    assert(path == 'path');
+    if (hasStack) {
+      assert(stack.length == 1);
+      assert(stack[0] == 'one');
+    } else {
+      assert(stack === undefined);
+    }
+  };
+
+  callback.stack = hasStack;
+
+  update({
+    one: { two: 'leaf' }
+  }, { 
+    one: { two: 'path' }
+  }, callback)
+}
+twoDeep(true);
+twoDeep(false);
 
 require('./theory');

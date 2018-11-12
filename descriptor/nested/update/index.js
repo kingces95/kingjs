@@ -11,26 +11,27 @@ function updateNode(
   paths,
   callback,
   thisArg,
-  updateNodes) {
+  stack) {
 
   var updatedThis = prolog.call(this);
   
-  var path;
+  var subPaths;
   for (var name in this) {
 
     if (name in paths)
-      path = paths[name];
+      subPaths = paths[name];
     else if (star in paths)
-      path = paths[star];
+      subPaths = paths[star];
     else
       continue;
 
     var delta = update(
       this[name],
-      path,
+      subPaths,
       callback,
       thisArg,
-      updateNodes
+      name,
+      stack
     );
 
     updatedThis = write.call(
@@ -41,24 +42,36 @@ function updateNode(
   return epilog.call(updatedThis);
 }
 
-function update(tree, paths, callback, thisArg, updateNodes) {
+function update(
+  tree, 
+  paths, 
+  callback, 
+  thisArg, 
+  name, 
+  stack) {
 
   if (!is.object(paths))
-    return callback.call(thisArg, tree, paths);
+    return callback.call(thisArg, tree, name, paths, stack);
 
   if (!is.object(tree))
     return tree;
+
+  if (name && callback.hasStack) {
+    if (!stack)
+      stack = [ ];
+    stack.push(name);
+  }
 
   var result = updateNode.call(
     tree,
     paths,
     callback,
     thisArg,
-    updateNodes
+    stack
   );
 
-  if (updateNodes)
-    result = callback.call(thisArg, result, paths);
+  if (callback.onNode)
+    result = callback.onNode.call(thisArg, result, name, paths, stack);
 
   return result;
 }

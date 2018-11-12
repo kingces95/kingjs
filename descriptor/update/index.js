@@ -1,20 +1,11 @@
 'use strict';
 
-var prolog = require('@kingjs/descriptor.object.prolog');
-var epilog = require('@kingjs/descriptor.object.epilog');
-var write = require('@kingjs/descriptor.object.write');
+var updateHelper = require('../nested/update');
+
+var children = { '*': undefined };
 
 function update(callback, thisArg) {
-  var thisUpdated = prolog.call(this);
-
-  for (var key in this) {
-    var value = callback.call(thisArg, this[key], key);
-    thisUpdated = write.call(
-      thisUpdated, key, value
-    );
-  }
-
-  return epilog.call(thisUpdated);
+  return updateHelper(this, children, callback, thisArg);
 }
 
 Object.defineProperties(module, {

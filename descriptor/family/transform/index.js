@@ -17,14 +17,14 @@ var resolveAndSelect = require('./js/resolveAndSelect');
 var depends = require('./js/depends');
 var normalizeDescriptors = require('./js/normalizeDescriptors');
 
-function inflate(value, key) {
+function inflate(value, key, path) {
   if (value instanceof Function == false)
     return value;
   
   if (value.name != '$')
     return value;
 
-  return value(this, key);    
+  return value(this, key, path);    
 }
 
 function replace(name, thunks) {

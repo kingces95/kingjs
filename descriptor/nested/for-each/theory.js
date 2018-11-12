@@ -19,10 +19,11 @@ assertTheory(function(test, id) {
   var context = { ctx: 0 };
 
   var result = { };
-  forEach(tree, path, function(o, p) {
+  forEach(tree, path, function(value, name, path) {
     assert(this === context);
-    result.value = o;
-    result.path = p
+    result.value = value;
+    result.name = name;
+    result.path = path
   }, context);
 
   if (!test.leafNested && test.pathNested) {
@@ -36,6 +37,8 @@ assertTheory(function(test, id) {
     assert(result.value == tree);
     return;
   }
+
+  assert(result.name === (test.leafNested ? test.name : undefined));
 
   assert(test.leafNested == test.pathNested);
   assert(result.value === test.leafValue);
