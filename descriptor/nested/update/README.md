@@ -50,7 +50,7 @@ result:
 declare function update(
   tree: NestedDescriptor,
   path: NestedDescriptor,
-  callback: (leaf, path, copyOnWrite: boolean) => any,
+  callback: (leaf, path) => any,
   thisArg?
 ): NestedDescriptor
 ```

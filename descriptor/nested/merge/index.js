@@ -5,7 +5,8 @@ var Dictionary = require(`@kingjs/dictionary`);
 var prolog = require('@kingjs/descriptor.object.prolog');
 var epilog = require('@kingjs/descriptor.object.epilog');
 var write = require('@kingjs/descriptor.object.write');
-var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
+
+var star = '*';
 
 function throwMergeConflict(left, right) {
   throw 'Merge conflict';
@@ -21,21 +22,25 @@ function throwUnexpectedDeltaLeaf(value) {
 
 function mergeNode(
   delta,
-  path,
+  paths,
   thisArg) {
 
   var updatedThis = prolog.call(this);
 
-  for (var name in path) {
+  var path;
+  for (var name in delta) {
 
-    if (name in delta == false &&
-      name in this == false)
+    if (name in paths)
+      path = paths[name];
+    else if (star in paths)
+      path = paths[star];
+    else
       continue;
 
     var result = merge(
       this[name],
       delta[name],
-      path[name],
+      path,
       thisArg
     );
 
@@ -77,8 +82,6 @@ function merge(tree, delta, paths, thisArg) {
 
   if (tree === undefined)
     tree = paths instanceof Array ? [ ] : new Dictionary();
-
-  paths = mergeWildcards.call(paths, delta);
 
   return mergeNode.call(
     tree,

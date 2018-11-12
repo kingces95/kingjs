@@ -65,12 +65,16 @@ function defaults() {
 defaults();
 
 function inflate() {
+  var path = { };
   var result = transform.call({
     name: function $(name, key) {
       assert(key == 'name');
+      assert(name == decodedName);
       return name;
     }
-   }, decodedName);
+   }, decodedName, { 
+     inflate: { '*': path }
+   });
 
   assert(result.name == decodedName);
 }

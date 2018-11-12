@@ -1,7 +1,8 @@
 'use strict';
 
-var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 var is = require('@kingjs/is');
+
+var star = '*';
 
 function reduce(tree, paths, callback, accumulator, thisArg) {
 
@@ -11,10 +12,24 @@ function reduce(tree, paths, callback, accumulator, thisArg) {
   if (!is.object(tree))
     return accumulator;
 
-  paths = mergeWildcards.call(paths, tree);
+  var path;
+  for (var name in tree) {
 
-  for (var name in paths)
-    accumulator = reduce(tree[name], paths[name], callback, accumulator, thisArg);
+    if (name in paths)
+      path = paths[name];
+    else if (star in paths)
+      path = paths[star];
+    else
+      continue;
+
+    accumulator = reduce(
+      tree[name], 
+      path,
+      callback, 
+      accumulator, 
+      thisArg
+    );
+  }
 
   return accumulator;
 }

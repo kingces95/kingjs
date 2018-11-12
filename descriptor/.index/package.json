@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Exports all `@kingjs/descriptor.*` functionality in one package.",
   "main": "index.js",
   "files": [
@@ -17,17 +17,16 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.filter": "^1.0.0",
-    "@kingjs/descriptor.inherit": "^1.0.0",
-    "@kingjs/descriptor.merge": "^1.0.0",
-    "@kingjs/descriptor.merge-wildcards": "^1.0.0",
-    "@kingjs/descriptor.nested": "^1.0.7",
-    "@kingjs/descriptor.normalize": "^1.0.0",
+    "@kingjs/descriptor.filter": "^1.0.4",
+    "@kingjs/descriptor.inherit": "^1.0.5",
+    "@kingjs/descriptor.merge": "^1.0.10",
+    "@kingjs/descriptor.nested": "^1.0.8",
+    "@kingjs/descriptor.normalize": "^1.0.1",
     "@kingjs/descriptor.object": "^1.0.0",
     "@kingjs/descriptor.reduce": "^1.0.0",
-    "@kingjs/descriptor.remove": "^1.0.0",
-    "@kingjs/descriptor.scorch": "^1.0.0",
-    "@kingjs/descriptor.update": "^1.0.0",
-    "@kingjs/descriptor.write": "^1.0.0"
+    "@kingjs/descriptor.remove": "^1.0.3",
+    "@kingjs/descriptor.scorch": "^1.0.5",
+    "@kingjs/descriptor.update": "^1.0.17",
+    "@kingjs/descriptor.write": "^1.0.9"
   }
 }

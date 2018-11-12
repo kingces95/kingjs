@@ -3,7 +3,6 @@ Object.defineProperties(module.exports, {
   filter: { value: require('@kingjs/descriptor.filter') },
   inherit: { value: require('@kingjs/descriptor.inherit') },
   merge: { value: require('@kingjs/descriptor.merge') },
-  mergeWildcards: { value: require('@kingjs/descriptor.merge-wildcards') },
   nested: { value: require('@kingjs/descriptor.nested') },
   normalize: { value: require('@kingjs/descriptor.normalize') },
   object: { value: require('@kingjs/descriptor.object') },

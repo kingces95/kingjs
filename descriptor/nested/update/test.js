@@ -38,4 +38,16 @@ function readMe() {
 }
 readMe();
 
+function defaultPath() {
+  var result = update({
+    foo: 0,
+    bar: 1
+  }, { '*': 'default', bar: 'specific' },
+  (value, path) => path);
+
+  assert(result.foo == 'default');
+  assert(result.bar == 'specific');
+}
+defaultPath();
+
 require('./theory');

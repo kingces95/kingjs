@@ -5,7 +5,6 @@ var assertTheory = testRequire('@kingjs/assert-theory');
 var filter = require('@kingjs/descriptor.filter');
 var inherit = require('@kingjs/descriptor.inherit');
 var merge = require('@kingjs/descriptor.merge');
-var mergeWildcards = require('@kingjs/descriptor.merge-wildcards');
 var normalize = require('@kingjs/descriptor.normalize');
 var reduce = require('@kingjs/descriptor.reduce');
 var remove = require('@kingjs/descriptor.remove');

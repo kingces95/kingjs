@@ -23,7 +23,6 @@ These packages all take a descriptor as `this` and will clone on write if they n
 - [`inherit`][inherit]
 - [`keys`][keys]
 - [`merge`][merge]
-- [`mergeWildcards`][merge-wildcards]
 - [`nested`][nested]
 - [`normalize`][normalize]
 - [`reduce`][reduce]
@@ -52,7 +51,6 @@ MIT
   [filter]: https://www.npmjs.com/package/@kingjs/descriptor.filter
   [inherit]: https://www.npmjs.com/package/@kingjs/descriptor.inherit
   [merge]: https://www.npmjs.com/package/@kingjs/descriptor.merge
-  [merge-wildcards]: https://www.npmjs.com/package/@kingjs/descriptor.merge-wildcards
   [normalize]: https://www.npmjs.com/package/@kingjs/descriptor.normalize
   [reduce]: https://www.npmjs.com/package/@kingjs/descriptor.reduce
   [remove]: https://www.npmjs.com/package/@kingjs/descriptor.remove

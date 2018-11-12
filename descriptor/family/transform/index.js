@@ -17,17 +17,14 @@ var resolveAndSelect = require('./js/resolveAndSelect');
 var depends = require('./js/depends');
 var normalizeDescriptors = require('./js/normalizeDescriptors');
 
-function inflate(name) {
-  return update.call(this, function(value, key) {
+function inflate(value, key) {
+  if (value instanceof Function == false)
+    return value;
+  
+  if (value.name != '$')
+    return value;
 
-    if (value instanceof Function == false)
-      return value;
-    
-    if (value.name != '$')
-      return value;
-
-    return value(name, key);    
-  })
+  return value(this, key);    
 }
 
 function replace(name, thunks) {
@@ -36,8 +33,8 @@ function replace(name, thunks) {
     if (!thunk)
       return value;
 
-    return thunk(name, value, key);
-  });
+    return thunk(this, value, key);
+  }, name);
 }
 
 
@@ -69,11 +66,15 @@ function wrapInheritDefaults(descriptor, action) {
 
 function inflateThunkScorchUpdate(descriptor, name, action) {
 
-    // 5. Inflate
-  descriptor = inflate.call(
-    descriptor, 
-    name
-  );
+  // 5. Inflate
+  if (action.inflate) {
+    descriptor = nested.update(
+      descriptor, 
+      action.inflate, 
+      inflate,
+      name,
+    );
+  }
 
   // 6. Thunk
   if (action.thunks) {

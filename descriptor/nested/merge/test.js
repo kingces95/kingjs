@@ -177,4 +177,24 @@ function recursive() {
 }
 recursive();
 
+function defaultPath() {
+  var result = nestedMerge({
+    foo: 0,
+    bar: 1,
+    baz: 2,
+  }, {
+    foo: null,
+    bar: null,
+  }, { 
+    '*': () => 'default', 
+    bar: () => 'specific',
+    baz: () => assert()
+  });
+
+  assert(result.foo == 'default');
+  assert(result.bar == 'specific');
+  assert(result.baz == 2);
+}
+defaultPath();
+
 require('./theory')
