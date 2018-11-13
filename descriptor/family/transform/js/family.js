@@ -1,13 +1,14 @@
 'use strict';
 
+var create = require('../../../create');
+var map = require('../../../map');
+
 var nested = {
   scorch: require('@kingjs/descriptor.nested.scorch'),
   update: require('@kingjs/descriptor.nested.update'),
 }
 
 var resolveAndSelect = require('./resolveAndSelect');
-var wrapInheritDefaults = require('./wrapInheritDefaults');
-var inflateThunkScorchUpdate = require('./inflateThunkScorchUpdate');
 
 var depends = require('./depends');
 var normalizeAction = require('./normalizeAction');
@@ -41,7 +42,7 @@ function transform(action) {
   for (var name in actions) {
     var action = actions[name];
     var descriptor = descriptors[name] || descriptors[action.encodedName];
-    result[name] = wrapInheritDefaults(descriptor, action);
+    result[name] = create.call(descriptor, action);
   }
 
   // Pass II: 4; Depends
@@ -49,7 +50,7 @@ function transform(action) {
 
   // Pass III: 5-8; Inflate, Thunks, Scorch, Update
   for (var name in result)
-    result[name] = inflateThunkScorchUpdate(result[name], name, actions[name]);
+    result[name] = map.call(result[name], name, actions[name]);
 
   // Pass IV: 9-10; Resolve, Freeze
   for (var name in result) 

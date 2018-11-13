@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.create",
+  "name": "@kingjs/descriptor.map",
   "version": "1.0.0",
-  "description": "Creates a descriptor.",
+  "description": "Maps descriptor property values.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,11 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.merge": "^1.0.10",
-    "@kingjs/descriptor.object.epilog": "^1.0.1",
-    "@kingjs/func.return-arg-0": "^1.0.0",
-    "@kingjs/is": "^1.0.0",
-    "@kingjs/poset.inherit": "^1.0.7",
-    "@kingjs/poset.decode": "^1.0.10"
+    "@kingjs/descriptor.nested.scorch": "^1.0.8",
+    "@kingjs/descriptor.nested.update": "^1.0.18"
   }
 }

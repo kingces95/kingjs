@@ -8,6 +8,20 @@ var takeLeft = require('@kingjs/func.return-arg-0');
 var merge = require('@kingjs/descriptor.merge');
 var inherit = require('@kingjs/descriptor.inherit');
 
+var poset = {
+  decode: require('@kingjs/poset.decode'),
+  inherit: require('@kingjs/poset.inherit')
+}
+
+function decodeAndInherit(encodedPoset) {
+  if (!encodedPoset)
+    return null;
+
+  var vertices = { };
+  var edges = poset.decode.call(encodedPoset, vertices);
+  return poset.inherit.call(edges, vertices);
+}
+
 function wrap(descriptor, wrap) {
 
   if (is.object(descriptor))
@@ -35,10 +49,15 @@ function create(descriptor, action) {
 
   // 2. Inherit
   if (action.bases) {
+    var namedBases = decodeAndInherit(action.basePoset);
+    
+    var bases = action.bases;
+    if (namedBases)
+      bases = bases.map(o => is.string(o) ? namedBases[o] : o);
+
     descriptor = inherit.call(
       descriptor, 
-      action.bases
-      //action.baseNames.map(baseName => action.bases[baseName])
+      bases
     );
   }
 

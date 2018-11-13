@@ -1,19 +1,26 @@
 'use strict';
 
+var is = require('@kingjs/is');
 var nested = {
   scorch: require('@kingjs/descriptor.nested.scorch'),
   update: require('@kingjs/descriptor.nested.update'),
 }
 
-function inflateThunkScorchUpdate(descriptor, name, action) {
+var defaultAction = { }
 
-  // 5. Inflate
+function map(action, name) {
+  var descriptor = this;
+
+  if (!action)
+    action = defaultAction;
+
+  // Inflate
   if (action.inflate) {
     descriptor = nested.update(
       descriptor, 
       action.inflate, 
       function(value, key, path) {
-        if (value instanceof Function == false)
+        if (!is.function(value))
           return value;
         
         if (value.name != '$')
@@ -25,7 +32,7 @@ function inflateThunkScorchUpdate(descriptor, name, action) {
     );
   }
 
-  // 6. Thunk
+  // Thunk
   if (action.thunks) {
     descriptor = nested.update(
       descriptor,
@@ -36,8 +43,8 @@ function inflateThunkScorchUpdate(descriptor, name, action) {
       name
     );
   }
-  
-  // 7. Scorch
+
+  // Scorch
   if (action.scorch) {
     descriptor = nested.scorch(
       descriptor, 
@@ -45,9 +52,10 @@ function inflateThunkScorchUpdate(descriptor, name, action) {
     );
   }
 
-  // 8. Update
-  if (action.callback) {
-    descriptor = action.callback(
+  // Update
+  var callback = action.callback || action;
+  if (is.function(callback)) {
+    descriptor = callback(
       descriptor,
       name
     )
@@ -57,5 +65,5 @@ function inflateThunkScorchUpdate(descriptor, name, action) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: inflateThunkScorchUpdate }
+  exports: { value: map }
 });

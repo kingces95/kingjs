@@ -1,13 +1,13 @@
 'use strict';
 
-var wrapInheritDefaults = require('./js/wrapInheritDefaults');
-var inflateThunkScorchUpdate = require('./js/inflateThunkScorchUpdate');
+// var wrapInheritDefaults = require('./js/wrapInheritDefaults');
+// var inflateThunkScorchUpdate = require('./js/inflateThunkScorchUpdate');
 var family = require('./js/family');
 
 function transform(descriptor, name, action) {
-  descriptor = wrapInheritDefaults(descriptor, action);
-  descriptor = inflateThunkScorchUpdate(descriptor, name, action);
-  return descriptor;
+  // descriptor = wrapInheritDefaults(descriptor, action);
+  // descriptor = inflateThunkScorchUpdate(descriptor, name, action);
+  // return descriptor;
 }
 
 transform.family = family;

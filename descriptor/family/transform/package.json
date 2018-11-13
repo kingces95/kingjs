@@ -27,12 +27,10 @@
     "@kingjs/descriptor.nested.freeze": "^1.0.8",
     "@kingjs/descriptor.nested.merge": "^1.0.19",
     "@kingjs/descriptor.nested.reduce": "^1.0.10",
-    "@kingjs/descriptor.nested.scorch": "^1.0.8",
     "@kingjs/descriptor.nested.update": "^1.0.18",
     "@kingjs/descriptor.normalize": "^1.0.1",
     "@kingjs/descriptor.write": "^1.0.9",
     "@kingjs/empty-object": "^1.0.7",
-    "@kingjs/is": "^1.0.5",
-    "@kingjs/poset.decode": "^1.0.10"
+    "@kingjs/is": "^1.0.5"
   }
 }

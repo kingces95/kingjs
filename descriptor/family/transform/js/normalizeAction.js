@@ -3,13 +3,6 @@
 var takeLeft = require('@kingjs/func.return-arg-0');
 var is = require('@kingjs/is');
 
-var write = require('@kingjs/descriptor.write');
-
-var poset = {
-  decode: require('@kingjs/poset.decode'),
-  inherit: require('@kingjs/poset.inherit')
-}
-
 var nested = {
   merge: require('@kingjs/descriptor.nested.merge'),
   freeze: require('@kingjs/descriptor.nested.freeze'),
@@ -37,12 +30,6 @@ function composeLeft(g, f) {
   return function(x) { return f(g(x)); }
 }
 
-function decodeAndInherit(encodedPoset) {
-  var vertices = { };
-  var edges = poset.decode.call(encodedPoset, vertices);
-  return poset.inherit.call(edges, vertices);
-}
-
 function normalizeAction(action) {
 
   if (action === undefined)
@@ -56,12 +43,6 @@ function normalizeAction(action) {
     action = nestedArray.update(action, o => normalizeAction(o));
     action = nestedArray.reduce(action, 
       (x, o) => nested.merge(x, o, actionMergePaths)
-    );
-  }
-
-  if (action.bases) {
-    action = write.call(action, 'bases', 
-      decodeAndInherit(action.bases)
     );
   }
 

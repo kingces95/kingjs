@@ -33,7 +33,7 @@ function createManyActions(manyActions, descriptors) {
     assert(name in manyActions == false);
     manyActions[name] = action;
     manyActions.$descriptors[name] = descriptors[name];
-}
+  }
 
   return manyActions;
 }
