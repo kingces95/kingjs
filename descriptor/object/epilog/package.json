@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.object.epilog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "files": [
@@ -17,6 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/is": "^1.0.0",
+    "@kingjs/assert": "^1.0.1",
     "@kingjs/descriptor.object.freeze": "^1.0.1"
   }
 }

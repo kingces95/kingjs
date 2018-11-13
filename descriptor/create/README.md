@@ -1,8 +1,8 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).normalize
+# @[kingjs](https://www.npmjs.com/package/kingjs)/[descriptor](https://www.npmjs.com/package/@kingjs/descriptor).create
 Returns a descriptor given a primitive value.
 ## Usage
 ```js
-var normalize = require('@kingjs/descriptor.normalize');
+var create = require('@kingjs/descriptor.create');
 
 var people = {
   alice: { name: 'Alice', age: 21 },
@@ -10,7 +10,7 @@ var people = {
 }
 
 for (var name in people)
-  people[name] = normalize(people[name], 'name');
+  people[name] = create(people[name], 'name');
 
 people;
 ```
@@ -23,7 +23,7 @@ result:
 ```
 ## API
 ```ts
-declare function normalize(
+declare function create(
   value,
   action: string | (value) => Descriptor
 ): Descriptor
@@ -31,18 +31,18 @@ declare function normalize(
 ### Interfaces
 - `Descriptor`: see [@kingjs/descriptor][descriptor]
 ### Parameters
-- `value`: The value to normalize into a descriptor.
+- `value`: The value to create into a descriptor.
 - `action`: The name of the property to hold `value` or a function that accepts `value` and returns a descriptor. 
 ### Returns
 Returns `value` if already a descriptor, else a normalized descriptor for value.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/descriptor.normalize
+$ npm install @kingjs/descriptor.create
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/descriptor/normalize)
+![Analytics](https://analytics.kingjs.net/descriptor/create)
 
   [descriptor]: https://www.npmjs.com/package/@kingjs/descriptor
