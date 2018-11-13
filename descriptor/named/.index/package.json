@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/descriptor.family.xxx",
+  "name": "@kingjs/descriptor.named",
   "version": "1.0.0",
-  "description": "",
+  "description": "Exports all `@kingjs/descriptor.named.*` functionality in one package.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,9 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.reduce": "^1.0.0",
-    "@kingjs/descriptor.nested.update": "^1.0.0",
-    "@kingjs/'@kingjs/poset.for-each": "^1.0.0",
-    "@kingjs/is": "^1.0.0"
-   }
+    "@kingjs/descriptor.named.create": "^1.0.0",
+    "@kingjs/descriptor.named.load": "^1.0.0"
+  }
 }
