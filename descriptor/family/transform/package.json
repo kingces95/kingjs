@@ -22,7 +22,6 @@
     "@kingjs/descriptor.filter": "^1.0.0",
     "@kingjs/descriptor.inherit": "^1.0.5",
     "@kingjs/descriptor.merge": "^1.0.10",
-    "@kingjs/descriptor.nested.array.for-each": "^1.0.4",
     "@kingjs/descriptor.nested.array.reduce": "^1.0.5",
     "@kingjs/descriptor.nested.array.to-array": "^1.0.4",
     "@kingjs/descriptor.nested.array.update": "^1.0.4",

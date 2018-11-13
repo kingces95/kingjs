@@ -1,12 +1,12 @@
 'use strict';
 
-var transform = require('.');
+var transformFamily = require('.').family;
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var write = testRequire('@kingjs/descriptor.object.write');
 
 function readMe() {
-  var result = transform.call({
+  var result = transformFamily.call({
     apple: 'apple',
     orange: 'orange',
     banana: 'banana'
@@ -21,7 +21,7 @@ function readMe() {
 readMe();
 
 function mergeDefaultAction() {
-  var result = transform.call({
+  var result = transformFamily.call({
     apple: 'apple'
   }, [{ 
     wrap: 'name',
@@ -46,7 +46,7 @@ mergeDefaultAction();
 function familyAction() {
   var id = 0;
 
-  var result = transform.call([{
+  var result = transformFamily.call([{
     $defaults: { type: 'fruit' },
     banana: { name: 'banana', type: 'yellow fruit' },
     orange: 'orange',
@@ -84,7 +84,7 @@ function familyAction() {
 familyAction();
 
 function isolateFamilyAction() {
-  var result = transform.call([{
+  var result = transformFamily.call([{
     $defaults: { id: 0 },
     foo: { }
   }, {
@@ -97,7 +97,7 @@ function isolateFamilyAction() {
 isolateFamilyAction();
 
 function depends() {
-  var result = transform.call({
+  var result = transformFamily.call({
     vehicle: { id: 0, name: 'Vehicle' },
     truck: { id: 1, name: 'Truck', base: 'vehicle' }
   }, { 

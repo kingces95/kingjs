@@ -1,6 +1,6 @@
 'use strict';
 
-var transformFamily = require('.');
+var transformFamily = require('.').family;
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var write = testRequire('@kingjs/descriptor.object.write');
