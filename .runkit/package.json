@@ -3,10 +3,11 @@
   "dependencies": {
     "@kingjs/assert-theory": "^1.0.14",
     "@kingjs/descriptor.object.clone": "^1.0.0",
-    "@kingjs/descriptor.object.freeze": "^1.0.0",
+    "@kingjs/descriptor.object.freeze": "^1.0.1",
     "@kingjs/descriptor.object.is-frozen": "^1.0.0",
     "@kingjs/descriptor.object.writable-symbol": "^1.0.0",
     "@kingjs/descriptor.object.write": "^1.0.0",
+    "@kingjs/descriptor.write": "^1.0.9",
     "@kingjs/is": "^1.0.5",
     "kingjs": "1.0.40"
   }

@@ -1,39 +1,14 @@
 'use strict';
 
-var create = require('../../../create');
-var map = require('../../../map');
+var createHelper = require('@kingjs/descriptor.create');
+var map = require('@kingjs/descriptor.map');
+var depends = require('@kingjs/descriptor.family.load');
+var resolve = require('@kingjs/descriptor.family.resolve');
 
-var nested = {
-  scorch: require('@kingjs/descriptor.nested.scorch'),
-  update: require('@kingjs/descriptor.nested.update'),
-}
-
-var resolveAndSelect = require('./resolveAndSelect');
-
-var depends = require('./depends');
 var normalizeAction = require('./normalizeAction');
 var createActions = require('./createActions');
 
-function resolve(descriptors, name, action) {
-
-  var descriptor = descriptors[name];
-
-  // 9. Resolve
-  if (action.refs) {
-    descriptor = nested.update(
-      descriptor,
-      action.refs,
-      resolveAndSelect,
-      descriptors
-    )
-  }
-  
-  // 10. Freeze
-  
-  return descriptor;
-}
-
-function transform(action) {
+function create(action) {
   var result = { };
   
   // Pass I: 1-3; Wrap, Inherit, Defaults
@@ -42,7 +17,7 @@ function transform(action) {
   for (var name in actions) {
     var action = actions[name];
     var descriptor = descriptors[name] || descriptors[action.encodedName];
-    result[name] = create.call(descriptor, action);
+    result[name] = createHelper.call(descriptor, action);
   }
 
   // Pass II: 4; Depends
@@ -60,5 +35,5 @@ function transform(action) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: transform }
+  exports: { value: create }
 });

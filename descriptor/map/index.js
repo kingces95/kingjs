@@ -33,10 +33,13 @@ function map(action, name) {
   }
 
   // Thunk
-  if (action.thunks) {
+  var thunks = action.thunks || action;
+  if (is.function(thunks))
+    thunks = { '*': thunks };
+  if (thunks) {
     descriptor = nested.update(
       descriptor,
-      action.thunks,
+      thunks,
       function(value, key, callback) {
         return callback(value, this, key);
       },
@@ -53,9 +56,8 @@ function map(action, name) {
   }
 
   // Update
-  var callback = action.callback || action;
-  if (is.function(callback)) {
-    descriptor = callback(
+  if (action.callback) {
+    descriptor = action.callback(
       descriptor,
       name
     )

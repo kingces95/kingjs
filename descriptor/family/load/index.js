@@ -11,9 +11,7 @@ var nested = {
   reduce: require('@kingjs/descriptor.nested.reduce'),
 }
 
-var resolveAndSelect = require('./resolveAndSelect');
-
-function depends(descriptors, actions) {
+function load(descriptors, actions) {
 
   var adjacencyList = mapToAdjacencyList(descriptors, actions);
   if (!adjacencyList) 
@@ -24,7 +22,6 @@ function depends(descriptors, actions) {
     if (!action.depends)
       return;
 
-    // 4. Depends 
     descriptors[name] = nested.update(
       descriptors[name],
       action.depends,
@@ -40,16 +37,16 @@ function depends(descriptors, actions) {
   );
 }
 
-function accumulateStrings(accumulator, value) {
-  if (!is.string(value))
-    return accumulator;
+function resolveAndSelect(name, _, selector) {
+  if (!is.string(name))
+    return name;
 
-  if (!accumulator)
-    accumulator = [ ];
-  
-  accumulator.push(value);
-  
-  return accumulator;
+  var result = this[name];
+
+  if (selector)
+    result = selector(result);
+
+  return result;
 }
 
 function mapToAdjacencyList(descriptors, actions) {
@@ -78,6 +75,18 @@ function mapToAdjacencyList(descriptors, actions) {
   return adjacencyList;
 }
 
+function accumulateStrings(accumulator, value) {
+  if (!is.string(value))
+    return accumulator;
+
+  if (!accumulator)
+    accumulator = [ ];
+  
+  accumulator.push(value);
+  
+  return accumulator;
+}
+
 Object.defineProperties(module, {
-  exports: { value: depends }
+  exports: { value: load }
 });
