@@ -1,22 +1,15 @@
 'use strict';
 
+var prolog = require('@kingjs/descriptor.object.epilog');
 var epilog = require('@kingjs/descriptor.object.epilog');
-var clone = require('@kingjs/descriptor.object.clone');
+var write = require('@kingjs/descriptor.object.write');
 
 function trivialLoad(callback, thisArg) {
+  prolog.call(this);
 
-  var result;
-  for (var name in this) {
-
-    var descriptor = callback.call(thisArg, this[name], name);
-    if (descriptor == this[name])
-      continue;
-
-    if (!result)
-      result = clone.call(this);
-
-    result[name] = descriptor;
-  }
+  var result = this;
+  for (var name in this)
+    write.call(result, 'name', callback.call(thisArg, this[name], name));
 
   return epilog.call(result || this);
 }

@@ -5,6 +5,18 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var write = testRequire('@kingjs/descriptor.write');
 
+function vacuousLoad() {
+  var source = { foo: { } };
+  assert(load.call(source) === source);
+}
+vacuousLoad();
+
+function trivialToVacuousLoad() {
+  var source = { foo: { } };
+  assert(load.call(source) === source);
+}
+trivialToVacuousLoad();
+
 function trivialLoad() {
 
   var id = 0;
@@ -72,7 +84,7 @@ function simpleLoad(declarativeRef) {
 simpleLoad(true);
 simpleLoad(false);
 
-function posetLoadTrivial() {
+function posetToTrivialLoad() {
 
   var globalId = 0;
   var argThis = { };
@@ -101,7 +113,7 @@ function posetLoadTrivial() {
   assert(family.bar.id < 3);
   assert(family.baz.id < 3);
 }
-posetLoadTrivial();
+posetToTrivialLoad();
 
 function posetLoad(declarativeRef) {
 
