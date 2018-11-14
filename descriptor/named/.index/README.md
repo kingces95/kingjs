@@ -11,7 +11,8 @@ declare interface DescriptorNamed {
 }
 ```
 ## API
-- [`transform`][transform]
+- [`create`][create]
+- [`load`][load]
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -22,4 +23,5 @@ MIT
 
 ![Analytics](https://analytics.kingjs.net/descriptor)
 
-  [transform]: https://www.npmjs.com/package/@kingjs/descriptor.named.transform
+  [create]: https://www.npmjs.com/package/@kingjs/descriptor.named.create
+  [load]: https://www.npmjs.com/package/@kingjs/descriptor.named.load

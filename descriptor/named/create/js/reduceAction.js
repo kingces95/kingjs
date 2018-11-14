@@ -8,21 +8,27 @@ var nested = {
 }
 
 var nestedArray = {
-  flatten: require('@kingjs/descriptor.nested.array.to-array'),
-  update: require('@kingjs/descriptor.nested.array.update'),
   reduce: require('@kingjs/descriptor.nested.array.reduce')
 }
 
+function concat(left, right) {
+  return left.concat(right);
+}
+
 var actionMergePaths = {
-  callback: null,
-  scorch: takeLeft,
-  freeze: takeLeft,
   wrap: takeLeft,
+  bases: concat,
+  basePoset: { '*': takeLeft },
   defaults: { '*': takeLeft },
-  bases: { '*': takeLeft },
+  inflate: { '*': takeLeft },
   thunks: { '*': composeLeft },
+  scorch: { '*': takeLeft },
   depends: { '*': takeLeft },
+  callback: null,
   refs: { '*': takeLeft },
+  freeze: takeLeft,
+
+  $encodedName: takeLeft,
 };
 
 function composeLeft(g, f) {
@@ -38,10 +44,13 @@ function normalizeAction(action) {
     return { callback: action };
 
   if (is.array(action)) {
-    action = nestedArray.flatten(action);
-    action = nestedArray.update(action, o => normalizeAction(o));
-    action = nestedArray.reduce(action, 
-      (x, o) => nested.merge(x, o, actionMergePaths)
+    return nestedArray.reduce(action, 
+      (reduction, o) => { 
+        o = normalizeAction(o);
+        if (reduction)
+          o = nested.merge(reduction, o, actionMergePaths)
+        return o;
+      }
     );
   }
 

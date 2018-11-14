@@ -6,8 +6,6 @@ var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var write = testRequire('@kingjs/descriptor.object.write');
 
-var decodedName = 'myName';
-
 function badWrap() {
   var apple = {
     name: 'apple',
@@ -19,71 +17,84 @@ badWrap();
 
 function wrapDeclarative() {
   var result = create({ 
-    [decodedName]: 'apple'
+    myName: 'apple'
   }, { 
     wrap: 'name' 
   });
 
-  assert(result[decodedName].name == 'apple');  
+  assert(result.myName.name == 'apple');  
 }
 wrapDeclarative();
 
 function wrapProcedural() {
   var result = create({ 
-    [decodedName]: 'apple'
+    myName: 'apple'
   }, { 
     wrap: function(name) {
       return { name: name };
     }
   });
 
-  assert(result[decodedName].name == 'apple'); 
+  assert(result.myName.name == 'apple'); 
 }
 wrapProcedural();
 
 function inherit() {
   var result = create({ 
-    [decodedName]: { }
+    myName: { }
   }, { 
     bases:[{ type: 'fruit' }]
   });
 
-  assert(result[decodedName].type == 'fruit'); 
+  assert(result.myName.type == 'fruit'); 
 }
 inherit();
 
 function namedInherit() {
   var result = create({ 
-    [decodedName]: { }
+    myName: { }
   }, { 
     basePoset: {
       fruit: { type: 'fruit' }  
     }, bases: [ 'fruit' ]
   });
 
-  assert(result[decodedName].type == 'fruit'); 
+  assert(result.myName.type == 'fruit'); 
 }
 namedInherit();
 
+function encodedInherit() {
+  var result = create({ 
+    myName$fruit: { }
+  }, { 
+    basePoset: {
+      fruit: { type: 'fruit' }  
+    }
+  });
+
+  assert(result.myName.type == 'fruit'); 
+}
+encodedInherit();
+
 function defaults() {
   var result = create({ 
-    [decodedName]: { }
+    myName: { }
   }, { 
     defaults: {
       type: 'fruit'
     }
   });
 
-  assert(result[decodedName].type == 'fruit'); 
+  assert(result.myName.type == 'fruit'); 
 }
 defaults();
 
 function inflate() {
   var result = create({ 
-    [decodedName]: {
+    myName: {
       name: function $(name, key, path) {
         assert(key == 'name');
-        assert(name == decodedName);
+        assert(name == 'myName');
         assert(path == 42);
         return name;
       }
@@ -92,43 +103,43 @@ function inflate() {
     inflate: { '*': 42 }
   });
 
-  assert(result[decodedName].name == decodedName);
+  assert(result.myName.name == 'myName');
 }
 inflate();
 
 function thunk() {
   var result = create({ 
-    [decodedName]: {
+    myName: {
       type: 'fruit'
     }
   }, { 
     thunks: {
       type: function(value, name, key) {
         assert(value == 'fruit');
-        assert(name == decodedName);
+        assert(name == 'myName');
         assert(key == 'type');
         return 'food';
       }
     }
   });
 
-  assert(result[decodedName].type == 'food');
+  assert(result.myName.type == 'food');
 }
 thunk();
 
 function scorch() {
   var result = create({ 
-    [decodedName]: {
+    myName: {
       name: undefined
     }
   }, { 
     scorch: { }
   });
 
-  assert('name' in result[decodedName] == false);
+  assert('name' in result.myName == false);
 
   var result = create({
-    [decodedName]: {
+    myName: {
       foo: { value: undefined }, 
       bar: { value: undefined },
       baz: undefined
@@ -137,7 +148,7 @@ function scorch() {
     scorch: { foo: null } 
   }); 
 
-  var descriptor = result[decodedName];
+  var descriptor = result.myName;
   assert('baz' in descriptor == false);
   assert('value' in descriptor.foo == false);
   assert('value' in descriptor.bar == true);
@@ -146,29 +157,16 @@ scorch();
 
 function callback() {
   var result = create({ 
-      [decodedName]: {
+    myName: {
         name: undefined
       }
     }, 
     (descriptor, name) => write.call(descriptor, 'name', name)
   );
 
-  assert(result[decodedName].name == decodedName);
+  assert(result.myName.name == 'myName');
 }
 callback();
-
-function refs() {
-
-  var result = create({ 
-    foo: { id: 42 },
-    bar: { refId: 'foo' }
-  }, {
-    refs: { refId: o => o.id }
-  });
-
-  assert(result.bar.refId == result.foo.id);
-}
-refs();
 
 function depends() {
 
@@ -193,99 +191,28 @@ function depends() {
 }
 depends();
 
-function wrapThenInherit() {
-  var appleName = 'apple';
-  var result = transform.call(appleName, decodedName + '$fruit', {
-    wrap: 'name',
-    bases: { 
-      fruit: { 
-        type: 'fruit',
-        name: 'unknown',
-      }
-    }
+function dependsAlt() {
+  var result = create({
+    vehicle: { id: 0, name: 'Vehicle' },
+    truck: { id: 1, name: 'Truck', base: 'vehicle' }
+  }, { 
+    defaults: { base: null },
+    depends: { base: o => o.id }
   })
 
-  assert(result.name == 'apple'); // wrap, inherit
-  assert(result.type == 'fruit'); // inherit
+  assert(result.truck.base == 0);
 }
-wrapThenInherit();
+dependsAlt();
 
-function inheritThenDefaults() {
-  var result = transform.call({ }, decodedName + '$fruit', {
-    defaults: { 
-      type: 'unknown',
-      color: 'unknown' 
-    },
-    bases: { 
-      fruit: { 
-        type: 'fruit',
-      }
-    }
-  })
-  assert(result.type == 'fruit'); // inherit
-  assert(result.color == 'unknown'); // defaults
-}
-inheritThenDefaults();
+function refs() {
 
-function defaultsThenInflate() {
-  var result = transform.call({ }, decodedName, {
-    inflate: { '*': null },
-    defaults: { 
-      name: function $(name) {  
-        return name;
-      },
-    },
-  })
-  assert(result.name == decodedName); // default -> inflate
-}
-defaultsThenInflate();
-
-function inflateThenThunks() {
-  var result = transform.call({
-    name: function $(name) {  
-      return name;
-    }
-  }, 'apple', {
-    inflate: { '*': null },
-    thunks: {
-      name: function(name, value, key) {
-        return String.prototype.toUpperCase.call(value);
-      }
-    },
-  })
-  assert(result.name == 'APPLE'); // inflate -> thunks
-}
-inflateThenThunks();
-
-function thunksThenScorch() {
-  var result = transform.call({
-    name: 'apple'
-  }, decodedName, {
-    scorch: { },
-    thunks: {
-      name: function(name, value, key) {
-        return undefined;
-      }
-    },
-  })
-  assert(`name` in result == false); // thunks -> scorch
-}
-thunksThenScorch();
-
-function scorchThenCallback() {
-  var result = transform.call({
-    foo: 0,
-    name: undefined
-  }, decodedName, {
-    scorch: { },
-    callback: function(value, name) {
-      assert(value.foo == 0);
-      assert(name == decodedName);
-      assert('name' in value == false);
-      return write.call(value, 'name', 'apple');
-    }
+  var result = create({ 
+    foo: { id: 42 },
+    bar: { refId: 'foo' }
+  }, {
+    refs: { refId: o => o.id }
   });
 
-  assert(result.name == 'apple'); // scorch then callback
+  assert(result.bar.refId == result.foo.id);
 }
-scorchThenCallback();
+refs();

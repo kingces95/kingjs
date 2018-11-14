@@ -9,7 +9,7 @@ var nestedArray = {
   reduce: require('@kingjs/descriptor.nested.array.reduce')
 }
 
-var normalizeAction = require('./normalizeAction');
+var reduceAction = require('./reduceAction');
 
 var hidden = { enumerable: false };
 
@@ -18,6 +18,7 @@ var descriptorActionFilter = {
   $freeze: 'freeze',
   $defaults: 'defaults',
   $bases: 'bases',
+  $basePoset: 'basePoset',
   $wrap: 'wrap',
   $thunks: 'thunks',
   $depends: 'depends',
@@ -26,6 +27,8 @@ var descriptorActionFilter = {
 
 function createManyActions(manyActions, descriptors) {
   var action = this;
+
+  assert(!is.array(descriptors));
   var actions = createActions(descriptors, action);
   
   for (var name in actions) {
@@ -59,7 +62,7 @@ function createActions(descriptors, action) {
   // merge family actions
   var filteredAction = filter.call(descriptors, descriptorActionFilter);
   if (filteredAction)
-    action = normalizeAction([filteredAction, action]);
+    action = reduceAction([filteredAction, action]);
 
   // accumulate decoded family members
   for (var name in descriptors) {
@@ -70,11 +73,14 @@ function createActions(descriptors, action) {
 
     // decode name
     if (name.indexOf('$') != -1) {
-      action = write.call(action, 'encodedName', name);
-
+      var encodedName = name;
       var split = name.split('$');
       name = split.shift();
-      action = write.call(action, 'baseNames', split);
+      
+      action = reduceAction([{
+        $encodedName: encodedName,
+        bases: split
+      }, action]);
     }
 
     // accumulate

@@ -12,8 +12,8 @@ function vacuousLoad() {
 vacuousLoad();
 
 function trivialToVacuousLoad() {
-  var source = { foo: { } };
-  assert(load.call(source) === source);
+  var source = { foo: { id: 0 } };
+  assert(load.call(source, o => o, { }) === source);
 }
 trivialToVacuousLoad();
 
