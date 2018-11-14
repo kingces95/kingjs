@@ -5,7 +5,8 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "inflate.js"
+    "js/createActions.js",
+    "js/normalizeAction.js"
   ],
   "scripts": {
     "test": "node test.js"
@@ -19,18 +20,16 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
-    "@kingjs/descriptor.filter": "^1.0.0",
-    "@kingjs/descriptor.inherit": "^1.0.5",
+    "@kingjs/descriptor.create": "^1.0.0",
+    "@kingjs/descriptor.filter": "^1.0.6",
+    "@kingjs/descriptor.map": "^1.0.0",
+    "@kingjs/descriptor.named.load": "^1.0.4",
     "@kingjs/descriptor.nested.array.reduce": "^1.0.5",
     "@kingjs/descriptor.nested.array.to-array": "^1.0.4",
     "@kingjs/descriptor.nested.array.update": "^1.0.4",
-    "@kingjs/descriptor.nested.freeze": "^1.0.8",
-    "@kingjs/descriptor.nested.merge": "^1.0.19",
-    "@kingjs/descriptor.nested.reduce": "^1.0.10",
-    "@kingjs/descriptor.nested.update": "^1.0.18",
-    "@kingjs/descriptor.normalize": "^1.0.1",
+    "@kingjs/descriptor.nested.merge": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
-    "@kingjs/empty-object": "^1.0.7",
+    "@kingjs/func": "^1.0.0",
     "@kingjs/is": "^1.0.5"
   }
 }

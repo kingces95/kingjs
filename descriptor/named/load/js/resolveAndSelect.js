@@ -9,7 +9,7 @@ function resolveAndSelect(name, _, selector) {
   var result = this[name];
 
   if (selector)
-    result = selector(result);
+    result = selector(result, name);
 
   return result;
 }

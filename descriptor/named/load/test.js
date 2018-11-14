@@ -8,6 +8,7 @@ var write = testRequire('@kingjs/descriptor.write');
 function trivialLoad() {
 
   var id = 0;
+  var argThis = { };
 
   var family = load.call({ 
     foo: { 
@@ -19,7 +20,11 @@ function trivialLoad() {
     baz: {
       id: null
     },
-  }, o => write.call(o, 'id', id++));
+  }, function(o, n) {
+    assert(this == argThis);
+    assert(n == 'foo' || n == 'bar' || n == 'baz');
+    return write.call(o, 'id', id++);
+  }, null, argThis);
 
   assert(family.foo.id != family.bar.id);
   assert(family.foo.id != family.baz.id);
@@ -35,7 +40,9 @@ function trivialLoad() {
 }
 trivialLoad();
 
-function simpleLoad() {
+function simpleLoad(declarativeRef) {
+
+  var argThis = { };
 
   var family = load.call({ 
     foo: { 
@@ -50,19 +57,57 @@ function simpleLoad() {
       func: function baz() { },
       baseFunc: 'bar'
     },
-  }, null, {
+  }, null, declarativeRef ? {
     '*': { baseFunc: o => o.func }
-  });
+  } : function (name) {
+    assert(this == argThis);
+    assert(name == 'foo' || name == 'bar' || name == 'baz');
+    return { baseFunc: o => o.func }
+  }, argThis);
 
   assert(family.foo.baseFunc == null);
   assert(family.bar.baseFunc == family.foo.func);
   assert(family.baz.baseFunc == family.bar.func);
 }
-simpleLoad();
+simpleLoad(true);
+simpleLoad(false);
 
-function posetLoad() {
+function posetLoadTrivial() {
 
   var globalId = 0;
+  var argThis = { };
+
+  var family = load.call({ 
+    baz: { },
+    foo: { },
+    bar: { },
+  }, function(o, n) {
+    assert(this == argThis);
+    assert(n == 'foo' || n == 'bar' || n == 'baz');
+    var id = globalId++;
+    o = write.call(o, 'id', id);
+    return o
+  }, { /* optimize this case */ }, argThis);
+
+  assert(family.foo.id != family.bar.id);
+  assert(family.foo.id != family.baz.id);
+  assert(family.bar.id != family.baz.id);
+
+  assert(family.foo.id >= 0);
+  assert(family.bar.id >= 0);
+  assert(family.baz.id >= 0);
+
+  assert(family.foo.id < 3);
+  assert(family.bar.id < 3);
+  assert(family.baz.id < 3);
+}
+posetLoadTrivial();
+
+function posetLoad(declarativeRef) {
+
+  var funcId = 0;
+  var globalId = 0;
+  var argThis = { };
 
   var family = load.call({ 
     baz: {
@@ -74,30 +119,39 @@ function posetLoad() {
     bar: {
       baseFunc: 'foo'
     },
-  }, o => {
+  }, function(o, n) {
+    assert(this == argThis);
+    assert(n == 'foo' || n == 'bar' || n == 'baz');
+
     var id = globalId++;
     o = write.call(o, 'id', id);
-    o = write.call(o, 'func', function() {
+
+    var func = function() {
       var result = this.id;
+      assert(this.func != this.baseFunc);
       if (this.baseFunc)
         result += ' -> ' + this.baseFunc();
       return result;
-    });
+    };
+    func.id = funcId++;
+    o = write.call(o, 'func', func);
+
     return o;
-  }, {
-    '*': { baseFunc: o => o.func }
-  });
+  }, declarativeRef ? {
+    '*': { baseFunc: o => (() => o.func()) }
+  } : function(name) { 
+    assert(this == argThis);
+    assert(name == 'foo' || name == 'bar' || name == 'baz');
+    return { baseFunc: o => (() => o.func()) }
+  }, argThis);
 
   assert(family.foo.id == 0);
   assert(family.bar.id == 1);
   assert(family.baz.id == 2);
-    
-  assert(family.foo.baseFunc == null);
-  assert(family.bar.baseFunc == family.foo.func);
-  assert(family.baz.baseFunc == family.bar.func);
-
+      
   assert(family.foo.func() == '0');
   assert(family.bar.func() == '1 -> 0');
   assert(family.baz.func() == '2 -> 1 -> 0');
 }
-posetLoad();
+posetLoad(true);
+posetLoad(false);

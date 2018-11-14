@@ -16,7 +16,7 @@ function load(callback, refs, thisArg) {
 
   // simple load
   if (!callback)
-    return simpleLoad.call(this, refs);
+    return simpleLoad.call(this, refs, thisArg);
 
   // poset load
   return posetLoad.call(this, callback, refs, thisArg);

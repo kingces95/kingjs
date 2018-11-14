@@ -1,5 +1,6 @@
 'use strict';
 
+var is = require('@kingjs/is');
 var prolog = require('@kingjs/descriptor.object.prolog');
 var epilog = require('@kingjs/descriptor.object.epilog');
 var clone = require('@kingjs/descriptor.object.clone');
@@ -9,15 +10,17 @@ var resolveAndSelect = require('./resolveAndSelect');
 
 var star = '*';
 
-function simpleLoad(refs) {
+function simpleLoad(refs, thisArg) {
   prolog.call(this);
 
   var result;
 
   for (var name in this) {
     
-    var paths; 
-    if (name in refs)
+    var paths;
+    if (is.function(refs))
+      paths = refs.call(thisArg, name);
+    else if (name in refs)
       paths = refs[name];
     else if (star in refs)
       paths = refs[star];

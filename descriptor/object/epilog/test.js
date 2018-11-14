@@ -27,7 +27,11 @@ readMe();
 function assertObject() {
   assertThrows(() => epilog.call('foo'));
   assertThrows(() => epilog.call(0));
-  assertThrows(() => epilog.call(null));
   assertThrows(() => epilog.call());
 }
 assertObject();
+
+function nullOk() {
+  assert(null === epilog.call(null));
+}
+nullOk();

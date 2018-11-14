@@ -22,7 +22,7 @@ var descriptors = load.call({
   });
   return o;
 }, {
-  '*': { baseFunc: o => o.func }
+  baseFunc: o => o.func
 });
 
 {
@@ -43,8 +43,8 @@ result:
 ```ts
 declare function load(
   this: DescriptorNamed,
-  callback?: (this, value: Descriptor) => Descriptor,
-  refs?: DescriptorNested,
+  callback?: (this, value: Descriptor, name: string) => Descriptor,
+  refs?: DescriptorNamed | (this, name: string) => DescriptorNested,
   thisArg?: any
 ): DescriptorNamed
 ```

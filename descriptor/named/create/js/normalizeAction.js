@@ -5,7 +5,6 @@ var is = require('@kingjs/is');
 
 var nested = {
   merge: require('@kingjs/descriptor.nested.merge'),
-  freeze: require('@kingjs/descriptor.nested.freeze'),
 }
 
 var nestedArray = {

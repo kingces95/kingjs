@@ -1,91 +1,107 @@
 'use strict';
 
-var transformFamily = require('.').family;
+var create = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
 var write = testRequire('@kingjs/descriptor.object.write');
 
 var decodedName = 'myName';
 
-function transform(encodedName, action) {
-  var family = { };
-  family[encodedName] = this;
-  var result = transformFamily.call(family, action);
-
-  for (var name in result)
-    return result[name];
-}
-
-function noop() {
+function badWrap() {
   var apple = {
     name: 'apple',
   };
 
-  var result = transform.call(apple);
-
-  assert(result == apple);
+  assertThrows(() => create(apple));
 }
-noop();
+badWrap();
 
 function wrapDeclarative() {
-  var result = transform.call('apple', decodedName, { wrap: 'name' });
-  assert(result.name == 'apple');  
+  var result = create({ 
+    [decodedName]: 'apple'
+  }, { 
+    wrap: 'name' 
+  });
+
+  assert(result[decodedName].name == 'apple');  
 }
 wrapDeclarative();
 
 function wrapProcedural() {
-  var result = transform.call('apple', decodedName, {
+  var result = create({ 
+    [decodedName]: 'apple'
+  }, { 
     wrap: function(name) {
       return { name: name };
     }
   });
-  assert(result.name == 'apple');  
+
+  assert(result[decodedName].name == 'apple'); 
 }
 wrapProcedural();
 
 function inherit() {
-  var result = transform.call({ }, decodedName + '$fruit', {
-    bases: {
-      fruit: { type: 'fruit' }  
-    }
+  var result = create({ 
+    [decodedName]: { }
+  }, { 
+    bases:[{ type: 'fruit' }]
   });
 
-  assert(result.type == 'fruit');
+  assert(result[decodedName].type == 'fruit'); 
 }
 inherit();
 
+function namedInherit() {
+  var result = create({ 
+    [decodedName]: { }
+  }, { 
+    basePoset: {
+      fruit: { type: 'fruit' }  
+    }, bases: [ 'fruit' ]
+  });
+
+  assert(result[decodedName].type == 'fruit'); 
+}
+namedInherit();
+
 function defaults() {
-  var result = transform.call({ }, decodedName, {
+  var result = create({ 
+    [decodedName]: { }
+  }, { 
     defaults: {
       type: 'fruit'
     }
   });
 
-  assert(result.type == 'fruit');
+  assert(result[decodedName].type == 'fruit'); 
 }
 defaults();
 
 function inflate() {
-
-  var result = transform.call({
-    name: function $(name, key, path) {
-      assert(key == 'name');
-      assert(name == decodedName);
-      assert(path == 0);
-      return name;
+  var result = create({ 
+    [decodedName]: {
+      name: function $(name, key, path) {
+        assert(key == 'name');
+        assert(name == decodedName);
+        assert(path == 42);
+        return name;
+      }
     }
-   }, decodedName, { 
-     inflate: { '*': 0 }
-   });
+  }, { 
+    inflate: { '*': 42 }
+  });
 
-  assert(result.name == decodedName);
+  assert(result[decodedName].name == decodedName);
 }
 inflate();
 
 function thunk() {
-  var result = transform.call({
-    type: 'fruit'
-  }, decodedName, {
+  var result = create({ 
+    [decodedName]: {
+      type: 'fruit'
+    }
+  }, { 
     thunks: {
       type: function(value, name, key) {
         assert(value == 'fruit');
@@ -94,60 +110,88 @@ function thunk() {
         return 'food';
       }
     }
-  }); 
+  });
 
-  assert(result.type == 'food');
+  assert(result[decodedName].type == 'food');
 }
 thunk();
 
 function scorch() {
-  var result = transform.call({
-    name: undefined
-  }, decodedName, { scorch: { } }); 
+  var result = create({ 
+    [decodedName]: {
+      name: undefined
+    }
+  }, { 
+    scorch: { }
+  });
 
-  assert('name' in result == false);
+  assert('name' in result[decodedName] == false);
 
-  var result = transform.call({
-    foo: { value: undefined }, 
-    bar: { value: undefined },
-    baz: undefined
-  }, decodedName, { scorch: { foo: null } }); 
+  var result = create({
+    [decodedName]: {
+      foo: { value: undefined }, 
+      bar: { value: undefined },
+      baz: undefined
+    }
+  }, { 
+    scorch: { foo: null } 
+  }); 
 
-  assert('baz' in result == false);
-  assert('value' in result.foo == false);
-  assert('value' in result.bar == true);
+  var descriptor = result[decodedName];
+  assert('baz' in descriptor == false);
+  assert('value' in descriptor.foo == false);
+  assert('value' in descriptor.bar == true);
 }
 scorch();
 
 function callback() {
-
-  var result = transform.call(
-    { }, decodedName, function(descriptor, name) {
-      descriptor.name = name;
-      return descriptor; 
-    }
+  var result = create({ 
+      [decodedName]: {
+        name: undefined
+      }
+    }, 
+    (descriptor, name) => write.call(descriptor, 'name', name)
   );
 
-  assert(result.name == decodedName);
+  assert(result[decodedName].name == decodedName);
 }
 callback();
 
 function refs() {
 
-  var result = transformFamily.call({ 
-    foo: { 
-      id: 0
-    },
-    bar: { 
-      foo: 'foo'
-    }
+  var result = create({ 
+    foo: { id: 42 },
+    bar: { refId: 'foo' }
   }, {
-    refs: { foo: null }
+    refs: { refId: o => o.id }
   });
 
-  assert(result.bar.foo.id == 0);
+  assert(result.bar.refId == result.foo.id);
 }
 refs();
+
+function depends() {
+
+  var globalId = 0;
+
+  var result = create({ 
+    baz: { refId: 'bar' },
+    foo: { refId: null },
+    bar: { refId: 'foo' },
+  }, {
+    callback: o => write.call(o, 'id', globalId++),
+    depends: { refId: o => o.id }
+  });
+
+  assert(result.foo.id == 0);
+  assert(result.bar.id == 1);
+  assert(result.baz.id == 2);
+
+  assert(result.foo.refId == null);
+  assert(result.bar.refId == result.foo.id);
+  assert(result.baz.refId == result.bar.id);
+}
+depends();
 
 function wrapThenInherit() {
   var appleName = 'apple';

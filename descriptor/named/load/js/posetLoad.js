@@ -16,20 +16,27 @@ var nested = {
 }
 
 var resolveAndSelect = require('./resolveAndSelect');
+var trivialLoad = require('./trivialLoad');
 
 var star = '*';
 
 function posetLoad(callback, refs, thisArg) {
   prolog.call(this);
 
+  var adjacencyList = mapToAdjacencyList(this, refs, thisArg);
+  if (!adjacencyList)
+    return trivialLoad.call(this, callback, thisArg);
+
   var result = new Dictionary();
 
   poset.forEach.call(
-    mapToAdjacencyList(this, refs), 
+    adjacencyList, 
     name => {
 
       var paths; 
-      if (name in refs)
+      if (is.function(refs))
+        paths = refs.call(thisArg, name);
+      else if (name in refs)
         paths = refs[name];
       else if (star in refs)
         paths = refs[star];
@@ -43,7 +50,7 @@ function posetLoad(callback, refs, thisArg) {
         )
       }
   
-      result[name] = callback.call(thisArg, result[name]);
+      result[name] = callback.call(thisArg, result[name], name);
     },
     keys.call(this)
   );
@@ -51,13 +58,15 @@ function posetLoad(callback, refs, thisArg) {
   return epilog.call(result);
 }
 
-function mapToAdjacencyList(descriptors, refs) {
+function mapToAdjacencyList(descriptors, refs, thisArg) {
   var adjacencyList;
 
   for (var name in descriptors) {
 
     var paths; 
-    if (name in refs)
+    if (is.function(refs))
+      paths = refs.call(thisArg, name);
+    else if (name in refs)
       paths = refs[name];
     else if (star in refs)
       paths = refs[star];
