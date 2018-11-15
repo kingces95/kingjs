@@ -3,7 +3,7 @@
 var create = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var write = testRequire('@kingjs/descriptor.object.write');
+var write = testRequire('@kingjs/descriptor.write');
 
 function nestedDescriptorNestedAction() {
   var id = 0;

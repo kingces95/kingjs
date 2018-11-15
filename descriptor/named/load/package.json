@@ -1,14 +1,10 @@
 {
   "name": "@kingjs/descriptor.named.load",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "For each descriptor, replaces properties containing descriptor names the actual descriptor then maps the descriptor.",
   "main": "index.js",
   "files": [
-    "index.js",
-    "js/posetLoad.js",
-    "js/resolveAndSelect.js",
-    "js/simpleLoad.js",
-    "js/trivialLoad.js"
+    "index.js"
   ],
   "scripts": {
     "test": "node test.js"
@@ -21,10 +17,9 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/dictionary": "^1.0.0",
+    "@kingjs/assert": "^1.0.0",
     "@kingjs/descriptor.object.epilog": "^1.0.0",
     "@kingjs/descriptor.object.prolog": "^1.0.0",
-    "@kingjs/descriptor.object.clone": "^1.0.0",
     "@kingjs/descriptor.object.keys": "^1.0.0",
     "@kingjs/descriptor.nested.reduce": "^1.0.0",
     "@kingjs/descriptor.nested.update": "^1.0.0",

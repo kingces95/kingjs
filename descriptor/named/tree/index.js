@@ -5,7 +5,7 @@ var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
 var assert = require('@kingjs/assert');
 
-var transform = require('@kingjs/descriptor.family.transform');
+var create = require('@kingjs/descriptor.named.create');
 var Node = require('./node');  
 
 function defineBase(func, base) {
@@ -16,6 +16,19 @@ function defineBase(func, base) {
   objectEx.setHiddenProperty(func.prototype, 'constructor', func);
   return func;
 }
+
+/**
+ * Each node in the tree has a name and a type. The concatenated names from the 
+ * root to any node is the node's path. Users are expected to construct trees with unique paths.
+ * Nodes can be "resolved" by their paths. A node can "point" at another node by assigning 
+ * the other node's path to one of it's properties. Such pointers are marked as either a
+ * "dependency" or a "reference". Dependencies must for a poset and will be resolved
+ * automatically before a node is resolved for the first time. After a node's dependencies
+ * are resolved for the first time the node's "OnLoading" callback is invoked. The node
+ * can do work knowing it's dependencies have been resolved but OnLoading must not attempt
+ * to access any of it's references least it result in a loading cycle. After OnLoading finishes,
+ * children of the node marked as "LoadOnParentLoad" are loaded automatically. 
+ */
 
 /**
  * Data structure is a tree where each node 
@@ -82,7 +95,7 @@ function flagsToAccessor(flags) {
   if (!flags)
     return null;
     
-  return transform(flags, { 
+  return create(flags, { 
     wrap: (x) => is.boolean(x) ? { defaultValue: x } : { get: x },
     defaults: { func: Boolean }
   })
@@ -143,7 +156,7 @@ function defineNodes(target, descriptors) {
 }
 
 function firstPass(descriptors) {
-  return transform.call(descriptors, {
+  return create.call(descriptors, {
     defaults: { 
       base: Node
     },
@@ -173,20 +186,20 @@ function firstPass(descriptors) {
 
       // add methods to func prototype
       if (descriptor.methods) {
-        var methods = transform.call(descriptor.methods, { wrap: 'func' });
-        transform.call(methods, (n, d) => defineMethod(func.prototype, n, d));
+        var methods = create.call(descriptor.methods, { wrap: 'func' });
+        create.call(methods, (n, d) => defineMethod(func.prototype, n, d));
       }
 
       // add field accessors to func prototype
       if (descriptor.accessors) {
 
         // flags are accessors with the boolean boilerplate removed
-        var accessors = transform.call([
+        var accessors = create.call([
           descriptor.accessors,
           flagsToAccessor(descriptor.flags)
         ], { wrap: o => ({ [is.function(o) ? 'get' : 'defaultValue']: o }) }); 
 
-        transform.call(accessors, (n, d) => defineAccessor(func.prototype, n, d));
+        create.call(accessors, (n, d) => defineAccessor(func.prototype, n, d));
       }
 
       if (descriptor.fields) {
@@ -247,7 +260,7 @@ function bindDefineChildren(ctor, action, defaultAction) {
     if (!descriptors)
       return;
 
-    transform.call(
+    create.call(
       descriptors, [
         (name, descriptor) => 
           new ctor(this, name, descriptor),
@@ -278,7 +291,7 @@ function defineChildMethods(descriptors, target, name, action) {
 }
 
 function secondPass(descriptors) {   
-  return transform.call(descriptors, function(name, descriptor) {
+  return create.call(descriptors, function(name, descriptor) {
 
     var children = descriptor.children;
     if (!children)

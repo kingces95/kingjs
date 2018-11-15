@@ -1,8 +1,10 @@
 'use strict';
 
 var is = require('@kingjs/is');
-var transform = require('@kingjs/descriptor.family.transform');
 var assert = require('@kingjs/assert');
+var named = {
+  create: require('@kingjs/descriptor.named.create')
+};
 
 var OnTargetsSuffix = 'OnTargets';
 
@@ -161,8 +163,9 @@ function exportDefineConfiguredPropertyFamily(name, pluralName, define) {
   // (define|set)[Const][Hidden](Properties|Accessors)(target, descriptors)
   var defineMany = exportConstProperty(
     pluralName, 
-    function(target, descriptors) {
-      return transform.call(descriptors, bind1st(define, target));
+    function(target, values) {
+      for (var name in values)
+        define(target, name, values[name]);
     }
   );
   
@@ -182,7 +185,7 @@ function exportConstProperty(name, value) {
   return value;
 }
 
-transform.call({
+named.create({
   
   'Property': {
     pluralName: 'Properties',
@@ -217,14 +220,14 @@ transform.call({
     proxy: createAccessorDescriptor
   }
 
-}, function(suffix, descriptor) {
+}, function(descriptor, suffix) {
 
   var pluralSuffix = descriptor.pluralName;
   var proxy = descriptor.proxy;
 
-  transform.call(
+  named.create(
     descriptor.namedConfigurations,
-    function(prefix, configuration) {
+    function(configuration, prefix) {
 
       var define = proxy ?
         bindDefineConfiguredProperty(configuration, proxy) :

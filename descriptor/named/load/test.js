@@ -5,18 +5,6 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var write = testRequire('@kingjs/descriptor.write');
 
-function vacuousLoad() {
-  var source = { foo: { } };
-  assert(load.call(source) === source);
-}
-vacuousLoad();
-
-function trivialToVacuousLoad() {
-  var source = { foo: { id: 0 } };
-  assert(load.call(source, o => o, { }) === source);
-}
-trivialToVacuousLoad();
-
 function trivialLoad() {
 
   var id = 0;
@@ -167,3 +155,5 @@ function posetLoad(declarativeRef) {
 }
 posetLoad(true);
 posetLoad(false);
+
+require('./test-primitive')

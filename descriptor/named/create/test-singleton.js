@@ -4,7 +4,7 @@ var create = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
-var write = testRequire('@kingjs/descriptor.object.write');
+var write = testRequire('@kingjs/descriptor.write');
 
 function badWrap() {
   var apple = {
