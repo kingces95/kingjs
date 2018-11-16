@@ -22,7 +22,7 @@ function defineBase(func, base) {
  * root to any node is the node's path. Users are expected to construct trees with unique paths.
  * Nodes can be "resolved" by their paths. A node can "point" at another node by assigning 
  * the other node's path to one of it's properties. Such pointers are marked as either a
- * "dependency" or a "reference". Dependencies must for a poset and will be resolved
+ * "dependency" or a "reference". Dependencies must form a poset and will be resolved
  * automatically before a node is resolved for the first time. After a node's dependencies
  * are resolved for the first time the node's "OnLoading" callback is invoked. The node
  * can do work knowing it's dependencies have been resolved but OnLoading must not attempt

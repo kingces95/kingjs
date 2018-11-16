@@ -25,18 +25,6 @@ function assign(target, source) {
   return target;
 }
 
-function bindArg(func, index, value) {
-  assert(func);
-  
-  return function() { 
-    Array.prototype.splice.call(arguments, index, 0, value);
-  };
-}
-
-function bind1st(func, value) {
-  return bindArg(func, 0, value);
-}
-
 function bindProxy(func, proxy) {
   assert(is.function(func));
   assert(is.function(proxy));
@@ -107,6 +95,74 @@ function createAccessorDescriptor(next, target, name, descriptor) {
   return next.call(this, target, name, descriptor);        
 }
 
+function createLazyAccessorDescriptor(next) {
+
+  function makeGetterLazy(target, name, descriptor) {
+    assert(is.string(name));
+    assert(descriptor.get);
+    assert(!descriptor.set);
+
+    var eagerGet = descriptor.get;
+
+    descriptor.get = function() {
+      var value = eagerGet.call(this);
+      Object.defineProperty(this, name, {
+        writable: false,
+        configurable: false,
+        enumerable: descriptor.enumerable,
+        value: value
+      });
+      return value;
+    }
+
+    return next.call(this, target, name, descriptor);        
+  }
+  
+  arguments[0] = makeGetterLazy; // change proxy from 'next' to 'makeGetterLazy
+  return createAccessorDescriptor.apply(this, arguments);      
+}
+
+function createReferenceDescriptor(next) {
+
+  function makeGetterLazy(target, name, descriptor) {
+    assert(is.string(name));
+    assert(descriptor.get);
+    assert(!descriptor.set);
+
+    var dereference = descriptor.get;
+    delete descriptor.get;
+
+    descriptor.set = function(address) {
+
+      // replace set address with dereference address
+      Object.defineProperty(this, {
+        configurable: true,
+        enumerable: descriptor.enumerable,
+        get: function() {
+          var value = dereference.call(this, address);
+          if (value === undefined)
+            return;
+
+          // replace dereference address with value
+          Object.defineProperty(this, name, {
+            writable: false,
+            configurable: false,
+            enumerable: descriptor.enumerable,
+            value: value
+          });
+
+          return value;
+        }     
+      })
+    }
+
+    return next.call(this, target, name, descriptor);        
+  }
+  
+  arguments[0] = makeGetterLazy; // change proxy from 'next' to 'makeGetterLazy
+  return createAccessorDescriptor.apply(this, arguments);      
+}
+
 function bindDefineConfiguredValue(configuration) {
 
   // close over configuration
@@ -148,10 +204,10 @@ function bindDefineConfiguredProperty(configuration, proxy) {
 
 function exportDefineConfiguredPropertyFamily(name, pluralName, define) {
   
-  // (define|set)[Const][Hidden](Property|Accessor)(target, name, descriptor);
+  // (define|set)[Const][Hidden](Property|Accessor|Function)(target, name, descriptor);
   exportConstProperty(name, define);
   
-  // (define|set)[Const][Hidden](Property|Accessor)OnTargets(targets, name, descriptor)
+  // (define|set)[Const][Hidden](Property|Accessor|Function)OnTargets(targets, name, descriptor)
   exportConstProperty(
     name + OnTargetsSuffix, 
     function(targets, propertyOrAccessorName, descriptors, setter) {
@@ -160,7 +216,7 @@ function exportDefineConfiguredPropertyFamily(name, pluralName, define) {
     }
   );
   
-  // (define|set)[Const][Hidden](Properties|Accessors)(target, descriptors)
+  // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
   var defineMany = exportConstProperty(
     pluralName, 
     function(target, values) {
@@ -169,7 +225,7 @@ function exportDefineConfiguredPropertyFamily(name, pluralName, define) {
     }
   );
   
-  // (define|set)[Const][Hidden](Properties|Accessors)OnTargets(targets, descriptor)
+  // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)
   exportConstProperty(
     pluralName + OnTargetsSuffix, 
     function(targets, descriptors) {
@@ -218,6 +274,28 @@ named.create({
       defineHidden:       { configurable: false, enumerable: false },
     },
     proxy: createAccessorDescriptor
+  },
+
+  'LazyAccessor': {
+    pluralName: 'LazyAccessors',
+    namedConfigurations: { 
+      set:                { configurable: true, enumerable: true },
+      setHidden:          { configurable: true, enumerable: false },
+      define:             { configurable: false, enumerable: true },
+      defineHidden:       { configurable: false, enumerable: false },
+    },
+    proxy: createLazyAccessorDescriptor,
+  
+    'Reference': {
+      pluralName: 'References',
+      namedConfigurations: { 
+        set:                { configurable: true, enumerable: true },
+        setHidden:          { configurable: true, enumerable: false },
+        define:             { configurable: false, enumerable: true },
+        defineHidden:       { configurable: false, enumerable: false },
+      },
+      proxy: createReferenceDescriptor
+    }
   }
 
 }, function(descriptor, suffix) {

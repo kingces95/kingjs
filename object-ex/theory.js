@@ -3,6 +3,7 @@
 var objectEx = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
 function buildName(test, suffix, pluralSuffix) {
@@ -14,7 +15,11 @@ function buildName(test, suffix, pluralSuffix) {
     name += 'Hidden';
   if (test.writable === false)
     name += 'Const';
+  if (test.lazy === true)
+    name += 'Lazy';
+
   name += test.plural ? pluralSuffix : suffix;
+
   if (test.onTargets === true)
     name += 'OnTargets';
   return name;
@@ -22,10 +27,16 @@ function buildName(test, suffix, pluralSuffix) {
 
 function assertDescriptor(test, target, name) {
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
-  assert(descriptor.configurable === test.configurable);
+
+  if (test.lazy) {
+    assert(descriptor.configurable === false);
+    assert(descriptor.writable === false);
+  } else {
+    assert(descriptor.configurable === test.configurable);
+    assert(descriptor.writable === test.writable);
+  }
+
   assert(descriptor.enumerable === test.enumerable);
-  assert(descriptor.writable === test.writable);
-  return descriptor;
 }
 
 assertTheory(function(test, id) {
@@ -111,7 +122,7 @@ assertTheory(function(test, id) {
   if (test.namedGetter)
     getter = function foo() { return 0 };
 
-  if (test.setter) {
+  if (test.setter && !test.lazy) {
     var field = undefined;
     var setter = undefined;
     setter = (x) => field = x;
@@ -160,10 +171,16 @@ assertTheory(function(test, id) {
     }
   }
 
+  if (test.lazy & !test.configurable) {
+    assertThrows(() => target[test.name])
+    return;
+  }
+  
   assert(target[test.name] == 0);
   assertDescriptor(test, target, test.name);
 }, {
   name: 'foo',
+  lazy: [ false, true ],
   setter: [ false, true ],
   namedGetter: [ false, true ],
   wrapped: [ false, true ],

@@ -5,98 +5,68 @@ var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
 var assert = require('@kingjs/assert');
 
-function Node(parent, name, descriptor) {
+function Root(descriptor) {
+}
 
-  var fullName = name;
-
-  if (parent) {
-    assert(name);
-
-    parent.attachChild(name, this);
-
-    if (is.nonEmptyString(parent.fullName))
-      fullName = parent.fullName + '.' + fullName;
+objectEx.defineFunctions(Node.prototype, {
+  resolve: function(path) {
   }
-          
-  objectEx.defineConstProperties(this, {
-    name: name,
-    fullName: fullName,    
-    parent: parent,
-  });
-  
-  objectEx.defineHiddenConstProperty(this, 'children__', { });
+})
+
+// virtual
+objectEx.defineFunctions(Root.prototype, {
+  onLoad: function() { },
+  attachChild: function(name, child) {  
+    this.children[name] = child;
+  },
+});
+
+objectEx.defineLazyAccessors(Root.prototype, {
+  children: () => {{ }}
+});
+
+function Node(parent, name, descriptor) {
+  Root.prototype.call(this, descriptor);
+
+  assert(name);
+  assert(parent);
+
+  objectEx.defineConstProperty(this, 'name', parent);
+  objectEx.defineConstProperty(this, 'parent', parent);
 
   // add subTrees of children
   //var ctor = this.constructor;
   //var nodeInfo = ctor.nodeInfo || emptyObject;    
   //for (var childrenName in nodeInfo.children)
   //  this.defineChildren(nodeInfo.children[childrenName], descriptor[childrenName]);
-};
 
-var defineChildrenNames = { };
+  parent.attachChild(name, this);
+};
+Node.prototype = new Root();
+Node.prototype.function = Node;
+
+objectEx.defineLazyAccessors(Node.prototype, {
+
+  path: function() {
+    if (!this.parent.name)
+      return this.name;
+
+    return this.parent.path + '.' + this.name;
+  },
+});
 
 objectEx.defineFunctions(Node.prototype, {
-
-  defineChildren: function(descriptors) {
-    for (var name in descriptors) {
-      var descriptor = descriptors[name];
-      var define = defineChildrenNames[name];
-      if (!define)
-        define = defineChildrenNames[name] = 'define' + stringEx.capitalize(name);
-      this[define](descriptor);
-    }
-  },
   
   getAncestor: function(ctor) {
-    if (!ctor)
-      return this.parent;
-    
-    if (!this.parent)
-      return null;
-    
-    if (this.parent instanceof ctor)
-      return this.parent;
-    
-    return this.parent.getAncestor(ctor);
-  },
+    var parent = this.parent;
 
-  getChild: function(name, ctor) {
-    if (!name)
-      return null;
+    if (!ctor)
+      return parent;
     
-    var result = name.split('.').reduce(
-      function(parent, childName) {
-        
-        var child = parent ? parent.children__[childName] : null;
-        if (!child)
-          return null;
-        
-        return child;
-      }, this
-    );
+    if (!parent || parent instanceof ctor)
+      return parent;
     
-    if (ctor && !(result instanceof ctor))
-      return null;
-    
-    if (result)
-      result.load_();
-    
-    return result;
-  }, 
-  
-  children: function(ctor) {
-    
-    // get all children (of a specific type)
-    var result = values(this.children__).filter(
-      function(x) { 
-        return !ctor || x instanceof ctor 
-      }
-    );
-    
-    // load children
-    result.forEach(function(x) { x.load_(); });  
-    
-    return result;
+    return parent.getAncestor(ctor);
   },
   
   resolve: function(ref, ctor) {
@@ -106,6 +76,7 @@ objectEx.defineFunctions(Node.prototype, {
     var parent = this.parent;
     while (parent) {
       var resolution = parent.getChild(ref, ctor);
+
       if (resolution)
         return resolution;
       parent = parent.parent;
@@ -114,11 +85,6 @@ objectEx.defineFunctions(Node.prototype, {
     Assert.fail('Failed to load: ' + ref);
   },
   
-  onLoad: /* virtual */ function() { },
- 
-  attachChild: /* virtual */ function(name, child) {  
-    this.children__[name] = child;
-  },
 
   load_: function() { 
     if (this.isLoaded_)
