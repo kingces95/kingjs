@@ -71,8 +71,10 @@ function loadNext(result, name, callback, refs, thisArg) {
     }
   }
 
-  if (callback) 
-    descriptor = callback.call(thisArg, descriptor, name);
+  if (callback) {
+    descriptor = callback.call(thisArg, descriptor, name) || descriptor;
+    assert(is.object(descriptor));
+  }
 
   return descriptor;
 }

@@ -32,10 +32,11 @@ function map(action, name) {
     );
   }
 
+  var thunks = action.thunks;
+  if (is.function(action))
+    thunks = { '*': action };
+
   // Thunk
-  var thunks = action.thunks || action;
-  if (is.function(thunks))
-    thunks = { '*': thunks };
   if (thunks) {
     descriptor = nested.update(
       descriptor,
@@ -62,8 +63,6 @@ function map(action, name) {
       name
     )
   }
-
-  return descriptor;
 }
 
 Object.defineProperties(module, {

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.named.load",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "For each descriptor, replaces properties containing descriptor names the actual descriptor then maps the descriptor.",
   "main": "index.js",
   "files": [

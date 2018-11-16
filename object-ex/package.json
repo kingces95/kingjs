@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/object-ex",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "files": [
@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
-    "@kingjs/descriptor.named.create": "^1.0.1",
+    "@kingjs/descriptor.named.create": "^1.0.2",
     "@kingjs/is": "^1.0.4"
   }
 }

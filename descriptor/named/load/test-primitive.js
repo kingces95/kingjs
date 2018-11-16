@@ -4,6 +4,19 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
+function callbackReturnUndefined() {
+  var descriptor = { foo: { } };
+
+  var result = load.call(descriptor, o => undefined);
+  assert(result.foo == descriptor.foo);
+
+  var result = load.call(descriptor, o => o);
+  assert(result.foo == descriptor.foo);
+
+  assertThrows(() => load.call(descriptor, o => 1));
+}
+callbackReturnUndefined();
+
 function vacuousLoad() {
   var source = Object.freeze({ foo: { } });
   assert(load.call(source) === source);
