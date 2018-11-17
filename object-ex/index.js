@@ -2,37 +2,35 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var named = {
-  create: require('@kingjs/descriptor.named.create')
-};
 
-var OnTargetsSuffix = 'OnTargets';
-
-var ConstPropertyAttributes = { 
-  configurable: false,
-  enumerable: false,
-  writable: false
+function createPropertyDescriptor(descriptor, name, value) {
+  descriptor.name = name;
+  descriptor.value = value;
+  return descriptor;
 }
 
-function assign(target, source) {
-  for (var name in source) {
-    if (name in target)
-      continue;
-
-    target[name] = source[name];
+function createFunctionDescriptor(descriptor, x, y) {
+      
+  // e.g. function foo() { ... } => 'foo', function foo() { ... }
+  if (is.namedFunction(x)) {
+    descriptor.name = x.name;
+    descriptor.value = x;
+  }
+  
+  // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }
+  else if (is.function(y)) {
+    descriptor.name = x;
+    descriptor.value = y;
   }
 
-  return target;
-}
-
-function bindProxy(func, proxy) {
-  assert(is.function(func));
-  assert(is.function(proxy));
+  // e.g. 'foo', { value: function() { ... } }
+  else {
+    descriptor.name = x;
+    for (var name in y)
+      descriptor[name] = y[name];
+  }
   
-  return function() { 
-    Array.prototype.unshift.call(arguments, func);
-    return proxy.apply(this, arguments); 
-  };
+  return descriptor;
 }
 
 function findValue(source, predicate) {
@@ -43,209 +41,128 @@ function findValue(source, predicate) {
   }
 }
 
-function createFunctionDescriptor(next, target, name, descriptor) {
-      
-  // e.g. function foo() { ... } => 'foo', function foo() { ... }
-  if (is.namedFunction(name)) {
-    descriptor = name;
-    name = descriptor.name;
-  }
-  
-  // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }
-  if (is.function(descriptor))
-    descriptor = { value: descriptor };
-  
-  return next.call(this, target, name, descriptor);
-}
-
-function createAccessorDescriptor(next, target, name, descriptor) {
+function createAccessorDescriptor(descriptor, x, y, z) {
       
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
-  if (is.objectLiteral(name)) {
-    descriptor = name;
-    name = findValue(descriptor, is.namedFunction).name;
+  if (is.objectLiteral(x)) {
+    descriptor.name = findValue(x, is.namedFunction).name;
+    for (var name in x)
+      descriptor[name] = x[name];
   }
   
-  else if (!is.objectLiteral(descriptor)) {
+  else if (!is.objectLiteral(y)) {
     var get, set;
     
-    // e.g. function foo() { ... } => 'foo', { get: function foo() { ... } }
-    if (is.function(name)) {
-      get = name;
-      set = descriptor;
-      name = get.name;
-    } 
-    
     // e.g. 'foo', function() { ... } => 'foo', { get: function() { ... } }
-    else {
-      get = descriptor;
-      set = arguments[4];
+    if (is.string(x)) {
+      descriptor.name = x;
+      get = y;
+      set = z;
     }
-    
-    descriptor = { };
+
+    // e.g. function foo() { ... } => 'foo', { get: function foo() { ... } }
+    else {
+      get = x;
+      set = y;
+      descriptor.name = get.name;
+    } 
+
     if (get) descriptor.get = get;
     if (set) descriptor.set = set;
   }
-  
-  assert(is.string(name));
+ 
+  // e.g. 'foo', { get: function() { ... } }
+  else {
+    descriptor.name = x;
+    for (var name in y)
+      descriptor[name] = y[name];
+  }
+
+  assert(is.string(descriptor.name));
   assert(descriptor.get || descriptor.set);
   assert(!descriptor.get || is.function(descriptor.get));
   assert(!descriptor.set || is.function(descriptor.set));
   
-  return next.call(this, target, name, descriptor);        
+  return descriptor;        
 }
 
-function createLazyAccessorDescriptor(next) {
+function createLazyAccessorDescriptor(descriptor, x, y, z) {
+  descriptor = createAccessorDescriptor(descriptor, x, y, z);
+  assert(descriptor.get);
+  assert(!descriptor.set);
 
-  function makeGetterLazy(target, name, descriptor) {
-    assert(is.string(name));
-    assert(descriptor.get);
-    assert(!descriptor.set);
+  var name = descriptor.name;
+  var eagerGet = descriptor.get;
 
-    var eagerGet = descriptor.get;
-
-    descriptor.get = function() {
-      var value = eagerGet.call(this);
-      Object.defineProperty(this, name, {
-        writable: false,
-        configurable: false,
-        enumerable: descriptor.enumerable,
-        value: value
-      });
-      return value;
-    }
-
-    return next.call(this, target, name, descriptor);        
-  }
-  
-  arguments[0] = makeGetterLazy; // change proxy from 'next' to 'makeGetterLazy
-  return createAccessorDescriptor.apply(this, arguments);      
-}
-
-function createReferenceDescriptor(next) {
-
-  function makeGetterLazy(target, name, descriptor) {
-    assert(is.string(name));
-    assert(descriptor.get);
-    assert(!descriptor.set);
-
-    var dereference = descriptor.get;
-    delete descriptor.get;
-
-    descriptor.set = function(address) {
-
-      // replace set address with dereference address
-      Object.defineProperty(this, {
-        configurable: true,
-        enumerable: descriptor.enumerable,
-        get: function() {
-          var value = dereference.call(this, address);
-          if (value === undefined)
-            return;
-
-          // replace dereference address with value
-          Object.defineProperty(this, name, {
-            writable: false,
-            configurable: false,
-            enumerable: descriptor.enumerable,
-            value: value
-          });
-
-          return value;
-        }     
-      })
-    }
-
-    return next.call(this, target, name, descriptor);        
-  }
-  
-  arguments[0] = makeGetterLazy; // change proxy from 'next' to 'makeGetterLazy
-  return createAccessorDescriptor.apply(this, arguments);      
-}
-
-function bindDefineConfiguredValue(configuration) {
-
-  // close over configuration
-  var define = function(target, name, value) {
-
-    var descriptor = null;
-
-    // optimized case: set property not previously defined 
-    if (name in target == false) {
-      target[name] = value;
-      descriptor = configuration;
-    } 
-
-    // general case: e.g. override inherited readonly property
-    else {
-      descriptor = assign({ value: value }, configuration);
-    }
-
-    return Object.defineProperty(
-      target, 
-      name, 
-      descriptor
-    );
+  descriptor.get = function() {
+    var value = eagerGet.call(this);
+    Object.defineProperty(this, name, {
+      writable: false,
+      configurable: false,
+      enumerable: descriptor.enumerable,
+      value: value
+    });
+    return value;
   }
 
-  return define;
+  return descriptor;
 }
 
-function bindDefineConfiguredProperty(configuration, proxy) {
-  return bindProxy(function(target, name, descriptor) {
-    return Object.defineProperty(
-      target, 
-      name, 
-      // close over configuration
-      assign(descriptor, configuration)
-    );
-  }, proxy);
+function createReferenceDescriptor(descriptor, x, y, z) {
+  descriptor = createAccessorDescriptor(descriptor, x, y, z);
+  assert(descriptor.get);
+  assert(!descriptor.set);
+
+  var dereference = descriptor.get;
+  delete descriptor.get;
+
+  descriptor.set = function(address) {
+
+    // replace set address with dereference address
+    Object.defineProperty(this, {
+      configurable: true,
+      enumerable: descriptor.enumerable,
+      get: function() {
+
+        // resolve address to value!
+        var value = dereference.call(this, address);
+        if (value === undefined)
+          return;
+
+        // replace dereference address with value
+        Object.defineProperty(this, name, {
+          writable: false,
+          configurable: false,
+          enumerable: descriptor.enumerable,
+          value: value
+        });
+
+        return value;
+      }     
+    })
+  }
+  
+  return descriptor;        
 }
 
-function exportDefineConfiguredPropertyFamily(name, pluralName, define) {
-  
-  // (define|set)[Const][Hidden](Property|Accessor|Function)(target, name, descriptor);
-  exportConstProperty(name, define);
-  
-  // (define|set)[Const][Hidden](Property|Accessor|Function)OnTargets(targets, name, descriptor)
-  exportConstProperty(
-    name + OnTargetsSuffix, 
-    function(targets, propertyOrAccessorName, descriptors, setter) {
-      for (var i = 0; i < targets.length; i++)       
-        define(targets[i], propertyOrAccessorName, descriptors, setter); 
-    }
-  );
-  
-  // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
-  var defineMany = exportConstProperty(
-    pluralName, 
-    function(target, values) {
-      for (var name in values)
-        define(target, name, values[name]);
-    }
-  );
-  
-  // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)
-  exportConstProperty(
-    pluralName + OnTargetsSuffix, 
-    function(targets, descriptors) {
-      for (var i = 0; i < targets.length; i++)
-        defineMany(targets[i], descriptors); 
-    }
+function createLambdaDescriptor(descriptor, name, lambda) {
+  return createReferenceDescriptor(descriptor, name, 
+    new Function('return ' + lambda)
   );
 }
 
-function exportConstProperty(name, value) {
-  exports[name] = value;
-  Object.defineProperty(exports, name, ConstPropertyAttributes);
-  return value;
-}
+var accessorConfigurations = { 
+  set:                { configurable: true, enumerable: true },
+  setHidden:          { configurable: true, enumerable: false },
+  define:             { configurable: false, enumerable: true },
+  defineHidden:       { configurable: false, enumerable: false },
+};
 
-named.create({
+var definitions = {
   
   'Property': {
     pluralName: 'Properties',
-    namedConfigurations: { 
+    configurations: { 
       set:                { configurable: true, enumerable: true, writable: true },
       setConst:           { configurable: true, enumerable: true, writable: false },
       setHidden:          { configurable: true, enumerable: false, writable: true },
@@ -254,68 +171,105 @@ named.create({
       defineConst:        { configurable: false, enumerable: true, writable: false },
       defineHidden:       { configurable: false, enumerable: false, writable: true },
       defineHiddenConst:  { configurable: false, enumerable: false, writable: false }
-    }, 
+    },
+    normalizer: createPropertyDescriptor, 
   },
 
   'Function': {
     pluralName: 'Functions',
-    namedConfigurations: {
+    configurations: {
       define:             { configurable: false, enumerable: false, writable: false }
     }, 
-    proxy: createFunctionDescriptor
+    normalizer: createFunctionDescriptor
   },
 
   'Accessor': {
     pluralName: 'Accessors',
-    namedConfigurations: { 
-      set:                { configurable: true, enumerable: true },
-      setHidden:          { configurable: true, enumerable: false },
-      define:             { configurable: false, enumerable: true },
-      defineHidden:       { configurable: false, enumerable: false },
-    },
-    proxy: createAccessorDescriptor
+    configurations: accessorConfigurations,
+    normalizer: createAccessorDescriptor
   },
 
   'LazyAccessor': {
     pluralName: 'LazyAccessors',
-    namedConfigurations: { 
-      set:                { configurable: true, enumerable: true },
-      setHidden:          { configurable: true, enumerable: false },
-      define:             { configurable: false, enumerable: true },
-      defineHidden:       { configurable: false, enumerable: false },
-    },
-    proxy: createLazyAccessorDescriptor,
+    configurations: accessorConfigurations,
+    normalizer: createLazyAccessorDescriptor
+  },
+
+  'Reference': {
+    pluralName: 'References',
+    configurations: accessorConfigurations,
+    normalizer: createReferenceDescriptor
+  },
+
+  'Lambda': {
+    pluralName: 'Lambdas',
+    configurations: accessorConfigurations,
+    normalizer: createLambdaDescriptor
+  }
+}
+
+var OnTargetsSuffix = 'OnTargets';
+
+function exportDefinition(
+  suffix,
+  prefix, 
+  normalizer) {
+
+  var definition = definitions[suffix]; 
+  var pluralSuffix = definition.pluralName;
+  var normalizer = definition.normalizer || (() => new Object());
+  var configuration = definition.configurations[prefix];
   
-    'Reference': {
-      pluralName: 'References',
-      namedConfigurations: { 
-        set:                { configurable: true, enumerable: true },
-        setHidden:          { configurable: true, enumerable: false },
-        define:             { configurable: false, enumerable: true },
-        defineHidden:       { configurable: false, enumerable: false },
-      },
-      proxy: createReferenceDescriptor
+  // (define|set)[Const][Hidden](Property|Accessor|Function)(target, name, descriptor);
+  var define = exports[prefix + suffix] = function() {
+    var target = arguments[0];
+
+    var descriptor = { };
+    for (var name in configuration)
+      descriptor[name] = configuration[name];
+
+    arguments[0] = descriptor;
+    descriptor = normalizer.apply(this, arguments);
+
+    var name = descriptor.name;
+    delete descriptor.name;
+    assert(is.string(name));
+
+    Object.defineProperty(target, name, descriptor);
+  };
+
+  // (define|set)[Const][Hidden](Property|Accessor|Function)OnTargets(targets, name, descriptor)
+  exports[prefix + suffix + OnTargetsSuffix] =  
+    function(targets, propertyOrAccessorName, descriptors, setter) {
+      for (var i = 0; i < targets.length; i++)       
+        define(targets[i], propertyOrAccessorName, descriptors, setter); 
+    };
+
+  // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
+  var defineMany = exports[prefix + pluralSuffix] =
+    function(target, values) {
+      for (var name in values)
+        define(target, name, values[name]);
+    };
+
+  // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)
+  exports[prefix + pluralSuffix + OnTargetsSuffix] =
+    function(targets, descriptors) {
+      for (var i = 0; i < targets.length; i++)
+        defineMany(targets[i], descriptors); 
     }
   }
 
-}, function(descriptor, suffix) {
+for (var suffix in definitions) {
+  for (var prefix in definitions[suffix].configurations)
+    exportDefinition(suffix, prefix)
+}
 
-  var pluralSuffix = descriptor.pluralName;
-  var proxy = descriptor.proxy;
+var ConstPropertyConfiguration = { 
+  configurable: false,
+  enumerable: false,
+  writable: false
+}
 
-  named.create(
-    descriptor.namedConfigurations,
-    function(configuration, prefix) {
-
-      var define = proxy ?
-        bindDefineConfiguredProperty(configuration, proxy) :
-        bindDefineConfiguredValue(configuration);
-
-      exportDefineConfiguredPropertyFamily(
-        prefix + suffix, 
-        prefix + pluralSuffix,
-        define
-      );
-    }
-  );      
-});
+for (var name in exports)
+  Object.defineProperty(exports, name, ConstPropertyConfiguration);

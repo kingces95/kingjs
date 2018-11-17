@@ -28,12 +28,18 @@ function lazyAccessor() {
     return 0;
   }
 
-  var target = { };
+  var target = { name: 'target' };
   objectEx.setLazyAccessor(target, name, eagerAccessor);
   assert(name in target);
   assert(eagerAccessorCallCount == 0);
+
+  var descriptorGet = Object.getOwnPropertyDescriptor(target, name);
+  assert('get' in descriptorGet);
   assert(target[name] === 0);
   assert(eagerAccessorCallCount == 1);
+
+  var descriptorValue = Object.getOwnPropertyDescriptor(target, name);
+  assert('value' in descriptorValue);
   assert(target[name] === 0);
   assert(eagerAccessorCallCount == 1);
 
