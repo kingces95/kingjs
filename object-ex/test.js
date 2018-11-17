@@ -83,5 +83,26 @@ function lazyInheritedAccessor() {
 }
 lazyInheritedAccessor();
 
+function lambdaFunction() {
+  var name = 'foo';
+  var target = { id:0 };
+  objectEx.defineLambdaFunction(target, name, 'this.id');
+  var descriptorValue = Object.getOwnPropertyDescriptor(target, name);
+
+  var result = target[name]();
+  assert(result == 0);
+}
+lambdaFunction();
+
+function lambdaAccessor() {
+  var name = 'foo';
+  var target = { id:0 };
+  objectEx.defineLambdaAccessor(target, name, 'this.id');
+  var descriptorGet = Object.getOwnPropertyDescriptor(target, name);
+
+  var result = target[name];
+  assert(result == 0);
+}
+lambdaAccessor();
 
 require('./theory');

@@ -113,13 +113,14 @@ function createReferenceDescriptor(descriptor, x, y, z) {
   assert(descriptor.get);
   assert(!descriptor.set);
 
+  var name = descriptor.name;
   var dereference = descriptor.get;
   delete descriptor.get;
 
   descriptor.set = function(address) {
 
     // replace set address with dereference address
-    Object.defineProperty(this, {
+    Object.defineProperty(this, name, {
       configurable: true,
       enumerable: descriptor.enumerable,
       get: function() {
@@ -145,10 +146,18 @@ function createReferenceDescriptor(descriptor, x, y, z) {
   return descriptor;        
 }
 
-function createLambdaDescriptor(descriptor, name, lambda) {
-  return createReferenceDescriptor(descriptor, name, 
-    new Function('return ' + lambda)
+function createLambdaFunctionDescriptor(descriptor, name, lambda) {
+  descriptor = createFunctionDescriptor(descriptor, name, 
+    new Function('return ' + lambda + ';')
   );
+  return descriptor;
+}
+
+function createLambdaAccessorDescriptor(descriptor, name, lambda) {
+  descriptor = createAccessorDescriptor(descriptor, name, 
+    new Function('return ' + lambda + ';')
+  );
+  return descriptor;
 }
 
 var accessorConfigurations = { 
@@ -156,6 +165,10 @@ var accessorConfigurations = {
   setHidden:          { configurable: true, enumerable: false },
   define:             { configurable: false, enumerable: true },
   defineHidden:       { configurable: false, enumerable: false },
+};
+
+var functionConfigurations = {
+  define:             { configurable: false, enumerable: false, writable: false }
 };
 
 var definitions = {
@@ -177,16 +190,26 @@ var definitions = {
 
   'Function': {
     pluralName: 'Functions',
-    configurations: {
-      define:             { configurable: false, enumerable: false, writable: false }
-    }, 
+    configurations: functionConfigurations,
     normalizer: createFunctionDescriptor
   },
 
+  'LambdaFunction': {
+    pluralName: 'LambdaFunctions',
+    configurations: functionConfigurations,
+    normalizer: createLambdaFunctionDescriptor
+  },
+  
   'Accessor': {
     pluralName: 'Accessors',
     configurations: accessorConfigurations,
     normalizer: createAccessorDescriptor
+  },
+
+  'LambdaAccessor': {
+    pluralName: 'LambdaAccessors',
+    configurations: accessorConfigurations,
+    normalizer: createLambdaAccessorDescriptor
   },
 
   'LazyAccessor': {
@@ -200,12 +223,6 @@ var definitions = {
     configurations: accessorConfigurations,
     normalizer: createReferenceDescriptor
   },
-
-  'Lambda': {
-    pluralName: 'Lambdas',
-    configurations: accessorConfigurations,
-    normalizer: createLambdaDescriptor
-  }
 }
 
 var OnTargetsSuffix = 'OnTargets';
