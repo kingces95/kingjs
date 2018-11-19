@@ -40,7 +40,37 @@ function assertDescriptor(test, target, name) {
 }
 
 assertTheory(function(test, id) {
-  var name = buildName(test, 'Property', 'Properties');
+  var name = buildName(test, 'Reference', 'References');
+
+  var target = { id: 1 };
+  function resolve(address) { 
+    return this.id + address 
+  };
+  var targetOrTargets = test.onTargets ? [target] : target;
+  
+  if (test.plural) 
+    objectEx[name](targetOrTargets, { [test.name]: resolve });
+  else
+    objectEx[name](targetOrTargets, test.name, resolve);
+
+  target = Object.create(target);
+
+  target[test.name] = undefined;
+  target[test.name] = 2;
+  assert(target[test.name] == 3);
+
+  test.lazy = true;
+  assertDescriptor(test, target, test.name);
+}, {
+  name: 'foo',
+  configurable: [ false, true ],
+  enumerable: [ false, true ],
+  onTargets: [ false, true ],
+  plural: [ false, true ]
+})
+
+assertTheory(function(test, id) {
+  var name = buildName(test, 'Field', 'Fields');
 
   var target = { };
   var targetOrTargets = test.onTargets ? [target] : target;
@@ -68,7 +98,9 @@ assertTheory(function(test, id) {
     plural: test.plural
   }, 'Function');
 
-  var target = { };
+  var callCount = 0;
+  var target = { func: function() { callCount++; return 0; } }
+  var func = function() { return this.func(); };
   var targetOrTargets = test.onTargets ? [target] : target;
 
   if (test.plural) {
@@ -76,10 +108,13 @@ assertTheory(function(test, id) {
       case 'namedFunction':
         return;
       case 'function':
-        objectEx[name](targetOrTargets, { [test.name]: () => 0 });
+        objectEx[name](targetOrTargets, { [test.name]: func });
+        break;
+      case 'lambda':
+        objectEx[name](targetOrTargets, { [test.name]: 'this.func()' });
         break;
       case 'none':
-        objectEx[name](targetOrTargets, { [test.name]: { value: () => 0 } });
+        objectEx[name](targetOrTargets, { [test.name]: { value: func } });
         break;
       default: assert();
     }
@@ -88,23 +123,34 @@ assertTheory(function(test, id) {
   else {
     switch (test.variant) {
       case 'namedFunction':
-        objectEx[name](targetOrTargets, function foo() { return 0; });
+        objectEx[name](targetOrTargets, function foo() { return this.func(); });
         break;
       case 'function':
-        objectEx[name](targetOrTargets, test.name, () => 0);
+        objectEx[name](targetOrTargets, test.name, func);
+        break;
+      case 'lambda':
+        objectEx[name](targetOrTargets, test.name, 'this.func()' );
         break;
       case 'none':
-        objectEx[name](targetOrTargets, test.name, { value: () => 0 });
+        objectEx[name](targetOrTargets, test.name, { value: func });
         break;
       default: assert();
     }
   }
 
+  assert(callCount == 0);
+
   assert(target[test.name]() == 0);
+  assert(callCount == 1);
+
+  assert(target[test.name]() == 0);
+  assert(callCount == test.lazy ? 1 : 2);
+  
   assertDescriptor(test, target, test.name);
 }, {
   name: 'foo',
-  variant: [ 'namedFunction', 'function', 'none' ],
+  lazy: [ false, true ],
+  variant: [ 'namedFunction', 'function', 'none', 'lambda' ],
   configurable: [ false ],
   enumerable: [ false ],
   writable: [ false ],
@@ -115,17 +161,27 @@ assertTheory(function(test, id) {
 assertTheory(function(test, id) {
   var name = buildName(test, 'Accessor');
 
-  var target = { };
+  if (test.lambda && test.inferName)
+    return;
+
+  var getCount = 0;
+  var target = { 
+    func: function() { 
+      getCount++; 
+      return 0; 
+    } 
+  };
   var targetOrTargets = test.onTargets ? [target] : target;
   
-  var getter = function() { return 0 };
-  if (test.namedGetter)
-    getter = function foo() { return 0 };
+  var getter = function foo() { return this.func(); }
+  if (test.lambda)
+    getter = 'this.func()';
 
   if (test.setter && !test.lazy) {
-    var field = undefined;
     var setter = undefined;
-    setter = (x) => field = x;
+    setter = function foo(x) { this.field = x; };
+    if (test.lambda)
+      setter = 'this.field = value';
 
     if (test.plural) {
       if (test.wrapped)
@@ -133,7 +189,7 @@ assertTheory(function(test, id) {
       else
         return;
     }
-    else if (test.namedGetter) {
+    else if (test.inferName) {
       if (test.wrapped)
         objectEx[name](targetOrTargets, { get: getter, set: setter });
       else
@@ -147,7 +203,7 @@ assertTheory(function(test, id) {
     }
 
     target[test.name] = 0
-    assert(field == 0);
+    assert(target.field == 0);
   }
 
   else {
@@ -157,7 +213,7 @@ assertTheory(function(test, id) {
       else
         objectEx[name](targetOrTargets, { [test.name]: getter });
     }
-    else if (test.namedGetter) {
+    else if (test.inferName) {
       if (test.wrapped)
         objectEx[name](targetOrTargets, { get: getter });
       else
@@ -175,14 +231,22 @@ assertTheory(function(test, id) {
     assertThrows(() => target[test.name])
     return;
   }
-  
+
+  assert(getCount == 0);
+
   assert(target[test.name] == 0);
+  assert(getCount == 1);
+
+  assert(target[test.name] == 0);
+  assert(getCount == test.lazy ? 1 : 2);
+
   assertDescriptor(test, target, test.name);
 }, {
   name: 'foo',
   lazy: [ false, true ],
+  lambda: [ false, true ],
   setter: [ false, true ],
-  namedGetter: [ false, true ],
+  inferName: [ false, true ],
   wrapped: [ false, true ],
   configurable: [ false, true ],
   enumerable: [ false, true ],

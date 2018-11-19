@@ -2,7 +2,9 @@
 
 var objectEx = require('.');
 var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+var assert = testRequire('@kingjs/assert');
+var assertThrows = testRequire('@kingjs/assert-throws');
+var is = testRequire('@kingjs/is');
 
 function readMe() {
   var name = 'foo';
@@ -86,23 +88,87 @@ lazyInheritedAccessor();
 function lambdaFunction() {
   var name = 'foo';
   var target = { id:0 };
-  objectEx.defineLambdaFunction(target, name, 'this.id');
-  var descriptorValue = Object.getOwnPropertyDescriptor(target, name);
+  objectEx.defineFunction(target, name, 'this.id');
+
+  var descriptor = Object.getOwnPropertyDescriptor(target, name);
+  assert(is.function(descriptor.value));
 
   var result = target[name]();
   assert(result == 0);
 }
 lambdaFunction();
 
-function lambdaAccessor() {
+function defineSetOnce() {
   var name = 'foo';
-  var target = { id:0 };
-  objectEx.defineLambdaAccessor(target, name, 'this.id');
-  var descriptorGet = Object.getOwnPropertyDescriptor(target, name);
+  var target = { };
 
-  var result = target[name];
-  assert(result == 0);
+  objectEx.setSetOnceField(target, name);
+  var descriptor = Object.getOwnPropertyDescriptor(target, name);
+  assert(target[name] === undefined);
+  assert(descriptor.configurable);
+  assert(descriptor.enumerable);
+  assert(descriptor.get);
+  assert(descriptor.set);
+
+  target.foo = undefined;
+
+  target.foo = 0;
+  assert(target[name] == 0);
+  var descriptor = Object.getOwnPropertyDescriptor(target, name);
+  assert(!descriptor.configurable);
+  assert(descriptor.enumerable);
+  assert(descriptor.value);
+  assert(!descriptor.write);
+
+  assertThrows(() => target.foo = 1);
 }
-lambdaAccessor();
+defineSetOnce();
+
+function doNotCacheUndefined() {
+  var target = { };
+  var counter = 0;
+
+  objectEx.setLazyAccessor(target, 'foo', function() {
+    if (counter++ == 0)
+      return undefined;
+    return 0;
+  });
+
+  assert(target.foo === undefined);
+  assert(target.foo == 0);
+}
+doNotCacheUndefined();
+
+function defineReference() {
+  var target = { 
+    children: [ 42, 43 ]
+  };
+
+  var counter = 0;
+  function resolveOwnProperty(name) {
+    if (name === undefined)
+      return undefined;
+
+    counter++;
+    return this.children[name];
+  }
+
+  objectEx.setReference(target, 'foo', resolveOwnProperty);
+  objectEx.setReference(target, 'bar', resolveOwnProperty);
+
+  target.foo = undefined;
+  assert(counter == 0);
+
+  target.foo = '0';
+  assert(counter == 1);
+
+  target.bar = '1';
+  assert(counter == 2);
+
+  assert(target.foo == 42);
+  assert(target.bar == 43);
+  assert(counter == 2);
+}
+defineReference();
 
 require('./theory');
