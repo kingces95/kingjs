@@ -5,8 +5,7 @@ var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
 var assert = require('@kingjs/assert');
 
-function Root(descriptor) {
-}
+function Root() { }
 
 objectEx.defineFunctions(Node.prototype, {
   resolve: function(path) {
@@ -16,47 +15,45 @@ objectEx.defineFunctions(Node.prototype, {
 // virtual
 objectEx.defineFunctions(Root.prototype, {
   onLoad: function() { },
-  attachChild: function(name, child) {  
-    this.children[name] = child;
+  attachChild: function(child) {  
+    this.children[child.name] = child;
   },
 });
 
 objectEx.defineLazyAccessors(Root.prototype, {
-  children: () => {{ }}
+  children: '{ }'
 });
 
-function Node(parent, name, descriptor) {
-  Root.prototype.call(this, descriptor);
+function Node(parent, name) {
+  Root.prototype.call(this);
 
-  assert(name);
-  assert(parent);
-
-  objectEx.defineConstProperty(this, 'name', parent);
-  objectEx.defineConstProperty(this, 'parent', parent);
+  // write once fields
+  this.name = name;
+  this.parent = parent;
 
   // add subTrees of children
   //var ctor = this.constructor;
   //var nodeInfo = ctor.nodeInfo || emptyObject;    
   //for (var childrenName in nodeInfo.children)
   //  this.defineChildren(nodeInfo.children[childrenName], descriptor[childrenName]);
-
-  parent.attachChild(name, this);
 };
 Node.prototype = new Root();
 Node.prototype.function = Node;
 
-objectEx.defineLazyAccessors(Node.prototype, {
+objectEx.defineWriteOnceFields(Node.prototype, {
+  name: undefined,
+  parent: undefined
+})
 
+objectEx.defineLazyAccessors(Node.prototype, {
   path: function() {
     if (!this.parent.name)
       return this.name;
-
     return this.parent.path + '.' + this.name;
   },
 });
 
 objectEx.defineFunctions(Node.prototype, {
-  
   getAncestor: function(ctor) {
     var parent = this.parent;
 
