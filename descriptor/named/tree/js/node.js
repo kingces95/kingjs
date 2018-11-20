@@ -5,7 +5,7 @@ var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
 var createDescriptor = require('@kingjs/descriptor.create');
 
-var infoName = '@kingjs/descriptor.named.tree.info';
+var period = '.';
 
 function Node(parent, name, descriptor) {
   this.name = name;
