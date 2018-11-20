@@ -18,9 +18,10 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
+    "@kingjs/descriptor.create": "^1.0.5",
     "@kingjs/descriptor.named.create": "^1.0.0",
     "@kingjs/is": "^1.0.4",
-    "@kingjs/object-ex": "^1.0.4",
+    "@kingjs/object-ex": "^1.0.9",
     "@kingjs/string-ex": "^1.0.0"
   }
 }

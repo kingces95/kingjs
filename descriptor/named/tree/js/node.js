@@ -2,58 +2,96 @@
 
 var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
-var stringEx = require('@kingjs/string-ex');
 var assert = require('@kingjs/assert');
+var createDescriptor = require('@kingjs/descriptor.create');
 
-function Root() { }
+var infoName = '@kingjs/descriptor.named.tree.info';
 
-objectEx.defineFunctions(Node.prototype, {
-  resolve: function(path) {
-  }
-})
-
-// virtual
-objectEx.defineFunctions(Root.prototype, {
-  onLoad: function() { },
-  attachChild: function(child) {  
-    this.children[child.name] = child;
-  },
-});
-
-objectEx.defineLazyAccessors(Root.prototype, {
-  children: '{ }'
-});
-
-function Node(parent, name) {
-  Root.prototype.call(this);
-
-  // write once fields
+function Node(parent, name, descriptor) {
   this.name = name;
   this.parent = parent;
-
-  // add subTrees of children
-  //var ctor = this.constructor;
-  //var nodeInfo = ctor.nodeInfo || emptyObject;    
-  //for (var childrenName in nodeInfo.children)
-  //  this.defineChildren(nodeInfo.children[childrenName], descriptor[childrenName]);
+  init.call(this, descriptor);
 };
-Node.prototype = new Root();
-Node.prototype.function = Node;
+
+objectEx.defineFunctions(Node, {
+  setInfo: (func, info) => { func[infoName] = info },
+  getInfo: (func) => func[infoName],
+})
+
+function init(descriptor) {
+  if (!descriptor)
+    return;
+
+  var info = Node.getInfo(this.constructor);
+  if (!info)
+    return;
+
+  if (info.defaults)
+    descriptor = createDescriptor(descriptor, info.defaults);
+
+  if (info.fields)
+    initFields.call(this, info.fields, descriptor);
+
+  if (info.children)
+    initChildren.call(this, info.children, descriptor);
+}
+
+function initFields(fields, descriptor) {
+  for (var name in fields)
+    this[name] = descriptor[name];
+}
+
+function initChildren(info, children) {
+  var ctors = info.ctors;
+  if (!ctors)
+    return;
+
+  var defaults = info.defaults;
+
+  for (var type in ctors) {
+    var ctor = ctors[type];
+    var descriptors = children[type];
+    var typeDefaults = defaults[type];
+
+    for (var name in descriptors) {
+      var descriptor = descriptors[name];
+
+      if (typeDefaults)
+        descriptor = createDescriptor(descriptor, typeDefaults);
+
+      this.addChild(ctor, name, descriptor);
+    }
+  }
+}
 
 objectEx.defineWriteOnceFields(Node.prototype, {
   name: undefined,
   parent: undefined
-})
+});
 
 objectEx.defineLazyAccessors(Node.prototype, {
+  isRoot: '!this.parent',
+  root: '!this.parent ? this : this.parent.root',
+  children: '{ }',
   path: function() {
-    if (!this.parent.name)
-      return this.name;
-    return this.parent.path + '.' + this.name;
+    var result = this.name;
+
+    var parent = this.parent;
+    if (parent && !parent.isRoot)
+      result = parent.path + '.' + result;
+
+    return result; 
   },
 });
 
 objectEx.defineFunctions(Node.prototype, {
+
+  addChild: function(ctor, name, descriptor) {
+    var child = new ctor(this, name, descriptor);
+    objectEx.defineConstField(this.children, name, child);
+    return child;
+  },
+
   getAncestor: function(ctor) {
     var parent = this.parent;
 
@@ -66,60 +104,27 @@ objectEx.defineFunctions(Node.prototype, {
     return parent.getAncestor(ctor);
   },
   
-  resolve: function(ref, ctor) {
+  resolve: function(ref) {
     if (!ref)
       return;
     
-    var parent = this.parent;
-    while (parent) {
-      var resolution = parent.getChild(ref, ctor);
+    assert(is.string(ref));
+    var split = ref.split('.');
 
-      if (resolution)
-        return resolution;
-      parent = parent.parent;
-    }
+    var ancestorOrThis = this;
+    while (ancestorOrThis) {
     
-    Assert.fail('Failed to load: ' + ref);
-  },
-  
+      var result = ancestorOrThis;
 
-  load_: function() { 
-    if (this.isLoaded_)
-      return;
-    objectEx.defineHiddenConstProperty(this, 'isLoaded_', true);
-    
-    // assume dependencies exceeding maxDependencies => a loader cycle
-    loaderStack_.push(this.fullName);
-    Assert.that(loaderStack_.length < maxDependencies_);
-    //Logger.log(loaderStack_);
-    {
-      var fields = this._;
-      var deps = this.constructor.nodeInfo.accessors;
+      for (var i = 0; i < split.length && result; i++)
+        result = result.children[split[i]];
       
-      for (var name in deps) {
-        var depInfo = deps[name];
-        
-        // only consider dependencies (i.e. eager references)
-        if (!depInfo.ref || depInfo.lazy)
-          continue;
-        
-        // a) dependency array
-        if (depInfo.array) {
-          fields[name] = flatten.call(this, function(x) { 
-            return this.resolve(x, depInfo.func);
-          }, fields[name]);
-        }
-        
-        // b) dependency singleton
-        else {
-          fields[name] = this.resolve(fields[name], depInfo.func);
-        }
-      }
+      if (result)
+        return result;
+
+      ancestorOrThis = ancestorOrThis.parent;
     }
-    loaderStack_.pop();
-    
-    this.onLoad();
-  },
+  }
 });    
 
 Object.defineProperties(module, {

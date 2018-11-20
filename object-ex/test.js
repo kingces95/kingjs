@@ -98,11 +98,11 @@ function lambdaFunction() {
 }
 lambdaFunction();
 
-function defineSetOnce() {
+function defineWriteOnce() {
   var name = 'foo';
   var target = { };
 
-  objectEx.setSetOnceField(target, name);
+  objectEx.setWriteOnceField(target, name);
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
   assert(target[name] === undefined);
   assert(descriptor.configurable);
@@ -122,7 +122,7 @@ function defineSetOnce() {
 
   assertThrows(() => target.foo = 1);
 }
-defineSetOnce();
+defineWriteOnce();
 
 function doNotCacheUndefined() {
   var target = { };

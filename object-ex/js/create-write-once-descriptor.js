@@ -2,7 +2,7 @@
 
 var lazyDefineConstField = require('./lazy-define-const-field');
 
-function createSetOnceDescriptor(descriptor, name) {
+function createWriteOnceDescriptor(descriptor, name) {
   descriptor.name = name;
   descriptor.get = () => undefined;
   descriptor.set = lazyDefineConstField(name, value => value);
@@ -10,5 +10,5 @@ function createSetOnceDescriptor(descriptor, name) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: createSetOnceDescriptor }
+  exports: { value: createWriteOnceDescriptor }
 });

@@ -8,14 +8,6 @@ var assert = require('@kingjs/assert');
 var create = require('@kingjs/descriptor.named.create');
 var Node = require('./node');  
 
-function defineBase(func, base) {
-  assert(is.function(func));
-  assert(is.function(base));
-  
-  func.prototype = Object.create(base.prototype);
-  objectEx.setHiddenProperty(func.prototype, 'constructor', func);
-  return func;
-}
 
 /**
  * Each node in the tree has a name and a type. The concatenated names from the 

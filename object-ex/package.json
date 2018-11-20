@@ -1,10 +1,11 @@
 {
   "name": "@kingjs/object-ex",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "js/*"
   ],
   "scripts": {
     "test": "node test.js"
@@ -18,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.10",
-    "@kingjs/is": "^1.0.4",
+    "@kingjs/is": "^1.0.5",
     "@kingjs/is-enumerable": "^1.0.1"
   }
 }
