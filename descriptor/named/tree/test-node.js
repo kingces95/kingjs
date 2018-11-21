@@ -2,6 +2,7 @@
 
 var Node = require('./js/node');
 var defineBase = require('./js/define-base');
+var attrSym = require('./js/attribute');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 var objectEx = testRequire('@kingjs/object-ex')
@@ -59,15 +60,18 @@ function testMyNode() {
     Node.call(this);
   }
   defineBase(MyRoot, Node);
+  MyRoot[attrSym].info = {
+    fields: { myRootField: undefined },
+  };
 
   function MyNode(parent, name, descriptor) { 
     Node.call(this, parent, name, descriptor);
   }
-  defineBase(MyNode, Node);
+  defineBase(MyNode, MyRoot);
 
   MyNode.prototype.isMyNode = true;
 
-  Node.setInfo(MyNode, {
+  var myNodeInfo = {
     fields: { otherNode: undefined },
     defaults: { wrap: 'otherNode' },
 
@@ -81,14 +85,22 @@ function testMyNode() {
         }
       }
     },
-  })
+  };
+
+  objectEx.setLazyAccessor(
+    MyNode[attrSym], 
+    'info', 
+    function() { 
+      myNodeInfo.baseInfo = this.prototype.info;
+      return myNodeInfo; 
+    }
+  )
 
   MyNode.prototype.addMyNode = function(name, descriptor) {
     return this.addChild(MyNode, name, descriptor);
   }
 
   MyRoot.prototype.addMyNode = MyNode.prototype.addMyNode;
-
 
   objectEx.defineReference(
     MyNode.prototype,

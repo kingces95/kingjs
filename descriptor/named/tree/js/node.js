@@ -17,16 +17,17 @@ function Node(parent, name, descriptor) {
   init.call(this, descriptor);
 };
 
-objectEx.defineFunctions(Node, {
-  setInfo: (func, info) => func[attrSym][infoName] = info,
-  getInfo: (func) => func[attrSym][infoName],
-})
+objectEx.defineReference(Node.prototype, 'info', function(info) {
+  var baseCtor = this.prototype.constructor;
+  var baseInfo = baseCtor.info;
+  return info;
+});
 
 function init(descriptor) {
   if (!descriptor)
-    return;
+    descriptor = emptyObject;
 
-  var info = Node.getInfo(this.constructor);
+  var info = this.constructor[attrSym].info;
   if (!info)
     return;
 
@@ -51,21 +52,8 @@ function initChildren(info, children) {
 
   for (var type in ctors) {
     var ctor = ctors[type];
-    var descriptors = children[type];
-
     var typeDefaults = defaults[type];
-    if (typeDefaults) {
-      
-      var mergedChildDefaults = this.constructor[attrSym][mergedChildDefaultsSym];
-      if (!mergedChildDefaults)
-        mergedChildDefaults = this.constructor[attrSym][mergedChildDefaultsSym] = { };
-
-      var mergedDefaults = mergedChildDefaults[type];
-      if (!mergedDefaults)
-        ; // mergeDefaults
-
-      typeDefaults = mergedDefaults;
-    }
+    var descriptors = children[type];
 
     for (var name in descriptors) {
       var descriptor = descriptors[name];
