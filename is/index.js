@@ -24,6 +24,7 @@ defineFunctions(is, {
   number: o => typeof o == 'number' || o instanceof Number,
   string: o => typeof o == 'string' || o instanceof String,
   symbol: o => typeof o == 'symbol',
+  stringOrSymbol: o => is.string(o) || is.symbol(o),
   
   nonEmptyString: o => is.string(o) && o.length > 0,
 

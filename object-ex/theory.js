@@ -5,6 +5,7 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var is = testRequire('@kingjs/is');
 
 function buildName(test, suffix, pluralSuffix) {
   if (!pluralSuffix)
@@ -62,7 +63,7 @@ assertTheory(function(test, id) {
   test.lazy = true;
   assertDescriptor(test, target, test.name);
 }, {
-  name: 'foo',
+  name: ['foo', Symbol.for('foo') ],
   configurable: [ false, true ],
   enumerable: [ false, true ],
   onTargets: [ false, true ],
@@ -83,7 +84,7 @@ assertTheory(function(test, id) {
   assert(target[test.name] == 0);
   assertDescriptor(test, target, test.name);
 }, {
-  name: 'foo',
+  name: ['foo', Symbol.for('foo') ],
   configurable: [ false, true ],
   enumerable: [ false, true ],
   writable: [ false, true ],
@@ -102,6 +103,9 @@ assertTheory(function(test, id) {
   var target = { func: function() { callCount++; return 0; } }
   var func = function() { return this.func(); };
   var targetOrTargets = test.onTargets ? [target] : target;
+
+  if (test.variant == 'namedFunction' && is.symbol(test.name))
+    return;
 
   if (test.plural) {
     switch (test.variant) {
@@ -148,7 +152,7 @@ assertTheory(function(test, id) {
   
   assertDescriptor(test, target, test.name);
 }, {
-  name: 'foo',
+  name: ['foo', Symbol.for('foo') ],
   lazy: [ false, true ],
   variant: [ 'namedFunction', 'function', 'none', 'lambda' ],
   configurable: [ false ],
@@ -162,6 +166,9 @@ assertTheory(function(test, id) {
   var name = buildName(test, 'Accessor');
 
   if (test.lambda && test.inferName)
+    return;
+
+  if (is.symbol(test.name) && test.inferName)
     return;
 
   var getCount = 0;
@@ -242,7 +249,7 @@ assertTheory(function(test, id) {
 
   assertDescriptor(test, target, test.name);
 }, {
-  name: 'foo',
+  name: ['foo', Symbol.for('foo') ],
   lazy: [ false, true ],
   lambda: [ false, true ],
   setter: [ false, true ],

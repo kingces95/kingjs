@@ -19,7 +19,7 @@ function createAccessorDescriptor(descriptor, x, y, z) {
     
     // e.g. 'foo', function() { ... } => 'foo', { get: function() { ... } }
     // e.g. 'foo', 'this.bar' => 'foo', { get: function() { return this.bar; } }
-    if (is.string(x)) {
+    if (is.stringOrSymbol(x)) {
       descriptor.name = x;
       get = y;
       set = z;
@@ -62,7 +62,7 @@ function createAccessorDescriptor(descriptor, x, y, z) {
     );
   }
 
-  assert(is.string(descriptor.name));
+  assert(is.stringOrSymbol(descriptor.name));
   assert(descriptor.get || descriptor.set);
   assert(!descriptor.get || is.function(descriptor.get));
   assert(!descriptor.set || is.function(descriptor.set));

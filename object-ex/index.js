@@ -109,6 +109,12 @@ function exportDefinition(
     function (target, values) {
       for (var name in values)
         define(target, name, values[name]);
+
+      var symbols = Object.getOwnPropertySymbols(values);
+      if (symbols.length > 0) {
+        for (var i = 0; i < symbols.length; i ++)
+          define(target, symbols[i], values[symbols[i]]);
+      }
     };
 
   // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)

@@ -4,8 +4,12 @@ var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
 var createDescriptor = require('@kingjs/descriptor.create');
+var emptyObject = require('@kingjs/empty-object');
 
-var period = '.';
+var attrSym = require('./attribute');
+
+var infoName = '@kingjs/descriptor.named.tree.node.info';
+var mergedChildDefaultsSym = Symbol.for('@kingjs/descriptor.named.tree.node.mergedDefaults');
 
 function Node(parent, name, descriptor) {
   this.name = name;
@@ -14,8 +18,8 @@ function Node(parent, name, descriptor) {
 };
 
 objectEx.defineFunctions(Node, {
-  setInfo: (func, info) => { func[infoName] = info },
-  getInfo: (func) => func[infoName],
+  setInfo: (func, info) => func[attrSym][infoName] = info,
+  getInfo: (func) => func[attrSym][infoName],
 })
 
 function init(descriptor) {
@@ -25,9 +29,6 @@ function init(descriptor) {
   var info = Node.getInfo(this.constructor);
   if (!info)
     return;
-
-  if (info.defaults)
-    descriptor = createDescriptor(descriptor, info.defaults);
 
   if (info.fields)
     initFields.call(this, info.fields, descriptor);
@@ -46,12 +47,25 @@ function initChildren(info, children) {
   if (!ctors)
     return;
 
-  var defaults = info.defaults;
+  var defaults = info.defaults || emptyObject;
 
   for (var type in ctors) {
     var ctor = ctors[type];
     var descriptors = children[type];
+
     var typeDefaults = defaults[type];
+    if (typeDefaults) {
+      
+      var mergedChildDefaults = this.constructor[attrSym][mergedChildDefaultsSym];
+      if (!mergedChildDefaults)
+        mergedChildDefaults = this.constructor[attrSym][mergedChildDefaultsSym] = { };
+
+      var mergedDefaults = mergedChildDefaults[type];
+      if (!mergedDefaults)
+        ; // mergeDefaults
+
+      typeDefaults = mergedDefaults;
+    }
 
     for (var name in descriptors) {
       var descriptor = descriptors[name];

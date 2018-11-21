@@ -14,7 +14,7 @@ function createFunctionDescriptor(descriptor, x, y) {
   }
 
   else {
-    assert(is.string(x))
+    assert(is.stringOrSymbol(x))
     descriptor.name = x;
 
     // e.g. 'foo', { value: function() { ... } }
