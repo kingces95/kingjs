@@ -141,7 +141,7 @@ doNotCacheUndefined();
 
 function defineReference() {
   var target = { 
-    children: [ 42, 43 ]
+    children: [ 42, 43, 44 ]
   };
 
   var counter = 0;
@@ -153,8 +153,15 @@ function defineReference() {
     return this.children[name];
   }
 
+  var defaultAddress = 2;
   objectEx.setReference(target, 'foo', resolveOwnProperty);
-  objectEx.setReference(target, 'bar', resolveOwnProperty);
+  objectEx.setReference(target, 'bar', resolveOwnProperty, defaultAddress);
+  objectEx.setReference(target, 'baz', resolveOwnProperty, defaultAddress);
+
+  assertThrows(() => target.foo);
+
+  target.foo = undefined;
+  assertThrows(() => target.foo);
 
   target.foo = undefined;
   assert(counter == 0);
@@ -165,9 +172,14 @@ function defineReference() {
   target.bar = '1';
   assert(counter == 2);
 
+  assertThrows(() => target.baz);
+  target.baz = undefined;
+  assert(counter == 3);
+
   assert(target.foo == 42);
   assert(target.bar == 43);
-  assert(counter == 2);
+  assert(target.baz == 44);
+  assert(counter == 3);
 }
 defineReference();
 

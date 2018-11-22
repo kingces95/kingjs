@@ -11,18 +11,6 @@ var attrSym = require('./attribute');
 var infoName = '@kingjs/descriptor.named.tree.node.info';
 var mergedChildDefaultsSym = Symbol.for('@kingjs/descriptor.named.tree.node.mergedDefaults');
 
-function Node(parent, name, descriptor) {
-  this.name = name;
-  this.parent = parent;
-  init.call(this, descriptor);
-};
-
-objectEx.defineReference(Node.prototype, 'info', function(info) {
-  var baseCtor = this.prototype.constructor;
-  var baseInfo = baseCtor.info;
-  return info;
-});
-
 function init(descriptor) {
   if (!descriptor)
     descriptor = emptyObject;
@@ -65,6 +53,12 @@ function initChildren(info, children) {
     }
   }
 }
+
+function Node(parent, name, descriptor) {
+  this.name = name;
+  this.parent = parent;
+  init.call(this, descriptor);
+};
 
 objectEx.defineWriteOnceFields(Node.prototype, {
   name: undefined,

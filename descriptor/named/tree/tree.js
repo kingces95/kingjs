@@ -270,7 +270,7 @@ defineFunctions(this, {
               if (!this._) return; // works around debugger bug; will SO if removed
               
               var value = this._[accessorName];
-              
+                
               // resolve
               if (ref && isString(value))
                 value = this.resolve(value, type);

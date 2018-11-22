@@ -1,10 +1,11 @@
 'use strict';
 
-var defineNodes = require('.');
-var Node = require('./node');
+var Node = require('./js/node');
+var defineSchema = require('./js/define-schema');
 
-defineNodes(this, {      
-  Member: { 
+defineSchema(exports, [
+  {
+    name: 'Member',
     flags: {
       intrinsic: false,
       public: false,
@@ -17,8 +18,8 @@ defineNodes(this, {
       declaringType: 'Type',
       module: 'Module'
     },
-  },
-  Property: {
+  }, {
+    name: 'Property',
     base: 'Member',
     flags: { 
       static: false,
@@ -62,8 +63,8 @@ defineNodes(this, {
       },
       getValue: function(target) { return target[name]; },
     }
-  },
-  Field: {
+  }, {
+    name: 'Field',
     base: 'Property',
     wrap: 'value',
     flags: { 
@@ -86,8 +87,8 @@ defineNodes(this, {
 //        return [typeName, this.name, '=', 'value' in this].join(' '); 
 //      }
     }
-  },
-  Method: {
+  }, {
+    name: 'Method',
     base: 'Property',
     wrap: 'value',
     flags: { 
@@ -107,11 +108,11 @@ defineNodes(this, {
           writable: this.isWritable
         });
       },
-      apply: function(target, arguments) { return value.apply(target, arguments); },
+      apply: function(target, args) { return value.apply(target, args); },
       call: function(target) { return value.call(target, arguments.shift(1)); },
     }
-  },
-  Accessor: {
+  }, {
+    name: 'Accessor',
     base: 'Property',
     wrap: 'get',
     flags: { 
@@ -133,25 +134,23 @@ defineNodes(this, {
       },
       setValue: function(target, value) { target[name] = value; },
     }
-  },
-  Type: { 
+  }, {
+    name: 'Type', 
     base: 'Member',
     accessors: {
       func: { func: Function }
     },
-  },
-  Class: {
+  }, {
+    name: 'Class',
     base: 'Type',
     wrap: 'func',
-    defaults: {
-      base: 'intrinsic.Object' 
-    },
     flags: { 
       abstract: false,
     },
     accessors: {
-      base: { func: 'Class', dep: true },
-      implements: { func: 'Interface', array: true, dep: true },
+      $defaults: { ref: true },
+      base: { func: 'Class', default: 'intrinsic.Object' },
+      implements: { func: 'Interface', array: true },
     },
     children: {
       classes: 'Class',
@@ -160,8 +159,8 @@ defineNodes(this, {
       accessors: 'Accessor',
       fields: 'Field',
     },
-  },
-  Interface: {
+  }, {
+    name: 'Interface',
     base: 'Type',
     flags: {
       abstract: true,
@@ -187,8 +186,8 @@ defineNodes(this, {
       extensionMethods: 'Method',
       extensionAccessors: 'Accessor',
     }],
-  },
-  Scope: {
+  }, {
+    name: 'Scope',
     wrap: 'value',
     accessors: {
       func: { func: Function }
@@ -201,15 +200,34 @@ defineNodes(this, {
       accessors: 'Accessor',
       fields: 'Field',
     },
-  },
-  Global: {
+  }, {
+    name: 'Global',
     base: 'Scope',
-  },
-  Module: {
+  }, {
+    name: 'Module',
     base: 'Scope',
     children: {
       interfaces: 'Interface',
       classes: 'Class',
     },
   },
-});
+]);
+
+for (var name in exports) {
+  var ctor = exports[name];
+  var indent = '';
+  var prototype = ctor.prototype;
+  while (prototype != Node.prototype) {
+    ctor = prototype.constructor;
+    console.log(indent + '--' + ctor.name);
+    indent += '  ';
+    var own = Object.getOwnPropertyNames(prototype);
+    for (var i = 0; i < own.length; i ++) {
+      if (!prototype.propertyIsEnumerable(own[i]))
+        continue;
+      console.log(indent + own[i]); 
+    }
+    prototype = Object.getPrototypeOf(prototype);
+  }
+
+}
