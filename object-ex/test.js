@@ -10,7 +10,7 @@ function readMe() {
   var name = 'foo';
 
   var target = { };
-  objectEx.defineFunction(target, name, () => 0);
+  objectEx.defineMethod(target, name, () => 0);
   assert(name in target);
   assert(target[name]() === 0);
 
@@ -88,7 +88,7 @@ lazyInheritedAccessor();
 function lambdaFunction() {
   var name = 'foo';
   var target = { id:0 };
-  objectEx.defineFunction(target, name, 'this.id');
+  objectEx.defineMethod(target, name, 'this.id');
 
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
   assert(is.function(descriptor.value));

@@ -67,19 +67,19 @@ assertTheory(function(test, id) {
     configurable: false,
     onTargets: test.onTargets,
     plural: test.plural
-  }, 'Function');
+  }, 'Method');
 
   var callCount = 0;
   var target = { func: function() { callCount++; return 0; } }
   var func = function() { return this.func(); };
   var targetOrTargets = test.onTargets ? [target] : target;
 
-  if (test.variant == 'namedFunction' && is.symbol(test.name))
+  if (test.variant == 'named' && is.symbol(test.name))
     return;
 
   if (test.plural) {
     switch (test.variant) {
-      case 'namedFunction':
+      case 'named':
         return;
       case 'function':
         objectEx[name](targetOrTargets, { [test.name]: func });
@@ -96,7 +96,7 @@ assertTheory(function(test, id) {
   
   else {
     switch (test.variant) {
-      case 'namedFunction':
+      case 'named':
         objectEx[name](targetOrTargets, function foo() { return this.func(); });
         break;
       case 'function':
@@ -124,7 +124,7 @@ assertTheory(function(test, id) {
 }, {
   name: ['foo', Symbol.for('foo') ],
   lazy: [ false, true ],
-  variant: [ 'namedFunction', 'function', 'none', 'lambda' ],
+  variant: [ 'named', 'function', 'none', 'lambda' ],
   configurable: [ false ],
   enumerable: [ false ],
   writable: [ false ],

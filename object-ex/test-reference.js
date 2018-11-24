@@ -1,6 +1,6 @@
 'use strict';
 
-var defineReference = require('./js/create-reference-descriptor');
+var objectEx = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
@@ -21,18 +21,18 @@ function test() {
   }
 
   var defaultAddress = 2;
-  defineReference(target, 'foo', {
+  objectEx.defineReference(target, 'foo', {
     enumerable: true,
     configurable: true,
     value: resolveOwnProperty 
   });
-  defineReference(target, 'bar', {
+  objectEx.defineReference(target, 'bar', {
     enumerable: true,
     configurable: true,
     value: resolveOwnProperty, 
     default: defaultAddress
   })
-  defineReference(target, 'baz', {
+  objectEx.defineReference(target, 'baz', {
     enumerable: true,
     configurable: true,
     value: resolveOwnProperty, 
@@ -69,7 +69,7 @@ assertTheory(function(test, id) {
     return this.id + address 
   };
   
-  defineReference(target, test.name, { 
+  objectEx.defineReference(target, test.name, { 
     configurable: test.configurable,
     enumerable: test.enumerable,
     value: resolve, 

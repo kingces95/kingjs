@@ -2,23 +2,28 @@
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
-var defineProperty = require('./js/define-property');
-var createFunctionDescriptor = require('./js/create-function-descriptor');
-var createAccessorDescriptor = require('./js/create-accessor-descriptor');
-var createFieldDescriptor = require('./js/create-field-descriptor');
-var createReferenceDescriptor = require('./js/create-reference-descriptor');
 
-var standardConfigurations = {
-  'set': { configurable: true, enumerable: true },
-  'setHidden': { configurable: true, enumerable: false },
-  'define': { configurable: false, enumerable: true },
-  'defineHidden': { configurable: false, enumerable: false },
-};
+var initMethod = require('./js/init-method');
+var initAccessors = require('./js/init-accessors');
+var initField = require('./js/init-field');
+var getName = require('./js/get-name');
+var makeLazy = require('./js/make-lazy');
+
+var shift = Array.prototype.shift;
+
+var OnTargetsSuffix = 'OnTargets';
+
+var ConstPropertyConfiguration = {
+  configurable: false,
+  enumerable: false,
+  writable: false
+}
 
 var definitions = {
 
   'Field': {
     pluralName: 'Fields',
+    initializer: initField,
     configurations: {
       'set': { configurable: true, enumerable: true, writable: true },
       'setHidden': { configurable: true, enumerable: false, writable: true },
@@ -29,77 +34,82 @@ var definitions = {
       'defineConst': { configurable: false, enumerable: true, writable: false },
       'defineHiddenConst': { configurable: false, enumerable: false, writable: false },
     },
-    normalizer: createFieldDescriptor
   },
 
-  'Function': {
-    pluralName: 'Functions',
+  'Method': {
+    pluralName: 'Methods',
+    initializer: initMethod,
     configurations: {
       'define': { configurable: false, enumerable: false, writable: false },
     },
     complications: {
       'Lazy': { lazy: true }
     },
-    normalizer: createFunctionDescriptor,
   },
 
   'Accessor': {
     pluralName: 'Accessors',
-    configurations: standardConfigurations,
+    initializer: initAccessors,
+    configurations: {
+      'set': { configurable: true, enumerable: true },
+      'setHidden': { configurable: true, enumerable: false },
+      'define': { configurable: false, enumerable: true },
+      'defineHidden': { configurable: false, enumerable: false },
+    },
     complications: {
       'Lazy': { lazy: true }
     },
-    normalizer: createAccessorDescriptor,
-  },
-
-  'Reference': {
-    pluralName: 'References',
-    configurations: standardConfigurations,
-    normalizer: createReferenceDescriptor
   },
 }
-
-var OnTargetsSuffix = 'OnTargets';
 
 function exportDefinition(
   prefix,
   suffix,
   pluralSuffix,
   configuration,
-  normalizer,
+  initializer,
   complication) {
 
   assert('configurable' in configuration);
   assert('enumerable' in configuration);
 
-  // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
+  // (define|set)[Const][Hidden](Field|Accessor|Method)(target, name, descriptor);
   var define = exports[prefix + suffix] = function () {
 
-    // initialize descriptor
-    var descriptor = {};
-    for (var name in configuration)
-      descriptor[name] = configuration[name];
-    for (var name in complication)
-      descriptor[name] = complication[name];
+    var descriptor = { };
 
-    // replace target with descriptor
-    var target = arguments[0];
-    arguments[0] = descriptor;
+    // initialize with configuration
+    for (var key in configuration)
+      descriptor[key] = configuration[key];
 
-    // normalize 
-    descriptor = normalizer.apply(this, arguments);
+    var target = shift.call(arguments);
 
-    return Object.defineProperty(target, descriptor.name, descriptor);
+    // add method, accessors, or field 
+    descriptor = initializer.apply(descriptor, arguments);
+
+    // discover name
+    var name = shift.call(arguments);
+    if (!is.stringOrSymbol(name))
+      name = getName.call(descriptor);
+
+    // make lazy
+    if (complication.lazy)
+      descriptor = makeLazy.call(descriptor, name);
+
+    if (target)
+      Object.defineProperty(target, name, descriptor);
+
+    return descriptor;
   };
 
-  // (define|set)[Const][Hidden](Field|Accessor|Function)OnTargets(targets, name, descriptor)
+  // (define|set)[Const][Hidden](Field|Accessor|Method)OnTargets(targets, name, descriptor)
   exports[prefix + suffix + OnTargetsSuffix] =
     function (targets, fieldOrAccessorName, descriptors, setter) {
       for (var i = 0; i < targets.length; i++)
         define(targets[i], fieldOrAccessorName, descriptors, setter);
     };
 
-  // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
+  // (define|set)[Const][Hidden](Properties|Accessors|Methods)(target, descriptors)
   var defineMany = exports[prefix + pluralSuffix] =
     function (target, values) {
       for (var name in values)
@@ -112,7 +122,7 @@ function exportDefinition(
       }
     };
 
-  // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)
+  // (define|set)[Const][Hidden](Properties|Accessors|Method)OnTargets(targets, descriptor)
   exports[prefix + pluralSuffix + OnTargetsSuffix] =
     function (targets, descriptors) {
       for (var i = 0; i < targets.length; i++)
@@ -123,7 +133,7 @@ function exportDefinition(
 for (var suffix in definitions) {
   var definition = definitions[suffix];
   var pluralSuffix = definition.pluralName;
-  var normalizer = definition.normalizer || (() => new Object());
+  var initializer = definition.initializer || (() => new Object());
   var complications = definition.complications || {};
   var configurations = definition.configurations;
 
@@ -138,18 +148,15 @@ for (var suffix in definitions) {
         suffix,
         pluralSuffix,
         configuration,
-        normalizer,
+        initializer,
         complications[complication],
       )
     }
   }
 }
 
-var ConstPropertyConfiguration = {
-  configurable: false,
-  enumerable: false,
-  writable: false
-}
+exports.defineProperty = require('./js/define-property');
+exports.defineReference = require('./js/define-reference');
 
 for (var name in exports)
   Object.defineProperty(exports, name, ConstPropertyConfiguration);
