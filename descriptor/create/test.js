@@ -17,7 +17,8 @@ function fail() {
 fail();
 
 function noop() {
-  assert(create({ name: 'Bob' }).name == 'Bob');
+  var descriptor = { name: 'Bob' };
+  assert(create(descriptor) == descriptor);
 }
 noop();
 
@@ -48,51 +49,6 @@ function wrapProcedural() {
 }
 wrapProcedural();
 
-function bases() {
-  var result = create({ }, {
-    bases: [ 
-      { foo: 0, bar: 1 },
-      { foo: 0, baz: 2 },
-    ]
-  });
-
-  assert(result.foo == 0);
-  assert(result.bar == 1);
-  assert(result.baz == 2);
-}
-bases();
-
-function namedBases() {
-  var result = create({ }, {
-    basePoset: {
-      x: { foo: 0, bar: 1 },
-      y: { foo: 0, baz: 2 }
-    },
-    bases: [ 'x', 'y' ]
-  });
-
-  assert(result.foo == 0);
-  assert(result.bar == 1);
-  assert(result.baz == 2);
-}
-namedBases();
-
-function posetBases() {
-  var result = create({ }, {
-    basePoset: {
-      b: { foo: 0 },
-      x$b: { bar: 1 },
-      y$b: { baz: 2 }
-    },
-    bases: [ 'x', 'y' ]
-  });
-
-  assert(result.foo == 0);
-  assert(result.bar == 1);
-  assert(result.baz == 2);
-}
-posetBases();
-
 function defaults() {
   var result = create({ }, {
     defaults: {
@@ -108,33 +64,17 @@ function defaults() {
 }
 defaults();
 
-
-function wrapThenInherit() {
+function wrapThenDefaults() {
   var appleName = 'apple';
   var result = create(appleName, {
     wrap: 'name',
-    bases: [{
-      type: 'fruit',
-      name: 'unknown'
-    }]
-  })
-
-  assert(result.name == 'apple'); // wrap, inherit
-  assert(result.type == 'fruit'); // inherit
-}
-wrapThenInherit();
-
-function inheritThenDefaults() {
-  var result = create({ }, {
     defaults: { 
-      type: 'unknown',
-      color: 'unknown' 
-    },
-    bases: [{ 
       type: 'fruit',
-    }]
+      name: 'unknown' 
+    }
   })
-  assert(result.type == 'fruit'); // inherit
-  assert(result.color == 'unknown'); // defaults
+
+  assert(result.name == 'apple'); 
+  assert(result.type == 'fruit'); 
 }
-inheritThenDefaults(); 
+wrapThenDefaults();

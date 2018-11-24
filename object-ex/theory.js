@@ -67,7 +67,7 @@ assertTheory(function(test, id) {
     configurable: false,
     onTargets: test.onTargets,
     plural: test.plural
-  }, 'Method');
+  }, 'Function');
 
   var callCount = 0;
   var target = { func: function() { callCount++; return 0; } }

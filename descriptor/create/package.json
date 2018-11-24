@@ -18,10 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.merge": "^1.0.10",
-    "@kingjs/descriptor.object.epilog": "^1.0.1",
+    "@kingjs/empty-object": "^1.0.7",
     "@kingjs/func.return-arg-0": "^1.0.0",
-    "@kingjs/is": "^1.0.0",
-    "@kingjs/poset.inherit": "^1.0.7",
-    "@kingjs/poset.decode": "^1.0.10"
+    "@kingjs/is": "^1.0.0"
   }
 }

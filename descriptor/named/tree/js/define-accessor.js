@@ -2,22 +2,9 @@
 
 var Node = require('./node');
 var stringEx = require('@kingjs/string-ex');
-//var objectEx = require('@kingjs/object-ex');
-var objectEx = require('../../../../object-ex');
+var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
-
-function defineTypedReference(target, name, type, dfault) {
-
-  objectEx.defineReference(target, name, 
-    function(address) { 
-      var result = this.resolve(address); 
-      assert(result === null || result instanceof type);
-      return result;
-    },
-    dfault
-  );
-}
 
 function defineAccessor(target, name, accessor) {    
   var type = accessor.type;
@@ -32,29 +19,45 @@ function defineAccessor(target, name, accessor) {
 function defineAccessorHelper(target, name, accessor) {    
   var type = accessor.type;
   
-  if ('value' in accessor)
-    return objectEx.defineField(target, name, accessor.value);
+  if ('value' in accessor) {
+    objectEx.defineField(target, name, accessor.value);
+    return;
+  }
 
   var get = accessor.get;
-  if (get)
-    return objectEx.defineAccessor(target, name, get);
+  if (get) {
+    objectEx.defineAccessor(target, name, get);
+    return;
+  }
            
   var ancestor = accessor.ancestor;
   if (ancestor) {
     assert(is.function(type));
     assert(type == Node || type.prototype instanceof Node);
 
-    return objectEx.defineLazyAccessor(target, name, 
+    objectEx.defineLazyAccessor(target, name, 
       function() { 
         return this.getAncestor(type); 
       }
     );
+
+    return;
   }
 
   var ref = accessor.ref;
   if (ref) {
     var dfault = accessor.default;
-    return defineTypedReference(target, name, type, dfault);
+    objectEx.defineReference(target, name, {
+      enumerable: true,
+      configurable: false,
+      default: dfault,
+      value: function(address) { 
+        var result = this.resolve(address); 
+        assert(result === null || result instanceof type);
+        return result;
+      },
+    });
+    return;
   }
 }
 

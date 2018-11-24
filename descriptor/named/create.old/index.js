@@ -2,9 +2,25 @@
 
 var createHelper = require('@kingjs/descriptor.create');
 var map = require('@kingjs/descriptor.map');
+var load = require('@kingjs/descriptor.named.load');
 
 var reduceAction = require('./js/reduceAction');
 var createActions = require('./js/createActions');
+
+function mapAndResolve(descriptor, name) {
+  var action = this[name];
+
+  // Pass III: 5-8; Inflate, Thunks, Scorch, Update
+  return map.call(descriptor, action, name);
+}
+
+function getDepends(name) {
+  return this[name].depends;
+}
+
+function getRefs(name) {
+  return this[name].refs;
+}
 
 function create(descriptors, action) {
   var result = { };
@@ -21,10 +37,13 @@ function create(descriptors, action) {
       descriptor = descriptors[action.$encodedName];
       
     result[name] = createHelper(descriptor, action);
-
-    // Pass III: 5-8; Inflate, Thunks, Scorch, Update
-    result[name] = map.call(descriptor, action, name);
   }
+
+  // Pass II: 4-8; Depends, Inflate, Thunk, Scorch, Update
+  result = load.call(result, mapAndResolve, getDepends, actions);
+  
+  // Pass IV: 9; Resolve
+  result = load.call(result, null, getRefs, actions);
 
   return result;
 }

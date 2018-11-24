@@ -3,11 +3,11 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
-var initMethod = require('./js/init-method');
+var initFunction = require('./js/init-function');
 var initAccessors = require('./js/init-accessors');
 var initField = require('./js/init-field');
 var getName = require('./js/get-name');
-var makeLazy = require('./js/make-lazy');
+var defineProperty = require('./js/define-property');
 
 var shift = Array.prototype.shift;
 
@@ -36,9 +36,9 @@ var definitions = {
     },
   },
 
-  'Method': {
-    pluralName: 'Methods',
-    initializer: initMethod,
+  'Function': {
+    pluralName: 'Functions',
+    initializer: initFunction,
     configurations: {
       'define': { configurable: false, enumerable: false, writable: false },
     },
@@ -73,7 +73,7 @@ function exportDefinition(
   assert('configurable' in configuration);
   assert('enumerable' in configuration);
 
-  // (define|set)[Const][Hidden](Field|Accessor|Method)(target, name, descriptor);
+  // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
   var define = exports[prefix + suffix] = function () {
 
     var descriptor = { };
@@ -94,22 +94,19 @@ function exportDefinition(
 
     // make lazy
     if (complication.lazy)
-      descriptor = makeLazy.call(descriptor, name);
+      descriptor.lazy = true;
 
-    if (target)
-      Object.defineProperty(target, name, descriptor);
-
-    return descriptor;
+    return defineProperty(target, name, descriptor);
   };
 
-  // (define|set)[Const][Hidden](Field|Accessor|Method)OnTargets(targets, name, descriptor)
+  // (define|set)[Const][Hidden](Field|Accessor|Function)OnTargets(targets, name, descriptor)
   exports[prefix + suffix + OnTargetsSuffix] =
     function (targets, fieldOrAccessorName, descriptors, setter) {
       for (var i = 0; i < targets.length; i++)
         define(targets[i], fieldOrAccessorName, descriptors, setter);
     };
 
-  // (define|set)[Const][Hidden](Properties|Accessors|Methods)(target, descriptors)
+  // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
   var defineMany = exports[prefix + pluralSuffix] =
     function (target, values) {
       for (var name in values)
@@ -122,7 +119,7 @@ function exportDefinition(
       }
     };
 
-  // (define|set)[Const][Hidden](Properties|Accessors|Method)OnTargets(targets, descriptor)
+  // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)
   exports[prefix + pluralSuffix + OnTargetsSuffix] =
     function (targets, descriptors) {
       for (var i = 0; i < targets.length; i++)

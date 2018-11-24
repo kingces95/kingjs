@@ -27,9 +27,7 @@ function loadClass() {
   return func;
 }
 
-function loadInterface() {
-
-}
+function loadInterface() { }
 
 Object.defineProperties(module, {
   exports: { value: load }

@@ -60,6 +60,7 @@ objectEx.defineFunctions(Node.prototype, {
     var ctor = info.ctors[type];
     var defaults = info.defaults[type];
 
+    // TODO: flatten children
     for (var name in children) {
       var child = children[name];
   

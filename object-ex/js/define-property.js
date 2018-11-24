@@ -1,14 +1,12 @@
 'use strict';
 
+var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var makeLazy = require('./make-lazy');
-var initLambdas = require('./init-lambdas');
 
 function defineProperty(target, name, descriptor) {
   assert(is.stringOrSymbol(name));
   assert(descriptor);
-
-  descriptor = initLambdas.call(descriptor);
 
   if (descriptor.lazy)
     descriptor = makeLazy.call(descriptor, name);
