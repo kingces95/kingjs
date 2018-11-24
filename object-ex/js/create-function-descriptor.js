@@ -5,19 +5,17 @@ var assert = require('@kingjs/assert');
 var lazyDefineConstField = require('./lazy-define-const-field');
 var emitGetter = require('./emit-getter');
 
-function createFunctionDescriptor(descriptor, x, y, z) {
+function createFunctionDescriptor(descriptor, x, y) {
       
   // e.g. function foo() { ... } => 'foo', function foo() { ... }
   if (is.namedFunction(x)) {
     descriptor.name = x.name;
     descriptor.value = x;
-    descriptor.extra = y;
   }
 
   else {
     assert(is.stringOrSymbol(x))
     descriptor.name = x;
-    descriptor.extra = z;
 
     // e.g. 'foo', { value: function() { ... } }
     if (is.objectLiteral(y)) {

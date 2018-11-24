@@ -2,12 +2,11 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var lazyDefineConstField = require('./lazy-define-const-field');
 var emitGetter = require('./emit-getter');
 var emitSetter = require('./emit-setter');
 
 function createAccessorDescriptor(descriptor, x, y, z) {
-  var get, set;
+  var get, set, name;
 
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
   if (is.objectLiteral(x)) {
@@ -20,7 +19,7 @@ function createAccessorDescriptor(descriptor, x, y, z) {
     // e.g. 'foo', function() { ... } => 'foo', { get: function() { ... } }
     // e.g. 'foo', 'this.bar' => 'foo', { get: function() { return this.bar; } }
     if (is.stringOrSymbol(x)) {
-      descriptor.name = x;
+      name = x;
       get = y;
       set = z;
     }
@@ -35,13 +34,15 @@ function createAccessorDescriptor(descriptor, x, y, z) {
   // e.g. 'foo', { get: function() { ... } }
   // e.g. 'foo', { get: 'this.bar' } => 'foo', { get: function() { ... } }
   else {
-    descriptor.name = x;
+    name = x;
     get = y.get;
     set = y.set;
   }
 
-  if (!descriptor.name)
-    descriptor.name = get ? get.name : set.name;
+  if (!name)
+    name = get ? get.name : set.name;
+
+  descriptor.name = name;
 
   if (is.string(get))
     get = emitGetter(get);
@@ -56,10 +57,19 @@ function createAccessorDescriptor(descriptor, x, y, z) {
   if (descriptor.lazy) {
     assert(descriptor.get);
     assert(!descriptor.set);
-    descriptor.get = lazyDefineConstField(
-      descriptor.name,
-      descriptor.get
-    );
+    descriptor.get = function() {
+      var value = get.call(this);
+      if (is.undefined(value))
+        return value;
+
+      Object.defineProperty(this, name, {
+        enumerable: descriptor.enumerable,
+        configurable: false,
+        value: value
+      });
+
+      return value;
+    }
   }
 
   assert(is.stringOrSymbol(descriptor.name));

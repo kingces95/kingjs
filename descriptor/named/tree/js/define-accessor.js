@@ -2,7 +2,8 @@
 
 var Node = require('./node');
 var stringEx = require('@kingjs/string-ex');
-var objectEx = require('@kingjs/object-ex');
+//var objectEx = require('@kingjs/object-ex');
+var objectEx = require('../../../../object-ex');
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
@@ -11,7 +12,7 @@ function defineTypedReference(target, name, type, dfault) {
   objectEx.defineReference(target, name, 
     function(address) { 
       var result = this.resolve(address); 
-      assert(result instanceof type);
+      assert(result === null || result instanceof type);
       return result;
     },
     dfault
@@ -52,7 +53,7 @@ function defineAccessorHelper(target, name, accessor) {
 
   var ref = accessor.ref;
   if (ref) {
-    var dfault = accessor.dfault;
+    var dfault = accessor.default;
     return defineTypedReference(target, name, type, dfault);
   }
 }

@@ -41,45 +41,6 @@ function assertDescriptor(test, target, name) {
 }
 
 assertTheory(function(test, id) {
-  var name = buildName(test, 'Reference', 'References');
-
-  var target = { id: 1 };
-  function resolve(address) { 
-    return this.id + address 
-  };
-  var targetOrTargets = test.onTargets ? [target] : target;
-  
-  if (test.plural) 
-    objectEx[name](targetOrTargets, { [test.name]: { value: resolve, default: test.default } });
-  else
-    objectEx[name](targetOrTargets, test.name, resolve, test.default);
-
-  target = Object.create(target);
-
-  assertThrows(() => target[test.name]);
-
-  if (!test.default) {
-    target[test.name] = undefined;
-    assertThrows(() => target[test.name]);
-    target[test.name] = 2;
-    assert(target[test.name] == 3);
-  } else {
-    target[test.name] = undefined;
-    assert(target[test.name] == 4);
-  }
-
-  test.lazy = true;
-  assertDescriptor(test, target, test.name);
-}, {
-  name: ['foo', Symbol.for('foo') ],
-  configurable: [ false, true ],
-  enumerable: [ false, true ],
-  onTargets: [ false, true ],
-  plural: [ false, true ],
-  default: [ undefined, 3 ]
-})
-
-assertTheory(function(test, id) {
   var name = buildName(test, 'Field', 'Fields');
 
   var target = { };

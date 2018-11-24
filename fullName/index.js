@@ -11,10 +11,6 @@ function FullName(segments) {
   this.segments = segments;
 }
 
-objectEx.defineWriteOnceFields(FullName.prototype, {
-  segments: undefined,
-})
-
 objectEx.defineFunctions(FullName.prototype, {
   equals: function(other) {
     if (this == other)

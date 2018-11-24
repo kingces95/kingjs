@@ -2,46 +2,41 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var lazyDefineProperty = require('./lazy-define-property');
-var lazyDefineConstField = require('./lazy-define-const-field');
-var createFunctionDescriptor = require('./create-function-descriptor');
 
-function createReferenceDescriptor(descriptor, x, y, z) {
-  descriptor = createFunctionDescriptor(descriptor, x, y, z);
+var derefBeforeAssignmentError = 
+  'Unexpected dereference attempted before address assignment.';
 
-  assert(descriptor.value);
-
-  var name = descriptor.name;
-
+function createReference(target, name, descriptor) {
   var dereference = descriptor.value;
-  delete descriptor.value;
+  var defaultAddress = descriptor.default;
 
-  var defaultAddress = descriptor.default || descriptor.extra;
+  descriptor = {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
 
-  descriptor.set = 
-    lazyDefineProperty(name, 
-      address => {
-
-        if (is.undefined(address)) {
-          address = defaultAddress;
-          if (is.undefined(address))
-            return undefined;
-        }
+    set: function(address) {
+      if (is.undefined(address)) 
+        return undefined;
         
-        return {
-          get: lazyDefineConstField(name, function getter() {
-            return dereference.call(this, address);
-          })
-        }
-      }
-    );
+      Object.defineProperty(this, name, {
+        configurable: false,
+        enumerable: descriptor.enumerable,
+        value: dereference.call(this, address),
+      });
+    },
 
-  descriptor.get = () => 
-    assert(false, 'Unexpected dereference attempted before address assignment.');
+    get: function() {
+      if (defaultAddress === undefined)
+        assert(false, derefBeforeAssignmentError);
+        
+      this[name] = defaultAddress;
+      return this[name];
+    },
+  }
   
-  return descriptor;        
+  Object.defineProperty(target, name, descriptor);       
 }
 
 Object.defineProperties(module, {
-  exports: { value: createReferenceDescriptor }
+  exports: { value: createReference }
 });

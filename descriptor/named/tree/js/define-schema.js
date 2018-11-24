@@ -3,19 +3,23 @@
 var Node = require('./node');
 var defineAccessor = require('./define-accessor');
 
+var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var create = require('@kingjs/descriptor.named.create');
-var defineClass = require('./define-class');
 var attrSym = require('./attribute');
+var defineClass = require('./define-class');
+var defineChildren = require('./define-children');
+var objectEx = require('@kingjs/object-ex');
+var emptyObject = require('@kingjs/empty-object');
 
-function defineNodes(target, descriptors) {
+function defineSchema(target, descriptors) {
 
   // first pass; define types
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
     var name = descriptor.name;
     var baseFunc = target[descriptor.base] || Node;
-    defineClass(target, name, baseFunc);
+    defineNode(target, name, baseFunc);
   }
 
   // second pass: define accessors whose implementation requires funcs
@@ -23,37 +27,88 @@ function defineNodes(target, descriptors) {
     var descriptor = descriptors[i];
     var func = target[descriptor.name];
     var info = func[attrSym].info = createInfo();
+    var prototype = func.prototype;
+
+    objectEx.defineAccessor(prototype, 'is' + func.name, () => true);
 
     var accessors = loadAccessors(target, descriptor);
     for (var name in accessors) {
       var accessor = accessors[name];
-      var accessorName = defineAccessor(func.prototype, name, accessor);
+      var accessorName = defineAccessor(prototype, name, accessor);
       info.fields[name] = accessorName;
     }
 
     var children = loadChildren(target, descriptor);
+    defineChildren(prototype, children);
     for (var name in children) {
       var child = children[name];
       info.children.ctors[name] = child.type;
       info.children.defaults[name] = child.defaults;
-      console.log(func.name + ' > ' + name);
+    }
+
+    var methods = loadMethods(target, descriptor);
+    for (var name in methods) {
+      var method = methods[name];
+      defineMethod(prototype, name, method);
     }
   }
 }
 
 function createInfo() {
   return { 
-    fields: [ ], 
+    fields: { }, 
     children: { 
       ctors: { },
-      defaults: [ ]
+      defaults: { }
     } 
   };
 }
 
+function defineNode(target, name, baseFunc) {
+
+  var ctor = defineClass(name, baseFunc,
+    function init(_parent, _name, descriptor) {
+      if (!descriptor)
+        return;
+
+      var fields = ctor[attrSym].info.fields;
+      for (var name in fields) {
+        if (name in descriptor == false)
+          continue;
+
+        this[fields[name]] = descriptor[name];
+      }
+    }
+  );
+
+  objectEx.defineConstField(target, name, ctor);
+}
+
+function defineMethod(target, name, descriptor) {
+  var func = descriptor.func;
+  assert(func);
+
+  if (descriptor.lazy) {
+    objectEx.defineLazyFunction(target, name, func);
+    return;
+  }
+  
+  objectEx.defineFunction(target, name, func);
+}
+
+function loadMethods(funcs, descriptor) {
+  if (!descriptor.methods)
+    return emptyObject;
+
+  return create(descriptor.methods, {
+    wrap: 'func'
+  });
+}
+
 function loadChildren(funcs, descriptor) {
   if (!descriptor.children)
-    return { };
+    return emptyObject;
+
   return create(descriptor.children, {
     thunks: {
       type: o => is.string(o) ? funcs[o] : o
@@ -63,9 +118,17 @@ function loadChildren(funcs, descriptor) {
 }
 
 function loadAccessors(funcs, descriptor) {
+  var flags = descriptor.flags;
+  if (!flags)
+    flags = emptyObject;
+  
+  var accessors = descriptor.accessors;
+  if (!accessors)
+    accessors = emptyObject;
+
   return create([
-    descriptor.accessors,
-    create(descriptor.flags, { 
+    accessors,
+    create(flags, { 
       wrap: o => ({ [is.boolean ? 'value' : 'get']: o }),
       defaults: { type: Boolean }
     })
@@ -78,5 +141,5 @@ function loadAccessors(funcs, descriptor) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: defineNodes }
+  exports: { value: defineSchema }
 });

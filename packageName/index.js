@@ -17,11 +17,6 @@ function FullName(name, scope) {
   this.scope = scope || null;
 }
 
-objectEx.defineWriteOnceFields(FullName.prototype, {
-  name: undefined,
-  scope: undefined,
-})
-
 objectEx.defineFunctions(FullName.prototype, {
   equals: function(other) {
     if (other instanceof FullName == false)

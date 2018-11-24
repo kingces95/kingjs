@@ -1,10 +1,11 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
+var is = require('@kingjs/is');
+var defineProperty = require('./js/define-property');
 var createFunctionDescriptor = require('./js/create-function-descriptor');
 var createAccessorDescriptor = require('./js/create-accessor-descriptor');
 var createFieldDescriptor = require('./js/create-field-descriptor');
-var createWriteOnceDescriptor = require('./js/create-write-once-descriptor');
 var createReferenceDescriptor = require('./js/create-reference-descriptor');
 
 var standardConfigurations = {
@@ -51,12 +52,6 @@ var definitions = {
     normalizer: createAccessorDescriptor,
   },
 
-  'WriteOnceField': {
-    pluralName: 'WriteOnceFields',
-    configurations: standardConfigurations,
-    normalizer: createWriteOnceDescriptor,
-  },
-
   'Reference': {
     pluralName: 'References',
     configurations: standardConfigurations,
@@ -94,7 +89,7 @@ function exportDefinition(
     // normalize 
     descriptor = normalizer.apply(this, arguments);
 
-    Object.defineProperty(target, descriptor.name, descriptor);
+    return Object.defineProperty(target, descriptor.name, descriptor);
   };
 
   // (define|set)[Const][Hidden](Field|Accessor|Function)OnTargets(targets, name, descriptor)
