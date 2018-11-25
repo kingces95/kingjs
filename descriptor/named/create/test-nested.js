@@ -30,6 +30,8 @@ function nestedDescriptorNestedAction() {
     defaults: { type: 'food' }
   }])
 
+  assert('$defaults' in result == false);
+
   assert(result.apple.name == 'apple');
   assert(result.apple.type == 'fruit');
 

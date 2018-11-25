@@ -25,17 +25,19 @@ var standardTypes = {
   Array: Array
 }
 
+var system = new schema.Package(null, 'system', {
+  classes: [
+    primitiveTypes,
+    standardTypes
+  ]
+});
+
 function create() {
   var loader = new schema.Loader();
 
   loader.addChildren({
     packages: { 
-      'intrinsic': {
-        classes: [
-          primitiveTypes,
-          standardTypes
-        ]
-      }
+      'system': system
     }
   });
 

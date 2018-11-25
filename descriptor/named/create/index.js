@@ -9,6 +9,9 @@ var takeRight = require('@kingjs/func.return-arg-1');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var nestedArrayReduce = require('@kingjs/descriptor.nested.array.reduce');
 
+var dollarSign = '$';
+var undef = undefined;
+
 function composeRight(g, f) {
   return function(x) { return g(f(x)); }
 }
@@ -40,14 +43,20 @@ function accumulateActions(accumulate, action) {
 }
 
 function reduceDescriptors(descriptors, action) {
-  return nestedArrayReduce(descriptors, accumulateDescriptors, null, action);
+  return nestedArrayReduce(descriptors, accumulateDescriptors, undef, action);
 }
 
 function accumulateDescriptors(accumulate, descriptors) {
+  if (!descriptors)
+    return accumulate;
+    
   var action = filter.call(descriptors, descriptorActionFilter);
   action = action ? accumulateActions(this, action) : this;
 
   for (var name in descriptors) {
+    if (name[0] == dollarSign)
+      continue;
+
     var descriptor = descriptors[name];
 
     descriptor = createHelper(descriptor, action);

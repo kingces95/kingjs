@@ -18,12 +18,12 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.0",
-    "@kingjs/descriptor.object.epilog": "^1.0.0",
-    "@kingjs/descriptor.object.prolog": "^1.0.0",
-    "@kingjs/descriptor.object.keys": "^1.0.0",
-    "@kingjs/descriptor.nested.reduce": "^1.0.0",
+    "@kingjs/descriptor.nested.reduce": "^1.0.11",
     "@kingjs/descriptor.nested.update": "^1.0.0",
-    "@kingjs/poset.for-each": "^1.0.0",
-    "@kingjs/is": "^1.0.0"
+    "@kingjs/descriptor.object.epilog": "^1.0.2",
+    "@kingjs/descriptor.object.keys": "^1.0.0",
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/is": "^1.0.6",
+    "@kingjs/poset.for-each": "^1.0.0"
   }
 }

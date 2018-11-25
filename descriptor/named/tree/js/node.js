@@ -3,7 +3,7 @@
 var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
-var createDescriptor = require('@kingjs/descriptor.create');
+var descriptorNamedCreate = require('@kingjs/descriptor.named.create');
 
 var attrSym = require('./attribute');
 
@@ -60,15 +60,11 @@ objectEx.defineFunctions(Node.prototype, {
     var ctor = info.ctors[type];
     var defaults = info.defaults[type];
 
-    // TODO: flatten children
-    for (var name in children) {
-      var child = children[name];
-  
-      if (defaults)
-        child = createDescriptor(child, defaults);
-  
-      this.addChild(ctor, name, child);
-    }
+    // flatten children and apply transforms
+    children = descriptorNamedCreate(children, defaults);
+
+    for (var name in children)
+      this.addChild(ctor, name, children[name]);
   },
 
   getAncestor: function(ctor) {
