@@ -34,6 +34,9 @@ var definitions = {
       'defineConst': { configurable: false, enumerable: true, writable: false },
       'defineHiddenConst': { configurable: false, enumerable: false, writable: false },
     },
+    complications: {
+      'Static': { static: true }
+    }
   },
 
   'Function': {
@@ -43,7 +46,9 @@ var definitions = {
       'define': { configurable: false, enumerable: false, writable: false },
     },
     complications: {
-      'Lazy': { lazy: true }
+      'Lazy': { lazy: true },
+      'LazyStatic': { lazy: true, static: true },
+      'Static': { static: true },
     },
   },
 
@@ -57,7 +62,9 @@ var definitions = {
       'defineHidden': { configurable: false, enumerable: false },
     },
     complications: {
-      'Lazy': { lazy: true }
+      'Lazy': { lazy: true },
+      'LazyStatic': { lazy: true, static: true },
+      'Static': { static: true },
     },
   },
 }
@@ -95,6 +102,10 @@ function exportDefinition(
     // make lazy
     if (complication.lazy)
       descriptor.lazy = true;
+
+    // make static
+    if (complication.static)
+      descriptor.static = true;
 
     return defineProperty(target, name, descriptor);
   };

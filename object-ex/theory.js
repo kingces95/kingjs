@@ -18,6 +18,8 @@ function buildName(test, suffix, pluralSuffix) {
     name += 'Const';
   if (test.lazy === true)
     name += 'Lazy';
+  if (test.static === true)
+    name += 'Static';
 
   name += test.plural ? pluralSuffix : suffix;
 
@@ -43,7 +45,7 @@ function assertDescriptor(test, target, name) {
 assertTheory(function(test, id) {
   var name = buildName(test, 'Field', 'Fields');
 
-  var target = { };
+  var target = function target() { };
   var targetOrTargets = test.onTargets ? [target] : target;
   
   if (test.plural) 
@@ -66,12 +68,18 @@ assertTheory(function(test, id) {
   var name = buildName({
     configurable: false,
     onTargets: test.onTargets,
-    plural: test.plural
+    plural: test.plural,
+    static: test.static
   }, 'Function');
 
   var callCount = 0;
-  var target = { func: function() { callCount++; return 0; } }
-  var func = function() { return this.func(); };
+  var target = function target() { };
+  target.func = function() { callCount++; return 0; };
+
+  var func = function() { 
+    assert(this == target);
+    return this.func(); 
+  };
   var targetOrTargets = test.onTargets ? [target] : target;
 
   if (test.variant == 'named' && is.symbol(test.name))
@@ -97,7 +105,7 @@ assertTheory(function(test, id) {
   else {
     switch (test.variant) {
       case 'named':
-        objectEx[name](targetOrTargets, function foo() { return this.func(); });
+        objectEx[name](targetOrTargets, function foo() { return func.call(this); });
         break;
       case 'function':
         objectEx[name](targetOrTargets, test.name, func);
@@ -121,8 +129,14 @@ assertTheory(function(test, id) {
   assert(callCount == test.lazy ? 1 : 2);
   
   assertDescriptor(test, target, test.name);
+
+  if (test.static) {
+    var obj = new target();
+    obj[test.name]();
+  }
 }, {
   name: ['foo', Symbol.for('foo') ],
+  static: [ true, false ],
   lazy: [ false, true ],
   variant: [ 'named', 'function', 'none', 'lambda' ],
   configurable: [ false ],
@@ -142,21 +156,26 @@ assertTheory(function(test, id) {
     return;
 
   var getCount = 0;
-  var target = { 
-    func: function() { 
-      getCount++; 
-      return 0; 
-    } 
+  var target = function() { };
+  target.func = function() { 
+    getCount++; 
+    return 0; 
   };
   var targetOrTargets = test.onTargets ? [target] : target;
   
-  var getter = function foo() { return this.func(); }
+  var getter = function foo() { 
+    assert(this == target);
+    return this.func(); 
+  }
   if (test.lambda)
     getter = 'this.func()';
 
   if (test.setter && !test.lazy) {
     var setter = undefined;
-    setter = function foo(x) { this.field = x; };
+    setter = function foo(x) {
+      assert(this == target);
+      this.field = x; 
+    };
     if (test.lambda)
       setter = 'this.field = value';
 
@@ -181,6 +200,11 @@ assertTheory(function(test, id) {
 
     target[test.name] = 0
     assert(target.field == 0);
+    if (test.static) {
+      var obj = new target();
+      assert(obj[test.name] = 1);
+      assert(target.field == 1);
+    }
   }
 
   else {
@@ -218,9 +242,15 @@ assertTheory(function(test, id) {
   assert(getCount == test.lazy ? 1 : 2);
 
   assertDescriptor(test, target, test.name);
+
+  if (test.static) {
+    var obj = new target();
+    assert(obj[test.name] == 0);
+  }
 }, {
   name: ['foo', Symbol.for('foo') ],
   lazy: [ false, true ],
+  static: [ false, true ],
   lambda: [ false, true ],
   setter: [ false, true ],
   inferName: [ false, true ],

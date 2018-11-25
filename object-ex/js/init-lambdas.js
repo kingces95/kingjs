@@ -11,7 +11,7 @@ var map = {
   set: emitSetter
 }
 
-function emitLambdas() {
+function initLambdas() {
 
   for (var name in map) {
     var value = this[name];
@@ -26,5 +26,5 @@ function emitLambdas() {
 }
 
 Object.defineProperties(module, {
-  exports: { value: emitLambdas }
+  exports: { value: initLambdas }
 });

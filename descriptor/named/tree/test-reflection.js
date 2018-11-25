@@ -15,7 +15,7 @@ loader.addChildren({
   }
 });
 
-var obj = loader.resolve('intrinsic.Object');
+var obj = loader.resolve(Object);
 var fooBar = loader.children['@kingjs/foo-bar'];
 var MyClass = fooBar.children.MyClass;
 var MyClassFunc = MyClass.load();

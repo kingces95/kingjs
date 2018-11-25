@@ -19,6 +19,7 @@ function defineSchema(target, descriptors) {
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
     var name = descriptor.name;
+    var isOrphan = descriptor.orphan;
     var baseFunc = target[descriptor.base] || Node;
     defineNode(target, name, baseFunc);
   }
@@ -31,6 +32,7 @@ function defineSchema(target, descriptors) {
     var prototype = func.prototype;
 
     objectEx.defineAccessor(prototype, 'is' + func.name, () => true);
+    info.defaults.wrap = descriptor.wrap;
 
     var accessors = loadAccessors(target, descriptor);
     for (var name in accessors) {
@@ -57,7 +59,8 @@ function defineSchema(target, descriptors) {
 
 function createInfo() {
   return { 
-    fields: { }, 
+    fields: { },
+    defaults: { },
     children: { 
       ctors: { },
       defaults: { }

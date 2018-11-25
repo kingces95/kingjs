@@ -3,6 +3,7 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var makeLazy = require('./make-lazy');
+var makeStatic = require('./make-static');
 
 function defineProperty(target, name, descriptor) {
   assert(is.stringOrSymbol(name));
@@ -11,10 +12,16 @@ function defineProperty(target, name, descriptor) {
   if (descriptor.lazy)
     descriptor = makeLazy.call(descriptor, name);
 
-  if (target)
-    Object.defineProperty(target, name, descriptor);
+  Object.defineProperty(target, name, descriptor);
 
-  return descriptor;
+  assert(target);
+  if (descriptor.static) {
+    assert(is.function(target));
+    descriptor = makeStatic.call(descriptor, target);
+    Object.defineProperty(target.prototype, name, descriptor);
+  }
+
+  return target;
 }
 
 Object.defineProperties(module, {

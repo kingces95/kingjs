@@ -57,11 +57,12 @@ objectEx.defineFunctions(Node.prototype, {
       return;
 
     var info = this.constructor[attrSym].info.children;
-    var ctor = info.ctors[type];
     var defaults = info.defaults[type];
+    var ctor = info.ctors[type];
+    var ctorDefaults = ctor[attrSym].info.defaults;
 
     // flatten children and apply transforms
-    children = descriptorNamedCreate(children, defaults);
+    children = descriptorNamedCreate(children, [ctorDefaults, defaults]);
 
     for (var name in children)
       this.addChild(ctor, name, children[name]);

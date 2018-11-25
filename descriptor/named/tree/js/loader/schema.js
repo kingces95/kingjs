@@ -1,11 +1,17 @@
 'use strict';
 
+var assert = require('@kingjs/assert');
+var is = require('@kingjs/is');
+var objectEx = require('@kingjs/object-ex');
 var Node = require('../node');
 var defineSchema = require('../define-schema');
 
 defineSchema(exports, [
   {
+    name: 'JavascriptNode'
+  }, {
     name: 'Member',
+    base: 'JavascriptNode',
     flags: {
       intrinsic: false,
       public: false,
@@ -42,7 +48,7 @@ defineSchema(exports, [
   }, {
     name: 'Method',
     base: 'Property',
-    wrap: 'value',
+    wrap: 'func',
     flags: { 
       extension: false,
       abstract: 'this.value === undefined',
@@ -69,9 +75,6 @@ defineSchema(exports, [
   }, {
     name: 'Type', 
     base: 'Member',
-    accessors: {
-      func: { func: Function }
-    },
   }, {
     name: 'Class',
     base: 'Type',
@@ -79,11 +82,13 @@ defineSchema(exports, [
     flags: { 
       abstract: false,
     },
-    accessors: {
+    accessors: [{ 
+      func: { func: Function }
+    }, {
       $defaults: { ref: true },
-      base: { type: 'Class', default: 'intrinsic.Object' },
+      base: { type: 'Class', default: 'Object' },
       implements: { type: 'Interface', array: true },
-    },
+    }],
     children: {
       classes: 'Class',
       interfaces: 'Interface',
@@ -124,11 +129,14 @@ defineSchema(exports, [
     }],
   }, {
     name: 'Loader',
+    base: 'JavascriptNode',
     children: {
       packages: 'Package',
+      classes: 'Class',
     },
   }, {
     name: 'Package',
+    base: 'JavascriptNode',
     accessors: {
       func: { type: Function },
     },
@@ -139,10 +147,76 @@ defineSchema(exports, [
       $defaults: { static: true },
       methods: 'Method',
       accessors: 'Accessor',
-      fields: 'Field',      
+      fields: 'Field',
     }],
   },
 ]);
+
+// builtin types
+
+var JavascriptNode = exports.JavascriptNode;
+var Loader = exports.Loader;
+
+var constantTypes = {
+  $defaults: {
+    base: null,
+    func: null,
+    primitive: true,
+  },
+  Null: null,
+  Undefined: null,
+};
+
+var primitiveTypes = {
+  $defaults: {
+    base: null,
+    primitive: true,
+  },
+  Object: Object,
+  Number: Number,
+  Boolean: Boolean,
+  Symbol: Symbol,
+};
+
+var builtInClasses = {
+  $defaults: {
+    base: 'Object'
+  },
+  String: String,
+  Array: Array
+}
+
+Loader.builtIn = new Loader(null, null, {
+  classes: [
+    constantTypes,
+    primitiveTypes,
+    builtInClasses
+  ]
+});
+
+var builtInTypes = Loader.builtIn.children;
+Object.freeze(builtInTypes);
+
+for (var name in builtInTypes)
+  Loader[name] = builtInTypes[name];
+
+objectEx.defineFunction(JavascriptNode.prototype, 
+  function resolve(ref) {
+    if (is.function(ref)) {
+      for (name in builtInTypes) {
+        var type = builtInTypes[name];
+        if (ref == type.func)
+          return type;
+      }
+      return undefined;
+    }
+
+    return Node.prototype.resolve.call(this, ref);
+  }
+);
+
+assert(Loader.builtIn.resolve('Object') == Loader.Object);
+assert(Loader.builtIn.resolve(Object) == Loader.Object);
 
 for (var name in exports) {
   var ctor = exports[name];
