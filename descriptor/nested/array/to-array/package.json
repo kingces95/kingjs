@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.nested.array.to-array",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Returns an array of values of an array tree.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.nested.array.to-paths": "^1.0.4",
-    "@kingjs/descriptor.nested.to-array": "^1.0.8"
+    "@kingjs/descriptor.nested.array.reduce": "^1.0.4"
   }
 }

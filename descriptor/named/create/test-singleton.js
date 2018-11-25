@@ -39,43 +39,6 @@ function wrapProcedural() {
 }
 wrapProcedural();
 
-function inherit() {
-  var result = create({ 
-    myName: { }
-  }, { 
-    bases:[{ type: 'fruit' }]
-  });
-
-  assert(result.myName.type == 'fruit'); 
-}
-inherit();
-
-function namedInherit() {
-  var result = create({ 
-    myName: { }
-  }, { 
-    basePoset: {
-      fruit: { type: 'fruit' }  
-    }, bases: [ 'fruit' ]
-  });
-
-  assert(result.myName.type == 'fruit'); 
-}
-namedInherit();
-
-function encodedInherit() {
-  var result = create({ 
-    myName$fruit: { }
-  }, { 
-    basePoset: {
-      fruit: { type: 'fruit' }  
-    }
-  });
-
-  assert(result.myName.type == 'fruit'); 
-}
-encodedInherit();
-
 function defaults() {
   var result = create({ 
     myName: { }
@@ -88,6 +51,27 @@ function defaults() {
   assert(result.myName.type == 'fruit'); 
 }
 defaults();
+
+// order before this test established by @kingjs/descriptor.create tests
+
+function defaultsThenInflate() {
+  
+  var result = create({ 
+    foo: { },
+  }, {
+    inflate: { '*': null },
+    defaults: { 
+      name: function $(name) {  
+        return name;
+      },
+    },
+  });
+
+  assert(result.foo.name == 'foo'); 
+}
+defaultsThenInflate();
+
+// order before this test established by @kingjs/descriptor.map tests
 
 function inflate() {
   var result = create({ 
@@ -160,59 +144,11 @@ function callback() {
     myName: {
         name: undefined
       }
-    }, 
-    (descriptor, name) => write.call(descriptor, 'name', name)
+    }, {
+      callback: (descriptor, name) => write.call(descriptor, 'name', name)
+    }
   );
 
   assert(result.myName.name == 'myName');
 }
 callback();
-
-function depends() {
-
-  var globalId = 0;
-
-  var result = create({ 
-    baz: { refId: 'bar' },
-    foo: { refId: null },
-    bar: { refId: 'foo' },
-  }, {
-    callback: o => write.call(o, 'id', globalId++),
-    depends: { refId: o => o.id }
-  });
-
-  assert(result.foo.id == 0);
-  assert(result.bar.id == 1);
-  assert(result.baz.id == 2);
-
-  assert(result.foo.refId == null);
-  assert(result.bar.refId == result.foo.id);
-  assert(result.baz.refId == result.bar.id);
-}
-depends();
-
-function dependsAlt() {
-  var result = create({
-    vehicle: { id: 0, name: 'Vehicle' },
-    truck: { id: 1, name: 'Truck', base: 'vehicle' }
-  }, { 
-    defaults: { base: null },
-    depends: { base: o => o.id }
-  })
-
-  assert(result.truck.base == 0);
-}
-dependsAlt();
-
-function refs() {
-
-  var result = create({ 
-    foo: { id: 42 },
-    bar: { refId: 'foo' }
-  }, {
-    refs: { refId: o => o.id }
-  });
-
-  assert(result.bar.refId == result.foo.id);
-}
-refs();

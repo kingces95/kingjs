@@ -18,14 +18,16 @@ function nestedDescriptorNestedAction() {
     tomato: 'tomato'
   }, {
     bread: 'bread'
-  }], [(o) => write.call(o, 'id', id++), { 
-    wrap: 'name',
-    defaults: { type: 'food' }
+  }], [{
+    callback: (o) => write.call(o, 'id', id++)
   }, { 
     defaults: { 
       weight: 0,
       type: 'thing' 
     }
+  }, { 
+    wrap: 'name',
+    defaults: { type: 'food' }
   }])
 
   assert(result.apple.name == 'apple');

@@ -20,6 +20,5 @@ function readMe() {
 readMe();
 
 require('./test-singleton');
-require('./test-order');
 require('./test-reduce');
 require('./test-nested');

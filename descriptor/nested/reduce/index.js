@@ -4,31 +4,39 @@ var is = require('@kingjs/is');
 
 var star = '*';
 
+function getSubPaths(paths, name) {
+
+  if (name in paths)
+    return paths[name];
+
+  if (star in paths)
+    return paths[star];
+}
+
 function reduce(tree, paths, callback, accumulator, thisArg) {
 
-  if (!is.object(paths))
-    return callback.call(thisArg, accumulator, tree);
+  if (!is.object(paths)) {
+    var result = callback.call(thisArg, accumulator, tree);
+    if (is.undefined(result))
+      result = accumulator;
+    return result;
+  }
 
   if (!is.object(tree))
     return accumulator;
 
-  var path;
   for (var name in tree) {
-
-    if (name in paths)
-      path = paths[name];
-    else if (star in paths)
-      path = paths[star];
-    else
+    var subPaths = getSubPaths(paths, name);
+    if (is.undefined(subPaths))
       continue;
-
+  
     accumulator = reduce(
       tree[name], 
-      path,
+      subPaths,
       callback, 
       accumulator, 
       thisArg
-    );
+    );    
   }
 
   return accumulator;

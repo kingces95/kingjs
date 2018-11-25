@@ -38,7 +38,7 @@ assertTheory(function(test, id) {
 },{
   name: 'foo',
   leafValue: [ undefined, null, 0, 1 ],
-  pathValue: [ undefined, null, 0, 1 ],
+  pathValue: [ null, 0, 1 ],
   leafNested: [ false, true ],
   pathNested: [ false, true ],
   wildName: [ false, true ]

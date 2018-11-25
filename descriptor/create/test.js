@@ -7,7 +7,10 @@ var assertThrows = testRequire('@kingjs/assert-throws');
 var is = testRequire('@kingjs/is');
 
 function empty() {
-  assert(is.object(create()));
+  assert(create());
+
+  var emptyObject = create(undefined, 'Bob');
+  assert(Object.getOwnPropertyNames(emptyObject).length == 0);
 }
 empty();
 
@@ -78,3 +81,5 @@ function wrapThenDefaults() {
   assert(result.type == 'fruit'); 
 }
 wrapThenDefaults();
+
+require('./theory');

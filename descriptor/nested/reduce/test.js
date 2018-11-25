@@ -21,15 +21,12 @@ function readMe() {
     }
   }
 
-  var tree = {
+  var paths = {
     '*': { pet: null },
     special: { name: null }
   }
 
-  var result = reduce(people, tree, (a, o) => {
-    a.push(o);
-    return a;
-  }, []);
+  var result = reduce(people, paths, (a, o) => { a.push(o); }, []);
 
   assert(result.length == 4);
   assert(result.indexOf('tiger') != -1);

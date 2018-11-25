@@ -1,11 +1,26 @@
 'use strict';
 
-var toPaths = require('@kingjs/descriptor.nested.array.to-paths');
-var reduceHelper = require('@kingjs/descriptor.nested.reduce');
+var is = require('@kingjs/is');
 
-function reduce(target, callback, accumulator, argThis) {
-  var paths = toPaths(target);
-  return reduceHelper(target, paths, callback, accumulator, argThis);
+function reduce(tree, callback, accumulator, thisArg) {
+
+  if (!is.array(tree)) {
+    var result = callback.call(thisArg, accumulator, tree);
+    if (is.undefined(result))
+      result = accumulator;
+    return result;
+  }
+
+  for (var name = 0; name < tree.length; name ++) {
+      accumulator = reduce(
+      tree[name], 
+      callback, 
+      accumulator, 
+      thisArg
+    );
+  }
+
+  return accumulator;
 }
 
 Object.defineProperties(module, {

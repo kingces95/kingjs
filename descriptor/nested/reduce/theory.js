@@ -9,11 +9,15 @@ assertTheory(function(test, id) {
 
   var tree = test.leafValue
   if (test.leafNested)
-    tree = { [test.name]: tree };
+    tree = { [test.name]: { [test.name]: tree } };
 
   var path = test.pathValue;
-  if (test.pathNested)
-    path = { [test.wildPath ? '*' : test.name]: path };
+  if (test.pathNested) {
+    if (test.starPath)
+      path = { '*': { '*': path } };
+    else
+      path = { [test.name]: { [test.name]: path } };
+  }
 
   var initialValue = test.hasInitialValue ? [ ] : undefined;
 
@@ -48,10 +52,11 @@ assertTheory(function(test, id) {
   assert(result[0] === test.leafValue);
 },{
   name: 'foo',
-  wildPath: [ false, true ],
+  starPath: [ false, true ],
+  starStarPath: [ false, true ],
   leafValue: [ undefined, null, 0, 1 ],
   leafNested: [ false, true ],
-  pathValue: [ undefined, null, 0, 1 ],
+  pathValue: [ null, 0, 1 ],
   pathNested: [ false, true ],
   hasInitialValue: [ false, true ],
 })
