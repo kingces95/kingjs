@@ -3,16 +3,12 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-var notAccessorOrFunctionError = 'Unable to make lazy descriptor.';
+function bindLazy(func, name, isEnumerable) {
+  assert(is.function(func));
+  assert(is.string(func));
+  assert(is.boolean(isEnumerable));
 
-function makeLazy(name) {
-
-  var funcName = this.get ? 'get' : 'value';
-  var func = this[funcName];
-  var isEnumerable = this.enumerable;
-  assert(is.function(func), notAccessorOrFunctionError);
-
-  this[funcName] = function() {
+  return function() {
     var value = func.call(this);
     if (is.undefined(value))
       return value;
@@ -25,10 +21,8 @@ function makeLazy(name) {
 
     return value;
   };
-
-  return this;
 }
 
 Object.defineProperties(module, {
-  exports: { value: makeLazy }
+  exports: { value: bindLazy }
 });

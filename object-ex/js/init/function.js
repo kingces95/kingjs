@@ -2,7 +2,6 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var initLambdas = require('./init-lambdas');
 
 function initMethod(x, y) {
   assert('configurable' in this);
@@ -30,8 +29,8 @@ function initMethod(x, y) {
         this.value = y;
     }
   }
-  
-  return initLambdas.call(this);        
+
+  return this;
 }
 
 Object.defineProperties(module, {

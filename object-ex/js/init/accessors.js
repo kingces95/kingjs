@@ -2,7 +2,6 @@
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
-var initLambdas = require('./init-lambdas');
 
 function initAccessor(x, y, z) {
   assert('configurable' in this);
@@ -45,7 +44,7 @@ function initAccessor(x, y, z) {
   if (set) 
     this.set = set;
 
-  return initLambdas.call(this);        
+  return this;
 }
 
 Object.defineProperties(module, {

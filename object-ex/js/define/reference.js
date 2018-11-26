@@ -2,7 +2,7 @@
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
-var initReference = require('./init-reference');
+var initReference = require('../init/reference');
 
 function defineReference(target, name, descriptor) {
   assert(is.stringOrSymbol(name));

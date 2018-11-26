@@ -3,11 +3,15 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
-var initFunction = require('./js/init-function');
-var initAccessors = require('./js/init-accessors');
-var initField = require('./js/init-field');
+var initField = require('./js/init/field');
+var initFunction = require('./js/init/field');
+var initAccessor = require('./js/init/field');
+
+var defineField = require('./js/define/field');
+var defineFunction = require('./js/define/function');
+var defineAccessor = require('./js/define/accessor');
+
 var getName = require('./js/get-name');
-var defineProperty = require('./js/define-property');
 
 var shift = Array.prototype.shift;
 
@@ -24,6 +28,7 @@ var definitions = {
   'Field': {
     pluralName: 'Fields',
     initializer: initField,
+    define: defineField,
     configurations: {
       'set': { configurable: true, enumerable: true, writable: true },
       'setHidden': { configurable: true, enumerable: false, writable: true },
@@ -34,27 +39,24 @@ var definitions = {
       'defineConst': { configurable: false, enumerable: true, writable: false },
       'defineHiddenConst': { configurable: false, enumerable: false, writable: false },
     },
-    complications: {
-      'Static': { static: true }
-    }
   },
 
   'Function': {
     pluralName: 'Functions',
     initializer: initFunction,
+    define: defineFunction,
     configurations: {
       'define': { configurable: false, enumerable: false, writable: false },
     },
     complications: {
       'Lazy': { lazy: true },
-      'LazyStatic': { lazy: true, static: true },
-      'Static': { static: true },
     },
   },
 
   'Accessor': {
     pluralName: 'Accessors',
-    initializer: initAccessors,
+    initializer: initAccessor,
+    define: defineAccessor,
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
@@ -63,8 +65,6 @@ var definitions = {
     },
     complications: {
       'Lazy': { lazy: true },
-      'LazyStatic': { lazy: true, static: true },
-      'Static': { static: true },
     },
   },
 }
@@ -103,11 +103,7 @@ function exportDefinition(
     if (complication.lazy)
       descriptor.lazy = true;
 
-    // make static
-    if (complication.static)
-      descriptor.static = true;
-
-    return defineProperty(target, name, descriptor);
+    return configuration.define(target, name, descriptor);
   };
 
   // (define|set)[Const][Hidden](Field|Accessor|Function)OnTargets(targets, name, descriptor)
@@ -163,8 +159,8 @@ for (var suffix in definitions) {
   }
 }
 
-exports.defineProperty = require('./js/define-property');
-exports.defineReference = require('./js/define-reference');
+exports.defineProperty = require('./js/define/property');
+exports.defineReference = require('./js/define/reference');
 
 for (var name in exports)
   Object.defineProperty(exports, name, ConstPropertyConfiguration);
