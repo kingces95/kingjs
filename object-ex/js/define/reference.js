@@ -1,19 +1,22 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
-var is = require('@kingjs/is');
-var initReference = require('../init/reference');
+var defineProperty = require('./property');
+var defineStatic = require('./static');
 
 function defineReference(target, name, descriptor) {
-  assert(is.stringOrSymbol(name));
-  assert(descriptor);
-  
-  descriptor = initReference.call(descriptor, name);
+  var isEnumerable = descriptor.enumerable;
 
-  if (target)
-    Object.defineProperty(target, name, descriptor);
+  if (descriptor.static) {
+    assert(!descriptor.configurable);
+    defineStatic(target, name, {
+      enumerable: isEnumerable,
+      value: () => target[name]
+    });
+  }
 
-  return descriptor;
+  defineProperty(target, name, descriptor);
+  return target;
 }
 
 Object.defineProperties(module, {

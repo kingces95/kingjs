@@ -6,32 +6,42 @@ var assert = require('@kingjs/assert');
 var derefBeforeAssignmentError = 
   'Unexpected dereference attempted before address assignment.';
 
-function initReference(name) {
+function initReference(name, dereference, defaultAddress) {
   assert('configurable' in this);
   assert('enumerable' in this);
-  assert(is.function(this.value));
+  assert(is.function(dereference));
 
-  var dereference = this.value;
-  var defaultAddress = this.default;
   var isEnumerable = this.enumerable;
-
-  delete this.value;
 
   this.set = function(address) {
     if (is.undefined(address)) 
       return undefined;
-      
+
     Object.defineProperty(this, name, {
-      configurable: false,
+      configurable: true,
       enumerable: isEnumerable,
-      value: dereference.call(this, address),
-    });
+
+      get: function() { 
+        var value = dereference.call(this, address);
+        if (is.undefined(value))
+          return undefined;
+
+        Object.defineProperty(this, name, {
+          configurable: false,
+          enumerable: isEnumerable,
+          writable: false,
+          value: value,
+        });
+
+        return value;
+      }
+    })
   };
 
   this.get = function() {
     if (defaultAddress === undefined)
       assert(false, derefBeforeAssignmentError);
-      
+
     this[name] = defaultAddress;
     return this[name];
   };

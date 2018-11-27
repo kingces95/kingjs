@@ -34,8 +34,8 @@ function initAccessor(x, y, z) {
   // e.g. 'foo', { get: function() { ... } }
   // e.g. 'foo', { get: 'this.bar' } => 'foo', { get: function() { ... } }
   else {
-    get = y.get;
-    set = y.set;
+    for (var name in y)
+      this[name] = y[name];
   }
     
   if (get) 

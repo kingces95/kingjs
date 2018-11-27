@@ -136,6 +136,7 @@ defineSchema(exports, [
     },
   }, {
     name: 'Package',
+    wrap: 'func',
     base: 'JavascriptNode',
     accessors: {
       func: { type: Function },
@@ -186,19 +187,21 @@ var builtInClasses = {
   Array: Array
 }
 
-Loader.builtIn = new Loader(null, null, {
-  classes: [
-    constantTypes,
-    primitiveTypes,
-    builtInClasses
-  ]
-});
+objectEx.defineStaticField(Loader, 'builtIn',
+  new Loader(null, null, {
+    classes: [
+      constantTypes,
+      primitiveTypes,
+      builtInClasses
+    ]
+  })
+);
 
 var builtInTypes = Loader.builtIn.children;
 Object.freeze(builtInTypes);
 
 for (var name in builtInTypes)
-  Loader[name] = builtInTypes[name];
+  objectEx.defineStaticField(Loader, name, builtInTypes[name]);
 
 objectEx.defineFunction(JavascriptNode.prototype, 
   function resolve(ref) {

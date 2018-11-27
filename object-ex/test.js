@@ -119,8 +119,10 @@ function defineReference() {
   };
 
   var counter = 0;
+
+  var resolveUndefined = false;
   function resolveOwnProperty(name) {
-    if (name === undefined)
+    if (resolveUndefined)
       return undefined;
 
     counter++;
@@ -141,19 +143,30 @@ function defineReference() {
   assert(counter == 0);
 
   target.foo = '0';
-  assert(counter == 1);
+  assert(counter == 0);
 
   target.bar = '1';
-  assert(counter == 2);
+  assert(counter == 0);
 
   target.baz = undefined;
-  assert(counter == 2);
+  assert(counter == 0);
 
   assert(target.foo == 42);
+  assert(counter == 1);
+  assert(target.foo == 42);
+  assert(counter == 1);
+
   assert(target.bar == 43);
+  assert(counter == 2);
+
+  resolveUndefined = true;
+  assert(target.baz == undefined);
+  assert(counter == 2);
+
+  resolveUndefined = false;
   assert(target.baz == 44);
   assert(counter == 3);
 }
-//defineReference();
+defineReference();
 
 require('./theory');

@@ -17,7 +17,8 @@ function initMethod(x, y) {
 
     // e.g. 'foo', { value: function() { ... } }
     if (is.objectLiteral(y)) {
-      this.value = y.value;
+      for (var name in y)
+        this[name] = y[name];
     }
 
     // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }

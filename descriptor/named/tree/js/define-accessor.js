@@ -47,16 +47,17 @@ function defineAccessorHelper(target, name, accessor) {
   var ref = accessor.ref;
   if (ref) {
     var dfault = accessor.default;
-    objectEx.defineReference(target, name, {
-      enumerable: true,
-      configurable: false,
-      default: dfault,
-      value: function(address) { 
+    objectEx.defineReference(
+      target, 
+      name, 
+      function(address) { 
         var result = this.resolve(address); 
         assert(result === null || result instanceof type);
         return result;
-      },
-    });
+      }, 
+      dfault
+    );
+    
     return;
   }
 }

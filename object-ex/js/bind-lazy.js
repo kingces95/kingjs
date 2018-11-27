@@ -5,7 +5,7 @@ var assert = require('@kingjs/assert');
 
 function bindLazy(func, name, isEnumerable) {
   assert(is.function(func));
-  assert(is.string(func));
+  assert(is.stringOrSymbol(name));
   assert(is.boolean(isEnumerable));
 
   return function() {

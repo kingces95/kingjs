@@ -4,12 +4,14 @@ var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
 var initField = require('./js/init/field');
-var initFunction = require('./js/init/field');
-var initAccessor = require('./js/init/field');
+var initFunction = require('./js/init/function');
+var initAccessor = require('./js/init/accessors');
+var initReference = require('./js/init/reference');
 
 var defineField = require('./js/define/field');
 var defineFunction = require('./js/define/function');
-var defineAccessor = require('./js/define/accessor');
+var defineAccessor = require('./js/define/accessors');
+var defineReference = require('./js/define/reference');
 
 var getName = require('./js/get-name');
 
@@ -27,8 +29,8 @@ var definitions = {
 
   'Field': {
     pluralName: 'Fields',
-    initializer: initField,
-    define: defineField,
+    normalizer: initField,
+    defineProperty: defineField,
     configurations: {
       'set': { configurable: true, enumerable: true, writable: true },
       'setHidden': { configurable: true, enumerable: false, writable: true },
@@ -38,15 +40,45 @@ var definitions = {
       'setHiddenConst': { configurable: true, enumerable: false, writable: false },
       'defineConst': { configurable: false, enumerable: true, writable: false },
       'defineHiddenConst': { configurable: false, enumerable: false, writable: false },
+
+      'defineStatic': { configurable: false, enumerable: true, writable: true, static: true },
+      'defineHiddenStatic': { configurable: false, enumerable: false, writable: true, static: true },
+      'defineConstStatic': { configurable: false, enumerable: true, writable: false, static: true },
+      'defineHiddenConstStatic': { configurable: false, enumerable: false, writable: false, static: true },
+    },
+  },
+
+  'Property': {
+    pluralName: 'Property',
+    normalizer: null,
+    defineProperty: defineProperty,
+    configurations: {
+      'define': { configurable: false, enumerable: false, writable: false },
+    }
+  },
+
+  'Reference': {
+    pluralName: 'References',
+    normalizer: initReference,
+    defineProperty: defineReference,
+    configurations: {
+      'set': { configurable: true, enumerable: true },
+      'setHidden': { configurable: true, enumerable: false },
+      'define': { configurable: false, enumerable: true },
+      'defineHidden': { configurable: false, enumerable: false },
+
+      'defineStatic': { configurable: false, enumerable: true, static: true },
+      'defineHiddenStatic': { configurable: false, enumerable: false, static: true },
     },
   },
 
   'Function': {
     pluralName: 'Functions',
-    initializer: initFunction,
-    define: defineFunction,
+    normalizer: initFunction,
+    defineProperty: defineFunction,
     configurations: {
       'define': { configurable: false, enumerable: false, writable: false },
+      'defineStatic': { configurable: false, enumerable: false, writable: false, static: true },
     },
     complications: {
       'Lazy': { lazy: true },
@@ -55,13 +87,16 @@ var definitions = {
 
   'Accessor': {
     pluralName: 'Accessors',
-    initializer: initAccessor,
-    define: defineAccessor,
+    normalizer: initAccessor,
+    defineProperty: defineAccessor,
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
       'define': { configurable: false, enumerable: true },
       'defineHidden': { configurable: false, enumerable: false },
+
+      'defineStatic': { configurable: false, enumerable: true, static: true },
+      'defineHiddenStatic': { configurable: false, enumerable: false, static: true },
     },
     complications: {
       'Lazy': { lazy: true },
@@ -74,7 +109,8 @@ function exportDefinition(
   suffix,
   pluralSuffix,
   configuration,
-  initializer,
+  normalizer,
+  defineProperty,
   complication) {
 
   assert('configurable' in configuration);
@@ -91,8 +127,9 @@ function exportDefinition(
 
     var target = shift.call(arguments);
 
-    // add method, accessors, or field 
-    descriptor = initializer.apply(descriptor, arguments);
+    // normalize signature if other than (target, name, descriptor)
+    if (normalizer)
+      descriptor = normalizer.apply(descriptor, arguments);
 
     // discover name
     var name = shift.call(arguments);
@@ -103,7 +140,7 @@ function exportDefinition(
     if (complication.lazy)
       descriptor.lazy = true;
 
-    return configuration.define(target, name, descriptor);
+    return defineProperty(target, name, descriptor);
   };
 
   // (define|set)[Const][Hidden](Field|Accessor|Function)OnTargets(targets, name, descriptor)
@@ -137,7 +174,8 @@ function exportDefinition(
 for (var suffix in definitions) {
   var definition = definitions[suffix];
   var pluralSuffix = definition.pluralName;
-  var initializer = definition.initializer || (() => new Object());
+  var normalizer = definition.normalizer || (() => new Object());
+  var defineProperty = definition.defineProperty;
   var complications = definition.complications || {};
   var configurations = definition.configurations;
 
@@ -152,15 +190,15 @@ for (var suffix in definitions) {
         suffix,
         pluralSuffix,
         configuration,
-        initializer,
+        normalizer,
+        defineProperty,
         complications[complication],
       )
     }
   }
 }
 
-exports.defineProperty = require('./js/define/property');
-exports.defineReference = require('./js/define/reference');
+exports.defineProperty = defineField;
 
 for (var name in exports)
   Object.defineProperty(exports, name, ConstPropertyConfiguration);
