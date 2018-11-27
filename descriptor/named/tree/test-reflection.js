@@ -7,8 +7,17 @@ loader.addChildren({
   packages: { 
     '@kingjs/foo-bar': {
       classes: {
-        MyClass: null,
-        MyOtherClass: null
+        MyClass: {
+          base: 'MyOtherClass'
+        },
+        MyOtherClass: {
+          base: '@kingjs/baz.MyBazClass'
+        }
+      }
+    },
+    '@kingjs/baz': {
+      classes: {
+        MyBazClass: null
       }
     },
     '@kingjs/baz-moo': null,
