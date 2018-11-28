@@ -3,13 +3,13 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-function bindExternal(func, name, isEnumerable) {
-  assert(is.function(func));
+function bindExternal(stub, name, isEnumerable) {
+  assert(is.function(stub));
   assert(is.stringOrSymbol(name));
   assert(is.boolean(isEnumerable));
 
   return function() {
-    var value = func.call(this);
+    var value = stub.call(this, name);
     if (is.undefined(value))
       return value;
 
@@ -19,7 +19,7 @@ function bindExternal(func, name, isEnumerable) {
       value: value
     });
 
-    return value;
+    return value.apply(this, arguments);
   };
 }
 

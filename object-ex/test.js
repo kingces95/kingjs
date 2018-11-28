@@ -113,6 +113,32 @@ function doNotCacheUndefined() {
 }
 doNotCacheUndefined();
 
+function stubTest() {
+  var target = { id: 'target' };
+  var counter = 0;
+
+  objectEx.defineFunction(target, 'foo', {
+    external: true,
+    configurable: true,
+    value: function(stubName) {
+      var stubThis = this;
+      return x => ({ 
+        arg: x, 
+        name: stubName, 
+        this: this, 
+        stubThis: stubThis
+      });
+    }
+  });
+
+  var result = target.foo('bar');
+  assert(result.this == result.stubThis);
+  assert(result.this == target);
+  assert(result.name = 'foo');
+  assert(result.arg == 'bar');
+}
+stubTest();
+
 function defineReference() {
   var target = { 
     children: [ 42, 43, 44 ]
