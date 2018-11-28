@@ -22,6 +22,11 @@ function defineFunction(target, name, descriptor) {
     });
   }
 
+  assert(descriptor.lazy && descriptor.external == false)
+
+  if (descriptor.external)
+    value = bindExternal(value, name, isEnumerable);
+
   if (descriptor.lazy)
     value = bindLazy(value, name, isEnumerable);
     
