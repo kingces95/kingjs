@@ -6,6 +6,7 @@ var defineProperty = require('./property');
 var bindLazy = require('../bind-lazy');
 var defineStatic = require('./static');
 var bindThis = require('../bind-this');
+var bindExternal = require('../bind-external-accessor');
 
 function defineAccessor(target, name, descriptor) {
   var get = descriptor.get;
@@ -27,8 +28,19 @@ function defineAccessor(target, name, descriptor) {
     });
   }
 
+  assert(!(descriptor.lazy && descriptor.external))
+
+  if (descriptor.external) {
+
+    if (get)
+      get = bindExternal(get, name, isEnumerable);
+
+    if (set)
+      set = bindExternal(set, name, isEnumerable);
+  }
+
   if (descriptor.lazy)
-    get = bindLazy(get, name, descriptor.enumerable);
+    get = bindLazy(get, name, isEnumerable);
     
   if (get)
     descriptor.get = get;

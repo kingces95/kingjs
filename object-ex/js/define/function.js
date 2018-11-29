@@ -5,7 +5,8 @@ var is = require('@kingjs/is');
 var defineProperty = require('./property');
 var bindLazy = require('../bind-lazy');
 var defineStatic = require('./static');
-var bindExternal = require('../bind-external');
+var bindThis = require('../bind-this');
+var bindExternal = require('../bind-external-func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
@@ -18,11 +19,11 @@ function defineFunction(target, name, descriptor) {
     assert(!descriptor.configurable);
     defineStatic(target, name, {
       enumerable: isEnumerable,
-      value: function() { return target[name](); }
+      value: bindThis(value, target)
     });
   }
 
-  assert(!(descriptor.lazy && descriptor.external))
+  //assert(!(descriptor.lazy && descriptor.external))
 
   if (descriptor.external)
     value = bindExternal(value, name, isEnumerable);

@@ -113,12 +113,13 @@ function doNotCacheUndefined() {
 }
 doNotCacheUndefined();
 
-function stubTest() {
+function stubFunctionTest() {
   var target = { id: 'target' };
   var counter = 0;
 
   objectEx.defineFunction(target, 'foo', {
     external: true,
+    //lazy: true,
     configurable: true,
     value: function(stubName) {
       var stubThis = this;
@@ -126,7 +127,8 @@ function stubTest() {
         arg: x, 
         name: stubName, 
         this: this, 
-        stubThis: stubThis
+        stubThis: stubThis,
+        counter: counter++
       });
     }
   });
@@ -135,9 +137,36 @@ function stubTest() {
   assert(result.this == result.stubThis);
   assert(result.this == target);
   assert(result.name = 'foo');
-  assert(result.arg == 'bar');
+  //assert(result.arg == 'bar');
+  assert(result.counter == 0);
+
+  //var result = target.foo('bar');
+  //assert(result.counter == 0);
 }
-stubTest();
+stubFunctionTest();
+
+function stubAccessorTest() {
+  var target = { id: 'target' };
+
+  objectEx.defineAccessor(target, 'foo', {
+    external: true,
+    configurable: true,
+    get: function(stubName) {
+      var stubThis = this;
+      return () => ({ 
+        name: stubName, 
+        this: this, 
+        stubThis: stubThis
+      });
+    }
+  });
+
+  var result = target.foo;
+  assert(result.this == result.stubThis);
+  assert(result.this == target);
+  assert(result.name = 'foo');
+}
+stubAccessorTest();
 
 function defineReference() {
   var target = { 

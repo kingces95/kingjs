@@ -3,18 +3,17 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-function bindExternal(stub, name, isEnumerable) {
+function bindExternalFunction(stub, name, isEnumerable) {
   assert(is.function(stub));
   assert(is.stringOrSymbol(name));
   assert(is.boolean(isEnumerable));
 
   return function() {
     var value = stub.call(this, name);
-    if (is.undefined(value))
-      return value;
+    assert(value);
 
     Object.defineProperty(this, name, {
-      configurable: false,
+      configurable: true,
       enumerable: isEnumerable,
       value: value
     });
@@ -24,5 +23,5 @@ function bindExternal(stub, name, isEnumerable) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: bindExternal }
+  exports: { value: bindExternalFunction }
 });

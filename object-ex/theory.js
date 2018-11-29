@@ -195,7 +195,7 @@ assertTheory(function(test, id) {
 }, {
   name: ['foo', Symbol.for('foo') ],
   static: [ true, false ],
-  lazy: [ false, true ],
+  lazy: [ true, false ],
   variant: [ 'desc', 'named', 'function', 'none', 'lambda' ],
   configurable: [ false ],
   enumerable: [ false ],
