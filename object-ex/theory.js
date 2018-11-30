@@ -127,6 +127,7 @@ var signature = {
 }
 
 assertTheory(function(test, id) {
+  assert(!test.configurable);
   var name = buildName(test, 'Function');
 
   var target = function() { };
@@ -135,6 +136,8 @@ assertTheory(function(test, id) {
   var func = function(x) { 
     callCount++; 
     assert(this == target);
+    if (test.lazy)
+      return test.value;
     return x; 
   };
 
@@ -186,18 +189,19 @@ assertTheory(function(test, id) {
   if (test.lazy && !test.static)
     target = Object.create(target);
 
-  assert(callCount == 0);
+  var expectedGetCount = 0;
+  assert(callCount == expectedGetCount++);
   assert(target[test.name](test.value) == test.value);
-  assert(callCount == 1);
+  assert(callCount == expectedGetCount++);
   assert(target[test.name](test.value) == test.value);
-  assert(callCount == test.lazy ? 1 : 2);
+  assert(callCount == (test.lazy ? 1 : expectedGetCount++));
   
   assertDescriptor(test, target, test.name);
 
   if (test.static) {
     var obj = new target();
     assert(obj[test.name](test.value) == test.value);
-    assert(callCount == test.lazy ? 1 : 3);
+    assert(callCount == (test.lazy ? 1 : expectedGetCount++));
   }
 }, {
   value: 0,
@@ -219,14 +223,19 @@ assertTheory(function(test, id) {
   var descriptor = buildDescriptor(test);
   var name = buildName(test, 'Accessor');
 
-  if (test.static && test.configurable)
-    return;
+  if (test.configurable) {
+    if (test.static)
+      return;
+    if (test.lazy) 
+      return;
+  }
 
-  if (test.lambda && test.inferName)
-    return;
-
-  if (is.symbol(test.name) && test.inferName)
-    return;
+  if (test.inferName) {
+    if (test.lambda)
+      return;
+    if (is.symbol(test.name))
+      return;
+  }
 
   var getCount = 0;
   var target = function() { };
@@ -323,17 +332,20 @@ assertTheory(function(test, id) {
   if (test.lazy && test.configurable)
     return;
 
+  var expectedGetCount = 0;
+  assert(getCount == expectedGetCount++);
   assert(target[test.name] == 0);
-  assert(getCount == 1);
+  assert(getCount == expectedGetCount++);
 
   assert(target[test.name] == 0);
-  assert(getCount == test.lazy ? 1 : 2);
+  assert(getCount == (test.lazy ? 1 : expectedGetCount++));
 
   assertDescriptor(test, target, test.name);
 
   if (test.static) {
     var obj = new target();
     assert(obj[test.name] == 0);
+    assert(getCount == (test.lazy ? 1 : expectedGetCount++));
   }
 }, {
   name: ['foo', Symbol.for('foo') ],

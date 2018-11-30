@@ -142,6 +142,11 @@ function exportDefinition(
     if (complication.lazy)
       descriptor.lazy = true;
 
+    if (descriptor.configurable) {
+      assert(!descriptor.lazy);
+      assert(!descriptor.static);
+    }
+
     return defineProperty(target, name, descriptor);
   };
 

@@ -30,13 +30,15 @@ function lazyAccessor() {
     return 0;
   }
 
-  var target = { name: 'target' };
-  objectEx.setLazyAccessor(target, name, eagerAccessor);
-  assert(name in target);
+  var prototype = { name: 'target' };
+  objectEx.defineLazyAccessor(prototype, name, eagerAccessor);
+  assert(name in prototype);
   assert(eagerAccessorCallCount == 0);
 
+  var target = Object.create(prototype);
+
   var descriptorGet = Object.getOwnPropertyDescriptor(target, name);
-  assert('get' in descriptorGet);
+  assert(descriptorGet === undefined);
   assert(target[name] === 0);
   assert(eagerAccessorCallCount == 1);
 
@@ -47,7 +49,7 @@ function lazyAccessor() {
 
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
   assert('get' in descriptorValue);
-  assert(descriptor.configurable === true);
+  assert(descriptor.configurable === false);
   assert(descriptor.enumerable === true);
 }
 lazyAccessor();
@@ -101,12 +103,13 @@ function doNotCacheUndefined() {
   var target = { };
   var counter = 0;
 
-  objectEx.setLazyAccessor(target, 'foo', function() {
+  objectEx.defineLazyAccessor(target, 'foo', function() {
     if (counter++ == 0)
       return undefined;
     return 0;
   });
 
+  target = Object.create(target);
   assert(target.foo === undefined);
   assert(target.foo == 0);
 }

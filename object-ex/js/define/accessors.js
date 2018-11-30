@@ -3,10 +3,12 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 var defineProperty = require('./property');
-var bindLazy = require('../bind-lazy');
+var stubLazy = require('../stub/lazy');
+var bindLazy = require('../bind/lazy');
 var defineStatic = require('./static');
-var bindThis = require('../bind-this');
-var bindExternal = require('../bind-external-accessor');
+var stubExternal = require('../stub/external-accessor');
+var bindThunkGetter = require('../bind/thunk-getter');
+var bindThunkSetter = require('../bind/thunk-setter');
 
 function defineAccessor(target, name, descriptor) {
   var get = descriptor.get;
@@ -14,6 +16,7 @@ function defineAccessor(target, name, descriptor) {
 
   var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
+  var isAccessor = true;
 
   if (is.string(get))
     get = new Function('return ' + get + ';');
@@ -25,8 +28,8 @@ function defineAccessor(target, name, descriptor) {
     assert(!descriptor.configurable);
     defineStatic(target, name, {
       enumerable: isEnumerable,
-      get: get ? bindThis(get, target) : undefined,
-      set: set ? bindThis(set, target) : undefined,
+      get: get ? bindThunkGetter(target, name) : undefined,
+      set: set ? bindThunkSetter(target, name) : undefined,
     });
   }
 
@@ -35,14 +38,14 @@ function defineAccessor(target, name, descriptor) {
   if (descriptor.external) {
 
     if (get)
-      get = bindExternal(get, name, isEnumerable);
+      get = stubExternal(get, name, isEnumerable);
 
     if (set)
-      set = bindExternal(set, name, isEnumerable);
+      set = stubExternal(set, name, isEnumerable);
   }
 
   if (descriptor.lazy)
-    get = bindLazy(get, name, isEnumerable, isStatic, true);
+    get = isStatic ? bindLazy(get) : stubLazy(get, name, isEnumerable, isAccessor);
     
   if (get)
     descriptor.get = get;

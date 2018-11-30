@@ -3,10 +3,11 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var defineProperty = require('./property');
-var bindLazy = require('../bind-lazy');
+var stubLazy = require('../stub/lazy');
+var bindLazy = require('../bind/lazy');
 var defineStatic = require('./static');
-var bindThis = require('../bind-this');
-var bindExternal = require('../bind-external-func');
+var stubExternal = require('../stub/external-func');
+var bindThunk = require('../bind/thunk');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
@@ -23,21 +24,17 @@ function defineFunction(target, name, descriptor) {
     assert(!descriptor.configurable);
     defineStatic(target, name, {
       enumerable: isEnumerable,
-      // todo: do not close over value as it might become lazy
-      // or may be an external stub
-      value: function() { 
-        return target[name].apply(target, arguments); 
-      }
+      value: bindThunk(target, name)
     });
   }
 
   //assert(!(descriptor.lazy && descriptor.external))
 
   if (descriptor.external)
-    value = bindExternal(value, name, isEnumerable);
+    value = stubExternal(value, name, isEnumerable);
 
   if (descriptor.lazy)
-    value = bindLazy(value, name, isEnumerable, isStatic);
+    value = isStatic ? bindLazy(value) : stubLazy(value, name, isEnumerable);
     
   descriptor.value = value;
 
