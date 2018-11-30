@@ -3,7 +3,7 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-function bindLazyStub(func, name, isEnumerable, isAccessor) {
+function stubLazy(func, name, isEnumerable, isAccessor) {
   assert(is.function(func));
   assert(is.stringOrSymbol(name));
   assert(is.boolean(isEnumerable));
@@ -28,5 +28,5 @@ function bindLazyStub(func, name, isEnumerable, isAccessor) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: bindLazyStub }
+  exports: { value: stubLazy }
 });

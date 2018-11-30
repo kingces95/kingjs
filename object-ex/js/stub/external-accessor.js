@@ -3,7 +3,7 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-function bindExternalAccessor(stub, name, isEnumerable) {
+function stubExternalAccessor(stub, name, isEnumerable) {
   assert(is.function(stub));
   assert(is.stringOrSymbol(name));
   assert(is.boolean(isEnumerable));
@@ -29,5 +29,5 @@ function bindExternalAccessor(stub, name, isEnumerable) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: bindExternalAccessor }
+  exports: { value: stubExternalAccessor }
 });
