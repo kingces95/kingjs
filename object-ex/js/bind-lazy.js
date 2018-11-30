@@ -8,16 +8,8 @@ function bindLazy(func, name, isEnumerable, isStatic, isAccessor) {
   assert(is.stringOrSymbol(name));
   assert(is.boolean(isEnumerable));
 
-  if (isStatic) {
-    var value;
-    return function() {
-      assert(is.function(this));
-
-      if (is.undefined(value))
-        value = func.apply(this, arguments);
-      return value;
-    };
-  }
+  if (isStatic)
+    return bindLazyStatic(func);
 
   return function() {
     assert(!is.function(this));
@@ -33,6 +25,17 @@ function bindLazy(func, name, isEnumerable, isStatic, isAccessor) {
 
     return value;
   };  
+}
+
+function bindLazyStatic(func) {
+  var value;
+  return function() {
+    assert(is.function(this));
+
+    if (is.undefined(value))
+      value = func.apply(this, arguments);
+    return value;
+  };
 }
 
 Object.defineProperties(module, {
