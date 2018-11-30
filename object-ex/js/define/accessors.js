@@ -11,6 +11,8 @@ var bindExternal = require('../bind-external-accessor');
 function defineAccessor(target, name, descriptor) {
   var get = descriptor.get;
   var set = descriptor.set;
+
+  var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
 
   if (is.string(get))
@@ -19,7 +21,7 @@ function defineAccessor(target, name, descriptor) {
   if (is.string(set))
     set = new Function('value', set + ';');
 
-  if (descriptor.static) {
+  if (isStatic) {
     assert(!descriptor.configurable);
     defineStatic(target, name, {
       enumerable: isEnumerable,
@@ -40,7 +42,7 @@ function defineAccessor(target, name, descriptor) {
   }
 
   if (descriptor.lazy)
-    get = bindLazy(get, name, isEnumerable);
+    get = bindLazy(get, name, isEnumerable, isStatic, true);
     
   if (get)
     descriptor.get = get;

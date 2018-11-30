@@ -10,12 +10,12 @@ function initAccessor(x, y, z) {
   var get, set;
 
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
-  if (is.objectLiteral(x)) {
+  if (is.object(x)) {
     get = x.get;
     set = x.set;
   }
   
-  else if (!is.objectLiteral(y)) {
+  else if (!is.object(y)) {
     
     // e.g. 'foo', function() { ... } => 'foo', { get: function() { ... } }
     // e.g. 'foo', 'this.bar' => 'foo', { get: function() { return this.bar; } }

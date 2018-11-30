@@ -15,19 +15,18 @@ function initMethod(x, y) {
   else {
     assert(is.stringOrSymbol(x))
 
-    // e.g. 'foo', { value: function() { ... } }
-    if (is.objectLiteral(y)) {
-      for (var name in y)
-        this[name] = y[name];
-    }
+    // e.g. 'foo', 'this.bar' => 'foo', { value: function() { return this.bar; } }
+    if (is.string(y))
+      this.value = y;
 
     // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }
-    else {
+    else if (is.function(y))
       this.value = y;
-      
-      // e.g. 'foo', 'this.bar' => 'foo', { value: function() { return this.bar; } }
-      if (is.string(this.value)) 
-        this.value = y;
+
+    // e.g. 'foo', { value: function() { ... } }
+    else {
+      for (var name in y)
+        this[name] = y[name];
     }
   }
 

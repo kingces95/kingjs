@@ -41,15 +41,14 @@ function lazyAccessor() {
   assert(eagerAccessorCallCount == 1);
 
   var descriptorValue = Object.getOwnPropertyDescriptor(target, name);
-  assert('value' in descriptorValue);
+  assert('get' in descriptorValue);
   assert(target[name] === 0);
   assert(eagerAccessorCallCount == 1);
 
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
-  assert(descriptor.writable === false);
-  assert(descriptor.configurable === false);
+  assert('get' in descriptorValue);
+  assert(descriptor.configurable === true);
   assert(descriptor.enumerable === true);
-  assert(descriptor.value === 0);
 }
 lazyAccessor();
 

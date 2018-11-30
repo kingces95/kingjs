@@ -5,206 +5,216 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var nestedMerge = testRequire('@kingjs/descriptor.nested.merge');
+var write = testRequire('@kingjs/descriptor.write');
 var is = testRequire('@kingjs/is');
+
+function pushFront(array, item) {
+  Array.prototype.splice.call(array, 0, 0, item);
+}
 
 function buildName(test, suffix, pluralSuffix) {
   if (!pluralSuffix)
     pluralSuffix = suffix + 's';
 
-  var name = test.configurable ? 'set' : 'define';
+  var name = 'define';
+  if (test.configurable)
+    name = 'set';
   if (test.enumerable === false)
     name += 'Hidden';
   if (test.writable === false)
     name += 'Const';
   if (test.static === true)
     name += 'Static';
-
   if (test.lazy === true)
     name += 'Lazy';
 
   name += test.plural ? pluralSuffix : suffix;
 
-  if (test.onTargets === true)
-    name += 'OnTargets';
   return name;
+}
+
+function buildDescriptor(test) {
+  var descriptor = {
+    configurable: test.configurable,
+  };
+
+  descriptor = nestedMerge(
+    descriptor,
+    test, {
+      enumerable: null,
+      writable: null,
+      static: null,
+      value: null,
+      lazy: null,
+  });
+
+  return descriptor;
 }
 
 function assertDescriptor(test, target, name) {
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
 
-  if (test.lazy) {
-    assert(descriptor.configurable === false);
-    assert(descriptor.writable === false);
-  } else {
+  //if (test.lazy) {
+    //assert(descriptor.configurable === false);
+    //assert(descriptor.writable === false);
+  //} 
+  //else {
     assert(descriptor.configurable === test.configurable);
-    assert(descriptor.writable === test.writable);
-  }
+    //assert(descriptor.writable === test.writable);
+  //}
 
-  assert(descriptor.enumerable === test.enumerable);
+  var isEnumerable = test.enumerable;
+  if (is.undefined(isEnumerable))
+    isEnumerable = false;
+
+  assert(descriptor.enumerable == isEnumerable);
 }
 
 assertTheory(function(test, id) {
-  var descriptor = { };
-  var name = buildName(test, 'Field', 'Fields', descriptor);
-  return;
+  var name = buildName(test, 'Field');
+  var descriptor = buildDescriptor(test);
 
   if (test.static && test.configurable)
     return;
 
   var target = function target() { };
-  var targetOrTargets = test.onTargets ? [target] : target;
   
-  var descriptor = {
-    configurable: test.configurable,
-    enumerable: test.enumerable,
-    static: test.static,
-    value: func,
-  }
-
   if (test.descriptor) {
-    var suffix = test.onTargets ? 'OnTargets' : '';
+    var arg = descriptor;
     if (test.plural) 
-      objectEx['defineProperties' + suffix](targetOrTargets, { [test.name]: descriptor });
+      objectEx.defineProperties(target, { [test.name]: arg });
     else
-      objectEx['defineProperty' + suffix](targetOrTargets, test.name, descriptor); 
+      objectEx.defineProperty(target, test.name, arg); 
   }
   else {
+    var arg = test.value;
     if (test.plural) 
-      objectEx[name](targetOrTargets, { [test.name]: 0 });
+      objectEx[name](target, { [test.name]: arg });
     else
-      objectEx[name](targetOrTargets, test.name, 0);
+      objectEx[name](target, test.name, arg);
   }
 
-  assert(target[test.name] == 0);
+  assert(target[test.name] == test.value);
   assertDescriptor(test, target, test.name);
 
   if (test.static) {
     var obj = new target();
-    assert(obj[test.name] == 0);
+    assert(obj[test.name] == test.value);
+
     if (test.writable) {
-      target[test.name] = 1;
-      assert(obj[test.name] == 1);
+      target[test.name] = null;
+      assert(obj[test.name] === null);
     }
   }
 }, {
+  value: 0,
   name: ['foo', Symbol.for('foo') ],
   descriptor: [ false, true ],
   static: [ false, true ],
   configurable: [ false, true ],
   enumerable: [ false, true ],
   writable: [ false, true ],
-  onTargets: [ false, true ],
   plural: [ false, true ]
 })
 
+var signature = {
+  descriptor: 'descriptor',
+  named: 'named',
+  function: 'function',
+  lambda: 'lambda',
+  none: 'none'
+}
+
 assertTheory(function(test, id) {
-  var descriptor = { };
-  var name = buildName({
-    configurable: false,
-    onTargets: test.onTargets,
-    plural: test.plural,
-    static: test.static,
-    lazy: test.lazy
-  }, 'Function', null, descriptor);
+  var name = buildName(test, 'Function');
+
+  var target = function() { };
 
   var callCount = 0;
-  var target = function target() { };
-  target.func = function() { callCount++; return 0; };
-
   var func = function() { 
+    callCount++; 
     assert(this == target);
-    return this.func(); 
+    return test.value; 
   };
-  var targetOrTargets = test.onTargets ? [target] : target;
 
-  if (test.variant == 'named' && is.symbol(test.name))
-    return;
+  var descriptor = buildDescriptor(test);
+  descriptor = write.call(descriptor, 'value', func);
 
-  var descriptor = {
-    configurable: test.configurable,
-    enumerable: test.enumerable,
-    static: test.static,
-    lazy: test.lazy,
-    value: func,
-  }
+  var args = [ ];
+  switch (test.variant) {
+    case signature.named:
 
-  if (test.plural) {
-    switch (test.variant) {
-      case 'desc':
-        var name = 'defineFunctions'
-        if (test.onTargets) name += 'OnTargets';
-        objectEx[name](targetOrTargets, { [test.name]: descriptor });
-        break;
-      case 'named':
+      // inferring the function name results in a string, not a symbol
+      if (is.symbol(test.name))
         return;
-      case 'function':
-        objectEx[name](targetOrTargets, { [test.name]: func });
-        break;
-      case 'lambda':
-        objectEx[name](targetOrTargets, { [test.name]: 'this.func()' });
-        break;
-      case 'none':
-        objectEx[name](targetOrTargets, { [test.name]: { value: func } });
-        break;
-      default: assert();
-    }
-  }
-  
-  else {
-    switch (test.variant) {
-      case 'desc':
-        var name = 'defineFunction'
-        if (test.onTargets) name += 'OnTargets';
-        objectEx[name](targetOrTargets, test.name, descriptor);
-        break;
-      case 'named':
-        objectEx[name](targetOrTargets, function foo() { return func.call(this); });
-        break;
-      case 'function':
-        objectEx[name](targetOrTargets, test.name, func);
-        break;
-      case 'lambda':
-        objectEx[name](targetOrTargets, test.name, 'this.func()' );
-        break;
-      case 'none':
-        objectEx[name](targetOrTargets, test.name, { value: func });
-        break;
-      default: assert();
-    }
+
+      args.push(function foo() { return func.call(this); });
+      break;
+
+    case signature.descriptor:
+      args.push(descriptor);
+      name = test.plural ? 'defineFunctions' : 'defineFunction';
+      break;
+
+    case signature.function:
+      args.push(func);
+      break;
+
+    case signature.lambda:
+      target.func = func;
+      args.push('this.func()');
+      break;
+
+    case signature.none:
+      args.push({ value: func });
+      break;
+
+    default: assert();
   }
 
-  if (test.lazy & !test.configurable) {
-    assertThrows(() => target[test.name]())
-    return;
-  }
+  if (test.plural)
+    args = [ { [test.name]: args.pop() } ];
+  else
+    pushFront(args, test.name);
+
+  pushFront(args, target);
+  objectEx[name].apply(null, args);
+
+  if (test.lazy && !test.static)
+    target = Object.create(target);
 
   assert(callCount == 0);
-
-  assert(target[test.name]() == 0);
+  assert(target[test.name]() == test.value);
   assert(callCount == 1);
-
-  assert(target[test.name]() == 0);
+  assert(target[test.name]() == test.value);
   assert(callCount == test.lazy ? 1 : 2);
   
   assertDescriptor(test, target, test.name);
 
   if (test.static) {
     var obj = new target();
-    obj[test.name]();
+    assert(obj[test.name]() == test.value);
+    assert(callCount == test.lazy ? 1 : 3);
   }
 }, {
+  value: 0,
   name: ['foo', Symbol.for('foo') ],
   static: [ true, false ],
   lazy: [ true, false ],
-  variant: [ 'desc', 'named', 'function', 'none', 'lambda' ],
+  variant: [ 
+    signature.descriptor, 
+    signature.named, 
+    signature.function, 
+    signature.none, 
+    signature.lambda, 
+  ],
   configurable: [ false ],
-  enumerable: [ false ],
-  writable: [ false ],
-  onTargets: [ false, true ],
   plural: [ false, true ]
 })
 
 assertTheory(function(test, id) {
+  var descriptor = buildDescriptor(test);
   var name = buildName(test, 'Accessor');
 
   if (test.static && test.configurable)
@@ -222,7 +232,6 @@ assertTheory(function(test, id) {
     getCount++; 
     return 0; 
   };
-  var targetOrTargets = test.onTargets ? [target] : target;
   
   var getter = function foo() { 
     assert(this == target);
@@ -231,13 +240,7 @@ assertTheory(function(test, id) {
   if (test.lambda)
     getter = 'this.func()';
 
-  var descriptor = {
-    configurable: test.configurable,
-    enumerable: test.enumerable,
-    static: test.static,
-    lazy: test.lazy,
-    get: getter,
-  }
+  descriptor = write.call(descriptor, 'get', getter);
   
   if (test.setter && !test.lazy) {
     var setter = undefined;
@@ -249,30 +252,29 @@ assertTheory(function(test, id) {
       setter = 'this.field = value';
 
     if (test.descriptor) {
-      var suffix = test.onTargets ? 'OnTargets' : '';
-      descriptor.set = setter;
+      descriptor = write.call(descriptor, 'set', setter);
       if (test.plural)
-        objectEx['defineAccessors' + suffix](targetOrTargets, { [test.name]: descriptor });
+        objectEx.defineAccessors(target, { [test.name]: descriptor });
       else
-        objectEx['defineAccessor' + suffix](targetOrTargets, test.name, descriptor);
+        objectEx.defineAccessor(target, test.name, descriptor);
     }
     else if (test.plural) {
       if (test.wrapped)
-        objectEx[name](targetOrTargets, { [test.name]: { get: getter, set: setter } });
+        objectEx[name](target, { [test.name]: { get: getter, set: setter } });
       else
         return;
     }
     else if (test.inferName) {
       if (test.wrapped)
-        objectEx[name](targetOrTargets, { get: getter, set: setter });
+        objectEx[name](target, { get: getter, set: setter });
       else
-        objectEx[name](targetOrTargets, getter, setter);
+        objectEx[name](target, getter, setter);
     }
     else {
       if (test.wrapped)
-        objectEx[name](targetOrTargets, test.name, { get: getter, set: setter });
+        objectEx[name](target, test.name, { get: getter, set: setter });
       else
-        objectEx[name](targetOrTargets, test.name, getter, setter);
+        objectEx[name](target, test.name, getter, setter);
     }
 
     target[test.name] = 0
@@ -286,38 +288,38 @@ assertTheory(function(test, id) {
 
   else {
     if (test.descriptor) {
-      var suffix = test.onTargets ? 'OnTargets' : '';
       if (test.plural)
-        objectEx['defineAccessors' + suffix](targetOrTargets, { [test.name]: descriptor });
+        objectEx.defineAccessors(target, { [test.name]: descriptor });
       else
-        objectEx['defineAccessor' + suffix](targetOrTargets, test.name, descriptor);
+        objectEx.defineAccessor(target, test.name, descriptor);
     }
     else if (test.plural) {
       if (test.wrapped)
-        objectEx[name](targetOrTargets, { [test.name]: { get: getter } });
+        objectEx[name](target, { [test.name]: { get: getter } });
       else
-        objectEx[name](targetOrTargets, { [test.name]: getter });
+        objectEx[name](target, { [test.name]: getter });
     }
     else if (test.inferName) {
       if (test.wrapped)
-        objectEx[name](targetOrTargets, { get: getter });
+        objectEx[name](target, { get: getter });
       else
-        objectEx[name](targetOrTargets, getter);
+        objectEx[name](target, getter);
     }
     else {
       if (test.wrapped)
-        objectEx[name](targetOrTargets, test.name, { get: getter });
+        objectEx[name](target, test.name, { get: getter });
       else
-        objectEx[name](targetOrTargets, test.name, getter);
+        objectEx[name](target, test.name, getter);
     }
   }
 
-  if (test.lazy & !test.configurable) {
-    assertThrows(() => target[test.name])
-    return;
-  }
-
   assert(getCount == 0);
+
+  if (test.lazy && !test.static)
+    target = Object.create(target);
+
+  if (test.lazy && test.configurable)
+    return;
 
   assert(target[test.name] == 0);
   assert(getCount == 1);
@@ -341,7 +343,6 @@ assertTheory(function(test, id) {
   wrapped: [ false, true ],
   configurable: [ false, true ],
   enumerable: [ false, true ],
-  onTargets: [ false, true ],
   plural: [ true, false ],
   descriptor: [ false, true ]
-})//, 3089)
+})

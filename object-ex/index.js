@@ -3,6 +3,7 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
+var initProperty = require('./js/init/property');
 var initField = require('./js/init/field');
 var initFunction = require('./js/init/function');
 var initAccessor = require('./js/init/accessors');
@@ -16,8 +17,6 @@ var defineReference = require('./js/define/reference');
 var getName = require('./js/get-name');
 
 var shift = Array.prototype.shift;
-
-var OnTargetsSuffix = 'OnTargets';
 
 var ConstPropertyConfiguration = {
   configurable: false,
@@ -34,10 +33,11 @@ var definitions = {
     configurations: {
       'set': { configurable: true, enumerable: true, writable: true },
       'setHidden': { configurable: true, enumerable: false, writable: true },
-      'define': { configurable: false, enumerable: true, writable: true },
-      'defineHidden': { configurable: false, enumerable: false, writable: true },
       'setConst': { configurable: true, enumerable: true, writable: false },
       'setHiddenConst': { configurable: true, enumerable: false, writable: false },
+
+      'define': { configurable: false, enumerable: true, writable: true },
+      'defineHidden': { configurable: false, enumerable: false, writable: true },
       'defineConst': { configurable: false, enumerable: true, writable: false },
       'defineHiddenConst': { configurable: false, enumerable: false, writable: false },
 
@@ -49,9 +49,9 @@ var definitions = {
   },
 
   'Property': {
-    pluralName: 'Property',
-    normalizer: null,
-    defineProperty: defineProperty,
+    pluralName: 'Properties',
+    normalizer: initProperty,
+    defineProperty: defineField,
     configurations: {
       'define': { configurable: false, enumerable: false, writable: false },
     }
@@ -64,6 +64,7 @@ var definitions = {
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
+
       'define': { configurable: false, enumerable: true },
       'defineHidden': { configurable: false, enumerable: false },
 
@@ -92,6 +93,7 @@ var definitions = {
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
+
       'define': { configurable: false, enumerable: true },
       'defineHidden': { configurable: false, enumerable: false },
 
@@ -143,15 +145,8 @@ function exportDefinition(
     return defineProperty(target, name, descriptor);
   };
 
-  // (define|set)[Const][Hidden](Field|Accessor|Function)OnTargets(targets, name, descriptor)
-  exports[prefix + suffix + OnTargetsSuffix] =
-    function (targets, fieldOrAccessorName, descriptors, setter) {
-      for (var i = 0; i < targets.length; i++)
-        define(targets[i], fieldOrAccessorName, descriptors, setter);
-    };
-
   // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
-  var defineMany = exports[prefix + pluralSuffix] =
+  exports[prefix + pluralSuffix] =
     function (target, values) {
       for (var name in values)
         define(target, name, values[name]);
@@ -162,19 +157,12 @@ function exportDefinition(
           define(target, symbols[i], values[symbols[i]]);
       }
     };
-
-  // (define|set)[Const][Hidden](Properties|Accessors|Function)OnTargets(targets, descriptor)
-  exports[prefix + pluralSuffix + OnTargetsSuffix] =
-    function (targets, descriptors) {
-      for (var i = 0; i < targets.length; i++)
-        defineMany(targets[i], descriptors);
-    }
 }
 
 for (var suffix in definitions) {
   var definition = definitions[suffix];
   var pluralSuffix = definition.pluralName;
-  var normalizer = definition.normalizer || (() => new Object());
+  var normalizer = definition.normalizer;
   var defineProperty = definition.defineProperty;
   var complications = definition.complications || {};
   var configurations = definition.configurations;
@@ -184,6 +172,8 @@ for (var suffix in definitions) {
 
     complications[''] = {}
     for (var complication in complications) {
+
+      assert(defineProperty);
 
       exportDefinition(
         prefix + complication,

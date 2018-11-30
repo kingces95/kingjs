@@ -10,12 +10,16 @@ var bindExternal = require('../bind-external-func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
+
+  var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
+  if (is.undefined(isEnumerable))
+    isEnumerable = false;
 
   if (is.string(value))
     value = new Function('return ' + value + ';');
 
-  if (descriptor.static) {
+  if (isStatic) {
     assert(!descriptor.configurable);
     defineStatic(target, name, {
       enumerable: isEnumerable,
@@ -29,7 +33,7 @@ function defineFunction(target, name, descriptor) {
     value = bindExternal(value, name, isEnumerable);
 
   if (descriptor.lazy)
-    value = bindLazy(value, name, isEnumerable);
+    value = bindLazy(value, name, isEnumerable, isStatic);
     
   descriptor.value = value;
 

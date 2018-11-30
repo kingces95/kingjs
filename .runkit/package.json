@@ -2,6 +2,7 @@
   "description": "RunKit like environment for testing readme samples and tests in general.",
   "dependencies": {
     "@kingjs/assert-theory": "^1.0.14",
+    "@kingjs/descriptor.nested.merge": "^1.0.19",
     "@kingjs/descriptor.object.clone": "^1.0.0",
     "@kingjs/descriptor.object.freeze": "^1.0.1",
     "@kingjs/descriptor.object.is-frozen": "^1.0.0",
@@ -9,7 +10,7 @@
     "@kingjs/descriptor.object.write": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
     "@kingjs/is": "^1.0.6",
-    "@kingjs/object-ex": "^1.0.0",
+    "@kingjs/object-ex": "^1.0.14",
     "kingjs": "1.0.40"
   }
 }
