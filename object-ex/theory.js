@@ -132,10 +132,10 @@ assertTheory(function(test, id) {
   var target = function() { };
 
   var callCount = 0;
-  var func = function() { 
+  var func = function(x) { 
     callCount++; 
     assert(this == target);
-    return test.value; 
+    return x; 
   };
 
   var descriptor = buildDescriptor(test);
@@ -149,7 +149,9 @@ assertTheory(function(test, id) {
       if (is.symbol(test.name))
         return;
 
-      args.push(function foo() { return func.call(this); });
+      args.push(function foo() { 
+        return func.apply(this, arguments); 
+      });
       break;
 
     case signature.descriptor:
@@ -163,7 +165,7 @@ assertTheory(function(test, id) {
 
     case signature.lambda:
       target.func = func;
-      args.push('this.func()');
+      args.push('this.func.apply(this, arguments)');
       break;
 
     case signature.none:
@@ -185,16 +187,16 @@ assertTheory(function(test, id) {
     target = Object.create(target);
 
   assert(callCount == 0);
-  assert(target[test.name]() == test.value);
+  assert(target[test.name](test.value) == test.value);
   assert(callCount == 1);
-  assert(target[test.name]() == test.value);
+  assert(target[test.name](test.value) == test.value);
   assert(callCount == test.lazy ? 1 : 2);
   
   assertDescriptor(test, target, test.name);
 
   if (test.static) {
     var obj = new target();
-    assert(obj[test.name]() == test.value);
+    assert(obj[test.name](test.value) == test.value);
     assert(callCount == test.lazy ? 1 : 3);
   }
 }, {

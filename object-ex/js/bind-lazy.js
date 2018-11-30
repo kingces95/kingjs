@@ -14,7 +14,7 @@ function bindLazy(func, name, isEnumerable, isStatic, isAccessor) {
       assert(is.function(this));
 
       if (is.undefined(value))
-        value = func.call(this);
+        value = func.apply(this, arguments);
       return value;
     };
   }
@@ -22,7 +22,7 @@ function bindLazy(func, name, isEnumerable, isStatic, isAccessor) {
   return function() {
     assert(!is.function(this));
 
-    var value = func.call(this);
+    var value = func.apply(this, arguments);
 
     if (value !== undefined) {
       Object.defineProperty(this, name, {

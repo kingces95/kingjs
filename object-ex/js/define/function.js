@@ -23,7 +23,11 @@ function defineFunction(target, name, descriptor) {
     assert(!descriptor.configurable);
     defineStatic(target, name, {
       enumerable: isEnumerable,
-      value: bindThis(value, target)
+      // todo: do not close over value as it might become lazy
+      // or may be an external stub
+      value: function() { 
+        return target[name].apply(target, arguments); 
+      }
     });
   }
 
