@@ -7,8 +7,8 @@ var stubLazy = require('../stub/lazy');
 var bindLazy = require('../bind/lazy');
 var defineStatic = require('./static');
 var stubExternal = require('../stub/external-accessor');
-var bindThunkGetter = require('../bind/thunk-getter');
-var bindThunkSetter = require('../bind/thunk-setter');
+var bindThunkGetter = require('../thunk/getter');
+var bindThunkSetter = require('../thunk/setter');
 
 function defineAccessor(target, name, descriptor) {
   var get = descriptor.get;

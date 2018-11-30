@@ -7,7 +7,7 @@ var stubLazy = require('../stub/lazy');
 var bindLazy = require('../bind/lazy');
 var defineStatic = require('./static');
 var stubExternal = require('../stub/external-func');
-var bindThunk = require('../bind/thunk');
+var bindThunk = require('../thunk/func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
