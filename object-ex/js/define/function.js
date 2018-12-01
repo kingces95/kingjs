@@ -10,7 +10,8 @@ var bindThunk = require('../thunk/func');
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
 
-  var isAccessor = false;
+  var isAccessor = true;
+  var isStub = true;
   var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
   if (is.undefined(isEnumerable))
@@ -28,10 +29,10 @@ function defineFunction(target, name, descriptor) {
   }
 
   if (descriptor.external)
-    value = lazy(value, name, isStatic, isEnumerable, isAccessor, true);
+    value = lazy(value, name, isStatic, isStub, isEnumerable, !isAccessor);
 
   if (descriptor.lazy)
-    value = lazy(value, name, isStatic, isEnumerable, isAccessor, false);
+    value = lazy(value, name, isStatic, !isStub, isEnumerable, !isAccessor);
     
   descriptor.value = value;
 

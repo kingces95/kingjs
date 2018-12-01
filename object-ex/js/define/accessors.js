@@ -13,6 +13,7 @@ function defineAccessor(target, name, descriptor) {
   var set = descriptor.set;
 
   var isAccessor = true;
+  var isGetter = true;
   var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
 
@@ -32,17 +33,19 @@ function defineAccessor(target, name, descriptor) {
   }
 
   if (descriptor.external) {
+    var isStub = true;
 
     if (get)
-      get = lazy(get, name, isStatic, isEnumerable, isAccessor, true);
+      get = lazy(get, name, isStatic, isStub, isEnumerable, isAccessor, isGetter);
 
     if (set)
-      set = lazy(set, name, isStatic, isEnumerable, isAccessor, true);
+      set = lazy(set, name, isStatic, isStub, isEnumerable, isAccessor, !isGetter);
   }
 
   if (descriptor.lazy) {
     assert(!set);
-    get = lazy(get, name, isStatic, isEnumerable, isAccessor, false);
+    var isStub = false;
+    get = lazy(get, name, isStatic, isStub, isEnumerable, isAccessor, isGetter);
   }
     
   if (get)

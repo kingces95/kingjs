@@ -6,92 +6,99 @@ var assert = require('@kingjs/assert');
 var errorUndefined = "Stub failed to return a value.";
 var errorReplaceSelf = "Stub cannot replace itself.";
 
-function lazy(funcOrStub, name, isStatic, isEnumerable, isAccessor, isStub) {
+function lazySetValueOrSlot(funcOrStub, name, isStatic, isStub, isEnumerable, isAccessor, isGet) {
   assert(is.function(funcOrStub));
   assert(is.stringOrSymbol(name));
-  assert(is.boolean(isEnumerable));
+  assert(is.boolean(isStatic) || is.undefined(isStatic));
+  assert(is.boolean(isEnumerable) || is.undefined(isEnumerable));
+  assert(!is.boolean(isGet) || isAccessor);
 
-  if (isStub) {
+  var lazyFunc;
 
-    if (isStatic) 
-      return bindStubStatic(funcOrStub, name, isAccessor);
-
-    return bindStubInstance(funcOrStub, name, isEnumerable, isAccessor);
+  if (isStatic) {
+    if (isStub)
+      lazyFunc = lazySetSlotOnType(funcOrStub, name, isAccessor, isGet);
+    else
+      lazyFunc = lazySetValueOnType(funcOrStub);
+  }
+  else {
+    if (isStub) 
+      lazyFunc = lazySetSlotOnInstance(funcOrStub, name, isEnumerable, isAccessor, isGet);
+    else
+      lazyFunc = lazySetValueOnInstance(funcOrStub, name, isEnumerable, isAccessor);
   }
 
-  if (isStatic) 
-    return bindFuncStatic(funcOrStub);
+  return function resolveValueOrSlot() {
 
-  return bindFuncInstance(funcOrStub, name, isEnumerable, isAccessor);
-}
+    if (isStatic) {
+      assert(is.function(this));
 
-function bindStubStatic(stub, name, isAccessor) {
-  var func;
-
-  return function() {
-    assert(is.function(this));
-
-    if (is.undefined(func)) {
-      func = stub.call(this, name);
-      assert(!is.undefined(func), errorUndefined);
-        
-      if (isAccessor && !is.function(func)) {
-        var isGet = arguments.length == 0;
-        func = func[isGet ? 'get' : 'set'];
-      }
+      // static results are cached in a closed variable
+      return lazyFunc.apply(this, arguments);
     }
 
-    if (!isAccessor)
-      return func.apply(this, arguments);
-      
-    var isGet = arguments.length == 0;
-    if (isGet)
-      return func.apply(this);
-    
-    func.apply(this, arguments);
-  };
-}
-
-function bindFuncStatic(func) {
-  var value;
-
-  return function() {
-    assert(is.function(this));
-
-    if (is.undefined(value)) {
-      value = func.call(this);
-      assert(value, errorUndefined);
-    }
-
-    return value;
-  };
-}
-
-function bindStubInstance(stub, name, isEnumerable, isAccessor) {
-  return function() {
     assert(!is.function(this));
-    assert(!this.hasOwnProperty(name), errorReplaceSelf);
+    
+    // instance results are cached on this for values or the prototype for slots
+    var cache = isStub ? Object.getPrototypeOf(this) : this;
 
-    var value = stub.call(this, name);
-    assert(!is.undefined(value), errorUndefined);
-   
+    // assert the cache is clear before the call and burned after the call
+    assert(!Object.getOwnPropertyDescriptor(cache, name), errorReplaceSelf)
+    var result = lazyFunc.apply(this, arguments);
+    assert(!Object.getOwnPropertyDescriptor(cache, name).configurable);
+
+    return result;
+  }
+}
+
+// The debugger will prematurely call funcs/stubs. Instead of returning and 
+// caching that bad result, the funcs/stubs can return undefined which will
+// fire an assert for the debugger to display and not cache the bad result. 
+// When the debugger resumes execution, the func/stub will be called at the 
+// right time and the good result will be cached.
+function callAndAssertResult(funcOrStub, name) {
+  // name => stub, !name => func
+  var result = funcOrStub.call(this, name);
+  assert(!is.undefined(result), errorUndefined)
+  return result;
+}
+
+function lazySetValueOnInstance(func, name, isEnumerable, isAccessor) {
+  return function setValueOnInstance() {
+    var value = callAndAssertResult.call(this, func, name);
+    
     var descriptor = {
       configurable: false,
       enumerable: isEnumerable,
-    }
+      [isAccessor ? 'get' : 'value' ]: () => value
+    };
+
+    Object.defineProperty(this, name, descriptor);
+
+    return value;
+  };  
+}
+
+function lazySetSlotOnInstance(stub, name, isEnumerable, isAccessor, isGet) {
+  return function setSlotOnInstance() {
+    var funcOrDescriptor = callAndAssertResult.call(this, stub, name);
+   
+    var descriptor = { 
+      configurable: false,
+      enumerable: isEnumerable 
+    };
 
     if (isAccessor) {
-      if (is.function(value)) {
-        var isGet = arguments.length == 0;
-        descriptor[isGet ? 'get' : 'set'] = value;
+      if (is.function(funcOrDescriptor)) {
+        descriptor[isGet ? 'get' : 'set'] = funcOrDescriptor;
       } 
       else {
-        descriptor.get = value.get;
-        descriptor.set = value.set;
+        descriptor.get = funcOrDescriptor.get;
+        descriptor.set = funcOrDescriptor.set;
       }
     } else {
-      assert(is.function(value));
-      descriptor.value = value;
+      assert(is.function(funcOrDescriptor));
+      descriptor.value = funcOrDescriptor;
     }
 
     Object.defineProperty(
@@ -100,10 +107,9 @@ function bindStubInstance(stub, name, isEnumerable, isAccessor) {
       descriptor
     );
 
-    if (descriptor.value)
+    if (!isAccessor)
       return descriptor.value.apply(this, arguments);
 
-    var isGet = arguments.length == 0;
     if (isGet)
       return descriptor.get.apply(this);
     
@@ -111,24 +117,37 @@ function bindStubInstance(stub, name, isEnumerable, isAccessor) {
   };
 }
 
-function bindFuncInstance(func, name, isEnumerable, isAccessor) {
-  return function() {
-    assert(!is.function(this));
-    assert(!this.hasOwnProperty(name), errorReplaceSelf);
+function lazySetValueOnType(func) {
+  var value;
 
-    var value = func.call(this);
-    assert(!is.undefined(value), errorUndefined)
-    
-    Object.defineProperty(this, name, {
-      configurable: false,
-      enumerable: isEnumerable,
-      [ isAccessor ? 'get' : 'value' ]: () => value
-    })
-
+  return function setValueOnType() {
+    if (is.undefined(value))
+      value = callAndAssertResult.call(this, func)
     return value;
-  };  
+  };
+}
+
+function lazySetSlotOnType(stub, name, isAccessor, isGet) {
+  var func;
+
+  return function setSlotOnType() {
+    if (is.undefined(func)) {
+      func = callAndAssertResult.call(this, stub, name);
+        
+      if (isAccessor && !is.function(func))
+        func = func[isGet ? 'get' : 'set'];
+    }
+
+    if (!isAccessor)
+      return func.apply(this, arguments);
+      
+    if (isGet)
+      return func.apply(this);
+    
+    func.apply(this, arguments);
+  };
 }
 
 Object.defineProperties(module, {
-  exports: { value: lazy }
+  exports: { value: lazySetValueOrSlot }
 });
