@@ -80,9 +80,8 @@ var definitions = {
     configurations: {
       'define': { configurable: false, enumerable: false, writable: false },
       'defineStatic': { configurable: false, enumerable: false, writable: false, static: true },
-    },
-    complications: {
-      'Lazy': { lazy: true },
+      'defineLazy': { configurable: false, enumerable: false, writable: false, lazy: true },
+      'defineStaticLazy': { configurable: false, enumerable: false, writable: false, static: true, lazy: true },
     },
   },
 
@@ -99,11 +98,32 @@ var definitions = {
 
       'defineStatic': { configurable: false, enumerable: true, static: true },
       'defineHiddenStatic': { configurable: false, enumerable: false, static: true },
-    },
-    complications: {
-      'Lazy': { lazy: true },
+
+      'defineLazy': { configurable: false, enumerable: true, lazy: true },
+      'defineHiddenLazy': { configurable: false, enumerable: false, lazy: true },
+
+      'defineStaticLazy': { configurable: false, enumerable: true, static: true, lazy: true },
+      'defineHiddenStaticLazy': { configurable: false, enumerable: false, static: true, lazy: true },
     },
   },
+}
+
+for (var suffix in definitions) {
+  var definition = definitions[suffix];
+  var configurations = definition.configurations;
+
+  for (var prefix in configurations) {
+    var configuration = configurations[prefix];
+
+    exportDefinition(
+      prefix,
+      suffix,
+      definition.pluralName,
+      configuration,
+      definition.normalizer,
+      definition.defineProperty
+    )
+  }
 }
 
 function exportDefinition(
@@ -112,8 +132,7 @@ function exportDefinition(
   pluralSuffix,
   configuration,
   normalizer,
-  defineProperty,
-  complication) {
+  defineProperty) {
 
   assert('configurable' in configuration);
   assert('enumerable' in configuration);
@@ -138,10 +157,6 @@ function exportDefinition(
     if (!is.stringOrSymbol(name))
       name = getName.call(descriptor);
 
-    // make lazy
-    if (complication.lazy)
-      descriptor.lazy = true;
-
     if (descriptor.configurable) {
       assert(!descriptor.lazy);
       assert(!descriptor.static);
@@ -163,37 +178,6 @@ function exportDefinition(
       }
     };
 }
-
-for (var suffix in definitions) {
-  var definition = definitions[suffix];
-  var pluralSuffix = definition.pluralName;
-  var normalizer = definition.normalizer;
-  var defineProperty = definition.defineProperty;
-  var complications = definition.complications || {};
-  var configurations = definition.configurations;
-
-  for (var prefix in configurations) {
-    var configuration = configurations[prefix];
-
-    complications[''] = {}
-    for (var complication in complications) {
-
-      assert(defineProperty);
-
-      exportDefinition(
-        prefix + complication,
-        suffix,
-        pluralSuffix,
-        configuration,
-        normalizer,
-        defineProperty,
-        complications[complication],
-      )
-    }
-  }
-}
-
-exports.defineProperty = defineField;
 
 for (var name in exports)
   Object.defineProperty(exports, name, ConstPropertyConfiguration);

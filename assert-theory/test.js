@@ -66,10 +66,13 @@ primitive();
 
 function values() {
 
-  var values = { zero: 0 };
+  var values = { 
+    zero: 0,
+    one: 1
+  };
 
   testTheory(function(o) {
-    assert(o.number === values.zero);
+    assert(o.number === values.zero || o.number == values.one);
     assert(o.array === 0);
   }, {
     number: values,
@@ -77,3 +80,16 @@ function values() {
   });
 }
 values();
+
+function testThrows() {
+
+  testTheory(function(test) {
+    assert(test.value == 0);
+  }, {
+    value: [ 0, 1 ],
+    $assert: function(test) {
+      return test.value == 0;
+    }
+  });
+}
+testThrows();

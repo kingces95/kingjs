@@ -12,7 +12,7 @@ function stubExternalFunction(stub, name, isEnumerable) {
     var value = stub.call(this, name);
     assert(value);
 
-    Object.defineProperty(this, name, {
+    Object.defineProperty(this.constructor.prototype, name, {
       configurable: true,
       enumerable: isEnumerable,
       value: value

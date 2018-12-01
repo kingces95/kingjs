@@ -116,17 +116,16 @@ function doNotCacheUndefined() {
 doNotCacheUndefined();
 
 function stubFunctionTest() {
-  var target = { id: 'target' };
+  var func = function myFunc() { };
   var counter = 0;
 
-  objectEx.defineFunction(target, 'foo', {
+  objectEx.defineFunction(func.prototype, 'foo', {
     external: true,
-    //lazy: true,
-    configurable: true,
+    lazy: true,
+    configurable: false,
     value: function(stubName) {
       var stubThis = this;
       return x => ({ 
-        arg: x, 
         name: stubName, 
         this: this, 
         stubThis: stubThis,
@@ -135,38 +134,56 @@ function stubFunctionTest() {
     }
   });
 
-  var result = target.foo('bar');
+  func.prototype = Object.create(func.prototype);
+
+  var target = new func();
+  var result = target.foo();
   assert(result.this == result.stubThis);
   assert(result.this == target);
   assert(result.name = 'foo');
-  //assert(result.arg == 'bar');
   assert(result.counter == 0);
 
-  //var result = target.foo('bar');
-  //assert(result.counter == 0);
+  var result = target.foo();
+  assert(result.this == result.stubThis);
+  assert(result.this == target);
+  assert(result.name = 'foo');
+  assert(result.counter == 0);
 }
 stubFunctionTest();
 
 function stubAccessorTest() {
-  var target = { id: 'target' };
+  var func = function myFunc() { };
+  var counter = 0;
 
-  objectEx.defineAccessor(target, 'foo', {
+  objectEx.defineAccessor(func.prototype, 'foo', {
+    lazy: true,
     external: true,
-    configurable: true,
+    configurable: false,
     get: function(stubName) {
       var stubThis = this;
       return () => ({ 
         name: stubName, 
         this: this, 
-        stubThis: stubThis
+        stubThis: stubThis,
+        counter: counter++
       });
     }
   });
+
+  func.prototype = Object.create(func.prototype);
+
+  var target = new func();
+  var result = target.foo;
+  assert(result.this == result.stubThis);
+  assert(result.this == target);
+  assert(result.name = 'foo');
+  assert(result.counter == 0);
 
   var result = target.foo;
   assert(result.this == result.stubThis);
   assert(result.this == target);
   assert(result.name = 'foo');
+  assert(result.counter == 0);
 }
 stubAccessorTest();
 

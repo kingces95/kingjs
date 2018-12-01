@@ -3,12 +3,12 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 var defineProperty = require('./property');
-var stubLazy = require('../stub/lazy');
-var bindLazy = require('../bind/lazy');
 var defineStatic = require('./static');
-var stubExternal = require('../stub/external-accessor');
-var bindThunkGetter = require('../thunk/getter');
-var bindThunkSetter = require('../thunk/setter');
+var bindLazy = require('../bind/lazy');
+var stubLazy = require('../bind/stub/lazy');
+var stubExternal = require('../bind/stub/external-accessor');
+var bindThunkGetter = require('../bind/thunk/getter');
+var bindThunkSetter = require('../bind/thunk/setter');
 
 function defineAccessor(target, name, descriptor) {
   var get = descriptor.get;
@@ -33,8 +33,6 @@ function defineAccessor(target, name, descriptor) {
     });
   }
 
-  assert(!(descriptor.lazy && descriptor.external))
-
   if (descriptor.external) {
 
     if (get)
@@ -44,8 +42,10 @@ function defineAccessor(target, name, descriptor) {
       set = stubExternal(set, name, isEnumerable);
   }
 
-  if (descriptor.lazy)
+  if (descriptor.lazy) {
+    assert(!set);
     get = isStatic ? bindLazy(get) : stubLazy(get, name, isEnumerable, isAccessor);
+  }
     
   if (get)
     descriptor.get = get;

@@ -19,7 +19,7 @@ function stubExternalAccessor(stub, name, isEnumerable) {
     value.configurable = false;
     value.enumerable = isEnumerable;
 
-    Object.defineProperty(this, name, value);
+    Object.defineProperty(this.constructor.prototype, name, value);
 
     if (isGet)
       return value.get.apply(this);

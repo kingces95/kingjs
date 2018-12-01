@@ -3,11 +3,11 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var defineProperty = require('./property');
-var stubLazy = require('../stub/lazy');
-var bindLazy = require('../bind/lazy');
 var defineStatic = require('./static');
-var stubExternal = require('../stub/external-func');
-var bindThunk = require('../thunk/func');
+var bindLazy = require('../bind/lazy');
+var stubLazy = require('../bind/stub/lazy');
+var stubExternal = require('../bind/stub/external-func');
+var bindThunk = require('../bind/thunk/func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
@@ -27,8 +27,6 @@ function defineFunction(target, name, descriptor) {
       value: bindThunk(target, name)
     });
   }
-
-  //assert(!(descriptor.lazy && descriptor.external))
 
   if (descriptor.external)
     value = stubExternal(value, name, isEnumerable);
