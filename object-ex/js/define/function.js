@@ -1,16 +1,16 @@
 'use strict';
 
-var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
+var assert = require('@kingjs/assert');
 var defineProperty = require('./property');
 var defineStatic = require('./static');
-var stubLazy = require('../stub/lazy');
-var stubExternal = require('../stub/external');
+var lazy = require('../lazy');
 var bindThunk = require('../thunk/func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
 
+  var isAccessor = false;
   var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
   if (is.undefined(isEnumerable))
@@ -28,10 +28,10 @@ function defineFunction(target, name, descriptor) {
   }
 
   if (descriptor.external)
-    value = stubExternal(value, name, isStatic, isEnumerable);
+    value = lazy(value, name, isStatic, isEnumerable, isAccessor, true);
 
   if (descriptor.lazy)
-    value = stubLazy(value, name, isStatic, isEnumerable);
+    value = lazy(value, name, isStatic, isEnumerable, isAccessor, false);
     
   descriptor.value = value;
 

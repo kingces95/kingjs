@@ -114,14 +114,6 @@ assertTheory(function(test, id) {
   plural: [ false, true ]
 })
 
-var signature = {
-  descriptor: 'descriptor',
-  named: 'named',
-  function: 'function',
-  lambda: 'lambda',
-  none: 'none'
-}
-
 assertTheory(function(test, id) {
   assert(!test.configurable);
   var name = buildName(test, 'Function');
@@ -147,7 +139,8 @@ assertTheory(function(test, id) {
   var arg;
   var named = false;
   switch (test.variant) {
-    case signature.named:
+    case this.variant.named:
+      if (test.external) return;
 
       // inferring the function name results in a string, not a symbol
       if (is.symbol(test.name))
@@ -159,18 +152,21 @@ assertTheory(function(test, id) {
       };
       break;
 
-    case signature.descriptor:
+    case this.variant.descriptor:
+      var value = test.external ? stub : func;
       var descriptor = buildDescriptor(test);
-      descriptor = write.call(descriptor, 'value', func);
+      descriptor = write.call(descriptor, 'value', value);
       arg = descriptor;
       name = test.plural ? 'defineFunctions' : 'defineFunction';
       break;
 
-    case signature.function:
+    case this.variant.function:
+      if (test.external) return;
       arg = func;
       break;
 
-    case signature.lambda:
+    case this.variant.lambda:
+      if (test.external) return;
       if (test.static)
         Type.func = func;
       else
@@ -178,7 +174,8 @@ assertTheory(function(test, id) {
       arg = 'this.func.apply(this, arguments)';
       break;
 
-    case signature.none:
+    case this.variant.none:
+      if (test.external) return;
       arg = { value: func };
       break;
 
@@ -224,11 +221,17 @@ assertTheory(function(test, id) {
 }, {
   value: 0,
   name: ['foo', Symbol.for('foo') ],
-  variant: signature,
+  variant: {
+    descriptor: 'descriptor',
+    named: 'named',
+    function: 'function',
+    lambda: 'lambda',
+    none: 'none'
+  },
   configurable: [ false ],
   static: [ true, false ],
   lazy: [ true, false ],
-  //external: [ true, false ],
+  external: [ true, false ],
   plural: [ false, true ]
 })
 
@@ -246,6 +249,8 @@ assertTheory(function(test, id) {
       return;
     if (test.lazy) 
       return;
+    if (test.external)
+      return;
   }
 
   if (test.inferName) {
@@ -255,24 +260,41 @@ assertTheory(function(test, id) {
       return;
   }
 
-  var target = function() { };
+  var Type = function() { };
   
   var getCount = 0;
   var getter = test.getter ? function() { 
+    assert(test.static ? (this == Type) : (this instanceof Type));
     getCount++; 
     return 0; 
   } : undefined;
-  
 
   var setter = test.setter ? function(x) {
-    assert(this == target);
+    assert(test.static ? (this == Type) : (this instanceof Type));
     this.field = x; 
   } : undefined;
+
+  var stubCount = 0;
+  var stub = function() {
+    assert(test.static ? (this == Type) : (this instanceof Type));
+    if (getter && setter) {
+      assert(stubCount++ <= 1);
+      return {
+        get: getter,
+        set: setter
+      };
+    }
+
+    assert(stubCount++ == 0);
+    if (!getter) return setter;
+    if (!setter) return getter;
+  }
   
   var named = false;
   var args = [ ];
   switch (test.variant) {
-    case signature.named:
+    case this.variant.named:
+      if (test.external) return;
 
       // inferring the function name results in a string, not a symbol
       if (is.symbol(test.name))
@@ -287,26 +309,33 @@ assertTheory(function(test, id) {
         args.push(namedGetter, namedSetter);
       break;
 
-    case signature.descriptor:
+    case this.variant.descriptor:
+      var getterOrStub = test.external ? stub : getter;
+      var setterOrStub = test.external ? stub : setter;
+
       var descriptor = buildDescriptor(test);
       if (test.getter)
-        descriptor = write.call(descriptor, 'get', getter);
+        descriptor = write.call(descriptor, 'get', getterOrStub);
       if (test.setter)
-        descriptor = write.call(descriptor, 'set', setter);
+        descriptor = write.call(descriptor, 'set', setterOrStub);
       args.push(descriptor);
       name = test.plural ? 'defineAccessors' : 'defineAccessor';
       break;
 
-    case signature.none:
-    case signature.function:
+    case this.variant.function:
+      if (test.external) return;
       if (test.wrapped)
         args.push({ get: getter, set: setter })
       else
         args.push(getter, setter);
       break;
 
-    case signature.lambda:
-      target.func = getter;
+    case this.variant.lambda:
+      if (test.external) return;
+      if (test.static)
+        Type.func = getter;
+      else
+        Type.prototype.func = getter;
       var lambdaGet = test.getter ? 'this.func()' : undefined;
       var lambdaSet = test.setter ? 'this.field = value' : undefined;
       if (test.wrapped)
@@ -326,14 +355,18 @@ assertTheory(function(test, id) {
   else if (!named)
     args = pushFront(args, test.name);
 
-  pushFront(args, target);
+  pushFront(args, test.static ? Type : Type.prototype);
   objectEx[name].apply(null, args);
+
+  var stubPrototype = Type.prototype;
+  Type.prototype = Object.create(stubPrototype);
+  var target = test.static ? Type : new Type();
 
   if (test.setter) {
     target[test.name] = 0
     assert(target.field == 0);
     if (test.static) {
-      var obj = new target();
+      var obj = new Type();
       assert(obj[test.name] = 1);
       assert(target.field == 1);
     }
@@ -341,9 +374,6 @@ assertTheory(function(test, id) {
 
   if (test.getter) {
     assert(getCount == 0);
-
-    if (test.lazy && !test.static)
-      target = Object.create(target);
 
     var expectedGetCount = 0;
     assert(getCount == expectedGetCount++);
@@ -353,25 +383,41 @@ assertTheory(function(test, id) {
     assert(target[test.name] == 0);
     assert(getCount == (test.lazy ? 1 : expectedGetCount++));
 
-    assertDescriptor(test, target, test.name);
-
     if (test.static) {
-      var obj = new target();
+      var obj = new Type();
       assert(obj[test.name] == 0);
       assert(getCount == (test.lazy ? 1 : expectedGetCount++));
     }
   }
+
+  if (test.static) {
+    assertDescriptor(test, Type, test.name);
+  }
+  else {
+    assertDescriptor(test, stubPrototype, test.name);
+    if (test.external)
+      assertDescriptor(test, Type.prototype, test.name);
+    if (test.lazy)
+      assertDescriptor(test, target, test.name);
+  }
+
 }, {
   name: ['foo', Symbol.for('foo') ],
-  variant: signature,
-  lazy: [ true, false ],
+  variant: {
+    descriptor: 'descriptor',
+    named: 'named',
+    function: 'function',
+    lambda: 'lambda',
+  },
+  external: [ true, false ],
+  lazy: [ false, true ],
   static: [ false, true ],
   getter: [ false, true ],
   setter: [ false, true ],
   wrapped: [ false, true ],
   configurable: [ false, true ],
   enumerable: [ false, true ],
-  plural: [ true, false ],
+  plural: [ false, true ],
   $assert: function(test, id) {
     //if (test.lazy && test.setter)
     //  return false;
