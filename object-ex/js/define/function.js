@@ -4,10 +4,9 @@ var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var defineProperty = require('./property');
 var defineStatic = require('./static');
-var bindLazy = require('../bind/lazy');
-var stubLazy = require('../bind/stub/lazy');
-var stubExternal = require('../bind/stub/external-func');
-var bindThunk = require('../bind/thunk/func');
+var stubLazy = require('../stub/lazy');
+var stubExternal = require('../stub/external');
+var bindThunk = require('../thunk/func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
@@ -29,10 +28,10 @@ function defineFunction(target, name, descriptor) {
   }
 
   if (descriptor.external)
-    value = stubExternal(value, name, isEnumerable);
+    value = stubExternal(value, name, isStatic, isEnumerable);
 
   if (descriptor.lazy)
-    value = isStatic ? bindLazy(value) : stubLazy(value, name, isEnumerable);
+    value = stubLazy(value, name, isStatic, isEnumerable);
     
   descriptor.value = value;
 

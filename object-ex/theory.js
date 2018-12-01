@@ -44,6 +44,7 @@ function buildDescriptor(test) {
     descriptor,
     test, {
       enumerable: null,
+      external: null,
       writable: null,
       static: null,
       value: null,
@@ -55,15 +56,9 @@ function buildDescriptor(test) {
 
 function assertDescriptor(test, target, name) {
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
+  assert(descriptor);
 
-  //if (test.lazy) {
-    //assert(descriptor.configurable === false);
-    //assert(descriptor.writable === false);
-  //} 
-  //else {
-    assert(descriptor.configurable === test.configurable);
-    //assert(descriptor.writable === test.writable);
-  //}
+  assert(descriptor.configurable === test.configurable);
 
   var isEnumerable = test.enumerable;
   if (is.undefined(isEnumerable))
@@ -131,17 +126,23 @@ assertTheory(function(test, id) {
   assert(!test.configurable);
   var name = buildName(test, 'Function');
 
-  var target = function() { };
+  var Type = function() { };
 
   var count = 0;
   var func = function(x) { 
     count++; 
-    assert(this == target);
+    assert(test.static ? (this == Type) : (this instanceof Type));
     if (test.lazy)
       return test.value;
     return x; 
   };
 
+  var stubCount = 0;
+  var stub = function() {
+    assert(stubCount++ == 0);
+    assert(test.static ? (this == Type) : (this instanceof Type));
+    return func;
+  }
 
   var arg;
   var named = false;
@@ -170,7 +171,10 @@ assertTheory(function(test, id) {
       break;
 
     case signature.lambda:
-      target.func = func;
+      if (test.static)
+        Type.func = func;
+      else
+        Type.prototype.func = func;
       arg = 'this.func.apply(this, arguments)';
       break;
 
@@ -187,11 +191,12 @@ assertTheory(function(test, id) {
   else if (!named)
     args = [ test.name, arg ];
 
-  pushFront(args, target);
+  pushFront(args, test.static ? Type : Type.prototype);
   objectEx[name].apply(null, args);
 
-  if (test.lazy && !test.static)
-    target = Object.create(target);
+  var stubPrototype = Type.prototype;
+  Type.prototype = Object.create(stubPrototype);
+  var target = test.static ? Type : new Type();
 
   var expectedCount = 0;
   assert(count == expectedCount++);
@@ -200,10 +205,19 @@ assertTheory(function(test, id) {
   assert(target[test.name](test.value) == test.value);
   assert(count == (test.lazy ? 1 : expectedCount++));
   
-  assertDescriptor(test, target, test.name);
+  if (test.static) {
+    assertDescriptor(test, Type, test.name);
+  }
+  else {
+    assertDescriptor(test, stubPrototype, test.name);
+    if (test.external)
+      assertDescriptor(test, Type.prototype, test.name);
+    if (test.lazy)
+      assertDescriptor(test, target, test.name);
+  }
 
   if (test.static) {
-    var obj = new target();
+    var obj = new Type();
     assert(obj[test.name](test.value) == test.value);
     assert(count == (test.lazy ? 1 : expectedCount++));
   }
@@ -214,6 +228,7 @@ assertTheory(function(test, id) {
   configurable: [ false ],
   static: [ true, false ],
   lazy: [ true, false ],
+  //external: [ true, false ],
   plural: [ false, true ]
 })
 

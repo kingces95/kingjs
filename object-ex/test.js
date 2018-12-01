@@ -54,38 +54,6 @@ function lazyAccessor() {
 }
 lazyAccessor();
 
-function lazyInheritedAccessor() {
-  var name = 'foo';
-
-  var eagerAccessorCallCount = 0;
-  var eagerAccessor = () => {
-    eagerAccessorCallCount++;
-    return 0;
-  }
-
-  var prototype = { };
-  objectEx.defineLazyAccessor(prototype, name, eagerAccessor);
-
-  var target = Object.create(prototype);
-
-  assert(name in target);
-  assert(eagerAccessorCallCount == 0);
-  assert(target[name] === 0);
-  assert(eagerAccessorCallCount == 1);
-  assert(target[name] === 0);
-  assert(eagerAccessorCallCount == 1);
-
-  var target = Object.create(prototype);
-
-  assert(name in target);
-  assert(eagerAccessorCallCount == 1);
-  assert(target[name] === 0);
-  assert(eagerAccessorCallCount == 2);
-  assert(target[name] === 0);
-  assert(eagerAccessorCallCount == 2);
-}
-lazyInheritedAccessor();
-
 function lambdaFunction() {
   var name = 'foo';
   var target = { id:0 };
@@ -99,7 +67,7 @@ function lambdaFunction() {
 }
 lambdaFunction();
 
-function doNotCacheUndefined() {
+function throwOnUndefined() {
   var target = { };
   var counter = 0;
 
@@ -110,10 +78,10 @@ function doNotCacheUndefined() {
   });
 
   target = Object.create(target);
-  assert(target.foo === undefined);
+  assertThrows(() => target.foo);
   assert(target.foo == 0);
 }
-doNotCacheUndefined();
+throwOnUndefined();
 
 function stubFunctionTest() {
   var func = function myFunc() { };
