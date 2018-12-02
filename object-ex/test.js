@@ -205,6 +205,6 @@ function defineReference() {
   assert(target.baz == 44);
   assert(counter == 3);
 }
-//defineReference();
+defineReference();
 
 require('./theory');
