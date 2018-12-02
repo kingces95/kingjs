@@ -20,32 +20,31 @@ function lazySetValueOrSlot(funcOrStub, name, isStatic, isStub, isEnumerable, is
       lazyFunc = lazySetSlotOnType(funcOrStub, name, isAccessor, isGet);
     else
       lazyFunc = lazySetValueOnType(funcOrStub);
+
+    var self;
+    return function resolveStaticValueOrSlot() {
+      if (is.undefined(self))
+        self = this
+
+      // static => 'this' should not change => able to cache on closed variable
+      assert(self === this);
+    
+      return lazyFunc.apply(this, arguments);
+    }   
   }
-  else {
-    if (isStub) 
-      lazyFunc = lazySetSlotOnInstance(funcOrStub, name, isEnumerable, isAccessor, isGet);
-    else
-      lazyFunc = lazySetValueOnInstance(funcOrStub, name, isEnumerable, isAccessor);
-  }
+
+  if (isStub) 
+    lazyFunc = lazySetSlotOnInstance(funcOrStub, name, isEnumerable, isAccessor, isGet);
+  else
+    lazyFunc = lazySetValueOnInstance(funcOrStub, name, isEnumerable, isAccessor);
 
   return function resolveValueOrSlot() {
+    var slots = isStub ? Object.getPrototypeOf(this) : this;
 
-    if (isStatic) {
-      assert(is.function(this));
-
-      // static results are cached in a closed variable
-      return lazyFunc.apply(this, arguments);
-    }
-
-    assert(!is.function(this));
-    
-    // instance results are cached on this for values or the prototype for slots
-    var cache = isStub ? Object.getPrototypeOf(this) : this;
-
-    // assert the cache is clear before the call and burned after the call
-    assert(!Object.getOwnPropertyDescriptor(cache, name), errorReplaceSelf)
+    // instance => the slot is clear before the call and burned after the call
+    assert(!Object.getOwnPropertyDescriptor(slots, name), errorReplaceSelf)
     var result = lazyFunc.apply(this, arguments);
-    assert(!Object.getOwnPropertyDescriptor(cache, name).configurable);
+    assert(!Object.getOwnPropertyDescriptor(slots, name).configurable);
 
     return result;
   }
@@ -54,7 +53,7 @@ function lazySetValueOrSlot(funcOrStub, name, isStatic, isStub, isEnumerable, is
 // The debugger will prematurely call funcs/stubs. Instead of returning and 
 // caching that bad result, the funcs/stubs can return undefined which will
 // fire an assert for the debugger to display and not cache the bad result. 
-// When the debugger resumes execution, the func/stub will be called at the 
+// When the debugger resumes execution the func/stub will be called at the 
 // right time and the good result will be cached.
 function callAndAssertResult(funcOrStub, name) {
   // name => stub, !name => func
@@ -118,33 +117,33 @@ function lazySetSlotOnInstance(stub, name, isEnumerable, isAccessor, isGet) {
 }
 
 function lazySetValueOnType(func) {
-  var value;
+  var cachedValue;
 
   return function setValueOnType() {
-    if (is.undefined(value))
-      value = callAndAssertResult.call(this, func)
-    return value;
+    if (is.undefined(cachedValue))
+      cachedValue = callAndAssertResult.call(this, func)
+    return cachedValue;
   };
 }
 
 function lazySetSlotOnType(stub, name, isAccessor, isGet) {
-  var func;
+  var cachedFunc;
 
   return function setSlotOnType() {
-    if (is.undefined(func)) {
-      func = callAndAssertResult.call(this, stub, name);
+    if (is.undefined(cachedFunc)) {
+      cachedFunc = callAndAssertResult.call(this, stub, name);
         
-      if (isAccessor && !is.function(func))
-        func = func[isGet ? 'get' : 'set'];
+      if (isAccessor && !is.function(cachedFunc))
+        cachedFunc = cachedFunc[isGet ? 'get' : 'set'];
     }
 
     if (!isAccessor)
-      return func.apply(this, arguments);
+      return cachedFunc.apply(this, arguments);
       
     if (isGet)
-      return func.apply(this);
+      return cachedFunc.apply(this);
     
-    func.apply(this, arguments);
+    cachedFunc.apply(this, arguments);
   };
 }
 

@@ -6,6 +6,37 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
+function manual() {
+  var Type = function() { };
+  var prototype = Type.prototype;
+  Type.prototype = Object.create(prototype);
+
+  var defaultToken = undefined;
+
+  var name = 'myRef';
+
+  function resolve() {
+    return this[name];
+  }
+
+  objectEx.defineAccessor(
+    prototype,
+    name, {
+      configurable: false,
+      enumerable: true,
+      lazy: true,
+      external: true,
+      get: function() {
+        if (defaultToken === undefined)
+          assert(false, derefBeforeAssignmentError);
+    
+        this[name] = defaultToken;
+      },
+      set: null
+    }    
+  )
+}
+
 function test() {
   var target = { 
     children: [ 42, 43, 44 ]

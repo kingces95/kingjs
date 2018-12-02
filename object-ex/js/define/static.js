@@ -2,14 +2,30 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var defineProperty = require('./property');
 
-function defineStatic(target, name, descriptor) {
+function defineThunkToStatic(target, name, isEnumerable, isAccessor) {
   assert(is.function(target));
 
-  descriptor.configurable = false;
+  var descriptor = {
+    enumerable: isEnumerable,
+  }
 
-  defineProperty(
+  if (isAccessor) {
+    descriptor.get = function() {
+      return target[name]; 
+    };
+
+    descriptor.set = function() {
+      return target[name] = arguments[0]; 
+    }
+  } 
+  else {
+    descriptor.value = function() {
+      return target[name].apply(target, arguments); 
+    }
+  }
+  
+  Object.defineProperty(
     target.prototype,
     name, 
     descriptor
@@ -19,5 +35,5 @@ function defineStatic(target, name, descriptor) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: defineStatic }
+  exports: { value: defineThunkToStatic }
 });

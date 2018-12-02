@@ -1,23 +1,18 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
-var defineProperty = require('./property');
-var defineStatic = require('./static');
+var defineThunkToStatic = require('./static');
 
 function defineField(target, name, descriptor) {
+  var isAccessor = true;
   var isEnumerable = descriptor.enumerable;
 
   if (descriptor.static) {
     assert(!descriptor.configurable);
-    
-    defineStatic(target, name, {
-      enumerable: isEnumerable,
-      get: () => target[name],
-      set: value => target[name] = value
-    });
+    defineThunkToStatic(target, name, isEnumerable, isAccessor);
   }
 
-  defineProperty(target, name, descriptor);
+  Object.defineProperty(target, name, descriptor);
   return target;
 }
 

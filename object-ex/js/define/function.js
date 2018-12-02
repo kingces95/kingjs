@@ -2,10 +2,8 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var defineProperty = require('./property');
-var defineStatic = require('./static');
+var defineThunkToStatic = require('./static');
 var lazy = require('../lazy');
-var bindThunk = require('../thunk/func');
 
 function defineFunction(target, name, descriptor) {
   var value = descriptor.value;
@@ -14,18 +12,13 @@ function defineFunction(target, name, descriptor) {
   var isStub = true;
   var isStatic = descriptor.static;
   var isEnumerable = descriptor.enumerable;
-  if (is.undefined(isEnumerable))
-    isEnumerable = false;
 
   if (is.string(value))
     value = new Function('return ' + value + ';');
 
   if (isStatic) {
     assert(!descriptor.configurable);
-    defineStatic(target, name, {
-      enumerable: isEnumerable,
-      value: bindThunk(target, name)
-    });
+    defineThunkToStatic(target, name, isEnumerable, !isAccessor);
   }
 
   if (descriptor.external)
@@ -36,7 +29,7 @@ function defineFunction(target, name, descriptor) {
     
   descriptor.value = value;
 
-  defineProperty(target, name, descriptor);
+  Object.defineProperty(target, name, descriptor);
   return target;
 }
 
