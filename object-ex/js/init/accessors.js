@@ -3,7 +3,7 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
-function initAccessor(x, y, z) {
+function initAccessor(target, x, y, z) {
   assert('configurable' in this);
   assert('enumerable' in this);
   

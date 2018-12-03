@@ -8,102 +8,97 @@ var initField = require('./js/init/field');
 var initFunction = require('./js/init/function');
 var initAccessor = require('./js/init/accessors');
 var initReference = require('./js/init/reference');
-
-var defineField = require('./js/define/field');
-var defineFunction = require('./js/define/function');
-var defineAccessor = require('./js/define/accessors');
-var defineReference = require('./js/define/reference');
-
-var getName = require('./js/get-name');
-
-var shift = Array.prototype.shift;
-
-var ConstPropertyConfiguration = {
-  configurable: false,
-  enumerable: false,
-  writable: false
-}
+var initThunk = require('./js/init/thunk');
+var initStubs = require('../js/init/stubs');
+var initLambda = require('../js/init/lambda');
+var initReference = require('./js/init/reference');
 
 var definitions = {
 
   'Field': {
     pluralName: 'Fields',
-    normalizer: initField,
-    defineProperty: defineField,
+    initializer: initField,
+    defaults: { configurable: false, writable: true },
     configurations: {
-      'set': { configurable: true, enumerable: true, writable: true },
-      'setHidden': { configurable: true, enumerable: false, writable: true },
+      'set': { configurable: true, enumerable: true },
+      'setHidden': { configurable: true, enumerable: false },
       'setConst': { configurable: true, enumerable: true, writable: false },
       'setHiddenConst': { configurable: true, enumerable: false, writable: false },
 
-      'define': { configurable: false, enumerable: true, writable: true },
-      'defineHidden': { configurable: false, enumerable: false, writable: true },
-      'defineConst': { configurable: false, enumerable: true, writable: false },
-      'defineHiddenConst': { configurable: false, enumerable: false, writable: false },
+      'define': { enumerable: true },
+      'defineHidden': { enumerable: false },
+      'defineConst': { enumerable: true, writable: false },
+      'defineHiddenConst': { enumerable: false, writable: false },
 
-      'defineStatic': { configurable: false, enumerable: true, writable: true, static: true },
-      'defineHiddenStatic': { configurable: false, enumerable: false, writable: true, static: true },
-      'defineConstStatic': { configurable: false, enumerable: true, writable: false, static: true },
-      'defineHiddenConstStatic': { configurable: false, enumerable: false, writable: false, static: true },
+      'defineStatic': { enumerable: true, static: true },
+      'defineHiddenStatic': { enumerable: false, static: true },
+      'defineConstStatic': { enumerable: true, writable: false, static: true },
+      'defineHiddenConstStatic': { enumerable: false, writable: false, static: true },
     },
   },
 
   'Property': {
     pluralName: 'Properties',
-    normalizer: initProperty,
-    defineProperty: defineField,
+    initializer: initProperty,
+    defaults: { configurable: false },
     configurations: {
-      'define': { configurable: false, enumerable: false, writable: false },
+      'define': { enumerable: false, writable: false },
     }
   },
 
   'Reference': {
     pluralName: 'References',
-    normalizer: initReference,
-    defineProperty: defineReference,
+    initializer: initReference,
+    defaults: { configurable: false },
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
 
-      'define': { configurable: false, enumerable: true },
-      'defineHidden': { configurable: false, enumerable: false },
+      'define': { enumerable: true },
+      'defineHidden': { enumerable: false },
 
-      'defineStatic': { configurable: false, enumerable: true, static: true },
-      'defineHiddenStatic': { configurable: false, enumerable: false, static: true },
+      'defineStatic': { enumerable: true, static: true },
+      'defineHiddenStatic': { enumerable: false, static: true },
     },
   },
 
   'Function': {
     pluralName: 'Functions',
-    normalizer: initFunction,
-    defineProperty: defineFunction,
+    initializer: initFunction,
+    defaults: { 
+      configurable: false, 
+      enumerable: false, 
+      writable: false, 
+      function: true 
+    },
     configurations: {
-      'define': { configurable: false, enumerable: false, writable: false },
-      'defineStatic': { configurable: false, enumerable: false, writable: false, static: true },
-      'defineLazy': { configurable: false, enumerable: false, writable: false, lazy: true },
-      'defineStaticLazy': { configurable: false, enumerable: false, writable: false, static: true, lazy: true },
+      'define': { },
+      'defineLazy': { lazy: true },
+
+      'defineStatic': { static: true },
+      'defineStaticLazy': { static: true, lazy: true },
     },
   },
 
   'Accessor': {
     pluralName: 'Accessors',
-    normalizer: initAccessor,
-    defineProperty: defineAccessor,
+    initializer: initAccessor,
+    defaults: { configurable: false },
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
 
-      'define': { configurable: false, enumerable: true },
-      'defineHidden': { configurable: false, enumerable: false },
+      'define': { enumerable: true },
+      'defineHidden': { enumerable: false },
 
-      'defineStatic': { configurable: false, enumerable: true, static: true },
-      'defineHiddenStatic': { configurable: false, enumerable: false, static: true },
+      'defineLazy': { enumerable: true, lazy: true },
+      'defineHiddenLazy': { enumerable: false, lazy: true },
 
-      'defineLazy': { configurable: false, enumerable: true, lazy: true },
-      'defineHiddenLazy': { configurable: false, enumerable: false, lazy: true },
+      'defineStatic': { enumerable: true, static: true },
+      'defineHiddenStatic': { enumerable: false, static: true },
 
-      'defineStaticLazy': { configurable: false, enumerable: true, static: true, lazy: true },
-      'defineHiddenStaticLazy': { configurable: false, enumerable: false, static: true, lazy: true },
+      'defineStaticLazy': { enumerable: true, static: true, lazy: true },
+      'defineHiddenStaticLazy': { enumerable: false, static: true, lazy: true },
     },
   },
 }
@@ -119,9 +114,9 @@ for (var suffix in definitions) {
       prefix,
       suffix,
       definition.pluralName,
+      definition.defaults,
       configuration,
-      definition.normalizer,
-      definition.defineProperty
+      definition.initializer
     )
   }
 }
@@ -130,39 +125,52 @@ function exportDefinition(
   prefix,
   suffix,
   pluralSuffix,
+  defaults,
   configuration,
-  normalizer,
-  defineProperty) {
-
-  assert('configurable' in configuration);
-  assert('enumerable' in configuration);
+  initializer) {
 
   // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
-  var define = exports[prefix + suffix] = function () {
+  var define = exports[prefix + suffix] = function(target, name) {
 
     var descriptor = { };
 
-    // initialize with configuration
+    for (var key in defaults)
+      descriptor[key] = defaults[key];
+
     for (var key in configuration)
       descriptor[key] = configuration[key];
+  
+    descriptor = initializer.apply(descriptor, arguments);
 
-    var target = shift.call(arguments);
+    var isFunction = descriptor.function;
+    var isAccessor = 'get' in descriptor || 'set' in descriptor;
+    var isReference = descriptor.reference;
 
-    // normalize signature if other than (target, name, descriptor)
-    if (normalizer)
-      descriptor = normalizer.apply(descriptor, arguments);
+    // add special sauce
+    if (isFunction || isAccessor) {
+      if (!is.string(name))
+        name = (descriptor.value || descriptor.get || descriptor.set).name;
 
-    // discover name
-    var name = shift.call(arguments);
-    if (!is.stringOrSymbol(name))
-      name = getName.call(descriptor);
-
-    if (descriptor.configurable) {
-      assert(!descriptor.lazy);
-      assert(!descriptor.static);
+      descriptor = initLambda.call(descriptor);
+     
+      descriptor = initStubs.call(descriptor, target, name);
+    }
+    else if (isReference) {
+      descriptor = initReference.call(descriptor, target, name);
     }
 
-    return defineProperty(target, name, descriptor);
+    var result = Object.defineProperty(target, name, descriptor);
+
+    // make property on ctor available to instances via thunks on prototype
+    if (descriptor.static) {
+
+      descriptor = initThunk.call(descriptor, target, name);
+
+      assert(is.function(target));
+      Object.defineProperty(target.prototype, name, descriptor);
+    }
+
+    return result;
   };
 
   // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
@@ -177,6 +185,12 @@ function exportDefinition(
           define(target, symbols[i], values[symbols[i]]);
       }
     };
+}
+
+var ConstPropertyConfiguration = {
+  configurable: false,
+  enumerable: false,
+  writable: false
 }
 
 for (var name in exports)

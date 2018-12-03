@@ -3,7 +3,7 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-function initMethod(x, y) {
+function initMethod(target, x, y) {
   assert('configurable' in this);
   assert('enumerable' in this);
 

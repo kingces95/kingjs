@@ -2,7 +2,7 @@
 
 var is = require('@kingjs/is');
 
-function initLambda(target, name) {
+function initLambda() {
 
   if (is.string(this.get))
     this.get = new Function('return ' + this.get + ';');
