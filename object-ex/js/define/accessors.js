@@ -1,52 +1,13 @@
 'use strict';
 
-var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
-var defineThunkToStatic = require('./static');
-var lazy = require('../lazy');
+var initStubs = require('../init/stubs');
+var initLambda = require('../init/lambda');
+var initStatic = require('../init/static');
 
 function defineAccessor(target, name, descriptor) {
-  var get = descriptor.get;
-  var set = descriptor.set;
-
-  var isAccessor = true;
-  var isGetter = true;
-  var isStatic = descriptor.static;
-  var isEnumerable = descriptor.enumerable;
-
-  if (is.string(get))
-    get = new Function('return ' + get + ';');
-
-  if (is.string(set))
-    set = new Function('value', set + ';');
-
-  if (isStatic) {
-    assert(!descriptor.configurable);
-    defineThunkToStatic(target, name, isEnumerable, isAccessor);
-  }
-
-  if (descriptor.external) {
-    var isStub = true;
-
-    if (get)
-      get = lazy(get, name, isStatic, isStub, isEnumerable, isAccessor, isGetter);
-
-    if (set)
-      set = lazy(set, name, isStatic, isStub, isEnumerable, isAccessor, !isGetter);
-  }
-
-  if (descriptor.lazy) {
-    assert(!set);
-    var isStub = false;
-    get = lazy(get, name, isStatic, isStub, isEnumerable, isAccessor, isGetter);
-  }
-    
-  if (get)
-    descriptor.get = get;
-
-  if (set)
-    descriptor.set = set;
-  
+  descriptor = initLambda.call(descriptor, target, name);
+  descriptor = initStatic.call(descriptor, target, name);
+  descriptor = initStubs.call(descriptor, target, name);  
   Object.defineProperty(target, name, descriptor);
   return target;
 }

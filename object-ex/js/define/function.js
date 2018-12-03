@@ -1,34 +1,13 @@
 'use strict';
 
-var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
-var defineThunkToStatic = require('./static');
-var lazy = require('../lazy');
+var initStubs = require('../init/stubs');
+var initLambda = require('../init/lambda');
+var initStatic = require('../init/static');
 
 function defineFunction(target, name, descriptor) {
-  var value = descriptor.value;
-
-  var isAccessor = true;
-  var isStub = true;
-  var isStatic = descriptor.static;
-  var isEnumerable = descriptor.enumerable;
-
-  if (is.string(value))
-    value = new Function('return ' + value + ';');
-
-  if (isStatic) {
-    assert(!descriptor.configurable);
-    defineThunkToStatic(target, name, isEnumerable, !isAccessor);
-  }
-
-  if (descriptor.external)
-    value = lazy(value, name, isStatic, isStub, isEnumerable, !isAccessor);
-
-  if (descriptor.lazy)
-    value = lazy(value, name, isStatic, !isStub, isEnumerable, !isAccessor);
-    
-  descriptor.value = value;
-
+  descriptor = initLambda.call(descriptor, target, name);
+  descriptor = initStatic.call(descriptor, target, name);
+  descriptor = initStubs.call(descriptor, target, name);
   Object.defineProperty(target, name, descriptor);
   return target;
 }
