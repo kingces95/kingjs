@@ -5,6 +5,7 @@ var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
 var Node = require('../node');
 var defineSchema = require('../define-schema');
+var load = require('./load-type');
 
 defineSchema(exports, [
   {
@@ -98,7 +99,7 @@ defineSchema(exports, [
     },
     methods: {
       $defaults: { lazy: true },
-      load: require('./load-type')
+      load: load
     }
   }, {
     name: 'Interface',

@@ -4,8 +4,8 @@ var Node = require('./js/node');
 var defineBase = require('./js/define-base');
 var attrSym = require('./js/attribute');
 var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
-var objectEx = testRequire('@kingjs/object-ex')
+var assert = testRequire('@kingjs/assert');
+var objectEx = testRequire('@kingjs/object-ex');
 
 function testRoot(root) {
   assert(!root.parent);

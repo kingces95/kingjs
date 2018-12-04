@@ -8,11 +8,8 @@ var descriptorNamedCreate = require('@kingjs/descriptor.named.create');
 var attrSym = require('./attribute');
 
 function Node(parent, name, descriptor) {
-  if (name)
-    this.name = name;
-
-  if (parent)
-    this.parent = parent;
+  this.name = name || null;
+  this.parent = parent || null;
 
   if (!descriptor)
     return;
@@ -58,6 +55,7 @@ objectEx.defineFunctions(Node.prototype, {
 
     var info = this.constructor[attrSym].info.children;
     var defaults = info.defaults[type];
+    
     var ctor = info.ctors[type];
     var ctorDefaults = ctor[attrSym].info.defaults;
 

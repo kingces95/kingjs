@@ -24,7 +24,11 @@ loader.addChildren({
   }
 });
 
+var a = Object.getPrototypeOf(loader);
+var n = Object.getOwnPropertyNames(a);
+
 var obj = loader.resolve(Object);
+var fullName = obj.fullName;
 var fooBar = loader.children['@kingjs/foo-bar'];
 var MyClass = fooBar.children.MyClass;
 var MyClassFunc = MyClass.load();
