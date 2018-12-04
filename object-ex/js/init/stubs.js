@@ -3,13 +3,33 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-var errorUndefined = "Stub/Lazy failed to return a value.";
+var errorUndefined = 'Stub/Lazy failed to return a value.';
+var undefinedTokenError = 'Cannot set token to undefined value.';
+var unresolvedTokenError = 'Resolver returned undefined value for token.';
+var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
 
 function initStubs(target, name) {
   var isConfigurable = this.configurable || false;
   var isEnumerable = this.enumerable || false;
-  var isExternal = this.external;
-  var isLazy = this.lazy;
+
+  var isReference = this.reference;
+  if (isReference) {
+
+    var defaultToken = this.defaultToken;
+
+    this.get = bindPatchReference(
+      this.value, defaultToken, name, isConfigurable, isEnumerable, true);
+
+    this.set = bindPatchReference(
+      this.value, defaultToken, name, isConfigurable, isEnumerable, false);
+
+    delete this.value;
+
+    return this;
+  }
+
+  var isExternal = this.external || false;
+  var isLazy = this.lazy || false;
 
   if (isExternal) {
 
@@ -17,37 +37,39 @@ function initStubs(target, name) {
 
     if (this.value) {
       
-      this.value = bindPatchWithFunc(
+      this.value = bindPatchExternal(
         this.value, ctor, name, isConfigurable || isLazy, isEnumerable);
     }
     else {
 
       if (this.get)
-        this.get = bindPatchWithFunc(
+        this.get = bindPatchExternal(
           this.get, ctor, name, isConfigurable || isLazy, isEnumerable, true, true);
   
       if (this.set)
-        this.get = bindPatchWithFunc(
+        this.get = bindPatchExternal(
           this.set, ctor, name, isConfigurable || isLazy, isEnumerable, true, false);
     }
+
+    this.configurable = true;
   }
     
   if (isLazy) {
-
+    
     if (this.value) {
-      this.value = bindPatchWithValue(
-        this.value, isConfigurable, isEnumerable)
+      this.value = bindPatchLazy(
+        this.value, name, isConfigurable, isEnumerable)
     }
     else {
-      this.get = bindPatchWithValue(
-        this.get, isConfigurable, isEnumerable, true)
+      this.get = bindPatchLazy(
+        this.get, name, isConfigurable, isEnumerable, true)
     }
   }
 
   return this;
 }
 
-function bindPatchWithFunc(
+function bindPatchExternal(
   stub,
   ctor, 
   name, 
@@ -99,8 +121,9 @@ function bindPatchWithFunc(
   };
 }
 
-function bindPatchWithValue(
-  func, 
+function bindPatchLazy(
+  func,
+  name,
   isConfigurable, 
   isEnumerable, 
   isGet) {
@@ -121,13 +144,55 @@ function bindPatchWithValue(
   };  
 }
 
+function bindPatchReference(
+  resolver, 
+  defaultToken, 
+  name, 
+  isConfigurable, 
+  isEnumerable,
+  isGet) {
+
+  if (!isGet) {
+    return function patchWithToken(token) {
+      assert(!is.undefined(token), undefinedTokenError);
+
+      Object.defineProperty(this, name, {
+        configurable: true,
+        enumerable: isEnumerable,
+
+        get: function patchWithResolvedToken() { 
+          var value = resolver.call(this, token);
+          trapDebuggerEval(value, unresolvedTokenError);
+
+          Object.defineProperty(this, name, {
+            configurable: isConfigurable,
+            enumerable: isEnumerable,
+            get: () => value
+          });
+
+          return value;
+        }
+        }
+      );
+    };
+  }
+
+  return function patchWithResolvedToken() {
+    if (defaultToken === undefined)
+      assert(false, derefBeforeAssignmentError);
+
+    this[name] = defaultToken;
+    return this[name];
+  };
+}
+
 // The debugger will prematurely call funcs/stubs. Instead of returning and 
 // caching that bad result, the funcs/stubs can return undefined which will
 // fire an assert for the debugger to display and not cache the bad result. 
 // When the debugger resumes execution the func/stub will be called at the 
 // right time and the good result will be cached.
-function trapDebuggerEval(value) {
-  assert(!is.undefined(value), errorUndefined)
+function trapDebuggerEval(value, message) {
+  assert(!is.undefined(value), message || errorUndefined)
 }
 
 Object.defineProperties(module, {

@@ -3,47 +3,30 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-var undefinedTokenError = 'Cannot set token to undefined value.';
-var derefBeforeAssignmentError = 
-  'Unexpected dereference attempted before address assignment.';
+function initReference(target, x, y, z) {
 
-function initReference(target, name, x, y) {
-}
+  // e.g. function resolver() { ... } => 'resolver', function resolver() { ... }
+  if (is.namedFunction(x)) {
+    this.get = x;
+    this.defaultToken = y;
+  }
 
-function initReferenceStubs(target, name) {
-  var resolver = this.get;
-  var defaultToken = this.defaultToken;
-  var isEnumerable = this.enumerable;
-  var isConfigurable = this.configurable;
+  else {
+    assert(is.stringOrSymbol(x))
 
-  this.set = function(token) {
-    assert(!is.undefined(token), undefinedTokenError);
+    // e.g. 'resolver', 'this.bar' => 'resolver', { value: function() { return this.bar; } }
+    // e.g. 'resolver', function() { ... } => 'resolver', { value: function() { ... } }
+    if (is.string(y) || is.function(y)) {
+      this.value = y;
+      this.defaultToken = z;
+    }
 
-    Object.defineProperty(this, name, {
-      configurable: true,
-      enumerable: isEnumerable,
-
-      get: function() { 
-        var value = resolver.call(this, token);
-
-        Object.defineProperty(this, name, {
-          configurable: isConfigurable,
-          enumerable: isEnumerable,
-          get: () => value
-        });
-
-        return value;
-      }
-    });
-  };
-
-  this.get = function() {
-    if (defaultToken === undefined)
-      assert(false, derefBeforeAssignmentError);
-
-    this[name] = defaultToken;
-    return this[name];
-  };
+    // e.g. 'resolver', { value: function() { ... } }
+    else {
+      for (var name in y)
+        this[name] = y[name];
+    }
+  }
 
   return this;
 }

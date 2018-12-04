@@ -16,11 +16,8 @@ function initMethod(target, x, y) {
     assert(is.stringOrSymbol(x))
 
     // e.g. 'foo', 'this.bar' => 'foo', { value: function() { return this.bar; } }
-    if (is.string(y))
-      this.value = y;
-
     // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }
-    else if (is.function(y))
+    if (is.string(y) || is.function(y))
       this.value = y;
 
     // e.g. 'foo', { value: function() { ... } }

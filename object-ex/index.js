@@ -9,8 +9,8 @@ var initFunction = require('./js/init/function');
 var initAccessor = require('./js/init/accessors');
 var initReference = require('./js/init/reference');
 var initThunk = require('./js/init/thunk');
-var initStubs = require('../js/init/stubs');
-var initLambda = require('../js/init/lambda');
+var initStubs = require('./js/init/stubs');
+var initLambda = require('./js/init/lambda');
 var initReference = require('./js/init/reference');
 
 var definitions = {
@@ -18,7 +18,10 @@ var definitions = {
   'Field': {
     pluralName: 'Fields',
     initializer: initField,
-    defaults: { configurable: false, writable: true },
+    defaults: { 
+      configurable: false, 
+      writable: true 
+    },
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
@@ -40,7 +43,9 @@ var definitions = {
   'Property': {
     pluralName: 'Properties',
     initializer: initProperty,
-    defaults: { configurable: false },
+    defaults: { 
+      configurable: false 
+    },
     configurations: {
       'define': { enumerable: false, writable: false },
     }
@@ -49,7 +54,10 @@ var definitions = {
   'Reference': {
     pluralName: 'References',
     initializer: initReference,
-    defaults: { configurable: false },
+    defaults: { 
+      reference: true, 
+      configurable: false 
+    },
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
@@ -66,10 +74,10 @@ var definitions = {
     pluralName: 'Functions',
     initializer: initFunction,
     defaults: { 
+      function: true,
       configurable: false, 
       enumerable: false, 
       writable: false, 
-      function: true 
     },
     configurations: {
       'define': { },
@@ -83,7 +91,9 @@ var definitions = {
   'Accessor': {
     pluralName: 'Accessors',
     initializer: initAccessor,
-    defaults: { configurable: false },
+    defaults: { 
+      configurable: false 
+    },
     configurations: {
       'set': { configurable: true, enumerable: true },
       'setHidden': { configurable: true, enumerable: false },
@@ -130,7 +140,8 @@ function exportDefinition(
   initializer) {
 
   // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
-  var define = exports[prefix + suffix] = function(target, name) {
+  var defineName = prefix + suffix;
+  var define = exports[defineName] = function(target, name) {
 
     var descriptor = { };
 
@@ -147,12 +158,11 @@ function exportDefinition(
     var isReference = descriptor.reference;
 
     // add special sauce
-    if (isFunction || isAccessor) {
+    if (isFunction || isAccessor || isReference) {
       if (!is.string(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
 
-      descriptor = initLambda.call(descriptor);
-     
+      descriptor = initLambda.call(descriptor);    
       descriptor = initStubs.call(descriptor, target, name);
     }
     else if (isReference) {
@@ -163,7 +173,6 @@ function exportDefinition(
 
     // make property on ctor available to instances via thunks on prototype
     if (descriptor.static) {
-
       descriptor = initThunk.call(descriptor, target, name);
 
       assert(is.function(target));

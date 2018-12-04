@@ -83,77 +83,44 @@ function throwOnUndefined() {
 }
 throwOnUndefined();
 
-function stubFunctionTest() {
-  var func = function myFunc() { };
+function stubFunctionTest(isFunc) {
+  var Type = function MyType() { };
   var counter = 0;
 
-  objectEx.defineFunction(func.prototype, 'foo', {
-    external: true,
-    lazy: true,
-    configurable: false,
-    value: function(stubName) {
-      var stubThis = this;
-      return x => ({ 
-        name: stubName, 
-        this: this, 
-        stubThis: stubThis,
-        counter: counter++
-      });
+  objectEx['define' + (isFunc ? 'Function' : 'Accessor')](
+    Type.prototype, 'foo', {
+      external: true,
+      lazy: true,
+      configurable: false,
+      [isFunc ? 'value' : 'get']: function(stubName) {
+        var ctor = this;
+        return function () { 
+          return {
+            name: stubName, 
+            this: this, 
+            ctor: ctor,
+            counter: counter++
+          }
+        };
+      }
     }
-  });
+  );
 
-  func.prototype = Object.create(func.prototype);
-
-  var target = new func();
-  var result = target.foo();
-  assert(result.this == result.stubThis);
-  assert(result.this == target);
+  var instance = new Type();
+  var result = isFunc ? instance.foo() : instance.foo;
+  assert(result.ctor == Type);
+  assert(result.this == instance);
   assert(result.name = 'foo');
   assert(result.counter == 0);
 
-  var result = target.foo();
-  assert(result.this == result.stubThis);
-  assert(result.this == target);
+  var result = isFunc ? instance.foo() : instance.foo;
+  assert(result.ctor == Type);
+  assert(result.this == instance);
   assert(result.name = 'foo');
   assert(result.counter == 0);
 }
-stubFunctionTest();
-
-function stubAccessorTest() {
-  var func = function myFunc() { };
-  var counter = 0;
-
-  objectEx.defineAccessor(func.prototype, 'foo', {
-    lazy: true,
-    external: true,
-    configurable: false,
-    get: function(stubName) {
-      var stubThis = this;
-      return () => ({ 
-        name: stubName, 
-        this: this, 
-        stubThis: stubThis,
-        counter: counter++
-      });
-    }
-  });
-
-  func.prototype = Object.create(func.prototype);
-
-  var target = new func();
-  var result = target.foo;
-  assert(result.this == result.stubThis);
-  assert(result.this == target);
-  assert(result.name = 'foo');
-  assert(result.counter == 0);
-
-  var result = target.foo;
-  assert(result.this == result.stubThis);
-  assert(result.this == target);
-  assert(result.name = 'foo');
-  assert(result.counter == 0);
-}
-stubAccessorTest();
+stubFunctionTest(true);
+stubFunctionTest(false);
 
 function defineReference() {
   var target = { 
@@ -186,7 +153,7 @@ function defineReference() {
   target.bar = '1';
   assert(counter == 0);
 
-  target.baz = undefined;
+  assertThrows(() => target.baz = undefined);
   assert(counter == 0);
 
   assert(target.foo == 42);
@@ -198,7 +165,7 @@ function defineReference() {
   assert(counter == 2);
 
   resolveUndefined = true;
-  assert(target.baz == undefined);
+  assertThrows(() => target.baz);
   assert(counter == 2);
 
   resolveUndefined = false;
