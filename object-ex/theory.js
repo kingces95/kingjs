@@ -132,7 +132,7 @@ assertTheory(function(test, id) {
   var stubCount = 0;
   var stub = function() {
     assert(stubCount++ == 0);
-    assert(test.static ? (this == Type) : (this instanceof Type));
+    assert(this == Type);
     return func;
   }
 
@@ -192,7 +192,6 @@ assertTheory(function(test, id) {
   objectEx[name].apply(null, args);
 
   var stubPrototype = Type.prototype;
-  Type.prototype = Object.create(stubPrototype);
   var target = test.static ? Type : new Type();
 
   var expectedCount = 0;
@@ -276,7 +275,7 @@ assertTheory(function(test, id) {
 
   var stubCount = 0;
   var stub = function() {
-    assert(test.static ? (this == Type) : (this instanceof Type));
+    assert(this == Type);
     if (getter && setter) {
       assert(stubCount++ <= 1);
       return {
@@ -359,7 +358,6 @@ assertTheory(function(test, id) {
   objectEx[name].apply(null, args);
 
   var stubPrototype = Type.prototype;
-  Type.prototype = Object.create(stubPrototype);
   var target = test.static ? Type : new Type();
 
   if (test.setter) {

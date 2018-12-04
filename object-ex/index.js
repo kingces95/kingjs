@@ -159,7 +159,7 @@ function exportDefinition(
 
     // add special sauce
     if (isFunction || isAccessor || isReference) {
-      if (!is.string(name))
+      if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
 
       descriptor = initLambda.call(descriptor);    

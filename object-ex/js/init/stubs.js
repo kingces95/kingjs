@@ -30,25 +30,27 @@ function initStubs(target, name) {
 
   var isExternal = this.external || false;
   var isLazy = this.lazy || false;
+  var isStatic = this.static || false;
 
   if (isExternal) {
 
     var ctor = is.function(target) ? target : target.constructor;
+    var isLazyStatic = isLazy && isStatic;
 
     if (this.value) {
       
       this.value = bindPatchExternal(
-        this.value, ctor, name, isConfigurable || isLazy, isEnumerable);
+        this.value, ctor, name, isConfigurable || isLazyStatic, isEnumerable);
     }
     else {
 
       if (this.get)
         this.get = bindPatchExternal(
-          this.get, ctor, name, isConfigurable || isLazy, isEnumerable, true, true);
+          this.get, ctor, name, isConfigurable || isLazyStatic, isEnumerable, true, true);
   
       if (this.set)
-        this.get = bindPatchExternal(
-          this.set, ctor, name, isConfigurable || isLazy, isEnumerable, true, false);
+        this.set = bindPatchExternal(
+          this.set, ctor, name, isConfigurable || isLazyStatic, isEnumerable, true, false);
     }
 
     this.configurable = true;
@@ -64,6 +66,9 @@ function initStubs(target, name) {
       this.get = bindPatchLazy(
         this.get, name, isConfigurable, isEnumerable, true)
     }
+
+    if (isStatic)
+      this.configurable = true;
   }
 
   return this;

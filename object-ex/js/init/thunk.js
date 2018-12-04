@@ -10,6 +10,8 @@ function thunk(target, name) {
     }
   }
   else {
+    delete this.value;
+    delete this.writable;
 
     this.get = function staticGetThunk() {
       return target[name]; 
