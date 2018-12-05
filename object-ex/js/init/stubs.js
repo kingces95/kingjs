@@ -13,24 +13,26 @@ var getTag = Symbol('get');
 var setTag = Symbol('set');
 
 function initStubs(target, name) {
+  var isConfigurable = this.configurable || false;
   var isExternal = this.external || false;
   var isFuture = this.future || false;
   var isStatic = this.static || false;
 
   if (isExternal) {
-    var stub = this.value || this.get;
+    var stub = this.value || this.get || this.set;
+    assert(stub);
 
     var descriptor = { 
-      configurable: this.configurable,
+      configurable: isConfigurable,
       enumerable: this.enumerable,
       [valueTag]: this.value, // => stub(ctor)
       [getTag]: this.get, // => stub(ctor)
       [setTag]: this.set, // => stub(ctor)
 
       // no need to patch the stub if it'll be immediately set with the promise
-      backPatch: isFuture && isStatic == false,
+      backPatch: (isFuture && isStatic) == false,
     };
-  
+
     if (this.value) {
       descriptor.writable = this.writable;
       this.value = createFuncStub(stub, target, name, descriptor);
@@ -50,7 +52,7 @@ function initStubs(target, name) {
     var promise = this.value || this.get;
 
     var descriptor = { 
-      configurable: this.configurable,
+      configurable: isConfigurable,
       enumerable: this.enumerable,
       [valueTag]: this.value, // => promise(this[, argument])
       [getTag]: this.get, // => promise(this[, argument])
@@ -99,7 +101,7 @@ function createSetStub(stub, target, name, descriptor) {
 function createFuncStub(stub, target, name, descriptor) {
   return function callFuncStubAndPatch() {
     descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-    return descriptor.value.call(this);
+    return descriptor.value.apply(this, arguments);
   };
 }
 

@@ -17,21 +17,23 @@ function defineSchema(target, descriptors) {
   // first pass; define types
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
-    var name = descriptor.name;
-    var isOrphan = descriptor.orphan;
-    var baseFunc = target[descriptor.base] || Node;
-    defineNode(target, name, baseFunc);
+    defineNode(
+      target,
+      descriptor.name, 
+      target[descriptor.base] || Node
+    );
   }
 
   // second pass: define accessors whose implementation requires funcs
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
     var func = target[descriptor.name];
-    var info = func[attrSym].info = createInfo();
-    var prototype = func.prototype;
 
-    objectEx.defineAccessor(prototype, 'is' + func.name, () => true);
+    var info = func[attrSym].info = createInfo();
     info.defaults.wrap = descriptor.wrap;
+
+    var prototype = func.prototype;
+    objectEx.defineField(prototype, 'is' + func.name, true);
 
     var accessors = loadAccessors(target, descriptor);
     for (var name in accessors) {
@@ -136,10 +138,10 @@ function loadAccessors(funcs, descriptor) {
       defaults: { type: Boolean }
     })
   ], {
+    wrap: 'type',
     thunks: {
       type: o => is.string(o) ? funcs[o] : o
     },
-    wrap: 'type'
   });
 }
 

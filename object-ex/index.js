@@ -52,26 +52,6 @@ var definitions = {
     }
   },
 
-  'Reference': {
-    pluralName: 'References',
-    initializer: initReference,
-    defaults: { 
-      future: true, 
-      set: true, 
-      configurable: false 
-    },
-    configurations: {
-      'set': { configurable: true, enumerable: true },
-      'setHidden': { configurable: true, enumerable: false },
-
-      'define': { enumerable: true },
-      'defineHidden': { enumerable: false },
-
-      'defineStatic': { enumerable: true, static: true },
-      'defineHiddenStatic': { enumerable: false, static: true },
-    },
-  },
-
   'Function': {
     pluralName: 'Functions',
     initializer: initFunction,
@@ -103,16 +83,36 @@ var definitions = {
       'define': { enumerable: true },
       'defineHidden': { enumerable: false },
 
-      'defineLazy': { enumerable: true, future: true },
-      'defineHiddenLazy': { enumerable: false, future: true },
-
       'defineStatic': { enumerable: true, static: true },
       'defineHiddenStatic': { enumerable: false, static: true },
+
+      'defineLazy': { enumerable: true, future: true },
+      'defineHiddenLazy': { enumerable: false, future: true },
 
       'defineStaticLazy': { enumerable: true, static: true, future: true },
       'defineHiddenStaticLazy': { enumerable: false, static: true, future: true },
     },
   },
+
+  'Reference': {
+    pluralName: 'References',
+    initializer: initReference,
+    defaults: { 
+      future: true, 
+      set: true, 
+      configurable: false 
+    },
+    configurations: {
+      'set': { configurable: true, enumerable: true },
+      'setHidden': { configurable: true, enumerable: false },
+
+      'define': { enumerable: true },
+      'defineHidden': { enumerable: false },
+
+      'defineStatic': { enumerable: true, static: true },
+      'defineHiddenStatic': { enumerable: false, static: true },
+    },
+  },  
 }
 
 for (var suffix in definitions) {

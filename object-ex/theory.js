@@ -27,7 +27,7 @@ function buildName(test, suffix, pluralSuffix) {
     name += 'Const';
   if (test.static === true)
     name += 'Static';
-  if (test.lazy === true)
+  if (test.future === true)
     name += 'Lazy';
 
   name += test.plural ? pluralSuffix : suffix;
@@ -48,7 +48,7 @@ function buildDescriptor(test) {
       writable: null,
       static: null,
       value: null,
-      lazy: null,
+      future: null,
   });
 
   return descriptor;
@@ -124,7 +124,7 @@ assertTheory(function(test, id) {
   var func = function(x) { 
     count++; 
     assert(test.static ? (this == Type) : (this instanceof Type));
-    if (test.lazy)
+    if (test.future)
       return test.value;
     return x; 
   };
@@ -200,7 +200,7 @@ assertTheory(function(test, id) {
   assert(target[test.name](test.value) == test.value);
   assert(count == expectedCount++);
   assert(target[test.name](test.value) == test.value);
-  assert(count == (test.lazy ? 1 : expectedCount++));
+  assert(count == (test.future ? 1 : expectedCount++));
   
   if (test.static) {
     assertDescriptor(test, Type, test.name);
@@ -209,14 +209,14 @@ assertTheory(function(test, id) {
     assertDescriptor(test, stubPrototype, test.name);
     if (test.external)
       assertDescriptor(test, Type.prototype, test.name);
-    if (test.lazy)
+    if (test.future)
       assertDescriptor(test, target, test.name);
   }
 
   if (test.static) {
     var obj = new Type();
     assert(obj[test.name](test.value) == test.value);
-    assert(count == (test.lazy ? 1 : expectedCount++));
+    assert(count == (test.future ? 1 : expectedCount++));
   }
 }, {
   value: 0,
@@ -230,7 +230,7 @@ assertTheory(function(test, id) {
   },
   configurable: [ false ],
   static: [ true, false ],
-  lazy: [ true, false ],
+  future: [ true, false ],
   external: [ true, false ],
   plural: [ false, true ]
 })
@@ -241,13 +241,13 @@ assertTheory(function(test, id) {
   if ((test.getter || test.setter) == false)
     return;
 
-  if (test.setter && test.lazy)
+  if (test.setter && test.future)
     return;
 
   if (test.configurable) {
     if (test.static)
       return;
-    if (test.lazy) 
+    if (test.future) 
       return;
     if (test.external)
       return;
@@ -380,12 +380,12 @@ assertTheory(function(test, id) {
     assert(getCount == expectedGetCount++);
 
     assert(target[test.name] == 0);
-    assert(getCount == (test.lazy ? 1 : expectedGetCount++));
+    assert(getCount == (test.future ? 1 : expectedGetCount++));
 
     if (test.static) {
       var obj = new Type();
       assert(obj[test.name] == 0);
-      assert(getCount == (test.lazy ? 1 : expectedGetCount++));
+      assert(getCount == (test.future ? 1 : expectedGetCount++));
     }
   }
 
@@ -396,7 +396,7 @@ assertTheory(function(test, id) {
     assertDescriptor(test, stubPrototype, test.name);
     if (test.external)
       assertDescriptor(test, Type.prototype, test.name);
-    if (test.lazy)
+    if (test.future)
       assertDescriptor(test, target, test.name);
   }
 
@@ -409,7 +409,7 @@ assertTheory(function(test, id) {
     lambda: 'lambda',
   },
   external: [ true, false ],
-  lazy: [ false, true ],
+  future: [ false, true ],
   static: [ false, true ],
   getter: [ false, true ],
   setter: [ false, true ],
