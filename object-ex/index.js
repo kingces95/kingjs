@@ -2,6 +2,7 @@
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
+//var stringEx = require('@kingjs/string-ex');
 
 var initProperty = require('./js/init/property');
 var initField = require('./js/init/field');
@@ -55,7 +56,8 @@ var definitions = {
     pluralName: 'References',
     initializer: initReference,
     defaults: { 
-      reference: true, 
+      future: true, 
+      set: true, 
       configurable: false 
     },
     configurations: {
@@ -81,10 +83,10 @@ var definitions = {
     },
     configurations: {
       'define': { },
-      'defineLazy': { lazy: true },
+      'defineLazy': { future: true },
 
       'defineStatic': { static: true },
-      'defineStaticLazy': { static: true, lazy: true },
+      'defineStaticLazy': { static: true, future: true },
     },
   },
 
@@ -101,14 +103,14 @@ var definitions = {
       'define': { enumerable: true },
       'defineHidden': { enumerable: false },
 
-      'defineLazy': { enumerable: true, lazy: true },
-      'defineHiddenLazy': { enumerable: false, lazy: true },
+      'defineLazy': { enumerable: true, future: true },
+      'defineHiddenLazy': { enumerable: false, future: true },
 
       'defineStatic': { enumerable: true, static: true },
       'defineHiddenStatic': { enumerable: false, static: true },
 
-      'defineStaticLazy': { enumerable: true, static: true, lazy: true },
-      'defineHiddenStaticLazy': { enumerable: false, static: true, lazy: true },
+      'defineStaticLazy': { enumerable: true, static: true, future: true },
+      'defineHiddenStaticLazy': { enumerable: false, static: true, future: true },
     },
   },
 }
@@ -157,7 +159,7 @@ function exportDefinition(
     var isAccessor = 'get' in descriptor || 'set' in descriptor;
     var isReference = descriptor.reference;
 
-    // add special sauce
+    // lambda + stubs
     if (isFunction || isAccessor || isReference) {
       if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
@@ -168,6 +170,12 @@ function exportDefinition(
     else if (isReference) {
       descriptor = initReference.call(descriptor, target, name);
     }
+
+    // augment name
+    if (target.prefix)
+      name = target.prefix + stringEx.capitalize(name);
+    if (target.suffix)
+      name += target.suffix;
 
     var result = Object.defineProperty(target, name, descriptor);
 

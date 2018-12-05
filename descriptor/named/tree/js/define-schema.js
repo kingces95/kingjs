@@ -5,8 +5,7 @@ var defineAccessor = require('./define-accessor');
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
-var create = require('../../create');
-//var create = require('@kingjs/descriptor.named.create');
+var create = require('@kingjs/descriptor.named.create');
 var attrSym = require('./attribute');
 var defineClass = require('./define-class');
 var defineChildren = require('./define-children');

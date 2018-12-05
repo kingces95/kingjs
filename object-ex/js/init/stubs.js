@@ -3,68 +3,76 @@
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
 
-var errorUndefined = 'Stub/Lazy failed to return a value.';
+var unresolvedPromiseError = 'Promise returned undefined value.';
+var unresolvedStubError = 'Stub returned undefined value.';
 var undefinedTokenError = 'Cannot set token to undefined value.';
-var unresolvedTokenError = 'Resolver returned undefined value for token.';
 var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
 
+var valueTag = Symbol('value');
+var getTag = Symbol('get');
+var setTag = Symbol('set');
+
 function initStubs(target, name) {
-  var isConfigurable = this.configurable || false;
-  var isEnumerable = this.enumerable || false;
-
-  var isReference = this.reference;
-  if (isReference) {
-
-    var defaultToken = this.defaultToken;
-
-    this.get = bindPatchReference(
-      this.value, defaultToken, name, isConfigurable, isEnumerable, true);
-
-    this.set = bindPatchReference(
-      this.value, defaultToken, name, isConfigurable, isEnumerable, false);
-
-    delete this.value;
-
-    return this;
-  }
-
   var isExternal = this.external || false;
-  var isLazy = this.lazy || false;
+  var isFuture = this.future || false;
   var isStatic = this.static || false;
 
   if (isExternal) {
+    var stub = this.value || this.get;
 
-    var ctor = is.function(target) ? target : target.constructor;
-    var isLazyStatic = isLazy && isStatic;
+    var descriptor = { 
+      configurable: this.configurable,
+      enumerable: this.enumerable,
+      [valueTag]: this.value, // => stub(ctor)
+      [getTag]: this.get, // => stub(ctor)
+      [setTag]: this.set, // => stub(ctor)
 
+      // no need to patch the stub if it'll be immediately set with the promise
+      backPatch: isFuture && isStatic == false,
+    };
+  
     if (this.value) {
-      
-      this.value = bindPatchExternal(
-        this.value, ctor, name, isConfigurable || isLazyStatic, isEnumerable);
+      descriptor.writable = this.writable;
+      this.value = createFuncStub(stub, target, name, descriptor);
     }
     else {
-
       if (this.get)
-        this.get = bindPatchExternal(
-          this.get, ctor, name, isConfigurable || isLazyStatic, isEnumerable, true, true);
+        this.get = createGetStub(stub, target, name, descriptor);
   
-      if (this.set)
-        this.set = bindPatchExternal(
-          this.set, ctor, name, isConfigurable || isLazyStatic, isEnumerable, true, false);
+      if (this.set && !isFuture)
+        this.set = createSetStub(stub, target, name, descriptor);
     }
 
     this.configurable = true;
   }
     
-  if (isLazy) {
-    
-    if (this.value) {
-      this.value = bindPatchLazy(
-        this.value, name, isConfigurable, isEnumerable)
+  if (isFuture) {
+    var promise = this.value || this.get;
+
+    var descriptor = { 
+      configurable: this.configurable,
+      enumerable: this.enumerable,
+      [valueTag]: this.value, // => promise(this[, argument])
+      [getTag]: this.get, // => promise(this[, argument])
+      [setTag]: this.set, // => argument = value, then fulfill
+
+      argument: this.argument,
+    };
+
+    if (this.get)
+      descriptor.writable = this.writable;
+
+    if (!this.set) {
+      this[this.get ? 'get' : 'value'] = createPromise(promise, name, descriptor);
     }
     else {
-      this.get = bindPatchLazy(
-        this.get, name, isConfigurable, isEnumerable, true)
+      assert(!this.value);
+      this.set = createSetPromiseArgument(promise, name, descriptor);    
+      this.get = function fulfillPromise() {
+        trapDebuggerEval(descriptor.argument, derefBeforeAssignmentError);
+        this[name] = descriptor.argument;
+        return this[name];
+      };
     }
 
     if (isStatic)
@@ -74,74 +82,69 @@ function initStubs(target, name) {
   return this;
 }
 
-function bindPatchExternal(
-  stub,
-  ctor, 
-  name, 
-  isConfigurable, 
-  isEnumerable,
-  isAccessor,
-  isGet) {
+function createGetStub(stub, target, name, descriptor) {
+  return function callGetStubAndPatch() {
+    descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
+    return descriptor.get.call(this);
+  };
+}
 
-  return function patchWithFunc() {
-    assert(this == ctor || this instanceof ctor);
-    var funcOrDescriptor = stub.call(ctor, name);
-    trapDebuggerEval(funcOrDescriptor);
-   
-    var descriptor = { 
-      configurable: isConfigurable,
-      enumerable: isEnumerable 
-    };
-
-    if (isAccessor) {
-      
-      if (is.function(funcOrDescriptor)) {
-        descriptor[isGet ? 'get' : 'set'] = funcOrDescriptor;
-      } 
-      else {
-        descriptor.get = funcOrDescriptor.get;
-        descriptor.set = funcOrDescriptor.set;
-      }
-    } 
-    else {
-      assert(is.function(funcOrDescriptor));
-      descriptor.value = funcOrDescriptor;
-    }
-
-    var target = ctor == this ? ctor : ctor.prototype;
-
-    Object.defineProperty(
-      target, 
-      name, 
-      descriptor
-    );
-
-    if (!isAccessor)
-      return descriptor.value.apply(this, arguments);
-
-    if (isGet)
-      return descriptor.get.apply(this);
-    
+function createSetStub(stub, target, name, descriptor) {
+  return function callSetStubAndPatch() {
+    descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
     descriptor.set.apply(this, arguments);
   };
 }
 
-function bindPatchLazy(
-  func,
-  name,
-  isConfigurable, 
-  isEnumerable, 
-  isGet) {
+function createFuncStub(stub, target, name, descriptor) {
+  return function callFuncStubAndPatch() {
+    descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
+    return descriptor.value.call(this);
+  };
+}
 
-  return function patchWithValue() {
-    var value = func.call(this);
-    trapDebuggerEval(value);
-    
-    var descriptor = {
-      configurable: isConfigurable,
-      enumerable: isEnumerable,
-      [isGet ? 'get' : 'value' ]: () => value
-    };
+function callStubAndPatch(stub, target, name, descriptor) {
+  var ctor = is.function(target) ? target : target.constructor;
+  assert(this == ctor || this instanceof ctor);
+
+  descriptor = callStub(stub, ctor, name, descriptor);
+  
+  if (descriptor.backPatch)
+    Object.defineProperty(target, name, descriptor) 
+
+  return descriptor;
+}
+
+function callStub(stub, ctor, name, descriptor) {
+
+  var value = stub.call(ctor, name);
+  trapDebuggerEval(value, unresolvedStubError);
+
+  if (descriptor[valueTag]) {
+    assert(is.function(value));
+    descriptor.value = value;
+  } 
+  else if (is.function(value)) {
+    if (descriptor[getTag])
+      descriptor.get = value;
+    else 
+      descriptor.set = value;
+  } 
+  else {
+    descriptor.get = value.get;
+    descriptor.set = value.set;
+  }
+
+  return descriptor;
+}
+
+function createPromise(promise, name, descriptor) {
+  return function fulfillPromiseAndBindFuture() {
+    var value = promise.call(this, descriptor.argument);
+    trapDebuggerEval(value, unresolvedPromiseError);
+
+    descriptor = Object.create(descriptor);
+    descriptor.value = descriptor[getTag] ? value : () => value;
 
     Object.defineProperty(this, name, descriptor);
 
@@ -149,46 +152,19 @@ function bindPatchLazy(
   };  
 }
 
-function bindPatchReference(
-  resolver, 
-  defaultToken, 
-  name, 
-  isConfigurable, 
-  isEnumerable,
-  isGet) {
+function createSetPromiseArgument(promise, name, descriptor) {
+  return function setPromiseArgument(value) {
+    assert(!is.undefined(value), undefinedTokenError);
 
-  if (!isGet) {
-    return function patchWithToken(token) {
-      assert(!is.undefined(token), undefinedTokenError);
+    descriptor = Object.create(descriptor);
+    descriptor.argument = value;
 
-      Object.defineProperty(this, name, {
-        configurable: true,
-        enumerable: isEnumerable,
-
-        get: function patchWithResolvedToken() { 
-          var value = resolver.call(this, token);
-          trapDebuggerEval(value, unresolvedTokenError);
-
-          Object.defineProperty(this, name, {
-            configurable: isConfigurable,
-            enumerable: isEnumerable,
-            get: () => value
-          });
-
-          return value;
-        }
-        }
-      );
-    };
+    Object.defineProperty(this, name, {
+      configurable: true,
+      enumerable: descriptor.enumerable,
+      get: createPromise(promise, name, descriptor)
+    });
   }
-
-  return function patchWithResolvedToken() {
-    if (defaultToken === undefined)
-      assert(false, derefBeforeAssignmentError);
-
-    this[name] = defaultToken;
-    return this[name];
-  };
 }
 
 // The debugger will prematurely call funcs/stubs. Instead of returning and 
@@ -197,7 +173,7 @@ function bindPatchReference(
 // When the debugger resumes execution the func/stub will be called at the 
 // right time and the good result will be cached.
 function trapDebuggerEval(value, message) {
-  assert(!is.undefined(value), message || errorUndefined)
+  assert(!is.undefined(value), message)
 }
 
 Object.defineProperties(module, {

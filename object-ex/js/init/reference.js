@@ -8,7 +8,7 @@ function initReference(target, x, y, z) {
   // e.g. function resolver() { ... } => 'resolver', function resolver() { ... }
   if (is.namedFunction(x)) {
     this.get = x;
-    this.defaultToken = y;
+    this.argument = y;
   }
 
   else {
@@ -17,8 +17,8 @@ function initReference(target, x, y, z) {
     // e.g. 'resolver', 'this.bar' => 'resolver', { value: function() { return this.bar; } }
     // e.g. 'resolver', function() { ... } => 'resolver', { value: function() { ... } }
     if (is.string(y) || is.function(y)) {
-      this.value = y;
-      this.defaultToken = z;
+      this.get = y;
+      this.argument = z;
     }
 
     // e.g. 'resolver', { value: function() { ... } }

@@ -156,8 +156,9 @@ assertTheory(function(test, id) {
       var value = test.external ? stub : func;
       var descriptor = buildDescriptor(test);
       descriptor = write.call(descriptor, 'value', value);
+      descriptor = write.call(descriptor, 'function', true);
       arg = descriptor;
-      name = test.plural ? 'defineFunctions' : 'defineFunction';
+      name = test.plural ? 'defineProperties' : 'defineProperty';
       break;
 
     case this.variant.function:

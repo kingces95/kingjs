@@ -4,6 +4,7 @@ var Node = require('./node');
 var stringEx = require('@kingjs/string-ex');
 var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
+var write = require('@kingjs/descriptor.write')
 var is = require('@kingjs/is');
 
 function defineAccessor(target, name, accessor) {    
@@ -46,18 +47,13 @@ function defineAccessorHelper(target, name, accessor) {
 
   var ref = accessor.ref;
   if (ref) {
-    var dfault = accessor.default;
-    objectEx.defineReference(
-      target, 
-      name, 
-      function(address) { 
-        var result = this.resolve(address); 
-        assert(result === null || result instanceof type);
-        return result;
-      }, 
-      dfault
-    );
-    
+    accessor = write.call(accessor, 'reference', true);
+    accessor = write.call(accessor, 'get', function(address) { 
+      var result = this.resolve(address); 
+      assert(result === null || result instanceof type);
+      return result;
+    });
+    objectEx.defineProperty(target, name, accessor);
     return;
   }
 }

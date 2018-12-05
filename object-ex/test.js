@@ -43,14 +43,19 @@ function lazyAccessor() {
   assert(eagerAccessorCallCount == 1);
 
   var descriptorValue = Object.getOwnPropertyDescriptor(target, name);
-  assert('get' in descriptorValue);
+  assert('value' in descriptorValue);
   assert(target[name] === 0);
   assert(eagerAccessorCallCount == 1);
 
   var descriptor = Object.getOwnPropertyDescriptor(target, name);
-  assert('get' in descriptorValue);
+  assert('value' in descriptorValue);
   assert(descriptor.configurable === false);
   assert(descriptor.enumerable === true);
+
+  var target = Object.create(prototype);
+  assert(descriptorGet === undefined);
+  assert(target[name] === 0);
+  assert(eagerAccessorCallCount == 2);
 }
 lazyAccessor();
 
@@ -90,7 +95,7 @@ function stubFunctionTest(isFunc) {
   objectEx['define' + (isFunc ? 'Function' : 'Accessor')](
     Type.prototype, 'foo', {
       external: true,
-      lazy: true,
+      future: true,
       configurable: false,
       [isFunc ? 'value' : 'get']: function(stubName) {
         var ctor = this;
@@ -147,6 +152,7 @@ function defineReference() {
   assertThrows(() => target.foo = undefined);
   assert(counter == 0);
 
+  target.foo = '0';
   target.foo = '0';
   assert(counter == 0);
 
