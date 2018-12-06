@@ -10,58 +10,39 @@ var attrSym = require('./attribute');
 var defineClass = require('./define-class');
 var defineChildren = require('./define-children');
 var objectEx = require('@kingjs/object-ex');
-var emptyObject = require('@kingjs/empty-object');
+var stringEx = require('@kingjs/string-ex');
+
+var cap = stringEx.capitalize;
 
 function defineSchema(target, descriptors) {
 
   // first pass; define types
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
-    defineNode(
-      target,
-      descriptor.name, 
-      target[descriptor.base] || Node
-    );
+    var baseFunc = target[descriptor.base] || Node;
+    defineNode(target, descriptor.name, baseFunc);
   }
 
   // second pass: define accessors whose implementation requires funcs
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
     var func = target[descriptor.name];
+    var info = func[attrSym].info = createInfo(descriptor);
 
-    var info = func[attrSym].info = createInfo();
-    info.defaults.wrap = descriptor.wrap;
-
-    var prototype = func.prototype;
-    objectEx.defineField(prototype, 'is' + func.name, true);
-
-    var accessors = loadAccessors(target, descriptor);
-    for (var name in accessors) {
-      var accessor = accessors[name];
-      var accessorName = defineAccessor(prototype, name, accessor);
-      info.fields[name] = accessorName;
-    }
-
-    var children = loadChildren(target, descriptor);
-    defineChildren(prototype, children);
-    for (var name in children) {
-      var child = children[name];
-      info.children.ctors[name] = child.type;
-      info.children.defaults[name] = child.defaults;
-    }
-
-    var methods = loadMethods(target, descriptor);
-    for (var name in methods) {
-      var method = methods[name];
-      defineMethod(prototype, name, method);
-    }
+    defineDiscriminator(func);
+    defineFlags(func, descriptor.flags, info.fields);
+    defineAccessors(func, descriptor.accessor, info.fields);
+    defineChildren(func, descriptor.children, info.children);
+    defineMethods(func, descriptor.methods, info.methods);
   }
 }
 
-function createInfo() {
+function createInfo(descriptor) {
   return { 
     fields: { },
-    defaults: { },
+    defaults: { 
+      wrap: descriptor.wrap
+    },
     children: { 
       ctors: { },
       defaults: { }
@@ -89,60 +70,114 @@ function defineNode(target, name, baseFunc) {
   objectEx.defineConstField(target, name, ctor);
 }
 
-function defineMethod(target, name, descriptor) {
-  var func = descriptor.func;
-  assert(func);
+function defineDiscriminator(func) {
+  objectEx.defineField(func.prototype, 'is' + func.name, true);
+}
 
-  if (descriptor.lazy) {
-    objectEx.defineLazyFunction(target, name, func);
-    return;
+function wrapAndResolve(funcs, descriptor) {
+  if (is.string(descriptor))
+    descriptor = { type: descriptor };
+
+  if (is.string(descriptor.type))
+    descriptor.type = funcs[descriptor.type];
+
+  return descriptor;
+}
+
+function defineMethods(info, func, methods) {
+  for (var name in methods) {
+    var method = methods[name];
+    defineMethod(func, name, method);
   }
+}
+
+function defineMethod(func, name, descriptor) {
+  if (is.function(descriptor))
+    descriptor = { value: descriptor };
+
+  if (descriptor.lazy) 
+    descriptor.future = true;
   
-  objectEx.defineFunction(target, name, func);
+  objectEx.defineFunction(func.prototype, name, descriptor);
 }
 
-function loadMethods(funcs, descriptor) {
-  if (!descriptor.methods)
-    return emptyObject;
-
-  return create(descriptor.methods, {
-    wrap: 'func'
-  });
+function defineChildren(func, children, info) {
+  for (var name in children) {
+    var child = children[name];
+    defineChild(func, name, child);
+    info.ctors[name] = child.type;
+    info.defaults[name] = child.defaults;
+  }
 }
 
-function loadChildren(funcs, descriptor) {
-  if (!descriptor.children)
-    return emptyObject;
+function defineChild(func, name, descriptor) {
+  descriptor = wrapAndResolve(descriptor);
 
-  return create(descriptor.children, {
-    thunks: {
-      type: o => is.string(o) ? funcs[o] : o
+  objectEx.defineFunction(
+    func.prototype,
+    'add' + cap(name),
+    function(descriptors) {
+      this.addChildrenOfType(name, descriptors) 
     },
-    wrap: 'type'
-  });
+  );
 }
 
-function loadAccessors(funcs, descriptor) {
-  var flags = descriptor.flags;
-  if (!flags)
-    flags = emptyObject;
-  
-  var accessors = descriptor.accessors;
-  if (!accessors)
-    accessors = emptyObject;
+function defineAccessors(func, accessors, info) {
+  for (var name in accessors) {
+    var accessor = accessors[name];
+    defineAccessor(func, name, accessor);
+    info[name] = name;
+  }
+}
 
-  return create([
-    accessors,
-    create(flags, { 
-      wrap: o => ({ [is.boolean ? 'value' : 'get']: o }),
-      defaults: { type: Boolean }
-    })
-  ], {
-    wrap: 'type',
-    thunks: {
-      type: o => is.string(o) ? funcs[o] : o
-    },
-  });
+function defineAccessor(func, name, descriptor) {
+  descriptor = wrapAndResolve(descriptor);
+
+  if (descriptor.ancestor) {
+    var type = descriptor.type;
+    assert(is.function(type));
+    assert(type == Node || type.prototype instanceof Node);
+
+    descriptor.argument = type;
+    descriptor.future = true;
+    descriptor.get = Node.prototype.getAncestor
+  }
+
+  else if (descriptor.ref) {
+    descriptor.future = true;
+    descriptor.set = true;
+    descriptor.get = function(token) {
+      var result = this.resolve(token); 
+      assert(result === null || result instanceof type);
+      return result;
+    }
+  }
+
+  descriptor.enumerable = true;
+
+  objectEx.defineProperty(func.prototype, name, descriptor);
+}
+
+function defineFlags(func, flags, info) {
+  for (var name in flags) {
+    var flag = flags[name];
+    var exportedName = 'is' + cap(name);
+    defineFlag.call(func, exportedName, flag);
+    info[name] = exportedName;
+  }
+}
+
+function defineFlag(func, name, descriptor) {
+  if (is.boolean(descriptor)) 
+    descriptor = { value: descriptor };
+
+  else if (is.function(descriptor))
+    descriptor = { get: descriptor };
+
+  descriptor.enumerable = true;
+  descriptor.prefix = 'is';
+
+  objectEx.defineProperty(func.prototype, name, descriptor);
 }
 
 Object.defineProperties(module, {
