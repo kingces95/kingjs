@@ -1,18 +1,23 @@
 'use strict';
 
 var Node = require('./node');
-var defineAccessor = require('./define-accessor');
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var create = require('@kingjs/descriptor.named.create');
 var attrSym = require('./attribute');
 var defineClass = require('./define-class');
-var defineChildren = require('./define-children');
 var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
 
 var cap = stringEx.capitalize;
+
+var wrap = {
+  flag: o => ({ [is.boolean ? 'value' : 'get']: o }),
+  accessor: 'type',
+  child: 'type',
+  method: 'value'
+};
 
 function defineSchema(target, descriptors) {
 
@@ -26,14 +31,20 @@ function defineSchema(target, descriptors) {
   // second pass: define accessors whose implementation requires funcs
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
-    var func = target[descriptor.name];
+    var name = descriptor.name;
+    var func = target[name];
     var info = func[attrSym].info = createInfo(descriptor);
 
+    var flags = wrapAndResolve(target, descriptor.flags, wrap.flag);
+    var accessors = wrapAndResolve(target, descriptor.accessors, wrap.accessor);
+    var children = wrapAndResolve(target, descriptor.children, wrap.child);
+    var methods = wrapAndResolve(target, descriptor.methods, wrap.method);
+
     defineDiscriminator(func);
-    defineFlags(func, descriptor.flags, info.fields);
-    defineAccessors(func, descriptor.accessor, info.fields);
-    defineChildren(func, descriptor.children, info.children);
-    defineMethods(func, descriptor.methods, info.methods);
+    defineFlags(func, flags, info.fields);
+    defineAccessors(func, accessors, info.fields);
+    defineChildren(func, children, info.children);
+    defineMethods(func, methods);
   }
 }
 
@@ -74,17 +85,16 @@ function defineDiscriminator(func) {
   objectEx.defineField(func.prototype, 'is' + func.name, true);
 }
 
-function wrapAndResolve(funcs, descriptor) {
-  if (is.string(descriptor))
-    descriptor = { type: descriptor };
-
-  if (is.string(descriptor.type))
-    descriptor.type = funcs[descriptor.type];
-
-  return descriptor;
+function wrapAndResolve(funcs, descriptors, wrap) {
+  return create(descriptors, {
+    thunks: {
+      type: o => is.string(o) ? funcs[o] : o
+    },
+    wrap: wrap
+  });
 }
 
-function defineMethods(info, func, methods) {
+function defineMethods(func, methods) { 
   for (var name in methods) {
     var method = methods[name];
     defineMethod(func, name, method);
@@ -92,6 +102,8 @@ function defineMethods(info, func, methods) {
 }
 
 function defineMethod(func, name, descriptor) {
+  descriptor = Object.create(descriptor);
+
   if (is.function(descriptor))
     descriptor = { value: descriptor };
 
@@ -131,7 +143,7 @@ function defineAccessors(func, accessors, info) {
 }
 
 function defineAccessor(func, name, descriptor) {
-  descriptor = wrapAndResolve(descriptor);
+  descriptor = Object.create(descriptor);
 
   if (descriptor.ancestor) {
     var type = descriptor.type;
@@ -144,8 +156,10 @@ function defineAccessor(func, name, descriptor) {
   }
 
   else if (descriptor.ref) {
+    var type = descriptor.type;
     descriptor.future = true;
     descriptor.set = true;
+    descriptor.argument = descriptor.default;
     descriptor.get = function(token) {
       var result = this.resolve(token); 
       assert(result === null || result instanceof type);
@@ -154,6 +168,10 @@ function defineAccessor(func, name, descriptor) {
   }
 
   descriptor.enumerable = true;
+  if ('value' in descriptor)
+    descriptor.writable = true;
+  else if ('get' in descriptor == false)
+    return;
 
   objectEx.defineProperty(func.prototype, name, descriptor);
 }
@@ -162,12 +180,14 @@ function defineFlags(func, flags, info) {
   for (var name in flags) {
     var flag = flags[name];
     var exportedName = 'is' + cap(name);
-    defineFlag.call(func, exportedName, flag);
+    defineFlag(func, exportedName, flag);
     info[name] = exportedName;
   }
 }
 
 function defineFlag(func, name, descriptor) {
+  descriptor = Object.create(descriptor);
+
   if (is.boolean(descriptor)) 
     descriptor = { value: descriptor };
 
@@ -175,7 +195,8 @@ function defineFlag(func, name, descriptor) {
     descriptor = { get: descriptor };
 
   descriptor.enumerable = true;
-  descriptor.prefix = 'is';
+  if ('value' in descriptor)
+    descriptor.writable = true;
 
   objectEx.defineProperty(func.prototype, name, descriptor);
 }

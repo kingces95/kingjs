@@ -21,23 +21,23 @@ var definitions = {
     initializer: initField,
     defaults: { 
       configurable: false, 
-      writable: true 
+      writable: false 
     },
     configurations: {
-      'set': { configurable: true, enumerable: true },
-      'setHidden': { configurable: true, enumerable: false },
-      'setConst': { configurable: true, enumerable: true, writable: false },
-      'setHiddenConst': { configurable: true, enumerable: false, writable: false },
+      'set': { configurable: true, enumerable: true, writable: true },
+      'setHidden': { configurable: true, enumerable: false, writable: true },
+      'setConst': { configurable: true, enumerable: true },
+      'setHiddenConst': { configurable: true, enumerable: false },
 
-      'define': { enumerable: true },
-      'defineHidden': { enumerable: false },
-      'defineConst': { enumerable: true, writable: false },
-      'defineHiddenConst': { enumerable: false, writable: false },
+      'define': { enumerable: true, writable: true },
+      'defineHidden': { enumerable: false, writable: true },
+      'defineConst': { enumerable: true },
+      'defineHiddenConst': { enumerable: false },
 
-      'defineStatic': { enumerable: true, static: true },
-      'defineHiddenStatic': { enumerable: false, static: true },
-      'defineConstStatic': { enumerable: true, writable: false, static: true },
-      'defineHiddenConstStatic': { enumerable: false, writable: false, static: true },
+      'defineStatic': { enumerable: true, writable: true, static: true },
+      'defineHiddenStatic': { enumerable: false, writable: true, static: true },
+      'defineConstStatic': { enumerable: true, static: true },
+      'defineHiddenConstStatic': { enumerable: false, static: true },
     },
   },
 
@@ -48,7 +48,7 @@ var definitions = {
       configurable: false 
     },
     configurations: {
-      'define': { enumerable: false, writable: false },
+      'define': { enumerable: false },
     }
   },
 
