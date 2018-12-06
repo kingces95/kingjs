@@ -1,11 +1,15 @@
 'use strict';
 
 var defineSchema = require('../define-schema');
-var load = require('./load-type');
+var loadType = require('./load-type');
+var initType = require('./init-type');
 
 defineSchema(exports, [
   {
-    name: 'JavascriptNode'
+    name: 'JavascriptNode',
+    accessors: {
+      id: { get: 'Symbol(this.fullName)', lazy: true }
+    }
   }, {
     name: 'Member',
     base: 'JavascriptNode',
@@ -75,6 +79,7 @@ defineSchema(exports, [
   }, {
     name: 'Class',
     base: 'Type',
+    init: initType,
     wrap: 'func',
     flags: { 
       abstract: false,
@@ -84,7 +89,7 @@ defineSchema(exports, [
     }, {
       $defaults: { ref: true },
       base: { type: 'Class', default: 'Object' },
-      implements: { type: 'Interface', array: true },
+      implements: { type: 'Interface', array: true, default: null },
     }],
     children: {
       classes: 'Class',
@@ -95,7 +100,7 @@ defineSchema(exports, [
     },
     methods: {
       $defaults: { lazy: true },
-      load: load
+      load: loadType
     }
   }, {
     name: 'Interface',
@@ -104,7 +109,9 @@ defineSchema(exports, [
       abstract: true,
     },
     accessors: {
-      extends: { func: 'Interface', array: true, dep: true },
+      implementations: { get: '[ ]', lazy: true },
+      extensions: { get: '[ ]', lazy: true },
+      extends: { type: 'Interface', array: true, ref: true },
     },
     children: [{
       $defaults: {

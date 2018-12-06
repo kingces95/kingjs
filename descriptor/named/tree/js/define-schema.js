@@ -25,7 +25,7 @@ function defineSchema(target, descriptors) {
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
     var baseFunc = target[descriptor.base] || Node;
-    defineNode(target, descriptor.name, baseFunc);
+    defineNode(target, descriptor.name, baseFunc, descriptor.init);
   }
 
   // second pass: define accessors whose implementation requires funcs
@@ -61,10 +61,9 @@ function createInfo(descriptor) {
   };
 }
 
-function defineNode(target, name, baseFunc) {
-
+function defineNode(target, name, baseFunc, init) {
   var ctor = defineClass(name, baseFunc,
-    function init(_parent, _name, descriptor) {
+    function initNode(_parent, _name, descriptor) {
       if (!descriptor)
         return;
 
@@ -75,6 +74,9 @@ function defineNode(target, name, baseFunc) {
 
         this[fields[name]] = descriptor[name];
       }
+
+      if (init)
+        init.call(this);
     }
   );
 
@@ -160,11 +162,24 @@ function defineAccessor(func, name, descriptor) {
     descriptor.future = true;
     descriptor.set = true;
     descriptor.argument = descriptor.default;
-    descriptor.get = function(token) {
-      var result = this.resolve(token); 
-      assert(result === null || result instanceof type);
-      return result;
-    }
+    descriptor.get = descriptor.array ? 
+      function resolveTokenArray(token) {
+        if (is.null(token))
+          return null;
+        
+        assert(is.array(token));
+        var result = [ ];
+        for (var i = 0; i < token.length; i++) 
+          result.push(this.resolve(token[i]));
+        for (var i = 0; i < result.length; i++) 
+          assert(result[i] instanceof type);
+        return result;
+      } : 
+      function resolveToken(token) {
+        var result = this.resolve(token); 
+        assert(result instanceof type);
+        return result;
+      }
   }
 
   descriptor.enumerable = true;
