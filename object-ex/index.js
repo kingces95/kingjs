@@ -167,9 +167,6 @@ function exportDefinition(
       descriptor = initLambda.call(descriptor);    
       descriptor = initStubs.call(descriptor, target, name);
     }
-    else if (isReference) {
-      descriptor = initReference.call(descriptor, target, name);
-    }
 
     // augment name
     if (target.prefix)

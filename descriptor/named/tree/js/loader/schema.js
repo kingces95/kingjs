@@ -1,17 +1,22 @@
 'use strict';
 
 var defineSchema = require('../define-schema');
-var loadType = require('./load-type');
-var initType = require('./init-type');
-var createVtable = require('./create-vtable');
+var classLoad = require('./class-load');
+var methodInit = require('./method-init');
+var methodLoad = require('./method-load');
+var createVtable = require('./vtable-create');
+var interfaceTrack = require('./interface-track');
 
 defineSchema(exports, [
   {
+    // JavascriptNode
     name: 'JavascriptNode',
     accessors: {
       id: { get: 'Symbol(this.fullName)', lazy: true }
-    }
+    },
   }, {
+
+    // Member
     name: 'Member',
     base: 'JavascriptNode',
     flags: {
@@ -27,6 +32,8 @@ defineSchema(exports, [
       package: 'Package'
     },
   }, {
+
+    // Property
     name: 'Property',
     base: 'Member',
     flags: { 
@@ -38,6 +45,8 @@ defineSchema(exports, [
       type: { type: 'Type', ref: true } 
     },
   }, {
+
+    // Field
     name: 'Field',
     base: 'Property',
     wrap: 'value',
@@ -48,19 +57,26 @@ defineSchema(exports, [
       value: { func: Object },
     },
   }, {
+
+    // Method
     name: 'Method',
     base: 'Property',
+    init: methodInit,
     wrap: 'func',
     flags: { 
-      extension: false,
       abstract: 'this.value === undefined',
-      writable: false,
+      extension: false,
     },
-    accessors: { 
-      extendedType: { type: 'Type', ref: true },
-      value: { func: Function }
+    accessors: {
+      extends: { type: 'Type', ref: true },
+      value: { func: Function },
     },
+    methods: {
+      load: methodLoad
+    }
   }, {
+
+    // Accessor
     name: 'Accessor',
     base: 'Property',
     wrap: 'get',
@@ -75,15 +91,18 @@ defineSchema(exports, [
       set: { func: Function },
     },
   }, {
+
+    // Type
     name: 'Type', 
     base: 'Member',
     accessors: { 
       vtable: { type: Object, get: createVtable, lazy: true }
     },
   }, {
+
+    // Class
     name: 'Class',
     base: 'Type',
-    init: initType,
     wrap: 'func',
     flags: { 
       abstract: false,
@@ -104,16 +123,23 @@ defineSchema(exports, [
     },
     methods: {
       $defaults: { lazy: true },
-      load: loadType
+      load: classLoad
     }
   }, {
+
+    // Interface
     name: 'Interface',
     base: 'Type',
     flags: {
       abstract: true,
     },
     accessors: {
+      implementations: { get: '{ }', lazy: true },
+      extensions: { get: '{ }', lazy: true },
       extends: { type: 'Interface', array: true, ref: true, default: null },
+    },
+    methods: {
+      track: interfaceTrack,
     },
     children: [{
       $defaults: {
@@ -134,13 +160,20 @@ defineSchema(exports, [
       extensionAccessors: 'Accessor',
     }],
   }, {
+
+    // Loader
     name: 'Loader',
     base: 'JavascriptNode',
+    accessors: {
+      unloadedExtensionMethods: { get: '[ ]', lazy: true }
+    },
     children: {
       packages: 'Package',
       classes: 'Class',
     },
   }, {
+
+    // Package
     name: 'Package',
     wrap: 'func',
     base: 'JavascriptNode',

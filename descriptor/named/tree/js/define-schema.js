@@ -155,6 +155,7 @@ function defineAccessor(func, name, descriptor) {
     assert(is.function(type));
     assert(type == Node || type.prototype instanceof Node);
 
+    descriptor.future = true;
     descriptor.argument = type;
     descriptor.get = Node.prototype.getAncestor
   }

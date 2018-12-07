@@ -21,6 +21,12 @@ loader.addChildren({
         IFoo: { extends: ['IBaz'] },
         IBar: { extends: ['IBaz'] },
         IBaz: { }
+      },
+      methods: {
+        MyIFooExMethod: {
+          extension: true,
+          extends: 'IFoo' 
+        }
       }
     },
     '@kingjs/baz': {
@@ -37,14 +43,15 @@ var n = Object.getOwnPropertyNames(a);
 
 var obj = loader.resolve(Object);
 var fullName = obj.fullName;
-var fooBar = loader.children['@kingjs/foo-bar'];
-var MyClass = fooBar.children.MyClass;
+var fooBarPkg = loader.children['@kingjs/foo-bar'];
+var MyClass = fooBarPkg.children.MyClass;
 var MyClassIfaces = MyClass.implements;
 var MyClassFunc = MyClass.load();
 var myClass = new MyClassFunc();
 
 var IFoo = loader.resolve('@kingjs/foo-bar.IFoo')
 var IFooExtends = IFoo.extends;
+var fooExMethod = fooBarPkg.resolve('MyIFooExMethod');
 
 var vtable = MyClass.vtable;
 assert(IFoo.id in vtable);
