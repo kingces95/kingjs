@@ -147,20 +147,22 @@ function defineAccessors(func, accessors, info) {
 function defineAccessor(func, name, descriptor) {
   descriptor = Object.create(descriptor);
 
+  if (descriptor.lazy)
+    descriptor.future = true;
+
   if (descriptor.ancestor) {
     var type = descriptor.type;
     assert(is.function(type));
     assert(type == Node || type.prototype instanceof Node);
 
     descriptor.argument = type;
-    descriptor.future = true;
     descriptor.get = Node.prototype.getAncestor
   }
 
   else if (descriptor.ref) {
     var type = descriptor.type;
-    descriptor.future = true;
     descriptor.set = true;
+    descriptor.future = true;
     descriptor.argument = descriptor.default;
     descriptor.get = descriptor.array ? 
       function resolveTokenArray(token) {
@@ -176,6 +178,9 @@ function defineAccessor(func, name, descriptor) {
         return result;
       } : 
       function resolveToken(token) {
+        if (is.null(token))
+          return null;
+
         var result = this.resolve(token); 
         assert(result instanceof type);
         return result;

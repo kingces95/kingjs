@@ -3,6 +3,7 @@
 var defineSchema = require('../define-schema');
 var loadType = require('./load-type');
 var initType = require('./init-type');
+var createVtable = require('./create-vtable');
 
 defineSchema(exports, [
   {
@@ -76,6 +77,9 @@ defineSchema(exports, [
   }, {
     name: 'Type', 
     base: 'Member',
+    accessors: { 
+      vtable: { type: Object, get: createVtable, lazy: true }
+    },
   }, {
     name: 'Class',
     base: 'Type',
@@ -109,9 +113,7 @@ defineSchema(exports, [
       abstract: true,
     },
     accessors: {
-      implementations: { get: '[ ]', lazy: true },
-      extensions: { get: '[ ]', lazy: true },
-      extends: { type: 'Interface', array: true, ref: true },
+      extends: { type: 'Interface', array: true, ref: true, default: null },
     },
     children: [{
       $defaults: {

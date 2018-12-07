@@ -1,5 +1,6 @@
 'use strict';
 
+var assert = require('@kingjs/assert');
 var createLoader = require('./js/loader/create');
 
 var loader = createLoader();
@@ -12,7 +13,8 @@ loader.addChildren({
           implements: [ 'IFoo', 'IBar' ]
         },
         MyOtherClass: {
-          base: '@kingjs/baz.MyBazClass'
+          base: '@kingjs/baz.MyBazClass',
+          implements: [ 'IBaz' ]
         }
       },
       interfaces: {
@@ -43,5 +45,8 @@ var myClass = new MyClassFunc();
 
 var IFoo = loader.resolve('@kingjs/foo-bar.IFoo')
 var IFooExtends = IFoo.extends;
+
+var vtable = MyClass.vtable;
+assert(IFoo.id in vtable);
 
 return;
