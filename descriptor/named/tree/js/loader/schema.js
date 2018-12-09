@@ -2,8 +2,7 @@
 
 var defineSchema = require('../define-schema');
 var classLoad = require('./class-load');
-var methodInit = require('./method-init');
-var methodLoad = require('./method-load');
+var proceduralInit = require('./procedural-init');
 var createVtable = require('./vtable-create');
 var interfaceTrack = require('./interface-track');
 
@@ -24,13 +23,13 @@ defineSchema(exports, [
       public: false,
       private: '!this.public',
     },
-    accessors: { 
+    accessors: [{ 
       $defaults: { ancestor: true },
       loader: 'Loader',
       scope: 'Member',
       declaringType: 'Type',
       package: 'Package'
-    },
+    }],
   }, {
 
     // Property
@@ -58,35 +57,39 @@ defineSchema(exports, [
     },
   }, {
 
-    // Method
-    name: 'Method',
+    // Procedural
+    name: 'Procedural',
     base: 'Property',
-    init: methodInit,
-    wrap: 'func',
-    flags: { 
-      abstract: 'this.value === undefined',
+    init: proceduralInit,
+    flags: {
       extension: false,
     },
     accessors: {
-      extends: { type: 'Type', ref: true },
+      extends: { type: 'Type', ref: true }
+    },
+  }, {
+
+    // Method
+    name: 'Method',
+    base: 'Procedural',
+    wrap: 'func',
+    flags: { 
+      abstract: 'this.value === undefined',
+    },
+    accessors: {
       value: { func: Function },
     },
-    methods: {
-      load: methodLoad
-    }
   }, {
 
     // Accessor
     name: 'Accessor',
-    base: 'Property',
+    base: 'Procedural',
     wrap: 'get',
     flags: { 
-      extension: false,
       abstract: 'this.get === null',
       writable: 'this.set !== undefined',
     },
     accessors: { 
-      extendedType: { type: 'Type', ref: true },
       get: { func: Function },
       set: { func: Function },
     },
@@ -165,7 +168,7 @@ defineSchema(exports, [
     name: 'Loader',
     base: 'JavascriptNode',
     accessors: {
-      unloadedExtensionMethods: { get: '[ ]', lazy: true }
+      prototype: { get: '{ }', lazy: true }
     },
     children: {
       packages: 'Package',

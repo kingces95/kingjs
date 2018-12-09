@@ -14,12 +14,12 @@ prototype[onSetTag] = noop;
 var propertyRedefinitionError = 'Property cannot be redefined.'
 var deleteError = 'Property cannot be deleted.'
 
-function create(onSet) {
+function stub(onGet) {
   var object = Object.create(prototype);
   Object.seal(object);
 
   var result = new Proxy(object, {
-    set: function(target, key, value, receiver) {
+    get: function(target, key) {
       if (key in knownTags)
         return Reflect.set(...arguments);
 
@@ -27,15 +27,6 @@ function create(onSet) {
       target[onSetTag](key, value);
 
       return Reflect.set(...arguments);
-    },
-    defineProperty: function(target, key, descriptor) {
-      if (key in knownTags)
-        return Object.defineProperty(target, key, descriptor);
-
-      return Object.defineProperty(target, key, descriptor);
-    },
-    deleteProperty: function() {
-      assert(false, deleteError);
     },
   })
 

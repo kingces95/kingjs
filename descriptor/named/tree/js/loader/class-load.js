@@ -5,7 +5,7 @@ var defineClass = require('../define-class');
 var objectEx = require('@kingjs/object-ex');
 
 function load() {
-  
+
   if (this.func)
     return this.func;
 
@@ -18,11 +18,16 @@ function load() {
   var func = defineClass(name, baseFunc, this.init);
   objectEx.defineConstField(this, name, func);
 
-  // load all extension methods
-  while (this.loader.unloadedExtensionMethods.length)
-    this.loader.unloadedExtensionMethods.pop().load();
+  // fulfill promised registration of extensions with their interfaces
+  var promisedExtensions = this.loader.promisedExtensions;
+  while (promisedExtensions.length) {
+    var extension = promisedExtensions.pop();
+    var interface = extension.extends;
+    assert(interface.isInterface);
+    interface.track(extension);
+  }
 
-  // register with interfaces and receive extension methods
+  // register ourself with interfaces to receive our extensions
   var implements = this.implements;
   if (implements) {
     for (var i = 0; i < implements.length; i++)
