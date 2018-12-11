@@ -97,8 +97,7 @@ function stubFunctionTest(isFunc) {
       external: true,
       future: true,
       configurable: false,
-      [isFunc ? 'value' : 'get']: function(stubName) {
-        var ctor = this;
+      [isFunc ? 'value' : 'get']: function(ctor, stubName) {
         return function () { 
           return {
             name: stubName, 
@@ -179,5 +178,71 @@ function defineReference() {
   assert(counter == 3);
 }
 defineReference();
+
+function testExtension() {
+  function Bar() { };
+  function Baz() { };
+
+  function IFoo() { throw 'abstract'; };
+  Object.defineProperty(IFoo, Symbol.hasInstance, {
+    value: function(x) { 
+      if (x instanceof Bar)
+        return true;
+      if (x instanceof Array)
+        return true; 
+    }
+  });
+
+  // function
+  var methodEx = Symbol('method');
+  objectEx.defineProperty(
+    IFoo.prototype,
+    methodEx, {
+      function: true,
+      extension: true,
+      value: function() { return this; },
+    }
+  )
+
+  var bar = new Bar();
+  assert(bar[methodEx]() == bar);
+  assert(bar[methodEx]() == bar);
+
+  var baz = new Baz();
+  assertThrows(() => baz[methodEx]());
+
+  // getter
+  var getterEx = Symbol('getter');
+  objectEx.defineProperty(
+    IFoo.prototype,
+    getterEx, {
+      extension: true,
+      get: function() { return this; },
+    }
+  )
+
+  assert(bar[getterEx] == bar);
+  assert(bar[getterEx] == bar);
+
+  // setter
+  var setterEx = Symbol('setter');
+  objectEx.defineProperty(
+    IFoo.prototype,
+    setterEx, {
+      extension: true,
+      set: function(value) { 
+        this.field = value; 
+      },
+    }
+  )
+
+  bar[setterEx] = 42;
+  assert(bar.field == 42);
+
+  // primitive
+  var array = [ ];
+  assert(array[getterEx] == array)
+}
+testExtension();
 
 require('./theory');

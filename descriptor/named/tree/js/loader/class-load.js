@@ -18,22 +18,6 @@ function load() {
   var func = defineClass(name, baseFunc, this.init);
   objectEx.defineConstField(this, name, func);
 
-  // fulfill promised registration of extensions with their interfaces
-  var promisedExtensions = this.loader.promisedExtensions;
-  while (promisedExtensions.length) {
-    var extension = promisedExtensions.pop();
-    var interface = extension.extends;
-    assert(interface.isInterface);
-    interface.track(extension);
-  }
-
-  // register ourself with interfaces to receive our extensions
-  var implements = this.implements;
-  if (implements) {
-    for (var i = 0; i < implements.length; i++)
-      implements[i].track(this);
-  }
-
   return func;
 }
 

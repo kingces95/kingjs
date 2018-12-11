@@ -167,13 +167,15 @@ defineSchema(exports, [
     // Loader
     name: 'Loader',
     base: 'JavascriptNode',
-    accessors: {
-      prototype: { get: '{ }', lazy: true }
-    },
-    children: {
+    children: [{
       packages: 'Package',
+      interfaces: 'Interface',
       classes: 'Class',
-    },
+    }, {
+      $defaults: { static: true },
+      methods: 'Method',
+      accessors: 'Accessor',
+    }]
   }, {
 
     // Package

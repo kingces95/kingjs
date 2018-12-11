@@ -2,7 +2,6 @@
 
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
-//var stringEx = require('@kingjs/string-ex');
 
 var initProperty = require('./js/init/property');
 var initField = require('./js/init/field');
@@ -157,10 +156,11 @@ function exportDefinition(
 
     var isFunction = descriptor.function;
     var isAccessor = 'get' in descriptor || 'set' in descriptor;
-    var isReference = descriptor.reference;
+    var isExtension = descriptor.extension;
+    assert(!isExtension || isFunction || isAccessor);
 
     // lambda + stubs
-    if (isFunction || isAccessor || isReference) {
+    if (isFunction || isAccessor) {
       if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
 
@@ -168,11 +168,8 @@ function exportDefinition(
       descriptor = initStubs.call(descriptor, target, name);
     }
 
-    // augment name
-    if (target.prefix)
-      name = target.prefix + stringEx.capitalize(name);
-    if (target.suffix)
-      name += target.suffix;
+    if (isExtension)
+      target = Object.prototype;
 
     var result = Object.defineProperty(target, name, descriptor);
 

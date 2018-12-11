@@ -22,7 +22,7 @@
     "@kingjs/descriptor.write": "^1.0.9",
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/is": "^1.0.6",
-    "@kingjs/object-ex": "^1.0.17",
+    "@kingjs/object-ex": "^1.0.18",
     "@kingjs/string-ex": "^1.0.0"
   }
 }

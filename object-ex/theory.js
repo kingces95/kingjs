@@ -130,9 +130,10 @@ assertTheory(function(test, id) {
   };
 
   var stubCount = 0;
-  var stub = function() {
+  var stub = function(ctor, name) {
     assert(stubCount++ == 0);
-    assert(this == Type);
+    assert(ctor == Type);
+    assert(name == test.name);
     return func;
   }
 
@@ -275,8 +276,9 @@ assertTheory(function(test, id) {
   } : undefined;
 
   var stubCount = 0;
-  var stub = function() {
-    assert(this == Type);
+  var stub = function(ctor, name) {
+    assert(ctor == Type);
+    assert(name == test.name);
     if (getter && setter) {
       assert(stubCount++ <= 1);
       return {

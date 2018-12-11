@@ -7,6 +7,7 @@ var unresolvedPromiseError = 'Promise returned undefined value.';
 var unresolvedStubError = 'Stub returned undefined value.';
 var undefinedTokenError = 'Cannot set token to undefined value.';
 var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
+var extendsThisError = 'Extension does not extend this object.';
 
 var valueTag = Symbol('value');
 var getTag = Symbol('get');
@@ -16,97 +17,177 @@ function initStubs(target, name) {
   var isConfigurable = this.configurable || false;
   var isExternal = this.external || false;
   var isFuture = this.future || false;
-  var isStatic = this.static || false;
+  var isExtension = this.extension || false;
 
-  if (isExternal) {
-    var stub = this.value || this.get || this.set;
-    assert(stub);
+  if (isExtension)
+    return initExtension.call(this, target, name);
 
-    var descriptor = { 
-      configurable: isConfigurable,
-      enumerable: this.enumerable,
-      [valueTag]: this.value, // => stub(ctor)
-      [getTag]: this.get, // => stub(ctor)
-      [setTag]: this.set, // => stub(ctor)
-
-      // no need to patch the stub if it'll be immediately set with the promise
-      backPatch: (isFuture && isStatic) == false,
-    };
-
-    if (this.value) {
-      descriptor.writable = this.writable;
-      this.value = createFuncStub(stub, target, name, descriptor);
-    }
-    else {
-      if (this.get)
-        this.get = createGetStub(stub, target, name, descriptor);
-  
-      if (this.set && !isFuture)
-        this.set = createSetStub(stub, target, name, descriptor);
-    }
-
-    this.configurable = true;
-  }
+  if (isExternal)
+    initExternal.call(this, target, name, isConfigurable);
     
-  if (isFuture) {
-    var promise = this.value || this.get;
+  if (isFuture)
+    initFuture.call(this, name, isConfigurable);
 
-    var descriptor = { 
-      configurable: isConfigurable,
-      enumerable: this.enumerable,
-      [valueTag]: this.value, // => promise(this[, argument])
-      [getTag]: this.get, // => promise(this[, argument])
-      [setTag]: this.set, // => argument = value, then fulfill
+  return this;
+}
 
-      argument: this.argument,
+function initExtension(target, name) {
+  var isConfigurable = this.configurable || false;
+  var isEnumerable = this.enumerable || false;
+  var isExternal = this.external || false;
+  var isExtension = this.extension || false;
+  var isStatic = this.static || false;
+  var isFuture = this.future || false;
+
+  assert(!isConfigurable);
+  assert(!isEnumerable);
+  assert(!isStatic);
+  assert(!isExternal);
+  assert(!isFuture);
+
+  assert(isExtension);
+  assert(is.symbol(name));
+  assert(!is.function(target));
+  assert(is.function(target.constructor));
+
+  var ctor = target.constructor;
+
+  var descriptor = { };
+  for (var key in this)
+    descriptor[key] = this[key];
+
+  if (this.value) {
+    descriptor.writable = false;
+    this.value = function callGetExtensionAndPatch() {
+      patchExtension.call(this, ctor, name, descriptor);
+      return descriptor.value.call(this);
     };
+  }
 
-    if (this.get)
-      descriptor.writable = this.writable;
-
-    if (!this.set) {
-      this[this.get ? 'get' : 'value'] = createPromise(promise, name, descriptor);
-    }
-    else {
-      assert(!this.value);
-      this.set = createSetPromiseArgument(promise, name, descriptor);    
-      this.get = function fulfillPromise() {
-        trapDebuggerEval(descriptor.argument, derefBeforeAssignmentError);
-        this[name] = descriptor.argument;
-        return this[name];
+  else {
+    if (this.get) {
+      this.get = function callGetExtensionAndPatch() {
+        patchExtension.call(this, ctor, name, descriptor);
+        return descriptor.get.call(this);
       };
     }
 
-    if (isStatic)
-      this.configurable = true;
+    if (this.set) {
+      this.set = function callSetExtensionAndPatch() {
+        patchExtension.call(this, ctor, name, descriptor);
+        descriptor.set.apply(this, arguments);
+      };
+    }
   }
 
   return this;
 }
 
-function createGetStub(stub, target, name, descriptor) {
-  return function callGetStubAndPatch() {
-    descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-    return descriptor.get.call(this);
+function initExternal(target, name, isConfigurable) {
+  var isExternal = this.external || false;
+  var isFuture = this.future || false;
+  var isStatic = this.static || false;
+
+  assert(isExternal);
+
+  var stub = this.value || this.get || this.set;
+  assert(is.function(stub));
+
+  var descriptor = { 
+    configurable: isConfigurable,
+    enumerable: this.enumerable,
+    [valueTag]: this.value, // => stub(ctor)
+    [getTag]: this.get, // => stub(ctor)
+    [setTag]: this.set, // => stub(ctor)
+
+    // no need to patch the stub if it'll be immediately set with the promise
+    backPatch: (isFuture && isStatic) == false,
   };
+
+  if (this.value) {
+    descriptor.writable = this.writable;
+    this.value = function callFuncStubAndPatch() {
+      descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
+      return descriptor.value.apply(this, arguments);
+    };
+  }
+  else {
+    if (this.get) {
+      this.get = function callGetStubAndPatch() {
+        descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
+        return descriptor.get.call(this);
+      };
+    }
+
+    if (this.set && !isFuture) {
+      this.set = function callSetStubAndPatch() {
+        descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
+        descriptor.set.apply(this, arguments);
+      };
+    }
+  }
+
+  this.configurable = true;
+
+  return this;
 }
 
-function createSetStub(stub, target, name, descriptor) {
-  return function callSetStubAndPatch() {
-    descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-    descriptor.set.apply(this, arguments);
+function initFuture(name, isConfigurable) {
+  var isFuture = this.future || false;
+  var isStatic = this.static || false;
+
+  assert(isFuture);
+    
+  var promise = this.value || this.get;
+
+  var descriptor = { 
+    configurable: isConfigurable,
+    enumerable: this.enumerable,
+    [valueTag]: this.value, // => promise(this[, argument])
+    [getTag]: this.get, // => promise(this[, argument])
+    [setTag]: this.set, // => argument = value, then fulfill
+
+    argument: this.argument,
   };
+
+  if (this.get)
+    descriptor.writable = this.writable;
+
+  if (!this.set) {
+    this[this.get ? 'get' : 'value'] = createPromise(promise, name, descriptor);
+  }
+  else {
+    assert(!this.value);
+    this.set = createSetPromiseArgument(promise, name, descriptor);    
+    this.get = function fulfillPromise() {
+      trapDebuggerEval(descriptor.argument, derefBeforeAssignmentError);
+      this[name] = descriptor.argument;
+      return this[name];
+    };
+  }
+
+  if (isStatic)
+    this.configurable = true;
+
+  return this;
 }
 
-function createFuncStub(stub, target, name, descriptor) {
-  return function callFuncStubAndPatch() {
-    descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-    return descriptor.value.apply(this, arguments);
-  };
+function patchExtension(ctor, name, descriptor) {
+  assert(this instanceof ctor, extendsThisError);
+
+  assert(is.symbol(name));
+  assert(!descriptor.configurable);
+  assert(!descriptor.enumerable);
+  assert(!descriptor.writable);
+
+  var prototype = Object.getPrototypeOf(this);
+  Object.defineProperty(prototype, name, descriptor) 
 }
 
 function callStubAndPatch(stub, target, name, descriptor) {
-  var ctor = is.function(target) ? target : target.constructor;
+  var ctor = is.function(target) ? 
+    target : Object.getPrototypeOf(this).constructor;
+
   assert(this == ctor || this instanceof ctor);
 
   descriptor = callStub(stub, ctor, name, descriptor);
@@ -119,7 +200,7 @@ function callStubAndPatch(stub, target, name, descriptor) {
 
 function callStub(stub, ctor, name, descriptor) {
 
-  var value = stub.call(ctor, name);
+  var value = stub(ctor, name);
   trapDebuggerEval(value, unresolvedStubError);
 
   if (descriptor[valueTag]) {
