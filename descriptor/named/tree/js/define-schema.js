@@ -11,9 +11,10 @@ var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
 
 var cap = stringEx.capitalize;
+var isConst = 'is';
 
 var wrap = {
-  flag: o => ({ [is.boolean ? 'value' : 'get']: o }),
+  flag: o => ({ [is.boolean(o) ? 'value' : 'get']: o }),
   accessor: 'type',
   child: 'type',
   method: 'value'
@@ -84,7 +85,7 @@ function defineNode(target, name, baseFunc, init) {
 }
 
 function defineDiscriminator(func) {
-  objectEx.defineField(func.prototype, 'is' + func.name, true);
+  objectEx.defineField(func.prototype, isConst + func.name, true);
 }
 
 function wrapAndResolve(funcs, descriptors, wrap) {
@@ -200,7 +201,7 @@ function defineAccessor(func, name, descriptor) {
 function defineFlags(func, flags, info) {
   for (var name in flags) {
     var flag = flags[name];
-    var exportedName = 'is' + cap(name);
+    var exportedName = isConst + cap(name);
     defineFlag(func, exportedName, flag);
     info[name] = exportedName;
   }

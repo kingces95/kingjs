@@ -31,6 +31,9 @@ var constantTypes = {
   Undefined: null,
 };
 
+function Interface() { }
+Interface.prototype = null;
+
 var primitiveTypes = {
   $defaults: {
     base: null,
@@ -40,6 +43,7 @@ var primitiveTypes = {
   Number: Number,
   Boolean: Boolean,
   Symbol: Symbol,
+  Interface: Interface,
 };
 
 var builtInClasses = {

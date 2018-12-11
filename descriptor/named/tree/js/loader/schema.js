@@ -1,10 +1,9 @@
 'use strict';
 
 var defineSchema = require('../define-schema');
-var classLoad = require('./class-load');
+var typeLoad = require('./type-load');
 var proceduralInit = require('./procedural-init');
 var createVtable = require('./vtable-create');
-var interfaceTrack = require('./interface-track');
 
 defineSchema(exports, [
   {
@@ -74,10 +73,10 @@ defineSchema(exports, [
     base: 'Procedural',
     wrap: 'func',
     flags: { 
-      abstract: 'this.value === undefined',
+      abstract: 'this.func === null',
     },
     accessors: {
-      value: { func: Function },
+      func: { func: Function },
     },
   }, {
 
@@ -101,6 +100,10 @@ defineSchema(exports, [
     accessors: { 
       vtable: { type: Object, get: createVtable, lazy: true }
     },
+    methods: {
+      $defaults: { lazy: true },
+      load: typeLoad
+    }
   }, {
 
     // Class
@@ -124,10 +127,6 @@ defineSchema(exports, [
       accessors: 'Accessor',
       fields: 'Field',
     },
-    methods: {
-      $defaults: { lazy: true },
-      load: classLoad
-    }
   }, {
 
     // Interface
@@ -136,14 +135,15 @@ defineSchema(exports, [
     flags: {
       abstract: true,
     },
-    accessors: {
-      implementations: { get: '{ }', lazy: true },
-      extensions: { get: '{ }', lazy: true },
-      extends: { type: 'Interface', array: true, ref: true, default: null },
-    },
-    methods: {
-      track: interfaceTrack,
-    },
+    accessors: [{
+      $defaults: { get: '{ }', lazy: true },
+      implementations: { },
+      extensions: { },
+    }, {
+      $defaults: { ref: true },
+      extends: { type: 'Interface', array: true, default: null },
+      base: { type: 'Class', default: 'Interface' },
+    }],
     children: [{
       $defaults: {
         defaults: {
