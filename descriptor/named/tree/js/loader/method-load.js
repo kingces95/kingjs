@@ -11,11 +11,6 @@ function load() {
   assert(scope.isType);
 
   var name = this.name;
-  if (name.indexOf(period) != -1) {
-    assert(scope.isClass);
-    var method = this.loader.resolve(name);
-    name = method.id;
-  }
 
   var target = scope.func;
   assert(target); 

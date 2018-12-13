@@ -27,7 +27,9 @@ function load() {
   objectEx.defineConstField(this, 'func', func);
 
   // load children
-  for (var name in this.children) {
+  var childNames = Object.getOwnPropertyNames(this.children);
+  var childSymbols = Object.getOwnPropertySymbols(this.children);
+  for (var name of childNames.concat(childSymbols)) {
     var child = this.children[name];
     if (child.isMethod)
       loadMethod.call(child);

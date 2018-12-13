@@ -55,14 +55,16 @@ var builtInClasses = {
 }
 
 objectEx.defineStaticField(Loader, 'builtIn',
-  new Loader(null, null, {
-    classes: [
-      constantTypes,
-      primitiveTypes,
-      builtInClasses
-    ]
-  })
+  new Loader(null, null)
 );
+
+Loader.builtIn.addChildren({
+  classes: [
+    constantTypes,
+    primitiveTypes,
+    builtInClasses
+  ]
+});
 
 var builtInTypes = Loader.builtIn.children;
 Object.freeze(builtInTypes);

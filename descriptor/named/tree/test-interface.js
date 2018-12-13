@@ -22,13 +22,13 @@ loader.addChildren({
         myBaseMethod: () => myBaseMethodNumber,
         ['IFace.myOtherMethod']: x => myOtherMethodNumber + x,
         ['IFace.myMethod']: 'this.myMethod()',
-      }
+      },
     },
     MyBaseClass: {
       methods: {
         myBaseMethod: null
       }     
-    }
+    },
   },
   interfaces: {
     IFace: {
@@ -82,7 +82,7 @@ assert(iFace.prototype.myMethod.call(myClass) == myMethodNumber);
 assert(!!iFace.prototype.myOtherMethod);
 assert(iFace.prototype.myOtherMethod.call(myClass, 1) == myOtherMethodNumber + 1);
 
-myMethodAndOtherMethod = loader.resolve('myMethodAndOtherMethod');
+var myMethodAndOtherMethod = loader.resolve('myMethodAndOtherMethod');
 assert(myClass[myMethodAndOtherMethod.id](1) = myMethodNumber + myOtherMethodNumber + 1)
 
 return;
