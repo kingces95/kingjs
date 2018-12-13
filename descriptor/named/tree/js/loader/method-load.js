@@ -4,8 +4,6 @@ var assert = require('@kingjs/assert');
 var objectEx = require('@kingjs/object-ex');
 var is = require('@kingjs/is');
 
-var period = '.';
-
 function load() {
   var scope = this.scope;
   assert(scope.isType);
