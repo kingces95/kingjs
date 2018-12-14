@@ -1,17 +1,15 @@
 'use strict';
 
+var is = require('@kingjs/is');
 var defineSchema = require('../define-schema');
 var typeLoad = require('./type-load');
-var proceduralInit = require('./procedural-init');
+var methodInit = require('./method-init');
 var createVtable = require('./vtable-create');
 
-defineSchema(exports, [
-  {
+defineSchema(exports, [{
+
     // JavascriptNode
     name: 'JavascriptNode',
-    accessors: {
-      id: { get: 'Symbol(this.fullName)', lazy: true }
-    },
   }, {
 
     // Member
@@ -59,18 +57,18 @@ defineSchema(exports, [
     // Procedural
     name: 'Procedural',
     base: 'Property',
-    init: proceduralInit,
     flags: {
-      extension: false,
+      extension: '!!this.extends',
     },
     accessors: {
-      extends: { type: 'Type', ref: true }
+      extends: { type: 'Type', ref: true, default: null }
     },
   }, {
 
     // Method
     name: 'Method',
     base: 'Procedural',
+    init: methodInit,
     wrap: 'func',
     flags: { 
       abstract: 'this.func === null',
@@ -100,10 +98,18 @@ defineSchema(exports, [
     accessors: { 
       vtable: { type: Object, get: createVtable, lazy: true }
     },
-    methods: {
+    methods: [{
       $defaults: { lazy: true },
       load: typeLoad
-    }
+    }, {
+      canCastTo: function(type) {
+        return type && type.id in this.vtable;
+      },
+      hasInstance: function(instance) {
+        var info = this.loader.getType(instance);
+        return info && info.canCastTo(this);
+      }
+    }]
   }, {
 
     // Class
@@ -120,13 +126,17 @@ defineSchema(exports, [
       base: { type: 'Class', default: 'Object' },
       implements: { type: 'Interface', array: true, default: null },
     }],
-    children: {
+    children: [{
       classes: 'Class',
       interfaces: 'Interface',
+      fields: 'Field',
+    }, {
+      // defer to allow an interface method implementation's 
+      // name to be resolved to the interface method id.
+      $defaults: { defer: true },
       methods: 'Method',
       accessors: 'Accessor',
-      fields: 'Field',
-    },
+    }],
   }, {
 
     // Interface
@@ -152,27 +162,32 @@ defineSchema(exports, [
       },
       methods: 'Method',
       accessors: 'Accessor'
-    }, {
-      $defaults: {
-        defaults: {
-          extension: true,
-          static: true,
-        }
-      },
-      extensionMethods: 'Method',
-      extensionAccessors: 'Accessor',
     }],
   }, {
 
     // Loader
     name: 'Loader',
     base: 'JavascriptNode',
+    accessors: {
+      infoSymbol: { value: Symbol('@kingjs/loader.info'), static: true },
+    },
+    methods: {
+      getType: function(instance) {
+        if (!is.object(instance))
+          return undefined;
+        return instance.constructor[this.infoSymbol];
+      }
+    },
     children: [{
       packages: 'Package',
       interfaces: 'Interface',
       classes: 'Class',
     }, {
-      $defaults: { static: true },
+      $defaults: { 
+        // defer allows an extension method's stub to resolve its type id
+        defer: true,
+        defaults: { static: true },
+      },
       methods: 'Method',
       accessors: 'Accessor',
     }]
@@ -189,10 +204,40 @@ defineSchema(exports, [
       interfaces: 'Interface',
       classes: 'Class',
     }, {
-      $defaults: { static: true },
+      fields: {
+        type: 'Field',
+        defaults: { static: true }
+      },
+    }, {
+      $defaults: { 
+        defaults: { static: true },
+        // defer allows an extension method's stub to resolve its type id
+        defer: true
+      },
       methods: 'Method',
       accessors: 'Accessor',
-      fields: 'Field',
     }],
   },
 ]);
+
+return;
+
+var Node = require('../node');
+
+for (var name in exports) {
+  var ctor = exports[name];
+  var indent = '';
+  var prototype = ctor.prototype;
+  while (prototype != Node.prototype) {
+    ctor = prototype.constructor;
+    console.log(indent + '--' + ctor.name);
+    indent += '  ';
+    var own = Object.getOwnPropertyNames(prototype);
+    for (var i = 0; i < own.length; i ++) {
+      if (own[i] == 'constructor') continue;
+      var isEnumerable = prototype.propertyIsEnumerable(own[i]);
+      console.log(indent + own[i] + (isEnumerable ? '' : '()')); 
+    }
+    prototype = Object.getPrototypeOf(prototype);
+  }
+}

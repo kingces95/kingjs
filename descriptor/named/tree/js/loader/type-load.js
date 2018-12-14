@@ -26,6 +26,18 @@ function load() {
   var func = defineClass(name, baseFunc, init);
   objectEx.defineConstField(this, 'func', func);
 
+  // allow func -> info resolution
+  console.log(name);
+  objectEx.defineHiddenField(func, this.loader.infoSymbol, this);
+
+  // augment instanceof (e.g. account for interfaces)
+  Object.defineProperty(
+    func,
+    Symbol.hasInstance, {
+      value: instance => this.hasInstance(instance)
+    }
+  )
+
   // load children
   var childNames = Object.getOwnPropertyNames(this.children);
   var childSymbols = Object.getOwnPropertySymbols(this.children);

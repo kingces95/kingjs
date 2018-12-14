@@ -196,17 +196,17 @@ function testExtension() {
   // function
   var methodEx = Symbol('method');
   objectEx.defineProperty(
-    IFoo.prototype,
+    Object.prototype,
     methodEx, {
       function: true,
-      extension: true,
-      value: function() { return this; },
+      extends: () => IFoo,
+      value: function(x) { return x; },
     }
   )
 
   var bar = new Bar();
-  assert(bar[methodEx]() == bar);
-  assert(bar[methodEx]() == bar);
+  assert(bar[methodEx](42) == 42);
+  assert(bar[methodEx](43) == 43);
 
   var baz = new Baz();
   assertThrows(() => baz[methodEx]());
@@ -214,9 +214,9 @@ function testExtension() {
   // getter
   var getterEx = Symbol('getter');
   objectEx.defineProperty(
-    IFoo.prototype,
+    Object.prototype,
     getterEx, {
-      extension: true,
+      extends: () => IFoo,
       get: function() { return this; },
     }
   )
@@ -227,9 +227,9 @@ function testExtension() {
   // setter
   var setterEx = Symbol('setter');
   objectEx.defineProperty(
-    IFoo.prototype,
+    Object.prototype,
     setterEx, {
-      extension: true,
+      extends: () => IFoo,
       set: function(value) { 
         this.field = value; 
       },

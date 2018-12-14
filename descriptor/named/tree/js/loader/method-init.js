@@ -4,7 +4,13 @@ var assert = require('@kingjs/assert');
 var objectEx = require('@kingjs/object-ex')
 
 function init() {
-  var self = this;
+  if (!this.isExtension)
+    return;
+
+  objectEx.defineFunction(Object.prototype, this.id, {
+    extends: () => this.extends.load(),
+    value: this.func
+  })
 }
 
 Object.defineProperties(module, {

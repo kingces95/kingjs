@@ -17,7 +17,7 @@ function initStubs(target, name) {
   var isConfigurable = this.configurable || false;
   var isExternal = this.external || false;
   var isFuture = this.future || false;
-  var isExtension = this.extension || false;
+  var isExtension = this.extends || false;
 
   if (isExtension)
     return initExtension.call(this, target, name);
@@ -35,7 +35,7 @@ function initExtension(target, name) {
   var isConfigurable = this.configurable || false;
   var isEnumerable = this.enumerable || false;
   var isExternal = this.external || false;
-  var isExtension = this.extension || false;
+  var isExtension = this.extends || false;
   var isStatic = this.static || false;
   var isFuture = this.future || false;
 
@@ -50,23 +50,27 @@ function initExtension(target, name) {
   assert(!is.function(target));
   assert(is.function(target.constructor));
 
-  var ctor = target.constructor;
 
   var descriptor = { };
   for (var key in this)
     descriptor[key] = this[key];
 
+  var ctor; 
+  var lazyCtor = this.extends;
+
   if (this.value) {
     descriptor.writable = false;
     this.value = function callGetExtensionAndPatch() {
+      if (!ctor) ctor = lazyCtor();
       patchExtension.call(this, ctor, name, descriptor);
-      return descriptor.value.call(this);
+      return descriptor.value.apply(this, arguments);
     };
   }
 
   else {
     if (this.get) {
       this.get = function callGetExtensionAndPatch() {
+        if (!ctor) ctor = lazyCtor();
         patchExtension.call(this, ctor, name, descriptor);
         return descriptor.get.call(this);
       };
@@ -74,8 +78,9 @@ function initExtension(target, name) {
 
     if (this.set) {
       this.set = function callSetExtensionAndPatch() {
+        if (!ctor) ctor = lazyCtor();
         patchExtension.call(this, ctor, name, descriptor);
-        descriptor.set.apply(this, arguments);
+        descriptor.set.call(this, arguments[0]);
       };
     }
   }

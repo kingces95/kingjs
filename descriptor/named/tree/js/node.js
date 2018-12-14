@@ -16,6 +16,7 @@ function Node(parent, name, descriptor) {
 };
 
 objectEx.defineLazyAccessors(Node.prototype, {
+  id: 'Symbol(this.fullName)',
   children: '{ }',
   fullName: function() {
     var result = this.name;
@@ -31,50 +32,36 @@ objectEx.defineLazyAccessors(Node.prototype, {
 });
 
 function resolveName(name) {
-  if (!is.string(name) || name.indexOf(period) == -1)
-    return name;
-  
-  var node = this.resolve(name);
-  if (node)
+  if (is.string(name) && name.indexOf(period) != -1) {
+    var node = this.resolve(name);
+    assert(!!node, failedToResolveNameError);
     return node.id;
-
-  return null;
+  }
+  return name;
 }
 
-function lazyAddChild(ctor, nameOrRef, descriptor) {
-
-  var name = resolveName.call(this, nameOrRef);
-  if (!name)
-    return [() => lazyAddChild.call(this, ctor, nameOrRef, descriptor)];
+function* lazyAddChild(ctor, name, descriptor) {
+  name = resolveName.call(this, name);
 
   var child = new ctor(this, name, descriptor);
   objectEx.defineConstField(this.children, name, child);
 
-  var result;
   if (descriptor)
-    result = lazyAddChildren.call(child, descriptor);
-
-  return result;
+    yield* lazyAddChildren.call(child, descriptor);
 }
 
-function lazyAddChildren(children) {
+function* lazyAddChildren(children) {
   if (!children)
     return;
 
   var info = this.constructor[attrSym].info.children;
   var ctors = info.ctors;
 
-  var result;
-  for (var type in ctors) {
-    var promises = lazyAddChildrenOfType.call(this, type, children[type]);
-    if (promises)
-      result = result ? result.concat(promises) : promises; 
-  }
-
-  return result;
+  for (var type in ctors)
+    yield* lazyAddChildrenOfType.call(this, type, children[type]);
 }
 
-function lazyAddChildrenOfType(type, children) {
+function* lazyAddChildrenOfType(type, children) {
   if (!children)
     return;
 
@@ -87,42 +74,40 @@ function lazyAddChildrenOfType(type, children) {
   // flatten children and apply transforms
   children = descriptorNamedCreate(children, [ctorDefaults, defaults]);
 
-  var result;
+  // allow these children to be resolve in a subsequent pass
+  var defer = info.defer[type];
+
   for (var name in children) {
-    var child = children[name];
-    var promises = lazyAddChild.call(this, ctor, name, child);
-    if (promises)
-      result = result ? result.concat(promises) : promises; 
-  }
-
-  return result;
-}
-
-function fulfillPromises(promises) {
-  if (!promises) 
-    return;
-
-  while (promises.length) {
-    var result = promises.pop()();
-    assert(!result, failedToResolveNameError)
+    var tasks = lazyAddChild.call(this, ctor, name, children[name]);
+    defer ? yield tasks : yield* tasks; // :)
   }
 }
+
+function execute(tasks) {
+  var deferred = [ ];
+
+  for (var task of tasks)
+    deferred.push(task);
+    
+  for (var task of deferred) {
+    var done = task.next().done;
+    assert(done);
+  }
+};
 
 objectEx.defineFunctions(Node.prototype, {
 
   addChild: function(ctor, name, descriptor) {
-    lazyAddChild.call(this, ctor, name, descriptor);
+    execute(lazyAddChild.call(this, ctor, name, descriptor));
     return this.children[name];
   },
 
   addChildren: function(children) {
-    var promises = lazyAddChildren.call(this, children);
-    fulfillPromises(promises);
+    execute(lazyAddChildren.call(this, children));
   },
 
   addChildrenOfType(type, children) {
-    var promises = lazyAddChildrenOfType.call(this, type, children);
-    fulfillPromises(promises);
+    execute(lazyAddChildrenOfType.call(this, type, children));
   },
 
   getAncestor: function(ctor) {

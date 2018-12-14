@@ -57,7 +57,8 @@ function createInfo(descriptor) {
     },
     children: { 
       ctors: { },
-      defaults: { }
+      defaults: { },
+      defer: { },
     } 
   };
 }
@@ -122,6 +123,7 @@ function defineChildren(func, children, info) {
     defineChild(func, name, child);
     info.ctors[name] = child.type;
     info.defaults[name] = child.defaults;
+    info.defer[name] = child.defer;
   }
 }
 
@@ -191,11 +193,15 @@ function defineAccessor(func, name, descriptor) {
 
   descriptor.enumerable = true;
   if ('value' in descriptor)
-    descriptor.writable = true;
+    descriptor.writable = false;
   else if ('get' in descriptor == false)
     return;
 
-  objectEx.defineProperty(func.prototype, name, descriptor);
+  var target = func;
+  if (!descriptor.static)
+    target = target.prototype;
+
+  objectEx.defineProperty(target, name, descriptor);
 }
 
 function defineFlags(func, flags, info) {

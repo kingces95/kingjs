@@ -66,22 +66,26 @@ Loader.builtIn.addChildren({
   ]
 });
 
+for (name in builtInTypes) {
+  var type = builtInTypes[name];
+  if (ref == type.func)
+    return type;
+}
+
 var builtInTypes = Loader.builtIn.children;
 Object.freeze(builtInTypes);
 
-for (var name in builtInTypes)
-  objectEx.defineStaticField(Loader, name, builtInTypes[name]);
+for (var name in builtInTypes) {
+  var type = builtInTypes[name];
+  objectEx.defineStaticField(Loader, name, type);
+  if (type.func)
+    objectEx.defineHiddenField(type.func, Loader.infoSymbol, type);
+}
 
 objectEx.defineFunction(JavascriptNode.prototype, 
   function resolve(ref) {
-    if (is.function(ref)) {
-      for (name in builtInTypes) {
-        var type = builtInTypes[name];
-        if (ref == type.func)
-          return type;
-      }
-      return undefined;
-    }
+    if (is.function(ref))
+      return ref[Loader.infoSymbol];
 
     return Node.prototype.resolve.call(this, ref);
   }
@@ -90,24 +94,6 @@ objectEx.defineFunction(JavascriptNode.prototype,
 assert(Loader.builtIn.resolve('Object') == Loader.Object);
 assert(Loader.builtIn.resolve(Object) == Loader.Object);
 assert(Loader.Array.base == Loader.Object);
-
-for (var name in exports) {
-  var ctor = exports[name];
-  var indent = '';
-  var prototype = ctor.prototype;
-  while (prototype != Node.prototype) {
-    ctor = prototype.constructor;
-    console.log(indent + '--' + ctor.name);
-    indent += '  ';
-    var own = Object.getOwnPropertyNames(prototype);
-    for (var i = 0; i < own.length; i ++) {
-      if (own[i] == 'constructor') continue;
-      var isEnumerable = prototype.propertyIsEnumerable(own[i]);
-      console.log(indent + own[i] + (isEnumerable ? '' : '()')); 
-    }
-    prototype = Object.getPrototypeOf(prototype);
-  }
-}
 
 Object.defineProperties(module, {
   exports: { value: create }
