@@ -73,9 +73,26 @@ defineSchema(exports, [{
     flags: { 
       abstract: 'this.func === null',
     },
-    accessors: {
+    accessors: [{
       func: { func: Function },
-    },
+    }, { 
+      $defaults: { lazy: true },
+      declaringInterface: { 
+        get: function() {
+          var iFace = this.declaringType;
+          if (iFace.isInterface)
+            return iFace;
+          
+          iFace = this.resolve(this.name);
+          if (!iFace || !iFace.isInterface)
+            return null;
+
+          assert(this.scope.isType);
+          assert(this.declaringType instanceof iFace.load());
+          return iFace;
+        }, 
+      }
+    }],
   }, {
 
     // Accessor

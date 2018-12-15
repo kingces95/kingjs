@@ -186,7 +186,7 @@ function patchExtension(ctor, name, descriptor) {
   assert(!descriptor.writable);
 
   var prototype = Object.getPrototypeOf(this);
-  Object.defineProperty(prototype, name, descriptor) 
+  Object.defineProperty(prototype, name, descriptor);
 }
 
 function callStubAndPatch(stub, target, name, descriptor) {

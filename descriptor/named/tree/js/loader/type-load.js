@@ -14,7 +14,7 @@ function load() {
 
   // load base
   var base = this.base;
-  var baseFunc = base.load();
+  var baseFunc = base ? base.load() : null;
 
   // init; prevent activation if abstract
   var init = this.init;
@@ -27,17 +27,15 @@ function load() {
   objectEx.defineConstField(this, 'func', func);
 
   // allow func -> info resolution
-  console.log(name);
   objectEx.defineHiddenField(func, this.loader.infoSymbol, this);
 
   // augment instanceof (e.g. account for interfaces)
-  Object.defineProperty(
-    func,
-    Symbol.hasInstance, {
+  if (this.isInterface) {
+    Object.defineProperty(func, Symbol.hasInstance, {
       value: instance => this.hasInstance(instance)
-    }
-  )
-
+    })
+  }
+  
   // load children
   var childNames = Object.getOwnPropertyNames(this.children);
   var childSymbols = Object.getOwnPropertySymbols(this.children);

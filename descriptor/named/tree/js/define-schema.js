@@ -12,6 +12,7 @@ var stringEx = require('@kingjs/string-ex');
 
 var cap = stringEx.capitalize;
 var isConst = 'is';
+var addConst = 'add';
 
 var wrap = {
   flag: o => ({ [is.boolean(o) ? 'value' : 'get']: o }),
@@ -127,16 +128,15 @@ function defineChildren(func, children, info) {
   }
 }
 
-function defineChild(func, name, descriptor) {
-  descriptor = wrapAndResolve(descriptor);
-
-  objectEx.defineFunction(
-    func.prototype,
-    'add' + cap(name),
-    function(descriptors) {
-      this.addChildrenOfType(name, descriptors) 
+function defineChild(func, type, descriptor) {
+  objectEx.defineFunctions(func.prototype, {
+    [addConst + descriptor.type.name]: function(name, descriptor) {
+      this.addChildOfType(type, name, descriptor);
     },
-  );
+    [addConst + cap(type)]: function(descriptors) {
+      this.addChildrenOfType(type, descriptors);
+    }
+  });
 }
 
 function defineAccessors(func, accessors, info) {

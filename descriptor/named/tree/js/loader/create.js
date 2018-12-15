@@ -9,7 +9,7 @@ var schema = require('./schema');
 var JavascriptNode = schema.JavascriptNode;
 var Loader = schema.Loader;
 
-function create() {
+function create(children) {
   var loader = new Loader();
 
   objectEx.defineField(
@@ -17,6 +17,9 @@ function create() {
     'children', 
     Object.create(Loader.builtIn.children)
   );
+
+  if (children)
+    loader.addChildren(children);
 
   return loader;
 }

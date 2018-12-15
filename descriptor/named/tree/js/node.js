@@ -10,9 +10,13 @@ var period = '.';
 
 var failedToResolveNameError = 'Failed to resolve member name to an id.'
 
+var registry = { };
+
 function Node(parent, name, descriptor) {
   this.name = name || null;
   this.parent = parent || null;
+
+  registry[this.id] = this;
 };
 
 objectEx.defineLazyAccessors(Node.prototype, {
@@ -106,6 +110,10 @@ objectEx.defineFunctions(Node.prototype, {
     execute(lazyAddChildren.call(this, children));
   },
 
+  addChildOfType(type, name, child) {
+    this.addChildrenOfType(type, { [name]: child });
+  },
+
   addChildrenOfType(type, children) {
     execute(lazyAddChildrenOfType.call(this, type, children));
   },
@@ -128,6 +136,9 @@ objectEx.defineFunctions(Node.prototype, {
 
     if (ref === null)
       return null;
+
+    if (is.symbol(ref))
+      return registry[ref];
     
     assert(is.string(ref));
     var split = ref.split('.');
