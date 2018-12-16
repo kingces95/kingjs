@@ -4,6 +4,7 @@ var is = require('@kingjs/is');
 var defineSchema = require('../define-schema');
 var typeLoad = require('./type-load');
 var methodInit = require('./method-init');
+var methodBase = require('./method-base');
 var createVtable = require('./vtable-create');
 
 defineSchema(exports, [{
@@ -77,21 +78,7 @@ defineSchema(exports, [{
       func: { func: Function },
     }, { 
       $defaults: { lazy: true },
-      declaringInterface: { 
-        get: function() {
-          var iFace = this.declaringType;
-          if (iFace.isInterface)
-            return iFace;
-          
-          iFace = this.resolve(this.name);
-          if (!iFace || !iFace.isInterface)
-            return null;
-
-          assert(this.scope.isType);
-          assert(this.declaringType instanceof iFace.load());
-          return iFace;
-        }, 
-      }
+      base: { get: methodBase }
     }],
   }, {
 
@@ -113,7 +100,11 @@ defineSchema(exports, [{
     name: 'Type', 
     base: 'Member',
     accessors: { 
-      vtable: { type: Object, get: createVtable, lazy: true }
+      $defaults: { lazy: true, type: Object },
+      vtable: { get: createVtable },
+      properties: { 
+        get: 'Object.create(this.base ? this.base.properties : null)' 
+      }
     },
     methods: [{
       $defaults: { lazy: true },

@@ -9,6 +9,20 @@ function readmeCondition() {
 }
 readmeCondition();
 
+function conditionToBoolean() {
+  var noThrow = false;
+  try { assert(null); noThrow = true; } catch(e) { }
+  try { assert(undefined); noThrow = true; } catch(e) { }
+  try { assert(0); noThrow = true; } catch(e) { }
+  try { assert(''); noThrow = true; } catch(e) { }
+  assert(!noThrow);
+
+  assert({ });
+  assert(' ');
+  assert(1);
+}
+conditionToBoolean();
+
 function readmeFail() {
   var result;
   try { assert(); } 

@@ -1,7 +1,7 @@
 'use strict';
 
 function assert(condition, message) {
-  if (condition === false || condition === undefined)
+  if (!condition)
     throw message || "An assertion failed.";
 }
 

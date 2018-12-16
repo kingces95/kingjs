@@ -1,6 +1,7 @@
 {
   "description": "RunKit like environment for testing readme samples and tests in general.",
   "dependencies": {
+    "@kingjs/assert": "^1.0.11",
     "@kingjs/assert-theory": "^1.0.15",
     "@kingjs/descriptor.nested.merge": "^1.0.19",
     "@kingjs/descriptor.object.clone": "^1.0.0",
