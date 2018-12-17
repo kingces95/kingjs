@@ -21,6 +21,84 @@ function readMe() {
 }
 readMe();
 
+function testStatic() {
+  var funcName = 'foo';
+  var getterName = 'bar';
+  var setterName = 'baz';
+  var fieldName = 'moo';
+
+  var field; 
+  var Type = function Type() { };
+  objectEx.defineFunction(Type, funcName, { value: () => 0, static: true });
+  objectEx.defineAccessor(Type, getterName, { get: () => 0, static: true });
+  objectEx.defineAccessor(Type, setterName, { set: x => field = x, static: true });
+  objectEx.defineProperty(Type, fieldName, { value: 42, writable: true, static: true });
+
+  var instance = new Type();
+
+  assert(funcName in Type && funcName in instance);
+  assert(Type[funcName]() === 0);
+  assert(instance[funcName]() === 0);
+
+  assert(getterName in Type && getterName in instance);
+  assert(Type[getterName] === 0);
+  assert(instance[getterName] === 0);
+
+  assert(setterName in Type && setterName in instance);
+  assert(Type[setterName] = 0, field == 0);
+  assert(instance[setterName] = 1, field == 1);
+
+  assert(fieldName in Type && fieldName in instance);
+  assert(Type[fieldName] === 42);
+  assert(instance[fieldName] === 42);
+  assert(Type[fieldName] = 0, Type[fieldName] == 0);
+  assert(instance[fieldName] = 1, Type[fieldName] == 1);
+}
+testStatic();
+
+function testThunk() {
+  var funcName = 'foo';
+  var getterName = 'bar';
+  var setterName = 'baz';
+  var fieldName = 'moo';
+
+  var funcSym = Symbol('foo');
+  var getterSym = Symbol('bar');
+  var setterSym = Symbol('baz');
+  var fieldSym = Symbol('moo');
+
+  var field; 
+  var Type = function Type() { };
+  objectEx.defineFunction(Type, funcSym, { thunk: funcName });
+  objectEx.defineAccessor(Type, getterSym, { thunk: getterName });
+  objectEx.defineAccessor(Type, setterSym, { thunk: setterName });
+  objectEx.defineProperty(Type, fieldSym, { thunk: fieldName });
+
+  objectEx.defineFunction(Type, funcName, { value: () => 0, });
+  objectEx.defineAccessor(Type, getterName, { get: () => 0, });
+  objectEx.defineAccessor(Type, setterName, { set: x => field = x });
+  objectEx.defineProperty(Type, fieldName, { value: 42, writable: true });
+
+  assert(funcName in Type && funcSym in Type);
+  assert(Type[funcName]() === 0);
+  assert(Type[funcSym]() === 0);
+
+  assert(getterName in Type && getterSym in Type);
+  assert(Type[getterName] === 0);
+  assert(Type[getterSym] === 0);
+
+  assert(setterName in Type && setterSym in Type);
+  assert(Type[setterName] = 0, field == 0);
+  assert(Type[setterSym] = 1, field == 1);
+
+  assert(fieldName in Type && fieldSym in Type);
+  assert(Type[fieldName] === 42);
+  assert(Type[fieldSym] === 42);
+  assert(Type[fieldName] = 0, Type[fieldName] == 0);
+  assert(Type[fieldSym] = 1, Type[fieldName] == 1);
+}
+testThunk();
+
 function lazyAccessor() {
   var name = 'foo';
 
@@ -180,23 +258,30 @@ function defineReference() {
 defineReference();
 
 function testExtension() {
+  function MyObject() { };
+  var myObjectPrototype = new MyObject();
+
+  // extensions on myObjectPrototype are written to Node.prototype
+  function Node() { };
+  Node.prototype = myObjectPrototype;
+
   function Bar() { };
+  Bar.prototype = new Node();
+
   function Baz() { };
+  Baz.prototype = new Node();
 
   function IFoo() { throw 'abstract'; };
   Object.defineProperty(IFoo, Symbol.hasInstance, {
     value: function(x) { 
-      if (x instanceof Bar)
-        return true;
-      if (x instanceof Array)
-        return true; 
+      return x instanceof Bar;
     }
   });
 
   // function
   var methodEx = Symbol('method');
   objectEx.defineProperty(
-    Object.prototype,
+    myObjectPrototype,
     methodEx, {
       function: true,
       extends: () => IFoo,
@@ -214,7 +299,7 @@ function testExtension() {
   // getter
   var getterEx = Symbol('getter');
   objectEx.defineProperty(
-    Object.prototype,
+    myObjectPrototype,
     getterEx, {
       extends: () => IFoo,
       get: function() { return this; },
@@ -227,7 +312,7 @@ function testExtension() {
   // setter
   var setterEx = Symbol('setter');
   objectEx.defineProperty(
-    Object.prototype,
+    myObjectPrototype,
     setterEx, {
       extends: () => IFoo,
       set: function(value) { 
@@ -238,11 +323,33 @@ function testExtension() {
 
   bar[setterEx] = 42;
   assert(bar.field == 42);
+}
+testExtension();
+
+function testArrayExtension() {
+
+  function IFoo() { throw 'abstract'; };
+  Object.defineProperty(IFoo, Symbol.hasInstance, {
+    value: function(x) { 
+      return x instanceof Array;
+    }
+  });
+
+  // function
+  var methodEx = Symbol('method');
+  objectEx.defineProperty(
+    Object.prototype,
+    methodEx, {
+      function: true,
+      extends: () => IFoo,
+      value: function(x) { return x; },
+    }
+  )
 
   // primitive
   var array = [ ];
-  assert(array[getterEx] == array)
+  assert(array[methodEx](42) == 42)
 }
-testExtension();
+testArrayExtension();
 
 require('./theory');

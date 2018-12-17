@@ -8,6 +8,7 @@ var initField = require('./js/init/field');
 var initFunction = require('./js/init/function');
 var initAccessor = require('./js/init/accessors');
 var initReference = require('./js/init/reference');
+var initStatic = require('./js/init/static');
 var initThunk = require('./js/init/thunk');
 var initStubs = require('./js/init/stubs');
 var initLambda = require('./js/init/lambda');
@@ -156,11 +157,10 @@ function exportDefinition(
 
     var isFunction = descriptor.function;
     var isAccessor = 'get' in descriptor || 'set' in descriptor;
-    var isExtension = descriptor.extension;
-    assert(!isExtension || isFunction || isAccessor);
+    var isThunk = descriptor.thunk;
 
     // lambda + stubs
-    if (isFunction || isAccessor) {
+    if (isFunction || isAccessor || isThunk) {
       if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
 
@@ -168,14 +168,11 @@ function exportDefinition(
       descriptor = initStubs.call(descriptor, target, name);
     }
 
-    if (isExtension)
-      target = Object.prototype;
-
     var result = Object.defineProperty(target, name, descriptor);
 
     // make property on ctor available to instances via thunks on prototype
     if (descriptor.static) {
-      descriptor = initThunk.call(descriptor, target, name);
+      descriptor = initStatic.call(descriptor, target, name);
 
       assert(is.function(target));
       Object.defineProperty(target.prototype, name, descriptor);

@@ -2,6 +2,7 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
+var initThunk = require('./thunk');
 
 var unresolvedPromiseError = 'Promise returned undefined value.';
 var unresolvedStubError = 'Stub returned undefined value.';
@@ -12,12 +13,17 @@ var extendsThisError = 'Extension does not extend this object.';
 var valueTag = Symbol('value');
 var getTag = Symbol('get');
 var setTag = Symbol('set');
+var Name = 'name';
 
 function initStubs(target, name) {
   var isConfigurable = this.configurable || false;
   var isExternal = this.external || false;
   var isFuture = this.future || false;
   var isExtension = this.extends || false;
+  var isThunk = this.thunk || false;
+
+  if (isThunk)
+    return initThunk.call(this, this.thunk);
 
   if (isExtension)
     return initExtension.call(this, target, name);
@@ -50,7 +56,6 @@ function initExtension(target, name) {
   assert(!is.function(target));
   assert(is.function(target.constructor));
 
-
   var descriptor = { };
   for (var key in this)
     descriptor[key] = this[key];
@@ -60,11 +65,14 @@ function initExtension(target, name) {
 
   if (this.value) {
     descriptor.writable = false;
-    this.value = function callGetExtensionAndPatch() {
+    this.value = function callExtensionAndPatch() {
       if (!ctor) ctor = lazyCtor();
       patchExtension.call(this, ctor, name, descriptor);
       return descriptor.value.apply(this, arguments);
     };
+    Object.defineProperty(this.value, Name, { 
+      value: `call_${name.toString()}_AndPatch` 
+    })
   }
 
   else {

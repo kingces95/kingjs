@@ -1,28 +1,51 @@
 'use strict';
 
-function thunk(target, name) {
-  var isFunction = this.function;
+var is = require('@kingjs/is');
+var assert = require('@kingjs/assert');
 
-  if (isFunction) {
+function thunk(name) {
+  assert(is.stringOrSymbol(name));
 
-    this.value = function staticThunk() {
-      return target[name].apply(target, arguments); 
-    }
-  }
-  else {
-    delete this.value;
-    delete this.writable;
+  if (this.function)
+    return functionThunk.call(this, name);
 
-    this.get = function staticGetThunk() {
-      return target[name]; 
-    };
+  return accessorThunk.call(this, name);
+}
 
-    this.set = function staticSetThunk(value) {
-      target[name] = value; 
-    }
-  }
-  
+function functionThunk(name) {
+  assert(this.function);
+
+  this.value = function() {
+    return this[name].apply(this, arguments); 
+  };
+  nameThunk(this.value, name);
+
   return this;
+}
+
+function accessorThunk(name) {
+  assert(!this.function);
+
+  delete this.value;
+  delete this.writable;
+
+  this.get = function() {
+    return this[name]; 
+  };
+  nameThunk(this.get, name);
+
+  this.set = function(value) {
+    this[name] = value; 
+  }
+  nameThunk(this.set, name);
+
+  return this;
+}
+
+function nameThunk(func, name) {
+  if (is.symbol(name))
+    name = name.toString();
+  Object.defineProperty(func, 'name', { value: `${name}_Thunk` });
 }
 
 Object.defineProperties(module, {
