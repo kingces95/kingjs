@@ -17,21 +17,17 @@ var Name = 'name';
 
 function initStubs(target, name) {
   var isConfigurable = this.configurable || false;
-  var isExternal = this.external || false;
-  var isFuture = this.future || false;
-  var isExtension = this.extends || false;
-  var isThunk = this.thunk || false;
 
-  if (isThunk)
+  if (this.thunk)
     return initThunk.call(this, this.thunk);
 
-  if (isExtension)
-    return initExtension.call(this, target, name);
+  if (this.extends)
+    initExtension.call(this, target, name);
 
-  if (isExternal)
+  if (this.external)
     initExternal.call(this, target, name, isConfigurable);
     
-  if (isFuture)
+  if (this.future)
     initFuture.call(this, name, isConfigurable);
 
   return this;
@@ -48,7 +44,6 @@ function initExtension(target, name) {
   assert(!isConfigurable);
   assert(!isEnumerable);
   assert(!isStatic);
-  assert(!isExternal);
   assert(!isFuture);
 
   assert(isExtension);
@@ -56,42 +51,34 @@ function initExtension(target, name) {
   assert(!is.function(target));
   assert(is.function(target.constructor));
 
-  var descriptor = { };
-  for (var key in this)
-    descriptor[key] = this[key];
+  var descriptor = scorchAndFreeze({ 
+    configurable: isConfigurable,
+    enumerable: this.enumerable,
+    value: this.value,
+    get: this.get,
+    set: this.set,
+  });
 
-  var ctor; 
-  var lazyCtor = this.extends;
+  var extendedType; 
+  var getExtendedType = this.extends;
+  var stub = function(ctor, name) {
+    if (!extendedType)
+      extendedType = getExtendedType();
+    
+    var protoInstance = Object.create(ctor.prototype);
+    assert(protoInstance instanceof extendedType, extendsThisError);
 
-  if (this.value) {
-    descriptor.writable = false;
-    this.value = function callExtensionAndPatch() {
-      if (!ctor) ctor = lazyCtor();
-      patchExtension.call(this, ctor, name, descriptor);
-      return descriptor.value.apply(this, arguments);
-    };
-    Object.defineProperty(this.value, Name, { 
-      value: `call_${name.toString()}_AndPatch` 
-    })
+    if (isExternal)
+      return callStub(ctor, name, descriptor);
+
+    return descriptor;
   }
 
-  else {
-    if (this.get) {
-      this.get = function callGetExtensionAndPatch() {
-        if (!ctor) ctor = lazyCtor();
-        patchExtension.call(this, ctor, name, descriptor);
-        return descriptor.get.call(this);
-      };
-    }
-
-    if (this.set) {
-      this.set = function callSetExtensionAndPatch() {
-        if (!ctor) ctor = lazyCtor();
-        patchExtension.call(this, ctor, name, descriptor);
-        descriptor.set.call(this, arguments[0]);
-      };
-    }
-  }
+  this.external = true;
+  this.value = stub;
+  this.get = stub;
+  this.set = stub;
+  scorch(this);
 
   return this;
 }
@@ -103,39 +90,36 @@ function initExternal(target, name, isConfigurable) {
 
   assert(isExternal);
 
-  var stub = this.value || this.get || this.set;
-  assert(is.function(stub));
-
-  var descriptor = { 
+  var descriptor = scorchAndFreeze({ 
     configurable: isConfigurable,
     enumerable: this.enumerable,
-    [valueTag]: this.value, // => stub(ctor)
-    [getTag]: this.get, // => stub(ctor)
-    [setTag]: this.set, // => stub(ctor)
+    writable: this.writable,
+    value: this.value,
+    get: this.get,
+    set: this.set,
 
     // no need to patch the stub if it'll be immediately set with the promise
     backPatch: (isFuture && isStatic) == false,
-  };
+  });
 
   if (this.value) {
-    descriptor.writable = this.writable;
     this.value = function callFuncStubAndPatch() {
-      descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-      return descriptor.value.apply(this, arguments);
+      var result = callStubAndPatch.call(this, target, name, descriptor);
+      return result.value.apply(this, arguments);
     };
   }
   else {
     if (this.get) {
       this.get = function callGetStubAndPatch() {
-        descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-        return descriptor.get.call(this);
+        var result = callStubAndPatch.call(this, target, name, descriptor);
+        return result.get.call(this);
       };
     }
 
     if (this.set && !isFuture) {
       this.set = function callSetStubAndPatch() {
-        descriptor = callStubAndPatch.call(this, stub, target, name, descriptor);
-        descriptor.set.apply(this, arguments);
+        var result = callStubAndPatch.call(this, target, name, descriptor);
+        result.set.apply(this, arguments);
       };
     }
   }
@@ -185,53 +169,50 @@ function initFuture(name, isConfigurable) {
   return this;
 }
 
-function patchExtension(ctor, name, descriptor) {
-  assert(this instanceof ctor, extendsThisError);
-
-  assert(is.symbol(name));
-  assert(!descriptor.configurable);
-  assert(!descriptor.enumerable);
-  assert(!descriptor.writable);
-
-  var prototype = Object.getPrototypeOf(this);
-  Object.defineProperty(prototype, name, descriptor);
-}
-
-function callStubAndPatch(stub, target, name, descriptor) {
+function callStubAndPatch(target, name, descriptor) {
   var ctor = is.function(target) ? 
     target : Object.getPrototypeOf(this).constructor;
 
   assert(this == ctor || this instanceof ctor);
 
-  descriptor = callStub(stub, ctor, name, descriptor);
+  var result = callStub(ctor, name, descriptor);
   
   if (descriptor.backPatch)
-    Object.defineProperty(target, name, descriptor) 
+    Object.defineProperty(target, name, result) 
 
-  return descriptor;
+  return result;
 }
 
-function callStub(stub, ctor, name, descriptor) {
+function callStub(ctor, name, descriptor) {
+
+  var stub = descriptor.value || descriptor.get || descriptor.set;
+  assert(is.function(stub));
 
   var value = stub(ctor, name);
   trapDebuggerEval(value, unresolvedStubError);
 
-  if (descriptor[valueTag]) {
+  var result = {
+    configurable: descriptor.configurable,
+    enumerable: descriptor.enumerable
+  };
+
+  if (descriptor.value) {
     assert(is.function(value));
-    descriptor.value = value;
+    result.writable = descriptor.writable;
+    result.value = value;
   } 
   else if (is.function(value)) {
-    if (descriptor[getTag])
-      descriptor.get = value;
+    if (descriptor.get)
+      result.get = value;
     else 
-      descriptor.set = value;
+      result.set = value;
   } 
   else {
-    descriptor.get = value.get;
-    descriptor.set = value.set;
+    result.get = value.get;
+    result.set = value.set;
   }
 
-  return descriptor;
+  return result;
 }
 
 function createPromise(promise, name, descriptor) {
@@ -261,6 +242,19 @@ function createSetPromiseArgument(promise, name, descriptor) {
       get: createPromise(promise, name, descriptor)
     });
   }
+}
+
+function scorch(target) {
+  for (var name in target) {
+    if (is.undefined(target[name]))
+      delete target[name];
+  }
+
+  return target;
+}
+
+function scorchAndFreeze(target) {
+  return Object.freeze(scorch(target));
 }
 
 // The debugger will prematurely call funcs/stubs. Instead of returning and 
