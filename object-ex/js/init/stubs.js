@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
@@ -25,7 +25,7 @@ function initStubs(target, name) {
     initExtension.call(this, target, name);
 
   if (this.external)
-    initExternal.call(this, name, isConfigurable);
+    initExternal.call(this, name, null, null, isConfigurable);
     
   if (this.future)
     initFuture.call(this, name, isConfigurable);
@@ -44,7 +44,7 @@ function initExtension(target, name) {
   assert(!isConfigurable);
   assert(!isEnumerable);
   assert(!isStatic);
-  assert(!isFuture);
+  //assert(!isFuture);
 
   assert(isExtension);
   assert(is.symbol(name));
@@ -63,7 +63,7 @@ function initExtension(target, name) {
 
   var extendedType; 
   var getExtendedType = this.extends;
-  var stub = function(ctor, name) {
+  var stub = function checkExtendsTypeAndCallStub(ctor, name) {
     if (!extendedType)
       extendedType = getExtendedType();
     
@@ -81,7 +81,7 @@ function initExtension(target, name) {
   return this;
 }
 
-function initExternal(name, isConfigurable) {
+function initExternal(name, prototype, cached, isConfigurable) {
   var isExternal = this.external || false;
   var isFuture = this.future || false;
   var isStatic = this.static || false;
@@ -89,6 +89,7 @@ function initExternal(name, isConfigurable) {
   assert(isExternal);
 
   var descriptor = scorchAndFreeze({ 
+    external: true,
     configurable: isConfigurable,
     enumerable: this.enumerable,
     writable: this.writable,
@@ -97,11 +98,9 @@ function initExternal(name, isConfigurable) {
     set: this.set,
   });
 
-  var stub = createStub(descriptor);
-
-  initValueOrGetOrSet.call(this, stub);
-
   this.configurable = true;
+
+  initValueOrGetOrSet.call(this, createStub(name, descriptor, prototype, cached));
 
   return this;
 }
@@ -159,47 +158,50 @@ function initValueOrGetOrSet(func) {
   return this;
 }
 
-function createStub(descriptor) {
-  return function() {
-    var result = patch.call(this, name, descriptor);
+function createStub(name, descriptor, prototype, cached) {
+  return function dispatchOrPatch() {
+    var result = cached;
+    
+    if (Object.getPrototypeOf(this) != prototype)
+      result = patch.call(this, name, descriptor);
+
     return dispatch.call(result, this, arguments);
   }
 }
 
 function dispatch(context, arguments) {
   if (this.value)
-      return result.value.apply(context, arguments);
+      return this.value.apply(context, arguments);
 
   if (this.get) 
-    return result.get.call(context);
+    return this.get.call(context);
 
-  result.set.apply(context, arguments);
+  this.set.apply(context, arguments);
 }
 
-function patch(name, stub) {
-  assert(stub.static == is.function(this));
-
-  if (stub.static) {
-    var newStub = callStub(ctor, name, stub);
-    Object.defineProperty(target, name, newStub);
-    return newStub;
-  }
+function patch(name, descriptor) {
+  assert(!!descriptor.static == is.function(this));
 
   var prototype = Object.getPrototypeOf(this);
   var ctor = prototype.constructor;
 
-  var newStub = callStub(ctor, name, stub);
+  var result = callStub(ctor, name, descriptor);
 
-  var thunk = function() {
-    if (this.prototype != prototype)
-      return dispatch.call(patch.call(this, name, stub), this, arguments);
-
-    return ;
+  var staticOrSealed = descriptor.static || Object.isSealed(this);
+  if (!staticOrSealed) {
+    result = initExternal.call(
+      descriptor, 
+      name, 
+      result, 
+      prototype, 
+      result,
+      descriptor.configurable
+    );
   }
 
-  Object.defineProperty(prototype, name, newStub);
+  Object.defineProperty(prototype, name, result);
 
-  return newStub;
+  return result;
 }
 
 function callStub(ctor, name, descriptor) {
@@ -227,8 +229,10 @@ function callStub(ctor, name, descriptor) {
       result.set = value;
   } 
   else {
-    result.get = value.get;
-    result.set = value.set;
+    if (value.get)
+      result.get = value.get;
+    if (value.set)
+      result.set = value.set;
   }
 
   return result;

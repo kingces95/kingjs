@@ -35,30 +35,32 @@ function testExternalExtension() {
   C.i = 20;
   C.generate = () => C.i++;
   C.prototype = new B();
+  Object.seal(C);
 
-  objectEx.createProperty(A, 'ext', {
+  var sym = Symbol('ext');
+  objectEx.defineProperty(A.prototype, sym, {
     extends: () => A,
     external: true,
     future: true,
     get: function(ctor, name) {
-      assert(name == 'generate');
+      assert(name == sym);
       return ctor.generate;
     }
   });
 
   var a = new A();
-  assert(a.ext == 0); // patches with new stub/caches
-  assert(a.ext == 0); // hits cache
+  assert(a[sym] == 0); // patches with new stub/caches
+  assert(a[sym] == 0); // hits cache
   assert(A.i == 1); // hits cache, so shouldn't increment
 
   var b = new B();
-  assert(b.ext == 10); // invokes new stub, patches with new stub/cache
-  assert(b.ext == 10); 
+  assert(b[sym] == 10); // invokes new stub, patches with new stub/cache
+  assert(b[sym] == 10); 
   assert(B.i == 11);
   
   var c = new C();
-  assert(c.ext == 20); // invokes new stub, patches with new stub/cache
-  assert(c.ext == 20); 
+  assert(c[sym] == 20); // invokes new stub, patches with new stub/cache
+  assert(c[sym] == 20); 
   assert(C.i == 21);
 }
 testExternalExtension();
