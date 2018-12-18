@@ -21,6 +21,48 @@ function readMe() {
 }
 readMe();
 
+function testExternalExtension() {
+  function A() { }
+  A.i = 0;
+  A.generate = () => A.i++;
+
+  function B() { }
+  B.i = 10;
+  B.generate = () => B.i++;
+  B.prototype = new A();
+
+  function C() { }
+  C.i = 20;
+  C.generate = () => C.i++;
+  C.prototype = new B();
+
+  objectEx.createProperty(A, 'ext', {
+    extends: () => A,
+    external: true,
+    future: true,
+    get: function(ctor, name) {
+      assert(name == 'generate');
+      return ctor.generate;
+    }
+  });
+
+  var a = new A();
+  assert(a.ext == 0); // patches with new stub/caches
+  assert(a.ext == 0); // hits cache
+  assert(A.i == 1); // hits cache, so shouldn't increment
+
+  var b = new B();
+  assert(b.ext == 10); // invokes new stub, patches with new stub/cache
+  assert(b.ext == 10); 
+  assert(B.i == 11);
+  
+  var c = new C();
+  assert(c.ext == 20); // invokes new stub, patches with new stub/cache
+  assert(c.ext == 20); 
+  assert(C.i == 21);
+}
+testExternalExtension();
+
 function testStatic() {
   var funcName = 'foo';
   var getterName = 'bar';

@@ -25,7 +25,7 @@ function initStubs(target, name) {
     initExtension.call(this, target, name);
 
   if (this.external)
-    initExternal.call(this, target, name, isConfigurable);
+    initExternal.call(this, name, isConfigurable);
     
   if (this.future)
     initFuture.call(this, name, isConfigurable);
@@ -51,6 +51,8 @@ function initExtension(target, name) {
   assert(!is.function(target));
   assert(is.function(target.constructor));
 
+  this.external = true;
+
   var descriptor = scorchAndFreeze({ 
     configurable: isConfigurable,
     enumerable: this.enumerable,
@@ -74,16 +76,12 @@ function initExtension(target, name) {
     return descriptor;
   }
 
-  this.external = true;
-  this.value = stub;
-  this.get = stub;
-  this.set = stub;
-  scorch(this);
+  initValueOrGetOrSet.call(this, stub);
 
   return this;
 }
 
-function initExternal(target, name, isConfigurable) {
+function initExternal(name, isConfigurable) {
   var isExternal = this.external || false;
   var isFuture = this.future || false;
   var isStatic = this.static || false;
@@ -97,32 +95,11 @@ function initExternal(target, name, isConfigurable) {
     value: this.value,
     get: this.get,
     set: this.set,
-
-    // no need to patch the stub if it'll be immediately set with the promise
-    backPatch: (isFuture && isStatic) == false,
   });
 
-  if (this.value) {
-    this.value = function callFuncStubAndPatch() {
-      var result = callStubAndPatch.call(this, target, name, descriptor);
-      return result.value.apply(this, arguments);
-    };
-  }
-  else {
-    if (this.get) {
-      this.get = function callGetStubAndPatch() {
-        var result = callStubAndPatch.call(this, target, name, descriptor);
-        return result.get.call(this);
-      };
-    }
+  var stub = createStub(descriptor);
 
-    if (this.set && !isFuture) {
-      this.set = function callSetStubAndPatch() {
-        var result = callStubAndPatch.call(this, target, name, descriptor);
-        result.set.apply(this, arguments);
-      };
-    }
-  }
+  initValueOrGetOrSet.call(this, stub);
 
   this.configurable = true;
 
@@ -169,18 +146,60 @@ function initFuture(name, isConfigurable) {
   return this;
 }
 
-function callStubAndPatch(target, name, descriptor) {
-  var ctor = is.function(target) ? 
-    target : Object.getPrototypeOf(this).constructor;
+function initValueOrGetOrSet(func) {
+  if (this.value)
+    this.value = func;
 
-  assert(this == ctor || this instanceof ctor);
+  if (this.get)
+    this.get = func;
 
-  var result = callStub(ctor, name, descriptor);
-  
-  if (descriptor.backPatch)
-    Object.defineProperty(target, name, result) 
+  if (this.set)
+    this.set = func;
 
-  return result;
+  return this;
+}
+
+function createStub(descriptor) {
+  return function() {
+    var result = patch.call(this, name, descriptor);
+    return dispatch.call(result, this, arguments);
+  }
+}
+
+function dispatch(context, arguments) {
+  if (this.value)
+      return result.value.apply(context, arguments);
+
+  if (this.get) 
+    return result.get.call(context);
+
+  result.set.apply(context, arguments);
+}
+
+function patch(name, stub) {
+  assert(stub.static == is.function(this));
+
+  if (stub.static) {
+    var newStub = callStub(ctor, name, stub);
+    Object.defineProperty(target, name, newStub);
+    return newStub;
+  }
+
+  var prototype = Object.getPrototypeOf(this);
+  var ctor = prototype.constructor;
+
+  var newStub = callStub(ctor, name, stub);
+
+  var thunk = function() {
+    if (this.prototype != prototype)
+      return dispatch.call(patch.call(this, name, stub), this, arguments);
+
+    return ;
+  }
+
+  Object.defineProperty(prototype, name, newStub);
+
+  return newStub;
 }
 
 function callStub(ctor, name, descriptor) {
