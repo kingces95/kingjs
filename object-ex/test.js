@@ -19,7 +19,40 @@ function readMe() {
   assert(descriptor.enumerable === false);
   assert(descriptor.writable === false);
 }
-readMe();
+//readMe();
+
+function testExternal() {
+  function A() { }
+  A.i = 0;
+  A.generate = () => A.i++;
+
+  function B() { }
+  B.i = 10;
+  B.generate = () => B.i++;
+  B.prototype = new A();
+  B.prototype.constructor = B;
+
+  var sym = Symbol('ext');
+  objectEx.defineProperty(A.prototype, sym, {
+    external: function(ctor, name) {
+      assert(name == sym);
+      return ctor.generate;
+    },
+    future: true,
+    get: null
+  });
+
+  var a = new A();
+  assert(a[sym] == 0); // patches with new stub/caches
+  assert(a[sym] == 0); // hits cache
+  assert(A.i == 1); // hits cache, so shouldn't increment
+
+  var b = new B();
+  assert(b[sym] == 10); // invokes new stub, patches with new stub/cache
+  assert(b[sym] == 10); 
+  assert(B.i == 11);
+}
+testExternal();
 
 function testExternalExtension() {
   function A() { }
@@ -30,27 +63,29 @@ function testExternalExtension() {
   B.i = 10;
   B.generate = () => B.i++;
   B.prototype = new A();
+  B.prototype.constructor = B;
 
   function C() { }
   C.i = 20;
   C.generate = () => C.i++;
   C.prototype = new B();
+  C.prototype.constructor = C;
   Object.seal(C);
 
   var sym = Symbol('ext');
   objectEx.defineProperty(A.prototype, sym, {
     extends: () => A,
-    external: true,
-    future: true,
-    get: function(ctor, name) {
+    external: function(ctor, name) {
       assert(name == sym);
       return ctor.generate;
-    }
+    },
+    //future: true,
+    get: null
   });
 
   var a = new A();
   assert(a[sym] == 0); // patches with new stub/caches
-  assert(a[sym] == 0); // hits cache
+  //assert(a[sym] == 0); // hits cache
   assert(A.i == 1); // hits cache, so shouldn't increment
 
   var b = new B();

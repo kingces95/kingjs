@@ -3,16 +3,16 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
-var initProperty = require('./js/init/property');
-var initField = require('./js/init/field');
-var initFunction = require('./js/init/function');
-var initAccessor = require('./js/init/accessors');
-var initReference = require('./js/init/reference');
-var initStatic = require('./js/init/static');
-var initThunk = require('./js/init/thunk');
-var initStubs = require('./js/init/stubs');
-var initLambda = require('./js/init/lambda');
-var initReference = require('./js/init/reference');
+var initProperty = require('./js/property');
+var initField = require('./js/field');
+var initFunction = require('./js/function');
+var initAccessor = require('./js/accessors');
+var initReference = require('./js/reference');
+var initStatic = require('./js/static');
+var initThunk = require('./js/thunk');
+var initStubs = require('./js/stubs');
+var initLambda = require('./js/lambda');
+var initReference = require('./js/reference');
 
 var definitions = {
 
