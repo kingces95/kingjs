@@ -1,0 +1,66 @@
+//'use strict';
+
+var is = require('@kingjs/is');
+var assert = require('@kingjs/assert');
+var initStubs = require('./stubs');
+
+var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
+var extendsThisError = 'Extension does not extend this object.';
+
+function initExtension(name) {
+  var isConfigurable = this.configurable || false;
+  var isEnumerable = this.enumerable || false;
+  var isExternal = this.external || false;
+  var isExtension = this.extends || false;
+  var isStatic = this.static || false;
+  var isFunction = this.function;
+  var getExtendedType = this.extends;
+
+  assert(!isConfigurable);
+  assert(!isEnumerable);
+  assert(!isStatic);
+  assert(!isExternal);
+
+  assert(isExtension);
+  assert(is.symbol(name));
+
+  var descriptor = { };
+  for (var key in this)
+    descriptor[key] = this[key];
+
+  var type; 
+  var patchAndDispatch = function(value) {
+
+    // cache type
+    if (!type) {
+      type = getExtendedType();
+      assert(!is.undefined(type), failedToResolveExtensionTypeError)
+    }
+    
+    // verify type
+    assert(this instanceof type, extendsThisError);
+
+    // find target
+    var target = this;
+    while (target instanceof type)
+      target = Object.getPrototypeOf(target);
+
+    // patch
+    Object.defineProperty(target, name, descriptor);
+
+    // dispatch
+    if (isFunction)
+      return this[name].apply(this, arguments);
+
+    if (arguments.length == 0) 
+      return this[name];
+    
+    this[name] = value;
+  }
+
+  return initStubs.call(this, patchAndDispatch);
+}
+
+Object.defineProperties(module, {
+  exports: { value: initExtension }
+});

@@ -10,7 +10,9 @@ var initAccessor = require('./js/accessors');
 var initReference = require('./js/reference');
 var initStatic = require('./js/static');
 var initThunk = require('./js/thunk');
-var initStubs = require('./js/stubs');
+var initExternal = require('./js/external');
+var initExtension = require('./js/extension');
+var initFuture = require('./js/future');
 var initLambda = require('./js/lambda');
 var initReference = require('./js/reference');
 
@@ -159,13 +161,28 @@ function exportDefinition(
     var isAccessor = 'get' in descriptor || 'set' in descriptor;
     var isThunk = descriptor.thunk;
 
-    // lambda + stubs
     if (isFunction || isAccessor || isThunk) {
+
       if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
 
-      descriptor = initLambda.call(descriptor);    
-      descriptor = initStubs.call(descriptor, target, name);
+      initLambda.call(descriptor);
+
+      if (descriptor.thunk)
+        initThunk.call(descriptor, descriptor.thunk);
+
+      else {
+        var isConfigurable = descriptor.configurable || false;
+
+        if (descriptor.extends)
+          initExtension.call(descriptor, name);
+
+        else if (descriptor.external)
+          initExternal.call(descriptor, name, isConfigurable);
+
+        if (descriptor.future)
+          initFuture.call(descriptor, name, isConfigurable);
+      }
     }
 
     var result = Object.defineProperty(target, name, descriptor);
