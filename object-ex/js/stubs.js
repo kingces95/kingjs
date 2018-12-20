@@ -10,10 +10,6 @@ var undefinedTokenError = 'Cannot set token to undefined value.';
 var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
 var extendsThisError = 'Extension does not extend this object.';
 
-var valueTag = Symbol('value');
-var getTag = Symbol('get');
-var setTag = Symbol('set');
-
 var defineProperty;
 
 function initStubs(target, name) {
@@ -60,7 +56,7 @@ function initExtension(name) {
   });
 
   var type; 
-  var patchAndDispatch = function() {
+  var patchAndDispatch = function(value) {
 
     // cache type
     if (!type)
@@ -71,13 +67,8 @@ function initExtension(name) {
 
     // find target
     var target = this;
-    while (true) {
-      var prototype = Object.getPrototypeOf(target);
-      if ((prototype instanceof type) == false)
-        break;
-        
-      target = prototype;
-    }
+    while (target instanceof type)
+      target = Object.getPrototypeOf(target);
 
     // patch
     Object.defineProperty(target, name, descriptor);
@@ -210,35 +201,58 @@ function initExternal(name, isConfigurable) {
 function initFuture(name, isConfigurable) {
   var isFuture = this.future || false;
   var isStatic = this.static || false;
+  var isEnumerable = this.enumerable || false;
+  var isFunction = this.function || false;
+  var defaultArgument = this.argument;
+  var wrap = isFunction ? 'value' : 'get';
 
   assert(isFuture);
     
   var promise = this.value || this.get;
 
-  var descriptor = { 
-    configurable: isConfigurable,
-    enumerable: this.enumerable,
-    [valueTag]: this.value, // => promise(this[, argument])
-    [getTag]: this.get, // => promise(this[, argument])
-    [setTag]: this.set, // => argument = value, then fulfill
+  var bindPromise = function(argument) {
+    return function fulfillPromise() {
 
-    argument: this.argument,
+      // evaluate
+      var value = is.undefined(argument) ? 
+        promise.call(this) : promise.call(this, argument);
+
+      trapDebuggerEval(value, unresolvedPromiseError);
+
+      // path
+      Object.defineProperty(this, name, {
+        configurable: isConfigurable,
+        enumerable: isEnumerable,
+        value: isFunction ? () => value : value
+      });
+
+      return value;
+    }
   };
 
-  if (this.get)
-    descriptor.writable = this.writable;
+  if (this.set) {
+    this.set = function setPromise(value) {
 
-  if (!this.set) {
-    this[this.get ? 'get' : 'value'] = createPromise(promise, name, descriptor);
-  }
-  else {
-    assert(!this.value);
-    this.set = createSetPromiseArgument(promise, name, descriptor);    
-    this.get = function fulfillPromise() {
-      trapDebuggerEval(descriptor.argument, derefBeforeAssignmentError);
-      this[name] = descriptor.argument;
+      // bind promise
+      assert(!is.undefined(value), undefinedTokenError);
+      var boundPromise = bindPromise(value);
+
+      // patch
+      Object.defineProperty(this, name, {
+        configurable: true,
+        enumerable: isEnumerable,
+        get: boundPromise
+      });
+    };    
+
+    this.get = function getPromise() {
+      trapDebuggerEval(defaultArgument, derefBeforeAssignmentError);
+      this[name] = defaultArgument;
       return this[name];
     };
+  }
+  else {
+    this[wrap] = bindPromise(this.argument);
   }
 
   if (isStatic)
@@ -258,38 +272,6 @@ function initStub(stub) {
     this.set = stub;
 
   return this;
-}
-
-function createPromise(promise, name, descriptor) {
-  return function fulfillPromiseAndBindFuture() {
-    var value = is.undefined(descriptor.argument) ?
-      promise.call(this) :
-      promise.call(this, descriptor.argument);
-      
-    trapDebuggerEval(value, unresolvedPromiseError);
-
-    descriptor = Object.create(descriptor);
-    descriptor.value = descriptor[getTag] ? value : () => value;
-
-    Object.defineProperty(this, name, descriptor);
-
-    return value;
-  };  
-}
-
-function createSetPromiseArgument(promise, name, descriptor) {
-  return function setPromiseArgument(value) {
-    assert(!is.undefined(value), undefinedTokenError);
-
-    descriptor = Object.create(descriptor);
-    descriptor.argument = value;
-
-    Object.defineProperty(this, name, {
-      configurable: true,
-      enumerable: descriptor.enumerable,
-      get: createPromise(promise, name, descriptor)
-    });
-  }
 }
 
 function scorch(target) {

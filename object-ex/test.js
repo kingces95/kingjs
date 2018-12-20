@@ -19,7 +19,7 @@ function readMe() {
   assert(descriptor.enumerable === false);
   assert(descriptor.writable === false);
 }
-//readMe();
+readMe();
 
 function testExternal() {
   function A() { }
@@ -53,52 +53,6 @@ function testExternal() {
   assert(B.i == 11);
 }
 testExternal();
-
-function testExternalExtension() {
-  function A() { }
-  A.i = 0;
-  A.generate = () => A.i++;
-
-  function B() { }
-  B.i = 10;
-  B.generate = () => B.i++;
-  B.prototype = new A();
-  B.prototype.constructor = B;
-
-  function C() { }
-  C.i = 20;
-  C.generate = () => C.i++;
-  C.prototype = new B();
-  C.prototype.constructor = C;
-  Object.seal(C);
-
-  var sym = Symbol('ext');
-  objectEx.defineProperty(A.prototype, sym, {
-    extends: () => A,
-    external: function(ctor, name) {
-      assert(name == sym);
-      return ctor.generate;
-    },
-    //future: true,
-    get: null
-  });
-
-  var a = new A();
-  assert(a[sym] == 0); // patches with new stub/caches
-  //assert(a[sym] == 0); // hits cache
-  assert(A.i == 1); // hits cache, so shouldn't increment
-
-  var b = new B();
-  assert(b[sym] == 10); // invokes new stub, patches with new stub/cache
-  assert(b[sym] == 10); 
-  assert(B.i == 11);
-  
-  var c = new C();
-  assert(c[sym] == 20); // invokes new stub, patches with new stub/cache
-  assert(c[sym] == 20); 
-  assert(C.i == 21);
-}
-testExternalExtension();
 
 function testStatic() {
   var funcName = 'foo';
@@ -251,10 +205,7 @@ function stubFunctionTest(isFunc) {
 
   objectEx['define' + (isFunc ? 'Function' : 'Accessor')](
     Type.prototype, 'foo', {
-      external: true,
-      future: true,
-      configurable: false,
-      [isFunc ? 'value' : 'get']: function(ctor, stubName) {
+      external: function(ctor, stubName) {
         return function () { 
           return {
             name: stubName, 
@@ -263,7 +214,10 @@ function stubFunctionTest(isFunc) {
             counter: counter++
           }
         };
-      }
+      },
+      future: true,
+      configurable: false,
+      [isFunc ? 'value' : 'get']: null
     }
   );
 
@@ -343,17 +297,26 @@ function testExtension() {
   // extensions on myObjectPrototype are written to Node.prototype
   function Node() { };
   Node.prototype = myObjectPrototype;
+  Node.prototype.constructor = Node;
 
   function Bar() { };
   Bar.prototype = new Node();
+  Bar.prototype.constructor = Bar;
+
+  function Moo() { };
+  Moo.prototype = new Bar();
+  Moo.prototype.constructor = Moo;
 
   function Baz() { };
   Baz.prototype = new Node();
+  Baz.prototype.constructor = Baz;
 
   function IFoo() { throw 'abstract'; };
   Object.defineProperty(IFoo, Symbol.hasInstance, {
     value: function(x) { 
-      return x instanceof Bar;
+      var isBar = x instanceof Bar;
+      var isMoo = x instanceof Moo;
+      return isBar || isMoo;
     }
   });
 
@@ -367,6 +330,10 @@ function testExtension() {
       value: function(x) { return x; },
     }
   )
+
+  var moo = new Moo();
+  assert(moo[methodEx](42) == 42);
+  assert(moo[methodEx](43) == 43);
 
   var bar = new Bar();
   assert(bar[methodEx](42) == 42);
