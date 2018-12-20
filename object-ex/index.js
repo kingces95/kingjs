@@ -178,7 +178,7 @@ function exportDefinition(
           initExtension.call(descriptor, name);
 
         else if (descriptor.external)
-          initExternal.call(descriptor, name, isConfigurable);
+          initExternal.call(descriptor, target, name, isConfigurable);
 
         if (descriptor.future)
           initFuture.call(descriptor, name, isConfigurable);

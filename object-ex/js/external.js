@@ -8,7 +8,7 @@ var unresolvedStubError = 'Stub returned undefined value.';
 
 var defineProperty;
 
-function initExternal(name, isConfigurable) {
+function initExternal(target, name, isConfigurable) {
   var isEnumerable = this.enumerable || false;
   var isWritable = this.writable || false;
   var isExternal = this.external || false;
@@ -21,6 +21,32 @@ function initExternal(name, isConfigurable) {
 
   assert(!isExtension);
   assert(isExternal);
+
+  function initExternal(constructor) {
+
+    // derive descriptor from prototype and name
+    var result = external(constructor, name);
+    assert(!is.undefined(result), unresolvedStubError)
+
+    // wrap result if it's a function
+    if (is.function(result)) {
+      this[wrap] = result;
+      if (isFunction)
+        this.writable = isWritable;
+    }
+
+    // otherwise simply copy all of results keys
+    else {
+      for (var key in result)
+        this[key] = result[key];
+      assert(isFunction == ('value' in this));
+    }
+  }
+
+  if (isStatic) {
+    initExternal.call(this, target);
+    return this;
+  }
 
   var thisCopy = { };
   for (var key in this)
@@ -44,61 +70,43 @@ function initExternal(name, isConfigurable) {
     this[name] = value;
   }
 
-  var patchAndDispatch = function() {
+  var patchAndDispatch = function(value) {
 
-    // derive descriptor from prototype and name
-    var prototype = Object.getPrototypeOf(this);
-    var result = external(prototype.constructor, name);
-    assert(!is.undefined(result), unresolvedStubError)
-
-    // build descriptor given external result
+    // build descriptor
     var descriptor = {
       configurable: isConfigurable,
       enumerable: isEnumerable
     };
 
-    // wrap result if it's a function
-    if (is.function(result)) {
-      descriptor[wrap] = result;
-      if (isFunction)
-        descriptor.writable = isWritable;
-    }
-
-    // otherwise simply copy all of results keys
-    else {
-      for (var key in result)
-        descriptor[key] = result[key];
-      assert(isFunction == ('value' in descriptor));
-    }
+    // initialize descriptor using ctor metadata
+    var prototype = Object.getPrototypeOf(this);
+    initExternal.call(descriptor, prototype.constructor);
 
     // add thunks to descriptor to re-patch if prototype changes
-    if (!isStatic) {
-
-      var func = descriptor.value;
-      if (func) {
-        descriptor.value = function functionThunk() {
-          if (prototype != Object.getPrototypeOf(this))
-            return rePatchAndDispatch.apply(this, arguments);
-          return func.apply(this, arguments);
-        }
+    var func = descriptor.value;
+    if (func) {
+      descriptor.value = function functionThunk() {
+        if (prototype != Object.getPrototypeOf(this))
+          return rePatchAndDispatch.apply(this, arguments);
+        return func.apply(this, arguments);
       }
-    
-      var get = descriptor.get;
-      if (get) {
-        descriptor.get = function getThunk() {
-          if (prototype != Object.getPrototypeOf(this))
-            return rePatchAndDispatch.apply(this, arguments);
-          return get.call(this);
-        }
+    }
+  
+    var get = descriptor.get;
+    if (get) {
+      descriptor.get = function getThunk() {
+        if (prototype != Object.getPrototypeOf(this))
+          return rePatchAndDispatch.apply(this, arguments);
+        return get.call(this);
       }
-    
-      var set = descriptor.set;
-      if (set) {
-        descriptor.set = function setThunk(value) {
-          if (prototype != Object.getPrototypeOf(this))
-            return rePatchAndDispatch.apply(this, arguments);
-          set.call(this, value);
-        }
+    }
+  
+    var set = descriptor.set;
+    if (set) {
+      descriptor.set = function setThunk(value) {
+        if (prototype != Object.getPrototypeOf(this))
+          return rePatchAndDispatch.apply(this, arguments);
+        set.call(this, value);
       }
     }
 

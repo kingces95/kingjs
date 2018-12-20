@@ -44,14 +44,17 @@ function buildDescriptor(test) {
     descriptor,
     test, {
       enumerable: null,
-      external: null,
       writable: null,
       static: null,
       value: null,
       future: null,
   });
 
-  return descriptor;
+  var result = { };
+  for (var key in descriptor)
+    result[key] = descriptor[key];
+
+  return result;
 }
 
 function assertDescriptor(test, target, name) {
@@ -154,10 +157,10 @@ assertTheory(function(test, id) {
       break;
 
     case this.variant.descriptor:
-      var value = test.external ? stub : func;
       var descriptor = buildDescriptor(test);
-      descriptor = write.call(descriptor, 'value', value);
-      descriptor = write.call(descriptor, 'function', true);
+      descriptor.value = test.external ? null : func;
+      descriptor.external = test.external ? stub : undefined;
+      descriptor.function = true;
       arg = descriptor;
       name = test.plural ? 'defineProperties' : 'defineProperty';
       break;
@@ -312,14 +315,13 @@ assertTheory(function(test, id) {
       break;
 
     case this.variant.descriptor:
-      var getterOrStub = test.external ? stub : getter;
-      var setterOrStub = test.external ? stub : setter;
-
       var descriptor = buildDescriptor(test);
+      if (test.external)
+        descriptor.external = stub;
       if (test.getter)
-        descriptor = write.call(descriptor, 'get', getterOrStub);
+        descriptor.get = test.external ? null : getter;
       if (test.setter)
-        descriptor = write.call(descriptor, 'set', setterOrStub);
+        descriptor.set = test.external ? null : setter;
       args.push(descriptor);
       name = test.plural ? 'defineAccessors' : 'defineAccessor';
       break;
