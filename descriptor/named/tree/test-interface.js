@@ -11,8 +11,7 @@ var myMethodNumber = 1;
 var myOtherMethodNumber = 3;
 var IFace;
 
-var loader = createLoader();
-loader.addChildren({
+var loader = createLoader({
   classes: {
     MyClass: {
       base: 'MyBaseClass',
@@ -25,6 +24,7 @@ loader.addChildren({
       },
     },
     MyBaseClass: {
+      abstract: true,
       methods: {
         myBaseMethod: null
       }     
@@ -43,22 +43,22 @@ loader.addChildren({
       extends: 'IFace',
       func: function(x) {
         var iFace = IFace.load();
-        return iFace.prototype.myMethod.call(this) + 
-          iFace.prototype.myOtherMethod.call(this, x);
+        return iFace.myMethod.call(this) + 
+          iFace.myOtherMethod.call(this, x);
       }
     }
   }
 });
 
-var MyClass = loader.resolve('MyClass');
-var MyClassFunc = MyClass.load();
-var myClass = new MyClassFunc();
+var MyClassInfo = loader.resolve('MyClass');
+var MyClass = MyClassInfo.load();
+var myClass = new MyClass();
 assert('myMethod' in myClass);
 assert(myClass.myMethod() == myMethodNumber);
 assert(myClass.myBaseMethod() == myBaseMethodNumber);
 assert('myOtherMethod' in myClass == false);
 
-var myBaseClass = MyClass.base.load();
+var myBaseClass = MyClassInfo.base.load();
 assert(myBaseClass.prototype.myBaseMethod.call(myClass) == myBaseMethodNumber);
 
 IFace = loader.resolve('IFace');
@@ -78,12 +78,12 @@ var myMethodAndOtherMethod = loader.resolve('myMethodAndOtherMethod');
 assert(myClass[myMethodAndOtherMethod.id](1) == myMethodNumber + myOtherMethodNumber + 1)
 
 var iFace = IFace.load();
-assertThrows(() => new iFace());
+//assertThrows(() => new iFace());
 
-assert(!!iFace.prototype.myMethod);
-assert(iFace.prototype.myMethod.call(myClass) == myMethodNumber);
+assert(!!iFace.myMethod);
+assert(iFace.myMethod.call(myClass) == myMethodNumber);
 
-assert(!!iFace.prototype.myOtherMethod);
-assert(iFace.prototype.myOtherMethod.call(myClass, 1) == myOtherMethodNumber + 1);
+assert(!!iFace.myOtherMethod);
+assert(iFace.myOtherMethod.call(myClass, 1) == myOtherMethodNumber + 1);
 
 return;

@@ -19,7 +19,7 @@ function load() {
   // init; prevent activation if abstract
   var init = this.init;
   if (this.isAbstract)
-    init = () => { throw abstractTypeError }
+    init = () => { } // todo: throw if abstract
 
   // create this function using base function
   var name = this.name;

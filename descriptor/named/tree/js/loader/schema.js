@@ -160,7 +160,7 @@ defineSchema(exports, [{
     }, {
       $defaults: { ref: true },
       extends: { type: 'Interface', array: true, default: null },
-      base: { type: 'Class', default: 'Interface' },
+      base: { type: 'Class', default: null },
     }],
     children: [{
       $defaults: {

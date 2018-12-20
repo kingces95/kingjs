@@ -9,41 +9,39 @@ var abstractMethodScopeError = 'Abstract method declared on non-abstract scope.'
 var abstractMethodImplError = 'Abstract method declared with implementation.';
 var abstractStaticMethodError = 'Abstract methods cannot be static.';
 
-function abstractMethod() {
-  throw 'Abstract method has no override.';
-}
-
 function load() {
   var scope = this.scope;
   assert(scope.isType);
 
+  var target = scope.func;
+  if (!this.isStatic && !scope.isInterface)
+    target = target.prototype;
+  assert(target); 
+
+  var name = this.name;
   var func = this.func;
-  if (func)
+  if (target.hasOwnProperty(name)) {
+    assert(func == target[name]);
     return func;
+  }
 
   if (this.isAbstract) {
     assert(!func, abstractMethodImplError);
     assert(this.scope.isAbstract, abstractMethodScopeError);
     assert(!this.isStatic, abstractStaticMethodError)
 
-    func = abstractMethod;
     if (scope.isInterface)
       func = createInterfaceThunk(this);
     else if (this.declaringInterface)
       func = this.declaringInterface.load();
+    else
+      func = function() { return this[name].apply(this, arguments); }
   }
 
   assert(is.function(func) || is.string(func));
 
-  var target = scope.func;
-  assert(target); 
-
-  if (!this.isStatic)
-    target = target.prototype;
-
-  objectEx.defineFunction(target, this.name, {
-    value: func
-  });
+  objectEx.defineFunction(target, this.name, func);
+  return func;
 }
 
 function createInterfaceThunk(method) {
