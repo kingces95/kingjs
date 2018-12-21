@@ -78,12 +78,10 @@ var myMethodAndOtherMethod = loader.resolve('myMethodAndOtherMethod');
 assert(myClass[myMethodAndOtherMethod.id](1) == myMethodNumber + myOtherMethodNumber + 1)
 
 var iFace = IFace.load();
-//assertThrows(() => new iFace());
+assertThrows(() => new iFace());
 
 assert(!!iFace.myMethod);
 assert(iFace.myMethod.call(myClass) == myMethodNumber);
 
 assert(!!iFace.myOtherMethod);
 assert(iFace.myOtherMethod.call(myClass, 1) == myOtherMethodNumber + 1);
-
-return;

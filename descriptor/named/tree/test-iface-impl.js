@@ -6,7 +6,9 @@ var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 
-function secondPassTest() {
+function test2ndPass() {
+
+  // test method info creation deferred to after interface infos created
   var loader = createLoader({
     classes: {
       MyFooClass: {
@@ -33,40 +35,72 @@ function secondPassTest() {
   assert(MyFooIFaceMethod.id in MyBarClass.children);
   assert(MyBarIFaceMethod.id in MyFooClass.children);
 
-  var MyBarIFaceFunc = MyBarIFace.load();
   var MyFooFunc = MyFooClass.load();
   var myFoo = new MyFooFunc();
-  assert(MyBarIFaceFunc.prototype.myMethod.call(myFoo) == 'foo');
 
-  var MyFooIFaceFunc = MyFooIFace.load();
+  var MyBarIFaceFunc = MyBarIFace.load();
+  assert(MyBarIFaceFunc.myMethod.call(myFoo) == 'foo');
+
   var MyBarFunc = MyBarClass.load();
   var myBar = new MyBarFunc();
-  assert(MyFooIFaceFunc.prototype.myMethod.call(myBar) == 'bar');
-}
-secondPassTest();
 
-function explicitImpTest() {
+  var MyFooIFaceFunc = MyFooIFace.load();
+  assert(MyFooIFaceFunc.myMethod.call(myBar) == 'bar');
+}
+//test2ndPass();
+
+function testInterfaceThunk() {
   var loader = createLoader({
     interfaces: {
       IFoo: { methods: { myMethod: null } }
     },
     classes: {
+      MyImplicitClass: {
+        implements: [ 'IFoo' ],
+        methods: { myMethod: '42' },
+      },
+      MyExplicitClass: {
+        implements: [ 'IFoo' ],
+        methods: { ['IFoo.myMethod']: '43' },
+      },
       MyClass: {
         implements: [ 'IFoo' ],
-        methods: { myMethod: '42', } 
-      }
+        methods: { 
+          myMethod: '42',
+          ['IFoo.myMethod']: '43', 
+        },
+      },
     }
   });
+
+  var IFooType = loader.resolve('IFoo')
+  var IFoo = IFooType.load();
+  var myMethodInfo = IFooType.resolve('myMethod');
+  var myMethod = myMethodInfo.func;
+  assert(myMethod);
+  assert(myMethod == IFoo.myMethod);
+  var myMethodId = myMethodInfo.id;
+
+  var MyExplicitClassType = loader.resolve('MyExplicitClass');
+  var MyExplicitClass = MyExplicitClassType.load();
+  var myExplicitClass = new MyExplicitClass();
+  assert(myMethod != myExplicitClass[myMethodId]);
+  assert(myMethod.call(myExplicitClass) == 43);
+
+  var MyImplicitClassType = loader.resolve('MyImplicitClass');
+  var MyImplicitClass = MyImplicitClassType.load();
+  var myImplicitClass = new MyImplicitClass();
+  assert(myMethodId in myImplicitClass);
+  assert(myMethod == myImplicitClass[myMethodId]);
+  assert(myMethod.call(myImplicitClass) == 42);
 
   var MyClassType = loader.resolve('MyClass');
   var MyClass = MyClassType.load();
   var myClass = new MyClass();
-
-  var IFooType = loader.resolve('IFoo')
-  var IFoo = IFooType.load();
-  assert(IFoo.prototype.myMethod.call(myClass) == 42);
+  assert(myMethod != myClass[myMethodId]);
+  assert(myMethodId.call(myClass) == 43);
 }
-explicitImpTest();
+testInterfaceThunk();
 
 assertTheory(function(test, id) {
   var loader = createLoader({
@@ -96,7 +130,7 @@ assertTheory(function(test, id) {
 
   var ITarget = ITargetInfo.load();
 
-  var result = ITarget.prototype.myMethod.call(myClass);
+  var result = ITarget.myMethod.call(myClass);
   assert(result == (test.explicitImpl ? test.explicit() : test.implicit()));
 
   if (test.indirect) {

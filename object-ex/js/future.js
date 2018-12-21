@@ -19,11 +19,16 @@ function initFuture(name, isConfigurable) {
     
   var promise = this.value || this.get;
 
-  var bindPromise = function(argument) {
-    return function fulfillPromise() {
+  function initFunction() {
+    Object.defineProperty(this, 'name', { value: `${name} ${(this.name)}` });
+    return this;
+  }
+  
+  var bindPromise = function fulfillPromise(argument) {
+    return initFunction.call(function() {
 
       // evaluate
-      var value = is.undefined(argument) ? 
+      var value = argument === undefined ? 
         promise.call(this) : promise.call(this, argument);
 
       assert(!is.undefined(value), unresolvedPromiseError);
@@ -36,11 +41,11 @@ function initFuture(name, isConfigurable) {
       });
 
       return value;
-    }
+    });
   };
 
   if (this.set) {
-    this.set = function setPromise(value) {
+    this.set = initFunction.call(function setPromise(value) {
 
       // bind promise
       assert(!is.undefined(value), undefinedTokenError);
@@ -52,13 +57,13 @@ function initFuture(name, isConfigurable) {
         enumerable: isEnumerable,
         get: boundPromise
       });
-    };    
+    });    
 
-    this.get = function getPromise() {
+    this.get = initFunction.call(function getPromise() {
       assert(!is.undefined(defaultArgument), derefBeforeAssignmentError);
       this[name] = defaultArgument;
       return this[name];
-    };
+    });
   }
   else {
     this[wrap] = bindPromise(this.argument);
