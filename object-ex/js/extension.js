@@ -2,7 +2,7 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var initStubs = require('./stubs');
+var initStub = require('./stub');
 
 var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
 var extendsThisError = 'Extension does not extend this object.';
@@ -29,7 +29,7 @@ function initExtension(name) {
     descriptor[key] = this[key];
 
   var type; 
-  var patchAndDispatch = function(value) {
+  var extension = function(value) {
 
     // cache type
     if (!type) {
@@ -58,7 +58,18 @@ function initExtension(name) {
     this[name] = value;
   }
 
-  return initStubs.call(this, patchAndDispatch);
+  initStub.call(extension, name);
+  
+  if ('value' in this)
+    this.value = extension;
+
+  if ('get' in this)
+    this.get = extension;
+
+  if ('set' in this)
+    this.set = extension;
+
+  return this;
 }
 
 Object.defineProperties(module, {

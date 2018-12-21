@@ -2,6 +2,7 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
+var initStub = require('./stub');
 
 function thunk(name) {
   assert(is.stringOrSymbol(name));
@@ -15,10 +16,10 @@ function thunk(name) {
 function functionThunk(name) {
   assert(this.function);
 
-  this.value = function() {
+  this.value = function thunk() {
     return this[name].apply(this, arguments); 
   };
-  nameThunk(this.value, name);
+  initStub.call(this.value, name);
 
   return this;
 }
@@ -29,23 +30,17 @@ function accessorThunk(name) {
   delete this.value;
   delete this.writable;
 
-  this.get = function() {
+  this.get = function getThunk() {
     return this[name]; 
   };
-  nameThunk(this.get, name);
+  initStub.call(this.get, name);
 
-  this.set = function(value) {
+  this.set = function setThunk(value) {
     this[name] = value; 
   }
-  nameThunk(this.set, name);
+  initStub.call(this.set, name);
 
   return this;
-}
-
-function nameThunk(func, name) {
-  if (is.symbol(name))
-    name = name.toString();
-  Object.defineProperty(func, 'name', { value: `${name}_Thunk` });
 }
 
 Object.defineProperties(module, {

@@ -4,7 +4,6 @@ var assert = require('@kingjs/assert');
 var objectEx = require('@kingjs/object-ex');
 var is = require('@kingjs/is');
 
-var missingOverrideError = 'Method override not found.';
 var abstractMethodScopeError = 'Abstract method declared on non-abstract scope.';
 var abstractMethodImplError = 'Abstract method declared with implementation.';
 var abstractStaticMethodError = 'Abstract methods cannot be static.';

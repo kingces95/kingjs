@@ -2,6 +2,7 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
+var initStub = require('./stub');
 
 var unresolvedPromiseError = 'Promise returned undefined value.';
 var undefinedTokenError = 'Cannot set token to undefined value.';
@@ -18,14 +19,9 @@ function initFuture(name, isConfigurable) {
   assert(isFuture);
     
   var promise = this.value || this.get;
-
-  function initFunction() {
-    Object.defineProperty(this, 'name', { value: `${name} ${(this.name)}` });
-    return this;
-  }
   
-  var bindPromise = function fulfillPromise(argument) {
-    return initFunction.call(function() {
+  var bindPromise = function(argument) {
+    var result = function fulfillPromise() {
 
       // evaluate
       var value = argument === undefined ? 
@@ -41,11 +37,12 @@ function initFuture(name, isConfigurable) {
       });
 
       return value;
-    });
+    };
+    return initStub.call(result, name);
   };
 
   if (this.set) {
-    this.set = initFunction.call(function setPromise(value) {
+    this.set = initStub.call(function setPromise(value) {
 
       // bind promise
       assert(!is.undefined(value), undefinedTokenError);
@@ -57,13 +54,13 @@ function initFuture(name, isConfigurable) {
         enumerable: isEnumerable,
         get: boundPromise
       });
-    });    
+    }, name);    
 
-    this.get = initFunction.call(function getPromise() {
+    this.get = initStub.call(function getPromise() {
       assert(!is.undefined(defaultArgument), derefBeforeAssignmentError);
       this[name] = defaultArgument;
       return this[name];
-    });
+    }, name);
   }
   else {
     this[wrap] = bindPromise(this.argument);

@@ -21,38 +21,30 @@ function readMe() {
 }
 readMe();
 
-function testExternal() {
+function testExternal(isStatic) {
   function A() { }
   A.i = 0;
   A.generate = () => A.i++;
 
-  function B() { }
-  B.i = 10;
-  B.generate = () => B.i++;
-  B.prototype = new A();
-  B.prototype.constructor = B;
-
-  var sym = Symbol('ext');
-  objectEx.defineProperty(A.prototype, sym, {
+  var foo = 'foo';
+  var target = isStatic ? A : A.prototype;
+  objectEx.defineProperty(target, foo, {
     external: function(ctor, name) {
-      assert(name == sym);
+      assert(name == foo);
       return ctor.generate;
     },
+    static: isStatic,
     future: true,
     get: null
   });
 
   var a = new A();
-  assert(a[sym] == 0); // patches with new stub/caches
-  assert(a[sym] == 0); // hits cache
+  assert(a[foo] == 0); // patches with new stub/caches
+  assert(a[foo] == 0); // hits cache
   assert(A.i == 1); // hits cache, so shouldn't increment
-
-  var b = new B();
-  assert(b[sym] == 10); // invokes new stub, patches with new stub/cache
-  assert(b[sym] == 10); 
-  assert(B.i == 11);
 }
-testExternal();
+testExternal(false);
+testExternal(true);
 
 function testStatic() {
   var funcName = 'foo';
@@ -237,7 +229,7 @@ function stubFunctionTest(isFunc) {
 stubFunctionTest(true);
 stubFunctionTest(false);
 
-function defineReference() {
+function testDefineReference() {
   var target = { 
     children: [ 42, 43, 44 ]
   };
@@ -288,7 +280,7 @@ function defineReference() {
   assert(target.baz == 44);
   assert(counter == 3);
 }
-defineReference();
+testDefineReference();
 
 function testExtension() {
   function MyObject() { };
