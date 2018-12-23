@@ -83,7 +83,7 @@ function defineInterfaceThunks() {
 
   // add thunks from interface methods to implicit implementations
 
-  // enumerate interfaces added beyond those included in base vtable
+  // enumerate interfaces added beyond those included in base polymorphisms
   var ownVtableIds = Object.getOwnPropertySymbols(this.vtable);
   for (var id of ownVtableIds) {
 

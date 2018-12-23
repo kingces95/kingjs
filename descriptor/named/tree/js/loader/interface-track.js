@@ -11,7 +11,7 @@ function track(typeOrMethod) {
 
 function trackImplementation(type) {
   assert(type.isClass);
-  assert(this.id in type.vtable);
+  assert(this.id in type.polymorphisms);
   this.implementations[type.id] = type;
 }
 

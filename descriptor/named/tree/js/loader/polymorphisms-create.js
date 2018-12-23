@@ -2,14 +2,18 @@
 
 var assert = require('@kingjs/assert');
 
-function createVtable() {
+function createPolymorphisms() {
   assert(this.isType || this.isInterface);
 
-  var vtable = Object.create(this.base ? this.base.vtable : null);
+  var prototype = null;
+  if (this.base)
+    prototype = this.base.polymorphisms;
 
-  addType.call(vtable, this);
+  var polymorphisms = Object.create(prototype);
 
-  return vtable;
+  addType.call(polymorphisms, this);
+
+  return polymorphisms;
 }
 
 function addType(type) {
@@ -32,5 +36,5 @@ function addType(type) {
 
 
 Object.defineProperties(module, {
-  exports: { value: createVtable }
+  exports: { value: createPolymorphisms }
 });

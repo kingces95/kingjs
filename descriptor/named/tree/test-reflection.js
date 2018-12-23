@@ -53,7 +53,7 @@ var IFoo = loader.resolve('@kingjs/foo-bar.IFoo')
 var IFooExtends = IFoo.extends;
 var fooExMethod = fooBarPkg.resolve('MyIFooExMethod');
 
-var vtable = MyClass.vtable;
-assert(IFoo.id in vtable);
+var polymorphisms = MyClass.polymorphisms;
+assert(IFoo.id in polymorphisms);
 
 return;

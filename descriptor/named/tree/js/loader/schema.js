@@ -5,7 +5,7 @@ var defineSchema = require('../define-schema');
 var typeLoad = require('./type-load');
 var methodInit = require('./method-init');
 var methodBase = require('./method-base');
-var createVtable = require('./vtable-create');
+var createPolymorphisms = require('./polymorphisms-create');
 
 defineSchema(exports, [{
 
@@ -101,7 +101,7 @@ defineSchema(exports, [{
     base: 'Member',
     accessors: { 
       $defaults: { lazy: true, type: Object },
-      vtable: { get: createVtable },
+      polymorphisms: { get: createPolymorphisms },
       properties: { 
         get: 'Object.create(this.base ? this.base.properties : null)' 
       }
@@ -111,7 +111,7 @@ defineSchema(exports, [{
       load: typeLoad
     }, {
       canCastTo: function(type) {
-        return type && type.id in this.vtable;
+        return type && type.id in this.polymorphisms;
       },
       hasInstance: function(instance) {
         var info = this.loader.getType(instance);
