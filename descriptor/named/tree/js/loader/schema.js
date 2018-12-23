@@ -2,10 +2,10 @@
 
 var is = require('@kingjs/is');
 var defineSchema = require('../define-schema');
-var typeLoad = require('./type-load');
-var methodInit = require('./method-init');
-var methodBase = require('./method-base');
-var createPolymorphisms = require('./polymorphisms-create');
+var typeLoad = require('./type/load');
+var methodInit = require('./method/init');
+var methodBase = require('./method/base');
+var createPolymorphisms = require('./type/polymorphisms');
 
 defineSchema(exports, [{
 
@@ -78,7 +78,6 @@ defineSchema(exports, [{
       func: { func: Function },
     }, { 
       $defaults: { lazy: true },
-      base: { get: methodBase }
     }],
   }, {
 
@@ -102,6 +101,8 @@ defineSchema(exports, [{
     accessors: { 
       $defaults: { lazy: true, type: Object },
       polymorphisms: { get: createPolymorphisms },
+      vtable: { get: createVtable },
+      interfaceMap: { get: interfaceMap },
       properties: { 
         get: 'Object.create(this.base ? this.base.properties : null)' 
       }
