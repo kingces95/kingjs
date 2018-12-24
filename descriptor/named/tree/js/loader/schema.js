@@ -122,10 +122,7 @@ defineSchema(exports, [{
     flags: { 
       abstract: false,
     },
-    accessors: [{ 
-      $defaults: { lazy: true, set: true, argument: null },
-      func: { get: classLoad },
-    }, {
+    accessors: [{
       $defaults: { lazy: true },
       interfaceMap: { get: createInterfaceMap },
       vtable: { get: createVtable },
@@ -134,6 +131,10 @@ defineSchema(exports, [{
       base: { type: 'Class', default: 'Object' },
       implements: { type: 'Interface', array: true, default: null },
     }],
+    methods: { 
+      $defaults: { lazy: true, set: true, argument: null, function: true },
+      load: { get: classLoad },
+    },
     children: [{
       classes: 'Class',
       interfaces: 'Interface',
@@ -153,10 +154,7 @@ defineSchema(exports, [{
     flags: {
       abstract: true,
     },
-    accessors: [{ 
-      $defaults: { lazy: true },
-      func: { get: interfaceLoad },
-    }, {
+    accessors: [{
       $defaults: { get: '{ }', lazy: true },
       implementations: { },
       extensions: { },
@@ -165,6 +163,10 @@ defineSchema(exports, [{
       extends: { type: 'Interface', array: true, default: null },
       base: { type: 'Class', default: null },
     }],
+    methods: { 
+      $defaults: { lazy: true },
+      load: { get: interfaceLoad },
+    }, 
     children: [{
       $defaults: {
         defaults: {

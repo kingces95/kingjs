@@ -40,16 +40,16 @@ function test2ndPass() {
   assert(MyFooIFaceMethod.id in MyBarClass.children);
   assert(MyBarIFaceMethod.id in MyFooClass.children);
 
-  var MyFoo = MyFooClass.func;
+  var MyFoo = MyFooClass.load();
   var myFoo = new MyFoo();
 
-  var MyBarIFace = MyBarIFace.func;
+  var MyBarIFace = MyBarIFace.load();
   assert(myFoo[MyBarIFace.myMethod]() == 'foo');
 
-  var MyBarFunc = MyBarClass.func;
+  var MyBarFunc = MyBarClass.load();
   var myBar = new MyBarFunc();
 
-  var MyFooIFaceFunc = MyFooIFace.func;
+  var MyFooIFaceFunc = MyFooIFace.load();
   assert(myBar[MyFooIFaceFunc.myMethod]() == 'bar');
 }
 test2ndPass();
@@ -70,7 +70,7 @@ assertTheory(function(test, id) {
   });
 
   var IFooType = loader.resolve(interfaceName);
-  var IFoo = IFooType.func;
+  var IFoo = IFooType.load();
 
   var BaseType = loader.addClass('Base', {
     abstract: true,
@@ -95,12 +95,12 @@ assertTheory(function(test, id) {
     DerivedType.addMethod(methodName, () => implicit);
 
   if (test.explicit && !test.implements) {
-    assertThrows(() => DerivedType.func);
+    assertThrows(() => DerivedType.load());
     return;    
   }
   
   if (test.baseExplicit && !test.baseImplements) {
-    assertThrows(() => BaseType.func);
+    assertThrows(() => BaseType.load());
     return;    
   }
 
@@ -135,8 +135,6 @@ assertTheory(function(test, id) {
     assertThrows(() => DerivedType.func);
     return;
   }
-
-  var Base = BaseType.func;
 
   var Derived = DerivedType.func;
   var derived = new Derived();

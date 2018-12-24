@@ -13,6 +13,7 @@ function initFuture(name, isConfigurable) {
   var isStatic = this.static || false;
   var isEnumerable = this.enumerable || false;
   var isFunction = this.function || false;
+  var isWriteOnce = this.writeOnce || false;
   var defaultArgument = this.argument;
   var wrap = isFunction ? 'value' : 'get';
 
@@ -20,51 +21,54 @@ function initFuture(name, isConfigurable) {
     
   var promise = this.value || this.get;
   
-  var bindPromise = function(argument) {
-    var result = function fulfillPromise() {
+  var fulfillPromise = function(argument) {
 
-      // evaluate
-      var value = argument === undefined ? 
-        promise.call(this) : promise.call(this, argument);
+    // fulfill
+    var value = !isWriteOnce ? promise.call(this) : promise.call(this, argument);
+    assert(!is.undefined(value), unresolvedPromiseError);
 
-      assert(!is.undefined(value), unresolvedPromiseError);
+    // patch
+    Object.defineProperty(this, name, {
+      configurable: isConfigurable,
+      enumerable: isEnumerable,
+      value: isFunction ? () => value : value
+    });
 
-      // path
-      Object.defineProperty(this, name, {
-        configurable: isConfigurable,
-        enumerable: isEnumerable,
-        value: isFunction ? () => value : value
-      });
-
-      return value;
-    };
-    return initStub.call(result, name);
+    return value;
   };
+  this[wrap] = initStub.call(fulfillPromise, name);
 
-  if (this.set) {
-    this.set = initStub.call(function setPromise(value) {
+  if (writeOnce) {
 
-      // bind promise
+    // deffer bindPromise until initialization
+    var initializeAndFulfillPromise = function() {
+
+      // initialize with default
+      assert(!is.undefined(defaultArgument), derefBeforeAssignmentError);
+      this[name] = defaultArgument;
+
+      // fulfill
+      return this[name];
+    };
+    this.get = initStub.call(initializePromise, name);
+
+    var initializePromise = function(value) {
+
+      // initialize promise
       assert(!is.undefined(value), undefinedTokenError);
-      var boundPromise = bindPromise(value);
+      var initializedPromise = function() {
+        return fulfillPromise.call(this, value);
+      }; 
 
-      // patch
+      // patch and await fulfillment
       Object.defineProperty(this, name, {
         configurable: true,
         enumerable: isEnumerable,
-        get: boundPromise
+        [wrap]: initStub.call(initializedPromise, name)
       });
-    }, name);    
-
-    this.get = initStub.call(function getPromise() {
-      assert(!is.undefined(defaultArgument), derefBeforeAssignmentError);
-      this[name] = defaultArgument;
-      return this[name];
-    }, name);
-  }
-  else {
-    this[wrap] = bindPromise(this.argument);
-  }
+    };   
+    this.set = initStub.call(initializePromise, name);
+  } 
 
   if (isStatic)
     this.configurable = true;

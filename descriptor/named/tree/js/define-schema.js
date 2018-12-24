@@ -114,6 +114,8 @@ function defineMethod(func, name, descriptor) {
 
   if (descriptor.lazy) 
     descriptor.future = true;
+
+  if (descriptor.)
   
   objectEx.defineFunction(func.prototype, name, descriptor);
 }

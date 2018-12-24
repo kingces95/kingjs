@@ -229,6 +229,30 @@ function stubFunctionTest(isFunc) {
 stubFunctionTest(true);
 stubFunctionTest(false);
 
+function testLoad() {
+  function Loadable() { }
+
+  objectEx.defineFunction(Loadable.prototype, 'load', {
+    future: true,
+    argument: 41,
+    value: function(argument) {
+      return {
+        argument: argument,
+      }
+    }
+  });
+
+  var loadable = new Loadable();
+  var loaded = loadable.load();
+  assert(loaded.argument == 41);
+
+  var loadable = new Loadable();
+  loadable.load(42);
+  var loaded = loadable.load();
+  assert(loaded.argument == 42);
+}
+testLoad();
+
 function testDefineReference() {
   var target = { 
     children: [ 42, 43, 44 ]
