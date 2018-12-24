@@ -40,14 +40,7 @@ function createInterfaceMap() {
       if (!member && baseVtable)
         member = baseVtable[slot.name];
 
-      assert(member || this.isAbstract, implementationNotFoundError);
-      if (!member)
-        continue;
-
-      assert(member.isProcedural);
-      assert(!member.isMethod || slot.isMethod, methodImplementsAccessorError);
-      assert(!member.isAccessor || slot.isAccessor, accessorImplementsMethodError);
-      map[slot.id] = member;    
+      setSlot.call(this, map, slot, member);
     }
   }
 
@@ -63,23 +56,31 @@ function createInterfaceMap() {
     if (id in map)
       continue;
 
+    // inherit base implementations
     var baseMember = baseMap[id];
-
-    // copy existing slot...
     var member = baseMember;
 
-    // ...unless implicit implementation has been overridden
-    var name = member.name;
-    if (is.string(name) && name in this.children)
-      member = this.children[name];
+    // replace base implementation when its abstract or implicit
+    var slot = this.loader.resolve(id);
+    var name = slot.name;
+    if (name in this.children && (!baseMember || is.string(baseMember.name)))
+        member = this.children[name];
 
-    assert(member.isProcedural);
-    assert(!member.isMethod || baseMember.isMethod, methodImplementsAccessorError);
-    assert(!member.isAccessor || baseMember.isAccessor, accessorImplementsMethodError);
-    map[id] = member;    
+    setSlot.call(this, map, slot, member);
   }
 
   return map;
+}
+
+function setSlot(map, slot, member) {
+  assert(member || this.isAbstract, implementationNotFoundError);
+  if (member) {
+    assert(member.isProcedural);
+    assert(!member.isMethod || slot.isMethod, methodImplementsAccessorError);
+    assert(!member.isAccessor || slot.isAccessor, accessorImplementsMethodError);
+  }
+
+  map[slot.id] = member;    
 }
 
 Object.defineProperties(module, {
