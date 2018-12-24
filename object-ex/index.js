@@ -166,7 +166,7 @@ function exportDefinition(
       if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
 
-      initLambda.call(descriptor);
+      initLambda.call(descriptor, name);
 
       if (descriptor.thunk)
         initThunk.call(descriptor, descriptor.thunk);

@@ -2,10 +2,12 @@
 
 var is = require('@kingjs/is');
 var defineSchema = require('../define-schema');
-var typeLoad = require('./type/load');
+var interfaceLoad = require('./type/interface/load');
+var classLoad = require('./type/class/load');
 var methodInit = require('./method/init');
-var methodBase = require('./method/base');
 var createPolymorphisms = require('./type/polymorphisms');
+var createVtable = require('./type/vtable');
+var createInterfaceMap = require('./type/class/interfaceMap');
 
 defineSchema(exports, [{
 
@@ -51,7 +53,7 @@ defineSchema(exports, [{
       writable: false,
     },
     accessors: { 
-      value: { func: Object },
+      value: { /* write-once */ },
     },
   }, {
 
@@ -75,7 +77,7 @@ defineSchema(exports, [{
       abstract: 'this.func === null',
     },
     accessors: [{
-      func: { func: Function },
+      func: { type: Function },
     }, { 
       $defaults: { lazy: true },
     }],
@@ -90,8 +92,8 @@ defineSchema(exports, [{
       writable: 'this.set !== undefined',
     },
     accessors: { 
-      get: { func: Function },
-      set: { func: Function },
+      get: { type: Function },
+      set: { type: Function },
     },
   }, {
 
@@ -101,16 +103,8 @@ defineSchema(exports, [{
     accessors: { 
       $defaults: { lazy: true, type: Object },
       polymorphisms: { get: createPolymorphisms },
-      vtable: { get: createVtable },
-      interfaceMap: { get: interfaceMap },
-      properties: { 
-        get: 'Object.create(this.base ? this.base.properties : null)' 
-      }
     },
-    methods: [{
-      $defaults: { lazy: true },
-      load: typeLoad
-    }, {
+    methods: {
       canCastTo: function(type) {
         return type && type.id in this.polymorphisms;
       },
@@ -118,7 +112,7 @@ defineSchema(exports, [{
         var info = this.loader.getType(instance);
         return info && info.canCastTo(this);
       }
-    }]
+    }
   }, {
 
     // Class
@@ -129,7 +123,12 @@ defineSchema(exports, [{
       abstract: false,
     },
     accessors: [{ 
-      func: { func: Function }
+      $defaults: { lazy: true, set: true, argument: null },
+      func: { get: classLoad },
+    }, {
+      $defaults: { lazy: true },
+      interfaceMap: { get: createInterfaceMap },
+      vtable: { get: createVtable },
     }, {
       $defaults: { ref: true },
       base: { type: 'Class', default: 'Object' },
@@ -154,7 +153,10 @@ defineSchema(exports, [{
     flags: {
       abstract: true,
     },
-    accessors: [{
+    accessors: [{ 
+      $defaults: { lazy: true },
+      func: { get: interfaceLoad },
+    }, {
       $defaults: { get: '{ }', lazy: true },
       implementations: { },
       extensions: { },

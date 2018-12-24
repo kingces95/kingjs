@@ -1,26 +1,19 @@
 //'use strict';
 
+var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var defineClass = require('../define-class');
+var defineClass = require('../../../define-class');
 var objectEx = require('@kingjs/object-ex');
 
 var abstractTypeError = 'Cannot create abstract type.';
 
-function load() {
+function load(func) {
+  if (func)
+    return func;
 
-  if (this.func)
-    return this.func;
-
-  var func = defineFunc.call(this);
-
-  objectEx.defineConstField(this, 'func', func);
-
-  if (this.isInterface)
-    overrideInstanceOf.call(this);
-
-  defineVtable.call(this);
-
-  defineFields.call(this);
+  func = defineFunc.call(this);
+  defineVtable.call(this, func);
+  defineFields.call(this, func);
 
   return func;
 }
@@ -30,9 +23,9 @@ function defineFunc() {
   var loader = this.loader;
   var infoSym = loader.infoSymbol;
 
-  // load base
-  var base = this.base;
-  var baseFunc = base ? base.load() : null;
+  // load baseFunc
+  assert(this.base);
+  var baseFunc = this.base.func;
 
   // init; prevent activation if abstract
   var init = this.init;
@@ -53,17 +46,7 @@ function defineFunc() {
   return func;
 }
 
-function overrideInstanceOf() {
-  assert(this.isInterface)
-
-  // augment instanceof (e.g. account for interfaces)
-  Object.defineProperty(this.func, Symbol.hasInstance, {
-    value: instance => this.hasInstance(instance)
-  })
-}
-
-function defineVtable() {
-  var func = this.func;
+function defineVtable(func) {
   var prototype = func.prototype;
 
   var vtable = this.vtable;
@@ -94,7 +77,7 @@ function defineVtable() {
   }
 }
 
-function defineFields() {
+function defineFields(func) {
 }
 
 Object.defineProperties(module, {

@@ -5,10 +5,15 @@ var createLoader = require('./js/loader/create');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
+var assertThrows = testRequire('@kingjs/assert-throws');
 
 function test2ndPass() {
 
-  // test method info creation deferred to after interface infos created
+  // problem: explicit interface implementations use Symbols as names but
+  // if the interface which defines that symbol is expressed in the same 
+  // statement as the implementation then care needs to be taken to load all
+  // interfaces in the statement before the methods so any explicit implementations
+  // are able to find their symbol.
   var loader = createLoader({
     classes: {
       MyFooClass: {
@@ -35,113 +40,113 @@ function test2ndPass() {
   assert(MyFooIFaceMethod.id in MyBarClass.children);
   assert(MyBarIFaceMethod.id in MyFooClass.children);
 
-  var MyFooFunc = MyFooClass.load();
-  var myFoo = new MyFooFunc();
+  var MyFoo = MyFooClass.func;
+  var myFoo = new MyFoo();
 
-  var MyBarIFaceFunc = MyBarIFace.load();
-  assert(MyBarIFaceFunc.myMethod.call(myFoo) == 'foo');
+  var MyBarIFace = MyBarIFace.func;
+  assert(myFoo[MyBarIFace.myMethod]() == 'foo');
 
-  var MyBarFunc = MyBarClass.load();
+  var MyBarFunc = MyBarClass.func;
   var myBar = new MyBarFunc();
 
-  var MyFooIFaceFunc = MyFooIFace.load();
-  assert(MyFooIFaceFunc.myMethod.call(myBar) == 'bar');
+  var MyFooIFaceFunc = MyFooIFace.func;
+  assert(myBar[MyFooIFaceFunc.myMethod]() == 'bar');
 }
-//test2ndPass();
-
-function testInterfaceThunk() {
-  var loader = createLoader({
-    interfaces: {
-      IFoo: { methods: { myMethod: null } }
-    },
-    classes: {
-      MyImplicitClass: {
-        implements: [ 'IFoo' ],
-        methods: { myMethod: '42' },
-      },
-      MyExplicitClass: {
-        implements: [ 'IFoo' ],
-        methods: { ['IFoo.myMethod']: '43' },
-      },
-      MyClass: {
-        implements: [ 'IFoo' ],
-        methods: { 
-          myMethod: '42',
-          ['IFoo.myMethod']: '43', 
-        },
-      },
-    }
-  });
-
-  var IFooType = loader.resolve('IFoo')
-  var IFoo = IFooType.load();
-  var myMethodInfo = IFooType.resolve('myMethod');
-  var myMethod = myMethodInfo.func;
-  assert(myMethod);
-  assert(myMethod == IFoo.myMethod);
-  var myMethodId = myMethodInfo.id;
-
-  var MyExplicitClassType = loader.resolve('MyExplicitClass');
-  var MyExplicitClass = MyExplicitClassType.load();
-  var myExplicitClass = new MyExplicitClass();
-  assert(myMethod != myExplicitClass[myMethodId]);
-  assert(myMethod.call(myExplicitClass) == 43);
-
-  var MyImplicitClassType = loader.resolve('MyImplicitClass');
-  var MyImplicitClass = MyImplicitClassType.load();
-  var myImplicitClass = new MyImplicitClass();
-  assert(myMethodId in myImplicitClass);
-  assert(myMethod == myImplicitClass[myMethodId]);
-  assert(myMethod.call(myImplicitClass) == 42);
-
-  var MyClassType = loader.resolve('MyClass');
-  var MyClass = MyClassType.load();
-  var myClass = new MyClass();
-  assert(myMethod != myClass[myMethodId]);
-  assert(myMethodId.call(myClass) == 43);
-}
-testInterfaceThunk();
+test2ndPass();
 
 assertTheory(function(test, id) {
+  var interfaceName = 'IFoo';
+  var methodName = 'method';
+  var methodFullName = interfaceName + '.' + methodName;
+  var explicit = 'explicit';
+  var implicit = 'implicit';
+  var baseExplicit = 'baseExplicit';
+  var baseImplicit = 'baseImplicit';
+
   var loader = createLoader({
     interfaces: {
-      IIndirectTarget: { 
-        extends: ['ITarget'],
-        methods: { myMethod: null }, 
-      },
-      ITarget: { methods: { myMethod: null } }
-    },
-    classes: {
-      MyClass: {
-        implements: [ !test.indirect ? 'ITarget' : 'IIndirectTarget' ],
-        methods: { myMethod: test.implicit } 
-      }
+      IFoo: { methods: { method: null } }
     }
   });
 
-  var ITargetInfo = loader.resolve('ITarget');
-  var MyClassInfo = loader.resolve('MyClass');
+  var IFooType = loader.resolve(interfaceName);
+  var IFoo = IFooType.func;
 
-  if (test.explicitImpl)
-    MyClassInfo.addMethod('ITarget.myMethod', test.explicit);
+  var BaseType = loader.addClass('Base', {
+    abstract: true,
+    implements: test.baseImplements ? [ IFooType ] : null,
+  });
 
-  var MyClass = MyClassInfo.load();
-  var myClass = new MyClass();
+  if (test.baseExplicit)
+    BaseType.addMethod(methodFullName, () => baseExplicit);
 
-  var ITarget = ITargetInfo.load();
+  if (test.baseImplicit)
+    BaseType.addMethod(methodName, () => baseImplicit);
 
-  var result = ITarget.myMethod.call(myClass);
-  assert(result == (test.explicitImpl ? test.explicit() : test.implicit()));
+  var DerivedType = loader.addClass('Derived', {
+    base: BaseType,
+    implements: test.implements ? [ IFooType ] : null,
+  });
 
-  if (test.indirect) {
-    var IIndirectTargetInfo = loader.resolve('IIndirectTarget');
-    var IIndirectTarget = IIndirectTargetInfo.load();
-    var result = IIndirectTarget.prototype.myMethod.call(myClass);
-    assert(result == test.implicit());   
+  if (test.explicit)
+    DerivedType.addMethod(methodFullName, () => explicit);
+
+  if (test.implicit)
+    DerivedType.addMethod(methodName, () => implicit);
+
+  if (test.explicit && !test.implements) {
+    assertThrows(() => DerivedType.func);
+    return;    
   }
+  
+  if (test.baseExplicit && !test.baseImplements) {
+    assertThrows(() => BaseType.func);
+    return;    
+  }
+
+  var expected;
+  if (test.implements) {
+
+    if (test.explicit) 
+      expected = explicit;
+    else if (test.implicit) 
+      expected = implicit;
+    else if (test.baseImplements && test.baseExplicit) 
+      expected = baseExplicit;
+    else if (test.baseImplicit) 
+      expected = baseImplicit;
+
+  } 
+  else if (test.baseImplements) {
+
+    if (test.baseExplicit)
+      expected = baseExplicit;
+    else if (test.implicit)
+      expected = implicit;
+    else if (test.baseImplicit) 
+      expected = baseImplicit;
+
+  }
+
+  if (!test.implements && !test.baseImplements)
+    return;
+
+  if (!expected) {
+    assertThrows(() => DerivedType.func);
+    return;
+  }
+
+  var Base = BaseType.func;
+
+  var Derived = DerivedType.func;
+  var derived = new Derived();
+  var result = derived[IFoo.method]();
+  assert(result == expected);
 }, {
-  implicit: () => 0,
-  explicit: () => 1,
-  explicitImpl: [ false, true ],
-  indirect: [ false, true ],
+  baseImplements: [ true, false ],
+  baseExplicit: [ true, false ],
+  baseImplicit: [ true, false ],
+  implements: [ true, false ],
+  explicit: [ true, false ],
+  implicit: [ true, false ],
 });

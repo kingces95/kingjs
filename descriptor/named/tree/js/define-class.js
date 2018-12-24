@@ -13,8 +13,7 @@ function defineClass(name, baseFunc, init) {
       init.apply(this, arguments);
   };
 
-  if (baseFunc)
-    defineBase(func, baseFunc);
+  defineBase(func, baseFunc);
 
   objectEx.defineConstField(func, 'name', name);
   

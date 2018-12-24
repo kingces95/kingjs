@@ -19,7 +19,7 @@ function createPolymorphisms() {
 }
 
 function addType(type) {
-  this[id] = type.id;
+  this[type.id] = type;
   
   var interfaces = type.isClass ? type.implements : type.extends;
   if (!interfaces)

@@ -131,7 +131,7 @@ function defineChildren(func, children, info) {
 function defineChild(func, type, descriptor) {
   objectEx.defineFunctions(func.prototype, {
     [addConst + descriptor.type.name]: function(name, descriptor) {
-      this.addChildOfType(type, name, descriptor);
+      return this.addChildOfType(type, name, descriptor);
     },
     [addConst + cap(type)]: function(descriptors) {
       this.addChildrenOfType(type, descriptors);
@@ -195,7 +195,7 @@ function defineAccessor(func, name, descriptor) {
   if ('value' in descriptor)
     descriptor.writable = false;
   else if ('get' in descriptor == false)
-    return;
+    return; // todo: should be write-once
 
   var target = func;
   if (!descriptor.static)

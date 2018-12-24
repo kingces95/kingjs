@@ -112,6 +112,7 @@ objectEx.defineFunctions(Node.prototype, {
 
   addChildOfType(type, name, child) {
     this.addChildrenOfType(type, { [name]: child });
+    return this.children[name];
   },
 
   addChildrenOfType(type, children) {

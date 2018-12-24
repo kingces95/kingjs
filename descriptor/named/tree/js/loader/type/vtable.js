@@ -21,7 +21,7 @@ function createVtable() {
   }
 
   // update interface implementations
-  for (var id in Object.getOwnPropertySymbols(this.interfaceMap)) {
+  for (var id of Object.getOwnPropertySymbols(this.interfaceMap)) {
     var member = this.interfaceMap[id];
     if (vtable[id] == member)
       continue;

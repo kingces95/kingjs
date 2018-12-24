@@ -9,16 +9,6 @@ var schema = require('./schema');
 var JavascriptNode = schema.JavascriptNode;
 var Loader = schema.Loader;
 
-var constantTypes = {
-  $defaults: {
-    base: null,
-    func: null,
-    primitive: true,
-  },
-  Null: null,
-  Undefined: null,
-};
-
 var primitiveTypes = {
   $defaults: {
     base: null,
@@ -42,7 +32,6 @@ var builtIn = new Loader(null, null);
 
 builtIn.addChildren({
   classes: [
-    constantTypes,
     primitiveTypes,
     builtInClasses
   ]
@@ -62,12 +51,14 @@ objectEx.defineStaticField(Loader, 'builtIn', builtIn);
 for (var name in builtInTypes) {
   var type = builtInTypes[name];
   objectEx.defineStaticField(Loader, name, type);
-  if (type.func)
-    objectEx.defineHiddenStaticField(type.func, Loader.infoSymbol, type);
+  objectEx.defineHiddenStaticField(type.func, Loader.infoSymbol, type);
 }
 
 objectEx.defineFunction(JavascriptNode.prototype, 
   function resolve(ref) {
+    if (ref instanceof JavascriptNode)
+      return ref;
+      
     if (is.function(ref))
       return ref[Loader.infoSymbol];
 
