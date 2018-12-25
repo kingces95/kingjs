@@ -7,14 +7,12 @@ var initProperty = require('./js/property');
 var initField = require('./js/field');
 var initFunction = require('./js/function');
 var initAccessor = require('./js/accessors');
-var initReference = require('./js/reference');
 var initStatic = require('./js/static');
 var initThunk = require('./js/thunk');
 var initExternal = require('./js/external');
 var initExtension = require('./js/extension');
 var initFuture = require('./js/future');
 var initLambda = require('./js/lambda');
-var initReference = require('./js/reference');
 
 var definitions = {
 
@@ -76,45 +74,29 @@ var definitions = {
     pluralName: 'Accessors',
     initializer: initAccessor,
     defaults: { 
-      configurable: false 
+      configurable: false,
+      enumerable: true,
     },
     configurations: {
-      'set': { configurable: true, enumerable: true },
+      'set': { configurable: true },
       'setHidden': { configurable: true, enumerable: false },
 
-      'define': { enumerable: true },
+      'setLazy': { configurable: true, future: true },
+      'setHiddenLazy': { configurable: true, enumerable: false, future: true },
+
+      'define': { },
       'defineHidden': { enumerable: false },
 
-      'defineStatic': { enumerable: true, static: true },
+      'defineStatic': { static: true },
       'defineHiddenStatic': { enumerable: false, static: true },
 
-      'defineLazy': { enumerable: true, future: true },
+      'defineLazy': { future: true },
       'defineHiddenLazy': { enumerable: false, future: true },
 
-      'defineStaticLazy': { enumerable: true, static: true, future: true },
+      'defineStaticLazy': { static: true, future: true },
       'defineHiddenStaticLazy': { enumerable: false, static: true, future: true },
     },
   },
-
-  'Reference': {
-    pluralName: 'References',
-    initializer: initReference,
-    defaults: { 
-      future: true, 
-      set: true, 
-      configurable: false 
-    },
-    configurations: {
-      'set': { configurable: true, enumerable: true },
-      'setHidden': { configurable: true, enumerable: false },
-
-      'define': { enumerable: true },
-      'defineHidden': { enumerable: false },
-
-      'defineStatic': { enumerable: true, static: true },
-      'defineHiddenStatic': { enumerable: false, static: true },
-    },
-  },  
 }
 
 for (var suffix in definitions) {
@@ -157,11 +139,16 @@ function exportDefinition(
   
     descriptor = initializer.apply(descriptor, arguments);
 
+    var hasGet = 'get' in descriptor;
+    var hasSet = 'set' in descriptor;
+
+    var isAccessor = hasGet || hasSet;
     var isFunction = descriptor.function;
-    var isAccessor = 'get' in descriptor || 'set' in descriptor;
+    var isFuture = descriptor.future;
     var isThunk = descriptor.thunk;
 
-    if (isFunction || isAccessor || isThunk) {
+    var isProcedural = isAccessor || isFunction || isFuture || isThunk;
+    if (isProcedural) {
 
       if (!is.stringOrSymbol(name))
         name = (descriptor.value || descriptor.get || descriptor.set).name;
@@ -180,7 +167,7 @@ function exportDefinition(
         else if (descriptor.external)
           initExternal.call(descriptor, target, name, isConfigurable);
 
-        if (descriptor.future)
+        if (descriptor.future) 
           initFuture.call(descriptor, name, isConfigurable);
       }
     }

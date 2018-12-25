@@ -132,8 +132,8 @@ defineSchema(exports, [{
       implements: { type: 'Interface', array: true, default: null },
     }],
     methods: { 
-      $defaults: { lazy: true, set: true, argument: null, function: true },
-      load: { get: classLoad },
+      $defaults: { initializer: 'func', default: null },
+      load: classLoad,
     },
     children: [{
       classes: 'Class',
@@ -165,7 +165,7 @@ defineSchema(exports, [{
     }],
     methods: { 
       $defaults: { lazy: true },
-      load: { get: interfaceLoad },
+      load: interfaceLoad,
     }, 
     children: [{
       $defaults: {

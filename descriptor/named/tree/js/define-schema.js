@@ -46,7 +46,7 @@ function defineSchema(target, descriptors) {
     defineFlags(func, flags, info.fields);
     defineAccessors(func, accessors, info.fields);
     defineChildren(func, children, info.children);
-    defineMethods(func, methods);
+    defineMethods(func, methods, info.fields);
   }
 }
 
@@ -99,10 +99,12 @@ function wrapAndResolve(funcs, descriptors, wrap) {
   });
 }
 
-function defineMethods(func, methods) { 
+function defineMethods(func, methods, info) { 
   for (var name in methods) {
     var method = methods[name];
     defineMethod(func, name, method);
+    if (method.initializer)
+      info[method.initializer] = name;
   }
 }
 
@@ -112,11 +114,15 @@ function defineMethod(func, name, descriptor) {
   if (is.function(descriptor))
     descriptor = { value: descriptor };
 
+  if (descriptor.initializer) {
+    descriptor.future = true;
+    if ('default' in descriptor)
+      descriptor.argument = descriptor.default;
+  }
+
   if (descriptor.lazy) 
     descriptor.future = true;
 
-  if (descriptor.)
-  
   objectEx.defineFunction(func.prototype, name, descriptor);
 }
 
@@ -144,6 +150,7 @@ function defineChild(func, type, descriptor) {
 function defineAccessors(func, accessors, info) {
   for (var name in accessors) {
     var accessor = accessors[name];
+    // todo: alias
     defineAccessor(func, name, accessor);
     info[name] = name;
   }

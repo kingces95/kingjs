@@ -39,7 +39,7 @@ builtIn.addChildren({
 
 for (name in builtInTypes) {
   var type = builtInTypes[name];
-  if (ref == type.func)
+  if (ref == type.load())
     return type;
 }
 
@@ -51,7 +51,7 @@ objectEx.defineStaticField(Loader, 'builtIn', builtIn);
 for (var name in builtInTypes) {
   var type = builtInTypes[name];
   objectEx.defineStaticField(Loader, name, type);
-  objectEx.defineHiddenStaticField(type.func, Loader.infoSymbol, type);
+  objectEx.defineHiddenStaticField(type.load(), Loader.infoSymbol, type);
 }
 
 objectEx.defineFunction(JavascriptNode.prototype, 

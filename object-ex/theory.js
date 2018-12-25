@@ -3,10 +3,8 @@
 var objectEx = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var nestedMerge = testRequire('@kingjs/descriptor.nested.merge');
-var write = testRequire('@kingjs/descriptor.write');
 var is = testRequire('@kingjs/is');
 
 function pushFront(array, item) {

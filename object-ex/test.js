@@ -21,6 +21,139 @@ function readMe() {
 }
 readMe();
 
+function testFuture() {
+  function Type() { };
+  Type.prototype = { x: 1, y: 2, counter: 0 };
+
+  var withOutInit = 'this.counter++, this.x + this.y';
+  var withInit = function(o) { return this.counter++, o };
+  
+  objectEx.defineProperty(Type.prototype, 'lazy', {
+    future: true,
+    value: withOutInit,
+  });
+  
+  var instance = new Type();
+  assert(instance.lazy() == 3);
+  assert(instance.lazy() == 3);
+  assert(instance.counter == 1);
+
+  objectEx.defineProperty(Type.prototype, 'compile', {
+    future: true,
+    writeOnce: true,
+    value: withInit
+  });
+
+  var instance = new Type();
+  assertThrows(() => instance.compile());
+  instance.compile = 42;
+  assert(instance.compile() == 42);
+  assert(instance.compile() == 42);
+  assert(instance.counter == 1);
+
+  objectEx.defineProperty(Type.prototype, 'load', {
+    future: true,
+    argument: 41,
+    value: withInit
+  });
+
+  var instance = new Type();
+  instance.load = 42;
+  assert(instance.load() == 42);
+  assert(instance.load() == 42);
+  assert(instance.counter == 1);
+
+  var instance = new Type();
+  assert(instance.load() == 41);
+  assert(instance.load() == 41);
+  assert(instance.counter == 1);
+    
+  objectEx.defineProperty(Type.prototype, 'computedProperty', {
+    future: true,
+    get: withOutInit
+  });
+  
+  var instance = new Type();
+  assert(instance.computedProperty == 3);
+  assert(instance.computedProperty == 3);
+  assert(instance.counter == 1);
+
+  objectEx.defineProperty(Type.prototype, 'ref', {
+    future: true,
+    writeOnce: true,
+    get: withInit
+  });
+  
+  var instance = new Type();
+  assertThrows(() => instance.ref);
+  instance.ref = 42;
+  assert(instance.ref == 42);
+
+  objectEx.defineProperty(Type.prototype, 'refWithDefault', {
+    future: true,
+    argument: null,
+    get: withInit
+  });
+  
+  var instance = new Type();
+  instance.refWithDefault = 42;
+  assert(instance.refWithDefault == 42);
+  assert(instance.refWithDefault == 42);
+  assert(instance.counter == 1);
+
+  var instance = new Type();
+  assert(instance.refWithDefault === null);
+  assert(instance.refWithDefault === null);
+  assert(instance.counter == 1);
+
+  objectEx.defineProperty(Type.prototype, 'readOnly', {
+    future: true,
+    writeOnce: true,
+  });
+  
+  var instance = new Type();
+  assertThrows(() => instance.readOnly);
+  instance.readOnly = 42;
+  assert(instance.readOnly == 42);
+
+  objectEx.defineProperty(Type.prototype, 'readOnlyWithDefault', {
+    future: true,
+    argument: null,
+  });
+  
+  var instance = new Type();
+  instance.readOnlyWithDefault = 42;
+  assert(instance.readOnlyWithDefault == 42);
+
+  var instance = new Type();
+  assert(instance.readOnlyWithDefault === null);
+
+  objectEx.defineProperty(Type.prototype, 'readOnlyFunc', {
+    function: true,
+    future: true,
+    writeOnce: true,
+  });
+  
+  var instance = new Type();
+  assertThrows(() => instance.readOnlyFunc());
+  instance.readOnlyFunc = 42;
+  assert(instance.readOnlyFunc() == 42);
+
+  objectEx.defineProperty(Type.prototype, 'readOnlyFuncWithDefault', {
+    function: true,
+    future: true,
+    argument: null,
+  });
+  
+  var instance = new Type();
+  instance.readOnlyFuncWithDefault = 42;
+  assert(instance.readOnlyFuncWithDefault() == 42);
+
+  var instance = new Type();
+  assert(instance.readOnlyFuncWithDefault() === null);
+}
+testFuture();
+
 function testExternal(isStatic) {
   function A() { }
   A.i = 0;
@@ -229,30 +362,6 @@ function stubFunctionTest(isFunc) {
 stubFunctionTest(true);
 stubFunctionTest(false);
 
-function testLoad() {
-  function Loadable() { }
-
-  objectEx.defineFunction(Loadable.prototype, 'load', {
-    future: true,
-    argument: 41,
-    value: function(argument) {
-      return {
-        argument: argument,
-      }
-    }
-  });
-
-  var loadable = new Loadable();
-  var loaded = loadable.load();
-  assert(loaded.argument == 41);
-
-  var loadable = new Loadable();
-  loadable.load(42);
-  var loaded = loadable.load();
-  assert(loaded.argument == 42);
-}
-testLoad();
-
 function testDefineReference() {
   var target = { 
     children: [ 42, 43, 44 ]
@@ -270,9 +379,9 @@ function testDefineReference() {
   }
 
   var defaultAddress = 2;
-  objectEx.setReference(target, 'foo', resolveOwnProperty);
-  objectEx.setReference(target, 'bar', resolveOwnProperty, defaultAddress);
-  objectEx.setReference(target, 'baz', resolveOwnProperty, defaultAddress);
+  objectEx.setLazyAccessor(target, 'foo', { get: resolveOwnProperty, writeOnce: true });
+  objectEx.setLazyAccessor(target, 'bar', { get: resolveOwnProperty, argument: defaultAddress });
+  objectEx.setLazyAccessor(target, 'baz', { get: resolveOwnProperty, argument: defaultAddress });
 
   assertThrows(() => target.foo);
   assertThrows(() => target.foo = undefined);
