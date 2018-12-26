@@ -5,10 +5,12 @@ var Node = require('./node');
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var create = require('@kingjs/descriptor.named.create');
-var attrSym = require('./attribute');
-var defineClass = require('./define-class');
 var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
+var map = require('@kingjs/descriptor.map');
+
+var attrSym = require('./attribute');
+var defineClass = require('./define-class');
 
 var cap = stringEx.capitalize;
 var isConst = 'is';
@@ -39,14 +41,14 @@ function defineSchema(target, descriptors) {
 
     var flags = wrapAndResolve(target, descriptor.flags, wrap.flag);
     var accessors = wrapAndResolve(target, descriptor.accessors, wrap.accessor);
-    var children = wrapAndResolve(target, descriptor.children, wrap.child);
     var methods = wrapAndResolve(target, descriptor.methods, wrap.method);
+    var children = wrapAndResolve(target, descriptor.children, wrap.child);
 
     defineDiscriminator(func);
     defineFlags(func, flags, info.fields);
     defineAccessors(func, accessors, info.fields);
-    defineChildren(func, children, info.children);
     defineMethods(func, methods, info.fields);
+    defineChildren(func, children, info.children);
   }
 }
 
@@ -60,6 +62,7 @@ function createInfo(descriptor) {
       ctors: { },
       defaults: { },
       defer: { },
+      singletons: { },
     } 
   };
 }
@@ -127,22 +130,34 @@ function defineMethod(func, name, descriptor) {
 }
 
 function defineChildren(func, children, info) {
-  for (var name in children) {
-    var child = children[name];
-    defineChild(func, name, child);
-    info.ctors[name] = child.type;
-    info.defaults[name] = child.defaults;
-    info.defer[name] = child.defer;
+  for (var group in children) {
+    var child = children[group];
+    defineChild(func, group, child);
+    info.ctors[group] = child.type;
+    info.defaults[group] = child.defaults;
+    info.defer[group] = child.defer;
+    info.singletons[group] = child.singleton;
   }
 }
 
-function defineChild(func, type, descriptor) {
+function defineChild(func, group, descriptor) {
+  if (descriptor.singleton) {
+    objectEx.defineFunction(
+      func.prototype, 
+      addConst + cap(group), 
+      function(descriptors) {
+        this.addChildrenOfType(group, descriptors);
+      }
+    );
+    return;
+  }  
+
   objectEx.defineFunctions(func.prototype, {
     [addConst + descriptor.type.name]: function(name, descriptor) {
-      return this.addChildOfType(type, name, descriptor);
+      return this.addChildOfType(group, name, descriptor);
     },
-    [addConst + cap(type)]: function(descriptors) {
-      this.addChildrenOfType(type, descriptors);
+    [addConst + cap(group)]: function(descriptors) {
+      this.addChildrenOfType(group, descriptors);
     }
   });
 }
@@ -150,7 +165,6 @@ function defineChild(func, type, descriptor) {
 function defineAccessors(func, accessors, info) {
   for (var name in accessors) {
     var accessor = accessors[name];
-    // todo: alias
     defineAccessor(func, name, accessor);
     info[name] = name;
   }

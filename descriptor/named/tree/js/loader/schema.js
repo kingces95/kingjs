@@ -4,7 +4,13 @@ var is = require('@kingjs/is');
 var defineSchema = require('../define-schema');
 var interfaceLoad = require('./type/interface/load');
 var classLoad = require('./type/class/load');
+
+var methodLoad = require('./method/load');
 var methodInit = require('./method/init');
+
+var accessorLoadGet = require('./accessor/load-get');
+var accessorLoadSet = require('./accessor/load-set');
+
 var createPolymorphisms = require('./type/polymorphisms');
 var createVtable = require('./type/vtable');
 var createInterfaceMap = require('./type/class/interfaceMap');
@@ -76,11 +82,10 @@ defineSchema(exports, [{
     flags: { 
       abstract: 'this.func === null',
     },
-    accessors: [{
-      func: { type: Function },
-    }, { 
-      $defaults: { lazy: true },
-    }],
+    methods: { 
+      $defaults: { initializer: 'func', default: null },
+      load: methodLoad,
+    },
   }, {
 
     // Accessor
@@ -91,9 +96,10 @@ defineSchema(exports, [{
       abstract: 'this.get === null',
       writable: 'this.set !== undefined',
     },
-    accessors: { 
-      get: { type: Function },
-      set: { type: Function },
+    children: {
+      $defaults: { singleton: true },
+      get: 'Method',
+      set: 'Method',
     },
   }, {
 

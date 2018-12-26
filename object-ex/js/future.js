@@ -84,9 +84,7 @@ function initFuture(name, isConfigurable) {
     this.set = initStub.call(initializePromise, name);
   } 
 
-  if (isStatic)
-    this.configurable = true;
-
+  this.configurable = true;
   return this;
 }
 

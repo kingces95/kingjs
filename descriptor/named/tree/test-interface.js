@@ -58,8 +58,8 @@ assert(myClass.myMethod() == myMethodNumber);
 assert(myClass.myBaseMethod() == myBaseMethodNumber);
 assert('myOtherMethod' in myClass == false);
 
-var myBaseClass = MyClassInfo.base.load();
-assert(myBaseClass.prototype.myBaseMethod.call(myClass) == myBaseMethodNumber);
+var MyBaseClass = MyClassInfo.base.load();
+assert(myClass.myBaseMethod() == myBaseMethodNumber);
 
 IFace = loader.resolve('IFace');
 

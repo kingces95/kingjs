@@ -25,7 +25,7 @@ function defineFunc() {
 
   // load baseFunc
   assert(this.base);
-  var baseFunc = this.base.func;
+  var baseFunc = this.base.load();
 
   // init; prevent activation if abstract
   var init = this.init;
@@ -64,7 +64,7 @@ function defineVtable(func) {
     };
 
     if (member.isMethod) {
-      descriptor.value = member.func;
+      descriptor.value = member.load();
     } 
     else {
       assert(member.isAccessor);

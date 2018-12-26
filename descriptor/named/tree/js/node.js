@@ -3,7 +3,7 @@
 var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
-var descriptorNamedCreate = require('@kingjs/descriptor.named.create');
+var create = require('@kingjs/descriptor.named.create');
 
 var attrSym = require('./attribute');
 var period = '.';
@@ -59,30 +59,32 @@ function* lazyAddChildren(children) {
     return;
 
   var info = this.constructor[attrSym].info.children;
-  var ctors = info.ctors;
 
-  for (var type in ctors)
-    yield* lazyAddChildrenOfType.call(this, type, children[type]);
+  for (var group in info.ctors)
+    yield* lazyAddChildrenOfType.call(this, group, children[group]);
 }
 
-function* lazyAddChildrenOfType(type, children) {
+function* lazyAddChildrenOfType(group, children) {
   if (!children)
     return;
 
   var info = this.constructor[attrSym].info.children;
-  var defaults = info.defaults[type];
+  var ctor = info.ctors[group];
+  var singleton = info.singletons[group];
+  var defer = info.defer[group];
 
-  var ctor = info.ctors[type];
-  var ctorDefaults = ctor[attrSym].info.defaults;
+  if (singleton)
+    children = { [group]: children };
 
   // flatten children and apply transforms
-  children = descriptorNamedCreate(children, [ctorDefaults, defaults]);
-
-  // allow these children to be resolve in a subsequent pass
-  var defer = info.defer[type];
+  children = create(children, [
+    ctor[attrSym].info.defaults, // ctorDefaults
+    info.defaults[group], // defaults
+  ]);
 
   for (var name in children) {
     var tasks = lazyAddChild.call(this, ctor, name, children[name]);
+    // allow these children to be resolve in a subsequent pass
     defer ? yield tasks : yield* tasks; // :)
   }
 }

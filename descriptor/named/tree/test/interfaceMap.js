@@ -1,8 +1,8 @@
 'use strict';
 
-var createLoader = require('./js/loader/create');
+var createLoader = require('../js/loader/create');
 
-var testRequire = require('..');
+var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
@@ -132,11 +132,11 @@ assertTheory(function(test, id) {
     return;
 
   if (!expected) {
-    assertThrows(() => DerivedType.func);
+    assertThrows(() => DerivedType.load());
     return;
   }
 
-  var Derived = DerivedType.func;
+  var Derived = DerivedType.load();
   var derived = new Derived();
   var result = derived[IFoo.method]();
   assert(result == expected);
