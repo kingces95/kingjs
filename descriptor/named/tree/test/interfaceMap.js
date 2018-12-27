@@ -7,14 +7,6 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
-var base = { };
-Object.defineProperty(base, 'p', { get: () => 0, configurable: true });
-
-var derived = Object.create(base);
-Object.defineProperty(base, 'p', { set: o => o.f = 0 });
-
-assert(derived.p == 0);
-
 function test2ndPass() {
 
   // problem: explicit interface implementations use Symbols as names but
