@@ -12,7 +12,7 @@ var accessorLoadGet = require('./accessor/load-get');
 var accessorLoadSet = require('./accessor/load-set');
 
 var createPolymorphisms = require('./type/polymorphisms');
-var createVtable = require('./type/vtable');
+var createVtable = require('./type/class/vtable');
 var createInterfaceMap = require('./type/class/interfaceMap');
 
 defineSchema(exports, [{

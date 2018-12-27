@@ -22,10 +22,21 @@ function Node(parent, name, descriptor) {
 objectEx.defineLazyAccessors(Node.prototype, {
   id: 'Symbol(this.fullName)',
   children: '{ }',
+  hasFullName: function() {
+    if (is.symbol(this.name))
+      return false;
+
+    var parent = this.parent;
+    if (parent)
+      return parent.hasFullName;
+
+    return true;
+  },
   fullName: function() {
-    var result = this.name;
-    if (is.symbol(result))
+    if (!this.hasFullName)
       return null;
+
+    var result = this.name;
 
     var parent = this.parent;
     if (parent && parent.fullName)
@@ -65,7 +76,7 @@ function* lazyAddChildren(children) {
 }
 
 function* lazyAddChildrenOfType(group, children) {
-  if (!children)
+  if (is.undefined(children))
     return;
 
   var info = this.constructor[attrSym].info.children[group];

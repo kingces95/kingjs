@@ -68,8 +68,10 @@ function defineVtable(func) {
     } 
     else {
       assert(member.isAccessor);
-      descriptor.get = member.get;
-      descriptor.set = member.set;
+      if (member.get)
+        descriptor.get = member.get.load();
+      if (member.set)
+        descriptor.set = member.set.load();
     }
 
     var target = member.isStatic ? func : prototype;

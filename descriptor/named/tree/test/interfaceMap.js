@@ -7,6 +7,14 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
+var base = { };
+Object.defineProperty(base, 'p', { get: () => 0, configurable: true });
+
+var derived = Object.create(base);
+Object.defineProperty(base, 'p', { set: o => o.f = 0 });
+
+assert(derived.p == 0);
+
 function test2ndPass() {
 
   // problem: explicit interface implementations use Symbols as names but
@@ -54,10 +62,41 @@ function test2ndPass() {
 }
 test2ndPass();
 
+function testInterfaceAccessor() {
+  var loader = createLoader({
+    interfaces: {
+      IFoo: {
+        accessors: {
+          bar: { get: null }
+        }
+      }
+    },
+    classes: {
+      Baz: {
+        implements: [ 'IFoo' ],
+        accessors: { ['IFoo.bar']: '"value"', },
+      },
+    }
+  });
+
+  var IFooType = loader.resolve('IFoo');
+  var IFooBar = loader.resolve('IFoo.bar');
+  var IFooFooGetter = loader.resolve('IFoo.bar.get');
+
+  var BazType = loader.resolve('Baz');
+  var BazBar = BazType.children[IFooBar.id];
+  var BazBarGetter = BazBar.get;
+
+  var Baz = BazType.load();
+  var baz = new Baz();
+  assert(baz[IFooBar.id] == 'value');
+}
+testInterfaceAccessor();
+
 assertTheory(function(test, id) {
   var interfaceName = 'IFoo';
-  var methodName = 'method';
-  var methodFullName = interfaceName + '.' + methodName;
+  var name = 'method';
+  var explicitName = interfaceName + '.' + name;
   var explicit = 'explicit';
   var implicit = 'implicit';
   var baseExplicit = 'baseExplicit';
@@ -71,6 +110,7 @@ assertTheory(function(test, id) {
 
   var IFooType = loader.resolve(interfaceName);
   var IFoo = IFooType.load();
+  var IFooMethod = loader.resolve(explicitName);
 
   var BaseType = loader.addClass('Base', {
     abstract: true,
@@ -78,10 +118,10 @@ assertTheory(function(test, id) {
   });
 
   if (test.baseExplicit)
-    BaseType.addMethod(methodFullName, () => baseExplicit);
+    BaseType.addMethod(explicitName, () => baseExplicit);
 
   if (test.baseImplicit)
-    BaseType.addMethod(methodName, () => baseImplicit);
+    BaseType.addMethod(name, () => baseImplicit);
 
   var DerivedType = loader.addClass('Derived', {
     base: BaseType,
@@ -89,10 +129,10 @@ assertTheory(function(test, id) {
   });
 
   if (test.explicit)
-    DerivedType.addMethod(methodFullName, () => explicit);
+    DerivedType.addMethod(explicitName, () => explicit);
 
   if (test.implicit)
-    DerivedType.addMethod(methodName, () => implicit);
+    DerivedType.addMethod(name, () => implicit);
 
   if (test.explicit && !test.implements) {
     assertThrows(() => DerivedType.load());

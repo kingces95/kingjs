@@ -8,6 +8,8 @@ var implementationNotFoundError = "Implementation not found."
 var methodImplementsAccessorError = "Method cannot implement interface accessor."
 var accessorImplementsMethodError = "Accessor cannot implement interface method."
 var explicitImplementationNoIfaceError = "Cannot explicitly implement method on unimplemented interface."
+var noGetterImplementationError = "Interface accessor implementation must implement getter."
+var noSetterImplementationError = "Interface accessor implementation must implement setter."
 
 function createInterfaceMap() {
   var map = new Dictionary();
@@ -73,12 +75,22 @@ function createInterfaceMap() {
 }
 
 function setSlot(map, slot, member) {
-  assert(member || this.isAbstract, implementationNotFoundError);
-  if (member) {
+
+  // TODO: verify member "fits" in slot
+  // member.isMethod == slot.isMethod; accessor.get/set matches slot
+  if (!this.isAbstract) {
+    assert(member, implementationNotFoundError);
     assert(member.isProcedural);
-    assert(!member.isMethod || slot.isMethod, methodImplementsAccessorError);
-    assert(!member.isAccessor || slot.isAccessor, accessorImplementsMethodError);
-  }
+    if (slot.isMethod) {
+      assert(member.isMethod, methodImplementsAccessorError);
+    }
+    else {
+      assert(slot.isAccessor);
+      assert(!slot.get || member.get, noGetterImplementationError);
+      assert(!slot.set || member.set, noSetterImplementationError);
+      assert(member.isAccessor , accessorImplementsMethodError);
+    }
+  } 
 
   map[slot.id] = member;    
 }
