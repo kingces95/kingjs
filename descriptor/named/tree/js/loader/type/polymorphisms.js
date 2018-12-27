@@ -5,12 +5,11 @@ var assert = require('@kingjs/assert');
 function createPolymorphisms() {
   assert(this.isType || this.isInterface);
 
-  // base
-  if (this == this.loader.Object)
-    return Object.create(null);
-
   // add inherited polymorphisms
-  var polymorphisms = Object.create(this.base.polymorphisms);
+  var basePolymorphisms = null;
+  if (this.base)
+    basePolymorphisms = this.base.polymorphisms;
+  var polymorphisms = Object.create(basePolymorphisms);
 
   // add implementation or extension polymorphisms (and self)
   addType.call(polymorphisms, this);

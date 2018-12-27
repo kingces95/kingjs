@@ -8,9 +8,6 @@ var classLoad = require('./type/class/load');
 var methodLoad = require('./method/load');
 var methodInit = require('./method/init');
 
-var accessorLoadGet = require('./accessor/load-get');
-var accessorLoadSet = require('./accessor/load-set');
-
 var createPolymorphisms = require('./type/polymorphisms');
 var createVtable = require('./type/class/vtable');
 var createInterfaceMap = require('./type/class/interfaceMap');
@@ -80,7 +77,9 @@ defineSchema(exports, [{
     init: methodInit,
     wrap: 'func',
     flags: { 
-      abstract: 'this.func === null',
+      abstract: '!this.load()',
+      getter: false,
+      setter: false,
     },
     methods: { 
       $defaults: { initializer: 'func', default: null },
@@ -88,18 +87,38 @@ defineSchema(exports, [{
     },
   }, {
 
+    // AccessorMethod
+    name: 'AccessorMethod',
+    base: 'Method',
+    accessors: { 
+      declaringAccessor: { type: 'Accessor', ancestor: true }
+    }, 
+  }, {
+
+    // Getter
+    name: 'Getter',
+    base: 'AccessorMethod',
+    wrap: 'func',
+   }, {
+
+    // Setter
+    name: 'Setter',
+    base: 'AccessorMethod',
+    wrap: 'func',
+  }, {
+
     // Accessor
     name: 'Accessor',
     base: 'Procedural',
     wrap: 'get',
     flags: { 
-      abstract: 'this.get === null',
-      writable: 'this.set !== undefined',
+      abstract: 'this[this.get ? "get" : "set"].isAbstract',
+      writable: '!!this.set',
     },
     children: {
       $defaults: { singleton: true },
-      get: 'Method',
-      set: 'Method',
+      get: { type: 'Getter' },
+      set: { type: 'Setter' },
     },
   }, {
 
@@ -160,28 +179,18 @@ defineSchema(exports, [{
     flags: {
       abstract: true,
     },
-    accessors: [{
-      $defaults: { get: '{ }', lazy: true },
-      implementations: { },
-      extensions: { },
-    }, {
+    accessors: {
       $defaults: { ref: true },
       extends: { type: 'Interface', array: true, default: null },
-      base: { type: 'Class', default: null },
-    }],
+    },
     methods: { 
       $defaults: { lazy: true },
       load: interfaceLoad,
     }, 
-    children: [{
-      $defaults: {
-        defaults: {
-          abstract: true
-        }
-      },
+    children: {
       methods: 'Method',
       accessors: 'Accessor'
-    }],
+    },
   }, {
 
     // Loader

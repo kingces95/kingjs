@@ -79,19 +79,19 @@ function* lazyAddChildrenOfType(group, children) {
   if (is.undefined(children))
     return;
 
-  var info = this.constructor[attrSym].info.children[group];
-  var ctor = info.ctor;
-  var singleton = info.singleton;
-  var defer = info.defer;
-  var defaults = info.defaults;
+  var action = this.constructor[attrSym].info.children[group];
+  var ctor = action.type;
+  var singleton = action.singleton;
+  var defer = action.defer;
 
   if (singleton)
     children = { [group]: children };
 
   // flatten children and apply transforms
+  var ctorAction = ctor[attrSym].info.action;
   children = create(children, [
-    ctor[attrSym].info.defaults, // ctorDefaults
-    defaults, // defaults
+    ctorAction,
+    action,
   ]);
 
   for (var name in children) {

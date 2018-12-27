@@ -14,7 +14,7 @@ function load() {
   };
 
   // interface has no prototype because it's never activated
-  func.prototype = Object.prototype;
+  func.prototype = null;
 
   // set interface name
   objectEx.defineConstField(func, 'name', this.name);

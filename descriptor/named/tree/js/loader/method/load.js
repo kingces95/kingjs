@@ -6,8 +6,11 @@ var objectEx = require('@kingjs/object-ex');
 
 function load(func) {
 
-  if (is.string(func))
-    return new Function('return ' + func);
+  if (is.string(func)) {
+    return this.isSetter ? 
+      new Function('value', func) :
+      new Function(`return ${func};`);
+  }
 
   return func;
 }

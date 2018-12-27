@@ -55,7 +55,7 @@ function defineSchema(target, descriptors) {
 function createInfo(descriptor) {
   return { 
     fields: { },
-    defaults: { 
+    action: { 
       wrap: descriptor.wrap
     },
     children: { } 
@@ -128,12 +128,7 @@ function defineChildren(func, children, info) {
   for (var group in children) {
     var child = children[group];
     defineChild(func, group, child);
-    info[group] = {
-      ctor: child.type,
-      defaults: child.defaults,
-      defer: child.defer,
-      singleton: child.singleton
-    }
+    info[group] = child
   }
 }
 
@@ -216,7 +211,7 @@ function defineAccessor(func, name, descriptor) {
 
   descriptor.enumerable = true;
   if ('value' in descriptor)
-    descriptor.writable = false;
+    descriptor.writable = true;
   else if ('get' in descriptor == false)
     return; // todo: should be write-once
 

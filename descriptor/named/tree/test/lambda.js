@@ -30,21 +30,23 @@ function testLambda() {
   var myAccessor = loader.resolve('myAccessor');
 
   // getInfo
-  var getInfo = myAccessor.children.get;
-  assert(getInfo == myAccessor.get);
+  var getterInfo = myAccessor.children.get;
+  assert(getterInfo == myAccessor.get);
+  assert(getterInfo.isGetter);
 
   // get
-  var myGet = getInfo.load();
+  var myGet = getterInfo.load();
   assert(myGet() == 2);
 
   // set
-  var setInfo = myAccessor.children.set;
-  assert(setInfo == myAccessor.set);
+  var setterInfo = myAccessor.children.set;
+  assert(setterInfo == myAccessor.set);
+  assert(setterInfo.isSetter);
 
   // setInfo
-  var mySet = setInfo.load();
+  var mySet = setterInfo.load();
   var target = { };
-  mySet.call(target);
+  assert(undefined === mySet.call(target));
   assert(target.value == 3);
 }
 testLambda();
