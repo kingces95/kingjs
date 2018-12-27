@@ -60,7 +60,7 @@ function* lazyAddChildren(children) {
 
   var info = this.constructor[attrSym].info.children;
 
-  for (var group in info.ctors)
+  for (var group in info)
     yield* lazyAddChildrenOfType.call(this, group, children[group]);
 }
 
@@ -68,10 +68,11 @@ function* lazyAddChildrenOfType(group, children) {
   if (!children)
     return;
 
-  var info = this.constructor[attrSym].info.children;
-  var ctor = info.ctors[group];
-  var singleton = info.singletons[group];
-  var defer = info.defer[group];
+  var info = this.constructor[attrSym].info.children[group];
+  var ctor = info.ctor;
+  var singleton = info.singleton;
+  var defer = info.defer;
+  var defaults = info.defaults;
 
   if (singleton)
     children = { [group]: children };
@@ -79,7 +80,7 @@ function* lazyAddChildrenOfType(group, children) {
   // flatten children and apply transforms
   children = create(children, [
     ctor[attrSym].info.defaults, // ctorDefaults
-    info.defaults[group], // defaults
+    defaults, // defaults
   ]);
 
   for (var name in children) {

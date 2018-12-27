@@ -58,12 +58,7 @@ function createInfo(descriptor) {
     defaults: { 
       wrap: descriptor.wrap
     },
-    children: { 
-      ctors: { },
-      defaults: { },
-      defer: { },
-      singletons: { },
-    } 
+    children: { } 
   };
 }
 
@@ -133,33 +128,38 @@ function defineChildren(func, children, info) {
   for (var group in children) {
     var child = children[group];
     defineChild(func, group, child);
-    info.ctors[group] = child.type;
-    info.defaults[group] = child.defaults;
-    info.defer[group] = child.defer;
-    info.singletons[group] = child.singleton;
+    info[group] = {
+      ctor: child.type,
+      defaults: child.defaults,
+      defer: child.defer,
+      singleton: child.singleton
+    }
   }
 }
 
 function defineChild(func, group, descriptor) {
-  if (descriptor.singleton) {
-    objectEx.defineFunction(
-      func.prototype, 
-      addConst + cap(group), 
-      function(descriptors) {
-        this.addChildrenOfType(group, descriptors);
-      }
-    );
-    return;
-  }  
+  var target = func.prototype;
 
-  objectEx.defineFunctions(func.prototype, {
-    [addConst + descriptor.type.name]: function(name, descriptor) {
-      return this.addChildOfType(group, name, descriptor);
-    },
-    [addConst + cap(group)]: function(descriptors) {
+  objectEx.defineFunction(
+    target, 
+    addConst + cap(group), 
+    function(descriptors) {
       this.addChildrenOfType(group, descriptors);
     }
-  });
+  );
+
+  if (descriptor.singleton) {
+    objectEx.defineAccessor(target, group, `this.children.${group}`);
+    return;
+  }
+
+  objectEx.defineFunction(
+    target, 
+    addConst + descriptor.type.name, 
+    function(name, descriptor) {
+      return this.addChildOfType(group, name, descriptor);
+    }
+  );
 }
 
 function defineAccessors(func, accessors, info) {

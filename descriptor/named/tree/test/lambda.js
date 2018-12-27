@@ -29,13 +29,19 @@ function testLambda() {
   // accessor
   var myAccessor = loader.resolve('myAccessor');
 
-  // accessor.get
+  // getInfo
   var getInfo = myAccessor.children.get;
+  assert(getInfo == myAccessor.get);
+
+  // get
   var myGet = getInfo.load();
   assert(myGet() == 2);
 
-  // accessor.set
+  // set
   var setInfo = myAccessor.children.set;
+  assert(setInfo == myAccessor.set);
+
+  // setInfo
   var mySet = setInfo.load();
   var target = { };
   mySet.call(target);
