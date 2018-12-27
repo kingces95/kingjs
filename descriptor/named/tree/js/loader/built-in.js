@@ -22,7 +22,8 @@ var primitiveTypes = {
 
 var builtInClasses = {
   $defaults: {
-    base: 'Object'
+    base: 'Object',
+    implements: [ 'IEnumerable' ]
   },
   String: String,
   Array: Array
@@ -34,7 +35,16 @@ builtIn.addChildren({
   classes: [
     primitiveTypes,
     builtInClasses
-  ]
+  ],
+  interfaces: {
+    IEnumerable: { 
+      methods: { getEnumerator: null }
+    },
+    IEnumerator: {
+      methods: { moveNext: null },
+      accessors: { current: null }
+    }
+  }
 });
 
 for (name in builtInTypes) {

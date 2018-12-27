@@ -179,7 +179,9 @@ function exportDefinition(
       descriptor = initStatic.call(descriptor, target, name);
 
       assert(is.function(target));
-      Object.defineProperty(target.prototype, name, descriptor);
+
+      if (target.prototype)
+        Object.defineProperty(target.prototype, name, descriptor);
     }
 
     return result;

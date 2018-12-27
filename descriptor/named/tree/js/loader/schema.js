@@ -153,7 +153,7 @@ defineSchema(exports, [{
       vtable: { get: createVtable },
     }, {
       $defaults: { ref: true },
-      base: { type: 'Class', default: 'Object' },
+      base: { type: 'Class', default: 'Extendable' },
       implements: { type: 'Interface', array: true, default: null },
     }],
     methods: { 
@@ -198,6 +198,7 @@ defineSchema(exports, [{
     base: 'JavascriptNode',
     accessors: {
       infoSymbol: { value: Symbol('@kingjs/loader.info'), static: true },
+      prototype: { value: { } },
     },
     methods: {
       getType: function(instance) {
