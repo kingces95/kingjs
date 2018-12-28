@@ -122,6 +122,7 @@ objectEx.defineFunctions(Node.prototype, {
 
   addChildren: function(children) {
     execute(lazyAddChildren.call(this, children));
+    return this.children;
   },
 
   addChildOfType(type, name, child) {

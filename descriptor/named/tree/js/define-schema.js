@@ -77,7 +77,7 @@ function defineNode(target, name, baseFunc, init) {
       }
 
       if (init)
-        init.call(this);
+        init.call(this, descriptor);
     }
   );
 

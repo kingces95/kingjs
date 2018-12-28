@@ -146,6 +146,8 @@ defineSchema(exports, [{
     wrap: 'func',
     flags: { 
       abstract: false,
+      primitive: false,
+      native: false,
     },
     accessors: [{
       $defaults: { lazy: true },
@@ -196,6 +198,7 @@ defineSchema(exports, [{
     // Loader
     name: 'Loader',
     base: 'JavascriptNode',
+    init: function(descriptor) { this.addChildren(descriptor); },
     accessors: {
       infoSymbol: { value: Symbol('@kingjs/loader.info'), static: true },
       prototype: { value: { } },

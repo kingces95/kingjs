@@ -7,19 +7,21 @@ var objectEx = require('@kingjs/object-ex');
 
 var abstractTypeError = 'Cannot create abstract type.';
 
-function load(func) {
-  if (func)
-    return func;
+function load(init) {
+  var func = this.isNative ? init : defineFunc.call(this, init);
 
-  func = defineFunc.call(this);
+  // allow func -> info resolution
+  var loader = this.loader;
+  var infoSym = loader.infoSymbol;
+  objectEx.defineHiddenStaticField(func, infoSym, this);
+
   defineVtable.call(this, func);
   defineFields.call(this, func);
 
   return func;
 }
 
-function defineFunc() {
-
+function defineFunc(init) {
   var loader = this.loader;
   var infoSym = loader.infoSymbol;
 
@@ -28,7 +30,6 @@ function defineFunc() {
   var baseFunc = this.base.load();
 
   // init; prevent activation if abstract
-  var init = this.init;
   if (this.isAbstract) {
     init = function() {
       var info = this[infoSym];
@@ -37,13 +38,7 @@ function defineFunc() {
   }
 
   // create this function using base function
-  var name = this.name;
-  var func = defineClass(name, baseFunc, init);
-
-  // allow func -> info resolution
-  objectEx.defineHiddenStaticField(func, infoSym, this);
-
-  return func;
+  return defineClass(this.name, baseFunc, init);
 }
 
 function defineVtable(func) {

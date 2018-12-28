@@ -9,33 +9,7 @@ var schema = require('./schema');
 var JavascriptNode = schema.JavascriptNode;
 var Loader = schema.Loader;
 
-var primitiveTypes = {
-  $defaults: {
-    base: null,
-    primitive: true,
-  },
-  Object: Object,
-  Number: Number,
-  Boolean: Boolean,
-  Symbol: Symbol,
-};
-
-var builtInClasses = {
-  $defaults: {
-    base: 'Object',
-    implements: [ 'IEnumerable' ]
-  },
-  String: String,
-  Array: Array
-}
-
-var builtIn = new Loader(null, null);
-
-builtIn.addChildren({
-  classes: [
-    primitiveTypes,
-    builtInClasses
-  ],
+var builtIn = new Loader(null, null, {
   interfaces: {
     IEnumerable: { 
       methods: { getEnumerator: null }
@@ -44,25 +18,65 @@ builtIn.addChildren({
       methods: { moveNext: null },
       accessors: { current: null }
     }
-  }
+  },
+  classes: [{
+      $defaults: {
+        primitive: true,
+        native: true,
+        base: null,
+      },
+      Object: Object,
+      Number: Number,
+      Boolean: Boolean,
+      Symbol: Symbol,
+    }, {
+      $defaults: {
+        native: true,
+        base: 'Object',
+        implements: [ 'IEnumerable' ],
+        methods: {
+          ['IEnumerable.getEnumerator']: function() {
+            return new IndexableEnumerator(this);
+          }        
+        }
+      },
+      String: String,
+      Array: Array
+    }, {
+      $defaults: {
+        base: 'Object',
+        implements: [ 'IEnumerator' ]
+      },
+      IndexableEnumerator: {
+        func: function(indexable) { this.indexable_ = indexable },
+        fields: {
+          index_: -1,
+          current_: undefined,
+          array_: undefined,
+        },
+        accessors: {
+          current: 'this.current_'
+        },
+        methods: {
+          moveNext: function() {
+            var indexable = this.indexable_;
+            var index = this.index_ + 1;
+            if (index == indexable.length) {
+              this.current_ = undefined;
+              return false;
+            }
+      
+            this.current_ = indexable[index];
+            this.index_ = index;
+            return true;
+          }
+        }
+      }
+    }
+  ],
 });
 
-for (name in builtInTypes) {
-  var type = builtInTypes[name];
-  if (ref == type.load())
-    return type;
-}
-
-var builtInTypes = builtIn.children;
-Object.freeze(builtInTypes);
-
-objectEx.defineStaticField(Loader, 'builtIn', builtIn);
-
-for (var name in builtInTypes) {
-  var type = builtInTypes[name];
-  objectEx.defineStaticField(Loader, name, type);
-  objectEx.defineHiddenStaticField(type.load(), Loader.infoSymbol, type);
-}
+var IndexableEnumerator = builtIn.children.IndexableEnumerator.load();
 
 objectEx.defineFunction(JavascriptNode.prototype, 
   function resolve(ref) {
@@ -76,11 +90,30 @@ objectEx.defineFunction(JavascriptNode.prototype,
   }
 );
 
+objectEx.defineStaticField(Loader, 'builtIn', builtIn);
+
+for (var name in builtIn.children) {
+  var type = builtIn.children[name];
+  if (!type.isNative)
+    continue;
+
+  type.load();
+  objectEx.defineStaticField(Loader, name, type);
+}
+
+Object.defineProperties(module, {
+  exports: { value: builtIn }
+});
+
 assert(builtIn.resolve('Object') == Loader.Object);
 assert(builtIn.resolve(Object) == Loader.Object);
 assert(Loader.Array.base == Loader.Object);
 assert(Array[Loader.infoSymbol] == Loader.Array);
+assert(Loader.Array.canCastTo(builtIn.children.IEnumerable));
 
-Object.defineProperties(module, {
-  exports: { value: Loader.builtIn }
-});
+var IEnumerable = builtIn.resolve('IEnumerable').load();
+var IEnumerator = builtIn.resolve('IEnumerator').load();
+var array = [42];
+var enumerator = array[IEnumerable.getEnumerator]();
+assert(enumerator[IEnumerator.moveNext]());
+//assert(enumerator[IEnumerator.current] == 42);
