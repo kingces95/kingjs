@@ -75,6 +75,31 @@ function defineVtable(func) {
 }
 
 function defineFields(func) {
+
+  for (var name in this.children) {
+    var member = this.children[name];
+    if (!member.isField)
+      continue;
+
+    var descriptor = {
+      enumerable: member.isEnumerable,
+      static: member.isStatic,
+    };
+
+    assert((member.isReadOnly && member.isConst) == false);
+
+    if (member.isReadOnly) {
+      descriptor.future = true;
+      descriptor.writeOnce = true;
+    }
+    else {
+      descriptor.writable = !member.isConst;
+      descriptor.value = member.value
+    }
+    
+    var target = member.isStatic ? func : func.prototype;
+    objectEx.defineProperty(target, name, descriptor);
+  }
 }
 
 Object.defineProperties(module, {

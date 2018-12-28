@@ -53,10 +53,11 @@ defineSchema(exports, [{
     base: 'Property',
     wrap: 'value',
     flags: { 
-      writable: false,
+      const: false,
+      readOnly: false,
     },
     accessors: { 
-      value: { /* write-once */ },
+      value: null,
     },
   }, {
 

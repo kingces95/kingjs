@@ -52,7 +52,7 @@ var builtIn = new Loader(null, null, {
         fields: {
           index_: -1,
           current_: undefined,
-          array_: undefined,
+          indexable_: { readOnly: true },
         },
         accessors: {
           current: 'this.current_'
@@ -105,6 +105,8 @@ Object.defineProperties(module, {
   exports: { value: builtIn }
 });
 
+return;
+
 assert(builtIn.resolve('Object') == Loader.Object);
 assert(builtIn.resolve(Object) == Loader.Object);
 assert(Loader.Array.base == Loader.Object);
@@ -116,4 +118,4 @@ var IEnumerator = builtIn.resolve('IEnumerator').load();
 var array = [42];
 var enumerator = array[IEnumerable.getEnumerator]();
 assert(enumerator[IEnumerator.moveNext]());
-//assert(enumerator[IEnumerator.current] == 42);
+assert(enumerator[IEnumerator.current] == 42);

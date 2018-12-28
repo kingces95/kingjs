@@ -20,7 +20,7 @@ var wrap = {
   flag: o => ({ [is.boolean(o) ? 'value' : 'get']: o }),
   accessor: 'type',
   child: 'type',
-  method: 'value'
+  method: 'value',
 };
 
 function defineSchema(target, descriptors) {
