@@ -1,14 +1,18 @@
 'use strict';
 
+var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
+
 var Node = require('../../tree');
-var interfaceLoad = require('./type/interface/load');
-var classLoad = require('./type/class/load');
+
+var loaderCreate = require('./loader/create');
 
 var methodLoad = require('./method/load');
 var methodInit = require('./method/init');
 
 var createPolymorphisms = require('./type/polymorphisms');
+var interfaceLoad = require('./type/interface/load');
+var classLoad = require('./type/class/load');
 var createVtable = require('./type/class/vtable');
 var createInterfaceMap = require('./type/class/interfaceMap');
 
@@ -25,7 +29,7 @@ Node.define(exports, [{
           return ref[this.loader.infoSymbol];
     
         return Node.prototype.resolve.call(this, ref);
-      }
+      },
     }
   }, {
 
@@ -216,17 +220,32 @@ Node.define(exports, [{
       prototype: { value: { } },
       loader: { get: 'this' },
     },
-    methods: {
+    methods: [{
       $defaults: { static: true },
       getInfo: function(instance) {
         if (is.nullOrUndefined(instance))
           return undefined;
+
         var constructor = instance.constructor;
         if (!constructor)
           return undefined;
+
         return constructor[this.infoSymbol];
       }
-    },
+    }, {
+      create: loaderCreate,
+      load: function(name) {
+        if (is.undefined(name))
+          return this;
+
+        var loadable = this.resolve(name);
+        if (!loadable)
+          return null;
+
+        assert('load' in loadable);
+        return loadable.load();
+      },
+    }],
     children: [{
       packages: 'Package',
       interfaces: 'Interface',

@@ -1,13 +1,14 @@
 'use strict';
 
-var createLoader = require('../js/create');
-
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 
+var load = require('..');
+var loader = load();
+
 function testLambda() {
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     methods: {
       myMethod: { 
         func: '1' 
@@ -22,12 +23,12 @@ function testLambda() {
   });
 
   // method
-  var myMethodInfo = loader.resolve('myMethod');
+  var myMethodInfo = myLoader.resolve('myMethod');
   var myMethod = myMethodInfo.load();
   assert(myMethod() == 1);
 
   // accessor
-  var myAccessor = loader.resolve('myAccessor');
+  var myAccessor = myLoader.resolve('myAccessor');
 
   // getInfo
   var getterInfo = myAccessor.children.get;

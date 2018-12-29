@@ -1,6 +1,5 @@
 //'use strict';
 
-var assert = require('@kingjs/assert');
 var objectEx = require('@kingjs/object-ex')
 
 function init() {
@@ -9,9 +8,10 @@ function init() {
 }
 
 function initExtension() {
-  var loader = this.loader;
-  var ExtendableType = loader.Extendable;
-  var Extendable = ExtendableType.load();
+  var Extendable = this.loader.load('Extendable');
+  if (!Extendable)
+    Extendable = Object;
+
   var target = Extendable.prototype;
 
   objectEx.defineFunction(target, this.id, {

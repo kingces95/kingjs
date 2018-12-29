@@ -1,11 +1,12 @@
 'use strict';
 
-var createLoader = require('../js/create');
-
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
+
+var load = require('..');
+var loader = load();
 
 function test2ndPass() {
 
@@ -14,7 +15,7 @@ function test2ndPass() {
   // statement as the implementation then care needs to be taken to load all
   // interfaces in the statement before the methods so any explicit implementations
   // are able to find their symbol.
-  var loader = createLoader({
+  var myLoader = loader.create({
     classes: {
       MyFooClass: {
         implements: [ 'MyBarClass.IFace' ],
@@ -29,14 +30,14 @@ function test2ndPass() {
     }
   });
 
-  var MyFooClass = loader.resolve('MyFooClass');
-  var MyFooIFace = loader.resolve('MyFooClass.IFace');
-  var MyFooIFaceMethod = loader.resolve('MyFooClass.IFace.myMethod');
-  var MyBarClass = loader.resolve('MyBarClass');
-  var MyBarIFace = loader.resolve('MyBarClass.IFace')
-  var MyBarIFaceMethod = loader.resolve('MyBarClass.IFace.myMethod')
+  var MyFooClass = myLoader.resolve('MyFooClass');
+  var MyFooIFace = myLoader.resolve('MyFooClass.IFace');
+  var MyFooIFaceMethod = myLoader.resolve('MyFooClass.IFace.myMethod');
+  var MyBarClass = myLoader.resolve('MyBarClass');
+  var MyBarIFace = myLoader.resolve('MyBarClass.IFace')
+  var MyBarIFaceMethod = myLoader.resolve('MyBarClass.IFace.myMethod')
 
-  assert(loader.resolve(MyFooIFaceMethod.id) == MyFooIFaceMethod);
+  assert(myLoader.resolve(MyFooIFaceMethod.id) == MyFooIFaceMethod);
   assert(MyFooIFaceMethod.id in MyBarClass.children);
   assert(MyBarIFaceMethod.id in MyFooClass.children);
 
@@ -55,7 +56,7 @@ function test2ndPass() {
 test2ndPass();
 
 function testInterfaceAccessor() {
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: {
       IFoo: {
         accessors: {
@@ -71,11 +72,11 @@ function testInterfaceAccessor() {
     }
   });
 
-  var IFooType = loader.resolve('IFoo');
-  var IFooBar = loader.resolve('IFoo.bar');
-  var IFooFooGetter = loader.resolve('IFoo.bar.get');
+  var IFooType = myLoader.resolve('IFoo');
+  var IFooBar = myLoader.resolve('IFoo.bar');
+  var IFooFooGetter = myLoader.resolve('IFoo.bar.get');
 
-  var BazType = loader.resolve('Baz');
+  var BazType = myLoader.resolve('Baz');
   var BazBar = BazType.children[IFooBar.id];
   var BazBarGetter = BazBar.get;
 
@@ -94,17 +95,17 @@ assertTheory(function(test, id) {
   var baseExplicit = 'baseExplicit';
   var baseImplicit = 'baseImplicit';
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: {
       IFoo: { methods: { method: null } }
     }
   });
 
-  var IFooType = loader.resolve(interfaceName);
+  var IFooType = myLoader.resolve(interfaceName);
   var IFoo = IFooType.load();
-  var IFooMethod = loader.resolve(explicitName);
+  var IFooMethod = myLoader.resolve(explicitName);
 
-  var BaseType = loader.addClass('Base', {
+  var BaseType = myLoader.addClass('Base', {
     abstract: true,
     implements: test.baseImplements ? [ IFooType ] : null,
   });
@@ -115,7 +116,7 @@ assertTheory(function(test, id) {
   if (test.baseImplicit)
     BaseType.addMethod(name, () => baseImplicit);
 
-  var DerivedType = loader.addClass('Derived', {
+  var DerivedType = myLoader.addClass('Derived', {
     base: BaseType,
     implements: test.implements ? [ IFooType ] : null,
   });

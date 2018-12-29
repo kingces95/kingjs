@@ -1,11 +1,12 @@
 'use strict';
 
-var createLoader = require('../js/create');
-
 var testRequire = require('../..');
 var is = testRequire('@kingjs/is');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
+
+var load = require('..');
+var loader = load();
 
 var Source = {
   interfaces: { IFoo: { } },
@@ -15,17 +16,17 @@ var Source = {
 
 function testCallExtension() {
 
-  var loader = createLoader(Source);
+  var myLoader = loader.create(Source);
 
-  var FooType = loader.resolve('Foo');
+  var FooType = myLoader.resolve('Foo');
   var Foo = FooType.load();
   var foo = new Foo();
   
-  var bazInfo = loader.resolve('baz');
+  var bazInfo = myLoader.resolve('baz');
   var bazId = bazInfo.id;
   assert(foo[bazId]() == foo);
 
-  var IFooType = loader.resolve('IFoo');
+  var IFooType = myLoader.resolve('IFoo');
   assert(bazInfo.extends == IFooType);
   assert(FooType.implements[0] == IFooType);
   assert(FooType.canCastTo(IFooType));
@@ -34,29 +35,29 @@ testCallExtension();
 
 function testExtendable() {
 
-  var loader = createLoader(Source);
+  var myLoader = loader.create(Source);
 
   // Extendable is declared by default
-  var ExtendableType = loader.resolve('Extendable');
+  var ExtendableType = myLoader.resolve('Extendable');
   assert(ExtendableType);
   var Extendable = ExtendableType.load();
   var extendable = new Extendable();
   assert(extendable instanceof Object);
 
   // Extendable is not shared between loaders
-  var loaderAlt = createLoader(Source);
+  var loaderAlt = loader.create(Source);
   var ExtendableTypeAlt = loaderAlt.resolve('Extendable');
   assert(ExtendableTypeAlt != ExtendableType);
 
   // everything Loaded by loader derives from Extendable
-  var FooType = loader.resolve('Foo');
+  var FooType = myLoader.resolve('Foo');
   var Foo = FooType.load();
   assert(FooType.canCastTo(ExtendableType));
   var foo = new Foo();
   assert(foo instanceof Extendable);
 
   // extensions live on Extendable.prototype
-  var bazInfo = loader.resolve('baz');
+  var bazInfo = myLoader.resolve('baz');
   var bazId = bazInfo.id;
   var target = Extendable.prototype;
   var descriptor = Object.getOwnPropertyDescriptor(target, bazId);

@@ -11,7 +11,7 @@
     "@kingjs/descriptor.object.write": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
     "@kingjs/is": "^1.0.6",
-    "@kingjs/object-ex": "^1.0.20",
+    "@kingjs/object-ex": "^1.0.29",
     "kingjs": "1.0.40"
   }
 }

@@ -1,10 +1,11 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
-var createLoader = require('../js/create');
 
-var loader = createLoader();
-loader.addChildren({
+var load = require('..');
+var loader = load();
+
+var myLoader = loader.create({
   packages: { 
     '@kingjs/foo-bar': {
       classes: {
@@ -37,18 +38,18 @@ loader.addChildren({
   }
 });
 
-var a = Object.getPrototypeOf(loader);
+var a = Object.getPrototypeOf(myLoader);
 var n = Object.getOwnPropertyNames(a);
 
-var obj = loader.resolve(Object);
+var obj = myLoader.resolve(Object);
 var fullName = obj.fullName;
-var fooBarPkg = loader.children['@kingjs/foo-bar'];
+var fooBarPkg = myLoader.children['@kingjs/foo-bar'];
 var MyClass = fooBarPkg.children.MyClass;
 var MyClassIfaces = MyClass.implements;
 var MyClassFunc = MyClass.load();
 var myClass = new MyClassFunc();
 
-var IFoo = loader.resolve('@kingjs/foo-bar.IFoo')
+var IFoo = myLoader.resolve('@kingjs/foo-bar.IFoo')
 var IFooExtends = IFoo.extends;
 var fooExMethod = fooBarPkg.resolve('MyIFooExMethod');
 

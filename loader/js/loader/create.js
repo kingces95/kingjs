@@ -1,19 +1,16 @@
 'use strict';
 
 var objectEx = require('@kingjs/object-ex');
-var schema = require('./schema');
-var builtIn = require('./built-in');
-
 var Extendable = 'Extendable';
-var Loader = schema.Loader;
 
 function create(children) {
+  var Loader = this.constructor;
   var loader = new Loader();
 
   objectEx.defineField(
     loader, 
     'children', 
-    Object.create(builtIn.children)
+    Object.create(this.children)
   );
 
   objectEx.defineField(loader, Extendable, 

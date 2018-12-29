@@ -20,6 +20,16 @@ var wrap = {
   method: 'value',
 };
 
+function createInfo(descriptor) {
+  return { 
+    fields: { },
+    action: { 
+      wrap: descriptor.wrap
+    },
+    children: { } 
+  };
+}
+
 function define(target, descriptors) {
 
   // first pass; define types
@@ -47,16 +57,6 @@ function define(target, descriptors) {
     defineMethods.call(this, func, methods, info.fields);
     defineChildren.call(this, func, children, info.children);
   }
-}
-
-function createInfo(descriptor) {
-  return { 
-    fields: { },
-    action: { 
-      wrap: descriptor.wrap
-    },
-    children: { } 
-  };
 }
 
 function defineNode(target, name, baseFunc, init) {

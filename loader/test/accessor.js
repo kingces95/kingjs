@@ -1,17 +1,18 @@
 'use strict';
 
-var createLoader = require('../js/create');
-
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 
+var load = require('..');
+var loader = load();
+
 function testAccessorInfo() {
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     accessors: { myAccessor: { get: '', set: '' } }
   });
 
-  var info = loader.resolve('myAccessor')
+  var info = myLoader.resolve('myAccessor')
   assert(info.isJavascriptNode);
   assert(info.isMember);
   assert(info.isAccessor);

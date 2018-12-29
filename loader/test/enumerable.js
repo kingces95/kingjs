@@ -1,15 +1,14 @@
 'use strict';
 
-var objectEx = require('@kingjs/object-ex');
-
-var loader = require('../js/built-in');
-var createLoader = require('../js/create');
-var IEnumerable = require('../js/i-enumerable');
-var IEnumerator = require('../js/i-enumerator');
-
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
+var objectEx = testRequire('@kingjs/object-ex');
+
+var load = require('..');
+var loader = load();
+var IEnumerable = load('IEnumerable');
+var IEnumerator = load('IEnumerator');
 
 function testIndexable(o) {
   assert(o.length == 1);

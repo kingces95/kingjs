@@ -1,21 +1,22 @@
 'use strict';
 
-var createLoader = require('../js/create');
-
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
+var load = require('..');
+var loader = load();
+
 function testPredicates() {
   var name = 'IFace';
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: { 
       [name]: { } 
     }
   });
 
-  var IFaceType = loader.resolve(name);
+  var IFaceType = myLoader.resolve(name);
   assert(IFaceType.isJavascriptNode);
   assert(IFaceType.isMember);
   assert(IFaceType.isType);
@@ -23,7 +24,7 @@ function testPredicates() {
 
   assert(IFaceType.isAbstract);
 
-  assert(IFaceType.loader == loader);
+  assert(IFaceType.loader == myLoader);
   assert(IFaceType.name == name);
   assert(IFaceType.fullName == name);
 
@@ -42,17 +43,17 @@ testPredicates();
 
 function testExtends() {
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: { 
       IFoo: { },
       IBar: { extends: [ 'IFoo' ] }
     }
   });
 
-  var IFooType = loader.resolve('IFoo');
+  var IFooType = myLoader.resolve('IFoo');
   assert(!IFooType.extends);
 
-  var IBarType = loader.resolve('IBar');
+  var IBarType = myLoader.resolve('IBar');
   assert(IBarType.extends.length == 1);
   assert(IBarType.extends[0] == IFooType);
 
@@ -63,7 +64,7 @@ testExtends();
 
 function testMethod() {
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: { 
       IFace: { 
         methods: { myMethod: null },
@@ -71,9 +72,9 @@ function testMethod() {
     }
   });
 
-  var IFaceType = loader.resolve('IFace');
+  var IFaceType = myLoader.resolve('IFace');
 
-  var myMethodInfo = loader.resolve('IFace.myMethod')
+  var myMethodInfo = myLoader.resolve('IFace.myMethod')
   assert(myMethodInfo.isAbstract);
 
   var IFace = IFaceType.load();
@@ -83,7 +84,7 @@ testMethod();
 
 function testAccessor() {
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: { 
       IFace: { 
         accessors: { myAccessor: { get: null, set: null } }
@@ -91,9 +92,9 @@ function testAccessor() {
     }
   });
 
-  var IFaceType = loader.resolve('IFace');
+  var IFaceType = myLoader.resolve('IFace');
 
-  var myAccessorInfo = loader.resolve('IFace.myAccessor')
+  var myAccessorInfo = myLoader.resolve('IFace.myAccessor')
   assert(myAccessorInfo.isAbstract);
 
   var IFace = IFaceType.load();
@@ -109,7 +110,7 @@ testAccessor();
 
 function testDiamond() {
 
-  var loader = createLoader({
+  var myLoader = loader.create({
     interfaces: { 
       IFoo: { 
         extends: [ 'ILeft', 'IRight' ]
@@ -124,10 +125,10 @@ function testDiamond() {
     }
   });
 
-  var IFooType = loader.resolve('IFoo');
-  var ILeftType = loader.resolve('ILeft');
-  var IRightType = loader.resolve('IRight');
-  var IBottomType = loader.resolve('IBottom');
+  var IFooType = myLoader.resolve('IFoo');
+  var ILeftType = myLoader.resolve('ILeft');
+  var IRightType = myLoader.resolve('IRight');
+  var IBottomType = myLoader.resolve('IBottom');
 
   assert(IFooType.canCastTo(ILeftType));
   assert(IFooType.canCastTo(IRightType));
