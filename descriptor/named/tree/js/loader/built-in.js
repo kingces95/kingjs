@@ -1,12 +1,9 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
-var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
-var Node = require('../node');
 var schema = require('./schema');
 
-var JavascriptNode = schema.JavascriptNode;
 var Loader = schema.Loader;
 
 var builtIn = new Loader(null, null, {
@@ -78,20 +75,6 @@ var builtIn = new Loader(null, null, {
 
 var IndexableEnumerator = builtIn.children.IndexableEnumerator.load();
 
-objectEx.defineFunction(JavascriptNode.prototype, 
-  function resolve(ref) {
-    if (ref instanceof JavascriptNode)
-      return ref;
-      
-    if (is.function(ref))
-      return ref[Loader.infoSymbol];
-
-    return Node.prototype.resolve.call(this, ref);
-  }
-);
-
-objectEx.defineStaticField(Loader, 'builtIn', builtIn);
-
 for (var name in builtIn.children) {
   var type = builtIn.children[name];
   if (!type.isNative)
@@ -101,11 +84,13 @@ for (var name in builtIn.children) {
   objectEx.defineStaticField(Loader, name, type);
 }
 
+objectEx.defineStaticField(Loader, 'builtIn', builtIn);
+
 Object.defineProperties(module, {
   exports: { value: builtIn }
 });
 
-return;
+//return;
 
 assert(builtIn.resolve('Object') == Loader.Object);
 assert(builtIn.resolve(Object) == Loader.Object);
@@ -115,7 +100,15 @@ assert(Loader.Array.canCastTo(builtIn.children.IEnumerable));
 
 var IEnumerable = builtIn.resolve('IEnumerable').load();
 var IEnumerator = builtIn.resolve('IEnumerator').load();
+
 var array = [42];
 var enumerator = array[IEnumerable.getEnumerator]();
 assert(enumerator[IEnumerator.moveNext]());
 assert(enumerator[IEnumerator.current] == 42);
+assert(!enumerator[IEnumerator.moveNext]());
+
+var str = '4';
+var enumerator = str[IEnumerable.getEnumerator]();
+assert(enumerator[IEnumerator.moveNext]());
+assert(enumerator[IEnumerator.current] == '4');
+assert(!enumerator[IEnumerator.moveNext]());

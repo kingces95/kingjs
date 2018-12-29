@@ -4,6 +4,7 @@ var is = require('@kingjs/is');
 var defineSchema = require('../define-schema');
 var interfaceLoad = require('./type/interface/load');
 var classLoad = require('./type/class/load');
+var Node = require('../node');
 
 var methodLoad = require('./method/load');
 var methodInit = require('./method/init');
@@ -16,6 +17,17 @@ defineSchema(exports, [{
 
     // JavascriptNode
     name: 'JavascriptNode',
+    methods: {
+      resolve: function(ref) {
+        if (ref instanceof exports.JavascriptNode)
+          return ref;
+          
+        if (is.function(ref))
+          return ref[this.loader.infoSymbol];
+    
+        return Node.prototype.resolve.call(this, ref);
+      }
+    }
   }, {
 
     // Member
@@ -203,6 +215,7 @@ defineSchema(exports, [{
     accessors: {
       infoSymbol: { value: Symbol('@kingjs/loader.info'), static: true },
       prototype: { value: { } },
+      loader: { get: 'this' },
     },
     methods: {
       getType: function(instance) {
