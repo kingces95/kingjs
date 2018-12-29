@@ -2,8 +2,8 @@
 
 var is = require('@kingjs/is');
 var assert = require('@kingjs/assert');
-var defineClass = require('../../../define-class');
 var objectEx = require('@kingjs/object-ex');
+var createCtor = require('@kingjs/create-constructor');
 
 var abstractTypeError = 'Cannot create abstract type.';
 
@@ -38,7 +38,7 @@ function defineFunc(init) {
   }
 
   // create this function using base function
-  return defineClass(this.name, baseFunc, init);
+  return createCtor(this.name, baseFunc, init);
 }
 
 function defineVtable(func) {

@@ -22,18 +22,18 @@ function Node(parent, name, descriptor) {
 objectEx.defineLazyAccessors(Node.prototype, {
   id: 'Symbol(this.fullName)',
   children: '{ }',
-  hasFullName: function() {
+  isResolvable: function() {
     if (is.symbol(this.name))
       return false;
 
     var parent = this.parent;
     if (parent)
-      return parent.hasFullName;
+      return parent.isResolvable;
 
     return true;
   },
   fullName: function() {
-    if (!this.hasFullName)
+    if (!this.isResolvable)
       return null;
 
     var result = this.name;

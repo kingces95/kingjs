@@ -22,10 +22,17 @@ var builtIn = new Loader(null, null, {
         native: true,
         base: null,
       },
-      Object: Object,
       Number: Number,
       Boolean: Boolean,
       Symbol: Symbol,
+      Object: {
+        func: Object,
+        methods: { 
+          [Loader.infoSymbol]: function() { 
+            return Loader.getInfo(this);
+          } 
+        }
+      },
     }, {
       $defaults: {
         native: true,
@@ -90,10 +97,12 @@ Object.defineProperties(module, {
   exports: { value: builtIn }
 });
 
-//return;
+return;
 
 assert(builtIn.resolve('Object') == Loader.Object);
 assert(builtIn.resolve(Object) == Loader.Object);
+assert(Object[Loader.infoSymbol] == Loader.Object);
+
 assert(Loader.Array.base == Loader.Object);
 assert(Array[Loader.infoSymbol] == Loader.Array);
 assert(Loader.Array.canCastTo(builtIn.children.IEnumerable));

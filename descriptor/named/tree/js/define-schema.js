@@ -10,7 +10,7 @@ var stringEx = require('@kingjs/string-ex');
 var map = require('@kingjs/descriptor.map');
 
 var attrSym = require('./attribute');
-var defineClass = require('./define-class');
+var createCtor = require('@kingjs/create-constructor');
 
 var cap = stringEx.capitalize;
 var isConst = 'is';
@@ -44,7 +44,7 @@ function defineSchema(target, descriptors) {
     var methods = wrapAndResolve(target, descriptor.methods, wrap.method);
     var children = wrapAndResolve(target, descriptor.children, wrap.child);
 
-    defineDiscriminator(func);
+    defineDiscriminator(func, name);
     defineFlags(func, flags, info.fields);
     defineAccessors(func, accessors, info.fields);
     defineMethods(func, methods, info.fields);
@@ -63,8 +63,8 @@ function createInfo(descriptor) {
 }
 
 function defineNode(target, name, baseFunc, init) {
-  var ctor = defineClass(name, baseFunc,
-    function initNode(_parent, _name, descriptor) {
+  var ctor = createCtor(name, baseFunc,
+    function(_parent, _name, descriptor) {
       if (!descriptor)
         return;
 
@@ -84,8 +84,8 @@ function defineNode(target, name, baseFunc, init) {
   objectEx.defineConstField(target, name, ctor);
 }
 
-function defineDiscriminator(func) {
-  objectEx.defineField(func.prototype, isConst + func.name, true);
+function defineDiscriminator(func, name) {
+  objectEx.defineField(func.prototype, isConst + name, true);
 }
 
 function wrapAndResolve(funcs, descriptors, wrap) {
@@ -121,7 +121,8 @@ function defineMethod(func, name, descriptor) {
   if (descriptor.lazy) 
     descriptor.future = true;
 
-  objectEx.defineFunction(func.prototype, name, descriptor);
+    var target = descriptor.static ? func : func.prototype;
+    objectEx.defineFunction(target, name, descriptor);
 }
 
 function defineChildren(func, children, info) {
@@ -215,10 +216,7 @@ function defineAccessor(func, name, descriptor) {
   else if ('get' in descriptor == false)
     return; // todo: should be write-once
 
-  var target = func;
-  if (!descriptor.static)
-    target = target.prototype;
-
+  var target = descriptor.static ? func : func.prototype;
   objectEx.defineProperty(target, name, descriptor);
 }
 

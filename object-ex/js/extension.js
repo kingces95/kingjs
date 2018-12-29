@@ -42,7 +42,7 @@ function initExtension(name) {
 
     // find target
     var target = this;
-    while (target instanceof type)
+    while (Object.getPrototypeOf(target) instanceof type)
       target = Object.getPrototypeOf(target);
 
     // patch

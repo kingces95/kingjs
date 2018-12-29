@@ -147,7 +147,7 @@ defineSchema(exports, [{
         return type && type.id in this.polymorphisms;
       },
       hasInstance: function(instance) {
-        var info = this.loader.getType(instance);
+        var info = this.loader.getInfo(instance);
         return info && info.canCastTo(this);
       }
     }
@@ -218,10 +218,14 @@ defineSchema(exports, [{
       loader: { get: 'this' },
     },
     methods: {
-      getType: function(instance) {
-        if (!is.object(instance))
+      $defaults: { static: true },
+      getInfo: function(instance) {
+        if (is.nullOrUndefined(instance))
           return undefined;
-        return instance.constructor[this.infoSymbol];
+        var constructor = instance.constructor;
+        if (!constructor)
+          return undefined;
+        return constructor[this.infoSymbol];
       }
     },
     children: [{

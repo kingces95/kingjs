@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
-var createLoader = require('./js/loader/create');
+var createLoader = require('../create');
 
 var loader = createLoader();
 loader.addChildren({
@@ -24,7 +24,6 @@ loader.addChildren({
       },
       methods: {
         MyIFooExMethod: {
-          extension: true,
           extends: 'IFoo' 
         }
       }

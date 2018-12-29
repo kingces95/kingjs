@@ -1,11 +1,10 @@
 {
-  "name": "@kingjs/object-ex",
-  "version": "1.0.29",
-  "description": "",
+  "name": "@kingjs/create-constructor",
+  "version": "1.0.0",
+  "description": "Create a constructor from a base function and a body function.",
   "main": "index.js",
   "files": [
-    "index.js",
-    "js/*"
+    "index.js"
   ],
   "scripts": {
     "test": "node test.js"
@@ -18,8 +17,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/assert": "^1.0.10",
+    "@kingjs/assert": "^1.0.11",
     "@kingjs/is": "^1.0.6",
-    "@kingjs/is-enumerable": "^1.0.1"
+    "@kingjs/object-ex": "^1.0.29"
   }
 }
