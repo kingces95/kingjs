@@ -2,11 +2,9 @@
 
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
 var objectEx = testRequire('@kingjs/object-ex');
 
-var load = require('..');
-var loader = load();
+var { load, loader } = require('..');
 var IEnumerable = load('IEnumerable');
 var IEnumerator = load('IEnumerator');
 

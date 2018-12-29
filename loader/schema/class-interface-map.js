@@ -76,8 +76,6 @@ function createInterfaceMap() {
 
 function setSlot(map, slot, member) {
 
-  // TODO: verify member "fits" in slot
-  // member.isMethod == slot.isMethod; accessor.get/set matches slot
   if (!this.isAbstract) {
     assert(member, implementationNotFoundError);
     assert(member.isProcedural);

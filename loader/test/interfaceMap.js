@@ -5,8 +5,7 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
-var load = require('..');
-var loader = load();
+var { loader } = require('..');
 
 function test2ndPass() {
 

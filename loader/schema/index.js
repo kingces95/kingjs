@@ -5,16 +5,23 @@ var is = require('@kingjs/is');
 
 var Node = require('../../tree');
 
-var loaderCreate = require('./loader/create');
+// loader
+var loaderCreate = require('./loader-create');
 
-var methodLoad = require('./method/load');
-var methodInit = require('./method/init');
+// method
+var methodLoad = require('./method-load');
+var methodInit = require('./method-init');
 
-var createPolymorphisms = require('./type/polymorphisms');
-var interfaceLoad = require('./type/interface/load');
-var classLoad = require('./type/class/load');
-var createVtable = require('./type/class/vtable');
-var createInterfaceMap = require('./type/class/interfaceMap');
+// type
+var createPolymorphisms = require('./type-polymorphisms');
+
+// interface
+var interfaceLoad = require('./interface-load');
+
+// class
+var classLoad = require('./class-load');
+var createVtable = require('./class-vtable');
+var createInterfaceMap = require('./class-interface-map');
 
 Node.define(exports, [{
 
@@ -235,9 +242,6 @@ Node.define(exports, [{
     }, {
       create: loaderCreate,
       load: function(name) {
-        if (is.undefined(name))
-          return this;
-
         var loadable = this.resolve(name);
         if (!loadable)
           return null;

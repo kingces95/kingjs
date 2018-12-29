@@ -3,8 +3,7 @@
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 
-var load = require('..');
-var loader = load();
+var { loader } = require('..');
 
 function testAccessorInfo() {
 

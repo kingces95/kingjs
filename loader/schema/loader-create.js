@@ -15,7 +15,7 @@ function create(children) {
 
   objectEx.defineField(loader, Extendable, 
     loader.addClass(Extendable, { 
-      base: loader.Object 
+      base: loader.resolve(Object)
     })
   );
 

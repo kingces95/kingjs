@@ -2,8 +2,7 @@
 
 var assert = require('@kingjs/assert');
 
-var load = require('..');
-var loader = load();
+var { loader } = require('..');
 
 var myLoader = loader.create({
   packages: { 

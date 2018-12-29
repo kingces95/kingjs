@@ -5,3 +5,4 @@ require('./extensions');
 require('./interface');
 require('./interfaceMap');
 require('./lambda');
+require('./native');
