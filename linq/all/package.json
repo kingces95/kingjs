@@ -14,5 +14,8 @@
     "url": "https://github.com/kingces95/kingjs.git"
   },
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/loader": "^1.0.0"
+  }
 }
