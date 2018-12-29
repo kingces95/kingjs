@@ -1,10 +1,11 @@
 {
-  "name": "@kingjs/template",
+  "name": "@kingjs/loader",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "schema/*"
   ],
   "scripts": {
     "test": "node test.js"
@@ -16,14 +17,13 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { 
+  "dependencies": {
     "@kingjs/assert": "^1.0.11",
     "@kingjs/create-constructor": "^1.0.0",
-    "@kingjs/descriptor.named.create": "^1.0.6",
-    "@kingjs/descriptor.write": "^1.0.9",
+    "@kingjs/dictionary": "^1.0.6",
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/is": "^1.0.6",
     "@kingjs/object-ex": "^1.0.29",
-    "@kingjs/string-ex": "^1.0.0"
+    "@kingjs/resolver": "^1.0.1"
   }
 }

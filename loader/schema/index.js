@@ -3,7 +3,7 @@
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
-var Node = require('../../tree');
+var Node = require('@kingjs/resolver');
 
 // loader
 var loaderCreate = require('./loader-create');

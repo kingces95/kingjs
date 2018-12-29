@@ -1,10 +1,11 @@
 {
-  "name": "@kingjs/descriptor.named.tree",
-  "version": "1.0.0",
+  "name": "@kingjs/resolver",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "js/*"
   ],
   "scripts": {
     "test": "node test.js"
