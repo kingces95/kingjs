@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/linq.all",
-  "version": "1.0.10",
-  "description": "Returns true if all elements of a sequence satisfy a condition.",
+  "name": "@kingjs/linq.define",
+  "version": "1.0.1",
+  "description": "Helper to define linq extensions.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,6 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/linq.define": "^1.0.1"
+    "@kingjs/loader": "^1.0.0",
+    "@kingjs/object-ex": "^1.0.29"
   }
 }
