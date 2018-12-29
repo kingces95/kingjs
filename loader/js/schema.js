@@ -1,10 +1,9 @@
 'use strict';
 
 var is = require('@kingjs/is');
-var defineSchema = require('../define-schema');
+var Node = require('../../tree');
 var interfaceLoad = require('./type/interface/load');
 var classLoad = require('./type/class/load');
-var Node = require('../node');
 
 var methodLoad = require('./method/load');
 var methodInit = require('./method/init');
@@ -13,7 +12,7 @@ var createPolymorphisms = require('./type/polymorphisms');
 var createVtable = require('./type/class/vtable');
 var createInterfaceMap = require('./type/class/interfaceMap');
 
-defineSchema(exports, [{
+Node.define(exports, [{
 
     // JavascriptNode
     name: 'JavascriptNode',

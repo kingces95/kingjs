@@ -1,13 +1,10 @@
 'use strict';
 
-var Node = require('./node');
-
 var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 var create = require('@kingjs/descriptor.named.create');
 var objectEx = require('@kingjs/object-ex');
 var stringEx = require('@kingjs/string-ex');
-var map = require('@kingjs/descriptor.map');
 
 var attrSym = require('./attribute');
 var createCtor = require('@kingjs/create-constructor');
@@ -23,12 +20,12 @@ var wrap = {
   method: 'value',
 };
 
-function defineSchema(target, descriptors) {
+function define(target, descriptors) {
 
   // first pass; define types
   for (var i = 0; i < descriptors.length; i++) {
     var descriptor = descriptors[i];
-    var baseFunc = target[descriptor.base] || Node;
+    var baseFunc = target[descriptor.base] || this;
     defineNode(target, descriptor.name, baseFunc, descriptor.init);
   }
 
@@ -44,11 +41,11 @@ function defineSchema(target, descriptors) {
     var methods = wrapAndResolve(target, descriptor.methods, wrap.method);
     var children = wrapAndResolve(target, descriptor.children, wrap.child);
 
-    defineDiscriminator(func, name);
-    defineFlags(func, flags, info.fields);
-    defineAccessors(func, accessors, info.fields);
-    defineMethods(func, methods, info.fields);
-    defineChildren(func, children, info.children);
+    defineDiscriminator.call(this, func, name);
+    defineFlags.call(this, func, flags, info.fields);
+    defineAccessors.call(this, func, accessors, info.fields);
+    defineMethods.call(this, func, methods, info.fields);
+    defineChildren.call(this, func, children, info.children);
   }
 }
 
@@ -100,7 +97,7 @@ function wrapAndResolve(funcs, descriptors, wrap) {
 function defineMethods(func, methods, info) { 
   for (var name in methods) {
     var method = methods[name];
-    defineMethod(func, name, method);
+    defineMethod.call(this, func, name, method);
     if (method.initializer)
       info[method.initializer] = name;
   }
@@ -128,7 +125,7 @@ function defineMethod(func, name, descriptor) {
 function defineChildren(func, children, info) {
   for (var group in children) {
     var child = children[group];
-    defineChild(func, group, child);
+    defineChild.call(this, func, group, child);
     info[group] = child
   }
 }
@@ -161,7 +158,7 @@ function defineChild(func, group, descriptor) {
 function defineAccessors(func, accessors, info) {
   for (var name in accessors) {
     var accessor = accessors[name];
-    defineAccessor(func, name, accessor);
+    defineAccessor.call(this, func, name, accessor);
     info[name] = name;
   }
 }
@@ -175,11 +172,11 @@ function defineAccessor(func, name, descriptor) {
   if (descriptor.ancestor) {
     var type = descriptor.type;
     assert(is.function(type));
-    assert(type == Node || type.prototype instanceof Node);
+    assert(type == this || type.prototype instanceof this);
 
     descriptor.future = true;
     descriptor.argument = type;
-    descriptor.get = Node.prototype.getAncestor
+    descriptor.get = this.prototype.getAncestor
   }
 
   else if (descriptor.ref) {
@@ -224,7 +221,7 @@ function defineFlags(func, flags, info) {
   for (var name in flags) {
     var flag = flags[name];
     var exportedName = isConst + cap(name);
-    defineFlag(func, exportedName, flag);
+    defineFlag.call(this, func, exportedName, flag);
     info[name] = exportedName;
   }
 }
@@ -246,5 +243,5 @@ function defineFlag(func, name, descriptor) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: defineSchema }
+  exports: { value: define }
 });

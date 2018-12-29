@@ -1,8 +1,8 @@
 'use strict';
 
-var createLoader = require('../create');
+var createLoader = require('../js/create');
 
-var testRequire = require('../../../..');
+var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');

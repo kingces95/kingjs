@@ -2,12 +2,12 @@
 
 var objectEx = require('@kingjs/object-ex');
 
-var loader = require('../built-in');
-var createLoader = require('../create');
-var IEnumerable = require('../i-enumerable');
-var IEnumerator = require('../i-enumerator');
+var loader = require('../js/built-in');
+var createLoader = require('../js/create');
+var IEnumerable = require('../js/i-enumerable');
+var IEnumerator = require('../js/i-enumerator');
 
-var testRequire = require('../../../..');
+var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 

@@ -5,7 +5,8 @@ var objectEx = require('@kingjs/object-ex');
 var assert = require('@kingjs/assert');
 var create = require('@kingjs/descriptor.named.create');
 
-var attrSym = require('./attribute');
+var define = require('./js/define')
+var attrSym = require('./js/attribute');
 var period = '.';
 
 var failedToResolveNameError = 'Failed to resolve member name to an id.'
@@ -174,6 +175,8 @@ objectEx.defineFunctions(Node.prototype, {
     }
   }
 });    
+
+objectEx.defineFunction(Node, 'define', define);
 
 Object.defineProperties(module, {
   exports: { value: Node }

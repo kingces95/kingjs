@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('@kingjs/assert');
-var createLoader = require('../create');
+var createLoader = require('../js/create');
 
 var loader = createLoader();
 loader.addChildren({

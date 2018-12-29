@@ -1,6 +1,6 @@
 'use strict';
 
-var Node = require('./js/node');
+var Node = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
 
