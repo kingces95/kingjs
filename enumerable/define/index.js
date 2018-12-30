@@ -1,5 +1,13 @@
 'use strict';
 
+var { load } = require('@kingjs/loader');
+var IEnumerable = load('IEnumerable');
+var IEnumerator = load('IEnumerator');
+
+var getEnumerator = IEnumerable.getEnumerator;
+var moveNext = IEnumerator.moveNext;
+var current = IEnumerator.current;
+
 var currentFieldDescriptor = {
   writable: true
 };
@@ -12,20 +20,20 @@ var getCurrentDescriptor = {
 function defineEnumerableType(moveNextGenerator) {
   return function Enumerable(thisArg, args) {
     Object.defineProperties(this, {
-      getEnumerator: {
+      [getEnumerator]: {
         value: function getEnumerator() {
-          var moveNext = null;
+          var moveNextFunc = null;
           var stillMoving = true;
 
           return Object.defineProperties({ }, {
             current_: currentFieldDescriptor,
-            current: getCurrentDescriptor,
-            moveNext: {
+            [current]: getCurrentDescriptor,
+            [moveNext]: {
               value: function() {
-                if (!moveNext)
-                  moveNext = moveNextGenerator.apply(thisArg, args);
+                if (!moveNextFunc)
+                  moveNextFunc = moveNextGenerator.apply(thisArg, args);
 
-                stillMoving = stillMoving && moveNext.call(this);
+                stillMoving = stillMoving && moveNextFunc.call(this);
                 if (!stillMoving)
                   this.current_ = undefined;
                   
@@ -41,12 +49,19 @@ function defineEnumerableType(moveNextGenerator) {
 
 Object.defineProperties(module, {
   exports: {
-    value:
-      function defineGenerator(moveNext) {
-        var Enumerable = defineEnumerableType(moveNext);
-        return function() {
-          return new Enumerable(this, arguments);
-        }
+    value: function defineGenerator(moveNextGenerator) {
+      var Enumerable = defineEnumerableType(moveNextGenerator);
+      
+      var result = function() {
+        return new Enumerable(this, arguments);
       }
+      
+      Object.defineProperty(result, 'name', { 
+        enumerable: true,
+        value: moveNextGenerator.name
+      });
+
+      return result;
+    }
   }
 });

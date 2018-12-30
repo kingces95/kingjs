@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.concat",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Generates a sequence composed of elements from one sequence followed by elements from another sequence.",
   "main": "index.js",
   "files": [
@@ -16,6 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.define": "^1.0.0"
+    "@kingjs/enumerable.define": "^1.0.5",
+    "@kingjs/linq.define": "^1.0.1"
   }
 }

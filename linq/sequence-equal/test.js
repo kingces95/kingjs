@@ -1,21 +1,20 @@
 var sequenceEqual = require('.');
 var testRequire = require('..');
 var assert = testRequire('@kingjs/assert');
-var sequence = testRequire('@kingjs/enumerable.create');
 
 function readme() {
-  var expected = sequence(1, 2, 3);
+  var expected = [1, 2, 3];
   
-  var toFew = sequence(1, 2);
-  var tooMany = sequence(1, 2, 3, 4);
-  var wrongOrder = sequence(3, 2, 1);
-  var justRight = sequence(1, 2, 3);
+  var toFew = [1, 2];
+  var tooMany = [1, 2, 3, 4];
+  var wrongOrder = [3, 2, 1];
+  var justRight = [1, 2, 3];
   
   var result = {
-    tooFew: sequenceEqual.call(expected, toFew),
-    tooMany: sequenceEqual.call(expected, tooMany),
-    wrongOrder: sequenceEqual.call(expected, wrongOrder),
-    justRight: sequenceEqual.call(expected, justRight),
+    tooFew: expected[sequenceEqual](toFew),
+    tooMany: expected[sequenceEqual](tooMany),
+    wrongOrder: expected[sequenceEqual](wrongOrder),
+    justRight: expected[sequenceEqual](justRight),
   };
 
   assert(result.tooFew == false);
@@ -26,9 +25,7 @@ function readme() {
 readme();
 
 function test(left, right, result, equal) {
-  assert(sequenceEqual.call(
-    sequence.apply(this, left), 
-    sequence.apply(this, right),
+  assert(left[sequenceEqual](right,
     equal
   ) == result);
 };

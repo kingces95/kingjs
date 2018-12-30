@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/enumerable.define",
-  "version": "1.0.5",
-  "description": "Defines a function that returns an Enumerable.",
+  "name": "@kingjs/linq.package",
+  "version": "1.0.1",
+  "description": "Returns Linq package, creating on if none exists.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -13,10 +13,10 @@
     "type": "git",
     "url": "https://github.com/kingces95/kingjs.git"
   },
-  "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/loader": "^1.0.0"
+    "@kingjs/loader": "^1.0.0",
+    "@kingjs/object-ex": "^1.0.29"
   }
 }

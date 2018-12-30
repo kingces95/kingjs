@@ -1,16 +1,17 @@
 'use strict';
 
 var aggregate = require('@kingjs/linq.aggregate');
+var { define } = require('@kingjs/linq.define');
 
 function defaultSelector(x) {
   return x;
 }
 
-function average(selector) {
+define(module, 'exports', function average(selector) {
   if (!selector)
     selector = defaultSelector;
 
-  var result = aggregate.call(this, { 
+  var result = this[aggregate]({ 
       count: 0, 
       sum: 0
     }, function(x) { 
@@ -21,8 +22,4 @@ function average(selector) {
   );
 
   return result.sum / result.count;
-};
-
-Object.defineProperties(module, {
-  exports: { value: average }
-});
+})

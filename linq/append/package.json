@@ -16,7 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.create": "^1.0.0",
-    "@kingjs/linq.concat": "^1.0.1"
+    "@kingjs/enumerable.create": "^1.0.1",
+    "@kingjs/linq.concat": "^1.0.9"
   }
 }

@@ -16,6 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/linq.default-equal": "^1.0.0"
+    "@kingjs/linq.default-equal": "^1.0.0",
+    "@kingjs/linq.define": "^1.0.1"
   }
 }

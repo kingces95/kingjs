@@ -1,15 +1,24 @@
 var concat = require('.');
 var testRequire = require('..');
-var sequence = testRequire('@kingjs/enumerable.create');
-var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
 var assert = testRequire('@kingjs/assert');
 
-var result = concat.call(
-  sequence(0, 1),
-  sequence(1, 2)
-);
+var { load } = require('@kingjs/loader');
+var { getEnumerator } = load('IEnumerable');
+var { moveNext, current } = load('IEnumerator');
 
-assert(sequenceEqual.call(
-  result,
-  sequence(0, 1, 1, 2),
-));
+var result = [0, 1][concat]([1, 2]);
+
+var enumerator = result[getEnumerator]();
+assert(enumerator[moveNext]());
+assert(enumerator[current] == 0);
+
+assert(enumerator[moveNext]());
+assert(enumerator[current] == 1);
+
+assert(enumerator[moveNext]());
+assert(enumerator[current] == 1);
+
+assert(enumerator[moveNext]());
+assert(enumerator[current] == 2);
+
+assert(!enumerator[moveNext]());

@@ -16,6 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/linq.aggregate": "^1.0.16"
+    "@kingjs/linq.aggregate": "^1.0.17",
+    "@kingjs/linq.define": "^1.0.1"
   }
 }
