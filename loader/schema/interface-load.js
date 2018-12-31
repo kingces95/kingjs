@@ -19,15 +19,14 @@ function load() {
   // set interface name
   objectEx.defineConstField(func, 'name', this.name);
 
-  // allow func -> info resolution
-  var loader = this.loader;
-  var infoSym = loader.infoSymbol;
-  objectEx.defineHiddenStaticField(func, infoSym, this);
-
   // support instanceOf via Type.hasInstance
   objectEx.defineFunction(func, Symbol.hasInstance, 
     instance => this.hasInstance(instance)
   )
+
+  // allow func -> info resolution
+  var { id: info } = this.loader.resolve('IReflectable.info');
+  objectEx.defineHiddenStaticField(func, info, this);
 
   // map interface member to its id (ala Symbol.hasInstance)
   for (var name in this.children) {

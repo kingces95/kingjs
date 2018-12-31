@@ -2,9 +2,15 @@
 
 var schema = require('./schema');
 
-var Loader = schema.Loader;
+var Namespace = schema.Namespace;
 
-var loader = new Loader(null, null, {
+var loader = new Namespace();
+
+var { info } = loader.defineInterface(
+  'IReflectable', { accessors: { info: null } }
+).load();
+
+loader.defineChildren({
   interfaces: {
     IEnumerable: { 
       methods: { getEnumerator: null }
@@ -25,9 +31,13 @@ var loader = new Loader(null, null, {
       Symbol: Symbol,
       Object: {
         func: Object,
-        methods: { 
-          [Loader.infoSymbol]: function() { 
-            return Loader.getInfo(this);
+        accessor: { 
+          [info]: function() { 
+            var constructor = this.constructor;
+            if (!constructor)
+              return undefined;
+    
+            return constructor[info];
           } 
         }
       },
@@ -89,7 +99,4 @@ for (var name in loader.children) {
   type.load();
 }
 
-exports.loader = loader;
-exports.info = loader.infoSymbol;
-exports.load = name => loader.load(name);
-exports.resolve = name => loader.resolve(name);
+module.exports = loader;

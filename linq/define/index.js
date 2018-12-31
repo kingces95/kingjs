@@ -14,7 +14,7 @@ exports.getEnumerator = getEnumerator;
 exports.moveNext = moveNext;
 exports.current = current;
 exports.define = function(target, name, func) {
-  var extension = linq.addMethod(
+  var extension = linq.defineMethod(
     func.name, {
       extends: IEnumerable,
       func: func

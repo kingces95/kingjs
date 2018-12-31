@@ -11,11 +11,11 @@ var createCtor = require('@kingjs/create-constructor');
 
 var cap = stringEx.capitalize;
 var isConst = 'is';
-var addConst = 'add';
+var defineConst = 'define';
 
 var wrap = {
   flag: o => ({ [is.boolean(o) ? 'value' : 'get']: o }),
-  accessor: 'type',
+  accessor: 'get',
   child: 'type',
   method: 'value',
 };
@@ -57,6 +57,8 @@ function define(target, descriptors) {
     defineMethods.call(this, func, methods, info.fields);
     defineChildren.call(this, func, children, info.children);
   }
+
+  return target;
 }
 
 function defineNode(target, name, baseFunc, init) {
@@ -135,9 +137,9 @@ function defineChild(func, group, descriptor) {
 
   objectEx.defineFunction(
     target, 
-    addConst + cap(group), 
+    defineConst + cap(group), 
     function(descriptors) {
-      this.addChildrenOfType(group, descriptors);
+      this.defineChildrenOfType(group, descriptors);
     }
   );
 
@@ -148,9 +150,9 @@ function defineChild(func, group, descriptor) {
 
   objectEx.defineFunction(
     target, 
-    addConst + descriptor.type.name, 
+    defineConst + descriptor.type.name, 
     function(name, descriptor) {
-      return this.addChildOfType(group, name, descriptor);
+      return this.defineChildOfType(group, name, descriptor);
     }
   );
 }

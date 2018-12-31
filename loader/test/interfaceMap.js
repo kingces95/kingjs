@@ -5,7 +5,7 @@ var assert = testRequire('@kingjs/assert');
 var assertTheory = testRequire('@kingjs/assert-theory');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
-var { loader } = require('..');
+var loader = require('..');
 
 function test2ndPass() {
 
@@ -14,7 +14,7 @@ function test2ndPass() {
   // statement as the implementation then care needs to be taken to load all
   // interfaces in the statement before the methods so any explicit implementations
   // are able to find their symbol.
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     classes: {
       MyFooClass: {
         implements: [ 'MyBarClass.IFace' ],
@@ -55,7 +55,7 @@ function test2ndPass() {
 test2ndPass();
 
 function testInterfaceAccessor() {
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: {
       IFoo: {
         accessors: {
@@ -94,7 +94,7 @@ assertTheory(function(test, id) {
   var baseExplicit = 'baseExplicit';
   var baseImplicit = 'baseImplicit';
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: {
       IFoo: { methods: { method: null } }
     }
@@ -104,27 +104,27 @@ assertTheory(function(test, id) {
   var IFoo = IFooType.load();
   var IFooMethod = myLoader.resolve(explicitName);
 
-  var BaseType = myLoader.addClass('Base', {
+  var BaseType = myLoader.defineClass('Base', {
     abstract: true,
     implements: test.baseImplements ? [ IFooType ] : null,
   });
 
   if (test.baseExplicit)
-    BaseType.addMethod(explicitName, () => baseExplicit);
+    BaseType.defineMethod(explicitName, () => baseExplicit);
 
   if (test.baseImplicit)
-    BaseType.addMethod(name, () => baseImplicit);
+    BaseType.defineMethod(name, () => baseImplicit);
 
-  var DerivedType = myLoader.addClass('Derived', {
+  var DerivedType = myLoader.defineClass('Derived', {
     base: BaseType,
     implements: test.implements ? [ IFooType ] : null,
   });
 
   if (test.explicit)
-    DerivedType.addMethod(explicitName, () => explicit);
+    DerivedType.defineMethod(explicitName, () => explicit);
 
   if (test.implicit)
-    DerivedType.addMethod(name, () => implicit);
+    DerivedType.defineMethod(name, () => implicit);
 
   if (test.explicit && !test.implements) {
     assertThrows(() => DerivedType.load());

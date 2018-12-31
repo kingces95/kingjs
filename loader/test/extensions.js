@@ -5,7 +5,7 @@ var is = testRequire('@kingjs/is');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
-var { loader } = require('..');
+var loader = require('..');
 
 var Source = {
   interfaces: { IFoo: { } },
@@ -15,7 +15,7 @@ var Source = {
 
 function testCallExtension() {
 
-  var myLoader = loader.create(Source);
+  var myLoader = loader.fork(Source);
 
   var FooType = myLoader.resolve('Foo');
   var Foo = FooType.load();
@@ -34,7 +34,7 @@ testCallExtension();
 
 function testExtendable() {
 
-  var myLoader = loader.create(Source);
+  var myLoader = loader.fork(Source);
 
   // Extendable is declared by default
   var ExtendableType = myLoader.resolve('Extendable');
@@ -44,7 +44,7 @@ function testExtendable() {
   assert(extendable instanceof Object);
 
   // Extendable is not shared between loaders
-  var loaderAlt = loader.create(Source);
+  var loaderAlt = loader.fork(Source);
   var ExtendableTypeAlt = loaderAlt.resolve('Extendable');
   assert(ExtendableTypeAlt != ExtendableType);
 

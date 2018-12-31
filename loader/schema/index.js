@@ -5,8 +5,9 @@ var is = require('@kingjs/is');
 
 var Node = require('@kingjs/resolver');
 
-// loader
-var loaderCreate = require('./loader-create');
+// namespace
+var namespaceFork = require('./namespace-fork');
+var namespaceLoad = require('./namespace-load');
 
 // method
 var methodLoad = require('./method-load');
@@ -33,28 +34,31 @@ Node.define(exports, [{
           return ref;
           
         if (is.function(ref))
-          return ref[this.loader.infoSymbol];
+          return ref[this.info];
     
         return Node.prototype.resolve.call(this, ref);
       },
-    }
+    },
+    accessors: {
+      $defaults: { lazy: true },
+      scope: 'this.parent',
+      loader: 'this.root',
+      info: 'this.loader.children.IReflectable.children.info.id',
+    },
   }, {
 
     // Member
     name: 'Member',
     base: 'JavascriptNode',
     flags: {
-      intrinsic: false,
       public: false,
       private: '!this.public',
     },
-    accessors: [{ 
+    accessors: { 
       $defaults: { ancestor: true },
-      loader: 'Loader',
-      scope: 'Member',
-      declaringType: 'Type',
-      package: 'Package'
-    }],
+      declaringType: { type: 'Type' },
+      namespace: { type: 'Namespace' },
+    },
   }, {
 
     // Property
@@ -79,7 +83,7 @@ Node.define(exports, [{
       readOnly: false,
     },
     accessors: { 
-      value: null,
+      value: { value: null },
     },
   }, {
 
@@ -105,29 +109,12 @@ Node.define(exports, [{
       setter: false,
     },
     methods: { 
-      $defaults: { initializer: 'func', default: null },
+      $defaults: { 
+        initializer: 'func', 
+        default: null 
+      },
       load: methodLoad,
     },
-  }, {
-
-    // AccessorMethod
-    name: 'AccessorMethod',
-    base: 'Method',
-    accessors: { 
-      declaringAccessor: { type: 'Accessor', ancestor: true }
-    }, 
-  }, {
-
-    // Getter
-    name: 'Getter',
-    base: 'AccessorMethod',
-    wrap: 'func',
-   }, {
-
-    // Setter
-    name: 'Setter',
-    base: 'AccessorMethod',
-    wrap: 'func',
   }, {
 
     // Accessor
@@ -145,19 +132,47 @@ Node.define(exports, [{
     },
   }, {
 
+    // AccessorMethod
+    name: 'AccessorMethod',
+    base: 'Method',
+    accessors: { 
+      declaringAccessor: { 
+        type: 'Accessor', 
+        ancestor: true 
+      }
+    }, 
+  }, {
+
+    // Getter
+    name: 'Getter',
+    base: 'AccessorMethod',
+    wrap: 'func',
+   }, {
+
+    // Setter
+    name: 'Setter',
+    base: 'AccessorMethod',
+    wrap: 'func',
+  }, {
+
     // Type
     name: 'Type', 
     base: 'Member',
     accessors: { 
-      $defaults: { lazy: true, type: Object },
-      polymorphisms: { get: createPolymorphisms },
+      $defaults: { 
+        lazy: true, 
+        type: Object 
+      },
+      polymorphisms: createPolymorphisms,
     },
     methods: {
       canCastTo: function(type) {
         return type && type.id in this.polymorphisms;
       },
       hasInstance: function(instance) {
-        var info = this.loader.getInfo(instance);
+        if (is.nullOrUndefined(instance))
+          return false;
+        var info = instance[this.info];
         return info && info.canCastTo(this);
       }
     }
@@ -171,11 +186,12 @@ Node.define(exports, [{
       abstract: false,
       primitive: false,
       native: false,
+      intrinsic: false,
     },
     accessors: [{
       $defaults: { lazy: true },
-      interfaceMap: { get: createInterfaceMap },
-      vtable: { get: createVtable },
+      interfaceMap: createInterfaceMap,
+      vtable: createVtable,
     }, {
       $defaults: { ref: true },
       base: { type: 'Class', default: 'Extendable' },
@@ -218,78 +234,21 @@ Node.define(exports, [{
     },
   }, {
 
-    // Loader
-    name: 'Loader',
+    // Namespace
+    name: 'Namespace',
     base: 'JavascriptNode',
-    init: function(descriptor) { this.addChildren(descriptor); },
-    accessors: {
-      infoSymbol: { value: Symbol('@kingjs/loader.info'), static: true },
-      prototype: { value: { } },
-      loader: { get: 'this' },
+    methods: {
+      fork: namespaceFork,
+      load: namespaceLoad,
     },
-    methods: [{
-      $defaults: { static: true },
-      getInfo: function(instance) {
-        if (is.nullOrUndefined(instance))
-          return undefined;
-
-        var constructor = instance.constructor;
-        if (!constructor)
-          return undefined;
-
-        return constructor[this.infoSymbol];
-      }
-    }, {
-      create: loaderCreate,
-      load: function(name) {
-        var loadable = this.resolve(name);
-        if (!loadable)
-          return null;
-
-        assert('load' in loadable);
-        return loadable.load();
-      },
-    }],
-    children: [{
-      packages: 'Package',
+    children: {
+      namespaces: 'Namespace',
       interfaces: 'Interface',
       classes: 'Class',
-    }, {
-      $defaults: { 
-        // defer allows an extension method's stub to resolve its type id
-        defer: true,
-        defaults: { static: true },
-      },
       methods: 'Method',
       accessors: 'Accessor',
-    }]
-  }, {
-
-    // Package
-    name: 'Package',
-    wrap: 'func',
-    base: 'JavascriptNode',
-    accessors: {
-      func: { type: Function },
-    },
-    children: [{
-      interfaces: 'Interface',
-      classes: 'Class',
-    }, {
-      fields: {
-        type: 'Field',
-        defaults: { static: true }
-      },
-    }, {
-      $defaults: { 
-        defaults: { static: true },
-        // defer allows an extension method's stub to resolve its type id
-        defer: true
-      },
-      methods: 'Method',
-      accessors: 'Accessor',
-    }],
-  },
+    }
+  }, 
 ]);
 
 return;

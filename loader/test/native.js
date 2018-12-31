@@ -3,26 +3,26 @@
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 
-var { load, info, resolve } = require('..');
+var loader = require('..');
+var info = loader.info;
+var IEnumerable = loader.load('IEnumerable');
+var IEnumerator = loader.load('IEnumerator');
 
 var ObjectInfo = Object[info];
-assert(resolve('Object') == ObjectInfo);
-assert(resolve(Object) == ObjectInfo);
+assert(loader.resolve('Object') == ObjectInfo);
+assert(loader.resolve(Object) == ObjectInfo);
 
 assert(ObjectInfo.load() == Object);
-assert(load('Object') == Object);
+assert(loader.load('Object') == Object);
 
 var ArrayInfo = Array[info];
-assert(resolve('Array') == ArrayInfo);
-assert(resolve(Array) == ArrayInfo);
+assert(loader.resolve('Array') == ArrayInfo);
+assert(loader.resolve(Array) == ArrayInfo);
 assert(ArrayInfo.base == ObjectInfo);
 
-var IEnumerable = load('IEnumerable');
 var IEnumerableInfo = IEnumerable[info];
 assert(IEnumerableInfo.load() == IEnumerable)
 assert(ArrayInfo.canCastTo(IEnumerableInfo));
-
-var IEnumerator = load('IEnumerator');
 
 var array = [42];
 var enumerator = array[IEnumerable.getEnumerator]();

@@ -11,9 +11,7 @@ function load(init) {
   var func = this.isNative ? init : defineFunc.call(this, init);
 
   // allow func -> info resolution
-  var loader = this.loader;
-  var infoSym = loader.infoSymbol;
-  objectEx.defineHiddenStaticField(func, infoSym, this);
+  objectEx.defineHiddenStaticField(func, this.info, this);
 
   defineVtable.call(this, func);
   defineFields.call(this, func);
@@ -22,8 +20,7 @@ function load(init) {
 }
 
 function defineFunc(init) {
-  var loader = this.loader;
-  var infoSym = loader.infoSymbol;
+  var info = this.info;
 
   // load baseFunc
   assert(this.base);
@@ -31,9 +28,9 @@ function defineFunc(init) {
 
   // init; prevent activation if abstract
   if (this.isAbstract) {
-    init = function() {
-      var info = this[infoSym];
-      assert(!info.isAbstract, abstractTypeError); 
+    init = function() {info
+      var self = this[info];
+      assert(!self.isAbstract, abstractTypeError); 
     }
   }
 

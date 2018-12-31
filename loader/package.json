@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "files": [
@@ -24,6 +24,6 @@
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/is": "^1.0.6",
     "@kingjs/object-ex": "^1.0.29",
-    "@kingjs/resolver": "^1.0.1"
+    "@kingjs/resolver": "^1.0.2"
   }
 }

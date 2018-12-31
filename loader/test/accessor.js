@@ -3,11 +3,11 @@
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 
-var { loader } = require('..');
+var loader = require('..');
 
 function testAccessorInfo() {
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     accessors: { myAccessor: { get: '', set: '' } }
   });
 

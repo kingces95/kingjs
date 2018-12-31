@@ -22,6 +22,10 @@ function Node(parent, name, descriptor) {
 
 objectEx.defineLazyAccessors(Node.prototype, {
   id: 'Symbol(this.fullName)',
+  root: { 
+    lazy: true,
+    get: 'this.parent ? this.parent.root : this'
+  },
   children: '{ }',
   isResolvable: function() {
     if (is.symbol(this.name))
@@ -56,27 +60,27 @@ function resolveName(name) {
   return name;
 }
 
-function* lazyAddChild(ctor, name, descriptor) {
+function* lazyDefineChild(ctor, name, descriptor) {
   name = resolveName.call(this, name);
 
   var child = new ctor(this, name, descriptor);
   objectEx.defineConstField(this.children, name, child);
 
   if (descriptor)
-    yield* lazyAddChildren.call(child, descriptor);
+    yield* lazyDefineChildren.call(child, descriptor);
 }
 
-function* lazyAddChildren(children) {
+function* lazyDefineChildren(children) {
   if (!children)
     return;
 
   var info = this.constructor[attrSym].info.children;
 
   for (var group in info)
-    yield* lazyAddChildrenOfType.call(this, group, children[group]);
+    yield* lazyDefineChildrenOfType.call(this, group, children[group]);
 }
 
-function* lazyAddChildrenOfType(group, children) {
+function* lazyDefineChildrenOfType(group, children) {
   if (is.undefined(children))
     return;
 
@@ -96,7 +100,7 @@ function* lazyAddChildrenOfType(group, children) {
   ]);
 
   for (var name in children) {
-    var tasks = lazyAddChild.call(this, ctor, name, children[name]);
+    var tasks = lazyDefineChild.call(this, ctor, name, children[name]);
     // allow these children to be resolve in a subsequent pass
     defer ? yield tasks : yield* tasks; // :)
   }
@@ -116,23 +120,23 @@ function execute(tasks) {
 
 objectEx.defineFunctions(Node.prototype, {
 
-  addChild: function(ctor, name, descriptor) {
-    execute(lazyAddChild.call(this, ctor, name, descriptor));
+  defineChild: function(ctor, name, descriptor) {
+    execute(lazyDefineChild.call(this, ctor, name, descriptor));
     return this.children[name];
   },
 
-  addChildren: function(children) {
-    execute(lazyAddChildren.call(this, children));
+  defineChildren: function(children) {
+    execute(lazyDefineChildren.call(this, children));
     return this.children;
   },
 
-  addChildOfType(type, name, child) {
-    this.addChildrenOfType(type, { [name]: child });
+  defineChildOfType(type, name, child) {
+    this.defineChildrenOfType(type, { [name]: child });
     return this.children[name];
   },
 
-  addChildrenOfType(type, children) {
-    execute(lazyAddChildrenOfType.call(this, type, children));
+  defineChildrenOfType(type, children) {
+    execute(lazyDefineChildrenOfType.call(this, type, children));
   },
 
   getAncestor: function(ctor) {

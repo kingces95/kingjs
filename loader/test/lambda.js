@@ -3,11 +3,11 @@
 var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 
-var { loader } = require('..');
+var loader = require('..');
 
 function testLambda() {
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     methods: {
       myMethod: { 
         func: '1' 

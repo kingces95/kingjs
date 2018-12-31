@@ -4,12 +4,12 @@ var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var assertThrows = testRequire('@kingjs/assert-throws');
 
-var { loader } = require('..');
+var loader = require('..');
 
 function testPredicates() {
   var name = 'IFace';
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: { 
       [name]: { } 
     }
@@ -42,7 +42,7 @@ testPredicates();
 
 function testExtends() {
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: { 
       IFoo: { },
       IBar: { extends: [ 'IFoo' ] }
@@ -63,7 +63,7 @@ testExtends();
 
 function testMethod() {
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: { 
       IFace: { 
         methods: { myMethod: null },
@@ -83,7 +83,7 @@ testMethod();
 
 function testAccessor() {
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: { 
       IFace: { 
         accessors: { myAccessor: { get: null, set: null } }
@@ -109,7 +109,7 @@ testAccessor();
 
 function testDiamond() {
 
-  var myLoader = loader.create({
+  var myLoader = loader.fork({
     interfaces: { 
       IFoo: { 
         extends: [ 'ILeft', 'IRight' ]

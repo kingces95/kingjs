@@ -2,10 +2,10 @@
 
 var assert = require('@kingjs/assert');
 
-var { loader } = require('..');
+var loader = require('..');
 
-var myLoader = loader.create({
-  packages: { 
+var myLoader = loader.fork({
+  namespaces: { 
     '@kingjs/foo-bar': {
       classes: {
         MyClass: {

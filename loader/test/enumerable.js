@@ -4,21 +4,25 @@ var testRequire = require('../..');
 var assert = testRequire('@kingjs/assert');
 var objectEx = testRequire('@kingjs/object-ex');
 
-var { load, loader } = require('..');
-var IEnumerable = load('IEnumerable');
-var IEnumerator = load('IEnumerator');
+var loader = require('..');
+var info = loader.info;
+var IEnumerable = loader.load('IEnumerable');
+var IEnumerator = loader.load('IEnumerator');
+
+var { getEnumerator } = IEnumerable;
+var { moveNext, current } = IEnumerator;
 
 function testIndexable(o) {
   assert(o.length == 1);
 
-  var type = loader.getInfo(o);
-  var IEnumerableType = loader.getInfo(IEnumerable);
+  var type = o[info];
+  var IEnumerableType = IEnumerable[info];
   assert(type.canCastTo(IEnumerableType));
 
-  var enumerator = o[IEnumerable.getEnumerator]();
-  assert(enumerator[IEnumerator.moveNext]());
-  assert(enumerator[IEnumerator.current] == o[0]);
-  assert(!enumerator[IEnumerator.moveNext]());
+  var enumerator = o[getEnumerator]();
+  assert(enumerator[moveNext]());
+  assert(enumerator[current] == o[0]);
+  assert(!enumerator[moveNext]());
 }
 testIndexable([1]);
 testIndexable('1');
