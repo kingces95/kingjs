@@ -1,11 +1,10 @@
 {
-  "name": "@kingjs/object-ex",
-  "version": "1.0.29",
-  "description": "",
+  "name": "@kingjs/polymorphisms",
+  "version": "1.0.1",
+  "description": "A symbol declared on functions which contains an object with symbols declared for each of the function's polymorphisms.",
   "main": "index.js",
   "files": [
-    "index.js",
-    "js/*"
+    "index.js"
   ],
   "scripts": {
     "test": "node test.js"
@@ -17,8 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/assert": "^1.0.10",
-    "@kingjs/is": "^1.0.6"
-  }
+  "dependencies": {}
 }

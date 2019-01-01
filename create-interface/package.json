@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/loader.runtime.interface",
+  "name": "@kingjs/create-interface",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,5 +16,9 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/has-instance": "^1.0.2",
+    "@kingjs/identity": "^1.0.0",
+    "@kingjs/polymorphisms": "^1.0.1"
+  }
 }

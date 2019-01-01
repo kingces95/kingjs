@@ -19,21 +19,5 @@ var { polymorphisms } = IPolymorphic;
 IPolymorphic[polymorphisms] = Object.create(null);
 IPolymorphic[polymorphisms][id] = IPolymorphic;
 
-// hasInstance extension
-IPolymorphic.hasInstance = function(instance) {
-  if (!instance || typeof instance != 'object')
-    return false;
-
-  var constructor = instance.constructor;
-  if (!constructor || typeof constructor != 'object')
-    return false;
-
-  var polymorphisms = constructor[polymorphismsId];
-  if (!polymorphisms)
-    return false;
-
-  var id = this[identityId];
-  return id in polymorphisms;
-}
 
 module.exports = IPolymorphic;

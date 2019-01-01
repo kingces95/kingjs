@@ -1,8 +1,8 @@
 //'use strict';
 
-var identityId = require('../identity');
-var { polymorphisms: polymorphismsId, hasInstance } = require('../../system/IPolymorphic');
-var extensionsId = Symbol('@kingjs/Interface.extensions');
+var identityId = require('@kingjs/identity');
+var polymorphismsId = require('@kingjs/polymorphisms');
+var hasInstance = require('@kingjs/has-instance');
 
 var empty = Object.create(null);
 
@@ -30,10 +30,10 @@ function createInterface(name, descriptor) {
   // remove prototype (because it's never activated)
   interface.prototype = null;
 
-  // for each member, create a symbol 
+  // for each member, assign or create a symbol 
   if (descriptor.members) {
-    for (var member in descriptor.members)
-      interface[member] = Symbol(`${name}.${member}`);
+    for (var member in descriptor.members) 
+      interface[member] = descriptor.members[member] || Symbol(`${name}.${member}`);
   }
 
   // activate polymorphisms
@@ -41,11 +41,8 @@ function createInterface(name, descriptor) {
   polymorphisms[id] = interface;
 
   // save/inherit extensions
-  var extensions = descriptor.extensions;
+  var extensions = descriptor.extends;
   if (extensions) {
-
-    // save
-    interface[extensionsId] = Array.prototype.slice.call(Array, extensions);
 
     // inherited
     for (var extension of extensions) {
@@ -57,13 +54,11 @@ function createInterface(name, descriptor) {
   }
 
   // support instanceOf
-  interface[Symbol.hasInstance] = hasInstance;
+  Object.defineProperty(interface, Symbol.hasInstance, { 
+    value: hasInstance
+  });
 
   return interface;
 }
 
-module.exports = {
-  interfaceId,
-  extensionsId,
-  createInterface,
-}
+module.exports = createInterface;

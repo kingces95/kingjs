@@ -1,11 +1,10 @@
 {
-  "name": "@kingjs/object-ex",
-  "version": "1.0.29",
-  "description": "",
+  "name": "@kingjs/identity",
+  "version": "1.0.0",
+  "description": "A symbol used to store an identifying symbol on an object.",
   "main": "index.js",
   "files": [
-    "index.js",
-    "js/*"
+    "index.js"
   ],
   "scripts": {
     "test": "node test.js"
@@ -17,8 +16,5 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/assert": "^1.0.10",
-    "@kingjs/is": "^1.0.6"
-  }
+  "dependencies": {}
 }

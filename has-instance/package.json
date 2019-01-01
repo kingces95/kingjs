@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/loader.runtime.identity",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@kingjs/has-instance",
+  "version": "1.0.2",
+  "description": "Symbol.hasInstance implementation that tests for a function's id in an instance's polymorphisms.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -16,5 +16,8 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/identity": "^1.0.0",
+    "@kingjs/polymorphisms": "^1.0.0"
+  }
 }
