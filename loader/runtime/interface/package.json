@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/linq.package",
-  "version": "1.0.1",
-  "description": "Returns Linq package, creating on if none exists.",
+  "name": "@kingjs/loader.runtime.interface",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "files": [
     "index.js"
@@ -13,10 +13,8 @@
     "type": "git",
     "url": "https://github.com/kingces95/kingjs.git"
   },
+  "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/loader": "^1.0.0",
-    "@kingjs/object-ex": "^1.0.29"
-  }
+  "dependencies": { }
 }

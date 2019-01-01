@@ -1,0 +1,21 @@
+{
+  "name": "@kingjs/linq.namespace",
+  "version": "1.0.1",
+  "description": "Returns Linq package, creating on if none exists.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/loader": "^1.0.0"
+  }
+}
