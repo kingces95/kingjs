@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/loader.system.i-polymorphic",
+  "name": "@kingjs/generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "The constructor for generator functions.",
   "main": "index.js",
   "files": [
     "index.js"

@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/create-interface",
+  "name": "@kingjs/shim.generator-iterator",
   "version": "1.0.1",
-  "description": "",
+  "description": "Shim generators so they conform to the Symbol.iterable protocol.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -17,12 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/has-instance": "^1.0.2",
-    "@kingjs/i-enumerable": "^1.0.4",
-    "@kingjs/i-enumerator": "^1.0.0",
-    "@kingjs/i-identifiable": "^1.0.0",
-    "@kingjs/i-polymorphic": "^1.0.0",
-    "@kingjs/identity": "^1.0.0",
-    "@kingjs/polymorphisms": "^1.0.1"
+    "@kingjs/generator": "^1.0.0"
   }
 }

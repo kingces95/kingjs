@@ -1,7 +1,7 @@
-//'use strict';
+'use strict';
 
 var IEnumerable = require('.');
-var testRequire = require('../../..');
+var testRequire = require('..');
 var assert = testRequire('@kingjs/assert')
 var is = testRequire('@kingjs/is')
 

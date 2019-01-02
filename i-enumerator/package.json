@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/loader.system.i-enumerable",
+  "name": "@kingjs/i-enumerator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,5 +16,7 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/create-interface": "^1.0.1"
+  }
 }

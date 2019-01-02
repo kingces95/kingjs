@@ -1,5 +1,6 @@
 //'use strict';
 
+var assert = require('assert');
 var identityId = require('@kingjs/identity');
 var polymorphismsId = require('@kingjs/polymorphisms');
 var hasInstance = require('@kingjs/has-instance');
@@ -25,15 +26,22 @@ function createInterface(name, descriptor) {
   });
 
   // identify
-  var id = interface[identityId] = Symbol(name);
+  var id = interface[identityId] = Symbol.for(name);
 
   // remove prototype (because it's never activated)
   interface.prototype = null;
 
   // for each member, assign or create a symbol 
   if (descriptor.members) {
-    for (var member in descriptor.members) 
-      interface[member] = descriptor.members[member] || Symbol(`${name}.${member}`);
+
+    for (var member in descriptor.members) {
+      memberId = descriptor.members[member];
+
+      if (!memberId)
+        memberId = Symbol.for(`${name}.${member}`);
+
+      interface[member] = memberId;
+    }
   }
 
   // activate polymorphisms

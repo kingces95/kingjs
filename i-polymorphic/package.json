@@ -1,6 +1,6 @@
 {
-  "name": "@kingjs/create-interface",
-  "version": "1.0.1",
+  "name": "@kingjs/i-polymorphic",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "files": [
@@ -17,12 +17,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/has-instance": "^1.0.2",
-    "@kingjs/i-enumerable": "^1.0.4",
-    "@kingjs/i-enumerator": "^1.0.0",
-    "@kingjs/i-identifiable": "^1.0.0",
-    "@kingjs/i-polymorphic": "^1.0.0",
-    "@kingjs/identity": "^1.0.0",
+    "@kingjs/create-interface": "^1.0.1",
     "@kingjs/polymorphisms": "^1.0.1"
   }
 }

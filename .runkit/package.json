@@ -10,11 +10,18 @@
     "@kingjs/descriptor.object.writable-symbol": "^1.0.0",
     "@kingjs/descriptor.object.write": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
+    "@kingjs/generator": "^1.0.0",
+    "@kingjs/i-enumerable": "^1.0.4",
+    "@kingjs/i-enumerator": "^1.0.0",
+    "@kingjs/i-identifiable": "^1.0.0",
+    "@kingjs/i-iterable": "^1.0.0",
+    "@kingjs/i-polymorphic": "^1.0.0",
     "@kingjs/identity": "^1.0.0",
     "@kingjs/is": "^1.0.6",
     "@kingjs/loader": "^1.0.2",
     "@kingjs/object-ex": "^1.0.29",
     "@kingjs/polymorphisms": "^1.0.1",
+    "@kingjs/shim.generator-iterator": "^1.0.0",
     "kingjs": "1.0.40"
   }
 }

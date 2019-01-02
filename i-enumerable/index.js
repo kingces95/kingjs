@@ -1,6 +1,6 @@
-//'use strict';
+'use strict';
 
-var { createInterface } = require('../../runtime/interface');
+var createInterface = require('@kingjs/create-interface');
 
 module.exports = createInterface('IEnumerable', { 
   members: {
