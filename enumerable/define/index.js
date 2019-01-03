@@ -1,7 +1,10 @@
 'use strict';
+module.requirePackages = require('@kingjs/require-packages');
 
-var IEnumerable = require('@kingjs/i-enumerable');
-var IEnumerator = require('@kingjs/i-enumerator');
+var {
+  ['@kingjs/i-enumerable']: IEnumerable,
+  ['@kingjs/i-enumerator']: IEnumerator,
+} = module.requirePackages();
 
 var { getEnumerator } = IEnumerable;
 var { moveNext, current } = IEnumerator;

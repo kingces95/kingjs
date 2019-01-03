@@ -1,11 +1,15 @@
 'use strict';
 
-var define = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+var defineEnumerator = require('.');
+var assert = require('assert');
+var IEnumerable = require('@kingjs/i-enumerable');
+var IEnumerator = require('@kingjs/i-enumerator');
+
+var { getEnumerator } = IEnumerable;
+var { moveNext, current } = IEnumerator;
 
 function readme() {
-  var currentTicks = define(
+  var currentTicks = defineEnumerator(
 
     function generatorFactory(tickCount) {
   
@@ -27,11 +31,11 @@ function readme() {
   );
   
   var enumerable = currentTicks(3);
-  var enumerator = enumerable.getEnumerator();
+  var enumerator = enumerable[getEnumerator]();
   
   var result = [];
-  while (enumerator.moveNext())
-    result.push(enumerator.current);
+  while (enumerator[moveNext]())
+    result.push(enumerator[current]);
 
   assert(result.length == 3);
   assert(result[0] < result[1]);
@@ -44,7 +48,7 @@ function lifeCycle() {
   var moveNextCounter = 0;
 
   var value = { };
-  var sequence = define(function() {
+  var sequence = defineEnumerator(function() {
     moveNextActivationCounter++;
     var yieldedOnce = false;
 
@@ -62,49 +66,49 @@ function lifeCycle() {
   assert(moveNextActivationCounter == 0);
   assert(moveNextCounter == 0);
 
-  var enumerator = enumerable.getEnumerator();
+  var enumerator = enumerable[getEnumerator]();
   assert(moveNextActivationCounter == 0);
   assert(moveNextCounter == 0);
 
-  assert(enumerator.moveNext());
+  assert(enumerator[moveNext]());
   assert(moveNextActivationCounter == 1);
   assert(moveNextCounter == 1);
-  assert(enumerator.current == value);
+  assert(enumerator[current] == value);
 
-  assert(enumerator.moveNext() == false);
+  assert(enumerator[moveNext]() == false);
   assert(moveNextActivationCounter == 1);
   assert(moveNextCounter == 2);
-  assert(enumerator.current === undefined);
+  assert(enumerator[current] === undefined);
 
-  assert(enumerator.moveNext() == false);
+  assert(enumerator[moveNext]() == false);
   assert(moveNextActivationCounter == 1);
   assert(moveNextCounter == 2);
-  assert(enumerator.current === undefined);
+  assert(enumerator[current] === undefined);
 
 
-  enumerator = enumerable.getEnumerator();
+  enumerator = enumerable[getEnumerator]();
   assert(moveNextActivationCounter == 1);
   assert(moveNextCounter == 2);
 
-  assert(enumerator.moveNext());
+  assert(enumerator[moveNext]());
   assert(moveNextActivationCounter == 2);
   assert(moveNextCounter == 3);
-  assert(enumerator.current == value);
+  assert(enumerator[current] == value);
 
-  assert(enumerator.moveNext() == false);
+  assert(enumerator[moveNext]() == false);
   assert(moveNextActivationCounter == 2);
   assert(moveNextCounter == 4);
-  assert(enumerator.current === undefined);
+  assert(enumerator[current] === undefined);
 
-  assert(enumerator.moveNext() == false);
+  assert(enumerator[moveNext]() == false);
   assert(moveNextActivationCounter == 2);
   assert(moveNextCounter == 4);
-  assert(enumerator.current === undefined);
+  assert(enumerator[current] === undefined);
 }
 lifeCycle();
 
 function justThis() {
-  var generateThis = define(
+  var generateThis = defineEnumerator(
     function generatorFactory() {
       var thisArg = this;
       var done = false;
@@ -120,12 +124,12 @@ function justThis() {
 
   var helloWorld = 'Hello world!';
   var justThis = generateThis.apply(helloWorld);
-  var enumerator = justThis.getEnumerator();
-  assert(enumerator.moveNext());
-  assert(enumerator.current == helloWorld);
-  assert(!enumerator.moveNext());
-  assert(enumerator.current === undefined);
-  assert(!enumerator.moveNext());
-  assert(enumerator.current === undefined);
+  var enumerator = justThis[getEnumerator]();
+  assert(enumerator[moveNext]());
+  assert(enumerator[current] == helloWorld);
+  assert(!enumerator[moveNext]());
+  assert(enumerator[current] === undefined);
+  assert(!enumerator[moveNext]());
+  assert(enumerator[current] === undefined);
 }
 justThis();

@@ -14,7 +14,6 @@ var { moveNext, current } = IEnumerator;
 var assert = require('@kingjs/assert')
 var assertThrows = require('@kingjs/assert-throws')
 var objectEx = require('@kingjs/object-ex');
-var createEnumerator = require('@kingjs/enumerable.define');
 var Generator = require('@kingjs/generator');
 
 require('@kingjs/shim.generator-iterator');
@@ -61,39 +60,9 @@ function readMe() {
   assert(fooBar instanceof IBar);
 }
 readMe();
-
-function shimGeneratorEnumerator() {
-  Object.defineProperty(
-    Generator.prototype,
-    getEnumerator, {
-      value: createEnumerator(function() {
-        var iterable = this;
-        var iterator;
-        return function() {
-          if (!iterator)
-            iterator = iterable[Symbol.iterator];
-          var next = iterator.next();
-          this._current = next.value;
-          return next.done;
-        };
-      })
-    }
-  )
-
-  var range = function* (count) {
-    for (var i = 0; i < count; i ++)
-      yield i;
-  }
-
-  var count = 3;
-  var enumerator = range(count)[getEnumerator];
-
-  var i = 0;
-  while (enumerator[moveNext]())
-    assert(enumerator.current == i++);
-  assert(i == count);
-}
-shimGeneratorEnumerator();
+  
+  var addPolymorphismId;
+  var defineExtensionId;
 
 function testBootstrap() {
 
@@ -127,9 +96,6 @@ function testBootstrap() {
     return id;
   }
   
-  var addPolymorphismId;
-  var defineExtensionId;
-  
   // make Function IPolymorphic (bootstrap)
   addPolymorphism.call(Function, IPolymorphic);
   assert((function() { }) instanceof IPolymorphic);
@@ -161,15 +127,17 @@ function testBootstrap() {
   Array[addPolymorphismId](IIterable);
   String[addPolymorphismId](IIterable);
 
-  var gen = function* myGenerator() {
-    yield 0;
-    yield 1;
-    yield 2;
+  var repeat = function* (i) {
+    yield i;
+    yield i;
+    yield i;
   };
   var array = [0, 1, 2];
   var string = '012';
 
-  assert(gen instanceof IIterable);
+  var boundRepeat = repeat.bind(null, 1);
+  assert(boundRepeat instanceof IIterable);
+  assert(repeat instanceof IIterable);
   assert(array instanceof IIterable);
   assert(string instanceof IIterable);
 
@@ -185,7 +153,7 @@ function testBootstrap() {
     return result;
   });
 
-  assert(gen[countId]() == 3);
+  assert(repeat[countId]() == 3);
   assert(string[countId]() == 3);
   assert(array[countId]() == 3);
 
@@ -193,3 +161,86 @@ function testBootstrap() {
   assertThrows(() => ({ })[countId]());
 }
 testBootstrap();
+
+function createGetEnumerator(createMoveNext) {
+  return function getEnumerator() {
+    var thisArg = this;
+    var stillMoving = true;
+    var moveNextFunc = null;
+
+    return Object.defineProperties({ }, {
+      [current]: {
+        get: function current() { return this.current_; }
+      },
+
+      [moveNext]: {
+        value: function moveNextProtocol() {
+          if (!moveNextFunc)
+            moveNextFunc = createMoveNext.call(thisArg);
+
+          stillMoving = stillMoving && moveNextFunc.call(this);
+          if (!stillMoving)
+            this.current_ = undefined;
+            
+          return stillMoving;
+        }
+      }
+    })
+  }
+}
+
+function shimGeneratorEnumerator() {
+
+  objectEx.defineProperty(
+    Generator.prototype,
+    getEnumerator, {
+      value: createGetEnumerator(
+        
+        function createMoveNext() {
+          var generator = this;
+          var iterator = null;
+
+          return function moveNext() {
+            if (!iterator) {
+              var iterable = generator();
+              iterator = iterable[Symbol.iterator]();
+            }
+            var next = iterator.next();
+            this.current_ = next.value;
+            return !next.done;
+          };
+        }
+      )
+    }
+  )
+
+  {
+    function* range3() {
+      yield 0;
+      yield 1;
+      yield 2;
+    };
+
+    var test = range(3);
+    var x = test[Symbol.iterator]();
+    var next0 = x.next();
+    var next1 = x.next();
+    var next2 = x.next();
+    var next3 = x.next();
+  }
+
+  function* range(count) {
+    for (var i = 0; i < count; i ++)
+      yield i;
+  }
+
+  var count = 3;
+  var generator = range.bind(null, count);
+  var enumerator = generator[getEnumerator]();
+
+  var i = 0;
+  while (enumerator[moveNext]())
+    assert(enumerator[current] == i++);
+  assert(i == count);
+}
+shimGeneratorEnumerator();
