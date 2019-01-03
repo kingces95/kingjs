@@ -16,9 +16,9 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/has-instance": "^1.0.2",
-    "@kingjs/identity": "^1.0.0",
-    "@kingjs/polymorphisms": "^1.0.1",
+    "@kingjs/has-instance": "^1.0.4",
+    "@kingjs/identity": "^1.0.6",
+    "@kingjs/polymorphisms": "^1.0.5",
     "@kingjs/require-packages": "^1.0.2"
   },
   "devDependencies": {

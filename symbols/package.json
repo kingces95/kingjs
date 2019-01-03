@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/xxx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "initialize.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/xxx"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": { }
+}
