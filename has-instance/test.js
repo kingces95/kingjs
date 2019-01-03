@@ -1,10 +1,9 @@
 'use strict';
 
 var hasInstance = require('.');
+var assert = require('assert')
 var identityId = require('@kingjs/identity');
 var polymorphismsId = require('@kingjs/polymorphisms');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
 
 function readMe() {
   function IFoo() { }

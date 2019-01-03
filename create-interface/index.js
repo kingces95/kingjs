@@ -1,9 +1,12 @@
 //'use strict';
+module.requirePackages = require('@kingjs/require-packages');
 
 var assert = require('assert');
-var identityId = require('@kingjs/identity');
-var polymorphismsId = require('@kingjs/polymorphisms');
-var hasInstance = require('@kingjs/has-instance');
+var {
+  '@kingjs/identity': identityId,
+  '@kingjs/polymorphisms': polymorphismsId,
+  '@kingjs/has-instance': hasInstance,
+} = module.requirePackages();
 
 var empty = Object.create(null);
 

@@ -1,9 +1,9 @@
 'use strict';
 
 var polymorphismsId = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
-var identityId = testRequire('@kingjs/identity');
+var assert = require('assert')
+var identityId = require('@kingjs/identity');
+var is = require('@kingjs/is')
 
 function readMe() {
     
@@ -32,3 +32,8 @@ function readMe() {
   assert(isIBar);
 }
 readMe();
+
+function testNotGlobal() {
+  assert(is.undefined(Symbol.keyFor(polymorphismsId)));
+}
+testNotGlobal();

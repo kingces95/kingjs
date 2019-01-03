@@ -1,8 +1,10 @@
 'use strict';
+module.requirePackages = require('@kingjs/require-packages');
 
-function copy() {
+var {
+} = module.requirePackages();
+
+function xxx() {
 }
 
-Object.defineProperties(module, {
-  exports: { value: copy }
-});
+module.exports = xxx;

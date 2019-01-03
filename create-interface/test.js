@@ -11,13 +11,13 @@ var IEnumerator = require('@kingjs/i-enumerator');
 var { getEnumerator } = IEnumerable;
 var { moveNext, current } = IEnumerator;
 
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
-var assertThrows = testRequire('@kingjs/assert-throws')
-var objectEx = testRequire('@kingjs/object-ex');
-var Generator = testRequire('@kingjs/generator');
+var assert = require('@kingjs/assert')
+var assertThrows = require('@kingjs/assert-throws')
+var objectEx = require('@kingjs/object-ex');
+var createEnumerator = require('@kingjs/enumerable.define');
+var Generator = require('@kingjs/generator');
 
-testRequire('@kingjs/shim.generator-iterator');
+require('@kingjs/shim.generator-iterator');
 
 var identityId = IIdentifiable.identity;
 var polymorphismsId = IPolymorphic.polymorphisms;
@@ -62,37 +62,71 @@ function readMe() {
 }
 readMe();
 
-function addPolymorphism(polymorphism) {
-  assert(typeof this == 'function');
-  assert(typeof polymorphism == 'function');
+function shimGeneratorEnumerator() {
+  Object.defineProperty(
+    Generator.prototype,
+    getEnumerator, {
+      value: createEnumerator(function() {
+        var iterable = this;
+        var iterator;
+        return function() {
+          if (!iterator)
+            iterator = iterable[Symbol.iterator];
+          var next = iterator.next();
+          this._current = next.value;
+          return next.done;
+        };
+      })
+    }
+  )
 
-  var polymorphisms = this[polymorphismsId];
-  if (!polymorphisms)
-    this[polymorphismsId] = polymorphisms = Object.create(null);
+  var range = function* (count) {
+    for (var i = 0; i < count; i ++)
+      yield i;
+  }
 
-  polymorphisms[polymorphism[identityId]] = polymorphism;
+  var count = 3;
+  var enumerator = range(count)[getEnumerator];
+
+  var i = 0;
+  while (enumerator[moveNext]())
+    assert(enumerator.current == i++);
+  assert(i == count);
 }
-
-function defineExtension(name, extension) {
-  assert(typeof this == 'function');
-  assert(typeof extension == 'function');
-
-  objectEx.defineField(extension, 'name', name);
-
-  assert(!(identityId in extension));
-  var id = extension[identityId] = Symbol(name);
-
-  var descriptor = {
-    extends: () => this,
-    value: extension
-  };
-
-  objectEx.defineFunction(Object.prototype, id, descriptor);
-  
-  return id;
-}
+shimGeneratorEnumerator();
 
 function testBootstrap() {
+
+  function addPolymorphism(polymorphism) {
+    assert(typeof this == 'function');
+    assert(typeof polymorphism == 'function');
+  
+    var polymorphisms = this[polymorphismsId];
+    if (!polymorphisms)
+      this[polymorphismsId] = polymorphisms = Object.create(null);
+  
+    polymorphisms[polymorphism[identityId]] = polymorphism;
+  }
+  
+  function defineExtension(name, extension) {
+    assert(typeof this == 'function');
+    assert(typeof extension == 'function');
+  
+    objectEx.defineField(extension, 'name', name);
+  
+    assert(!(identityId in extension));
+    var id = extension[identityId] = Symbol(name);
+  
+    var descriptor = {
+      extends: () => this,
+      value: extension
+    };
+  
+    objectEx.defineFunction(Object.prototype, id, descriptor);
+    
+    return id;
+  }
+  
   var addPolymorphismId;
   var defineExtensionId;
   

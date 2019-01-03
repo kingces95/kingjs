@@ -1,7 +1,10 @@
 'use strict';
+module.requirePackages = require('@kingjs/require-packages');
 
-var identityId = require('@kingjs/identity');
-var polymorphismsId = require('@kingjs/polymorphisms');
+var {
+  ['@kingjs/identity']: identityId,
+  ['@kingjs/polymorphisms']: polymorphismsId,
+} = module.requirePackages();
 
 function hasInstance(instance) {
   var type = typeof instance;

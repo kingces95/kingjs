@@ -1,12 +1,10 @@
 'use strict';
 
-var { load } = require('@kingjs/loader');
-var IEnumerable = load('IEnumerable');
-var IEnumerator = load('IEnumerator');
+var IEnumerable = require('@kingjs/i-enumerable');
+var IEnumerator = require('@kingjs/i-enumerator');
 
-var getEnumerator = IEnumerable.getEnumerator;
-var moveNext = IEnumerator.moveNext;
-var current = IEnumerator.current;
+var { getEnumerator } = IEnumerable;
+var { moveNext, current } = IEnumerator;
 
 var currentFieldDescriptor = {
   writable: true

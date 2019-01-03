@@ -1,0 +1,19 @@
+{
+  "name": "@kingjs/require-packages",
+  "version": "1.0.2",
+  "description": "Requires dependencies found in packages.json and returns a dictionary of package names to module exports.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/require-packages"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {}
+}

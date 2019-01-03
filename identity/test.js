@@ -1,9 +1,8 @@
 'use strict';
 
 var identityId = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
-var is = testRequire('@kingjs/is')
+var assert = require('assert');
+var is = require('@kingjs/is');
 
 function readMe() {  
   function Foo() { }
@@ -12,3 +11,8 @@ function readMe() {
   assert(is.symbol(identityId));
 }
 readMe();
+
+function testNotGlobal() {
+  assert(is.undefined(Symbol.keyFor(identityId)));
+}
+testNotGlobal();

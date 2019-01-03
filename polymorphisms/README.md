@@ -1,5 +1,5 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/polymorphisms
-A symbol declared on functions which contains an object with symbols declared for each of the function's polymorphisms.
+Declared on functions, provides an object declaring symbols for polymorphisms of the function's instances.
 ## Usage
 Publish the fact that `FooBar` implements `IFoo` and `IBar` like this:
 ```js

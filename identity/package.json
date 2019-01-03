@@ -1,20 +1,22 @@
 {
   "name": "@kingjs/identity",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "A symbol used to store an identifying symbol on an object.",
   "main": "index.js",
   "files": [
     "index.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/identity"
+  },
   "scripts": {
     "test": "node test.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
-  },
   "keywords": [],
-  "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "@kingjs/is": "^1.0.6"
+  }
 }
