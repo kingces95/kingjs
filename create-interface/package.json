@@ -17,18 +17,13 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/has-instance": "^1.0.4",
-    "@kingjs/identity": "^1.0.6",
-    "@kingjs/polymorphisms": "^1.0.5",
-    "@kingjs/require-packages": "^1.0.2"
+    "@kingjs/require-packages": "^1.0.2",
+    "@kingjs/symbol": "^1.0.0"
   },
   "devDependencies": {
     "@kingjs/assert-throws": "^1.0.6",
     "@kingjs/enumerable.define": "^1.0.5",
     "@kingjs/generator": "^1.0.0",
-    "@kingjs/i-enumerable": "^1.0.4",
-    "@kingjs/i-enumerator": "^1.0.0",
-    "@kingjs/i-identifiable": "^1.0.0",
-    "@kingjs/i-polymorphic": "^1.0.0",
     "@kingjs/object-ex": "^1.0.29",
     "@kingjs/shim.generator-iterator": "^1.0.1"
   }

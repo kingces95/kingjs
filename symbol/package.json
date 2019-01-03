@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/symbol",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/symbol"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/has-instance": "^1.0.4",
+    "@kingjs/require-packages": "^1.0.2"
+  },
+  "devDependencies": {
+    "@kingjs/is": "^1.0.6"
+  }
+}

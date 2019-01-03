@@ -1,23 +1,24 @@
 'use strict';
 
+var assert = require('assert')
+
 var createInterface = require('.');
 var hasInstance = require('@kingjs/has-instance');
-
-var IIdentifiable = require('@kingjs/i-identifiable');
-var IPolymorphic = require('@kingjs/i-polymorphic');
-var IEnumerable = require('@kingjs/i-enumerable');
-var IEnumerator = require('@kingjs/i-enumerator');
-
-var { getEnumerator } = IEnumerable;
-var { moveNext, current } = IEnumerator;
-
-var assert = require('@kingjs/assert')
-var assertThrows = require('@kingjs/assert-throws')
+var symbol = require('@kingjs/symbol');
 var objectEx = require('@kingjs/object-ex');
 var Generator = require('@kingjs/generator');
 
 require('@kingjs/shim.generator-iterator');
 
+var {
+  IIdentifiable,
+  IPolymorphic,
+  IEnumerable,
+  IEnumerator
+} = symbol;
+
+var { getEnumerator } = IEnumerable;
+var { moveNext, current } = IEnumerator;
 var { identity: identityId } = IIdentifiable;
 var { polymorphisms: polymorphismsId } = IPolymorphic;
 
