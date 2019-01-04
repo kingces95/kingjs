@@ -24,6 +24,15 @@ var {
   IEnumerator: { MoveNext, Current },
 } = symbol;
 
+var functionPrototype = Object.getPrototypeOf(Function);
+objectEx.defineLazyAccessor(
+  functionPrototype,
+  Identity,
+  function() { return Symbol(this.name); }
+);
+
+var id = (function Foo() { })[Identity];
+
 // defineExtension(this IPolymorphic, name: string, extension: function)
 var DefineExtension = (function bootstrap() {
   function defineExtension(name, extension) {
