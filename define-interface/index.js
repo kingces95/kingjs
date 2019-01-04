@@ -6,30 +6,41 @@ var {
   '@kingjs/has-instance': hasInstance,
 } = module.requirePackages();
 
-var empty = Object.create(null);
-var identityId = Symbol.for('@kingjs/identity');
-var polymorphismsId = Symbol.for('@kingjs/polymorphisms');
+var Delimiter = '.';
+var Empty = Object.create(null);
+var Identity = Symbol.for('@kingjs/identity');
+var Polymorphisms = Symbol.for('@kingjs/polymorphisms');
 
 var interfaceActivationError = 'Cannot activate interface.';
 
-function defineInterface(name, descriptor) {
+var BuiltInSymbols = { };
+for (var name of Object.getOwnPropertyNames(Symbol)) {
+  var value = Symbol[name];
+  if (typeof value != 'symbol')
+    continue;
+  BuiltInSymbols[value] = name;
+}
+
+function defineInterface(target, name, descriptor) {
 
   if (!descriptor)
-    descriptor = empty;
+    descriptor = Empty;
 
   // throws if activated
   var interface = function() {
     assert(false, interfaceActivationError)
   };
 
+  // identify
+  var id = interface[Identity] = (descriptor.id || Symbol.for(name));
+  assert(Symbol.keyFor(id));
+
   // name
+  var symbolName = Symbol.keyFor(id);
   Object.defineProperty(interface, 'name', {
     enumerable: true,
-    value: name,
+    value: symbolName,
   });
-
-  // identify
-  var id = interface[identityId] = Symbol.for(name);
 
   // remove prototype (because it's never activated)
   interface.prototype = null;
@@ -37,12 +48,16 @@ function defineInterface(name, descriptor) {
   // for each member, assign or create a symbol 
   for (var member in descriptor.members) {
     memberId = descriptor.members[member];
-    assert(typeof memberId == 'symbol')
+
+    if (memberId === null)
+      memberId = Symbol.for(symbolName + Delimiter + member);
+
+    assert(Symbol.keyFor(memberId) || memberId in BuiltInSymbols);
     interface[member] = memberId;
   }
 
   // activate polymorphisms
-  var polymorphisms = interface[polymorphismsId] = Object.create(null);
+  var polymorphisms = interface[Polymorphisms] = Object.create(null);
   polymorphisms[id] = interface;
 
   // save/inherit extensions
@@ -51,10 +66,10 @@ function defineInterface(name, descriptor) {
 
     // inherited
     for (var extension of extensions) {
-      var inheritedPolymorphisms = extension[polymorphismsId];
+      var inheritedPolymorphisms = extension[Polymorphisms];
       
-      for (var id of Object.getOwnPropertySymbols(inheritedPolymorphisms))
-        polymorphisms[id] = inheritedPolymorphisms[id];
+      for (var symbol of Object.getOwnPropertySymbols(inheritedPolymorphisms))
+        polymorphisms[symbol] = inheritedPolymorphisms[symbol];
     }
   }
 
@@ -63,7 +78,7 @@ function defineInterface(name, descriptor) {
     value: hasInstance
   });
 
-  return interface;
+  return target[name] = interface;
 }
 
 module.exports = defineInterface;

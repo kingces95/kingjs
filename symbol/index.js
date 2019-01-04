@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 var defineSymbols = require('./define-symbols');
 var SymbolPrefix = '@kingjs/';

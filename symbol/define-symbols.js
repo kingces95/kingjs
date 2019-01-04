@@ -1,7 +1,8 @@
-'use strict';
-
 var assert = require('assert');
-var defineInterface = require('./define-interface');
+
+var {
+  '@kingjs/define-interface': defineInterface,
+} = require('@kingjs/require-packages').call(module);
 
 var Delimiter = '.';
 
@@ -26,12 +27,11 @@ function defineSymbols(target, prefix, descriptor) {
           target[name] = symbolTable[value];
 
         else if (typeof value == 'object') {
-          target[name] = defineInterface(symbolName, {
+          target[name] = defineInterface(symbolTable, fullName, {
+            id: Symbol.for(symbolName),
             members: walk({ }, value.members),
             extends: walk([ ], value.extends)
           });
-
-          symbolTable[fullName] = target[name];
         }
 
         else if (typeof value == 'symbol')

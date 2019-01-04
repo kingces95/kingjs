@@ -1,10 +1,7 @@
 'use strict';
-module.requirePackages = require('@kingjs/require-packages');
 
-var {
-  ['@kingjs/identity']: identityId,
-  ['@kingjs/polymorphisms']: polymorphismsId,
-} = module.requirePackages();
+var Identity = Symbol.for('@kingjs/identity');
+var Polymorphisms = Symbol.for('@kingjs/polymorphisms');
 
 function hasInstance(instance) {
   var type = typeof instance;
@@ -15,11 +12,11 @@ function hasInstance(instance) {
   if (!constructor || typeof constructor != 'function')
     return false;
 
-  var polymorphisms = constructor[polymorphismsId];
+  var polymorphisms = constructor[Polymorphisms];
   if (!polymorphisms)
     return false;
 
-  var id = this[identityId];
+  var id = this[Identity];
   return id in polymorphisms;
 }
 

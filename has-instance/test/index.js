@@ -1,29 +1,30 @@
 'use strict';
 
-var hasInstance = require('.');
+var hasInstance = require('..');
 var assert = require('assert')
-var identityId = require('@kingjs/identity');
-var polymorphismsId = require('@kingjs/polymorphisms');
+
+var Identity = Symbol.for('@kingjs/identity');
+var Polymorphisms = Symbol.for('@kingjs/polymorphisms');
 
 function readMe() {
   function IFoo() { }
   IFoo.prototype = null;
-  IFoo[identityId] = Symbol('IFoo')
+  IFoo[Identity] = Symbol('IFoo')
   IFoo.foo = Symbol('foo');
   Object.defineProperty(IFoo, Symbol.hasInstance, { value: hasInstance });
 
   function IBar() { }
   IBar.prototype = null;
-  IBar[identityId] = Symbol('IBar')
+  IBar[Identity] = Symbol('IBar')
   IBar.bar = Symbol('bar');
   Object.defineProperty(IBar, Symbol.hasInstance, { value: hasInstance });
 
   function FooBar() { }
   FooBar.prototype[IFoo.foo] = 'foo';
   FooBar.prototype[IBar.bar] = 'bar';
-  FooBar[polymorphismsId] = {
-    [IFoo[identityId]]: IFoo,
-    [IBar[identityId]]: IBar,
+  FooBar[Polymorphisms] = {
+    [IFoo[Identity]]: IFoo,
+    [IBar[Identity]]: IBar,
   }
 
   var fooBar = new FooBar();
@@ -38,20 +39,20 @@ readMe();
 function testTypes() {
   function IFoo() { }
   IFoo.prototype = null;
-  IFoo[identityId] = Symbol('IFoo')
+  IFoo[Identity] = Symbol('IFoo')
   IFoo.foo = Symbol('foo');
   Object.defineProperty(IFoo, Symbol.hasInstance, { value: hasInstance });
 
-  Array[polymorphismsId] = {
-    [IFoo[identityId]]: IFoo
+  Array[Polymorphisms] = {
+    [IFoo[Identity]]: IFoo
   };
 
-  String[polymorphismsId] = {
-    [IFoo[identityId]]: IFoo
+  String[Polymorphisms] = {
+    [IFoo[Identity]]: IFoo
   };
 
-  Function[polymorphismsId] = {
-    [IFoo[identityId]]: IFoo
+  Function[Polymorphisms] = {
+    [IFoo[Identity]]: IFoo
   };
 
   assert([] instanceof IFoo);

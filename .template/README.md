@@ -1,10 +1,8 @@
 # @[kingjs](https://www.npmjs.com/package/kingjs)/xxx
 ## Usage
 ```js
-var copy = require('@kingjs/xxx');
-```
-result:
-```js
+var assert = require('assert');
+var xxx = require('@kingjs/xxx');
 ```
 ## API
 ```ts

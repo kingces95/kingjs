@@ -1,13 +1,13 @@
 {
   "name": "@kingjs/has-instance",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Symbol.hasInstance implementation that tests for a function's id in an instance's polymorphisms.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node test"
   },
   "repository": {
     "type": "git",
@@ -15,11 +15,7 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/identity": "^1.0.6",
-    "@kingjs/polymorphisms": "^1.0.5",
-    "@kingjs/require-packages": "^1.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@kingjs/is": "^1.0.6"
   }
