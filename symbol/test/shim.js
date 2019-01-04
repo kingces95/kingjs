@@ -10,9 +10,10 @@ require('@kingjs/shim.generator-iterator');
 
 var {
   IIterable,
-  IIdentifiable,
-  IPolymorphic,
   IEnumerable,
+  IEnumerator,
+  IPolymorphic,
+  IIdentifiable,
 } = symbol;
 
 var {
@@ -22,7 +23,6 @@ var {
   IEnumerable: { GetEnumerator },
   IEnumerator: { MoveNext, Current },
 } = symbol;
-
 
 // defineExtension(this IPolymorphic, name: string, extension: function)
 var DefineExtension = (function bootstrap() {
@@ -58,6 +58,7 @@ var AddPolymorphism = (function bootstrap() {
   function addPolymorphism(polymorphism) {
     assert(typeof this == 'function');
     assert(typeof polymorphism == 'function');
+    //assert(polymorphism instanceof IIdentifiable);
 
     var polymorphisms = this[Polymorphisms];
     if (!polymorphisms)
@@ -76,15 +77,12 @@ var AddPolymorphism = (function bootstrap() {
   )
 })();
 
-// make Function IIdentifiable
-Function[AddPolymorphism](IIdentifiable);
+// shim Generator, Array, String IIterable
+Generator[AddPolymorphism](IIterable);
+Array[AddPolymorphism](IIterable);
+String[AddPolymorphism](IIterable);
 
 function testIIterableShim() {
-  // shim Generator, Array, String IIterable
-  Generator[AddPolymorphism](IIterable);
-  Array[AddPolymorphism](IIterable);
-  String[AddPolymorphism](IIterable);
-
   var repeat = function* (i) {
     yield i;
     yield i;
@@ -121,12 +119,15 @@ function testIIterableShim() {
 testIIterableShim();
 
 function createGetEnumerator(createMoveNext) {
+  var Enumerator = function() { };
+  Enumerator[AddPolymorphism](IEnumerator);
+
   return function getEnumerator() {
     var thisArg = this;
     var stillMoving = true;
     var moveNextFunc = null;
 
-    return Object.defineProperties({}, {
+    return Object.defineProperties(new Enumerator(), {
       [Current]: {
         get: function current() { return this.current_; }
       },
@@ -147,31 +148,32 @@ function createGetEnumerator(createMoveNext) {
   }
 }
 
-function shimGeneratorEnumerator() {
+objectEx.defineProperty(
+  Generator.prototype,
+  GetEnumerator, {
+    value: createGetEnumerator(
 
-  objectEx.defineProperty(
-    Generator.prototype,
-    GetEnumerator, {
-      value: createGetEnumerator(
+      function createMoveNext() {
+        var generator = this;
+        var iterator = null;
 
-        function createMoveNext() {
-          var generator = this;
-          var iterator = null;
+        return function moveNext() {
+          if (!iterator) {
+            var iterable = generator();
+            iterator = iterable[GetIterator]();
+          }
+          var next = iterator.next();
+          this.current_ = next.value;
+          return !next.done;
+        };
+      }
+    )
+  }
+)
 
-          return function moveNext() {
-            if (!iterator) {
-              var iterable = generator();
-              iterator = iterable[GetIterator]();
-            }
-            var next = iterator.next();
-            this.current_ = next.value;
-            return !next.done;
-          };
-        }
-      )
-    }
-  )
+Generator[AddPolymorphism](IEnumerable);
 
+function testGeneratorEnumerableShim() {
   {
     function* range3() {
       yield 0;
@@ -192,13 +194,17 @@ function shimGeneratorEnumerator() {
       yield i;
   }
 
+  assert(range instanceof IEnumerable);
+
   var count = 3;
   var generator = range.bind(null, count);
   var enumerator = generator[GetEnumerator]();
+
+  assert(enumerator instanceof IEnumerator);
 
   var i = 0;
   while (enumerator[MoveNext]())
     assert(enumerator[Current] == i++);
   assert(i == count);
 }
-shimGeneratorEnumerator();
+testGeneratorEnumerableShim();
