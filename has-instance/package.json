@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/has-instance",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Symbol.hasInstance implementation that tests for a function's id in an instance's polymorphisms.",
   "main": "index.js",
   "files": [

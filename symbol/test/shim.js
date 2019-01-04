@@ -2,126 +2,88 @@
 
 var assert = require('assert')
 
-var createInterface = require('.');
-var hasInstance = require('@kingjs/has-instance');
-var symbol = require('@kingjs/symbol');
+var symbol = require('..');
 var objectEx = require('@kingjs/object-ex');
 var Generator = require('@kingjs/generator');
 
 require('@kingjs/shim.generator-iterator');
 
 var {
+  IIterable,
   IIdentifiable,
   IPolymorphic,
   IEnumerable,
-  IEnumerator
 } = symbol;
 
-var { getEnumerator } = IEnumerable;
-var { moveNext, current } = IEnumerator;
-var { identity: identityId } = IIdentifiable;
-var { polymorphisms: polymorphismsId } = IPolymorphic;
+var {
+  IIterable: { GetIterator },
+  IIdentifiable: { Identity },
+  IPolymorphic: { Polymorphisms },
+  IEnumerable: { GetEnumerator },
+  IEnumerator: { MoveNext, Current },
+} = symbol;
 
-function readMe() {
-  var IFoo = createInterface('IFoo', {
-    members: { foo: Symbol('IFoo (custom)') }
-  });
 
-  var IBar = createInterface('IBar', {
-    members: { bar: null },
-    extends: [ IFoo ]
-  });
-  
-  assert(Object.getOwnPropertySymbols(IFoo[polymorphismsId]).length == 1);
-  assert(IFoo[identityId] in IFoo[polymorphismsId]);
-
-  assert(Object.getOwnPropertySymbols(IBar[polymorphismsId]).length == 2);
-  assert(IFoo[identityId] in IBar[polymorphismsId]);
-  assert(IBar[identityId] in IBar[polymorphismsId]);
-
-  function FooBar() { }
-  FooBar.prototype[IFoo.foo] = 'foo';
-  FooBar.prototype[IBar.bar] = 'bar';
-  FooBar[polymorphismsId] = {
-    [IFoo[identityId]]: IFoo,
-    [IBar[identityId]]: IBar,
-  }
-
-  assert(IFoo[Symbol.hasInstance] == hasInstance);
-
-  var fooBar = new FooBar();
-  assert(fooBar instanceof IFoo);
-  assert(fooBar instanceof IBar);
-}
-readMe();
-  
 // defineExtension(this IPolymorphic, name: string, extension: function)
-var defineExtensionId = (function bootstrap() {
+var DefineExtension = (function bootstrap() {
   function defineExtension(name, extension) {
     assert(typeof this == 'function');
     assert(typeof extension == 'function');
-  
+
     objectEx.defineField(extension, 'name', name);
-  
-    assert(!(identityId in extension));
-    var id = extension[identityId] = Symbol(name);
-  
+
+    assert(!(Identity in extension));
+    var id = extension[Identity] = Symbol(name);
+
     var descriptor = {
       extends: () => this,
       value: extension
     };
-  
+
     objectEx.defineFunction(Object.prototype, id, descriptor);
-    
+
     return id;
   }
- 
+
   // extend IPolymorphic with defineExtension (bootstrap)
   return defineExtension.call(
-    IPolymorphic, 
-    defineExtension.name, 
+    IPolymorphic,
+    defineExtension.name,
     defineExtension
   );
 })();
 
 // addPolymorphism(this IPolymorphic, polymorphism: function)
-var addPolymorphismId = (function bootstrap() {
+var AddPolymorphism = (function bootstrap() {
   function addPolymorphism(polymorphism) {
     assert(typeof this == 'function');
     assert(typeof polymorphism == 'function');
-  
-    var polymorphisms = this[polymorphismsId];
+
+    var polymorphisms = this[Polymorphisms];
     if (!polymorphisms)
-      this[polymorphismsId] = polymorphisms = Object.create(null);
-  
-    polymorphisms[polymorphism[identityId]] = polymorphism;
+      this[Polymorphisms] = polymorphisms = Object.create(null);
+
+    polymorphisms[polymorphism[Identity]] = polymorphism;
   }
-  
+
   // make Function IPolymorphic (bootstrap)
   addPolymorphism.call(Function, IPolymorphic);
-  assert((function() { }) instanceof IPolymorphic);
+  assert((function () { }) instanceof IPolymorphic);
 
- return IPolymorphic[defineExtensionId](
-    addPolymorphism.name, 
+  return IPolymorphic[DefineExtension](
+    addPolymorphism.name,
     addPolymorphism
   )
 })();
 
 // make Function IIdentifiable
-Function[addPolymorphismId](IIdentifiable);
+Function[AddPolymorphism](IIdentifiable);
 
 function testIIterableShim() {
-
-  // IIterable <-> Symbol.iterator
-  var IIterable = createInterface('IIterable', {
-    members: { getIterable: Symbol.iterator },
-    extends: [ IEnumerable ]
-  });
-
   // shim Generator, Array, String IIterable
-  Generator[addPolymorphismId](IIterable);
-  Array[addPolymorphismId](IIterable);
-  String[addPolymorphismId](IIterable);
+  Generator[AddPolymorphism](IIterable);
+  Array[AddPolymorphism](IIterable);
+  String[AddPolymorphism](IIterable);
 
   var repeat = function* (i) {
     yield i;
@@ -138,8 +100,8 @@ function testIIterableShim() {
   assert(string instanceof IIterable);
 
   // demonstrate iterop! Use Symbol.iterator implementation via IIterable
-  var countId = IIterable[defineExtensionId]('count', function() {
-    var iterator = this[IIterable.getIterable]();
+  var countId = IIterable[DefineExtension]('count', function () {
+    var iterator = this[GetIterator]();
     var result = 0;
 
     var next;
@@ -154,7 +116,7 @@ function testIIterableShim() {
   assert(array[countId]() == 3);
 
   // check stub throws if instance is not IIterable
-  assertThrows(() => ({ })[countId]());
+  assert.throws(() => ({})[countId]());
 }
 testIIterableShim();
 
@@ -164,12 +126,12 @@ function createGetEnumerator(createMoveNext) {
     var stillMoving = true;
     var moveNextFunc = null;
 
-    return Object.defineProperties({ }, {
-      [current]: {
+    return Object.defineProperties({}, {
+      [Current]: {
         get: function current() { return this.current_; }
       },
 
-      [moveNext]: {
+      [MoveNext]: {
         value: function moveNextProtocol() {
           if (!moveNextFunc)
             moveNextFunc = createMoveNext.call(thisArg);
@@ -177,7 +139,7 @@ function createGetEnumerator(createMoveNext) {
           stillMoving = stillMoving && moveNextFunc.call(this);
           if (!stillMoving)
             this.current_ = undefined;
-            
+
           return stillMoving;
         }
       }
@@ -189,9 +151,9 @@ function shimGeneratorEnumerator() {
 
   objectEx.defineProperty(
     Generator.prototype,
-    getEnumerator, {
+    GetEnumerator, {
       value: createGetEnumerator(
-        
+
         function createMoveNext() {
           var generator = this;
           var iterator = null;
@@ -199,7 +161,7 @@ function shimGeneratorEnumerator() {
           return function moveNext() {
             if (!iterator) {
               var iterable = generator();
-              iterator = iterable[Symbol.iterator]();
+              iterator = iterable[GetIterator]();
             }
             var next = iterator.next();
             this.current_ = next.value;
@@ -218,7 +180,7 @@ function shimGeneratorEnumerator() {
     };
 
     var test = range(3);
-    var x = test[Symbol.iterator]();
+    var x = test[GetIterator]();
     var next0 = x.next();
     var next1 = x.next();
     var next2 = x.next();
@@ -226,17 +188,17 @@ function shimGeneratorEnumerator() {
   }
 
   function* range(count) {
-    for (var i = 0; i < count; i ++)
+    for (var i = 0; i < count; i++)
       yield i;
   }
 
   var count = 3;
   var generator = range.bind(null, count);
-  var enumerator = generator[getEnumerator]();
+  var enumerator = generator[GetEnumerator]();
 
   var i = 0;
-  while (enumerator[moveNext]())
-    assert(enumerator[current] == i++);
+  while (enumerator[MoveNext]())
+    assert(enumerator[Current] == i++);
   assert(i == count);
 }
 shimGeneratorEnumerator();

@@ -3,33 +3,38 @@
 ## Usage
 Test that `FooBar` implements `IFoo` and `IBar` using `instanceof` operator like this:
 ```js
-var polymorphismsId = require('@kingjs/polymorphisms');
-var identityId = require('@kingjs/identity');
 var hasInstance = require('@kingjs/has-instance');
+var assert = require('assert')
+
+var Identity = Symbol.for('@kingjs/Identity');
+var Polymorphisms = Symbol.for('@kingjs/Polymorphisms');
 
 function IFoo() { }
 IFoo.prototype = null;
-IFoo[identityId] = Symbol('IFoo')
+IFoo[Identity] = Symbol('IFoo')
 IFoo.foo = Symbol('foo');
 Object.defineProperty(IFoo, Symbol.hasInstance, { value: hasInstance });
 
 function IBar() { }
 IBar.prototype = null;
-IBar[identityId] = Symbol('IBar')
+IBar[Identity] = Symbol('IBar')
 IBar.bar = Symbol('bar');
 Object.defineProperty(IBar, Symbol.hasInstance, { value: hasInstance });
 
 function FooBar() { }
 FooBar.prototype[IFoo.foo] = 'foo';
 FooBar.prototype[IBar.bar] = 'bar';
-FooBar[polymorphismsId] = {
-  [IFoo[identityId]]: IFoo,
-  [IBar[identityId]]: IBar,
+FooBar[Polymorphisms] = {
+  [IFoo[Identity]]: IFoo,
+  [IBar[Identity]]: IBar,
 }
 
 var fooBar = new FooBar();
-var isIFoo = fooBar instanceof IFoo; // true
-var isIBar = fooBar instanceof IBar; // true
+var isIFoo = fooBar instanceof IFoo;
+var isIBar = fooBar instanceof IBar;
+
+assert(isIFoo);
+assert(isIBar);
 ```
 ## See Also
 - `Identity`: see [@kingjs/identity][identity]

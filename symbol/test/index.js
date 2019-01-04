@@ -2,42 +2,44 @@
 
 var symbol = require('..');
 var assert = require('assert');
-var is = require('@kingjs/is');
-
-var {
-  identity,
-  polymorphisms,
-  IIterable: { iterator },
-  IIdentifiable: { identity: identityAlso },
-  IPolymorphic: { polymorphisms: polymorphismsAlso },
-  IEnumerable: { getEnumerator },
-  IEnumerator: { moveNext, current },  
-} = symbol;
-
-var {
-  IIterable,
-  IIdentifiable,
-  IPolymorphic,
-  IEnumerable,
-  IEnumerator
-} = symbol;
 
 function readMe() {
-  assert(identity);
-  assert(polymorphisms);
-  assert(iterator === Symbol.iterator);
-  assert(identityAlso === identity);
-  assert(polymorphismsAlso === polymorphisms);
-  assert(getEnumerator);
-  assert(moveNext);
-  assert(current);
 
-  assert(is.function(IIterable));
-  assert(is.function(IIdentifiable));
-  assert(is.function(IPolymorphic));
-  assert(is.function(IEnumerable));
-  assert(is.function(IEnumerator));
+  var {
+    Identity,
+    Polymorphisms,
+    IIterable: { GetIterator },
+    IIdentifiable: { Identity: IdentityAlso },
+    IPolymorphic: { Polymorphisms: PolymorphismsAlso },
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current },  
+  } = symbol;
 
-  assert(IIdentifiable[identity] in IPolymorphic[polymorphisms]);
+  var {
+    IIterable,
+    IIdentifiable,
+    IPolymorphic,
+    IEnumerable,
+    IEnumerator
+  } = symbol;
+
+  assert(Symbol.keyFor(Identity) == '@kingjs/Identity');
+  assert(Symbol.keyFor(Polymorphisms) == '@kingjs/Polymorphisms');
+
+  assert(IIterable.name == '@kingjs/IIterable');
+  assert(IIdentifiable.name == '@kingjs/IIdentifiable');
+  assert(IIdentifiable.name == '@kingjs/IIdentifiable');
+  assert(IPolymorphic.name == '@kingjs/IPolymorphic');
+  assert(IEnumerable.name == '@kingjs/IEnumerable');
+  assert(IEnumerator.name == '@kingjs/IEnumerator');
+
+  assert(GetIterator === Symbol.iterator);
+  assert(IdentityAlso === Identity);
+  assert(PolymorphismsAlso === Polymorphisms);
+  assert(Symbol.keyFor(GetEnumerator) == '@kingjs/IEnumerable.GetEnumerator');
+  assert(Symbol.keyFor(MoveNext) == '@kingjs/IEnumerator.MoveNext');
+  assert(Symbol.keyFor(Current) == '@kingjs/IEnumerator.Current');
+
+  assert(IIdentifiable[Identity] in IPolymorphic[Polymorphisms]);
 }
 readMe();

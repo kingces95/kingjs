@@ -1,6 +1,6 @@
 {
-  "name": "@kingjs/symbol",
-  "version": "1.0.1",
+  "name": "@kingjs/load-symbols",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "files": [
@@ -11,17 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/symbol"
+    "url": "https://repository.kingjs.net/load-symbols"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/load-symbols": "^1.0.0",
+    "@kingjs/define-interface": "^1.0.2",
     "@kingjs/require-packages": "^1.0.2"
   },
   "devDependencies": {
-    "@kingjs/generator": "^1.0.0",
-    "@kingjs/object-ex": "^1.0.29",
-    "@kingjs/shim.generator-iterator": "^1.0.1"
+    "@kingjs/is": "^1.0.6"
   }
 }

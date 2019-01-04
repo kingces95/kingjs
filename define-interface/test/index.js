@@ -33,14 +33,14 @@ function readMe() {
   assert(Symbol.keyFor(IFoo.foo) == 'IFoo (custom)');
   assert(Symbol.keyFor(IBar.bar) == 'IBar.bar');
 
-  var Identity = Symbol.for('@kingjs/identity');
+  var Identity = Symbol.for('@kingjs/Identity');
   assert(Symbol.keyFor(IFoo[Identity]) == '@kingjs/IFoo');
   assert(Symbol.keyFor(IBar[Identity]) == 'IBar');
 
   assert(IFoo.name == '@kingjs/IFoo');
   assert(IBar.name == 'IBar');
 
-  var Polymorphism = Symbol.for('@kingjs/polymorphisms');
+  var Polymorphism = Symbol.for('@kingjs/Polymorphisms');
   assert(Object.getOwnPropertySymbols(IFoo[Polymorphism]).length == 1);
   assert(IFoo[Identity] in IFoo[Polymorphism]);
 

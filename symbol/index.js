@@ -1,31 +1,34 @@
-//'use strict';
+'use strict';
 
-var defineSymbols = require('./define-symbols');
+var {
+  '@kingjs/load-symbols': loadSymbols,
+} = require('@kingjs/require-packages').call(module);
+
 var SymbolPrefix = '@kingjs/';
 
 var symbol = {
-  polymorphisms: null,
-  identity: null,
+  Polymorphisms: null,
+  Identity: null,
 
   IIterable: {
-    members: { iterator: Symbol.iterator },
+    members: { GetIterator: Symbol.iterator },
   },
   IIdentifiable: {
-    members: { identity: 'identity' },
+    members: { Identity: 'Identity' },
   },
   IPolymorphic: {
     extends: [ 'IIdentifiable' ],
-    members: { polymorphisms: 'polymorphisms' },
+    members: { Polymorphisms: 'Polymorphisms' },
   },
   IEnumerable: {
-    members: { getEnumerator: null },
+    members: { GetEnumerator: null },
   },
   IEnumerator: {
     members: {
-      moveNext: null,
-      current: null,
+      MoveNext: null,
+      Current: null,
     },
   },
 };
 
-defineSymbols(exports, SymbolPrefix, symbol);
+loadSymbols(exports, SymbolPrefix, symbol);

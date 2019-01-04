@@ -3,8 +3,8 @@
 var hasInstance = require('..');
 var assert = require('assert')
 
-var Identity = Symbol.for('@kingjs/identity');
-var Polymorphisms = Symbol.for('@kingjs/polymorphisms');
+var Identity = Symbol.for('@kingjs/Identity');
+var Polymorphisms = Symbol.for('@kingjs/Polymorphisms');
 
 function readMe() {
   function IFoo() { }
@@ -28,8 +28,8 @@ function readMe() {
   }
 
   var fooBar = new FooBar();
-  var isIFoo = fooBar instanceof IFoo; // true
-  var isIBar = fooBar instanceof IBar; // true
+  var isIFoo = fooBar instanceof IFoo;
+  var isIBar = fooBar instanceof IBar;
   
   assert(isIFoo);
   assert(isIBar);

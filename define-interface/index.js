@@ -8,8 +8,8 @@ var {
 
 var Delimiter = '.';
 var Empty = Object.create(null);
-var Identity = Symbol.for('@kingjs/identity');
-var Polymorphisms = Symbol.for('@kingjs/polymorphisms');
+var Identity = Symbol.for('@kingjs/Identity');
+var Polymorphisms = Symbol.for('@kingjs/Polymorphisms');
 
 var interfaceActivationError = 'Cannot activate interface.';
 

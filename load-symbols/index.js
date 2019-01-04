@@ -6,7 +6,7 @@ var {
 
 var Delimiter = '.';
 
-function defineSymbols(target, prefix, descriptor) {
+function loadSymbols(target, prefix, descriptor) {
   var symbolTable = { };
   var names = [ ];
 
@@ -49,4 +49,4 @@ function defineSymbols(target, prefix, descriptor) {
   return walk(target, descriptor); 
 }
 
-module.exports = defineSymbols;
+module.exports = loadSymbols;
