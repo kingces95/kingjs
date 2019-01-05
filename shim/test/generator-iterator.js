@@ -1,14 +1,10 @@
 'use strict';
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+var assert = require('assert');
+
+require('../index');
 
 function readMe() {
   function* generator() { yield 0; }
-
-  // oddly, a generator is not it's own Symbol.iterator
-  assert(!generator[Symbol.iterator]);
-
-  require('.');
 
   // Shim generators so they implement the Symbol.iterator protocol
   var iterator = generator[Symbol.iterator]();

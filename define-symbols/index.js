@@ -27,6 +27,9 @@ function defineSymbols(scope, descriptor) {
         else if (typeof value == 'string')
           target[name] = symbolTable[value];
 
+        else if (typeof value == 'function')
+          target[name] = value;
+
         else if (typeof value == 'object') {
           target[name] = defineInterface(symbolTable, name, {
             id: Symbol.for(symbolName),

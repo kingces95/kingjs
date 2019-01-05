@@ -8,20 +8,19 @@ function readMe() {
   var {
     Identity,
     Polymorphisms,
+    
+    IIterable,
+    IIdentifiable,
+    IPolymorphic,
+    IEnumerable,
+    IEnumerator,
+    
     IIterable: { GetIterator },
     IIdentifiable: { Identity: IdentityAlso },
     IPolymorphic: { Polymorphisms: PolymorphismsAlso },
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },  
-  } = symbol;
-
-  var {
-    IIterable,
-    IIdentifiable,
-    IPolymorphic,
-    IEnumerable,
-    IEnumerator
-  } = symbol;
+  } = Symbol[Symbol.for('@kingjs')];
 
   assert(Symbol.keyFor(Identity) == '@kingjs/Identity');
   assert(Symbol.keyFor(Polymorphisms) == '@kingjs/Polymorphisms');

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/symbol",
+  "name": "@kingjs/shim",
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
@@ -11,17 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/symbol"
+    "url": "https://repository.kingjs.net/shim"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/load-symbols": "^1.0.0",
-    "@kingjs/require-packages": "^1.0.2"
-  },
-  "devDependencies": {
-    "@kingjs/generator": "^1.0.0",
     "@kingjs/object-ex": "^1.0.29",
-    "@kingjs/shim.generator-iterator": "^1.0.1"
+    "@kingjs/define-interface": "^1.0.7",
+    "@kingjs/define-symbols": "^1.0.2",
+    "@kingjs/require-packages": "^1.0.2",
+    "@kingjs/generator": "^1.0.0"
   }
 }

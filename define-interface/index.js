@@ -129,4 +129,7 @@ assert(IInterface instanceof IInterface);
 assert(IInterface instanceof IIdentifiable);
 assert(IInterface instanceof IPolymorphic);
 
+defineInterface.Identity = Identity;
+defineInterface.Polymorphisms = Polymorphisms;
+
 module.exports = defineInterface;

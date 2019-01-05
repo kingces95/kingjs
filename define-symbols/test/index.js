@@ -7,10 +7,13 @@ var assertTheory = require('@kingjs/assert-theory');
 
 function readMe() {
 
+  function Foo() { };
+
   var Scope = defineSymbols('test', {
     Polymorphisms: null,
     Identity: null,
 
+    IFoo: Foo,
     IIterable: {
       members: { Iterator: Symbol.iterator },
     },
@@ -39,6 +42,7 @@ function readMe() {
   var {
     Identity,
     Polymorphisms,
+    IFoo,
     IIterable,
     IIterable: { Iterator },
     IIdentifiable,
@@ -50,6 +54,8 @@ function readMe() {
     IEnumerator,
     IEnumerator: { MoveNext, Current },  
   } = symbol;
+
+  assert(Foo == IFoo);
 
   assert(Symbol.keyFor(Identity) == '@test/Identity');
   assert(Symbol.keyFor(Polymorphisms) == '@test/Polymorphisms');

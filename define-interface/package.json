@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/define-interface",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Defines or aliases a group of global symbols.",
   "main": "index.js",
   "files": [
@@ -17,7 +17,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/has-instance": "^1.0.8",
+    "@kingjs/has-instance": "^1.0.9",
     "@kingjs/require-packages": "^1.0.2"
   }
 }
