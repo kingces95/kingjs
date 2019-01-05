@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.42",
+  "version": "1.0.45",
   "description": "Adds Symbol.for('@kingjs') and implementations on builtin types.",
   "main": "index.js",
   "files": [

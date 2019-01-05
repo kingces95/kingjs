@@ -15,11 +15,8 @@
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/linq.define": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@kingjs/require-packages": "^1.0.2",
-    "kingjs": "^1.0.42"
+    "kingjs": "^1.0.45"
   }
 }

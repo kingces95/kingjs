@@ -18,5 +18,5 @@ function all(predicate) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: IEnumerable[DefineExtension](all) }
+  exports: { value: IEnumerable[DefineExtension]('all', all) }
 });

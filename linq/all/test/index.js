@@ -1,5 +1,6 @@
+require('kingjs');
+
 var assert = require('assert');
-var { } = require('@kingjs/require-packages').call(module);
 
 var All = require('..');
 
