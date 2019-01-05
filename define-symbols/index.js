@@ -4,30 +4,31 @@ var {
   '@kingjs/define-interface': defineInterface,
 } = require('@kingjs/require-packages').call(module);
 
+var ScopePrefix = '@';
+var ScopeDelimiter = '/';
 var Delimiter = '.';
 
-function loadSymbols(target, prefix, descriptor) {
+function defineSymbols(scope, descriptor) {
   var symbolTable = { };
   var names = [ ];
 
-  function walk(target, descriptor) {
+  function walk(target, source) {
 
-    for (var name in descriptor) {
-      var value = descriptor[name];
+    for (var name in source) {
+      var value = source[name];
 
       names.push(name);
       {
-        var fullName = names.join(Delimiter);
-        var symbolName = prefix + fullName;
+        var symbolName = ScopePrefix + scope + ScopeDelimiter + names.join(Delimiter);
 
         if (value === null)
-          target[name] = symbolTable[fullName] = Symbol.for(symbolName);
+          target[name] = symbolTable[name] = Symbol.for(symbolName);
 
         else if (typeof value == 'string')
           target[name] = symbolTable[value];
 
         else if (typeof value == 'object') {
-          target[name] = defineInterface(symbolTable, fullName, {
+          target[name] = defineInterface(symbolTable, name, {
             id: Symbol.for(symbolName),
             members: walk({ }, value.members),
             extends: walk([ ], value.extends)
@@ -35,7 +36,7 @@ function loadSymbols(target, prefix, descriptor) {
         }
 
         else if (typeof value == 'symbol')
-          symbolTable[fullName] = target[name] = value;
+          symbolTable[name] = target[name] = value;
 
         else
           assert.fail();
@@ -46,7 +47,9 @@ function loadSymbols(target, prefix, descriptor) {
     return target;
   }
 
-  return walk(target, descriptor); 
+  Scope = Symbol.for(ScopePrefix + scope);
+  Symbol[Scope] = walk({ }, descriptor); 
+  return Scope;
 }
 
-module.exports = loadSymbols;
+module.exports = defineSymbols;

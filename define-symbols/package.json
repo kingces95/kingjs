@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/load-symbols",
+  "name": "@kingjs/define-symbols",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/load-symbols"
+    "url": "https://repository.kingjs.net/define-symbols"
   },
   "keywords": [],
   "license": "MIT",
@@ -20,6 +20,7 @@
     "@kingjs/require-packages": "^1.0.2"
   },
   "devDependencies": {
+    "@kingjs/assert-theory": "^1.0.16",
     "@kingjs/is": "^1.0.6"
   }
 }

@@ -9,7 +9,7 @@ function odometer() {
     bases = arguments;
 
   var digits = undefined;
-
+ 
   return function() {
     if (bases.length == 0)
       return false;

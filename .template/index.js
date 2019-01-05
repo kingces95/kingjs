@@ -1,8 +1,8 @@
 'use strict';
-module.requirePackages = require('@kingjs/require-packages');
+var assert = require('assert');
 
 var {
-} = module.requirePackages();
+} = require('@kingjs/require-packages').call(module);
 
 function xxx() {
 }

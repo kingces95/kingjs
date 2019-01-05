@@ -1,13 +1,16 @@
 'use strict';
 
-var linq = require('@kingjs/linq.package');
-var { getEnumerator } = linq.load('IEnumerable');
-var { moveNext, current } = linq.load('IEnumerator');
+var { 
+  DefineExtension,
+  IEnumerable,
+  IEnumerable: { GetEnumerator },
+  IEnumerator: { MoveNext, Current }
+} = Symbol[Symbol.for('@kingjs')];
 
 function all(predicate) {    
-  var enumerator = this[getEnumerator]();
-  while (enumerator[moveNext]()) {
-    if (predicate && !predicate(enumerator[current]))
+  var enumerator = this[GetEnumerator]();
+  while (enumerator[MoveNext]()) {
+    if (predicate && !predicate(enumerator[Current]))
       return false;
   }
   
@@ -15,5 +18,5 @@ function all(predicate) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: linq.extendEnumerable(all) }
+  exports: { value: IEnumerable[DefineExtension](all) }
 });

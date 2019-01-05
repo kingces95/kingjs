@@ -1,69 +1,47 @@
 'use strict';
+var assert = require('assert');
 
-var assertThrows = require('@kingjs/assert-throws');
-var fromEach = require('@kingjs/enumerable.from-each');
-var forEach = require('@kingjs/enumerable.for-each');
-var keys = require('@kingjs/descriptor.keys');
+var {
+  '@kingjs/from-each': fromEach,
+} = require('@kingjs/require-packages').call(module);
 
-function normalizeObservations(observations) {
+function assertTheory(theory, observations, runId) {
 
-  var cloned = false;
+  var id = 0;
+  for (var observation of fromEach(normalize(observations))) {
+    if (id !== runId && runId !== undefined)
+      continue;
+
+    theory.call(observations, observation, id++);
+  }
+
+  assert(runId === undefined, 'Passed! Remove runId: ' + runId);
+}
+
+function normalize(observations) {
+
+  observations = Object.create(observations);
+
   for (var name in observations) {
     var observation = observations[name];
+
     if (observation instanceof Array)
       continue;
 
-    if (!cloned) {
-      observations = Object.create(observations);
-      cloned = true;
-    }
-
     // wrap primitives in an array
-    if (typeof observation != 'object' || observation == null) {
+    if (typeof observation !== 'object' || observation === null) {
       observations[name] = [ observation ];
       continue;
     }
 
-    // select an object property's values into an array
-    observations[name] = keys.call(observation).map(function(key) {
-      return observation[key];
-    });
+    // create an array of the object's values
+    var objectValues = [];
+    for (var key in observation)
+      objectValues.push(observation[key]);
+    observations[name] = objectValues;
   }
 
   return observations;
-}
-
-function assertTheory(theory, observations, runId) {
-
-  var assert = observations.$assert || (() => true);
-  delete observations.$assert;
-  var rawTheory = theory;
-  theory = function(test, id) {
-    if (!assert(test))
-      assertThrows(() => rawTheory.apply(this, arguments));
-    else
-      rawTheory.apply(this, arguments);
-  };
-
-  if (runId !== undefined) {
-    var originalTheory = theory;
-    theory = function(observation, id) {
-      if (id != runId)
-        return;
-      originalTheory.apply(this, arguments);
-    }
-  }
-
-  forEach.call(
-    observations, 
-    theory, 
-    fromEach(
-      normalizeObservations(observations)
-    )
-  );
-
-  if (runId !== undefined)
-    throw 'Passed! Remove runId: ' + runId;
 }
 
 Object.defineProperties(module, {

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/define-interface",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Defines or aliases a group of global symbols.",
   "main": "index.js",
   "files": [

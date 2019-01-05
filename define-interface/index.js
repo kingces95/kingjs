@@ -13,8 +13,8 @@ var IIdentifiableIdentity = Symbol.for('@kingjs/IIdentifiable');
 var IPolymorphicIdentity = Symbol.for('@kingjs/IPolymorphic');
 var IInterfaceIdentity = Symbol.for('@kingjs/IInterface');
 
-var Identity = Symbol.for('@kingjs/IIdentifiable.Identity');
-var Polymorphisms = Symbol.for('@kingjs/IPolymorphic.Polymorphisms');
+var Identity = Symbol.for('@kingjs/Identity');
+var Polymorphisms = Symbol.for('@kingjs/Polymorphisms');
 
 var interfaceActivationError = 'Cannot activate interface.';
 var BuiltInSymbols = { };

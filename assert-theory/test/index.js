@@ -1,9 +1,7 @@
 'use strict';
 
-var testTheory = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
+var testTheory = require('..');
+var assert = require('assert');
 
 function readme() {
   var id = 0;
@@ -35,7 +33,7 @@ function observationsAsThis() {
 }
 observationsAsThis();
 
-assertThrows(function() {
+assert.throws(function() {
   var ran = false;
 
   testTheory(function(test, id) {
@@ -80,16 +78,3 @@ function values() {
   });
 }
 values();
-
-function testThrows() {
-
-  testTheory(function(test) {
-    assert(test.value == 0);
-  }, {
-    value: [ 0, 1 ],
-    $assert: function(test) {
-      return test.value == 0;
-    }
-  });
-}
-testThrows();

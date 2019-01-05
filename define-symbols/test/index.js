@@ -1,14 +1,13 @@
 'use strict';
 
 var assert = require('assert');
-var loadSymbols = require('..');
+var defineSymbols = require('..');
 var is = require('@kingjs/is');
+var assertTheory = require('@kingjs/assert-theory');
 
 function readMe() {
-  var SymbolPrefix = '@test/';
-  var target = { };
 
-  var symbol = loadSymbols(target, SymbolPrefix, {
+  var Scope = defineSymbols('test', {
     Polymorphisms: null,
     Identity: null,
 
@@ -33,22 +32,23 @@ function readMe() {
     },
   });
 
+  assert(Symbol.keyFor(Scope) == '@test');
+
+  var symbol = Symbol[Scope];
+
   var {
     Identity,
     Polymorphisms,
-    IIterable: { Iterator },
-    IIdentifiable: { Identity: IdentityAlso },
-    IPolymorphic: { Polymorphisms: PolymorphismsAlso },
-    IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current },  
-  } = symbol;
-
-  var {
     IIterable,
+    IIterable: { Iterator },
     IIdentifiable,
+    IIdentifiable: { Identity: IdentityAlso },
     IPolymorphic,
+    IPolymorphic: { Polymorphisms: PolymorphismsAlso },
     IEnumerable,
-    IEnumerator
+    IEnumerable: { GetEnumerator },
+    IEnumerator,
+    IEnumerator: { MoveNext, Current },  
   } = symbol;
 
   assert(Symbol.keyFor(Identity) == '@test/Identity');
@@ -69,3 +69,15 @@ function readMe() {
   assert(Symbol.keyFor(Current) == '@test/IEnumerator.Current');
 }
 readMe();
+
+assertTheory(function(test, id) {
+  //console.log(test);
+}, {
+  inherited: [ false, true ],
+  package: [ false, true ],
+  reference: {
+    none: 'none',
+    name: 'name',
+    fullName: 'fullName',
+   },
+})

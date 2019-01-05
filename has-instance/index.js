@@ -1,7 +1,7 @@
 'use strict';
 
-var Identity = Symbol.for('@kingjs/IIdentifiable.Identity');
-var Polymorphisms = Symbol.for('@kingjs/IPolymorphic.Polymorphisms');
+var Identity = Symbol.for('@kingjs/Identity');
+var Polymorphisms = Symbol.for('@kingjs/Polymorphisms');
 
 function hasInstance(instance) {
   var type = typeof instance;
