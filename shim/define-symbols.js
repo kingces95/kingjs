@@ -13,7 +13,7 @@ var {
   IPolymorphic
 } = defineInterface;
 
-var KingJs = defineSymbols('kingjs', {
+defineSymbols('kingjs', {
   Identity,
   Polymorphisms,
   IInterface,
@@ -33,5 +33,3 @@ var KingJs = defineSymbols('kingjs', {
     },
   },
 });
-
-module.exports = KingJs;

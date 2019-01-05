@@ -17,5 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.define": "^1.0.1"
+  },
+  "devDependencies": {
+    "@kingjs/require-packages": "^1.0.2",
+    "kingjs": "^1.0.42"
   }
 }

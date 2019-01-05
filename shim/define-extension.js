@@ -8,14 +8,15 @@ var {
 
 var KingJs = Symbol[Symbol.for('@kingjs')]
 
-var { 
+var {
   Identity,
-  IPolymorphic
+  IPolymorphic,
+  IInterface
 } = KingJs;
 
 function defineExtension(name, extension) {
-  assert(typeof this == 'function');
-  assert(typeof extension == 'function');
+  assert(this instanceof IInterface);
+  assert(extension instanceof Function);
 
   objectEx.defineField(extension, 'name', name);
 
