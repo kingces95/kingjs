@@ -1,12 +1,12 @@
 'use strict';
 
 require('./.index/test');
-require('./aggregate/test');
+require('./aggregate/test/index');
 require('./all/test');
-require('./any/test');
+require('./any/test/index');
 require('./append/test');
 require('./average/test');
-require('./concat/test');
+require('./concat/test/index');
 require('./contains/test');
 require('./count/test');
 require('./default-equal/test');

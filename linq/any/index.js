@@ -1,13 +1,20 @@
 'use strict';
 
-var { define, getEnumerator, moveNext, current } = require('@kingjs/linq.define');
+var { 
+  DefineExtension,
+  IEnumerable,
+  IEnumerable: { GetEnumerator },
+  IEnumerator: { MoveNext, Current }
+} = Symbol.kingjs;
 
-define(module, 'exports', function any(predicate) {    
-  var enumerator = this[getEnumerator]();
-  while (enumerator[moveNext]()) {
-    if (!predicate || predicate(enumerator[current]))
+function any(predicate) {    
+  var enumerator = this[GetEnumerator]();
+  while (enumerator[MoveNext]()) {
+    if (!predicate || predicate(enumerator[Current]))
       return true;
   }
   
   return false;
-});
+};
+
+module.exports = IEnumerable[DefineExtension](any);

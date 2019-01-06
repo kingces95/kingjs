@@ -9,7 +9,7 @@ var {
   IIterable: { GetIterator },
   IEnumerable: { GetEnumerator },
   IEnumerator: { MoveNext, Current },
-} = Symbol[Symbol.for('@kingjs')];
+} = Symbol.kingjs;
 
 function testGeneratorEnumerableShim() {
   {

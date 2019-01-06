@@ -7,7 +7,7 @@ var {
   IEnumerable: { GetEnumerator },
   IIterable,
   AddPolymorphism,
-} = Symbol[Symbol.for('@kingjs')];
+} = Symbol.kingjs;
 
 Array.prototype[GetEnumerator] = function() {
   return new IndexableEnumerable(this);

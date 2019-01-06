@@ -13,7 +13,7 @@ var {
   IIterable: { GetIterator },
   IEnumerable: { GetEnumerator },
   IEnumerator: { Current, MoveNext },
-} = Symbol[Symbol.for('@kingjs')];
+} = Symbol.kingjs;
 
 Generator[AddPolymorphism](IIterable);
 

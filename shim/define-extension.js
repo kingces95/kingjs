@@ -6,22 +6,19 @@ var {
   '@kingjs/object-ex': objectEx,
 } = require('@kingjs/require-packages').call(module);
 
-var KingJs = Symbol[Symbol.for('@kingjs')]
-
 var {
   Identity,
   IPolymorphic,
   IInterface
-} = KingJs;
+} = Symbol.kingjs;
 
-function defineExtension(name, extension) {
+function defineExtension(extension) {
   assert(this instanceof IInterface);
   assert(extension instanceof Function);
 
-  objectEx.defineField(extension, 'name', name);
-
-  assert(!(Identity in extension));
-  var id = extension[Identity] = Symbol(name);
+  var id = extension[Identity];
+  if (!id)
+    id = extension[Identity] = Symbol(extension.name);
 
   var descriptor = {
     extends: () => this,
@@ -36,9 +33,8 @@ function defineExtension(name, extension) {
 // extend IPolymorphic with defineExtension
 var DefineExtension = defineExtension.call(
   IPolymorphic,
-  defineExtension.name,
   defineExtension
 );
 
 // shim
-KingJs.DefineExtension = DefineExtension;
+Symbol.kingjs.DefineExtension = DefineExtension;

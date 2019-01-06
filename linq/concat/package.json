@@ -4,10 +4,10 @@
   "description": "Generates a sequence composed of elements from one sequence followed by elements from another sequence.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node test"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,9 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.define": "^1.0.5",
-    "@kingjs/linq.define": "^1.0.1"
+    "@kingjs/enumerable.define": "^1.0.8"
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
   }
 }

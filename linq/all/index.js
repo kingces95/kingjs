@@ -5,7 +5,7 @@ var {
   IEnumerable,
   IEnumerable: { GetEnumerator },
   IEnumerator: { MoveNext, Current }
-} = Symbol[Symbol.for('@kingjs')];
+} = Symbol.kingjs;
 
 function all(predicate) {    
   var enumerator = this[GetEnumerator]();
@@ -17,6 +17,4 @@ function all(predicate) {
   return true;
 }
 
-Object.defineProperties(module, {
-  exports: { value: IEnumerable[DefineExtension]('all', all) }
-});
+module.exports = IEnumerable[DefineExtension](all);

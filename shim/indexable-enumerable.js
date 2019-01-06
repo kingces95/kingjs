@@ -1,7 +1,7 @@
 
 var {
   IEnumerator: { MoveNext, Current },
-} = Symbol[Symbol.for('@kingjs')];
+} = Symbol.kingjs;
 
 function IndexableEnumerable(indexable) { 
   this.indexable_ = indexable 

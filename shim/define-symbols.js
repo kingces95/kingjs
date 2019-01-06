@@ -13,7 +13,7 @@ var {
   IPolymorphic
 } = defineInterface;
 
-defineSymbols('kingjs', {
+defineSymbols(Symbol, 'kingjs', {
   Identity,
   Polymorphisms,
   IInterface,

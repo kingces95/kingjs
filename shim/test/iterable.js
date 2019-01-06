@@ -9,7 +9,7 @@ function readMe() {
     IIterable,
     IIterable: { GetIterator },
     DefineExtension
-  } = Symbol[Symbol.for('@kingjs')];
+  } = Symbol.kingjs;
 
   var repeat = function* (i) {
     yield i;
@@ -26,7 +26,7 @@ function readMe() {
   assert(string instanceof IIterable);
 
   // demonstrate interop! Use Symbol.iterator implementation via IIterable
-  var countId = IIterable[DefineExtension]('count', function () {
+  var countId = IIterable[DefineExtension](function count() {
     var iterator = this[GetIterator]();
     var result = 0;
 

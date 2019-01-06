@@ -20,7 +20,7 @@ function readMe() {
     IPolymorphic: { Polymorphisms: PolymorphismsAlso },
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },  
-  } = Symbol[Symbol.for('@kingjs')];
+  } = Symbol.kingjs;
 
   assert(Symbol.keyFor(Identity) == '@kingjs/Identity');
   assert(Symbol.keyFor(Polymorphisms) == '@kingjs/Polymorphisms');

@@ -1,13 +1,20 @@
 'use strict';
 
-var { define, getEnumerator, moveNext, current } = require('@kingjs/linq.define');
+var { 
+  DefineExtension,
+  IEnumerable,
+  IEnumerable: { GetEnumerator },
+  IEnumerator: { MoveNext, Current }
+} = Symbol.kingjs;
 
-define(module, 'exports', function aggregate(seed, aggregator) {
-  var enumerator = this[getEnumerator]();
+function aggregate(seed, aggregator) {
+  var enumerator = this[GetEnumerator]();
   
   var result = seed;
-  while (enumerator[moveNext]())
-    result = aggregator.call(result, enumerator[current]);
+  while (enumerator[MoveNext]())
+    result = aggregator.call(result, enumerator[Current]);
   
   return result;
-});
+};
+
+module.exports = IEnumerable[DefineExtension](aggregate);

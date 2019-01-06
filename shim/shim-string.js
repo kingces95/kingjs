@@ -3,6 +3,6 @@
 var { 
   AddPolymorphism,
   IIterable
-} = Symbol[Symbol.for('@kingjs')];
+} = Symbol.kingjs;
 
 String[AddPolymorphism](IIterable);

@@ -2,14 +2,12 @@
 
 var assert = require('assert')
 
-var KingJs = Symbol[Symbol.for('@kingjs')]
-
 var { 
   Identity,
   IPolymorphic,
   Polymorphisms,
   DefineExtension
-} = KingJs;
+} = Symbol.kingjs;
 
 function addPolymorphism(polymorphism) {
   assert(typeof this == 'function');
@@ -27,7 +25,6 @@ function addPolymorphism(polymorphism) {
 addPolymorphism.call(Function, IPolymorphic);
 assert((function () { }) instanceof IPolymorphic);
 
-KingJs.AddPolymorphism = IPolymorphic[DefineExtension](
-  addPolymorphism.name,
+Symbol.kingjs.AddPolymorphism = IPolymorphic[DefineExtension](
   addPolymorphism
 )

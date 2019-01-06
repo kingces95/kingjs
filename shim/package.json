@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "description": "Adds Symbol.for('@kingjs') and implementations on builtin types.",
   "main": "index.js",
   "files": [
@@ -16,10 +16,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/object-ex": "^1.0.29",
     "@kingjs/define-interface": "^1.0.7",
-    "@kingjs/define-symbols": "^1.0.2",
-    "@kingjs/require-packages": "^1.0.2",
-    "@kingjs/generator": "^1.0.0"
+    "@kingjs/define-symbols": "^1.0.3",
+    "@kingjs/generator": "^1.0.0",
+    "@kingjs/object-ex": "^1.0.29",
+    "@kingjs/require-packages": "^1.0.2"
   }
 }

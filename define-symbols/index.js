@@ -8,30 +8,30 @@ var ScopePrefix = '@';
 var ScopeDelimiter = '/';
 var Delimiter = '.';
 
-function defineSymbols(scope, descriptor) {
+function defineSymbols(target, name, descriptor) {
   var symbolTable = { };
   var names = [ ];
 
   function walk(target, source) {
 
-    for (var name in source) {
-      var value = source[name];
+    for (var key in source) {
+      var value = source[key];
 
-      names.push(name);
+      names.push(key);
       {
-        var symbolName = ScopePrefix + scope + ScopeDelimiter + names.join(Delimiter);
+        var symbolName = ScopePrefix + name + ScopeDelimiter + names.join(Delimiter);
 
         if (value === null)
-          target[name] = symbolTable[name] = Symbol.for(symbolName);
+          target[key] = symbolTable[key] = Symbol.for(symbolName);
 
         else if (typeof value == 'string')
-          target[name] = symbolTable[value];
+          target[key] = symbolTable[value];
 
         else if (typeof value == 'function')
-          target[name] = value;
+          target[key] = value;
 
         else if (typeof value == 'object') {
-          target[name] = defineInterface(symbolTable, name, {
+          target[key] = defineInterface(symbolTable, key, {
             id: Symbol.for(symbolName),
             members: walk({ }, value.members),
             extends: walk([ ], value.extends)
@@ -39,7 +39,7 @@ function defineSymbols(scope, descriptor) {
         }
 
         else if (typeof value == 'symbol')
-          symbolTable[name] = target[name] = value;
+          symbolTable[key] = target[key] = value;
 
         else
           assert.fail();
@@ -50,9 +50,7 @@ function defineSymbols(scope, descriptor) {
     return target;
   }
 
-  Scope = Symbol.for(ScopePrefix + scope);
-  Symbol[Scope] = walk({ }, descriptor); 
-  return Scope;
+  return target[name] = walk({ }, descriptor); 
 }
 
 module.exports = defineSymbols;

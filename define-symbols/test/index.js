@@ -9,7 +9,7 @@ function readMe() {
 
   function Foo() { };
 
-  var Scope = defineSymbols('test', {
+  var symbol = defineSymbols({ }, 'test', {
     Polymorphisms: null,
     Identity: null,
 
@@ -34,10 +34,6 @@ function readMe() {
       },
     },
   });
-
-  assert(Symbol.keyFor(Scope) == '@test');
-
-  var symbol = Symbol[Scope];
 
   var {
     Identity,

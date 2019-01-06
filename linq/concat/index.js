@@ -1,31 +1,37 @@
 'use strict';
 
-var { define, getEnumerator, moveNext, current } = require('@kingjs/linq.define');
+var { 
+  DefineExtension,
+  IEnumerable,
+  IEnumerable: { GetEnumerator },
+  IEnumerator: { MoveNext, Current }
+} = Symbol.kingjs;
+
 var defineEnumerable = require('@kingjs/enumerable.define');
 
 var concat = defineEnumerable(function concat(enumerable) {
-  var enumerator = this[getEnumerator]();
-  var other = enumerable[getEnumerator]();
+  var enumerator = this[GetEnumerator]();
+  var other = enumerable[GetEnumerator]();
   
   return function() { 
     
-    if (!enumerator || !enumerator[moveNext]()) {   
+    if (!enumerator || !enumerator[MoveNext]()) {   
       enumerator = undefined;
       
-      if (!other || !other[moveNext]()) {        
+      if (!other || !other[MoveNext]()) {        
         this.current_ = undefined;
         return false;
       } 
       else {
-        this.current_ = other[current];
+        this.current_ = other[Current];
       }
     } 
     else {
-      this.current_ = enumerator[current];
+      this.current_ = enumerator[Current];
     }
     
     return true;
   };
 });
 
-define(module, 'exports', concat);
+module.exports = IEnumerable[DefineExtension](concat);
