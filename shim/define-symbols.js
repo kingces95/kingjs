@@ -6,19 +6,24 @@ var {
 } = require('@kingjs/require-packages').call(module);
 
 var {
-  Identity,
-  Polymorphisms,
   IInterface,
   IIdentifiable,
   IPolymorphic
 } = defineInterface;
 
-defineSymbols(Symbol, 'kingjs', {
-  Identity,
-  Polymorphisms,
-  IInterface,
+Symbol.kingjs = {
   IIdentifiable,
+  IPolymorphic,  
+}
+
+defineSymbols(Symbol, 'kingjs', {
+  IIdentifiable,
+  Identity,
+
   IPolymorphic,
+  Polymorphisms,
+
+  IInterface,
 
   IIterable: {
     members: { GetIterator: Symbol.iterator },

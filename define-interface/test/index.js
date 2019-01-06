@@ -3,12 +3,13 @@
 var assert = require('assert');
 var defineInterface = require('..');
 
-var IIdentifiable = defineInterface.IIdentifiable;
-var IPolymorphic = defineInterface.IPolymorphic;
-var IInterface = defineInterface.IInterface;
-
-var { Identity } = IIdentifiable;
-var { Polymorphisms } = IPolymorphic;
+var {
+  IIdentifiable,
+  IPolymorphic,
+  IInterface,
+  IIdentifiable: { Identity },
+  IPolymorphic: { Polymorphisms }
+} = defineInterface;
 
 function readMe() {
   var target = { };
@@ -26,6 +27,9 @@ function readMe() {
     members: { bar: null },
     extends: [ IFoo ]
   });
+
+  assert(Object.getOwnPropertySymbols(IBar[Polymorphisms]).length == 1);
+  assert(IFoo[Identity] in IBar[Polymorphisms]);
 
   assert(target.IFoo == IFoo);
   assert(target.IBar == IBar);
@@ -48,12 +52,10 @@ function readMe() {
 
   assert(IFoo[Symbol.hasInstance] == require('@kingjs/has-instance'));
 
-  assert(Object.getOwnPropertySymbols(IFoo[Polymorphisms]).length == 3);
   assert(IFoo instanceof IIdentifiable);
   assert(IFoo instanceof IPolymorphic);
   assert(IFoo instanceof IInterface);
 
-  assert(Object.getOwnPropertySymbols(IBar[Polymorphisms]).length == 3);
   assert(IBar instanceof IIdentifiable);
   assert(IBar instanceof IPolymorphic);
   assert(IBar instanceof IInterface);

@@ -6,15 +6,17 @@ var {
   '@kingjs/has-instance': hasInstance,
 } = module.requirePackages();
 
-var Delimiter = '.';
-var Empty = Object.create(null);
+var { 
+  Identity,
+  Polymorphisms,
+} = hasInstance;
 
 var IIdentifiableIdentity = Symbol.for('@kingjs/IIdentifiable');
 var IPolymorphicIdentity = Symbol.for('@kingjs/IPolymorphic');
 var IInterfaceIdentity = Symbol.for('@kingjs/IInterface');
 
-var Identity = Symbol.for('@kingjs/Identity');
-var Polymorphisms = Symbol.for('@kingjs/Polymorphisms');
+var Delimiter = '.';
+var Empty = Object.create(null);
 
 var interfaceActivationError = 'Cannot activate interface.';
 var BuiltInSymbols = { };
@@ -30,26 +32,61 @@ var IIdentifiable = function() { assert(false, interfaceActivationError); }
 var IPolymorphic = function() { assert(false, interfaceActivationError); }
 var IInterface = function() { assert(false, interfaceActivationError); }
 
+IIdentifiable[Identity] = IIdentifiableIdentity;
+IPolymorphic[Identity] = IPolymorphicIdentity;
+IInterface[Identity] = IInterfaceIdentity;
+
+IIdentifiable.prototype = null;
+IPolymorphic.prototype = null;
+IInterface.prototype = null;
+
+Object.defineProperty(IIdentifiable, Symbol.hasInstance, { value: hasInstance });
+Object.defineProperty(IPolymorphic, Symbol.hasInstance, { value: hasInstance });
+Object.defineProperty(IInterface, Symbol.hasInstance, { value: hasInstance });
+
+IIdentifiable.constructor = IInterface;
+IPolymorphic.constructor = IInterface;
+IInterface.constructor = IInterface;
+
+IInterface[Polymorphisms] = { 
+  [IIdentifiableIdentity]: IIdentifiable,
+  [IPolymorphicIdentity]: IPolymorphic,
+  [IInterfaceIdentity]: IInterface,
+}
+
+IIdentifiable.Identity = Identity;
+IPolymorphic.Polymorphisms = Polymorphisms;
+
+assert(IIdentifiable instanceof IInterface);
+assert(IIdentifiable instanceof IIdentifiable);
+assert(IIdentifiable instanceof IPolymorphic);
+
+assert(IPolymorphic instanceof IInterface);
+assert(IPolymorphic instanceof IIdentifiable);
+assert(IPolymorphic instanceof IPolymorphic);
+
+assert(IInterface instanceof IInterface);
+assert(IInterface instanceof IIdentifiable);
+assert(IInterface instanceof IPolymorphic);
+
 function defineInterface(target, name, descriptor) {
 
   if (!descriptor)
     descriptor = Empty;
 
   // throws if activated
-  var interface = descriptor.func || function() {
+  var interface = function() {
     assert(false, interfaceActivationError)
   };
 
   // remove prototype (because it's never activated)
   interface.prototype = null;
 
-  // so @kingjs/hasInstance considers this an instance implementing IInterface
-  interface.constructor = IInterface;
-
   // identify
   var id = (descriptor.id || Symbol.for(name));
-  interface[Identity] = id;
   assert(Symbol.keyFor(id));
+  assert(Identity in interface == false);
+  interface[Identity] = id;
 
   // name
   var symbolName = Symbol.keyFor(id);
@@ -58,13 +95,8 @@ function defineInterface(target, name, descriptor) {
     value: symbolName,
   });
 
-  // activate polymorphisms
-  interface[Polymorphisms] = Object.create(null);
-
-  // implement IIdentifiable, IPolymorphic
-  interface[Polymorphisms][IIdentifiableIdentity] = IIdentifiable;
-  interface[Polymorphisms][IPolymorphicIdentity] = IPolymorphic;
-  interface[Polymorphisms][IInterfaceIdentity] = IInterface;
+  // so @kingjs/hasInstance considers this an instance implementing IInterface
+  interface.constructor = IInterface;
 
   // support instanceOf
   Object.defineProperty(interface, Symbol.hasInstance, { 
@@ -86,50 +118,27 @@ function defineInterface(target, name, descriptor) {
   var extensions = descriptor.extends;
   if (extensions) {
 
-    // inherited
     for (var extension of extensions) {
+
+      // add extension
+      addPolymorphism.call(interface, extension);
+
+      // inherit extensions polymorphisms
       var inheritedPolymorphisms = extension[Polymorphisms];
-      
-      for (var symbol of Object.getOwnPropertySymbols(inheritedPolymorphisms))
-        interface[Polymorphisms][symbol] = inheritedPolymorphisms[symbol];
+      if (inheritedPolymorphisms) {
+        for (var symbol of Object.getOwnPropertySymbols(inheritedPolymorphisms))
+          addPolymorphism.call(interface, inheritedPolymorphisms[symbol]);
+      }
     }
   }
 
   return target[name] = interface;
 }
 
-defineInterface(defineInterface, 'IIdentifiable', { 
-  func: IIdentifiable,
-  id: IIdentifiableIdentity,
-  members: { Identity: Identity },
-});
+defineInterface.IIdentifiable = IIdentifiable;
+defineInterface.IPolymorphic = IPolymorphic;
+defineInterface.IInterface = IInterface;
 
-defineInterface(defineInterface, 'IPolymorphic', { 
-  func: IPolymorphic,
-  id: IPolymorphicIdentity,
-  members: { Polymorphisms: Polymorphisms },
-  extends: [ IIdentifiable ],
-});
-
-defineInterface(defineInterface, 'IInterface', { 
-  func: IInterface,
-  id: IInterfaceIdentity,
-  extends: [ IPolymorphic ],
-});
-
-assert(IIdentifiable instanceof IInterface);
-assert(IIdentifiable instanceof IIdentifiable);
-assert(IIdentifiable instanceof IPolymorphic);
-
-assert(IPolymorphic instanceof IInterface);
-assert(IPolymorphic instanceof IIdentifiable);
-assert(IPolymorphic instanceof IPolymorphic);
-
-assert(IInterface instanceof IInterface);
-assert(IInterface instanceof IIdentifiable);
-assert(IInterface instanceof IPolymorphic);
-
-defineInterface.Identity = Identity;
-defineInterface.Polymorphisms = Polymorphisms;
+defineInterface.addPolymorphism = addPolymorphism;
 
 module.exports = defineInterface;

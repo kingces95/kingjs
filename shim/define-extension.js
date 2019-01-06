@@ -3,14 +3,14 @@
 var assert = require('assert')
 
 var {
+  '@kingjs/define-interface': defineInterface,
   '@kingjs/object-ex': objectEx,
 } = require('@kingjs/require-packages').call(module);
 
 var {
   Identity,
-  IPolymorphic,
-  IInterface
-} = Symbol.kingjs;
+  IInterface,
+} = defineInterface;
 
 function defineExtension(extension) {
   assert(this instanceof IInterface);
@@ -30,11 +30,4 @@ function defineExtension(extension) {
   return id;
 }
 
-// extend IPolymorphic with defineExtension
-var DefineExtension = defineExtension.call(
-  IPolymorphic,
-  defineExtension
-);
-
-// shim
-Symbol.kingjs.DefineExtension = DefineExtension;
+module.exports = defineExtension

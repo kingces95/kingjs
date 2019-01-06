@@ -16,7 +16,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-interface": "^1.0.7",
+    "@kingjs/define-interface": "^1.0.8",
     "@kingjs/define-symbols": "^1.0.3",
     "@kingjs/generator": "^1.0.0",
     "@kingjs/object-ex": "^1.0.29",
