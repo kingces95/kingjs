@@ -7,8 +7,6 @@ var {
 
 var {
   IInterface,
-  IIdentifiable,
-  IPolymorphic
 } = defineInterface;
 
 Symbol.kingjs = {
@@ -17,24 +15,5 @@ Symbol.kingjs = {
 }
 
 defineSymbols(Symbol, 'kingjs', {
-  IIdentifiable,
-  Identity,
 
-  IPolymorphic,
-  Polymorphisms,
-
-  IInterface,
-
-  IIterable: {
-    members: { GetIterator: Symbol.iterator },
-  },
-  IEnumerable: {
-    members: { GetEnumerator: null },
-  },
-  IEnumerator: {
-    members: {
-      MoveNext: null,
-      Current: null,
-    },
-  },
 });

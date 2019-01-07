@@ -1,15 +1,16 @@
 'use strict';
 
 var { 
-  AddPolymorphism,
+  Implement,
   IIterable,
-  IEnumerable,
-  IEnumerable: { GetEnumerator }
+  IEnumerable, IEnumerable: { 
+    GetEnumerator,
+  },
 } = Symbol.kingjs;
 
-String.prototype[GetEnumerator] = function() {
-  return new IndexableEnumerable(this);
-}
-
-String[AddPolymorphism](IIterable);
-String[AddPolymorphism](IEnumerable);
+String[Implement](IIterable);
+String[Implement](IEnumerable, {
+  GetEnumerator: function() {
+    return new IndexableEnumerable(this);
+  }
+});

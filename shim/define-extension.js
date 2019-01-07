@@ -8,26 +8,27 @@ var {
 } = require('@kingjs/require-packages').call(module);
 
 var {
-  Identity,
   IInterface,
+  IInterface: { Id }
 } = defineInterface;
 
 function defineExtension(extension) {
-  assert(this instanceof IInterface);
+  assert(this instanceof Function);
   assert(extension instanceof Function);
 
-  var id = extension[Identity];
-  if (!id)
-    id = extension[Identity] = Symbol(extension.name);
+  var extensionId = extension[Id];
+  if (!extensionId)
+    extensionId = extension[Id] = Symbol(extension.name);
 
-  var descriptor = {
-    extends: () => this,
-    value: extension
-  };
+  objectEx.defineFunction(
+    Object.prototype, 
+    extensionId, {
+      extends: () => this,
+      value: extension
+    }
+  );
 
-  objectEx.defineFunction(Object.prototype, id, descriptor);
-
-  return id;
+  return extensionId;
 }
 
 module.exports = defineExtension

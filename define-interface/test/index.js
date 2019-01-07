@@ -4,11 +4,8 @@ var assert = require('assert');
 var defineInterface = require('..');
 
 var {
-  IIdentifiable,
-  IPolymorphic,
   IInterface,
-  IIdentifiable: { Identity },
-  IPolymorphic: { Polymorphisms }
+  IInterface: { Id }
 } = defineInterface;
 
 function readMe() {
@@ -17,19 +14,23 @@ function readMe() {
   var IFoo = defineInterface(target, 'IFoo', {
     id: Symbol.for('@kingjs/IFoo'),
     members: { 
-      foo: Symbol.for('IFoo (custom)'),
-      baz: null,
+      Foo: Symbol.for('IFoo (custom)'),
+      Baz: null,
       iterator: Symbol.iterator
     }
   });
 
   var IBar = defineInterface(target, 'IBar', {
-    members: { bar: null },
+    id: Symbol.for('IBar'),
+    members: { Bar: null },
     extends: [ IFoo ]
   });
 
-  assert(Object.getOwnPropertySymbols(IBar[Polymorphisms]).length == 1);
-  assert(IFoo[Identity] in IBar[Polymorphisms]);
+  var IBaz = defineInterface(target, 'IBaz', {
+    id: Symbol.for('IBaz')
+  });
+
+  assert(IFoo[Id] in IBar);
 
   assert(target.IFoo == IFoo);
   assert(target.IBar == IBar);
@@ -40,37 +41,33 @@ function readMe() {
   assert(IFoo.prototype === null);
   assert(IBar.prototype === null);
 
-  assert(Symbol.keyFor(IFoo.baz) == '@kingjs/IFoo.baz');
-  assert(Symbol.keyFor(IFoo.foo) == 'IFoo (custom)');
-  assert(Symbol.keyFor(IBar.bar) == 'IBar.bar');
+  assert(Symbol.keyFor(IFoo.Baz) == '@kingjs/IFoo.Baz');
+  assert(Symbol.keyFor(IFoo.Foo) == 'IFoo (custom)');
+  assert(Symbol.keyFor(IBar.Bar) == 'IBar.Bar');
 
-  assert(Symbol.keyFor(IFoo[Identity]) == '@kingjs/IFoo');
-  assert(Symbol.keyFor(IBar[Identity]) == 'IBar');
+  assert(Symbol.keyFor(IFoo[Id]) == '@kingjs/IFoo');
+  assert(Symbol.keyFor(IBar[Id]) == 'IBar');
 
-  assert(IFoo.name == '@kingjs/IFoo');
+  assert(IFoo.name == 'IFoo');
   assert(IBar.name == 'IBar');
 
-  assert(IFoo[Symbol.hasInstance] == require('@kingjs/has-instance'));
-
-  assert(IFoo instanceof IIdentifiable);
-  assert(IFoo instanceof IPolymorphic);
-  assert(IFoo instanceof IInterface);
-
-  assert(IBar instanceof IIdentifiable);
-  assert(IBar instanceof IPolymorphic);
-  assert(IBar instanceof IInterface);
+  assert(IInterface[Id] in IFoo);
+  assert(IInterface[Id] in IBar);
 
   function FooBar() { }
-  FooBar.prototype[IFoo.foo] = 'foo';
-  FooBar.prototype[IFoo.baz] = 'baz';
-  FooBar.prototype[IBar.bar] = 'bar';
-  FooBar[Polymorphisms] = {
-    [IFoo[Identity]]: IFoo,
-    [IBar[Identity]]: IBar,
-  }
+
+  FooBar.prototype[IFoo[Id]] = IFoo;
+  FooBar.prototype[IFoo.Foo] = 'Foo';
+  FooBar.prototype[IFoo.Baz] = 'Baz';
+
+  FooBar.prototype[IBar[Id]] = IBar;
+  FooBar.prototype[IBar.Bar] = 'Bar';
 
   var fooBar = new FooBar();
+  assert(IFoo[Id] in fooBar);
   assert(fooBar instanceof IFoo);
+  assert(IBar[Id] in fooBar);
   assert(fooBar instanceof IBar);
+  assert(fooBar instanceof IBaz == false);
 }
 readMe();

@@ -3,15 +3,16 @@
 var IndexableEnumerable = require('./indexable-enumerable');
 
 var { 
-  IEnumerable,
-  IEnumerable: { GetEnumerator },
+  Implement,
   IIterable,
-  AddPolymorphism,
+  IEnumerable, IEnumerable: { 
+    GetEnumerator,
+  },
 } = Symbol.kingjs;
 
-Array.prototype[GetEnumerator] = function() {
-  return new IndexableEnumerable(this);
-}
-
-Array[AddPolymorphism](IIterable);
-Array[AddPolymorphism](IEnumerable);
+Array[Implement](IIterable);
+Array[Implement](IEnumerable, {
+  GetEnumerator: function() {
+    return new IndexableEnumerable(this);
+  }
+});

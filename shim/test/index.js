@@ -1,3 +1,4 @@
+require('..');
 require('./symbols');
 require('./iterable');
 require('./generator-iterator');

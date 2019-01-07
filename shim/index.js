@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 var {
   '@kingjs/define-interface': defineInterface,
@@ -6,22 +6,46 @@ var {
 
 var defineExtension = require('./define-extension');
 
-var {
-  IPolymorphic,
-  addPolymorphism
+var { 
+  IInterface, IInterface: { Id },
 } = defineInterface;
 
-// javascript functions are intrinsically polymorphic as
-// any javascript instance can implement any interface.
-// e.g. Array and String are intrinsically IIterable
-// no Function can "implement" an interface before this point
-Function[Polymorphisms] = { [IPolymorphic]: IPolymorphic }
+var DefineExtension = defineExtension.call(Function, defineExtension);
+var Implement = Function[DefineExtension](function implement(iface, descriptor) {
+  var id = iface[Id];
+  this.prototype[id] = iface;
 
-// defineExtension(this IPolymorphic, name: string, extension: function)
-var DefineExtension = defineExtension.call(IPolymorphic, defineExtension);
+  for (var member in descriptor) {
+    var memberId = iface[member];
+    Object.defineProperty(this.prototype, memberId, {
+      value: descriptor[member]
+    })
+  }
+})
 
-// addPolymorphism(this IPolymorphic, polymorphism: function)
-var AddPolymorphism = defineExtension.call(IPolymorphic, addPolymorphism);
+Symbol.kingjs = {
+  IInterface,
+  DefineExtension,
+  Implement,
+};
+
+defineInterface(Symbol.kingjs, 'IIterable', {
+  id: '@kingjs/IIterable',
+  members: { GetIterator: Symbol.iterator },
+}),
+
+defineInterface(Symbol.kingjs, 'IEnumerable', {
+  id: '@kingjs/IEnumerable',
+  members: { GetEnumerator: null },
+}),
+
+defineInterface(Symbol.kingjs, 'IEnumerator', {
+  id: '@kingjs/IEnumerator',
+  members: {
+    MoveNext: null,
+    Current: null,
+  },
+}),
 
 // Array : IIterable
 require('./shim-array');
@@ -32,10 +56,4 @@ require('./shim-string');
 // Generator : IIterable, IEnumerable
 require('./shim-generator');
 
-Symbol.kingjs = module.exports = { 
-  DefineExtension,
-  AddPolymorphism,
-
-  IPolymorphic,
-  IPolymorphic: { Polymorphisms },
-};
+module.exports = Symbol.kingjs;

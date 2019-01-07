@@ -6,54 +6,58 @@ var {
 } = require('@kingjs/require-packages').call(module);
 
 var { 
-  AddPolymorphism,
-  IIterable,
-  IEnumerable,
-  IEnumerator,
-  IIterable: { GetIterator },
-  IEnumerable: { GetEnumerator },
-  IEnumerator: { Current, MoveNext },
+  Implement,
+  IInterface: { Id },
+  IEnumerable, IEnumerable: { 
+    GetEnumerator,
+  },
+  IEnumerator, IEnumerator: { 
+    [Id]: IEnumeratorId,
+    MoveNext,
+    Current,
+  },
+  IIterable, IIterable: { 
+    GetIterator,
+  }
 } = Symbol.kingjs;
 
-Generator[AddPolymorphism](IIterable);
-
-Object.defineProperty(
-  Generator.prototype,
-  Symbol.iterator, {
-    configurable: true,
-    writable: true,
-    value: function() { return this(); },
-  }
-)
+Generator[Implement](IIterable, {
+  GetIterator: function getIterator() { return this(); }
+});
 
 function createGetEnumerator(createMoveNext) {
-  var Enumerator = function() { };
-  Enumerator[AddPolymorphism](IEnumerator);
+  var result;
 
-  return function getEnumerator() {
-    var thisArg = this;
-    var stillMoving = true;
-    var moveNextFunc = null;
-
-    return Object.defineProperties(new Enumerator(), {
-      [Current]: {
-        get: function current() { return this.current_; }
-      },
-
-      [MoveNext]: {
-        value: function moveNextProtocol() {
-          if (!moveNextFunc)
-            moveNextFunc = createMoveNext.call(thisArg);
-
-          stillMoving = stillMoving && moveNextFunc.call(this);
-          if (!stillMoving)
-            this.current_ = undefined;
-
-          return stillMoving;
+  var Enumerable = function() { };
+  Enumerable[Implement](IEnumerable, {
+    GetEnumerator: result = function getEnumerator() {
+      var thisArg = this;
+      var stillMoving = true;
+      var moveNextFunc = null;
+  
+      return Object.defineProperties(new Enumerable(), {
+        [IEnumeratorId]: IEnumerator,
+        [Current]: {
+          get: function current() { return this.current_; }
+        },
+  
+        [MoveNext]: {
+          value: function moveNextProtocol() {
+            if (!moveNextFunc)
+              moveNextFunc = createMoveNext.call(thisArg);
+  
+            stillMoving = stillMoving && moveNextFunc.call(this);
+            if (!stillMoving)
+              this.current_ = undefined;
+  
+            return stillMoving;
+          }
         }
-      }
-    })
-  }
+      })
+    }
+  });
+
+  return result;
 }
 
 objectEx.defineProperty(
@@ -79,4 +83,4 @@ objectEx.defineProperty(
   }
 )
 
-Generator[AddPolymorphism](IEnumerable);
+Generator[Implement](IEnumerable);
