@@ -3,15 +3,15 @@
 var IndexableEnumerable = require('./indexable-enumerable');
 
 var { 
-  Implement,
+  DefineInterfaceOn,
   IIterable,
   IEnumerable, IEnumerable: { 
     GetEnumerator,
   },
 } = Symbol.kingjs;
 
-Array[Implement](IIterable);
-Array[Implement](IEnumerable, {
+IIterable[DefineInterfaceOn](Array.prototype);
+IEnumerable[DefineInterfaceOn](Array.prototype, {
   GetEnumerator: function() {
     return new IndexableEnumerable(this);
   }

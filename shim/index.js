@@ -5,29 +5,21 @@ var {
 } = require('@kingjs/require-packages').call(module);
 
 var defineExtension = require('./define-extension');
+var DefineExtension = defineExtension.call(Function, defineExtension);
 
 var { 
-  IInterface, IInterface: { Id },
+  IInterface,
 } = defineInterface;
 
-var DefineExtension = defineExtension.call(Function, defineExtension);
-var Implement = Function[DefineExtension](function implement(iface, descriptor) {
-  var id = iface[Id];
-  this.prototype[id] = iface;
-
-  for (var member in descriptor) {
-    var memberId = iface[member];
-    Object.defineProperty(this.prototype, memberId, {
-      value: descriptor[member]
-    })
-  }
-})
-
-Symbol.kingjs = {
+var kingjs = {
   IInterface,
   DefineExtension,
-  Implement,
 };
+
+Symbol.kingjs = kingjs;
+
+var defineInterfaceOn = require('./define-interface-on');
+kingjs.DefineInterfaceOn = IInterface[DefineExtension](defineInterfaceOn);
 
 defineInterface(Symbol.kingjs, 'IIterable', {
   id: '@kingjs/IIterable',
@@ -56,4 +48,4 @@ require('./shim-string');
 // Generator : IIterable, IEnumerable
 require('./shim-generator');
 
-module.exports = Symbol.kingjs;
+module.exports = kingjs;

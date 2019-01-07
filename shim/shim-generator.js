@@ -6,9 +6,10 @@ var {
 } = require('@kingjs/require-packages').call(module);
 
 var { 
-  Implement,
+  DefineInterfaceOn,
   IInterface: { Id },
   IEnumerable, IEnumerable: { 
+    [Id]: IEnumerableId,
     GetEnumerator,
   },
   IEnumerator, IEnumerator: { 
@@ -21,43 +22,35 @@ var {
   }
 } = Symbol.kingjs;
 
-Generator[Implement](IIterable, {
+IIterable[DefineInterfaceOn](Generator.prototype, {
   GetIterator: function getIterator() { return this(); }
 });
 
 function createGetEnumerator(createMoveNext) {
-  var result;
+  return function getEnumerator() {
+    var thisArg = this;
+    var stillMoving = true;
+    var moveNextFunc = null;
 
-  var Enumerable = function() { };
-  Enumerable[Implement](IEnumerable, {
-    GetEnumerator: result = function getEnumerator() {
-      var thisArg = this;
-      var stillMoving = true;
-      var moveNextFunc = null;
-  
-      return Object.defineProperties(new Enumerable(), {
-        [IEnumeratorId]: IEnumerator,
-        [Current]: {
-          get: function current() { return this.current_; }
-        },
-  
-        [MoveNext]: {
-          value: function moveNextProtocol() {
-            if (!moveNextFunc)
-              moveNextFunc = createMoveNext.call(thisArg);
-  
-            stillMoving = stillMoving && moveNextFunc.call(this);
-            if (!stillMoving)
-              this.current_ = undefined;
-  
-            return stillMoving;
-          }
+    return IEnumerator[DefineInterfaceOn]({ }, {
+      Current: {
+        get: function current() { return this.current_; }
+      },
+
+      MoveNext: {
+        value: function moveNextProtocol() {
+          if (!moveNextFunc)
+            moveNextFunc = createMoveNext.call(thisArg);
+
+          stillMoving = stillMoving && moveNextFunc.call(this);
+          if (!stillMoving)
+            this.current_ = undefined;
+
+          return stillMoving;
         }
-      })
-    }
-  });
-
-  return result;
+      }
+    })
+  }
 }
 
 objectEx.defineProperty(
@@ -83,4 +76,4 @@ objectEx.defineProperty(
   }
 )
 
-Generator[Implement](IEnumerable);
+IEnumerable[DefineInterfaceOn](Generator.prototype);

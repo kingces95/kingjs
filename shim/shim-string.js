@@ -1,15 +1,15 @@
 'use strict';
 
 var { 
-  Implement,
+  DefineInterfaceOn,
   IIterable,
   IEnumerable, IEnumerable: { 
     GetEnumerator,
   },
 } = Symbol.kingjs;
 
-String[Implement](IIterable);
-String[Implement](IEnumerable, {
+IIterable[DefineInterfaceOn](String.prototype);
+IEnumerable[DefineInterfaceOn](String.prototype, {
   GetEnumerator: function() {
     return new IndexableEnumerable(this);
   }
