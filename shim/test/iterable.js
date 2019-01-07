@@ -2,13 +2,13 @@
 var assert = require('assert');
 
 require('../index');
+var DefineExtension = require('../define-extension');
 
 function readMe() {
   
   var {
     IIterable,
     IIterable: { GetIterator },
-    DefineExtension
   } = Symbol.kingjs;
 
   var repeat = function* (i) {

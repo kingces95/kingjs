@@ -2,22 +2,14 @@
 
 var {
   '@kingjs/generator': Generator,
-  '@kingjs/object-ex': objectEx,
 } = require('@kingjs/require-packages').call(module);
 
+var DefineInterfaceOn = require('./define-interface-on');
+var defineIEnumerableOn = require('./define-ienumerable-on');
+
 var { 
-  DefineInterfaceOn,
-  IInterface: { Id },
-  IEnumerable, IEnumerable: { 
-    [Id]: IEnumerableId,
-    GetEnumerator,
-  },
-  IEnumerator, IEnumerator: { 
-    [Id]: IEnumeratorId,
-    MoveNext,
-    Current,
-  },
-  IIterable, IIterable: { 
+  IIterable, 
+  IIterable: { 
     GetIterator,
   }
 } = Symbol.kingjs;
@@ -26,54 +18,19 @@ IIterable[DefineInterfaceOn](Generator.prototype, {
   GetIterator: function getIterator() { return this(); }
 });
 
-function createGetEnumerator(createMoveNext) {
-  return function getEnumerator() {
-    var thisArg = this;
-    var stillMoving = true;
-    var moveNextFunc = null;
+defineIEnumerableOn(Generator.prototype, 
+  function createMoveNext() {
+    var generator = this;
+    var iterator = null;
 
-    return IEnumerator[DefineInterfaceOn]({ }, {
-      Current: {
-        get: function current() { return this.current_; }
-      },
-
-      MoveNext: {
-        value: function moveNextProtocol() {
-          if (!moveNextFunc)
-            moveNextFunc = createMoveNext.call(thisArg);
-
-          stillMoving = stillMoving && moveNextFunc.call(this);
-          if (!stillMoving)
-            this.current_ = undefined;
-
-          return stillMoving;
-        }
+    return function moveNext() {
+      if (!iterator) {
+        var iterable = generator();
+        iterator = iterable[GetIterator]();
       }
-    })
-  }
-}
-
-objectEx.defineProperty(
-  Generator.prototype,
-  GetEnumerator, {
-    value: createGetEnumerator(
-
-      function createMoveNext() {
-        var generator = this;
-        var iterator = null;
-
-        return function moveNext() {
-          if (!iterator) {
-            var iterable = generator();
-            iterator = iterable[GetIterator]();
-          }
-          var next = iterator.next();
-          this.current_ = next.value;
-          return !next.done;
-        };
-      }
-    )
+      var next = iterator.next();
+      this.current_ = next.value;
+      return !next.done;
+    };
   }
 )
-
-IEnumerable[DefineInterfaceOn](Generator.prototype);

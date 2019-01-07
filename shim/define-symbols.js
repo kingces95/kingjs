@@ -1,19 +1,19 @@
-'use strict';
+// 'use strict';
 
-var {
-  '@kingjs/define-interface': defineInterface,
-  '@kingjs/define-symbols': defineSymbols,
-} = require('@kingjs/require-packages').call(module);
+// var {
+//   '@kingjs/define-interface': defineInterface,
+//   '@kingjs/define-symbols': defineSymbols,
+// } = require('@kingjs/require-packages').call(module);
 
-var {
-  IInterface,
-} = defineInterface;
+// var {
+//   IInterface,
+// } = defineInterface;
 
-Symbol.kingjs = {
-  IIdentifiable,
-  IPolymorphic,  
-}
+// Symbol.kingjs = {
+//   IIdentifiable,
+//   IPolymorphic,  
+// }
 
-defineSymbols(Symbol, 'kingjs', {
+// defineSymbols(Symbol, 'kingjs', {
 
-});
+// });

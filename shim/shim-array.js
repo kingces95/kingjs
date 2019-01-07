@@ -1,13 +1,11 @@
 'use strict';
 
+var DefineInterfaceOn = require('./define-interface-on');
 var IndexableEnumerable = require('./indexable-enumerable');
 
 var { 
-  DefineInterfaceOn,
   IIterable,
-  IEnumerable, IEnumerable: { 
-    GetEnumerator,
-  },
+  IEnumerable
 } = Symbol.kingjs;
 
 IIterable[DefineInterfaceOn](Array.prototype);

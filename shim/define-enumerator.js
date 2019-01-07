@@ -1,66 +1,66 @@
-'use strict';
-var assert = require('assert');
+// 'use strict';
+// var assert = require('assert');
 
-var {
-  '@kingjs/define-interface': defineInterface,
-} = require('@kingjs/require-packages').call(module);
+// var {
+//   '@kingjs/define-interface': defineInterface,
+// } = require('@kingjs/require-packages').call(module);
 
-var { addPolymorphism } = defineInterface;
+// var { addPolymorphism } = defineInterface;
 
-var IEnumerableIdentity = Symbol.for('@kingjs/IEnumerable');
-var IEnumeratorIdentity = Symbol.for('@kingjs/IEnumerator');
+// var IEnumerableIdentity = Symbol.for('@kingjs/IEnumerable');
+// var IEnumeratorIdentity = Symbol.for('@kingjs/IEnumerator');
 
-var GetEnumerator = Symbol.for('@kingjs/IEnumerable.GetEnumerator');
-var Current = Symbol.for('@kingjs/IEnumerator.Current');
-var MoveNext = Symbol.for('@kingjs/IEnumerator.MoveNext');
+// var GetEnumerator = Symbol.for('@kingjs/IEnumerable.GetEnumerator');
+// var Current = Symbol.for('@kingjs/IEnumerator.Current');
+// var MoveNext = Symbol.for('@kingjs/IEnumerator.MoveNext');
 
-function Enumerator(enumerable, createMoveNext) {
-  assert(enumerable instanceof IEnumerable);
+// function Enumerator(enumerable, createMoveNext) {
+//   assert(enumerable instanceof IEnumerable);
 
-  var stillMoving = true;
-  var moveNextFunc = null;
+//   var stillMoving = true;
+//   var moveNextFunc = null;
 
-  this[MoveNext] = function moveNextProtocol() {
+//   this[MoveNext] = function moveNextProtocol() {
 
-    if (!moveNextFunc)
-      moveNextFunc = createMoveNext.call(enumerable);
+//     if (!moveNextFunc)
+//       moveNextFunc = createMoveNext.call(enumerable);
 
-    stillMoving = stillMoving && moveNextFunc.call(this);
-    if (!stillMoving)
-      this.current_ = undefined;
+//     stillMoving = stillMoving && moveNextFunc.call(this);
+//     if (!stillMoving)
+//       this.current_ = undefined;
 
-    return stillMoving;
-  }
-}
+//     return stillMoving;
+//   }
+// }
 
-Object.defineProperties(
-  Enumerator.prototype, {
-    [Current]: {
-      enumerable: true,
-      get: function current() { return this.current_; }
-    },
-  }
-)
+// Object.defineProperties(
+//   Enumerator.prototype, {
+//     [Current]: {
+//       enumerable: true,
+//       get: function current() { return this.current_; }
+//     },
+//   }
+// )
 
-var IEnumerable = defineInterface(
-  Enumerator, 
-  'IEnumerable', {
-    id: IEnumerableIdentity,
-    members: { GetEnumerator }
-  }
-)
+// var IEnumerable = defineInterface(
+//   Enumerator, 
+//   'IEnumerable', {
+//     id: IEnumerableIdentity,
+//     members: { GetEnumerator }
+//   }
+// )
 
-var IEnumerator = defineInterface(
-  Enumerator, 
-  'IEnumerator', {
-    id: IEnumeratorIdentity,
-    members: { 
-      Current,
-      MoveNext 
-    }
-  }
-)
+// var IEnumerator = defineInterface(
+//   Enumerator, 
+//   'IEnumerator', {
+//     id: IEnumeratorIdentity,
+//     members: { 
+//       Current,
+//       MoveNext 
+//     }
+//   }
+// )
 
-addPolymorphism.call(Enumerator, IEnumerator);
+// addPolymorphism.call(Enumerator, IEnumerator);
 
-module.exports = Enumerator;
+// module.exports = Enumerator;

@@ -4,40 +4,34 @@ var {
   '@kingjs/define-interface': defineInterface,
 } = require('@kingjs/require-packages').call(module);
 
-var defineExtension = require('./define-extension');
-var DefineExtension = defineExtension.call(Function, defineExtension);
+var kingjs = { };
 
-var { 
-  IInterface,
-} = defineInterface;
+// IInterface (builtIn)
+var { IInterface } = defineInterface;
+kingjs.IInterface = IInterface;
 
-var kingjs = {
-  IInterface,
-  DefineExtension,
-};
-
-Symbol.kingjs = kingjs;
-
-var defineInterfaceOn = require('./define-interface-on');
-kingjs.DefineInterfaceOn = IInterface[DefineExtension](defineInterfaceOn);
-
-defineInterface(Symbol.kingjs, 'IIterable', {
+// IIterable
+defineInterface(kingjs, 'IIterable', {
   id: '@kingjs/IIterable',
   members: { GetIterator: Symbol.iterator },
 }),
 
-defineInterface(Symbol.kingjs, 'IEnumerable', {
+// IEnumerable
+defineInterface(kingjs, 'IEnumerable', {
   id: '@kingjs/IEnumerable',
   members: { GetEnumerator: null },
 }),
 
-defineInterface(Symbol.kingjs, 'IEnumerator', {
+// IEnumerator
+defineInterface(kingjs, 'IEnumerator', {
   id: '@kingjs/IEnumerator',
   members: {
     MoveNext: null,
     Current: null,
   },
 }),
+
+Symbol.kingjs = kingjs;
 
 // Array : IIterable
 require('./shim-array');

@@ -8,7 +8,6 @@ var {
 } = require('@kingjs/require-packages').call(module);
 
 var {
-  IInterface,
   IInterface: { Id }
 } = defineInterface;
 
@@ -31,4 +30,4 @@ function defineExtension(extension) {
   return extensionId;
 }
 
-module.exports = defineExtension
+module.exports = defineExtension.call(Function, defineExtension);

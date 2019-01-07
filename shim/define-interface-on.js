@@ -1,7 +1,10 @@
 'use strict';
 var assert = require('assert');
 
+var DefineExtension = require('./define-extension');
+
 var { 
+  IInterface,
   IInterface: { Id }
 } = Symbol.kingjs;
 
@@ -23,4 +26,4 @@ function defineInterfaceOn(target, descriptors) {
   return target;
 }
 
-module.exports = defineInterfaceOn;
+module.exports = IInterface[DefineExtension](defineInterfaceOn);
