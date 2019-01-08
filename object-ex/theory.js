@@ -23,8 +23,6 @@ function buildName(test, suffix, pluralSuffix) {
     name += 'Hidden';
   if (test.writable === false)
     name += 'Const';
-  if (test.static === true)
-    name += 'Static';
   if (test.future === true)
     name += 'Lazy';
 
@@ -43,7 +41,6 @@ function buildDescriptor(test) {
     test, {
       enumerable: null,
       writable: null,
-      static: null,
       value: null,
       future: null,
   });
@@ -76,6 +73,8 @@ assertTheory(function(test, id) {
     return;
 
   var target = function target() { };
+  if (!test.static)
+    target = target.prototype;
   
   if (test.descriptor) {
     var arg = descriptor;
@@ -95,15 +94,6 @@ assertTheory(function(test, id) {
   assert(target[test.name] == test.value);
   assertDescriptor(test, target, test.name);
 
-  if (test.static) {
-    var obj = new target();
-    assert(obj[test.name] == test.value);
-
-    if (test.writable) {
-      target[test.name] = null;
-      assert(obj[test.name] === null);
-    }
-  }
 }, {
   value: 0,
   name: ['foo', Symbol.for('foo') ],
@@ -116,7 +106,13 @@ assertTheory(function(test, id) {
 })
 
 assertTheory(function(test, id) {
-  assert(!test.configurable);
+  if (test.variant != this.variant.descriptor) {
+    if (test.static) 
+      return;
+    if (test.configurable) 
+      return;
+  }
+
   var name = buildName(test, 'Function');
 
   var Type = function() { };
@@ -131,9 +127,9 @@ assertTheory(function(test, id) {
   };
 
   var stubCount = 0;
-  var stub = function(ctor, name) {
+  var stub = function(name, info) {
     assert(stubCount++ == 0);
-    assert(ctor == Type);
+    assert(test.static ? (info == Type) : (Type.prototype));
     assert(name == test.name);
     return func;
   }
@@ -159,6 +155,7 @@ assertTheory(function(test, id) {
       descriptor.value = test.external ? null : func;
       descriptor.external = test.external ? stub : undefined;
       descriptor.function = true;
+      descriptor.static = test.static;
       arg = descriptor;
       name = test.plural ? 'defineProperties' : 'defineProperty';
       break;
@@ -194,7 +191,7 @@ assertTheory(function(test, id) {
   pushFront(args, test.static ? Type : Type.prototype);
   objectEx[name].apply(null, args);
 
-  var stubPrototype = Type.prototype;
+  var prototype = Type.prototype;
   var target = test.static ? Type : new Type();
 
   var expectedCount = 0;
@@ -208,18 +205,11 @@ assertTheory(function(test, id) {
     assertDescriptor(test, Type, test.name);
   }
   else {
-    assertDescriptor(test, stubPrototype, test.name);
-    if (test.external)
-      assertDescriptor(test, Type.prototype, test.name);
+    assertDescriptor(test, prototype, test.name);
     if (test.future)
       assertDescriptor(test, target, test.name);
   }
 
-  if (test.static) {
-    var obj = new Type();
-    assert(obj[test.name](test.value) == test.value);
-    assert(count == (test.future ? 1 : expectedCount++));
-  }
 }, {
   value: 0,
   name: ['foo', Symbol.for('foo') ],
@@ -230,7 +220,7 @@ assertTheory(function(test, id) {
     lambda: 'lambda',
     none: 'none'
   },
-  configurable: [ false ],
+  configurable: [ false, true ],
   static: [ true, false ],
   future: [ true, false ],
   external: [ true, false ],
@@ -239,6 +229,11 @@ assertTheory(function(test, id) {
 
 assertTheory(function(test, id) {
   var name = buildName(test, 'Accessor');
+
+  if (test.variant != this.variant.descriptor) {
+    if (test.static) 
+      return;
+  }
 
   if ((test.getter || test.setter) == false)
     return;
@@ -277,8 +272,8 @@ assertTheory(function(test, id) {
   } : undefined;
 
   var stubCount = 0;
-  var stub = function(ctor, name) {
-    assert(ctor == Type);
+  var stub = function(name, ctor) {
+    assert(ctor == test.static ? Type : Type.prototype);
     assert(name == test.name);
     if (getter && setter) {
       assert(stubCount++ <= 1);
@@ -314,6 +309,8 @@ assertTheory(function(test, id) {
 
     case this.variant.descriptor:
       var descriptor = buildDescriptor(test);
+      if (test.static)
+        descriptor.static = true;
       if (test.external)
         descriptor.external = stub;
       if (test.getter)
@@ -366,11 +363,6 @@ assertTheory(function(test, id) {
   if (test.setter) {
     target[test.name] = 0
     assert(target.field == 0);
-    if (test.static) {
-      var obj = new Type();
-      assert(obj[test.name] = 1);
-      assert(target.field == 1);
-    }
   }
 
   if (test.getter) {
@@ -383,12 +375,6 @@ assertTheory(function(test, id) {
 
     assert(target[test.name] == 0);
     assert(getCount == (test.future ? 1 : expectedGetCount++));
-
-    if (test.static) {
-      var obj = new Type();
-      assert(obj[test.name] == 0);
-      assert(getCount == (test.future ? 1 : expectedGetCount++));
-    }
   }
 
   if (test.static) {
@@ -419,9 +405,4 @@ assertTheory(function(test, id) {
   configurable: [ false, true ],
   enumerable: [ false, true ],
   plural: [ false, true ],
-  $assert: function(test, id) {
-    //if (test.lazy && test.setter)
-    //  return false;
-    return true;
-  }
 })

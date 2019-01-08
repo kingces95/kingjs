@@ -1,7 +1,7 @@
 //'use strict';
+var assert = require('assert');
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
 var initStub = require('./stub');
 
 var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
@@ -12,13 +12,11 @@ function initExtension(name) {
   var isEnumerable = this.enumerable || false;
   var isExternal = this.external || false;
   var isExtension = this.extends || false;
-  var isStatic = this.static || false;
   var isFunction = this.function;
   var getExtendedType = this.extends;
 
   assert(!isConfigurable);
   assert(!isEnumerable);
-  assert(!isStatic);
   assert(!isExternal);
 
   assert(isExtension);

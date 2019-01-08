@@ -1,7 +1,7 @@
 //'use strict';
+var assert = require('assert');
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
 var initStub = require('./stub');
 
 var unresolvedPromiseError = 'Promise returned undefined value.';
@@ -16,9 +16,10 @@ function initFuture(name, isConfigurable) {
   var hasValue = 'value' in this;
   
   var isFunction = hasValue || this.function || false;
-  var isStatic = this.static || false;
+  var isConfigurable = this.configurable || false;
   var isEnumerable = this.enumerable || false;
   var isWriteOnce = this.writeOnce || hasArgument || false;
+  var isStatic = this.static || false;
 
   var wrap = isFunction ? 'value' : 'get';
   var promise = this.value || this.get || (o => o);
@@ -84,7 +85,9 @@ function initFuture(name, isConfigurable) {
     this.set = initStub.call(initializePromise, name);
   } 
 
-  this.configurable = true;
+  if (isStatic)
+    this.configurable = true;
+
   return this;
 }
 

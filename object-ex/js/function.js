@@ -1,9 +1,9 @@
 'use strict';
+var assert = require('assert');
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
 
-function initMethod(target, x, y) {
+function initFunction(target, x, y) {
   assert('configurable' in this);
   assert('enumerable' in this);
 
@@ -31,5 +31,5 @@ function initMethod(target, x, y) {
 }
 
 Object.defineProperties(module, {
-  exports: { value: initMethod }
+  exports: { value: initFunction }
 });

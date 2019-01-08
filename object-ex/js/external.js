@@ -1,15 +1,16 @@
 //'use strict';
+var assert = require('assert');
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
 
 var unresolvedStubError = 'Stub returned undefined value.';
 
-function initExternal(target, name) {
+function initExternal(name, target) {
+  var isConfigurable = this.configurable || false;
+  var isEnumerable = this.enumerable || false;
   var isWritable = this.writable || false;
   var isExternal = this.external || false;
   var isExtension = this.extends || false;
-  var isStatic = this.static || false;
   var isFunction = this.function || false;
   var isGet = 'get' in this;
   var external = this.external;
@@ -18,9 +19,13 @@ function initExternal(target, name) {
   assert(!isExtension);
   assert(isExternal);
 
-  // derive descriptor from prototype and name
-  var result = external(isStatic ? target : target.constructor, name);
+  // derive descriptor from constructor and name
+  var result = external(name, target);
   assert(!is.undefined(result), unresolvedStubError)
+
+  // assign defaults
+  this.configurable = isConfigurable;
+  this.enumerable = isEnumerable;
 
   // wrap result if it's a function
   if (is.function(result)) {

@@ -1,7 +1,7 @@
 'use strict';
+var assert = require('assert');
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
 var initStub = require('./stub');
 
 function thunk(name) {

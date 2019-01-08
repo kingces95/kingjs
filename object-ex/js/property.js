@@ -1,7 +1,7 @@
 'use strict';
+var assert = require('assert');
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
 
 function initProperty(target, name, descriptor) {
   assert(is.stringOrSymbol(name));

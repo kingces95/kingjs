@@ -1,6 +1,6 @@
 'use strict';
+var assert = require('assert');
 
-var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
 function initAccessor(target, x, y, z) {

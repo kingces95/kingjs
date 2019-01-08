@@ -1,6 +1,6 @@
 //'use strict';
+var assert = require('assert');
 
-var assert = require('@kingjs/assert');
 var initThunk = require('./thunk')
 
 function static(target, name) {

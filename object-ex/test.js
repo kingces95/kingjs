@@ -21,152 +21,209 @@ function readMe() {
 }
 readMe();
 
-function testFuture() {
+function testFuture(isStatic) {
   function Type() { };
-  Type.prototype = { x: 1, y: 2, counter: 0 };
+
+  if (isStatic) {
+    Type.x = 1;
+    Type.y = 2;
+    Type.counter = 0;
+  } else {
+    Type.prototype = { x: 1, y: 2, counter: 0 };
+  }
 
   var withOutInit = 'this.counter++, this.x + this.y';
   var withInit = function(o) { return this.counter++, o };
   
-  objectEx.defineProperty(Type.prototype, 'lazy', {
+  var target = isStatic ? Type : Type.prototype;
+
+  objectEx.defineProperty(target, 'lazy', {
+    static: isStatic,
     future: true,
     value: withOutInit,
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   assert(instance.lazy() == 3);
   assert(instance.lazy() == 3);
   assert(instance.counter == 1);
+  target.counter = 0;
 
-  objectEx.defineProperty(Type.prototype, 'compile', {
+  objectEx.defineProperty(target, 'compile', {
+    static: isStatic,
     future: true,
     writeOnce: true,
     value: withInit
   });
 
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   assertThrows(() => instance.compile());
   instance.compile = 42;
   assert(instance.compile() == 42);
   assert(instance.compile() == 42);
   assert(instance.counter == 1);
+  target.counter = 0;
 
-  objectEx.defineProperty(Type.prototype, 'load', {
+  objectEx.defineProperty(target, 'load', {
+    static: isStatic,
     future: true,
     argument: 41,
     value: withInit
   });
 
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   instance.load = 42;
   assert(instance.load() == 42);
   assert(instance.load() == 42);
   assert(instance.counter == 1);
+  target.counter = 0;
 
-  var instance = new Type();
-  assert(instance.load() == 41);
-  assert(instance.load() == 41);
+  objectEx.defineProperty(target, 'load2', {
+    static: isStatic,
+    future: true,
+    argument: 41,
+    value: withInit
+  });
+
+  var instance = isStatic ? Type : new Type();
+  assert(instance.load2() == 41);
+  assert(instance.load2() == 41);
   assert(instance.counter == 1);
+  target.counter = 0;
     
-  objectEx.defineProperty(Type.prototype, 'computedProperty', {
+  objectEx.defineProperty(target, 'computedProperty', {
+    static: isStatic,
     future: true,
     get: withOutInit
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   assert(instance.computedProperty == 3);
   assert(instance.computedProperty == 3);
   assert(instance.counter == 1);
+  target.counter = 0;
 
-  objectEx.defineProperty(Type.prototype, 'ref', {
+  objectEx.defineProperty(target, 'ref', {
+    static: isStatic,
     future: true,
     writeOnce: true,
     get: withInit
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   assertThrows(() => instance.ref);
   instance.ref = 42;
   assert(instance.ref == 42);
+  assert(instance.counter == 1);
+  target.counter = 0;
 
-  objectEx.defineProperty(Type.prototype, 'refWithDefault', {
+  objectEx.defineProperty(target, 'refWithDefault', {
+    static: isStatic,
     future: true,
     argument: null,
     get: withInit
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   instance.refWithDefault = 42;
   assert(instance.refWithDefault == 42);
   assert(instance.refWithDefault == 42);
   assert(instance.counter == 1);
+  target.counter = 0;
 
-  var instance = new Type();
-  assert(instance.refWithDefault === null);
-  assert(instance.refWithDefault === null);
+  objectEx.defineProperty(target, 'refWithDefault2', {
+    static: isStatic,
+    future: true,
+    argument: null,
+    get: withInit
+  });
+
+  var instance = isStatic ? Type : new Type();
+  assert(instance.refWithDefault2 === null);
+  assert(instance.refWithDefault2 === null);
   assert(instance.counter == 1);
+  target.counter = 0;
 
-  objectEx.defineProperty(Type.prototype, 'readOnly', {
+  objectEx.defineProperty(target, 'readOnly', {
+    static: isStatic,
     future: true,
     writeOnce: true,
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   assertThrows(() => instance.readOnly);
   instance.readOnly = 42;
   assert(instance.readOnly == 42);
 
-  objectEx.defineProperty(Type.prototype, 'readOnlyWithDefault', {
+  objectEx.defineProperty(target, 'readOnlyWithDefault', {
+    static: isStatic,
     future: true,
     argument: null,
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   instance.readOnlyWithDefault = 42;
   assert(instance.readOnlyWithDefault == 42);
 
-  var instance = new Type();
-  assert(instance.readOnlyWithDefault === null);
+  objectEx.defineProperty(target, 'readOnlyWithDefault2', {
+    static: isStatic,
+    future: true,
+    argument: null,
+  });
 
-  objectEx.defineProperty(Type.prototype, 'readOnlyFunc', {
+  var instance = isStatic ? Type : new Type();
+  assert(instance.readOnlyWithDefault2 === null);
+
+  objectEx.defineProperty(target, 'readOnlyFunc', {
+    static: isStatic,
     function: true,
     future: true,
     writeOnce: true,
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   assertThrows(() => instance.readOnlyFunc());
   instance.readOnlyFunc = 42;
   assert(instance.readOnlyFunc() == 42);
 
-  objectEx.defineProperty(Type.prototype, 'readOnlyFuncWithDefault', {
+  objectEx.defineProperty(target, 'readOnlyFuncWithDefault', {
+    static: isStatic,
     function: true,
     future: true,
     argument: null,
   });
   
-  var instance = new Type();
+  var instance = isStatic ? Type : new Type();
   instance.readOnlyFuncWithDefault = 42;
   assert(instance.readOnlyFuncWithDefault() == 42);
 
-  var instance = new Type();
-  assert(instance.readOnlyFuncWithDefault() === null);
-}
-testFuture();
+  objectEx.defineProperty(target, 'readOnlyFuncWithDefault2', {
+    static: isStatic,
+    function: true,
+    future: true,
+    argument: null,
+  });
 
-function testExternal(isStatic) {
+  var instance = isStatic ? Type : new Type();
+  assert(instance.readOnlyFuncWithDefault2() === null);
+}
+testFuture(false);
+testFuture(true);
+
+function testExternal() {
   function A() { }
   A.i = 0;
   A.generate = () => A.i++;
 
   var foo = 'foo';
-  var target = isStatic ? A : A.prototype;
+  var target = A.prototype;
   objectEx.defineProperty(target, foo, {
-    external: function(ctor, name) {
+    external: function(name, info) {
       assert(name == foo);
+      assert(info == target);
+      var ctor = info.constructor;
       return ctor.generate;
     },
-    static: isStatic,
     future: true,
     get: null
   });
@@ -176,8 +233,7 @@ function testExternal(isStatic) {
   assert(a[foo] == 0); // hits cache
   assert(A.i == 1); // hits cache, so shouldn't increment
 }
-testExternal(false);
-testExternal(true);
+testExternal();
 
 function testStatic() {
   var funcName = 'foo';
@@ -212,7 +268,7 @@ function testStatic() {
   assert(Type[fieldName] = 0, Type[fieldName] == 0);
   assert(instance[fieldName] = 1, Type[fieldName] == 1);
 }
-testStatic();
+//testStatic(); TODO: Implement bind
 
 function testThunk() {
   var funcName = 'foo';
@@ -328,9 +384,12 @@ function stubFunctionTest(isFunc) {
   var Type = function MyType() { };
   var counter = 0;
 
+  var target = Type.prototype;
   objectEx['define' + (isFunc ? 'Function' : 'Accessor')](
-    Type.prototype, 'foo', {
-      external: function(ctor, stubName) {
+    target, 'foo', {
+      external: function(stubName, info) {
+        assert(info == target);
+        var ctor = info.constructor;
         return function () { 
           return {
             name: stubName, 

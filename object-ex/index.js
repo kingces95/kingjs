@@ -1,13 +1,12 @@
 'use strict';
+var assert = require('assert');
 
-var assert = require('@kingjs/assert');
 var is = require('@kingjs/is');
 
 var initProperty = require('./js/property');
 var initField = require('./js/field');
 var initFunction = require('./js/function');
 var initAccessor = require('./js/accessors');
-var initStatic = require('./js/static');
 var initThunk = require('./js/thunk');
 var initExternal = require('./js/external');
 var initExtension = require('./js/extension');
@@ -33,11 +32,6 @@ var definitions = {
       'defineHidden': { enumerable: false, writable: true },
       'defineConst': { enumerable: true },
       'defineHiddenConst': { enumerable: false },
-
-      'defineStatic': { enumerable: true, writable: true, static: true },
-      'defineHiddenStatic': { enumerable: false, writable: true, static: true },
-      'defineConstStatic': { enumerable: true, static: true },
-      'defineHiddenConstStatic': { enumerable: false, static: true },
     },
   },
 
@@ -64,9 +58,6 @@ var definitions = {
     configurations: {
       'define': { },
       'defineLazy': { future: true },
-
-      'defineStatic': { static: true },
-      'defineStaticLazy': { static: true, future: true },
     },
   },
 
@@ -87,14 +78,8 @@ var definitions = {
       'define': { },
       'defineHidden': { enumerable: false },
 
-      'defineStatic': { static: true },
-      'defineHiddenStatic': { enumerable: false, static: true },
-
       'defineLazy': { future: true },
       'defineHiddenLazy': { enumerable: false, future: true },
-
-      'defineStaticLazy': { static: true, future: true },
-      'defineHiddenStaticLazy': { enumerable: false, static: true, future: true },
     },
   },
 }
@@ -159,32 +144,18 @@ function exportDefinition(
         initThunk.call(descriptor, descriptor.thunk);
 
       else {
-        var isConfigurable = descriptor.configurable || false;
-
         if (descriptor.extends)
           initExtension.call(descriptor, name);
 
         else if (descriptor.external)
-          initExternal.call(descriptor, target, name, isConfigurable);
+          initExternal.call(descriptor, name, target);
 
         if (descriptor.future) 
-          initFuture.call(descriptor, name, isConfigurable);
+          initFuture.call(descriptor, name);
       }
     }
 
-    var result = Object.defineProperty(target, name, descriptor);
-
-    // make property on ctor available to instances via thunks on prototype
-    if (descriptor.static) {
-      descriptor = initStatic.call(descriptor, target, name);
-
-      assert(is.function(target));
-
-      if (target.prototype)
-        Object.defineProperty(target.prototype, name, descriptor);
-    }
-
-    return result;
+    return Object.defineProperty(target, name, descriptor);
   };
 
   // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
