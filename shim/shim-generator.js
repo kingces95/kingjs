@@ -2,9 +2,9 @@
 
 var {
   '@kingjs/generator': Generator,
+  '@kingjs/implement-interface': implementInterface,
 } = require('@kingjs/require-packages').call(module);
 
-var DefineInterfaceOn = require('./define-interface-on');
 var defineIEnumerableOn = require('./define-ienumerable-on');
 
 var { 
@@ -14,8 +14,8 @@ var {
   }
 } = Symbol.kingjs;
 
-IIterable[DefineInterfaceOn](Generator.prototype, {
-  GetIterator: function getIterator() { return this(); }
+implementInterface(Generator.prototype, IIterable, {
+  getIterator: { value: function getIterator() { return this(); } }
 });
 
 defineIEnumerableOn(Generator.prototype, 

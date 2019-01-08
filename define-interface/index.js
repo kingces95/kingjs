@@ -1,103 +1,63 @@
 //'use strict';
 var assert = require('assert');
+var builtInSymbols = require('@kingjs/built-in-symbols');
+
+var initialize = require('./initialize');
+var { IInterface } = initialize;
 
 // interface should throw when activated
 var ActivationError = 'Cannot activate interface.';
 var Delimiter = '.';
 var Empty = Object.create(null);
-var BuiltInSymbols = { };
 
-// gather builtin symbols; interface member ids are global or builtin
-for (var name of Object.getOwnPropertyNames(Symbol)) {
-  var value = Symbol[name];
-  if (typeof value != 'symbol')
-    continue;
-  BuiltInSymbols[value] = name;
-}
-
-var InterfaceId = Symbol.for('@kingjs/IInterface.Id');
-
-// intercept instanceof; used by extension stubs to test type
-function hasInstance(instance) {
-  var type = typeof instance;
-  if (type != 'object' && type != 'string' && type != 'function')
-    return false;
-
-  if (type == 'string')
-    instance = String.prototype;
-
-  assert(InterfaceId in this);
-  var id = this[InterfaceId];
-  return id in instance;
-}
-
-// reconfigure a Function to be an interface
-function initialize(id) {
-  assert(typeof this == 'function');
-
-  // construct name
-  assert(id);
-  if (typeof id == 'string')
-    id = Symbol.for(id);
-  var name = Symbol.keyFor(id);
-  assert(name);
-
-  // assign name
-  assert(InterfaceId in this == false);
-  this[InterfaceId] = id;
-
-  // remove prototype (because it's never activated)
-  this.prototype = null;
-
-  // the function is, itself, an instance of an interface 
-  this.constructor = IInterface;
-  this[IInterface[InterfaceId]] = IInterface;
-
-  // support instanceof
-  Object.defineProperty(this, Symbol.hasInstance, {
-    value: hasInstance
-  });
-
-  return name;
-}
-
-// IInterface
-var IInterface = function() { assert(false, ActivationError); }
-initialize.call(IInterface, '@kingjs/IInterface');
-IInterface.Id = InterfaceId;
+var Id = Symbol.for('@kingjs/IInterface.id');
 
 function defineInterface(target, name, descriptor) {
 
   if (!descriptor)
     descriptor = Empty;
 
-  // throws if activated
-  var interface = function() {
-    assert(false, ActivationError)
-  };
+  var {
+    members,
+    extends: extensions,
+    enumerable,
+    configurable,
+    writable
+  } = descriptor;
 
-  // rename
+  // define interface
+  var interface = function() { assert(false, ActivationError); };
   Object.defineProperty(interface, 'name', {
     enumerable: true,
     value: name
   });
 
+  // initialize interface
   var symbolName = initialize.call(interface, descriptor.id);
 
-
-  // descriptor.members; for each member, assign or create a symbol 
-  for (var member in descriptor.members) {
-    memberId = descriptor.members[member];
+  // define members
+  for (var member in members) {
+    memberId = members[member];
 
     if (memberId === null)
       memberId = Symbol.for(symbolName + Delimiter + member);
 
     // member symbol must be global (or builtin)
-    assert(Symbol.keyFor(memberId) || memberId in BuiltInSymbols);
+    assert(Symbol.keyFor(memberId) || memberId in builtInSymbols);
     interface[member] = memberId;
+
+    // provide a capitalized alias; When consuming an interface, deconstructing
+    // into capitalized locals reflect the fact the value is a constant and the
+    // name is less likely to conflict with other local variables names. Consider
+    // var { Current, MoveNext } = Symbol.kingjs.IEnumerator
+    //   vs
+    // var { current, moveNext } = Symbol.kingjs.IEnumerator
+    var capitalizedMember = member[0].toUpperCase() + member.slice(1);
+    if (member != capitalizedMember)
+      interface[capitalizedMember] = memberId;
   }
 
-  // descriptor.extensions; save/inherit extensions
+  // inherit extensions
   var extensions = descriptor.extends;
   if (extensions) {
 
@@ -105,21 +65,24 @@ function defineInterface(target, name, descriptor) {
 
       // extensions must be interfaces
       assert(extension.constructor == IInterface);
-      interface[extension[InterfaceId]] = extension;
+      interface[extension[Id]] = Id;
 
       // inherit extensions polymorphisms
-      for (var symbol of Object.getOwnPropertySymbols(extension)) {
-        var inheritedExtension = extension[symbol];
-        if (inheritedExtension.constructor != IInterface);
+      for (var inheritedExtension of Object.getOwnPropertySymbols(extension)) {
+        if (extension[inheritedExtension] != Id)
           continue;
-
-        assert(inheritedExtension[InterfaceId] == symbol);
-        interface[symbol] = inheritedExtension;
+        interface[symbol] = Id;
       }
     }
   }
 
-  return target[name] = interface;
+  // define property!
+  return Object.defineProperty(target, name, {
+    configurable, 
+    enumerable, 
+    writable,
+    value: interface,
+  });
 }
 
 defineInterface.IInterface = IInterface;

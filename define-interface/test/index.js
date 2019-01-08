@@ -11,7 +11,7 @@ var {
 function readMe() {
   var target = { };
 
-  var IFoo = defineInterface(target, 'IFoo', {
+  var { IFoo } = defineInterface(target, 'IFoo', {
     id: Symbol.for('@kingjs/IFoo'),
     members: { 
       Foo: Symbol.for('IFoo (custom)'),
@@ -20,13 +20,13 @@ function readMe() {
     }
   });
 
-  var IBar = defineInterface(target, 'IBar', {
+  var { IBar } = defineInterface(target, 'IBar', {
     id: Symbol.for('IBar'),
     members: { Bar: null },
     extends: [ IFoo ]
   });
 
-  var IBaz = defineInterface(target, 'IBaz', {
+  var { IBaz } = defineInterface(target, 'IBaz', {
     id: Symbol.for('IBaz')
   });
 

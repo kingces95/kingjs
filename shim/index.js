@@ -13,21 +13,21 @@ kingjs.IInterface = IInterface;
 // IIterable
 defineInterface(kingjs, 'IIterable', {
   id: '@kingjs/IIterable',
-  members: { GetIterator: Symbol.iterator },
+  members: { getIterator: Symbol.iterator },
 }),
 
 // IEnumerable
 defineInterface(kingjs, 'IEnumerable', {
   id: '@kingjs/IEnumerable',
-  members: { GetEnumerator: null },
+  members: { getEnumerator: null },
 }),
 
 // IEnumerator
 defineInterface(kingjs, 'IEnumerator', {
   id: '@kingjs/IEnumerator',
   members: {
-    MoveNext: null,
-    Current: null,
+    moveNext: null,
+    current: null,
   },
 }),
 

@@ -3,9 +3,8 @@
 var {
   '@kingjs/generator': Generator,
   '@kingjs/object-ex': objectEx,
+  '@kingjs/implement-interface': implementInterface,  
 } = require('@kingjs/require-packages').call(module);
-
-var DefineInterfaceOn = require('./define-interface-on');
 
 var { 
   IEnumerable, 
@@ -14,18 +13,18 @@ var {
 
 function defineIEnumerableOn(target, createMoveNext) {
 
-  IEnumerable[DefineInterfaceOn](target, {
+  implementInterface(target, IEnumerable, {
     GetEnumerator: function getEnumerator() {
       var thisArg = this;
       var stillMoving = true;
       var moveNextFunc = null;
   
-      return IEnumerator[DefineInterfaceOn]({ }, {
-        Current: {
+      return implementInterface({ }, IEnumerator, {
+        current: {
           get: function current() { return this.current_; }
         },
   
-        MoveNext: {
+        moveNext: {
           value: function moveNextProtocol() {
             if (!moveNextFunc)
               moveNextFunc = createMoveNext.call(thisArg);

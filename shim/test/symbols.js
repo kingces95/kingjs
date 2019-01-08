@@ -22,8 +22,8 @@ function readMe() {
   assert(IEnumerator.name == 'IEnumerator');
 
   assert(GetIterator === Symbol.iterator);
-  assert(Symbol.keyFor(GetEnumerator) == '@kingjs/IEnumerable.GetEnumerator');
-  assert(Symbol.keyFor(MoveNext) == '@kingjs/IEnumerator.MoveNext');
-  assert(Symbol.keyFor(Current) == '@kingjs/IEnumerator.Current');
+  assert(Symbol.keyFor(GetEnumerator) == '@kingjs/IEnumerable.getEnumerator');
+  assert(Symbol.keyFor(MoveNext) == '@kingjs/IEnumerator.moveNext');
+  assert(Symbol.keyFor(Current) == '@kingjs/IEnumerator.current');
 }
 readMe();

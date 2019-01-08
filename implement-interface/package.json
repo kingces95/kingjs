@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/implement-interface",
+  "version": "1.0.2",
+  "description": "Like Object.DefineProperties but maps each name to a symbol using by an interface.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/implement-interface"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/object-ex": "^1.0.29",
+    "@kingjs/require-packages": "^1.0.2"
+  }
+}
