@@ -302,14 +302,18 @@ function testThunk() {
   assert(Type[getterSym] === 0);
 
   assert(setterName in Type && setterSym in Type);
-  assert(Type[setterName] = 0, field == 0);
-  assert(Type[setterSym] = 1, field == 1);
+  Type[setterName] = 0;
+  assert(field == 0);
+  field == 1;
+  assert(Type[setterSym] = 1);
 
   assert(fieldName in Type && fieldSym in Type);
   assert(Type[fieldName] === 42);
   assert(Type[fieldSym] === 42);
-  assert(Type[fieldName] = 0, Type[fieldName] == 0);
-  assert(Type[fieldSym] = 1, Type[fieldName] == 1);
+  Type[fieldName] = 0;
+  assert(Type[fieldName] == 0);
+  Type[fieldSym] = 1;
+  assert(Type[fieldName] == 1);
 }
 testThunk();
 

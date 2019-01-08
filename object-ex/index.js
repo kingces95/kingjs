@@ -58,6 +58,7 @@ var definitions = {
     configurations: {
       'define': { },
       'defineLazy': { future: true },
+      'defineLazyStatic': { future: true, static: true },
     },
   },
 
@@ -73,13 +74,17 @@ var definitions = {
       'setHidden': { configurable: true, enumerable: false },
 
       'setLazy': { configurable: true, future: true },
-      'setHiddenLazy': { configurable: true, enumerable: false, future: true },
+      'setHiddenLazy': { configurable: true, enumerable: false, future: true, static: true },
+      'setLazyStatic': { configurable: true, future: true },
+      'setHiddenLazyStatic': { configurable: true, enumerable: false, future: true, static: true },
 
       'define': { },
       'defineHidden': { enumerable: false },
 
       'defineLazy': { future: true },
       'defineHiddenLazy': { enumerable: false, future: true },
+      'defineLazyStatic': { future: true, static: true },
+      'defineHiddenLazyStatic': { enumerable: false, future: true, static: true },
     },
   },
 }

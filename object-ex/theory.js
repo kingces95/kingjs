@@ -25,6 +25,8 @@ function buildName(test, suffix, pluralSuffix) {
     name += 'Const';
   if (test.future === true)
     name += 'Lazy';
+  if (test.static === true)
+    name += 'Static';
 
   name += test.plural ? pluralSuffix : suffix;
 
@@ -69,11 +71,8 @@ assertTheory(function(test, id) {
   var name = buildName(test, 'Field');
   var descriptor = buildDescriptor(test);
 
-  if (test.static && test.configurable)
-    return;
-
   var target = function target() { };
-  if (!test.static)
+  if (test.prototype)
     target = target.prototype;
   
   if (test.descriptor) {
@@ -98,7 +97,7 @@ assertTheory(function(test, id) {
   value: 0,
   name: ['foo', Symbol.for('foo') ],
   descriptor: [ false, true ],
-  static: [ false, true ],
+  prototype: [ false, true ],
   configurable: [ false, true ],
   enumerable: [ false, true ],
   writable: [ false, true ],
@@ -107,7 +106,7 @@ assertTheory(function(test, id) {
 
 assertTheory(function(test, id) {
   if (test.variant != this.variant.descriptor) {
-    if (test.static) 
+    if (test.static && !test.lazy) 
       return;
     if (test.configurable) 
       return;
@@ -231,7 +230,7 @@ assertTheory(function(test, id) {
   var name = buildName(test, 'Accessor');
 
   if (test.variant != this.variant.descriptor) {
-    if (test.static) 
+    if (test.static && !this.lazy) 
       return;
   }
 
