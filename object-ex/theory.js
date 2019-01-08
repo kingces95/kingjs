@@ -68,19 +68,29 @@ function assertDescriptor(test, target, name) {
 }
 
 assertTheory(function(test, id) {
+  if (test.map && !test.descriptor)
+    return;
+
   var name = buildName(test, 'Field');
   var descriptor = buildDescriptor(test);
 
   var target = function target() { };
   if (test.prototype)
     target = target.prototype;
-  
+
+  var declName = test.name;
+  if (test.map) {
+    declName = Symbol();
+    var map = { [declName]: test.name };
+  }
+
   if (test.descriptor) {
     var arg = descriptor;
+    arg.map = map;
     if (test.plural) 
-      objectEx.defineProperties(target, { [test.name]: arg });
+      objectEx.defineProperties(target, { [declName]: arg });
     else
-      objectEx.defineProperty(target, test.name, arg); 
+      objectEx.defineProperty(target, declName, arg); 
   }
   else {
     var arg = test.value;
@@ -101,7 +111,8 @@ assertTheory(function(test, id) {
   configurable: [ false, true ],
   enumerable: [ false, true ],
   writable: [ false, true ],
-  plural: [ false, true ]
+  plural: [ false, true ],
+  map: [ false, true ]
 })
 
 assertTheory(function(test, id) {
@@ -109,6 +120,8 @@ assertTheory(function(test, id) {
     if (test.static && !test.lazy) 
       return;
     if (test.configurable) 
+      return;
+    if (test.map) 
       return;
   }
 
@@ -133,6 +146,12 @@ assertTheory(function(test, id) {
     return func;
   }
 
+  var declName = test.name;
+  if (test.map) {
+    declName = Symbol();
+    var map = { [declName]: test.name };
+  }
+
   var arg;
   var named = false;
   switch (test.variant) {
@@ -149,12 +168,18 @@ assertTheory(function(test, id) {
       };
       break;
 
+    case this.variant.none:
+      if (test.external) return;
+      arg = { value: func };
+      break;
+
     case this.variant.descriptor:
       var descriptor = buildDescriptor(test);
       descriptor.value = test.external ? null : func;
       descriptor.external = test.external ? stub : undefined;
       descriptor.function = true;
       descriptor.static = test.static;
+      descriptor.map = map;
       arg = descriptor;
       name = test.plural ? 'defineProperties' : 'defineProperty';
       break;
@@ -173,19 +198,14 @@ assertTheory(function(test, id) {
       arg = 'this.func.apply(this, arguments)';
       break;
 
-    case this.variant.none:
-      if (test.external) return;
-      arg = { value: func };
-      break;
-
     default: assert();
   }
 
   var args = [ arg ];
   if (test.plural)
-    args = [ { [test.name]: arg } ];
+    args = [ { [declName]: arg } ];
   else if (!named)
-    args = [ test.name, arg ];
+    args = [ declName, arg ];
 
   pushFront(args, test.static ? Type : Type.prototype);
   objectEx[name].apply(null, args);
@@ -223,7 +243,8 @@ assertTheory(function(test, id) {
   static: [ true, false ],
   future: [ true, false ],
   external: [ true, false ],
-  plural: [ false, true ]
+  plural: [ false, true ],
+  map: [ false, true ],
 })
 
 assertTheory(function(test, id) {
@@ -231,6 +252,8 @@ assertTheory(function(test, id) {
 
   if (test.variant != this.variant.descriptor) {
     if (test.static && !this.lazy) 
+      return;
+    if (test.map)
       return;
   }
 
@@ -287,6 +310,12 @@ assertTheory(function(test, id) {
     if (!setter) return getter;
   }
   
+  var declName = test.name;
+  if (test.map) {
+    declName = Symbol();
+    var map = { [declName]: test.name };
+  }
+
   var named = false;
   var args = [ ];
   switch (test.variant) {
@@ -308,6 +337,7 @@ assertTheory(function(test, id) {
 
     case this.variant.descriptor:
       var descriptor = buildDescriptor(test);
+      descriptor.map = map;
       if (test.static)
         descriptor.static = true;
       if (test.external)
@@ -348,10 +378,10 @@ assertTheory(function(test, id) {
   if (test.plural) {
     if (args.length > 1)
       return;
-    args = [ { [test.name]: args[0] } ];
+    args = [ { [declName]: args[0] } ];
   }
   else if (!named)
-    args = pushFront(args, test.name);
+    args = pushFront(args, declName);
 
   pushFront(args, test.static ? Type : Type.prototype);
   objectEx[name].apply(null, args);
@@ -404,4 +434,5 @@ assertTheory(function(test, id) {
   configurable: [ false, true ],
   enumerable: [ false, true ],
   plural: [ false, true ],
+  map: [ false, true ],
 })

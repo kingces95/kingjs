@@ -126,7 +126,7 @@ function exportDefinition(
 
     for (var key in configuration)
       descriptor[key] = configuration[key];
-  
+
     descriptor = initializer.apply(descriptor, arguments);
 
     var hasGet = 'get' in descriptor;
@@ -137,11 +137,17 @@ function exportDefinition(
     var isFuture = descriptor.future;
     var isThunk = descriptor.thunk;
 
+    if (!is.stringOrSymbol(name))
+      name = (descriptor.value || descriptor.get || descriptor.set).name;
+
+    var map = descriptor.map;
+    if (map) {
+      assert(name in map);
+      name = map[name];
+    }
+
     var isProcedural = isAccessor || isFunction || isFuture || isThunk;
     if (isProcedural) {
-
-      if (!is.stringOrSymbol(name))
-        name = (descriptor.value || descriptor.get || descriptor.set).name;
 
       initLambda.call(descriptor, name);
 
@@ -165,15 +171,17 @@ function exportDefinition(
 
   // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
   exports[prefix + pluralSuffix] =
-    function (target, values) {
-      for (var name in values)
-        define(target, name, values[name]);
+    function (target, values, callerConfiguration) {
 
-      var symbols = Object.getOwnPropertySymbols(values);
-      if (symbols.length > 0) {
-        for (var i = 0; i < symbols.length; i ++)
-          define(target, symbols[i], values[symbols[i]]);
-      }
+      // strings
+      for (var name in values)
+        define(target, name, values[name], callerConfiguration);
+
+      // symbols
+      for (var symbol of Object.getOwnPropertySymbols(values))
+        define(target, symbol, values[symbol], callerConfiguration);
+
+      return target;
     };
 }
 

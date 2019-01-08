@@ -586,4 +586,20 @@ function testArrayExtension() {
 }
 testArrayExtension();
 
+function testMap() {
+  var iface = {
+    foo: Symbol('foo'),
+    bar: Symbol('bar'),
+  }
+  
+  var target = objectEx.defineProperties({ }, {
+    foo: 'foo',
+    bar: { get: 'bar' }
+  }, { map: iface });
+
+  assert(target[iface.foo]() == 'foo');
+  assert(target[iface.bar] == 'bar');
+}
+//testMap() 
+
 require('./theory');
