@@ -26,7 +26,8 @@ function testFuture(isStatic) {
     Type.x = 1;
     Type.y = 2;
     Type.counter = 0;
-  } else {
+  } 
+  else {
     Type.prototype = { x: 1, y: 2, counter: 0 };
   }
 

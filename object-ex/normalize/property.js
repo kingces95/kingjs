@@ -1,17 +1,12 @@
 'use strict';
 var assert = require('assert');
-
 var is = require('@kingjs/is');
+var normalizeName = require('./name');
 
-function initProperty(target, name, descriptor) {
+function normalizeProperty(target, name, descriptor) {
   assert(is.stringOrSymbol(name));
-  
-  for (var name in descriptor)
-    this[name] = descriptor[name];
-
-  return this;
+  descriptor = { ...descriptor };
+  return normalizeName(target, name, descriptor);
 }
 
-Object.defineProperties(module, {
-  exports: { value: initProperty }
-});
+module.exports = normalizeProperty;

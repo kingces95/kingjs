@@ -1,26 +1,16 @@
 'use strict';
-var assert = require('assert');
-var is = require('@kingjs/is');
 var initialize = require('./initialize');
 
 var declare = function(defaults, normalize) {
-  return function(target, name) {
+  return function() {
 
-    // activate descriptor
-    var descriptor = Object.create(defaults);
+    // normalize arguments
+    var { target, name, descriptor } = normalize(...arguments);
 
-    // normalize descriptor
-    normalize.apply(descriptor, arguments);
-
-    // normalize name
-    if (!is.stringOrSymbol(name))
-      name = (descriptor.value || descriptor.get || descriptor.set).name;
-
-    // map name
-    var map = descriptor.map;
-    if (map) {
-      assert(name in map);
-      name = map[name];
+    // assign defaults
+    for (var key in defaults) {
+      if (key in descriptor == false)
+        descriptor[key] = defaults[key];
     }
 
     // initialize descriptor (add stubs, special sauce, etc)

@@ -1,10 +1,7 @@
 'use strict';
 
-function initField(target, name, value) {
-  this.value = value; // could be an object
-  return this;
+function normalizeField(target, name, value) {
+  return { target, name, descriptor: { value } };
 }
 
-Object.defineProperties(module, {
-  exports: { value: initField }
-});
+module.exports = normalizeField;

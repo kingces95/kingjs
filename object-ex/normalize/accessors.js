@@ -1,48 +1,36 @@
 'use strict';
-
 var is = require('@kingjs/is');
+var normalizeName = require('./name');
 
-function initAccessor(target, x, y, z) {
-  var get, set;
+function normalizeAccessor(target, x, y, z) {
+  var name, descriptor;
 
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
-  if (is.object(x)) {
-    get = x.get;
-    set = x.set;
-  }
+  if (is.object(x))
+    descriptor = { ...x };
   
   else if (!is.object(y)) {
-    
+
     // e.g. 'foo', function() { ... } => 'foo', { get: function() { ... } }
     // e.g. 'foo', 'this.bar' => 'foo', { get: function() { return this.bar; } }
     if (is.stringOrSymbol(x)) {
-      get = y;
-      set = z;
+      name = x;
+      descriptor = { get: y, set: z }
     }
 
     // e.g. function foo() { ... } => 'foo', { get: function foo() { ... } }
-    else {
-      get = x;
-      set = y;
-    } 
+    else 
+      descriptor = { get: x, set: y }
   }
  
   // e.g. 'foo', { get: function() { ... } }
   // e.g. 'foo', { get: 'this.bar' } => 'foo', { get: function() { ... } }
   else {
-    for (var name in y)
-      this[name] = y[name];
-  }
-    
-  if (get) 
-    this.get = get;
+    var name = x;
+    descriptor = { ...y };
+  }  
 
-  if (set) 
-    this.set = set;
-
-  return this;
+  return normalizeName(target, name, descriptor);
 }
 
-Object.defineProperties(module, {
-  exports: { value: initAccessor }
-});
+module.exports = normalizeAccessor;

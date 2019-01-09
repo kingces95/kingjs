@@ -1,33 +1,31 @@
 'use strict';
 var assert = require('assert');
-
 var is = require('@kingjs/is');
+var normalizeName = require('./name');
 
-function initFunction(target, x, y) {
+function normalizeFunction(target, x, y) {
+  var name, descriptor;
 
   // e.g. function foo() { ... } => 'foo', function foo() { ... }
   if (is.namedFunction(x)) {
-    this.value = x;
+    descriptor = { value: x };
   }
 
   else {
-    assert(is.stringOrSymbol(x))
+    name = x;
+    assert(is.stringOrSymbol(name))
 
     // e.g. 'foo', 'this.bar' => 'foo', { value: function() { return this.bar; } }
     // e.g. 'foo', function() { ... } => 'foo', { value: function() { ... } }
     if (is.string(y) || is.function(y))
-      this.value = y;
+      descriptor = { value: y };
 
     // e.g. 'foo', { value: function() { ... } }
-    else {
-      for (var name in y)
-        this[name] = y[name];
-    }
+    else
+      descriptor = { ...y };
   }
 
-  return this;
+  return normalizeName(target, name, descriptor);
 }
 
-Object.defineProperties(module, {
-  exports: { value: initFunction }
-});
+module.exports = normalizeFunction;
