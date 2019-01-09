@@ -4,7 +4,7 @@ var assert = require('assert');
 var is = require('@kingjs/is');
 var initStub = require('./stub');
 
-function thunk(name) {
+function initializeThunk(name) {
   assert(is.stringOrSymbol(name));
 
   if (this.function)
@@ -43,6 +43,4 @@ function accessorThunk(name) {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: thunk }
-});
+module.exports = initializeThunk;

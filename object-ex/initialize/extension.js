@@ -7,7 +7,7 @@ var initStub = require('./stub');
 var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
 var extendsThisError = 'Extension does not extend this object.';
 
-function initExtension(name) {
+function initializeExtension(name) {
   var isConfigurable = this.configurable || false;
   var isEnumerable = this.enumerable || false;
   var isExternal = this.external || false;
@@ -70,6 +70,4 @@ function initExtension(name) {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: initExtension }
-});
+module.exports = initializeExtension;

@@ -2,7 +2,7 @@
 
 var is = require('@kingjs/is');
 
-function initLambda(name) {
+function initializeLambda(name) {
 
   if (is.string(this.get))
     this.get = new Function('return ' + this.get);
@@ -16,6 +16,4 @@ function initLambda(name) {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: initLambda }
-});
+module.exports = initializeLambda;

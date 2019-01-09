@@ -94,9 +94,9 @@ assertTheory(function(test, id) {
   else {
     var arg = test.value;
     if (test.plural) 
-      objectEx[name](target, { [test.name]: arg });
+      objectEx[name](target, { [declName]: arg });
     else
-      objectEx[name](target, test.name, arg);
+      objectEx[name](target, declName, arg);
   }
 
   assert(target[test.name] == test.value);

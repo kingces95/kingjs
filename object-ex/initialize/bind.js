@@ -31,6 +31,4 @@ function staticAccessor(target) {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: static }
-});
+module.exports = static;

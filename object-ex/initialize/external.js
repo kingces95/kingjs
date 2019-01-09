@@ -5,7 +5,7 @@ var is = require('@kingjs/is');
 
 var unresolvedStubError = 'Stub returned undefined value.';
 
-function initExternal(name, target) {
+function initializeExternal(name, target) {
   var isConfigurable = this.configurable || false;
   var isEnumerable = this.enumerable || false;
   var isWritable = this.writable || false;
@@ -44,6 +44,4 @@ function initExternal(name, target) {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: initExternal }
-});
+module.exports = initializeExternal;

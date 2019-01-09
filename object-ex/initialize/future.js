@@ -8,7 +8,7 @@ var unresolvedPromiseError = 'Promise returned undefined value.';
 var undefinedTokenError = 'Cannot set token to undefined value.';
 var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
 
-function initFuture(name, isConfigurable) {
+function initializeFuture(name, isConfigurable) {
   var isFuture = this.future || false;
   assert(isFuture);
 
@@ -91,6 +91,4 @@ function initFuture(name, isConfigurable) {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: initFuture }
-});
+module.exports = initializeFuture;
