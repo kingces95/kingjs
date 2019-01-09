@@ -10,7 +10,8 @@ function initializeThunk(name) {
   if (this.function)
     return functionThunk.call(this, name);
 
-  return accessorThunk.call(this, name);
+  else 
+    return accessorThunk.call(this, name);
 }
 
 function functionThunk(name) {
@@ -20,8 +21,6 @@ function functionThunk(name) {
     return this[name].apply(this, arguments); 
   };
   initStub.call(this.value, name);
-
-  return this;
 }
 
 function accessorThunk(name) {
@@ -39,8 +38,6 @@ function accessorThunk(name) {
     this[name] = value; 
   }
   initStub.call(this.set, name);
-
-  return this;
 }
 
 module.exports = initializeThunk;

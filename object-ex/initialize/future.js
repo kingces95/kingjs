@@ -87,8 +87,6 @@ function initializeFuture(name, isConfigurable) {
 
   if (isStatic)
     this.configurable = true;
-
-  return this;
 }
 
 module.exports = initializeFuture;

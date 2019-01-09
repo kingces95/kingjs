@@ -8,6 +8,7 @@ var lambda = require('./lambda');
 var thunk = require('./thunk');
 
 function initialize(name, target) {
+
   var hasGet = 'get' in this;
   var hasSet = 'set' in this;
 

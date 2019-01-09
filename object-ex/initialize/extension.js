@@ -66,8 +66,6 @@ function initializeExtension(name) {
 
   if ('set' in this)
     this.set = extension;
-
-  return this;
 }
 
 module.exports = initializeExtension;

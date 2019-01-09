@@ -8,15 +8,15 @@ function static(target, name) {
   var descriptor = initThunk.call(this, name);
 
   if (descriptor.function)
-    return staticFunction.call(descriptor, target);
+    staticFunction.call(descriptor, target);
 
-  return staticAccessor.call(descriptor, target);
+  else
+    staticAccessor.call(descriptor, target);
 }
 
 function staticFunction(target) {
   assert(this.function);
   this.value = this.value.bind(target);
-  return this;
 }
 
 function staticAccessor(target) {
@@ -27,8 +27,6 @@ function staticAccessor(target) {
 
   if (this.set)
     this.set = this.set.bind(target);
-
-  return this;
 }
 
 module.exports = static;

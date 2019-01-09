@@ -1,6 +1,5 @@
 'use strict';
 var is = require('@kingjs/is');
-var normalizeName = require('./name');
 
 function normalizeAccessor(target, x, y, z) {
   var name, descriptor;
@@ -30,7 +29,11 @@ function normalizeAccessor(target, x, y, z) {
     descriptor = { ...y };
   }  
 
-  return normalizeName(target, name, descriptor);
+  // normalize name
+  if (!is.stringOrSymbol(name))
+    name = (descriptor.get || descriptor.set).name;
+
+  return { target, name, descriptor };
 }
 
 module.exports = normalizeAccessor;

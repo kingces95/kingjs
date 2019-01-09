@@ -12,8 +12,6 @@ function initializeLambda(name) {
 
   if (is.string(this.value))
     this.value = new Function('return ' + this.value);
-
-  return this;
 }
 
 module.exports = initializeLambda;

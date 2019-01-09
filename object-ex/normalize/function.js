@@ -1,7 +1,6 @@
 'use strict';
 var assert = require('assert');
 var is = require('@kingjs/is');
-var normalizeName = require('./name');
 
 function normalizeFunction(target, x, y) {
   var name, descriptor;
@@ -25,7 +24,11 @@ function normalizeFunction(target, x, y) {
       descriptor = { ...y };
   }
 
-  return normalizeName(target, name, descriptor);
+  // normalize name
+  if (!is.stringOrSymbol(name))
+    name = descriptor.value.name;
+
+  return { target, name, descriptor };
 }
 
 module.exports = normalizeFunction;

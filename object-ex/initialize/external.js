@@ -40,8 +40,6 @@ function initializeExternal(name, target) {
       this[key] = result[key];
     assert(isFunction == ('value' in this));
   }
-
-  return this;
 }
 
 module.exports = initializeExternal;

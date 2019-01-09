@@ -1,5 +1,6 @@
 'use strict';
 var initialize = require('./initialize');
+var mapName = require('./map-name');
 
 var declare = function(defaults, normalize) {
   return function() {
@@ -12,6 +13,9 @@ var declare = function(defaults, normalize) {
       if (key in descriptor == false)
         descriptor[key] = defaults[key];
     }
+
+    // map name
+    name = mapName.call(descriptor, name);
 
     // initialize descriptor (add stubs, special sauce, etc)
     initialize.call(descriptor, name, target);
