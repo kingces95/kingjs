@@ -1,10 +1,8 @@
 'use strict';
 
-var objectEx = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var is = testRequire('@kingjs/is');
+var objectEx = require('..');
+var assert = require('assert');
+var is = require('@kingjs/is');
 
 function readMe() {
   var name = 'foo';
@@ -57,7 +55,7 @@ function testFuture(isStatic) {
   });
 
   var instance = isStatic ? Type : new Type();
-  assertThrows(() => instance.compile());
+  assert.throws(() => instance.compile());
   instance.compile = 42;
   assert(instance.compile() == 42);
   assert(instance.compile() == 42);
@@ -111,7 +109,7 @@ function testFuture(isStatic) {
   });
   
   var instance = isStatic ? Type : new Type();
-  assertThrows(() => instance.ref);
+  assert.throws(() => instance.ref);
   instance.ref = 42;
   assert(instance.ref == 42);
   assert(instance.counter == 1);
@@ -151,7 +149,7 @@ function testFuture(isStatic) {
   });
   
   var instance = isStatic ? Type : new Type();
-  assertThrows(() => instance.readOnly);
+  assert.throws(() => instance.readOnly);
   instance.readOnly = 42;
   assert(instance.readOnly == 42);
 
@@ -182,7 +180,7 @@ function testFuture(isStatic) {
   });
   
   var instance = isStatic ? Type : new Type();
-  assertThrows(() => instance.readOnlyFunc());
+  assert.throws(() => instance.readOnlyFunc());
   instance.readOnlyFunc = 42;
   assert(instance.readOnlyFunc() == 42);
 
@@ -379,7 +377,7 @@ function throwOnUndefined() {
   });
 
   target = Object.create(target);
-  assertThrows(() => target.foo);
+  assert.throws(() => target.foo);
   assert(target.foo == 0);
 }
 throwOnUndefined();
@@ -446,8 +444,8 @@ function testDefineReference() {
   objectEx.setLazyAccessor(target, 'bar', { get: resolveOwnProperty, argument: defaultAddress });
   objectEx.setLazyAccessor(target, 'baz', { get: resolveOwnProperty, argument: defaultAddress });
 
-  assertThrows(() => target.foo);
-  assertThrows(() => target.foo = undefined);
+  assert.throws(() => target.foo);
+  assert.throws(() => target.foo = undefined);
   assert(counter == 0);
 
   target.foo = '0';
@@ -457,7 +455,7 @@ function testDefineReference() {
   target.bar = '1';
   assert(counter == 0);
 
-  assertThrows(() => target.baz = undefined);
+  assert.throws(() => target.baz = undefined);
   assert(counter == 0);
 
   assert(target.foo == 42);
@@ -469,7 +467,7 @@ function testDefineReference() {
   assert(counter == 2);
 
   resolveUndefined = true;
-  assertThrows(() => target.baz);
+  assert.throws(() => target.baz);
   assert(counter == 2);
 
   resolveUndefined = false;
@@ -528,7 +526,7 @@ function testExtension() {
   assert(bar[methodEx](43) == 43);
 
   var baz = new Baz();
-  assertThrows(() => baz[methodEx]());
+  assert.throws(() => baz[methodEx]());
 
   // getter
   var getterEx = Symbol('getter');

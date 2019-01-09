@@ -4,8 +4,6 @@ var assert = require('assert');
 var is = require('@kingjs/is');
 
 function initFunction(target, x, y) {
-  assert('configurable' in this);
-  assert('enumerable' in this);
 
   // e.g. function foo() { ... } => 'foo', function foo() { ... }
   if (is.namedFunction(x)) {

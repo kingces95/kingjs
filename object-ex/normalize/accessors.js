@@ -1,12 +1,8 @@
 'use strict';
-var assert = require('assert');
 
 var is = require('@kingjs/is');
 
 function initAccessor(target, x, y, z) {
-  assert('configurable' in this);
-  assert('enumerable' in this);
-  
   var get, set;
 
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
