@@ -1,5 +1,9 @@
 'use strict';
-var is = require('@kingjs/is');
+var assert = require('assert');
+
+var {
+  '@kingjs/is': is,
+} = require('@kingjs/require-packages').call(module);
 
 function normalizeAccessor(target, x, y, z) {
   var name, descriptor;

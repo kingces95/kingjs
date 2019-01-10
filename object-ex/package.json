@@ -21,6 +21,10 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/assert": "^1.0.11",
+    "@kingjs/define.normalize-accessor": "^1.0.0",
+    "@kingjs/define.normalize-field": "^1.0.0",
+    "@kingjs/define.normalize-function": "^1.0.0",
+    "@kingjs/define.normalize-property": "^1.0.0",
     "@kingjs/is": "^1.0.6"
   },
   "devDependencies": {

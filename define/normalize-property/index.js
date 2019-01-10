@@ -1,6 +1,9 @@
 'use strict';
 var assert = require('assert');
-var is = require('@kingjs/is');
+
+var {
+  '@kingjs/is': is,
+} = require('@kingjs/require-packages').call(module);
 
 function normalizeProperty(target, name, descriptor) {
   assert(is.stringOrSymbol(name));

@@ -2,10 +2,10 @@
 var defineDefine = require('./define');
 var forEach = require('./for-each');
 
-var normalizeProperty = require('./normalize/property');
-var normalizeField = require('./normalize/field');
-var normalizeFunction = require('./normalize/function');
-var normalizeAccessor = require('./normalize/accessors');
+var normalizeProperty = require('@kingjs/define.normalize-property');
+var normalizeField = require('@kingjs/define.normalize-field');
+var normalizeFunction = require('@kingjs/define.normalize-function');
+var normalizeAccessor = require('@kingjs/define.normalize-accessor');
 
 var definitions = {
 
