@@ -2,11 +2,17 @@
 var initialize = require('./initialize');
 var mapName = require('./map-name');
 
-var declare = function(defaults, normalize) {
+function define(target, name, descriptor) {
+  var value = Object.defineProperty(create(descriptor), 'name', { value: name });
+  return Object.defineProperty(target, name, { value });
+}
+
+function create(descriptor) {
+  let { defaults, normalizer } = descriptor;
   return function() {
 
     // normalize arguments
-    var { target, name, descriptor } = normalize(...arguments);
+    let { target, name, descriptor } = normalizer(...arguments);
 
     // assign defaults
     for (var key in defaults) {
@@ -25,4 +31,4 @@ var declare = function(defaults, normalize) {
   }
 }
 
-module.exports = declare;
+module.exports = define;

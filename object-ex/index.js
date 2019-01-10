@@ -1,5 +1,5 @@
 'use strict';
-var declare = require('./declare');
+var defineDefine = require('./define');
 var forEach = require('./for-each');
 
 var normalizeProperty = require('./normalize/property');
@@ -96,14 +96,11 @@ for (var name in definitions) {
     var configuration = configurations[prefix];
 
     // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
-    var define = declare({ ...defaults, ...configuration }, normalizer); 
+    var { [prefix + name]: define } = defineDefine(exports, prefix + name, {
+      normalizer, defaults: { ...defaults, ...configuration }, 
+    }); 
 
     // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
-    var defineMany = forEach.bind(define);
-
-    exports[prefix + name] = define;
-    exports[prefix + pluralName] = defineMany;
+    exports[prefix + pluralName] = forEach.bind(define);
   }
 }
-
-return;
