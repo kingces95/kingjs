@@ -4,11 +4,21 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${file}",
-        }
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch TS Program",
+        "program": "${file}",
+        "outFiles": [
+          "${fileDirname}/bin/*.js"
+        ],
+        "sourceMaps": true,
+      },
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "Launch Program",
+          "program": "${file}",
+      }
     ]
 }

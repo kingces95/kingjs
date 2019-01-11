@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/make-readme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "make-readme": "./index.js"
+  },
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/doc"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.6",
+    "@types/node": "^10.12.18",
+    "typescript": "^3.2.2"
+  }
+}

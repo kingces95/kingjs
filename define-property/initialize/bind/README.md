@@ -1,15 +1,27 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/define.initialize-bind
+# Readme
+HEADER
 ## Usage
+My description
 ```js
+var assert = require('assert')
+var initializeBind = require('..');
 ```
 ## API
 ```ts
-declare function initializeBind(
-): any
+/**
+ * 
+ * @param path
+ * @param description the description
+ * @returns a string
+ * @summary a summary
+ */
+function docs(
+  path: string, 
+  description: any) : string;
+
+  docs(asdf,)
 ```
 ### Parameters
-### Returns
-## Remarks
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -17,5 +29,3 @@ $ npm install @kingjs/define.initialize-bind
 ```
 ## License
 MIT
-
-![Analytics](https://analytics.kingjs.net/define.initialize-bind)

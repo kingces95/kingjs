@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/define.initialize-bind",
   "version": "1.0.0",
-  "description": "",
+  "description": "My description",
   "main": "index.js",
   "files": [
     "*.js"
@@ -15,7 +15,34 @@
     "url": "https://repository.kingjs.net/define.initialize-bind"
   },
   "keywords": [],
-  "license": "MIT",
   "dependencies": {
+  },
+  "license": "MIT",
+
+  "kingjs": {
+    "Readme": {
+      "": "${doc.header()}",
+      "Usage": [
+        "${description}",
+        "```js",
+        "${doc.load('test/readme.js')}",
+        "```"
+      ],
+      "API": { 
+        "": [
+          "```ts",
+          "${doc.load('index.d.ts')}",
+          "```"
+        ],
+        "Parameters": { }
+      },
+      "Install": [
+        "With [npm](https://npmjs.org/) installed, run", 
+        "```", 
+        "$ npm install ${name}", 
+        "```"
+      ],
+      "License": "${license}"
+    }
   }
 }
