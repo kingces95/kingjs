@@ -6,7 +6,6 @@ Generates README.md content from a template in package.config.
 'use strict';
 var makeReadme = require('..');
 var assert = require('assert')
-
 ```
 ## API
 ```ts

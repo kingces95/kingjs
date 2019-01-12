@@ -1,25 +1,30 @@
 #!/usr/bin/env node
 'use strict';
-const fs = require('fs');
-const path = require('path');
+var fs = require('fs');
+var path = require('path');
+var compile = require('./compile');
 
-const PackageName = 'package.json';
-const NewLine = '\n';
-const EmptyString = '';
+var PackageName = 'package.json';
+var NewLine = '\n';
+var EmptyString = '';
 
 var { 
   '0': node,
   '1': index,
 } = process.argv;
 
-const cwd = process.cwd();
-const packagePath = path.join(cwd, PackageName)
-const pkg = require(packagePath);
-const pkgNames = Object.getOwnPropertyNames(pkg);
-const pkgValues = pkgNames.map(x => pkg[x]);
+var cwd = process.cwd();
+var packagePath = path.join(cwd, PackageName)
+var pkg = require(packagePath);
 
 if (!pkg.kingjs)
   return;
+
+var doc = {
+  read: x => fs.readFileSync(x),
+  parseDeclaration: x => compile(path.join(cwd, x)),
+  header: () => 'HEADER'
+}
 
 var result = [];
 var hashes = []
@@ -45,16 +50,15 @@ function headers() {
 }
 headers.call(pkg.kingjs);
 
-var doc = {
-  load: x => fs.readFileSync(x),
-  header: () => 'HEADER'
-}
+function substitute(line, descriptor) {
+  var names = Object.getOwnPropertyNames(descriptor);
+  var values = names.map(x => descriptor[x]);
 
-function substitute(line) {
   line = line.replace(/`/g, '\\`')
-  var expand = Function(...pkgNames, 'doc', `return \`${line}\`;`);
-  return expand(...pkgValues, doc);
+  var expand = Function(...names, `return \`${line}\`;`);
+  var result = expand(...values);
+  return result;
 }
 
-result = result.map(x => substitute(x));
+result = result.map(x => substitute(x, { ...pkg, doc: doc }));
 process.stdout.write(result.join(NewLine));
