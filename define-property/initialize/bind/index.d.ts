@@ -1,10 +1,15 @@
 /**
- * 
- * @param path
- * @param description the description
- * @returns a string
- * @summary a summary
+ * Bind descriptor functions with `target`.
+ * @this {propertyDescriptor} The descriptor.
+ * @param target The target to bind to any descriptor functions.
+ * @param name The name to set on the newly bound functions.
  */
-function docs(
-  path: string, 
-  description: any) : string;
+declare function bind(
+  this: propertyDescriptor,
+  target: any, 
+  name: string) : propertyDescriptor;
+
+interface propertyDescriptor {
+  get: Function,
+  set: function,
+}

@@ -1,5 +1,5 @@
 {
-  "name": "kingjs",
+  "name": "@kingjs",
   "version": "1.0.40",
   "description": "Exports all `@kingjs.*` functionality in one package.",
   "main": "index.js",

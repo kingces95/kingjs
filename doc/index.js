@@ -2,63 +2,58 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var compile = require('./compile');
+var parse = require('./parse');
+var print = require('./print');
+var printLines = require('./print-lines');
+var packageNameParse = require('./package-name.parse');
 
+var NpmPackageUrl = 'https://www.npmjs.com/package/';
+var TemplateName = 'README.t.md';
 var PackageName = 'package.json';
-var NewLine = '\n';
-var EmptyString = '';
-
-var { 
-  '0': node,
-  '1': index,
-} = process.argv;
+var UTF8 = 'utf8';
 
 var cwd = process.cwd();
+
+// parse package.json
 var packagePath = path.join(cwd, PackageName)
 var pkg = require(packagePath);
+var { main, name, version, description, license, repository } = pkg;
+var pkgInfo = { name, version, description, license, repository };
 
-if (!pkg.kingjs)
-  return;
+// parse package name
+var { paths } = packageNameParse(name);
 
-var doc = {
-  read: x => fs.readFileSync(x),
-  parseDeclaration: x => compile(path.join(cwd, x)),
-  header: () => 'HEADER'
+// parse index.js
+var mainPath = path.join(cwd, main);
+var mainInfo = parse(mainPath);
+
+// gather substitutions
+var npmjs = NpmPackageUrl;
+var lines = (template, source, keys) => 
+  printLines(template, descriptor, source, keys);
+var descriptor = { 
+  ...mainInfo, 
+  ...pkgInfo, 
+  lines, include, npmjs, paths
+};
+
+// include template
+var result = include(TemplateName);
+console.log(result);
+return;
+
+function include(relPath) {
+  var fullPath = path.join(cwd, relPath);
+  var text = fs.readFileSync(fullPath, UTF8);
+  text = print(text, descriptor);
+  return text;
 }
 
-var result = [];
-var hashes = []
-
-function headers() {
-  hashes.push('#');
-
-  for (var header in this) {
-    var value = this[header];
-
-    if (header)
-      result.push(`${hashes.join(EmptyString)} ${header}`)
-
-    if (value instanceof Array)
-      result.push(...value);
-    else if (typeof value == 'string')
-      result.push(value);
-    else if (typeof value == 'object')
-      headers.call(value);
-  }
-
-  hashes.pop();
-}
-headers.call(pkg.kingjs);
-
-function substitute(line, descriptor) {
-  var names = Object.getOwnPropertyNames(descriptor);
-  var values = names.map(x => descriptor[x]);
-
-  line = line.replace(/`/g, '\\`')
-  var expand = Function(...names, `return \`${line}\`;`);
-  var result = expand(...values);
-  return result;
-}
-
-result = result.map(x => substitute(x, { ...pkg, doc: doc }));
-process.stdout.write(result.join(NewLine));
+/**
+ * @this any This comment
+ * @param foo Foo comment
+ * @param [bar] Bar comment
+ * @param [baz] Baz comment
+ * @returns Returns comment
+ */
+function example(foo, bar, baz) { }

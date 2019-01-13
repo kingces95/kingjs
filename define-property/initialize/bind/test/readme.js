@@ -1,2 +1,3 @@
-var assert = require('assert')
-var initializeBind = require('..');
+var bindMe = require('..');
+
+bindMe()

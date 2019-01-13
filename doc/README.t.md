@@ -1,25 +1,27 @@
-# Readme
-HEADER
+# @[kingjs][@kingjs]/[foo][@kingjs/foo].[bar][@kingjs/foo.bar].baz
+${description}
 ## Usage
-Generates README.md content from a template in package.config.
 ```js
-'use strict';
-var makeReadme = require('..');
-var assert = require('assert')
+${include('test/readme.js').replace('..', name)}
 ```
 ## API
 ```ts
-declare function docs(
-  path: string, 
-  description: any) : string;
+${api}
 ```
 ### Parameters
+${lines('- `${key}`: ${value}', parameters, signature)}
 ## Remarks
 Run in directory containing `package.json`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install -g @kingjs/make-readme
+$ npm install -g ${name}
+$ make-readme
 ```
 ## License
-MIT
+${license}
+
+![Analytics](https://analytics.kingjs.net/{path})
+
+[@kingjs]: ${npmjs}kingjs
+${lines('[@kingjs/${value}]: ${npmjs}@kingjs/${value}', paths)}

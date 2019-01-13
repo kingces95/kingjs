@@ -2,6 +2,11 @@ var {
   '@kingjs/define-property.initialize-name': initializeName,
 } = require('@kingjs/require-packages').call(module);
 
+/**
+ * 
+ * @param {any} target 
+ * @param {string} name 
+ */
 function initializeBind(target, name) {
 
   if (this.function)
@@ -15,5 +20,7 @@ function initializeBind(target, name) {
 
   initializeName.call(this, name, 'bound');
 }
+
+initializeBind(true, '');
 
 module.exports = initializeBind;

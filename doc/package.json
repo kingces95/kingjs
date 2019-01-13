@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/make-readme",
   "version": "1.0.0",
-  "description": "Generates README.md content from a template in package.config.",
+  "description": "Generates README content from a template in package.config.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -23,35 +23,5 @@
     "@kingjs/is": "^1.0.6",
     "@types/node": "^10.12.18",
     "typescript": "^3.2.2"
-  },
-
-  "kingjs": {
-    "Readme": {
-      "": "${doc.header()}",
-      "Usage": [
-        "${description}",
-        "```js",
-        "${doc.read('test/readme.js')}",
-        "```"
-      ],
-      "API": { 
-        "": [
-          "```ts",
-          "${doc.parseDeclaration('index.d.ts').code}",
-          "```"
-        ],
-        "Parameters": { }
-      },
-      "Remarks": [
-         "Run in directory containing `package.json`." 
-      ],
-      "Install": [
-        "With [npm](https://npmjs.org/) installed, run", 
-        "```", 
-        "$ npm install -g ${name}", 
-        "```"
-      ],
-      "License": "${license}"
-    }
   }
 }
