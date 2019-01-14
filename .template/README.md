@@ -1,17 +1,20 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/xxx
+# @[kingjs][@kingjs]/[xxx][ns0]
+
 ## Usage
 ```js
 var assert = require('assert');
 var xxx = require('@kingjs/xxx');
+
 ```
 ## API
 ```ts
-declare function xxx(
-): any
+xxx(this, foo)
 ```
 ### Parameters
+- `this`: This comment
+- `foo`: Foo comment
 ### Returns
-## Remarks
+Returns comment
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -20,4 +23,7 @@ $ npm install @kingjs/xxx
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/xxx)
+![Analytics](https://analytics.kingjs.net/{path})
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/xxx

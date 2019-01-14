@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/expand-readme-template",
+  "version": "1.0.2",
+  "description": "Generates README content from a readme.t.md next to package.config.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "ert": "./index.js"
+  },
+  "scripts": {
+    "test": "node test",
+    "preversion": "ert"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/expand-readme-template"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.6",
+    "@types/node": "^10.12.18",
+    "typescript": "^3.2.2"
+  }
+}

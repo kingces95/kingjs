@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/tools.create-dependencies-js",
+  "version": "1.0.1",
+  "description": "Generates dependencies.js which exports the dependencies in package.json.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "cdj": "./index.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/tools.create-dependencies-js"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/camel-case.join": "^1.0.0",
+    "@kingjs/package-name.parse": "^1.0.1"
+  }
+}
