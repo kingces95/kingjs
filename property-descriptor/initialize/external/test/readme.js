@@ -1,24 +1,22 @@
 var assert = require('assert');
-var lambda = require('..');
+var external = require('..');
 
-var target = { };
+function Target() { };
+function Foo() { }
 
-var foo = {
-  value: '0'
+var descriptor = {
+  configurable: true,
+  enumerable: false,
+  external: function(name, target) {
+    assert(name == 'foo');
+    assert(target == Target);
+    return {
+      enumerable: true,
+      value: Foo 
+    };
+  }
 }
-foo = lambda.call(foo, 'Foo');
-assert(foo.value.name = 'Foo');
-
-var bar = {
-  get: 'this.field', 
-  set: 'this.field = value'
-}
-bar = lambda.call(bar, 'Bar');
-assert(bar.get.name = 'Bar');
-assert(bar.set.name = 'Bar');
-
-Object.defineProperties(target, { foo, bar });
-assert(target.foo() == 0);
-target.bar = 1;
-assert(target.field == 1);
-assert(target.bar == 1);
+external.call(descriptor, 'foo', Target);
+assert(descriptor.value == Foo);
+assert(descriptor.enumerable);
+assert(descriptor.configurable);

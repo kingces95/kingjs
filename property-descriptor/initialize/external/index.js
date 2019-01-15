@@ -2,12 +2,18 @@
 var assert = require('assert');
 
 var {
-  '@kingjs/is': is,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { is }
+} = require('./dependencies');
 
 var unresolvedStubError = 'Stub returned undefined value.';
 
-function initializeExternal(name, target) {
+/**
+ * @this any The descriptor that delegates its initialize the callback `external`.
+ * @param name First callback arg. Generally the name of the property.
+ * @param target Second callback arg. Generally the target, a function or prototype.
+ * @returns The descriptor whose properties have been overwritten with those of the callback result.
+ */
+function external(name, target) {
 
   // derive descriptor from constructor and name
   var result = this.external(name, target);
@@ -25,4 +31,4 @@ function initializeExternal(name, target) {
   }
 }
 
-module.exports = initializeExternal;
+module.exports = external;
