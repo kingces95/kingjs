@@ -1,8 +1,8 @@
-'use strict';
-
-var xxx = require('..');
-var assert = require('assert')
-
-function readMe() {
-}
-readMe();
+/**
+ * @this any This comment
+ * @param foo Foo comment
+ * @param [bar] Bar comment
+ * @param [baz] Baz comment
+ * @returns Returns comment
+ */
+function example(foo, bar, baz) { }

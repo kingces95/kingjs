@@ -18,7 +18,10 @@ var cwd = process.cwd();
 // parse package.json
 var packagePath = path.join(cwd, PackageName)
 var pkg = require(packagePath);
-var { main, name, version, description, license, repository } = pkg;
+var { 
+  main, name, version, description, license, 
+  repository: { url: repository } 
+} = pkg;
 var pkgInfo = { name, version, description, license, repository };
 
 // parse package name
@@ -32,14 +35,16 @@ var mainInfo = parse(mainPath);
 var npmjs = NpmPackageUrl;
 var join = (template, source, separator, keys) => 
   printJoin(template, descriptor, source, separator, keys);
-var descriptor = { 
+var descriptor = {
   ...mainInfo, 
   ...pkgInfo, 
-  join, include, npmjs, namespaces, segments
+  npmjs,
+  expand, include, join, 
+  namespaces, segments
 };
 
 // include template
-var result = include(TemplateName);
+var result = expand(TemplateName);
 var readmePath = path.join(cwd, ReadmeName);
 fs.writeFileSync(readmePath, result);
 return;
@@ -47,15 +52,12 @@ return;
 function include(relPath) {
   var fullPath = path.join(cwd, relPath);
   var text = fs.readFileSync(fullPath, UTF8);
+  return text;
+}
+
+function expand(relPath) {
+  var text = include(relPath);
   text = print(text, descriptor);
   return text;
 }
 
-/**
- * @this any This comment
- * @param foo Foo comment
- * @param [bar] Bar comment
- * @param [baz] Baz comment
- * @returns Returns comment
- */
-function example(foo, bar, baz) { }
