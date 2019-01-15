@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[property-descriptor][ns0].[initialize][ns1].[lambda][ns2]
-
+Replaces a descriptors strings with functions.
 ## Usage
 ```js
 var assert = require('assert');

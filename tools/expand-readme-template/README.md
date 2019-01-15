@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[tools][ns0],[expand-readme-template][ns1]
+# @[kingjs][@kingjs]/[tools][ns0].[expand-readme-template][ns1]
 Generates `README.md` from a `README.t.md` given `package.config`.
 ## Usage
 Give a `package.json` like this:
@@ -129,7 +129,7 @@ From `package.json`:
 * `version`
 * `description`
 * `license`
-* `repository` -- the URL
+* `repository`
 
 From the package name:
 * `namespaces`: Array of namespaces. 

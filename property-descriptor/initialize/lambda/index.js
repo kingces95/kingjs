@@ -1,7 +1,9 @@
 var {
-  '@kingjs/is': is,
-  '@kingjs/property-descriptor.initialize.name': initializeName,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { 
+    is,
+    propertyDescriptor: { initialize: { name: initializeName } } 
+  }
+} = require('./dependencies');
 
 /**
  * @this any The descriptor whose strings will become lambda functions.

@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments)}
+# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
 ## Usage
 Give a `package.json` like this:

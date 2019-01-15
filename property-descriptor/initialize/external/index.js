@@ -18,7 +18,7 @@ function initializeExternal(name, target) {
     this.value = result;
   }
 
-  // otherwise simply copy all of results keys
+  // otherwise simply copy all of result's keys
   else {
     for (var key in result)
       this[key] = result[key];
