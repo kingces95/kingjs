@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.initialize.external",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Overwrites a descriptors properties with those of the result of a callback invoked with the name and target.",
   "main": "index.js",
   "files": [

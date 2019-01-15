@@ -50,11 +50,11 @@ ${repository}
 ## License
 ${license}
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/${join('${value}', segments, '/')})
 ````
 And a `README.t.md` like this:
 ````
-# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments)}
+# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
 ## Usage
 ```js
@@ -77,7 +77,7 @@ ${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}
 Running `ert` will produce a `README.md` like this:
 ````
 
-# @[kingjs][@kingjs]/[ns0][ns0],[ns1][ns1],[example][ns2]
+# @[kingjs][@kingjs]/[ns0][ns0].[ns1][ns1].[example][ns2]
 Example description.
 ## Usage
 ```js
@@ -111,7 +111,7 @@ https://repository.kingjs.net/ns0.ns1.example
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/ns0/ns1/example)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/ns0
@@ -161,7 +161,7 @@ $ ert
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/tools/expand-readme-template)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/tools

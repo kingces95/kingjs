@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.initialize.lambda",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Replaces a descriptors strings with functions.",
   "main": "index.js",
   "files": [

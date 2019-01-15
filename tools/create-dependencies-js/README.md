@@ -38,7 +38,7 @@ $ npm install -g @kingjs/tools.create-dependencies-js
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/tools/create-dependencies-js)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/tools

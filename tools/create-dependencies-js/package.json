@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/tools.create-dependencies-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generates dependencies.js which exports the dependencies in package.json.",
   "main": "index.js",
   "files": [

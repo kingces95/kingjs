@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.initialize.thunk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Replaces a descriptors functions with thunks to a specified name.",
   "main": "index.js",
   "files": [

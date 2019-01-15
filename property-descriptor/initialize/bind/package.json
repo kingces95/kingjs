@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.initialize.bind",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Binds functions in the descriptor to a target.",
   "main": "index.js",
   "files": [

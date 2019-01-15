@@ -23,7 +23,7 @@ $ npm install -g ${name}
 ## License
 ${license}
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/${join('${value}', segments, '/')})
 
 [@kingjs]: ${npmjs}kingjs
 ${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}

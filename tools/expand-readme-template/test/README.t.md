@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments)}
+# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
 ## Usage
 ```js

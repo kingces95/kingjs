@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[ns0][ns0],[ns1][ns1],[example][ns2]
+# @[kingjs][@kingjs]/[ns0][ns0].[ns1][ns1].[example][ns2]
 Example description.
 ## Usage
 ```js
@@ -32,7 +32,7 @@ https://repository.kingjs.net/ns0.ns1.example
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/ns0/ns1/example)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/ns0

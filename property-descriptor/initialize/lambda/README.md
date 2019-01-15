@@ -44,7 +44,7 @@ $ npm install @kingjs/property-descriptor.initialize.lambda
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/property-descriptor/initialize/lambda)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/property-descriptor

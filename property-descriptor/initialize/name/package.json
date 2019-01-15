@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.initialize.name",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Renames functions in the descriptor. Allows for optional parenthesized tag.",
   "main": "index.js",
   "files": [
@@ -16,6 +16,5 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
