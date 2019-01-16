@@ -1,0 +1,16 @@
+{
+  "name": "@kingjs/readme-template",
+  "version": "1.0.0",
+  "description": "The master readme template for the `kingjs` scope.",
+  "main": "README.t.md",
+  "files": [
+    "README.t.md"
+  ],
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/readme-template"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
