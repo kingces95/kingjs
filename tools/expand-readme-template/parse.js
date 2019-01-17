@@ -12,7 +12,11 @@ var ts = require("typescript");
 function example(foo, bar, baz) { }
 
 function parse(path) {
-  var result = { parameters: { } };
+  var result = { 
+    parameters: { }, 
+    returns: null,
+    summary: null,
+  };
   var optional = { };
   walk(createSourceFile(path));
   return result;

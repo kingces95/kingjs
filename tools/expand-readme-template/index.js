@@ -14,15 +14,21 @@ var PackageName = 'package.json';
 var UTF8 = 'utf8';
 
 var cwd = process.cwd();
+cwd = path.join(cwd, 'test');
 
 // parse package.json
 var packagePath = path.join(cwd, PackageName)
 var pkg = require(packagePath);
 var { 
   main, name, version, description, license, 
-  repository: { url: repository } 
+  repository: { url: repository },
+  readmeTemplate
 } = pkg;
 var pkgInfo = { name, version, description, license, repository };
+
+var templateRelPath = TemplateName;
+if (readmeTemplate)
+  templateRelPath = require.resolve(readmeTemplate, { paths: [ cwd ] });
 
 // parse package name
 var { namespaces, segments } = packageNameParse(name);
@@ -44,13 +50,13 @@ var descriptor = {
 };
 
 // include template
-var result = expand(TemplateName);
+var result = expand(templateRelPath);
 var readmePath = path.join(cwd, ReadmeName);
 fs.writeFileSync(readmePath, result);
 return;
 
 function include(relPath) {
-  var fullPath = path.join(cwd, relPath);
+  var fullPath = path.isAbsolute(relPath) ? relPath : path.join(cwd, relPath);
   var text = fs.readFileSync(fullPath, UTF8);
   return text;
 }

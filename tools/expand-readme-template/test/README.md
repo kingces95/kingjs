@@ -20,6 +20,8 @@ example(this, foo[, bar[, baz]])
 - `foo`: Foo comment
 - `bar`: Bar comment
 - `baz`: Baz comment
+### Returns
+null
 ## Remarks
 Run in directory containing `package.json`.
 ## Install

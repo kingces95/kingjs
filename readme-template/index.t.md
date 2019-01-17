@@ -2,7 +2,7 @@
 ${description}
 ## Usage
 ```js
-${include('./readme.js').replace('..', name)}
+${include('test/readme.js').replace('..', name)}
 ```
 ## API
 ```ts
@@ -10,10 +10,17 @@ ${api}
 ```
 ### Parameters
 ${join('- `${key}`: ${value}', parameters, '\n', signature)}
-${expand('./RETURNS.t.md')}
-## Remarks
-Run in directory containing `package.json`.
-${expand('./FOOTER.t.md')}
+### Returns
+${returns}
+## Install
+With [npm](https://npmjs.org/) installed, run
+```
+$ npm install ${name}
+```
+## License
+${license}
+
+![Analytics](https://analytics.kingjs.net/${join('${value}', segments, '/')})
 
 [@kingjs]: ${npmjs}kingjs
 ${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}
