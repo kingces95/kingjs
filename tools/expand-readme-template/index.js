@@ -7,11 +7,11 @@ var print = require('./print');
 var printJoin = require('./print-join');
 var packageNameParse = require('./package-name.parse');
 
-var { version: toolVersion } = require('./package.json');
-console.log(`Expand Readme Template v${toolVersion}`)
+var { name: toolName, version: toolVersion } = require('./package.json');
+console.log(`${toolName}, v${toolVersion}`)
 var EmptyString = '';
 var Tab = '  ';
-var tabs = [];
+var tabs = [ Tab ];
 
 var NpmPackageUrl = 'https://www.npmjs.com/package/';
 var TemplateName = 'README.t.md';
@@ -57,6 +57,7 @@ var descriptor = {
 };
 
 // include template
+console.log('Expanding template: ' + templatePath);
 var result = expand(templatePath);
 var readmePath = joinPath(cwd, ReadmeName);
 fs.writeFileSync(readmePath, result);
@@ -92,7 +93,9 @@ function include(relPath) {
 
 function expand(relPath) {
   var fullPath = joinExpandPath(relPath);
-  console.log(`${tabs.join(EmptyString)}${fullPath}`);
+
+  relPath = path.relative(expandBasePath, fullPath);
+  console.log(`${tabs.join(EmptyString)}${relPath}`);
   
   tabs.push(Tab);
   var text = include(fullPath);

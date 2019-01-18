@@ -16,27 +16,25 @@ Given a `package.json` like this:
     "url": "https://repository.kingjs.net/readme-template"
   },
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {
+    "@kingjs/readme-template": "^1.0.5"
+  },
+  "devDependencies": {},
+  "readmeTemplate": "@kingjs/readme-template"
 }
 
 ```
 And given a `index.js` like this:
 ```js
-'use strict';
-var assert = require('assert');
-
-var {
-} = require('@kingjs/require-packages').call(module);
-
 /**
  * @this any This comment
  * @param foo Foo comment
- * @returns Returns comment
+ * @param [bar] Bar comment
+ * @param [baz] Baz comment
+ * @returns The return comment.
  */
-function xxx(foo) {
-}
+function example(foo, bar, baz) { }
 
-module.exports = xxx;
 ```
 Then...
 ## Install

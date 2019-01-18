@@ -1,10 +1,10 @@
 {
   "name": "@kingjs/readme-template",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "The master readme template for the `kingjs` scope.",
-  "main": "index.t.md",
+  "main": "md/README.t.md",
   "files": [
-    "index.t.md"
+    "md/*.t.md"
   ],
   "scripts": {},
   "repository": {
@@ -13,6 +13,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@kingjs/tools.expand-readme-template": "^1.0.4"
+    "@kingjs/tools.expand-readme-template": "^1.0.7"
   }
 }

@@ -7,20 +7,27 @@ var myPackage = require('@kingjs/readme-template.test');
 
 // example goes here!
 ```
+
 ## API
 ```ts
-test(this, foo)
+example(this, foo[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
 - `foo`: Foo comment
+- `bar`: Bar comment
+- `baz`: Baz comment
 ### Returns
-Returns comment
+The return comment.
+## Remarks
+Run in directory containing `package.json`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/readme-template.test
 ```
+## Source
+https://repository.kingjs.net/readme-template
 ## License
 MIT
 

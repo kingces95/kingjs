@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/tools.expand-readme-template",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Generates `README.md` from a `README.t.md` given `package.json`.",
   "main": "index.js",
   "files": [
