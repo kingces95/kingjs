@@ -11,9 +11,5 @@
     "url": "https://repository.kingjs.net/readme-template"
   },
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {
-    "@kingjs/readme-template": "^1.0.5"
-  },
-  "readmeTemplate": "@kingjs/readme-template"
+  "dependencies": {}
 }

@@ -16,5 +16,9 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": { },
+  "devDependencies": {
+    "@kingjs/readme-template": "^1.0.6"
+  },
+  "readmeTemplate": "@kingjs/readme-template"
 }

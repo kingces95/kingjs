@@ -9,9 +9,9 @@ And a `index.js` like this:
 ```js
 ${include('test/index.js')}
 ```
-And a `md/README.t.md` like this:
+And a `README.t.md` like this:
 ````
-${include('test/md/README.t.md')}
+${include('test/README.t.md')}
 ````
 And a `md/USAGE.t.md` like this:
 ````
@@ -33,7 +33,7 @@ And a `md/FOOTER.t.md` like this:
 ````
 ${include('test/md/FOOTER.t.md')}
 ````
-Running `$npx ert` will produce a `README.md` like this:
+Running `$erm` will produce a `README.md` like this:
 ````
 
 ${include('test/README.md')}
@@ -86,7 +86,12 @@ Functions:
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install -g ${name}
-$ npx ert
+$ erm
+```
+## Execute
+With [npx](https://www.npmjs.com/package/npx) installed, run
+```
+$ npx @kingjs/expand-readme
 ```
 ## License
 ${license}

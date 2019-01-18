@@ -1,20 +1,21 @@
 {
-  "name": "@kingjs/tools.expand-readme-template",
-  "version": "1.0.7",
-  "description": "Generates `README.md` from a `README.t.md` given `package.json`.",
+  "name": "@kingjs/expand-readme",
+  "version": "1.0.2",
+  "description": "Expands `README.t.md` into `README.md`.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "bin": {
-    "ert": "./index.js"
+    "erm": "./erm.js",
+    "expand-readme": "./erm.js"
   },
   "scripts": {
     "test": "node test"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/tools.expand-readme-template"
+    "url": "https://repository.kingjs.net/expand-readme"
   },
   "keywords": [],
   "license": "MIT",

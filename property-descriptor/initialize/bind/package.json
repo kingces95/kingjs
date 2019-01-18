@@ -19,9 +19,5 @@
     "@kingjs/is": "^1.0.9",
     "@kingjs/property-descriptor.initialize.name": "^1.0.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@kingjs/readme-template": "^1.0.6"
-  },
-  "readmeTemplate": "@kingjs/readme-template"
+  "license": "MIT"
 }

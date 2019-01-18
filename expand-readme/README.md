@@ -1,5 +1,5 @@
-# @[kingjs][@kingjs]/[tools][ns0].[expand-readme-template][ns1]
-Generates `README.md` from a `README.t.md` given `package.json`.
+# @[kingjs][@kingjs]/[expand-readme][ns0]
+Expands `README.t.md` into `README.md`.
 ## Usage
 Give a `package.json` like this:
 ```js
@@ -12,11 +12,7 @@ Give a `package.json` like this:
     "url": "https://repository.kingjs.net/ns0.ns1.example"
   },
   "license": "MIT",
-  "dependencies": {},
-  "readmeTemplate": "./md/README.t.md",
-  "devDependencies": {
-    "@kingjs/tools.expand-readme-template": "^1.0.5"
-  }
+  "dependencies": {}
 }
 
 ```
@@ -32,15 +28,15 @@ And a `index.js` like this:
 function example(foo, bar, baz) { }
 
 ```
-And a `md/README.t.md` like this:
+And a `README.t.md` like this:
 ````
 # @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
-${canInclude('./test/readme.js') ? expand('./USAGE.t.md') : ''}
-${api ? expand('./API.t.md') : ''}
+${canInclude('./test/readme.js') ? expand('./md/USAGE.t.md') : ''}
+${api ? expand('./md/API.t.md') : ''}
 ## Remarks
 Run in directory containing `package.json`.
-${expand('./FOOTER.t.md')}
+${expand('./md/FOOTER.t.md')}
 
 [@kingjs]: ${npmjs}kingjs
 ${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}
@@ -94,7 +90,7 @@ ${license}
 
 ![Analytics](https://analytics.kingjs.net/${join('${value}', segments, '/')})
 ````
-Running `$npx ert` will produce a `README.md` like this:
+Running `$erm` will produce a `README.md` like this:
 ````
 
 # @[kingjs][@kingjs]/[ns0][ns0].[ns1][ns1].[example][ns2]
@@ -189,14 +185,13 @@ Functions:
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install -g @kingjs/tools.expand-readme-template
-$ npx ert
+$ npm install -g @kingjs/expand-readme
+$ erm
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/tools/expand-readme-template)
+![Analytics](https://analytics.kingjs.net/expand-readme)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
-[ns0]: https://www.npmjs.com/package/@kingjs/tools
-[ns1]: https://www.npmjs.com/package/@kingjs/tools.expand-readme-template
+[ns0]: https://www.npmjs.com/package/@kingjs/expand-readme
