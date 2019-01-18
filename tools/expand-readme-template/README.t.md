@@ -9,25 +9,46 @@ And a `index.js` like this:
 ```js
 ${include('test/index.js')}
 ```
-And a `readme.js` like this:
+And a `md/README.t.md` like this:
+````
+${include('test/md/README.t.md')}
+````
+And a `md/USAGE.t.md` like this:
+````
+${include('test/md/USAGE.t.md')}
+````
+And a `test/readme.js` like this:
 ```js
-${include('test/readme.js')}
+${include('test/test/readme.js')}
 ```
-And a `FOOTER.t.md` like this:
+And a `md/API.t.md` like this:
 ````
-${include('test/FOOTER.t.md')}
+${include('test/md/API.t.md')}
 ````
-And a `README.t.md` like this:
+And a `md/RETURNS.t.md` like this:
 ````
-${include('test/README.t.md')}
+${include('test/md/RETURNS.t.md')}
 ````
-Running `ert` will produce a `README.md` like this:
+And a `md/FOOTER.t.md` like this:
+````
+${include('test/md/FOOTER.t.md')}
+````
+Running `$npx ert` will produce a `README.md` like this:
 ````
 
 ${include('test/README.md')}
 ````
+## Remarks
+The tool takes no command line arguments. Instead:
+* The tool expects to find a `project.json` in the directory from which it's launched. 
+* It then looks for a `readmeTemplate` element in the `package.json` and tries to load that value as a relative path or as a package for use as the readme template. 
+  * If a package, it expects that package's `main` to be a `t.md` template file. 
+* If no `readmeTemplate` is found then it searches the current directory for `README.t.md`. 
+* Once the template is found, it's expanded into a `README.md` file in the current directory. 
+
+Expansion is preformed by treating the `README.t.md` files a js template literal that has the following variables in scope:
 ## Variables
-The following variables are available:
+The following variables are in scope as the template expands:
 
 * `npmjs` -- `https://www.npmjs.com/package/`
 
@@ -44,7 +65,7 @@ From the package name:
 * `segments`: Array of the segments comprising the namespace.
   * E.g. `@kingjs/foo-bar.baz.moo` -> [`foo-bar`, `baz`];
 
-From the first `JSDoc` comment found in `package.json` `main`:
+From the first `JSDoc` comment found in the file pointed at by the `main` element of the `package.json` (typically `index.js`):
 * `parameters[name]` -- `@param` comment for `name`
 * `parameters.this` -- `@this` comment
 * `returns` -- `@returns` comment
@@ -52,18 +73,20 @@ From the first `JSDoc` comment found in `package.json` `main`:
 * `api` -- Mozilla signature 
   * E.g. `foo(bar[, [baz[, moo]]])`. 
   * Optional parameters names are enclosed in square brackets. 
-    * E.g. `@params [baz] My baz comment.`
+    * E.g. `/** @params [baz] My baz comment. */`
 
 Functions:
-* `include(relPath)` -- Include the content of the file at `relPath`
-* `expand(relPath)` -- Includes and expands the content of the file at the `relPath`.
-* `join(template, source,[ separator[, keys]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with `separator` ordered by `keys`. Also introduces loop iteration variable `i`.
+* `include(relPath)` -- Include the content of the file at `relPath` using the directory of `project.json` as the base path. 
+* `canInclude(relPath)` -- Test if `include(relPath)` will find a file.
+* `expand(relPath)` -- Includes and expands the content of the file at the `relPath` using the directory of the readme template as the base path.
+* `canExpand(relPath)` -- Test if `expand(relPath)` will find a file.
+* `join(template, source,[ separator[, keys]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with `separator` ordered by `keys` while also introducing loop iteration variable `i`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install -g ${name}
-$ ert
+$ npx ert
 ```
 ## License
 ${license}

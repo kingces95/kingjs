@@ -11,6 +11,7 @@ function readMe() {
 }
 readMe();
 ```
+
 ## API
 ```ts
 example(this, foo[, bar[, baz]])
@@ -21,7 +22,7 @@ example(this, foo[, bar[, baz]])
 - `bar`: Bar comment
 - `baz`: Baz comment
 ### Returns
-null
+The return comment.
 ## Remarks
 Run in directory containing `package.json`.
 ## Install

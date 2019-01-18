@@ -7,6 +7,12 @@ var print = require('./print');
 var printJoin = require('./print-join');
 var packageNameParse = require('./package-name.parse');
 
+var { version: toolVersion } = require('./package.json');
+console.log(`Expand Readme Template v${toolVersion}`)
+var EmptyString = '';
+var Tab = '  ';
+var tabs = [];
+
 var NpmPackageUrl = 'https://www.npmjs.com/package/';
 var TemplateName = 'README.t.md';
 var ReadmeName = 'README.md';
@@ -14,10 +20,9 @@ var PackageName = 'package.json';
 var UTF8 = 'utf8';
 
 var cwd = process.cwd();
-cwd = path.join(cwd, 'test');
 
 // parse package.json
-var packagePath = path.join(cwd, PackageName)
+var packagePath = joinPath(cwd, PackageName)
 var pkg = require(packagePath);
 var { 
   main, name, version, description, license, 
@@ -26,15 +31,16 @@ var {
 } = pkg;
 var pkgInfo = { name, version, description, license, repository };
 
-var templateRelPath = TemplateName;
+var templatePath = joinPath(cwd, TemplateName);
 if (readmeTemplate)
-  templateRelPath = require.resolve(readmeTemplate, { paths: [ cwd ] });
+  templatePath = require.resolve(readmeTemplate, { paths: [ cwd ] });
+var expandBasePath = path.dirname(templatePath);
 
 // parse package name
 var { namespaces, segments } = packageNameParse(name);
 
 // parse index.js
-var mainPath = path.join(cwd, main);
+var mainPath = joinPath(cwd, main);
 var mainInfo = parse(mainPath);
 
 // gather substitutions
@@ -44,26 +50,55 @@ var join = (template, source, separator, keys) =>
 var descriptor = {
   ...mainInfo, 
   ...pkgInfo, 
-  npmjs,
-  expand, include, join, 
-  namespaces, segments
+  join,
+  expand, canExpand, 
+  include, canInclude,
+  npmjs,namespaces, segments
 };
 
 // include template
-var result = expand(templateRelPath);
-var readmePath = path.join(cwd, ReadmeName);
+var result = expand(templatePath);
+var readmePath = joinPath(cwd, ReadmeName);
 fs.writeFileSync(readmePath, result);
 return;
 
+function joinPath(basePath, relPath) {
+  if (path.isAbsolute(relPath))
+    return relPath;
+  return path.join(basePath, relPath);
+}
+
+function joinIncludePath(relPath) {
+  return joinPath(cwd, relPath);
+}
+
+function joinExpandPath(relPath) {
+  return joinPath(expandBasePath, relPath);
+}
+
+function canInclude(relPath) {
+  return fs.existsSync(joinIncludePath(relPath));
+}
+
+function canExpand(relPath) {
+  return fs.existsSync(joinExpandPath(relPath));
+}
+
 function include(relPath) {
-  var fullPath = path.isAbsolute(relPath) ? relPath : path.join(cwd, relPath);
+  var fullPath = joinIncludePath(relPath); 
   var text = fs.readFileSync(fullPath, UTF8);
   return text;
 }
 
 function expand(relPath) {
-  var text = include(relPath);
+  var fullPath = joinExpandPath(relPath);
+  console.log(`${tabs.join(EmptyString)}${fullPath}`);
+  
+  tabs.push(Tab);
+  var text = include(fullPath);
   text = print(text, descriptor);
+  tabs.pop(Tab);
+
   return text;
 }
 

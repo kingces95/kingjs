@@ -13,6 +13,7 @@ function example(foo, bar, baz) { }
 
 function parse(path) {
   var result = { 
+    api: null,
     parameters: { }, 
     returns: null,
     summary: null,

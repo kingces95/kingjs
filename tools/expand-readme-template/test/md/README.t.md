@@ -1,16 +1,7 @@
 # @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
-## Usage
-```js
-${include('./readme.js').replace('..', name)}
-```
-## API
-```ts
-${api}
-```
-### Parameters
-${join('- `${key}`: ${value}', parameters, '\n', signature)}
-${expand('./RETURNS.t.md')}
+${canInclude('./test/readme.js') ? expand('./USAGE.t.md') : ''}
+${api ? expand('./API.t.md') : ''}
 ## Remarks
 Run in directory containing `package.json`.
 ${expand('./FOOTER.t.md')}

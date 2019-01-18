@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[tools][ns0].[expand-readme-template][ns1]
-Generates `README.md` from a `README.t.md` given `package.config`.
+Generates `README.md` from a `README.t.md` given `package.json`.
 ## Usage
 Give a `package.json` like this:
 ```js
@@ -11,7 +11,12 @@ Give a `package.json` like this:
   "repository": {
     "url": "https://repository.kingjs.net/ns0.ns1.example"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {},
+  "readmeTemplate": "./md/README.t.md",
+  "devDependencies": {
+    "@kingjs/tools.expand-readme-template": "^1.0.5"
+  }
 }
 
 ```
@@ -22,12 +27,34 @@ And a `index.js` like this:
  * @param foo Foo comment
  * @param [bar] Bar comment
  * @param [baz] Baz comment
- * @returns Returns comment
+ * @returns The return comment.
  */
 function example(foo, bar, baz) { }
 
 ```
-And a `readme.js` like this:
+And a `md/README.t.md` like this:
+````
+# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
+${description}
+${canInclude('./test/readme.js') ? expand('./USAGE.t.md') : ''}
+${api ? expand('./API.t.md') : ''}
+## Remarks
+Run in directory containing `package.json`.
+${expand('./FOOTER.t.md')}
+
+[@kingjs]: ${npmjs}kingjs
+${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}
+
+````
+And a `md/USAGE.t.md` like this:
+````
+## Usage
+```js
+${include('./test/readme.js').replace('..', name)}
+```
+
+````
+And a `test/readme.js` like this:
 ```js
 var assert = require('assert')
 
@@ -38,7 +65,22 @@ function readMe() {
 }
 readMe();
 ```
-And a `FOOTER.t.md` like this:
+And a `md/API.t.md` like this:
+````
+## API
+```ts
+${api}
+```
+### Parameters
+${join('- `${key}`: ${value}', parameters, '\n', signature)}
+${returns ? expand('./RETURNS.t.md') : ''}
+````
+And a `md/RETURNS.t.md` like this:
+````
+### Returns
+${returns}
+````
+And a `md/FOOTER.t.md` like this:
 ````
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -52,29 +94,7 @@ ${license}
 
 ![Analytics](https://analytics.kingjs.net/${join('${value}', segments, '/')})
 ````
-And a `README.t.md` like this:
-````
-# @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
-${description}
-## Usage
-```js
-${include('./readme.js').replace('..', name)}
-```
-## API
-```ts
-${api}
-```
-### Parameters
-${join('- `${key}`: ${value}', parameters, '\n', signature)}
-## Remarks
-Run in directory containing `package.json`.
-${expand('./FOOTER.t.md')}
-
-[@kingjs]: ${npmjs}kingjs
-${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}
-
-````
-Running `ert` will produce a `README.md` like this:
+Running `$npx ert` will produce a `README.md` like this:
 ````
 
 # @[kingjs][@kingjs]/[ns0][ns0].[ns1][ns1].[example][ns2]
@@ -90,6 +110,7 @@ function readMe() {
 }
 readMe();
 ```
+
 ## API
 ```ts
 example(this, foo[, bar[, baz]])
@@ -99,6 +120,8 @@ example(this, foo[, bar[, baz]])
 - `foo`: Foo comment
 - `bar`: Bar comment
 - `baz`: Baz comment
+### Returns
+The return comment.
 ## Remarks
 Run in directory containing `package.json`.
 ## Install
@@ -119,8 +142,17 @@ MIT
 [ns2]: https://www.npmjs.com/package/@kingjs/ns0.ns1.example
 
 ````
+## Remarks
+The tool takes no command line arguments. Instead:
+* The tool expects to find a `project.json` in the directory from which it's launched. 
+* It then looks for a `readmeTemplate` element in the `package.json` and tries to load that value as a relative path or as a package for use as the readme template. 
+  * If a package, it expects that package's `main` to be a `t.md` template file. 
+* If no `readmeTemplate` is found then it searches the current directory for `README.t.md`. 
+* Once the template is found, it's expanded into a `README.md` file in the current directory. 
+
+Expansion is preformed by treating the `README.t.md` files a js template literal that has the following variables in scope:
 ## Variables
-The following variables are available:
+The following variables are in scope as the template expands:
 
 * `npmjs` -- `https://www.npmjs.com/package/`
 
@@ -137,7 +169,7 @@ From the package name:
 * `segments`: Array of the segments comprising the namespace.
   * E.g. `@kingjs/foo-bar.baz.moo` -> [`foo-bar`, `baz`];
 
-From the first `JSDoc` comment found in `package.json` `main`:
+From the first `JSDoc` comment found in the file pointed at by the `main` element of the `package.json` (typically `index.js`):
 * `parameters[name]` -- `@param` comment for `name`
 * `parameters.this` -- `@this` comment
 * `returns` -- `@returns` comment
@@ -145,18 +177,20 @@ From the first `JSDoc` comment found in `package.json` `main`:
 * `api` -- Mozilla signature 
   * E.g. `foo(bar[, [baz[, moo]]])`. 
   * Optional parameters names are enclosed in square brackets. 
-    * E.g. `@params [baz] My baz comment.`
+    * E.g. `/** @params [baz] My baz comment. */`
 
 Functions:
-* `include(relPath)` -- Include the content of the file at `relPath`
-* `expand(relPath)` -- Includes and expands the content of the file at the `relPath`.
-* `join(template, source,[ separator[, keys]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with `separator` ordered by `keys`. Also introduces loop iteration variable `i`.
+* `include(relPath)` -- Include the content of the file at `relPath` using the directory of `project.json` as the base path. 
+* `canInclude(relPath)` -- Test if `include(relPath)` will find a file.
+* `expand(relPath)` -- Includes and expands the content of the file at the `relPath` using the directory of the readme template as the base path.
+* `canExpand(relPath)` -- Test if `expand(relPath)` will find a file.
+* `join(template, source,[ separator[, keys]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with `separator` ordered by `keys` while also introducing loop iteration variable `i`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install -g @kingjs/tools.expand-readme-template
-$ ert
+$ npx ert
 ```
 ## License
 MIT

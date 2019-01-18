@@ -6,5 +6,10 @@
   "repository": {
     "url": "https://repository.kingjs.net/ns0.ns1.example"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {},
+  "readmeTemplate": "./md/README.t.md",
+  "devDependencies": {
+    "@kingjs/tools.expand-readme-template": "^1.0.5"
+  }
 }
