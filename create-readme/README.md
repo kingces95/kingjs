@@ -24,10 +24,16 @@ And given a `index.js` like this:
 ```js
 /**
  * @this any This comment
- * @param foo Foo comment
- * @param [bar] Bar comment
- * @param [baz] Baz comment
+ * 
+ * @param foo Foo comment.
+ * @param [bar] Bar comment.
+ * @param [baz] Baz comment.
+ * 
  * @returns The return comment.
+ * 
+ * @callback foo
+ * @param moo Moo comment.
+ * @param [boo] Boo comment
  */
 function example(foo, bar, baz) { }
 
@@ -53,17 +59,18 @@ var myPackage = require('@kingjs/readme-template.test');
 
 ## API
 ```ts
-example(this, foo[, bar[, baz]])
+example(this, foo(moo[, boo])[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
-- `foo`: Foo comment
-- `bar`: Bar comment
-- `baz`: Baz comment
+- `foo`: Foo comment.
+  - `moo`: Moo comment.
+  - `boo`: Boo comment
+- `bar`: Bar comment.
+- `baz`: Baz comment.
 ### Returns
 The return comment.
-## Remarks
-Run in directory containing `package.json`.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

@@ -9,7 +9,12 @@ var {
 var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
 var extendsThisError = 'Extension does not extend this object.';
 
-function initializeExtension(name) {
+/**
+ * @this any A descriptor with `extends` 
+ * @param name 
+ * @returns
+ */
+function extension(name) {
   assert(is.symbol(name));
 
   var isFunction = this.function;
@@ -64,4 +69,4 @@ function initializeExtension(name) {
   return this;
 }
 
-module.exports = initializeExtension;
+module.exports = extension;

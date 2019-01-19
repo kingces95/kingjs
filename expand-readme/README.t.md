@@ -29,6 +29,10 @@ And a `md/RETURNS.t.md` like this:
 ````
 ${include('test/md/RETURNS.t.md')}
 ````
+And a `md/REMARKS.t.md` like this:
+````
+${include('test/md/REMARKS.t.md')}
+````
 And a `md/FOOTER.t.md` like this:
 ````
 ${include('test/md/FOOTER.t.md')}
@@ -66,10 +70,9 @@ From the package name:
   * E.g. `@kingjs/foo-bar.baz.moo` -> [`foo-bar`, `baz`];
 
 From the first `JSDoc` comment found in the file pointed at by the `main` element of the `package.json` (typically `index.js`):
-* `parameters[name]` -- `@param` comment for `name`
-* `parameters.this` -- `@this` comment
+* `parameters[name]` -- `@param` comment for `name` and `@this` comment. Inserted in source order. 
 * `returns` -- `@returns` comment
-* `summary` -- `@summary` comment
+* `remarks` -- `@remarks` comment
 * `api` -- Mozilla signature 
   * E.g. `foo(bar[, [baz[, moo]]])`. 
   * Optional parameters names are enclosed in square brackets. 
@@ -80,7 +83,7 @@ Functions:
 * `canInclude(relPath)` -- Test if `include(relPath)` will find a file.
 * `expand(relPath)` -- Includes and expands the content of the file at the `relPath` using the directory of the readme template as the base path.
 * `canExpand(relPath)` -- Test if `expand(relPath)` will find a file.
-* `join(template, source,[ separator[, keys]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with `separator` ordered by `keys` while also introducing loop iteration variable `i`.
+* `join(template, source[, separator[, prefix[, suffix]]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with optional `separator`, `prefix`, and `suffix` while also introducing loop iteration variable `i`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run

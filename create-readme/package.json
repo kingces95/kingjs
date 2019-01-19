@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/create-readme",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "The master readme template for the `kingjs` scope.",
   "main": "index.js",
   "files": [
@@ -18,6 +18,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@kingjs/expand-readme": "^1.0.2"
+    "@kingjs/expand-readme": "^1.0.6"
   }
 }

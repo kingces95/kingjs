@@ -27,6 +27,7 @@ target.bar = 1;
 assert(target.field == 1);
 assert(target.bar == 1);
 ```
+
 ## API
 ```ts
 lambda(this, name)
@@ -36,11 +37,14 @@ lambda(this, name)
 - `name`: The name of the lambda functions.
 ### Returns
 The descriptor whose strings are replaced with lambda functions.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/property-descriptor.initialize.lambda
 ```
+## Source
+https://repository.kingjs.net/property-descriptor.initialize.lambda
 ## License
 MIT
 

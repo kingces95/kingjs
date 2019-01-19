@@ -40,8 +40,7 @@ bind(this, target, name)
 - `name`: The name to assign to the bound functions.
 ### Returns
 Returns the descriptor with its functions bound to the target.
-## Remarks
-Run in directory containing `package.json`.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

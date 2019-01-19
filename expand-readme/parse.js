@@ -3,34 +3,46 @@ var fs = require("fs");
 var ts = require("typescript");
 
 /**
- * @this any This comment
- * @param foo Foo comment
- * @param [bar] Bar comment
- * @param [baz] Baz comment
- * @returns Returns comment
+ * @this any This comment.
+ * @param foo Foo comment.
+ * @param [bar] Bar comment.
+ * @param [baz] Baz comment.
+ * @returns The return comment.
+ * The return comment cont.
+ * @remarks An unsupported remarks tag.
+ * Some comments after the JSDoc.
+ * @callback foo
+ * @param cb0 Callback arg0 comment.
+ * @param [db1] Callback arg1 comment.
  */
 function example(foo, bar, baz) { }
 
 function parse(path) {
   var result = { 
     api: null,
-    parameters: { }, 
+    parameters: { },
+    callbacks: { },
     returns: null,
-    summary: null,
+    remarks: null,
   };
-  var optional = { };
   walk(createSourceFile(path));
   return result;
 
   function walkDocs(node) {
 
     switch (node.kind) {
-      
+            
+      // @callback
+      case ts.SyntaxKind.JSDocCallbackTag:
+        var name = node.name.text;
+        var callback = result.callbacks[name] = { };
+        for (var parameter of node.typeExpression.parameters) 
+          defineParameter(callback, parameter);
+        break;
+
       // @param
       case ts.SyntaxKind.JSDocParameterTag:
-        var { name: { text: name }, comment, isBracketed } = node;
-        optional[name] = isBracketed;
-        result.parameters[name] = comment;
+        defineParameter(result.parameters, node);
         break;
 
       // @this
@@ -47,58 +59,73 @@ function parse(path) {
         var tag = node.tagName.text;
         switch (tag) {
 
-          // @summary
-          case 'summary':
-            result.summary = node.comment;
+          // @remarks
+          case 'remarks':
+            result.remarks = node.comment;
             break;
+          
+          default:
+            //console.log(`${ts.SyntaxKind[node.kind]}.${tag}`);
         }
         break;
 
       default:
-        console.log(ts.SyntaxKind[node.kind]);
+        //console.log(ts.SyntaxKind[node.kind]);
     }
   }
 
   function walk(node) {
+    // skip ahead to first jsDoc comment
     if (!node.jsDoc) 
       return ts.forEachChild(node, walk);
     
+    // parse jsDoc comment
     for (var jsDoc of node.jsDoc) 
       ts.forEachChild(jsDoc, walkDocs);
 
-    var signature = result.signature = node.parameters.map(x => x.name.text);
-    if (result.parameters.this)
-      signature.unshift('this');
+    // join callbacks to their parameters
+    for (var callback in result.callbacks)
+      result.parameters[callback].callback = result.callbacks[callback];
 
-    var api = createApi();
-    result.api = `${node.name.text}(${api})`;
+    result.api = createApi(result.parameters, node.name.text);
     return;
+  }
+}
 
-    function createApi() {
-      var tokens = [];
-      return pushTokens(0).join('');
+function defineParameter(target, node) {
+  var { name: { text: name }, comment, isBracketed } = node;
+  var parameter = new String(node.comment);
+  parameter.isOptional = node.isBracketed;
+  target[name] = parameter;
+}
 
-      // example(foo[, bar[, baz]])
-      function pushTokens(i) {
-        if (i == signature.length)
-          return tokens;
+function createApi(parameters, name) {
+  var signature = Object.keys(parameters);
 
-        var name = signature[i];
-        var isOptional = optional[name];
-        if (isOptional)
-          tokens.push('[')
+  var tokens = [];
+  return `${name}(${pushTokens(0).join('')})`;
 
-        if (i > 0)
-          tokens.push(', ')
+  // example(foo[, bar[, baz]])
+  function pushTokens(i) {
+    if (i == signature.length)
+      return tokens;
 
-        tokens.push(name);
-        pushTokens(++i);
+    var name = signature[i];
+    var parameter = parameters[name];
+    var isOptional = parameter.isOptional;
+    if (isOptional)
+      tokens.push('[')
 
-        if (isOptional)
-          tokens.push(']')
-        return tokens;
-      }
-    }
+    if (i > 0)
+      tokens.push(', ')
+
+    tokens.push(parameter.callback ? 
+      createApi(parameter.callback, name) : name);
+    pushTokens(++i);
+
+    if (isOptional)
+      tokens.push(']')
+    return tokens;
   }
 }
 
@@ -113,4 +140,4 @@ function createSourceFile(path) {
 
 module.exports = parse;
 
-//console.log(JSON.stringify(parse('index.js'), null, 2));
+//console.log(JSON.stringify(parse('parse.js'), null, 2));

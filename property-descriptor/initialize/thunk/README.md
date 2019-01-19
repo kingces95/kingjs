@@ -40,8 +40,7 @@ thunk(this, name)
 - `name`: The name on thunk to.
 ### Returns
 Returns the descriptor with functions that thunk to name.
-## Remarks
-Run in directory containing `package.json`.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

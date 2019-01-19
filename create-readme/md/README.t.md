@@ -2,8 +2,7 @@
 ${description}
 ${canInclude('./test/readme.js') ? expand('./USAGE.t.md') : ''}
 ${api ? expand('./API.t.md') : ''}
-## Remarks
-Run in directory containing `package.json`.
+${remarks ? expand('./REMARKS.t.md') : ''}
 ${expand('./FOOTER.t.md')}
 
 [@kingjs]: ${npmjs}kingjs

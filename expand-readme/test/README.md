@@ -14,17 +14,18 @@ readMe();
 
 ## API
 ```ts
-example(this, foo[, bar[, baz]])
+example(this, foo(moo[, boo])[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
-- `foo`: Foo comment
-- `bar`: Bar comment
-- `baz`: Baz comment
+- `foo`: Foo comment.
+  - `moo`: Moo comment.
+  - `boo`:  Boo comment
+- `bar`: Bar comment.
+- `baz`: Baz comment.
 ### Returns
 The return comment.
-## Remarks
-Run in directory containing `package.json`.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

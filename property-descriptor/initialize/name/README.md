@@ -20,6 +20,7 @@ assert(bar.get.name == 'Bar (stub)');
 assert(bar.set.name == 'Bar (stub)');
 
 ```
+
 ## API
 ```ts
 name(this, name[, type])
@@ -30,11 +31,14 @@ name(this, name[, type])
 - `type`: An optional tag to parenthesize and append to the name (e.g. a stub id).
 ### Returns
 Returns the descriptor with its functions renamed.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/property-descriptor.initialize.name
 ```
+## Source
+https://repository.kingjs.net/property-descriptor.initialize.name
 ## License
 MIT
 

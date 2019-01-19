@@ -49,7 +49,7 @@ function expand(templateRelPath) {
     join,
     expand, canExpand, 
     include, canInclude,
-    npmjs,namespaces, segments
+    npmjs, namespaces, segments
   };
 
   // include template

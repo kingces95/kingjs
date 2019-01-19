@@ -20,10 +20,16 @@ And a `index.js` like this:
 ```js
 /**
  * @this any This comment
- * @param foo Foo comment
- * @param [bar] Bar comment
- * @param [baz] Baz comment
+ * 
+ * @param foo Foo comment.
+ * @param [bar] Bar comment.
+ * @param [baz] Baz comment.
+ * 
  * @returns The return comment.
+ * 
+ * @callback foo
+ * @param moo Moo comment.
+ * @param [boo] Boo comment
  */
 function example(foo, bar, baz) { }
 
@@ -34,8 +40,7 @@ And a `README.t.md` like this:
 ${description}
 ${canInclude('./test/readme.js') ? expand('./md/USAGE.t.md') : ''}
 ${api ? expand('./md/API.t.md') : ''}
-## Remarks
-Run in directory containing `package.json`.
+${remarks ? expand('./md/REMARKS.t.md') : ''}
 ${expand('./md/FOOTER.t.md')}
 
 [@kingjs]: ${npmjs}kingjs
@@ -68,13 +73,18 @@ And a `md/API.t.md` like this:
 ${api}
 ```
 ### Parameters
-${join('- `${key}`: ${value}', parameters, '\n', signature)}
+${join('- `${key}`: ${value}${join("  - `${key}`: ${value}", value.callback, "\\n", "\\n")}', parameters, '\n')}
 ${returns ? expand('./RETURNS.t.md') : ''}
 ````
 And a `md/RETURNS.t.md` like this:
 ````
 ### Returns
 ${returns}
+````
+And a `md/REMARKS.t.md` like this:
+````
+### Remarks
+${remarks}
 ````
 And a `md/FOOTER.t.md` like this:
 ````
@@ -109,17 +119,18 @@ readMe();
 
 ## API
 ```ts
-example(this, foo[, bar[, baz]])
+example(this, foo(moo[, boo])[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
-- `foo`: Foo comment
-- `bar`: Bar comment
-- `baz`: Baz comment
+- `foo`: Foo comment.
+  - `moo`: Moo comment.
+  - `boo`:  Boo comment
+- `bar`: Bar comment.
+- `baz`: Baz comment.
 ### Returns
 The return comment.
-## Remarks
-Run in directory containing `package.json`.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -166,10 +177,9 @@ From the package name:
   * E.g. `@kingjs/foo-bar.baz.moo` -> [`foo-bar`, `baz`];
 
 From the first `JSDoc` comment found in the file pointed at by the `main` element of the `package.json` (typically `index.js`):
-* `parameters[name]` -- `@param` comment for `name`
-* `parameters.this` -- `@this` comment
+* `parameters[name]` -- `@param` comment for `name` and `@this` comment. Inserted in source order. 
 * `returns` -- `@returns` comment
-* `summary` -- `@summary` comment
+* `remarks` -- `@remarks` comment
 * `api` -- Mozilla signature 
   * E.g. `foo(bar[, [baz[, moo]]])`. 
   * Optional parameters names are enclosed in square brackets. 
@@ -180,13 +190,18 @@ Functions:
 * `canInclude(relPath)` -- Test if `include(relPath)` will find a file.
 * `expand(relPath)` -- Includes and expands the content of the file at the `relPath` using the directory of the readme template as the base path.
 * `canExpand(relPath)` -- Test if `expand(relPath)` will find a file.
-* `join(template, source,[ separator[, keys]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with `separator` ordered by `keys` while also introducing loop iteration variable `i`.
+* `join(template, source[, separator[, prefix[, suffix]]])` -- Joins the expansions of `template` for each `key`/`value` pair of `source` with optional `separator`, `prefix`, and `suffix` while also introducing loop iteration variable `i`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install -g @kingjs/expand-readme
 $ erm
+```
+## Execute
+With [npx](https://www.npmjs.com/package/npx) installed, run
+```
+$ npx @kingjs/expand-readme
 ```
 ## License
 MIT
