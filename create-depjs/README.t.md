@@ -13,6 +13,10 @@ Produces a `dependencies.js` like this:
 ```js
 ${include('./test/dependencies.js')}
 ``` 
+Which can then be used in like this:
+```js
+${include('./test/readme.js')}
+``` 
 ## Remarks
 Using `dependencies.js` ensures that production code requires only packages listed in as dependencies in `package.json`.
 ## Install

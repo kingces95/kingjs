@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/expand-readme",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Expands `README.t.md` into `README.md`.",
   "main": "index.js",
   "files": [
@@ -21,7 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/is": "^1.0.6",
-    "@types/node": "^10.12.18",
+    "@kingjs/string.join-lines": "^1.0.1",
+    "@kingjs/string.replace-all": "^1.0.0",
     "typescript": "^3.2.2"
   }
 }

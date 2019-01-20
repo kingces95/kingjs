@@ -20,13 +20,17 @@ ${include('test/README.md')}
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
+$ npm init @kingjs/readme
+```
+or
+```
 $ npm install -g ${name}
 $ crm
 ```
 ## Execute
 With [npx](https://www.npmjs.com/package/npx) installed, run
 ```
-$ npx @kingjs/create-readme
+$ npx ${name}
 ```
 ## License
 ${license}

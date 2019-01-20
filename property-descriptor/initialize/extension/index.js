@@ -1,32 +1,43 @@
-//'use strict';
 var assert = require('assert');
-var {
-  '@kingjs/is': is,
-  '@kingjs/define-property.initialize-name': initializeName,
-} = require('@kingjs/require-packages').call(module);
 
+var {
+  ['@kingjs']: { 
+    is,
+    propertyDescriptor: { initialize: { name: initializeName } }
+  }
+} = require('./dependencies');
 
 var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
 var extendsThisError = 'Extension does not extend this object.';
 
 /**
- * @this any A descriptor with `extends` 
- * @param name 
- * @returns
+ * @description Lazily declare an accessor or function 
+ * but only for specific polymorphic types.
+ * 
+ * @this any A descriptor describing an accessor or function.
+ * 
+ * @param name The symbol of the property being described.
+ * @param callback Returns a type `this` must be polymorphic
+ * with before patching the definition.
+ * 
+ * @returns A descriptor whose accessors or function has been replaced
+ * with a stub which checks that `this` is polymorphic with the extended
+ * type before patching and invoking the accessor or function.
+ * 
+ * @callback
  */
-function extension(name) {
+function extension(name, callback) {
   assert(is.symbol(name));
 
-  var isFunction = this.function;
+  var isFunction = 'value' in this;
 
   var type; 
   var descriptor = { ...this };
-  var getExtendedType = this.extends;
   var extension = function(value) {
 
     // cache type
     if (!type) {
-      type = getExtendedType();
+      type = callback();
       assert(!is.undefined(type), failedToResolveExtensionTypeError)
     }
     
@@ -34,8 +45,8 @@ function extension(name) {
     assert(this instanceof type, extendsThisError);
 
     // find target
-    var target = this;
-    while (Object.getPrototypeOf(target) instanceof type)
+    var target = Object.getPrototypeOf(this);
+    while (target instanceof type)
       target = Object.getPrototypeOf(target);
 
     // patch

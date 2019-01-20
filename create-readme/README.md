@@ -25,17 +25,26 @@ And given a `index.js` like this:
 /**
  * @this any This comment
  * 
+ * @param callback Callback comment.
  * @param foo Foo comment.
  * @param [bar] Bar comment.
  * @param [baz] Baz comment.
  * 
  * @returns The return comment.
+ * Return comment that spans a line.
+ * 
+ * @remarks Remarks comment
+ * that spans lines.
+ * @remarks - Remarks comment on new line.
+ * 
+ * @callback
+ * @param pop Default callback.
  * 
  * @callback foo
  * @param moo Moo comment.
  * @param [boo] Boo comment
  */
-function example(foo, bar, baz) { }
+function example(callback, foo, bar, baz) { }
 
 ```
 And given a `test/readme.js` like this:
@@ -59,18 +68,22 @@ var myPackage = require('@kingjs/readme-template.test');
 
 ## API
 ```ts
-example(this, foo(moo[, boo])[, bar[, baz]])
+example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
+- `callback`: Callback comment.
+  - `pop`: Default callback.
 - `foo`: Foo comment.
   - `moo`: Moo comment.
   - `boo`: Boo comment
 - `bar`: Bar comment.
 - `baz`: Baz comment.
 ### Returns
-The return comment.
-
+The return comment. Return comment that spans a line.
+### Remarks
+Remarks comment that spans lines.
+- Remarks comment on new line.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -90,6 +103,10 @@ MIT
 ````
 ## Install
 With [npm](https://npmjs.org/) installed, run
+```
+$ npm init @kingjs/readme
+```
+or
 ```
 $ npm install -g @kingjs/create-readme
 $ crm

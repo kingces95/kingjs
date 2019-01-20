@@ -1,8 +1,13 @@
-'use strict';
+var {
+  ['@kingjs']: { 
+    string: { replaceAll }
+  }
+} = require('./dependencies');
+
 function print(template, descriptor) {
 
   // escape back-ticks
-  template = template.replace(/`/g, '\\`')
+  template = replaceAll.call(template, '`', '\\`');
 
   // create and invoke function to expand template literal
   var keys = Object.keys(descriptor);

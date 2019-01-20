@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[tools][ns0].[create-dependencies-js][ns1]
+# @[kingjs][@kingjs]/[create-depjs][ns0]
 Generates dependencies.js which exports the dependencies in package.json.
 ## Usage
 Given a `package.json` like this:
@@ -28,18 +28,31 @@ exports['@kingjs'] = {
   },
 }
 ``` 
+Which can then be used in like this:
+```js
+var assert = require('assert');
+
+var { 
+  ['@kingjs']: {
+    packageName: { parse },
+    camelCase: { join }
+  }
+} = require('./dependencies');
+
+assert(parse);
+assert(join);
+``` 
 ## Remarks
 Using `dependencies.js` ensures that production code requires only packages listed in as dependencies in `package.json`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install -g @kingjs/tools.create-dependencies-js
+$ npm install -g @kingjs/create-depjs
 ```
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/tools/create-dependencies-js)
+![Analytics](https://analytics.kingjs.net/create-depjs)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
-[ns0]: https://www.npmjs.com/package/@kingjs/tools
-[ns1]: https://www.npmjs.com/package/@kingjs/tools.create-dependencies-js
+[ns0]: https://www.npmjs.com/package/@kingjs/create-depjs

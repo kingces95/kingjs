@@ -42,6 +42,14 @@ Running `$erm` will produce a `README.md` like this:
 
 ${include('test/README.md')}
 ````
+## API
+```ts
+expandReadme(templateRelPath)
+```
+### Parameters
+- `templateRelPath`: The relative path to the template. Default will search `pwd` for `README.t.md`.
+### Returns
+Writes `README.md` in `pwd`.
 ## Remarks
 The tool takes no command line arguments. Instead:
 * The tool expects to find a `project.json` in the directory from which it's launched. 

@@ -1,7 +1,7 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var parse = require('./parse');
+var getFirstJsdoc = require('./first-jsdoc');
 var print = require('./print');
 var printJoin = require('./print-join');
 var packageNameParse = require('./package-name.parse');
@@ -37,7 +37,7 @@ function expand(templateRelPath) {
 
   // parse index.js
   var mainPath = joinPath(cwd, main);
-  var mainInfo = parse(mainPath);
+  var mainInfo = getFirstJsdoc(mainPath);
 
   // gather substitutions
   var npmjs = NpmPackageUrl;

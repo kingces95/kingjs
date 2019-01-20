@@ -1,24 +1,35 @@
-//'use strict';
 var assert = require('assert');
 
 var {
-  '@kingjs/is': is,
-  '@kingjs/define.initialize-name': initializeName,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { 
+    is,
+    propertyDescriptor: { initialize: { name: initializeName } }
+  }
+} = require('./dependencies');
 
 var unresolvedPromiseError = 'Promise returned undefined value.';
 var undefinedTokenError = 'Cannot set token to undefined value.';
 var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
 
-function initializeFuture(name, isConfigurable) {
-  var hasArgument = 'argument' in this;
-  var hasValue = 'value' in this;
+/**
+ * @description Future description
+ * 
+ * @this any Descriptor
+ * 
+ * @param name Comment
+ * @param isConfigurable Comment
+ * @param [argument] Comment
+ * @param [isWriteOnce] Comment
+ * @param [isStatic] Comment
+ */
+function future(name, isConfigurable, argument, isWriteOnce, isStatic) {
+  var hasArgument = argument !== undefined;
+  assert(!hasArgument || isWriteOnce);
   
-  var isFunction = hasValue || this.function || false;
+  var hasValue = 'value' in this;
+  var isFunction = hasValue || false;
   var isConfigurable = this.configurable || false;
   var isEnumerable = this.enumerable || false;
-  var isWriteOnce = this.writeOnce || hasArgument || false;
-  var isStatic = this.static || false;
 
   var wrap = isFunction ? 'value' : 'get';
   var promise = this.value || this.get || (o => o);
@@ -89,4 +100,4 @@ function initializeFuture(name, isConfigurable) {
     this.configurable = true;
 }
 
-module.exports = initializeFuture;
+module.exports = future;

@@ -21,17 +21,26 @@ And a `index.js` like this:
 /**
  * @this any This comment
  * 
+ * @param callback Callback comment.
  * @param foo Foo comment.
  * @param [bar] Bar comment.
  * @param [baz] Baz comment.
  * 
  * @returns The return comment.
+ * Return comment that spans a line.
+ * 
+ * @remarks Remarks comment
+ * that spans lines.
+ * @remarks - Remarks comment on new line.
+ * 
+ * @callback
+ * @param pop Default callback.
  * 
  * @callback foo
  * @param moo Moo comment.
  * @param [boo] Boo comment
  */
-function example(foo, bar, baz) { }
+function example(callback, foo, bar, baz) { }
 
 ```
 And a `README.t.md` like this:
@@ -125,12 +134,14 @@ example(this, foo(moo[, boo])[, bar[, baz]])
 - `this`: This comment
 - `foo`: Foo comment.
   - `moo`: Moo comment.
-  - `boo`:  Boo comment
+  - `boo`: Boo comment
 - `bar`: Bar comment.
 - `baz`: Baz comment.
 ### Returns
-The return comment.
-
+The return comment. Return comment that spans a line.
+### Remarks
+Remarks comment that spans lines.
+- Remarks comment on new line.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
@@ -149,6 +160,14 @@ MIT
 [ns2]: https://www.npmjs.com/package/@kingjs/ns0.ns1.example
 
 ````
+## API
+```ts
+expandReadme(templateRelPath)
+```
+### Parameters
+- `templateRelPath`: The relative path to the template. Default will search `pwd` for `README.t.md`.
+### Returns
+Writes `README.md` in `pwd`.
 ## Remarks
 The tool takes no command line arguments. Instead:
 * The tool expects to find a `project.json` in the directory from which it's launched. 

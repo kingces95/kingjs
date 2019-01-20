@@ -10,18 +10,22 @@ var myPackage = require('@kingjs/readme-template.test');
 
 ## API
 ```ts
-example(this, foo(moo[, boo])[, bar[, baz]])
+example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
+- `callback`: Callback comment.
+  - `pop`: Default callback.
 - `foo`: Foo comment.
   - `moo`: Moo comment.
   - `boo`: Boo comment
 - `bar`: Bar comment.
 - `baz`: Baz comment.
 ### Returns
-The return comment.
-
+The return comment. Return comment that spans a line.
+### Remarks
+Remarks comment that spans lines.
+- Remarks comment on new line.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

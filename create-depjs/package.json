@@ -1,18 +1,19 @@
 {
-  "name": "@kingjs/tools.create-dependencies-js",
-  "version": "1.0.2",
+  "name": "@kingjs/create-depjs",
+  "version": "1.0.0",
   "description": "Generates dependencies.js which exports the dependencies in package.json.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "bin": {
+    "crate-depjs": "./index.js",
     "cdj": "./index.js"
   },
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/tools.create-dependencies-js"
+    "url": "https://repository.kingjs.net/create-depjs"
   },
   "keywords": [],
   "license": "MIT",

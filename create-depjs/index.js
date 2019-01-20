@@ -79,8 +79,11 @@ for (var dependency of dependencies) {
 for (var name in tree) {
   var node = tree[name];
 
-  if (typeof node == 'string')
+  if (typeof node == 'string') {
+    write(`exports['${name}'] = require('${node}')`);
+    writeLine();
     continue;
+  }
 
   write(`exports['${name}'] = `);
   emitTree(node);

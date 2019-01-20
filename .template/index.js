@@ -1,8 +1,7 @@
-'use strict';
 var assert = require('assert');
 
-var {
-} = require('@kingjs/require-packages').call(module);
+var { 
+} = require('./dependencies');
 
 /**
  * @this any This comment

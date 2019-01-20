@@ -1,0 +1,1 @@
+exports['shelljs'] = require('shelljs')

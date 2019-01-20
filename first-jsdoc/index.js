@@ -1,6 +1,9 @@
 "use strict";
 var fs = require("fs");
-var ts = require("typescript");
+
+var { 
+  typescript: ts
+} = require('./dependencies');
 
 /**
  * @this any This comment.
@@ -34,7 +37,7 @@ function parse(path) {
             
       // @callback
       case ts.SyntaxKind.JSDocCallbackTag:
-        var name = node.name.text;
+        var name = node.name.text || 'callback';
         var callback = result.callbacks[name] = { };
         for (var parameter of node.typeExpression.parameters) 
           defineParameter(callback, parameter);
@@ -86,9 +89,6 @@ function parse(path) {
     // join callbacks to their parameters
     for (var callback in result.callbacks)
       result.parameters[callback].callback = result.callbacks[callback];
-
-    result.api = createApi(result.parameters, node.name.text);
-    return;
   }
 }
 
@@ -97,36 +97,6 @@ function defineParameter(target, node) {
   var parameter = new String(node.comment);
   parameter.isOptional = node.isBracketed;
   target[name] = parameter;
-}
-
-function createApi(parameters, name) {
-  var signature = Object.keys(parameters);
-
-  var tokens = [];
-  return `${name}(${pushTokens(0).join('')})`;
-
-  // example(foo[, bar[, baz]])
-  function pushTokens(i) {
-    if (i == signature.length)
-      return tokens;
-
-    var name = signature[i];
-    var parameter = parameters[name];
-    var isOptional = parameter.isOptional;
-    if (isOptional)
-      tokens.push('[')
-
-    if (i > 0)
-      tokens.push(', ')
-
-    tokens.push(parameter.callback ? 
-      createApi(parameter.callback, name) : name);
-    pushTokens(++i);
-
-    if (isOptional)
-      tokens.push(']')
-    return tokens;
-  }
 }
 
 function createSourceFile(path) {

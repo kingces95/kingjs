@@ -11,37 +11,49 @@ function Foo() { }
 var descriptor = {
   configurable: true,
   enumerable: false,
-  external: function(name, target) {
-    assert(name == 'foo');
-    assert(target == Target);
-    return {
-      enumerable: true,
-      value: Foo 
-    };
-  }
 }
-external.call(descriptor, 'foo', Target);
+
+external.call(descriptor, () => Foo, 'foo', Target);
+assert(descriptor.value == Foo);
+assert(!descriptor.enumerable);
+assert(descriptor.configurable);
+
+function init(name, target) {
+  assert(name == 'foo');
+  assert(target == Target);
+  return {
+    enumerable: true,
+    value: Foo 
+  };
+}
+
+external.call(descriptor, init, 'foo', Target);
 assert(descriptor.value == Foo);
 assert(descriptor.enumerable);
 assert(descriptor.configurable);
 ```
+
 ## API
 ```ts
-external(this, name, target)
+external(this, callback(name, target), name, target)
 ```
 ### Parameters
-- `this`: The descriptor that delegates its initialize the callback `external`.
-- `name`: First callback arg. Generally the name of the property.
-- `target`: Second callback arg. Generally the target, a function or prototype.
+- `this`: The descriptor that delegates its initialization to `callback`.
+- `callback`: Returns a function or a descriptor given `name` and `target`.
+  - `name`: The name of property being described.
+  - `target`: The target on which the property is defined.
+- `name`: The name of property being described.
+- `target`: The target on which the property is defined.
 ### Returns
 The descriptor whose properties have been overwritten with those of the callback result.
-### Remarks
-If the callback returns a function it will be assigned to the descriptor `value` property.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/property-descriptor.initialize.external
 ```
+## Source
+https://repository.kingjs.net/property-descriptor/initialize/external
 ## License
 MIT
 
