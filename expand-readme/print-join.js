@@ -1,5 +1,10 @@
 'use strict';
-var print = require('./print');
+
+var {
+  ['@kingjs']: { 
+    string: { expand }
+  }
+} = require('./dependencies');
 
 var EmptyString = '';
 
@@ -20,7 +25,7 @@ function printJoin(template, descriptor, source, separator, prefix, suffix) {
   var lines = [];
   var i = 0;
   for (var key of keys) {
-    var line = print(template, { 
+    var line = expand.call(template, { 
       ...descriptor, i: i++, key, value: source[key] 
     });
     lines.push(line);

@@ -4,16 +4,20 @@ var assert = require('assert');
 var {
   ['@kingjs']: { 
     is,
-    propertyDescriptor: { initialize: { name: initializeName } } 
+    propertyDescriptor: { rename } 
   }
 } = require('./dependencies');
 
 /**
- * @this any The descriptor whose functions will thunk to name.
- * @param name The name on thunk to.
+ * @description Makes a descriptor an alias to another function or accessor.
+ * 
+ * @this any A descriptor with key `value` or keys `get` and/or `set` defined.
+ * 
+ * @param name The name to which the functions corresponding .
+ * 
  * @returns Returns the descriptor with functions that thunk to name.
  */
-function thunk(name) {
+function alias(name) {
   assert(is.stringOrSymbol(name));
 
   if ('value' in this) {
@@ -27,9 +31,9 @@ function thunk(name) {
     this.set = function(value) { this[name] = value; }
   }
 
-  initializeName.call(this, name, 'thunk');
+  rename.call(this, '${name} (thunk)');
 
   return this;
 }
 
-module.exports = thunk;
+module.exports = alias;

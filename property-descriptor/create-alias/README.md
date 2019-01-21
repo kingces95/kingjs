@@ -1,9 +1,9 @@
-# @[kingjs][@kingjs]/[property-descriptor][ns0].[initialize][ns1].[thunk][ns2]
+# @[kingjs][@kingjs]/[property-descriptor][ns0].[thunk][ns1]
 Replace a descriptor's functions with thunks to a specified name.
 ## Usage
 ```js
 var assert = require('assert');
-var thunk = require('@kingjs/property-descriptor.initialize.thunk');
+var thunk = require('@kingjs/property-descriptor.thunk');
 
 var target = { 
   Foo: () => 0,
@@ -44,16 +44,15 @@ Returns the descriptor with functions that thunk to name.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/property-descriptor.initialize.thunk
+$ npm install @kingjs/property-descriptor.thunk
 ```
 ## Source
-https://repository.kingjs.net/property-descriptor.initialize.thunk
+https://repository.kingjs.net/property-descriptor/thunk
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/property-descriptor/initialize/thunk)
+![Analytics](https://analytics.kingjs.net/property-descriptor/thunk)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/property-descriptor
-[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.initialize
-[ns2]: https://www.npmjs.com/package/@kingjs/property-descriptor.initialize.thunk
+[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.thunk

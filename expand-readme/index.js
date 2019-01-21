@@ -2,9 +2,14 @@
 var fs = require('fs');
 var path = require('path');
 var getFirstJsdoc = require('./first-jsdoc');
-var print = require('./print');
 var printJoin = require('./print-join');
 var packageNameParse = require('./package-name.parse');
+
+var {
+  ['@kingjs']: { 
+    string: { expand: expandString }
+  }
+} = require('./dependencies');
 
 var NpmPackageUrl = 'https://www.npmjs.com/package/';
 var TemplateName = 'README.t.md';
@@ -93,7 +98,7 @@ function expand(templateRelPath) {
     expandBasePath = path.dirname(fullPath);
     {
       var text = include(fullPath);
-      text = print(text, descriptor);
+      text = expandString.call(text, descriptor);
     }
     expandBasePath = stack.pop();
     return text;

@@ -22,7 +22,7 @@ var derefBeforeAssignmentError = 'Unexpected dereference attempted before addres
  * @param [isWriteOnce] Comment
  * @param [isStatic] Comment
  */
-function future(name, isConfigurable, argument, isWriteOnce, isStatic) {
+function future(name, argument, isWriteOnce, isStatic) {
   var hasArgument = argument !== undefined;
   assert(!hasArgument || isWriteOnce);
   
