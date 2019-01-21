@@ -1,0 +1,171 @@
+"use strict";
+var fs = require("fs");
+var ts = require("typescript");
+
+var {
+  ['@kingjs']: { 
+    string: { joinLines }
+  }
+} = require('./dependencies');
+
+var NewLine = '\n';
+var Callback = 'callback';
+
+/**
+ * @this any This comment
+ * 
+ * @param callback Callback comment.
+ * @param foo Foo comment is `42`.
+ * @param [bar] Bar comment.
+ * @param [baz] Baz comment.
+ * 
+ * @returns The return comment.
+ * Return comment that spans a line.
+ * 
+ * @remarks Remarks comment
+ * that spans lines.
+ * @remarks - Remarks comment on new line.
+ * 
+ * @callback
+ * @param pop Default callback.
+ * 
+ * @callback foo
+ * @param moo Moo comment.
+ * @param [boo] Boo comment
+ */
+function example(callback, foo, bar, baz) { }
+
+
+function parse(path) {
+  var result = { 
+    api: null,
+    parameters: { },
+    callbacks: { },
+    returns: null,
+    remarks: [],
+  };
+  walk(createSourceFile(path));
+  return result;
+
+  function walkDocs(node) {
+
+    switch (node.kind) {
+            
+      // @callback
+      case ts.SyntaxKind.JSDocCallbackTag:
+        var name = Callback;
+        if (node.name)
+          name = node.name.text;
+        var callback = result.callbacks[name] = { };
+        for (var parameter of node.typeExpression.parameters) 
+          defineParameter(callback, parameter);
+        break;
+
+      // @param
+      case ts.SyntaxKind.JSDocParameterTag:
+        defineParameter(result.parameters, node);
+        break;
+
+      // @this
+      case ts.SyntaxKind.JSDocThisTag:
+        result.parameters.this = joinComment(node.comment);
+        break;
+
+      // @return
+      case ts.SyntaxKind.JSDocReturnTag:
+        result.returns = joinComment(node.comment);
+        break;
+
+      case ts.SyntaxKind.FirstJSDocTagNode:
+        var tag = node.tagName.text;
+        switch (tag) {
+
+          // @remarks
+          case 'remarks':
+            var remarks = joinComment(node.comment);
+            result.remarks.push(remarks);
+            break;
+          
+          default:
+            //console.log(`${ts.SyntaxKind[node.kind]}.${tag}`);
+        }
+        break;
+
+      default:
+        //console.log(ts.SyntaxKind[node.kind]);
+    }
+  }
+
+  function walk(node) {
+    // skip ahead to first jsDoc comment
+    if (!node.jsDoc) 
+      return ts.forEachChild(node, walk);
+    
+    // parse jsDoc comment
+    for (var jsDoc of node.jsDoc) 
+      ts.forEachChild(jsDoc, walkDocs);
+
+    // join callbacks to their parameters
+    for (var callback in result.callbacks)
+      result.parameters[callback].callback = result.callbacks[callback];
+
+    // join remarks
+    result.remarks = result.remarks.join(NewLine);
+
+    result.api = createApi(result.parameters, node.name.text);
+    return;
+  }
+}
+
+function joinComment(comment) {
+  return new String(joinLines.call(comment));
+}
+
+function defineParameter(target, node) {
+  var { name: { text: name }, comment, isBracketed } = node;
+  target[name] = joinComment(comment);
+  target[name].isOptional = isBracketed;
+}
+
+function createApi(parameters, name) {
+  var signature = Object.keys(parameters);
+
+  var tokens = [];
+  return `${name}(${pushTokens(0).join('')})`;
+
+  // example(foo[, bar[, baz]])
+  function pushTokens(i) {
+    if (i == signature.length)
+      return tokens;
+
+    var name = signature[i];
+    var parameter = parameters[name];
+    var isOptional = parameter.isOptional;
+    if (isOptional)
+      tokens.push('[')
+
+    if (i > 0)
+      tokens.push(', ')
+
+    tokens.push(parameter.callback ? 
+      createApi(parameter.callback, name) : name);
+    pushTokens(++i);
+
+    if (isOptional)
+      tokens.push(']')
+    return tokens;
+  }
+}
+
+function createSourceFile(path) {
+  return ts.createSourceFile(
+    path, 
+    fs.readFileSync(path).toString(), 
+    ts.ScriptTarget.ES2015, 
+    true
+  )
+}
+
+module.exports = parse;
+
+//console.log(JSON.stringify(parse('first-jsdoc.js'), null, 2));

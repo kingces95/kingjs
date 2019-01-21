@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/expand-readme",
+  "version": "1.0.8",
+  "description": "Expands `README.t.md` into `README.md`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "erm": "./erm.js",
+    "expand-readme": "./erm.js"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/expand-readme"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.6",
+    "@kingjs/string.join-lines": "^1.0.1",
+    "@kingjs/string.replace-all": "^1.0.0",
+    "typescript": "^3.2.2"
+  }
+}

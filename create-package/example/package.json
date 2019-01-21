@@ -1,0 +1,15 @@
+{
+  "name": "@kingjs/create-package.example",
+  "version": "1.0.0",
+  "description": "A description of the package.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/create-package/example"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/property-descriptor.initialize.external",
+  "version": "1.0.2",
+  "description": "Overwrites a descriptors properties with those of the result of a callback invoked with the name and target.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor/initialize/external"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.9"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/create-depjs",
+  "version": "1.0.0",
+  "description": "Generates dependencies.js which exports the dependencies in package.json.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "crate-depjs": "./index.js",
+    "cdj": "./index.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/create-depjs"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/camel-case.join": "^1.0.0",
+    "@kingjs/package-name.parse": "^1.0.1"
+  }
+}

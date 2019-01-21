@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/property-descriptor.initialize.thunk",
+  "version": "1.0.1",
+  "description": "Replace a descriptor's functions with thunks to a specified name.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor.initialize.thunk"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.initialize.name": "^1.0.0"
+  }
+}

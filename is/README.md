@@ -1,4 +1,4 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/is
+# @[kingjs][kingjs]/is
 ## Usage
 ```js
 var copy = require('@kingjs/is');
@@ -23,3 +23,5 @@ $ npm install @kingjs/is
 MIT
 
 ![Analytics](https://analytics.kingjs.net/is)
+
+[kingjs]: https://www.npmjs.com/package/kingjs
