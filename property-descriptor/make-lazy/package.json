@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/property-descriptor.initialize.future",
+  "name": "@kingjs/property-descriptor.make-lazy",
   "version": "1.0.0",
-  "description": "Future description",
+  "description": "Replaces a description of a function or accessor  with a corresponding descriptor that delegates to the original descriptor and caches its result in a a corresponding property on `this`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,9 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/property-descriptor/initialize/future"
+    "url": "https://repository.kingjs.net/property-descriptor/make-lazy"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.rename": "^1.0.0"
+  }
 }

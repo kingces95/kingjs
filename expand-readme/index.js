@@ -17,11 +17,11 @@ var ReadmeName = 'README.md';
 var PackageName = 'package.json';
 var UTF8 = 'utf8';
 
-function expand(templateRelPath) {
+function expand(templateRelPath, cwd) {
   if (!templateRelPath)
     templateRelPath = TemplateName;
 
-  var cwd = process.cwd();
+  cwd = cwd || process.cwd();
 
   // parse package.json
   var packagePath = joinPath(cwd, PackageName)

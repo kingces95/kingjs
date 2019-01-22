@@ -3,7 +3,7 @@ var assert = require('assert');
 var {
   ['@kingjs']: { 
     is,
-    propertyDescriptor: { initialize: { name: initializeName } }
+    propertyDescriptor: { rename }
   }
 } = require('./dependencies');
 
@@ -12,20 +12,33 @@ var undefinedTokenError = 'Cannot set token to undefined value.';
 var derefBeforeAssignmentError = 'Unexpected dereference attempted before address assignment.';
 
 /**
- * @description Future description
+ * @description Replaces a description of a function or accessor 
+ * with a corresponding descriptor that delegates to the original descriptor
+ * and caches its result in a a corresponding property on `this`.
  * 
- * @this any Descriptor
+ * @this any A description of a get accessor or function. If neither, then
+ * `get` is set to the identify function.
  * 
- * @param name Comment
- * @param isConfigurable Comment
- * @param [argument] Comment
- * @param [isWriteOnce] Comment
- * @param [isStatic] Comment
+ * @param name The name of the property described by `this`.
+ * @param [defaultArgument] If provided, then its assumed the get accessor
+ * or function described by `this` accepts a single argument. In this case, the
+ * returned promise descriptor may be set with a value which will be passed 
+ * to the original descriptor when the promise is fulfilled. If no value was
+ * set then this `defaultArgument` is used.
+ * @param [isStatic] If true then the returned promise descriptor is
+ * marked configurable. This allows the promise to replace itself as happens 
+ * when the descriptor is defined on a target that is also the `this` at 
+ * runtime.
+ * 
+ * @remarks If the original descriptor returns `undefined` then the promise
+ * is not fulfilled and may be tried again later. This allows the debugger to
+ * evaluate a promise before it's ready to be fulfilled without preventing
+ * fulfillment at the nominal time.
  */
-function future(name, argument, isWriteOnce, isStatic) {
-  var hasArgument = argument !== undefined;
-  assert(!hasArgument || isWriteOnce);
-  
+function makeLazy(name, defaultArgument, isStatic) {
+  assert(is.string(name) || is.symbol(name));
+
+  var hasDefaultArgument = !is.undefined(defaultArgument);
   var hasValue = 'value' in this;
   var isFunction = hasValue || false;
   var isConfigurable = this.configurable || false;
@@ -34,38 +47,43 @@ function future(name, argument, isWriteOnce, isStatic) {
   var wrap = isFunction ? 'value' : 'get';
   var promise = this.value || this.get || (o => o);
 
-  this[wrap] = function fulfillPromise(argument) {
+  // normalize name assigned to functions
+  var debugName = name;
+  if (is.symbol(debugName))
+    debugName = Symbol.keyFor(debugName);
 
-    // fulfill
-    var value = !isWriteOnce ? promise.call(this) : promise.call(this, argument);
-    assert(!is.undefined(value), unresolvedPromiseError);
+  function fulfillPromise(argument) {
 
-    var result = value
-    if (isFunction) {
-      result = () => value;
-      initializeName.call(result, name, 'fulfilledPromise')
-    }
+    // delegate to original descriptor
+    var result = promise.call(this, argument);
+    assert(!is.undefined(result), unresolvedPromiseError);
 
-    // patch
-    Object.defineProperty(this, name, {
+    var descriptor = {
       configurable: isConfigurable,
       enumerable: isEnumerable,
+      writable: false,
       value: result
-    });
+    }
 
-    return value;
+    if (isFunction) {
+      descriptor.value = () => result;
+      rename.call(result, debugName)
+    }
+
+    // cache result on this
+    Object.defineProperty(this, name, descriptor);
+    return result;
   };
-  initializeName.call(this[wrap], name);
 
-  if (isWriteOnce) {
+  if (!hasDefaultArgument) {
+    this[wrap] = fulfillPromise;
+  } 
 
-    // a writeOnce-future-function is expressed as a get-accessor, not a field
-    // this way, we may define a setter which may initialize the future
+  else {
     delete this.value;
     delete this.writable;
 
     // deffer bindPromise until initialization
-    var defaultArgument = this.argument;
     this.get = function initializeAndFulfillPromise() {
 
       // initialize with default
@@ -75,29 +93,30 @@ function future(name, argument, isWriteOnce, isStatic) {
       // fulfill
       return this[name];
     };
-    initializeName.call(this.get, name);
 
     this.set = function initializePromise(value) {
       assert(!is.undefined(value), undefinedTokenError);
 
-      // initialize promise
-      var initializedPromise = function() {
-        return fulfillPromise.call(this, value);
-      }; 
-      initializeName.call(initializedPromise, name);
-
-      // patch and await fulfillment
-      Object.defineProperty(this, name, {
+      var descriptor = {
         configurable: true,
         enumerable: isEnumerable,
-        [wrap]: initializedPromise
-      });
+        [wrap]: function() {
+          return fulfillPromise.call(this, value);
+        }
+      };
+
+      rename.call(this, `${debugName} (promised)`)
+
+      Object.defineProperty(this, name, descriptor);
     };   
-    this.set = initializeName.call(this.set, name);
   } 
+  
+  rename.call(this, `${debugName} (promised)`)
 
   if (isStatic)
     this.configurable = true;
+
+  return this;
 }
 
-module.exports = future;
+module.exports = makeLazy;
