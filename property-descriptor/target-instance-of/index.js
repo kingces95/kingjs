@@ -3,7 +3,7 @@ var assert = require('assert');
 var {
   ['@kingjs']: { 
     is,
-    propertyDescriptor: { initialize: { name: initializeName } }
+    propertyDescriptor: { rename }
   }
 } = require('./dependencies');
 
@@ -26,7 +26,7 @@ var extendsThisError = 'Extension does not extend this object.';
  * 
  * @callback
  */
-function extension(name, callback) {
+function targetInstanceOf(name, callback) {
   assert(is.symbol(name));
 
   var isFunction = 'value' in this;
@@ -61,7 +61,7 @@ function extension(name, callback) {
   }
 
   // name stub
-  initializeName.call(extension, name, 'extension');
+  rename.call(extension, name, 'extension');
   
   // initialize stub on descriptor
   if ('value' in this)
@@ -80,4 +80,4 @@ function extension(name, callback) {
   return this;
 }
 
-module.exports = extension;
+module.exports = targetInstanceOf;
