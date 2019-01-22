@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/property-descriptor.rename",
+  "version": "1.0.0",
+  "description": "Renames functions found in a descriptor.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor/rename"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/string.expand": "^1.0.0"
+  }
+}

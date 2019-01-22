@@ -14,11 +14,20 @@ function define(target, name, descriptor) {
   });
 }
 
+function defaultNormalizer(target, name, descriptor) {
+  assert(is.stringOrSymbol(name));
+  descriptor = { ...descriptor };
+  return { target, name, descriptor };
+}
+
 function create(descriptor) {
   let { 
     defaults, 
     normalizer 
   } = descriptor;
+
+  if (!normalizer)
+    normalizer = defaultNormalizer;
 
   return function() {
 
@@ -26,10 +35,7 @@ function create(descriptor) {
     let { target, name, descriptor } = normalizer(...arguments);
 
     // assign defaults
-    for (var key in defaults) {
-      if (key in descriptor == false)
-        descriptor[key] = defaults[key];
-    }
+    descriptor = { ...defaults, ...descriptor };
 
     // map name
     name = mapName.call(descriptor, name);

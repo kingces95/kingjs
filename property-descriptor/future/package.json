@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/property-descriptor.initialize.future",
+  "version": "1.0.0",
+  "description": "Future description",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor/initialize/future"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {}
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/git.get-dir",
+  "version": "1.0.0",
+  "description": "Returns the git root directory.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/git.get-dir"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "shelljs": "^0.8.3"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/property-descriptor.initialize.lambda",
+  "version": "1.0.2",
+  "description": "Replaces a descriptors strings with functions.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor.initialize.lambda"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.initialize.name": "^1.0.0"
+  }
+}

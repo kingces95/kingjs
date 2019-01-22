@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/create-readme",
+  "version": "1.0.5",
+  "description": "The master readme template for the `kingjs` scope.",
+  "main": "index.js",
+  "files": [
+    "*.js",
+    "md/*.t.md"
+  ],
+  "bin": {
+    "create-readme": "index.js",
+    "crm": "index.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/readme-template"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/expand-readme": "^1.0.8"
+  }
+}
