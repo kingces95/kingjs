@@ -9,31 +9,32 @@ var {
 } = require('./dependencies');
 
 /**
- * @description Makes a descriptor an alias to another function or accessor.
+ * @description Creates a descriptor that is an alias of another accessor or function.
  * 
- * @this any A descriptor with key `value` or keys `get` and/or `set` defined.
+ * @param name The name of the accessor or function being aliased.
+ * @param [isFunction=false] True, if the alias target is a function. 
  * 
- * @param name The name to which the functions corresponding .
- * 
- * @returns Returns the descriptor with functions that thunk to name.
+ * @returns A descriptor which will access or invoke a member of the specified name.
  */
-function alias(name) {
+function alias(name, isFunction) {
   assert(is.stringOrSymbol(name));
 
-  if ('value' in this) {
-    this.value = function() {
+  var descriptor = { };
+
+  if (isFunction) {
+    descriptor.value = function() {
       return this[name].apply(this, arguments); 
     };
   }
 
   else {
-    this.get = function() { return this[name]; };
-    this.set = function(value) { this[name] = value; }
+    descriptor.get = function() { return this[name]; };
+    descriptor.set = function(value) { this[name] = value; }
   }
 
-  rename.call(this, '${name} (thunk)');
+  rename.call(descriptor, '${name} (alias)');
 
-  return this;
+  return descriptor;
 }
 
 module.exports = alias;

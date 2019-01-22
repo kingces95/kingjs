@@ -1,31 +1,21 @@
-# @[kingjs][@kingjs]/[property-descriptor][ns0].[thunk][ns1]
-Replace a descriptor's functions with thunks to a specified name.
+# @[kingjs][@kingjs]/[property-descriptor][ns0].[create-alias][ns1]
+Create a descriptor that is an alias of an accessor or function.
 ## Usage
 ```js
 var assert = require('assert');
-var thunk = require('@kingjs/property-descriptor.thunk');
+var createAlias = require('@kingjs/property-descriptor.create-alias');
 
-var target = { 
-  Foo: () => 0,
-  Bar: 1,
-};
-
-var foo = {
-  value: null
-}
-foo = thunk.call(foo, 'Foo');
-assert(foo.value.name = 'Foo (thunk)');
-
-var bar = {
-  get: null, 
-  set: null
-}
-bar = thunk.call(bar, 'Bar');
-assert(bar.get.name = 'Bar (thunk)');
-assert(bar.set.name = 'Bar (thunk)');
-
-Object.defineProperties(target, { foo, bar });
+// alias a function; foo -> Foo
+var fooDescriptor = createAlias('Foo', true);
+assert(fooDescriptor.value.name = 'Foo (alias)');
+var target = Object.defineProperty({ Foo: () => 0 }, 'foo', fooDescriptor);
 assert(target.foo() == 0);
+
+// alias an accessor; bar -> Bar
+var barDescriptor = createAlias('Bar');
+assert(barDescriptor.get.name = 'Bar (alias)');
+assert(barDescriptor.set.name = 'Bar (alias)');
+var target = Object.defineProperty({ Bar: 1 }, 'bar', barDescriptor);
 assert(target.bar == 1);
 target.bar = 2;
 assert(target.Bar == 2);
@@ -33,26 +23,26 @@ assert(target.Bar == 2);
 
 ## API
 ```ts
-thunk(this, name)
+alias(name[, isFunction])
 ```
 ### Parameters
-- `this`: The descriptor whose functions will thunk to name.
-- `name`: The name on thunk to.
+- `name`: The name of the accessor or function being aliased.
+- `isFunction`: True, if the alias target is a function.
 ### Returns
-Returns the descriptor with functions that thunk to name.
+A descriptor which will access or invoke a member of the specified name.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/property-descriptor.thunk
+$ npm install @kingjs/property-descriptor.create-alias
 ```
 ## Source
-https://repository.kingjs.net/property-descriptor/thunk
+https://repository.kingjs.net/property-descriptor/create-alias
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/property-descriptor/thunk)
+![Analytics](https://analytics.kingjs.net/property-descriptor/create-alias)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/property-descriptor
-[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.thunk
+[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.create-alias

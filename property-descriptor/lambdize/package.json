@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/property-descriptor.create-alias",
+  "name": "@kingjs/property-descriptor.lambdize",
   "version": "1.0.0",
-  "description": "Create a descriptor that is an alias of an accessor or function.",
+  "description": "Wraps strings found in a descriptor's `value`, `get` or `set` into an appropriate corresponding lambda functions.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/property-descriptor/create-alias"
+    "url": "https://repository.kingjs.net/property-descriptor/lambdize"
   },
   "keywords": [],
   "license": "MIT",

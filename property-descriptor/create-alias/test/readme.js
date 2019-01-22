@@ -1,27 +1,17 @@
 var assert = require('assert');
-var thunk = require('..');
+var createAlias = require('..');
 
-var target = { 
-  Foo: () => 0,
-  Bar: 1,
-};
-
-var foo = {
-  value: null
-}
-foo = thunk.call(foo, 'Foo');
-assert(foo.value.name = 'Foo (thunk)');
-
-var bar = {
-  get: null, 
-  set: null
-}
-bar = thunk.call(bar, 'Bar');
-assert(bar.get.name = 'Bar (thunk)');
-assert(bar.set.name = 'Bar (thunk)');
-
-Object.defineProperties(target, { foo, bar });
+// alias a function; foo -> Foo
+var fooDescriptor = createAlias('Foo', true);
+assert(fooDescriptor.value.name = 'Foo (alias)');
+var target = Object.defineProperty({ Foo: () => 0 }, 'foo', fooDescriptor);
 assert(target.foo() == 0);
+
+// alias an accessor; bar -> Bar
+var barDescriptor = createAlias('Bar');
+assert(barDescriptor.get.name = 'Bar (alias)');
+assert(barDescriptor.set.name = 'Bar (alias)');
+var target = Object.defineProperty({ Bar: 1 }, 'bar', barDescriptor);
 assert(target.bar == 1);
 target.bar = 2;
 assert(target.Bar == 2);

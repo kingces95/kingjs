@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/define.normalize-accessor",
+  "name": "@kingjs/property-descriptor.create-accessor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/define.normalize-accessor"
+    "url": "https://repository.kingjs.net/property-descriptor/create-accessor"
   },
   "keywords": [],
   "license": "MIT",
