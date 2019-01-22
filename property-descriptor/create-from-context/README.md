@@ -1,22 +1,12 @@
-# @[kingjs][@kingjs]/[property-descriptor][ns0].[initialize][ns1].[external][ns2]
-Overwrites a descriptors properties with those of the result of a callback invoked with the name and target.
+# @[kingjs][@kingjs]/[property-descriptor][ns0].[create-from-context][ns1]
+Create a descriptor by delegating creation to a a callback which is passed the `name` and `target` of the property being defined.
 ## Usage
 ```js
 var assert = require('assert');
-var external = require('@kingjs/property-descriptor.initialize.external');
+var createFromContext = require('@kingjs/property-descriptor.create-from-context');
 
 function Target() { };
 function Foo() { }
-
-var descriptor = {
-  configurable: true,
-  enumerable: false,
-}
-
-external.call(descriptor, () => Foo, 'foo', Target);
-assert(descriptor.value == Foo);
-assert(!descriptor.enumerable);
-assert(descriptor.configurable);
 
 function init(name, target) {
   assert(name == 'foo');
@@ -27,39 +17,37 @@ function init(name, target) {
   };
 }
 
-external.call(descriptor, init, 'foo', Target);
+var descriptor = createFromContext(init, 'foo', Target);
 assert(descriptor.value == Foo);
 assert(descriptor.enumerable);
-assert(descriptor.configurable);
 ```
 
 ## API
 ```ts
-external(this, callback(name, target), name, target)
+createFromContext(callback(name, target), name, target)
 ```
 ### Parameters
-- `this`: The descriptor that delegates its initialization to `callback`.
-- `callback`: Returns a function or a descriptor given `name` and `target`.
+- `callback`: Returns a a descriptor given `name` and `target`.
   - `name`: The name of property being described.
   - `target`: The target on which the property is defined.
 - `name`: The name of property being described.
 - `target`: The target on which the property is defined.
 ### Returns
-The descriptor whose properties have been overwritten with those of the callback result.
-
+A descriptor created based on `name` and `target`.
+### Remarks
+The implementation is trivial but the concept of a property being completely defined by a name plus metadata attached to the target is quite powerful. It allows a mini declarative DSL to be created  and expressed as attributes attached to functions.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/property-descriptor.initialize.external
+$ npm install @kingjs/property-descriptor.create-from-context
 ```
 ## Source
-https://repository.kingjs.net/property-descriptor/initialize/external
+https://repository.kingjs.net/property-descriptor/create-from-context
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/property-descriptor/initialize/external)
+![Analytics](https://analytics.kingjs.net/property-descriptor/create-from-context)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/property-descriptor
-[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.initialize
-[ns2]: https://www.npmjs.com/package/@kingjs/property-descriptor.initialize.external
+[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.create-from-context

@@ -1,18 +1,8 @@
 var assert = require('assert');
-var external = require('..');
+var createFromContext = require('..');
 
 function Target() { };
 function Foo() { }
-
-var descriptor = {
-  configurable: true,
-  enumerable: false,
-}
-
-external.call(descriptor, () => Foo, 'foo', Target);
-assert(descriptor.value == Foo);
-assert(!descriptor.enumerable);
-assert(descriptor.configurable);
 
 function init(name, target) {
   assert(name == 'foo');
@@ -23,7 +13,6 @@ function init(name, target) {
   };
 }
 
-external.call(descriptor, init, 'foo', Target);
+var descriptor = createFromContext(init, 'foo', Target);
 assert(descriptor.value == Foo);
 assert(descriptor.enumerable);
-assert(descriptor.configurable);

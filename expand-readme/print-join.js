@@ -22,6 +22,9 @@ function printJoin(template, descriptor, source, separator, prefix, suffix) {
     suffix = EmptyString;
 
   var keys = Object.keys(source);
+  if (!keys.length)
+    return EmptyString;
+
   var lines = [];
   var i = 0;
   for (var key of keys) {

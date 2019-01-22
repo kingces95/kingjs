@@ -11,23 +11,24 @@ var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
 var extendsThisError = 'Extension does not extend this object.';
 
 /**
- * @description Lazily declare an accessor or function 
- * but only for specific polymorphic types.
+ * @description Add a precondition to an accessor or function descriptor 
+ * which throws unless `this` at runtime is an `instanceof` a specific type.
  * 
  * @this any A descriptor describing an accessor or function.
  * 
- * @param name The symbol of the property being described.
- * @param callback Returns a type `this` must be polymorphic
- * with before patching the definition.
+ * @param callback Returns the type `this` must be an `instanceof` at runtime
+ * in order to access the property. 
+ * @param [symbol] The symbol of the property being described. If provided,
+ * `this` descriptor will be declared on the deepest prototype of the runtime 
+ * `this` for which is `instanceof` returns true.
  * 
- * @returns A descriptor whose accessors or function has been replaced
- * with a stub which checks that `this` is polymorphic with the extended
- * type before patching and invoking the accessor or function.
+ * @returns A descriptor whose accessors or function throws at runtime unless
+ * `this` at runtime is an `instanceof` the type return by `callback`.
  * 
  * @callback
  */
-function targetInstanceOf(name, callback) {
-  assert(is.symbol(name));
+function targetInstanceOf(callback, symbol) {
+  assert(!symbol || is.symbol(symbol));
 
   var isFunction = 'value' in this;
 
@@ -40,28 +41,31 @@ function targetInstanceOf(name, callback) {
       type = callback();
       assert(!is.undefined(type), failedToResolveExtensionTypeError)
     }
-    
+
     // verify type
     assert(this instanceof type, extendsThisError);
 
-    // find target
-    var target = Object.getPrototypeOf(this);
-    while (target instanceof type)
-      target = Object.getPrototypeOf(target);
+    if (symbol) {
 
-    // patch
-    Object.defineProperty(target, name, descriptor);
+      // find target
+      var target = Object.getPrototypeOf(this);
+      while (target instanceof type)
+        target = Object.getPrototypeOf(target);
+
+      // patch
+      Object.defineProperty(target, symbol, descriptor);
+    }
 
     // dispatch
     if (isFunction)
-      return this[name].apply(this, arguments);
+      return this[symbol].apply(this, arguments);
     if (arguments.length == 0) 
-      return this[name];
-    this[name] = value;
+      return this[symbol];
+    this[symbol] = value;
   }
 
   // name stub
-  rename.call(extension, name, 'extension');
+  rename.call(extension, symbol, 'extension');
   
   // initialize stub on descriptor
   if ('value' in this)

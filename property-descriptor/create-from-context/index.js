@@ -20,6 +20,11 @@ var unresolvedError = 'External callback returned undefined value.';
  * @callback
  * @param name The name of property being described.
  * @param target The target on which the property is defined.
+ * 
+ * @remarks The implementation is trivial but the concept of a property
+ * being completely defined by a name plus metadata attached to the target
+ * is quite powerful. It allows a mini declarative DSL to be created 
+ * and expressed as attributes attached to functions.
  */
 function createFromContext(callback, name, target) {
   var result = callback(name, target);

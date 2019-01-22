@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/property-descriptor.initialize.external",
-  "version": "1.0.2",
-  "description": "Overwrites a descriptors properties with those of the result of a callback invoked with the name and target.",
+  "name": "@kingjs/property-descriptor.create-from-context",
+  "version": "1.0.1",
+  "description": "Create a descriptor by delegating creation to a a callback which is passed the `name` and `target` of the property being defined.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/property-descriptor/initialize/external"
+    "url": "https://repository.kingjs.net/property-descriptor/create-from-context"
   },
   "keywords": [],
   "license": "MIT",

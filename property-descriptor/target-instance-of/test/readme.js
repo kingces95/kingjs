@@ -1,5 +1,9 @@
+/** @fileoverview extend the builtin String with a capitalize 
+ * function like this:
+ * */
+
 var assert = require('assert')
-var initializeExtension = require('..');
+var targetInstanceOf = require('..');
 
 function capitalize() {
   var firstChar = this.charAt(0);
@@ -16,10 +20,10 @@ var Capitalize = Symbol(capitalize.name);
 Object.defineProperty(
   Object.prototype,
   Capitalize,
-  initializeExtension.call(
+  targetInstanceOf.call(
     { value: capitalize },
-    Capitalize,
-    () => String
+    () => String,
+    Capitalize
   )
 );
 
