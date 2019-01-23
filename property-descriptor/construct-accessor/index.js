@@ -1,11 +1,21 @@
-'use strict';
-var assert = require('assert');
-
 var {
-  '@kingjs/is': is,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { is }
+} = require('./dependencies');
 
-function normalizeAccessor(target, x, y, z) {
+/**
+ * @description Construct an object `{ target, name, descriptor: { get, set } }`
+ * where `name`, `get`, and `set` are harvested from named functions, or 
+ * are passed separately as a string and functions, or as a string and an object.
+
+ * @param target The target on which the property will be declared.
+ * @param x See the example for a list of overrides.
+ * @param [y] See the example for a list of overrides.
+ * @param [z] See the example for a list of overrides.
+ * 
+ * @returns An object with `{ target, name, descriptor: { value } }` properties
+ * where the descriptor properties are harvested from the arguments.
+ */
+function constructAccessor(target, x, y, z) {
   var name, descriptor;
 
   // e.g. { get: function foo() { ... } } => 'foo', { get: function foo() { ... } }
@@ -40,4 +50,4 @@ function normalizeAccessor(target, x, y, z) {
   return { target, name, descriptor };
 }
 
-module.exports = normalizeAccessor;
+module.exports = constructAccessor;

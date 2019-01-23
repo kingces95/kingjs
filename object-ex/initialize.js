@@ -1,4 +1,3 @@
-'use strict';
 //var bind = require('./bind');
 var extension = require('./extension');
 var external = require('./external');
@@ -6,6 +5,17 @@ var future = require('./future');
 var lambda = require('./lambda');
 //var stub = require('./stub');
 var thunk = require('./thunk');
+
+var {
+  ['@kingjs']: {
+    propertyDescriptor: {
+      lambdize, 
+      makeLazy, 
+      targetInstanceOf, 
+      createAlias
+    }
+  }
+} = dependencies('./dependencies');
 
 function initialize(name, target) {
 
@@ -20,7 +30,7 @@ function initialize(name, target) {
   var isProcedural = isAccessor || isFunction || isFuture || isThunk;
   if (isProcedural) {
 
-    lambda.call(this, name);
+    lambdize.call(this, name);
 
     if (this.thunk)
       thunk.call(this, this.thunk);

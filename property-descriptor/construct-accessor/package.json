@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/property-descriptor.construct-accessor",
+  "version": "1.0.0",
+  "description": "Construct an object `{ target, name, descriptor: { get, set } }` where `name`, `get`, and `set` are harvested from named functions, or  are passed separately as a string and functions, or as a string and an object.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor/construct-accessor"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.6"
+  }
+}

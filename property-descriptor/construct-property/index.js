@@ -1,4 +1,3 @@
-'use strict';
 var assert = require('assert');
 
 var {
@@ -6,14 +5,15 @@ var {
 } = require('./dependencies');
 
 /**
- * @description Returns an object with a target, a name, and a descriptor 
- * which is created by harvesting argument overloads.
+ * @description Construct an object `{ target, name, descriptor: { value } }`
+ * where name and value are harvested from a named function or are passed
+ * separately where if value is an object it's copied else it's is wrapped.
  * 
  * @param target The target on which the property will be declared.
  * @param x See the example for a list of overrides.
- * @param y See the example for a list of overrides.
+ * @param [y] See the example for a list of overrides.
  * 
- * @returns An object with `target`, `name`, and `descriptor` properties
+ * @returns An object with `{ target, name, descriptor: { value } }` properties
  * where the descriptor properties are harvested from the arguments.
  */
 function createProperty(target, x, y) {

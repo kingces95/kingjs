@@ -20,12 +20,13 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/assert": "^1.0.11",
-    "@kingjs/define.normalize-accessor": "^1.0.0",
-    "@kingjs/define.normalize-field": "^1.0.0",
-    "@kingjs/define.normalize-function": "^1.0.0",
-    "@kingjs/define.normalize-property": "^1.0.0",
-    "@kingjs/is": "^1.0.6"
+    "@kingjs/is": "^1.0.6",
+    "@kingjs/property-descriptor.construct-accessor": "^1.0.0",
+    "@kingjs/property-descriptor.construct-field": "^1.0.0",
+    "@kingjs/property-descriptor.construct-property": "^1.0.0",
+    "@kingjs/property-descriptor.lambdize": "^1.0.0",
+    "@kingjs/property-descriptor.make-lazy": "^1.0.0",
+    "@kingjs/property-descriptor.target-instance-of": "^1.0.2"
   },
   "devDependencies": {
     "@kingjs/assert-theory": "^1.0.16",

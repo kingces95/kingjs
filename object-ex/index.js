@@ -1,17 +1,18 @@
-'use strict';
-var defineDefine = require('./define');
-var forEach = require('./for-each');
-
-var normalizeProperty = require('@kingjs/define.normalize-property');
-var normalizeField = require('@kingjs/define.normalize-field');
-var normalizeFunction = require('@kingjs/define.normalize-function');
-var normalizeAccessor = require('@kingjs/define.normalize-accessor');
+var {
+  ['@kingjs']: {
+    propertyDescriptor: {
+      createProperty, 
+      createAccessor, 
+      createField, 
+    }
+  }
+} = dependencies('./dependencies');
 
 var definitions = {
 
   'Field': {
     pluralName: 'Fields',
-    normalizer: normalizeField,
+    pack: createField,
     defaults: { 
       configurable: false, 
       writable: false 
@@ -31,7 +32,7 @@ var definitions = {
 
   'Property': {
     pluralName: 'Properties',
-    normalizer: normalizeProperty,
+    pack: createProperty,
     defaults: { 
       configurable: false 
     },
@@ -42,7 +43,7 @@ var definitions = {
 
   'Function': {
     pluralName: 'Functions',
-    normalizer: normalizeFunction,
+    pack: createProperty,
     defaults: { 
       function: true,
       configurable: false, 
@@ -58,7 +59,7 @@ var definitions = {
 
   'Accessor': {
     pluralName: 'Accessors',
-    normalizer: normalizeAccessor,
+    pack: createAccessor,
     defaults: { 
       configurable: false,
       enumerable: true,
@@ -89,18 +90,40 @@ for (var name in definitions) {
     configurations,
     defaults,
     pluralName,
-    normalizer,
+    pack,
   } = definitions[name];
 
   for (var prefix in configurations) {
     var configuration = configurations[prefix];
 
     // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
-    var { [prefix + name]: define } = defineDefine(exports, prefix + name, {
-      normalizer, defaults: { ...defaults, ...configuration }, 
-    }); 
+    var define = exports[prefix + name] = function() {
+
+      // pack the arguments
+      let { target, name, descriptor } = pack(...arguments);
+
+      // assign defaults
+      descriptor = { ...defaults, ...configuration, ...descriptor };
+
+      // initialize descriptor (add stubs, special sauce, etc)
+      initialize.call(descriptor, name, target);
+
+      // define property
+      return Object.defineProperty(target, name, descriptor);
+    }
 
     // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
-    exports[prefix + pluralName] = forEach.bind(define);
+    exports[prefix + pluralName] = function(target, values) {
+
+      // strings
+      for (var name in values)
+        define(target, name, values[name]);
+    
+      // symbols
+      for (var symbol of Object.getOwnPropertySymbols(values))
+        define(target, symbol, values[symbol]);
+    
+      return target;
+    }
   }
 }
