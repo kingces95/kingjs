@@ -1,18 +1,9 @@
-//var bind = require('./bind');
-var extension = require('./extension');
-var external = require('./external');
-var future = require('./future');
-var lambda = require('./lambda');
-//var stub = require('./stub');
-var thunk = require('./thunk');
-
 var {
   ['@kingjs']: {
     propertyDescriptor: {
       lambdize, 
       makeLazy, 
-      targetInstanceOf, 
-      createAlias
+      targetInstanceOf,
     }
   }
 } = dependencies('./dependencies');
@@ -25,27 +16,23 @@ function initialize(name, target) {
   var isAccessor = hasGet || hasSet;
   var isFunction = this.function;
   var isFuture = this.future;
-  var isThunk = this.thunk;
 
-  var isProcedural = isAccessor || isFunction || isFuture || isThunk;
-  if (isProcedural) {
+  var isProcedural = isAccessor || isFunction || isFuture;
+  if (!isProcedural) 
+    return this;
 
-    lambdize.call(this, name);
+  lambdize.call(this, name);
 
-    if (this.thunk)
-      thunk.call(this, this.thunk);
+  if (this.callback)
+    callback.call(this, name, target);
 
-    else {
-      if (this.extends)
-        extension.call(this, name);
+  if (this.extends)
+    targetInstanceOf.call(this, name);
 
-      else if (this.external)
-        external.call(this, name, target);
+  if (this.lazy) 
+    makeLazy.call(this, name);
 
-      if (this.future) 
-        future.call(this, name);
-    }
-  }
+  return this;
 }
 
 module.exports = initialize;

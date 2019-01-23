@@ -1,9 +1,9 @@
 var {
   ['@kingjs']: {
     propertyDescriptor: {
-      createProperty, 
-      createAccessor, 
-      createField, 
+      constructProperty, 
+      constructAccessor, 
+      constructField, 
     }
   }
 } = dependencies('./dependencies');
@@ -12,7 +12,7 @@ var definitions = {
 
   'Field': {
     pluralName: 'Fields',
-    pack: createField,
+    construct: constructField,
     defaults: { 
       configurable: false, 
       writable: false 
@@ -32,7 +32,7 @@ var definitions = {
 
   'Property': {
     pluralName: 'Properties',
-    pack: createProperty,
+    construct: constructProperty,
     defaults: { 
       configurable: false 
     },
@@ -43,7 +43,7 @@ var definitions = {
 
   'Function': {
     pluralName: 'Functions',
-    pack: createProperty,
+    construct: constructProperty,
     defaults: { 
       function: true,
       configurable: false, 
@@ -59,7 +59,7 @@ var definitions = {
 
   'Accessor': {
     pluralName: 'Accessors',
-    pack: createAccessor,
+    construct: constructAccessor,
     defaults: { 
       configurable: false,
       enumerable: true,
@@ -90,7 +90,7 @@ for (var name in definitions) {
     configurations,
     defaults,
     pluralName,
-    pack,
+    construct,
   } = definitions[name];
 
   for (var prefix in configurations) {
@@ -99,29 +99,34 @@ for (var name in definitions) {
     // (define|set)[Const][Hidden](Field|Accessor|Function)(target, name, descriptor);
     var define = exports[prefix + name] = function() {
 
-      // pack the arguments
-      let { target, name, descriptor } = pack(...arguments);
+      // construct the arguments
+      let { target, name, descriptor } = construct(...arguments);
 
       // assign defaults
       descriptor = { ...defaults, ...configuration, ...descriptor };
 
-      // initialize descriptor (add stubs, special sauce, etc)
+      // initialize descriptor (lambdize, callback, extends, future)
       initialize.call(descriptor, name, target);
 
       // define property
       return Object.defineProperty(target, name, descriptor);
     }
 
-    // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors)
-    exports[prefix + pluralName] = function(target, values) {
+    // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors[, map])
+    exports[prefix + pluralName] = function(target, values, map) {
 
-      // strings
-      for (var name in values)
-        define(target, name, values[name]);
-    
-      // symbols
-      for (var symbol of Object.getOwnPropertySymbols(values))
-        define(target, symbol, values[symbol]);
+      var names = Object.getOwnPropertyNames(values);
+      var symbols = Object.getOwnPropertySymbols(values);
+      var keys = names.concat(symbols);
+
+      for (var key in keys) {
+        if (map) 
+          key = map(key);
+
+        var { descriptor } = construct(target, name, values[key]);
+
+        define(target, name, descriptor);
+      }
     
       return target;
     }
