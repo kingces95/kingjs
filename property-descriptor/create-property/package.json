@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/define.normalize",
+  "name": "@kingjs/property-descriptor.create-property",
   "version": "1.0.0",
-  "description": "",
+  "description": "Returns an object with a target, a name, and a descriptor  which is created by harvesting argument overloads.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,12 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/define.normalize"
+    "url": "https://repository.kingjs.net/property-descriptor/create-property"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.6",
-    "@kingjs/require-packages": "^1.0.2"
+    "@kingjs/is": "^1.0.9"
   }
 }

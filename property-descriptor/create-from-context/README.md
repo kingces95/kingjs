@@ -1,39 +1,36 @@
 # @[kingjs][@kingjs]/[property-descriptor][ns0].[create-from-context][ns1]
-Create a descriptor by delegating creation to a a callback which is passed the `name` and `target` of the property being defined.
+Package a target, a name, and a descriptor created by a callback using `name` and `target`.
 ## Usage
 ```js
 var assert = require('assert');
 var createFromContext = require('@kingjs/property-descriptor.create-from-context');
 
-function Target() { };
-function Foo() { }
+function Type() { };
+Type.info = x => x.toUpperCase();;
 
 function init(name, target) {
-  assert(name == 'foo');
-  assert(target == Target);
-  return {
-    enumerable: true,
-    value: Foo 
-  };
+  var ctor = target.constructor;
+  return { value: () => ctor.info(name) };
 }
 
-var descriptor = createFromContext(init, 'foo', Target);
-assert(descriptor.value == Foo);
-assert(descriptor.enumerable);
+var { target, name, descriptor } = createFromContext(Type.prototype, 'foo', init);
+Object.defineProperty(target, name, descriptor);
+var instance = new Type();
+assert(instance.foo() == 'FOO');
 ```
 
 ## API
 ```ts
-createFromContext(callback(name, target), name, target)
+createFromContext(target, name, callback(name, target))
 ```
 ### Parameters
+- `target`: The target on which the property is defined.
+- `name`: The name of property being described.
 - `callback`: Returns a a descriptor given `name` and `target`.
   - `name`: The name of property being described.
   - `target`: The target on which the property is defined.
-- `name`: The name of property being described.
-- `target`: The target on which the property is defined.
 ### Returns
-A descriptor created based on `name` and `target`.
+An object with `target`, `name`, and `descriptor` properties where the descriptor is created by the callback using `name` and `target`.
 ### Remarks
 The implementation is trivial but the concept of a property being completely defined by a name plus metadata attached to the target is quite powerful. It allows a mini declarative DSL to be created  and expressed as attributes attached to functions.
 ## Install

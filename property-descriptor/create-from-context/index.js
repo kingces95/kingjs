@@ -7,15 +7,15 @@ var {
 var unresolvedError = 'External callback returned undefined value.';
 
 /**
- * @description Create a descriptor by delegating creation to a
- * a callback which is passed the `name` and `target` of the property
- * being defined.
+ * @description Package a target, a name, and a descriptor created by
+ * a callback using `name` and `target`.
  * 
- * @param callback Returns a a descriptor given `name` and `target`.
- * @param name The name of property being described.
  * @param target The target on which the property is defined.
+ * @param name The name of property being described.
+ * @param callback Returns a a descriptor given `name` and `target`.
  * 
- * @returns A descriptor created based on `name` and `target`.
+ * @returns An object with `target`, `name`, and `descriptor` properties
+ * where the descriptor is created by the callback using `name` and `target`.
  * 
  * @callback
  * @param name The name of property being described.
@@ -26,10 +26,10 @@ var unresolvedError = 'External callback returned undefined value.';
  * is quite powerful. It allows a mini declarative DSL to be created 
  * and expressed as attributes attached to functions.
  */
-function createFromContext(callback, name, target) {
-  var result = callback(name, target);
-  assert(!is.undefined(result), unresolvedError)
-  return result;
+function createFromContext(target, name, callback) {
+  var descriptor = callback(name, target);
+  assert(!is.undefined(descriptor), unresolvedError)
+  return { target, name, descriptor };
 }
 
 module.exports = createFromContext;

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/property-descriptor.create-alias",
-  "version": "1.0.0",
-  "description": "Create a descriptor that is an alias of an accessor or function.",
+  "version": "1.0.1",
+  "description": "Packages the a target, a name, and a descriptor that  is an alias of another accessor or function.",
   "main": "index.js",
   "files": [
     "*.js"

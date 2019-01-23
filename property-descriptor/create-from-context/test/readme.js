@@ -1,18 +1,15 @@
 var assert = require('assert');
 var createFromContext = require('..');
 
-function Target() { };
-function Foo() { }
+function Type() { };
+Type.info = x => x.toUpperCase();;
 
 function init(name, target) {
-  assert(name == 'foo');
-  assert(target == Target);
-  return {
-    enumerable: true,
-    value: Foo 
-  };
+  var ctor = target.constructor;
+  return { value: () => ctor.info(name) };
 }
 
-var descriptor = createFromContext(init, 'foo', Target);
-assert(descriptor.value == Foo);
-assert(descriptor.enumerable);
+var { target, name, descriptor } = createFromContext(Type.prototype, 'foo', init);
+Object.defineProperty(target, name, descriptor);
+var instance = new Type();
+assert(instance.foo() == 'FOO');
