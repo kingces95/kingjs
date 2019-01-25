@@ -1,9 +1,10 @@
 var {
   ['@kingjs']: {
+    getOwnPropertyKeys,
     propertyDescriptor: {
       constructProperty, 
       constructAccessor, 
-      constructField, 
+      constructField,
     }
   }
 } = dependencies('./dependencies');
@@ -115,11 +116,7 @@ for (var name in definitions) {
     // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors[, map])
     exports[prefix + pluralName] = function(target, values, map) {
 
-      var names = Object.getOwnPropertyNames(values);
-      var symbols = Object.getOwnPropertySymbols(values);
-      var keys = names.concat(symbols);
-
-      for (var key in keys) {
+      for (var key in getOwnPropertyKeys.call(values)) {
         if (map) 
           key = map(key);
 

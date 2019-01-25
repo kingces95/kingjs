@@ -14,12 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/object-ex"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/get-own-property-keys": "^1.0.0",
     "@kingjs/is": "^1.0.6",
     "@kingjs/property-descriptor.construct-accessor": "^1.0.0",
     "@kingjs/property-descriptor.construct-field": "^1.0.0",
