@@ -21,7 +21,7 @@ function expand(templateRelPath, cwd) {
   if (!templateRelPath)
     templateRelPath = TemplateName;
 
-  cwd = cwd || process.cwd();
+  cwd = process.cwd();
 
   // parse package.json
   var packagePath = joinPath(cwd, PackageName)

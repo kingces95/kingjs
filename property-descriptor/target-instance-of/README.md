@@ -53,12 +53,12 @@ assert.throws(() => [][Capitalize]());
 
 ## API
 ```ts
-targetInstanceOf(this, callback()[, symbol])
+targetInstanceOf(this, callback(parameters)[, name])
 ```
 ### Parameters
 - `this`: A descriptor describing an accessor or function.
 - `callback`: Returns the type `this` must be an `instanceof` at runtime in order to access the property.
-- `symbol`: The symbol of the property being described. If provided, `this` descriptor will be declared on the deepest prototype of the runtime  `this` for which is `instanceof` returns true.
+- `name`: The name of the property being described. If provided, `this` descriptor will be declared on the deepest prototype of the runtime  `this` for which is `instanceof` returns true.
 ### Returns
 A descriptor whose accessors or function throws at runtime unless `this` at runtime is an `instanceof` the type return by `callback`.
 

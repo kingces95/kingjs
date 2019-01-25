@@ -53,12 +53,15 @@ function parse(path) {
             
       // @callback
       case ts.SyntaxKind.JSDocCallbackTag:
-        var name = Callback;
-        if (node.name)
-          name = node.name.text;
+        var name = getName(node, Callback);
+        
         var callback = result.callbacks[name] = { };
+        if (node.typeExpression.type)
+          callback.returns = node.typeExpression.type.comment;
+
+        var parameters = callback.parameters = { };
         for (var parameter of node.typeExpression.parameters) 
-          defineParameter(callback, parameter);
+          defineParameter(parameters, parameter);
         break;
 
       // @param
@@ -106,8 +109,14 @@ function parse(path) {
       ts.forEachChild(jsDoc, walkDocs);
 
     // join callbacks to their parameters
-    for (var callback in result.callbacks)
-      result.parameters[callback].callback = result.callbacks[callback];
+    for (var name in result.parameters) {
+      var parameter = result.parameters[name];
+      if (result.callbacks[name])
+        parameter.hasCallback = true;
+
+      // default makes template easier to author
+      parameter.callback = result.callbacks[name] || { };
+    }
 
     // join remarks
     result.remarks = result.remarks.join(NewLine);
@@ -122,13 +131,32 @@ function joinComment(comment) {
 }
 
 function defineParameter(target, node) {
-  var { name: { text: name }, comment, isBracketed } = node;
+  var { comment = '', isBracketed } = node;
+  var name = getName(node);
+
   target[name] = joinComment(comment);
   target[name].isOptional = isBracketed;
 }
 
+function getName(node, dfault) {
+  if (!node.name)
+    return dfault;
+
+  if (node.fullName)
+    return node.fullName.getText();
+
+  // hack fullName support to enable documenting descriptor properties
+  // e.g. `descriptor.callback`
+  var name = node.name.getText();
+  return name;
+}
+
 function createApi(parameters, name) {
   var signature = Object.keys(parameters);
+
+  // exclude descriptor property documentation
+  // e.g. descriptor.lazy
+  signature = signature.filter(x => x.indexOf('.') == -1);
 
   var tokens = [];
   return `${name}(${pushTokens(0).join('')})`;
@@ -147,7 +175,7 @@ function createApi(parameters, name) {
     if (i > 0)
       tokens.push(', ')
 
-    tokens.push(parameter.callback ? 
+    tokens.push(parameter.hasCallback ? 
       createApi(parameter.callback, name) : name);
     pushTokens(++i);
 

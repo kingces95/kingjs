@@ -18,7 +18,7 @@ var extendsThisError = 'Extension does not extend this object.';
  * 
  * @param callback Returns the type `this` must be an `instanceof` at runtime
  * in order to access the property. 
- * @param [symbol] The symbol of the property being described. If provided,
+ * @param [name] The name of the property being described. If provided,
  * `this` descriptor will be declared on the deepest prototype of the runtime 
  * `this` for which is `instanceof` returns true.
  * 
@@ -27,9 +27,7 @@ var extendsThisError = 'Extension does not extend this object.';
  * 
  * @callback
  */
-function targetInstanceOf(callback, symbol) {
-  assert(!symbol || is.symbol(symbol));
-
+function targetInstanceOf(callback, name) {
   var isFunction = 'value' in this;
 
   var type; 
@@ -45,7 +43,7 @@ function targetInstanceOf(callback, symbol) {
     // verify type
     assert(this instanceof type, extendsThisError);
 
-    if (symbol) {
+    if (name) {
 
       // find target
       var target = Object.getPrototypeOf(this);
@@ -53,19 +51,19 @@ function targetInstanceOf(callback, symbol) {
         target = Object.getPrototypeOf(target);
 
       // patch
-      Object.defineProperty(target, symbol, descriptor);
+      Object.defineProperty(target, name, descriptor);
     }
 
     // dispatch
     if (isFunction)
-      return this[symbol].apply(this, arguments);
+      return this[name].apply(this, arguments);
     if (arguments.length == 0) 
-      return this[symbol];
-    this[symbol] = value;
+      return this[name];
+    this[name] = value;
   }
 
   // name stub
-  rename.call(extension, symbol, 'extension');
+  rename.call(extension, name, 'extension');
   
   // initialize stub on descriptor
   if ('value' in this)
