@@ -5,6 +5,7 @@ var {
       constructProperty, 
       constructAccessor, 
       constructField,
+      define
     }
   }
 } = dependencies('./dependencies');
@@ -106,11 +107,8 @@ for (var name in definitions) {
       // assign defaults
       descriptor = { ...defaults, ...configuration, ...descriptor };
 
-      // initialize descriptor (lambdize, callback, extends, future)
-      initialize.call(descriptor, name, target);
-
-      // define property
-      return Object.defineProperty(target, name, descriptor);
+      // define descriptor + lambdize, callback, extends, lazy
+      return define(target, name, descriptor);
     }
 
     // (define|set)[Const][Hidden](Properties|Accessors|Functions)(target, descriptors[, map])

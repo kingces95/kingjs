@@ -4,9 +4,13 @@ var {
 } = require('./dependencies');
 
 /**
- * @this any This comment
- * @param foo Foo comment
- * @returns Returns comment
+ * @description The description.
+ * 
+ * @this any `this` comment.
+ * 
+ * @param foo `foo` comment.
+ * 
+ * @returns Returns comment.
  */
 function xxx(foo) {
 }

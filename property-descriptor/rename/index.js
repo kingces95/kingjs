@@ -1,5 +1,6 @@
 var {
-  ['@kingjs']: { 
+  ['@kingjs']: {
+    is,
     string: { expand }
   }
 } = require('./dependencies');
@@ -16,6 +17,9 @@ var {
  * @returns Returns the descriptor with its functions renamed.
  */
 function rename(template) {
+
+  if (is.symbol(template))
+    template = template.toString();
 
   if (this.value)
     defineName.call(this.value, template);

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.lambdize",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Wraps strings found in a descriptor's `value`, `get` or `set` into an appropriate corresponding lambda functions.",
   "main": "index.js",
   "files": [

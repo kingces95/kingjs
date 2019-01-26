@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/property-descriptor.rename",
-  "version": "1.0.1",
-  "description": "Renames functions found in a descriptor.",
+  "name": "@kingjs/property-descriptor.define-many",
+  "version": "1.0.0",
+  "description": "The description.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/property-descriptor/rename"
+    "url": "https://repository.kingjs.net/property-descriptor/define-many"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/is": "^1.0.9",
-    "@kingjs/string.expand": "^1.0.0"
+    "@kingjs/property-descriptor.define": "^1.0.0"
   }
 }

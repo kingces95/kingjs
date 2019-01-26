@@ -17,7 +17,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/property-descriptor.lambdize": "^1.0.0",
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.lambdize": "^1.0.2",
     "@kingjs/property-descriptor.make-lazy": "^1.0.0",
     "@kingjs/property-descriptor.target-instance-of": "^1.0.2"
   }

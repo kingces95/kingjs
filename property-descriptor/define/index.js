@@ -1,12 +1,15 @@
+var assert = require('assert');
+
 var {
   ['@kingjs']: {
+    is,
     propertyDescriptor: {
       lambdize, 
       makeLazy, 
       targetInstanceOf,
     }
   }
-} = dependencies('./dependencies');
+} = require('./dependencies');
 
 /**
  * @description Like `Object.defineProperty` but allows a richer description
@@ -16,9 +19,8 @@ var {
  * @param target The target on which the property will be defined.
  * @param name The name of the property.
  * @param descriptor A descriptor which supports these additional properties:
- * @param descriptor.function Discriminates the descriptor as describing a function
- * as opposed to a field. If set and `value` is a string then it will be "lambdized"
- * -- turned into a function.
+ * @param descriptor.function Modifies `value`. Indicates `value`, if present, describes 
+ * a function as opposed to a "field". If `value` is a string then it will be "lambdized".
  * @param descriptor.callback Allows configuring the descriptor given `name` and `target`.
  * @param descriptor.extends A callback that returns a function representing 
  * the type being extended. If runtime `this` is not an `instanceof` the returned
@@ -60,24 +62,25 @@ function define(target, name, descriptor) {
 
   var isAccessor = hasGet || hasSet;
   var isFunction = descriptor.function;
-  var isFuture = descriptor.future;
+  var isLazy = descriptor.lazy;
+  var isExtension = descriptor.extends;
 
-  var isProcedural = isAccessor || isFunction || isFuture;
+  if (descriptor.callback)
+    descriptor.callback(descriptor, name, target);
+
+  var isProcedural = isAccessor || isFunction || isLazy || isExtension;
   if (isProcedural) {
 
     lambdize.call(descriptor, name);
 
-    if (descriptor.callback)
-      callback(descriptor, name, target);
-
-    if (descriptor.extends) {
+    if (isExtension) {
       assert(is.symbol(name));
       assert(target == Object.prototype);
-      targetInstanceOf.call(descriptor, name);
+      targetInstanceOf.call(descriptor, descriptor.extends, name);
     }
 
-    if (descriptor.lazy) 
-      makeLazy.call(descriptor, name);
+    if (isLazy) 
+      makeLazy.call(descriptor, name, descriptor.argument, descriptor.static);
   }
 
   return Object.defineProperty(target, name, descriptor);
