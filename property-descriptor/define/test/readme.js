@@ -49,6 +49,7 @@ assert(instance.bar == 'Type.bar');
 var tokens = [ '?', 'x', 'y', 'z' ];
 defineProperty(Type.prototype, 'letter', {
   lazy: true,
+  writeOnce: true,
   argument: 0,
   get: o => token[o]
 });

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.define",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Like `Object.defineProperty` but allows a richer description of properties which include new descriptor properties `callback`, `extends`, and `lazy` which can be modified by `static` and `argument`.",
   "main": "index.js",
   "files": [

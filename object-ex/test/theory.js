@@ -22,7 +22,7 @@ function buildName(test, suffix, pluralSuffix) {
     name += 'Hidden';
   if (test.writable === false)
     name += 'Const';
-  if (test.future === true)
+  if (test.lazy === true)
     name += 'Lazy';
   if (test.static === true)
     name += 'Static';
@@ -43,7 +43,7 @@ function buildDescriptor(test) {
       enumerable: null,
       writable: null,
       value: null,
-      future: null,
+      lazy: null,
   });
 
   var result = { };
@@ -132,7 +132,7 @@ assertTheory(function(test, id) {
   var func = function(x) { 
     count++; 
     assert(test.static ? (this == Type) : (this instanceof Type));
-    if (test.future)
+    if (test.lazy)
       return test.value;
     return x; 
   };
@@ -155,7 +155,7 @@ assertTheory(function(test, id) {
   var named = false;
   switch (test.variant) {
     case this.variant.named:
-      if (test.external) return;
+      if (test.callback) return;
 
       // inferring the function name results in a string, not a symbol
       if (is.symbol(test.name))
@@ -168,14 +168,14 @@ assertTheory(function(test, id) {
       break;
 
     case this.variant.none:
-      if (test.external) return;
+      if (test.callback) return;
       arg = { value: func };
       break;
 
     case this.variant.descriptor:
       var descriptor = buildDescriptor(test);
-      descriptor.value = test.external ? null : func;
-      descriptor.external = test.external ? stub : undefined;
+      descriptor.value = test.callback ? null : func;
+      descriptor.callback = test.callback ? stub : undefined;
       descriptor.function = true;
       descriptor.static = test.static;
       descriptor.map = map;
@@ -184,12 +184,12 @@ assertTheory(function(test, id) {
       break;
 
     case this.variant.function:
-      if (test.external) return;
+      if (test.callback) return;
       arg = func;
       break;
 
     case this.variant.lambda:
-      if (test.external) return;
+      if (test.callback) return;
       if (test.static)
         Type.func = func;
       else
@@ -217,14 +217,14 @@ assertTheory(function(test, id) {
   assert(target[test.name](test.value) == test.value);
   assert(count == expectedCount++);
   assert(target[test.name](test.value) == test.value);
-  assert(count == (test.future ? 1 : expectedCount++));
+  assert(count == (test.lazy ? 1 : expectedCount++));
   
   if (test.static) {
     assertDescriptor(test, Type, test.name);
   }
   else {
     assertDescriptor(test, prototype, test.name);
-    if (test.future)
+    if (test.lazy)
       assertDescriptor(test, target, test.name);
   }
 
@@ -240,8 +240,8 @@ assertTheory(function(test, id) {
   },
   configurable: [ false, true ],
   static: [ true, false ],
-  future: [ true, false ],
-  external: [ true, false ],
+  lazy: [ true, false ],
+  callback: [ true, false ],
   plural: [ false, true ],
   map: [ false, true ],
 })
@@ -259,15 +259,15 @@ assertTheory(function(test, id) {
   if ((test.getter || test.setter) == false)
     return;
 
-  if (test.setter && test.future)
+  if (test.setter && test.lazy)
     return;
 
   if (test.configurable) {
     if (test.static)
       return;
-    if (test.future) 
+    if (test.lazy) 
       return;
-    if (test.external)
+    if (test.callback)
       return;
   }
 
@@ -319,7 +319,7 @@ assertTheory(function(test, id) {
   var args = [ ];
   switch (test.variant) {
     case this.variant.named:
-      if (test.external) return;
+      if (test.callback) return;
 
       // inferring the function name results in a string, not a symbol
       if (is.symbol(test.name))
@@ -339,18 +339,18 @@ assertTheory(function(test, id) {
       descriptor.map = map;
       if (test.static)
         descriptor.static = true;
-      if (test.external)
-        descriptor.external = stub;
+      if (test.callback)
+        descriptor.callback = stub;
       if (test.getter)
-        descriptor.get = test.external ? null : getter;
+        descriptor.get = test.callback ? null : getter;
       if (test.setter)
-        descriptor.set = test.external ? null : setter;
+        descriptor.set = test.callback ? null : setter;
       args.push(descriptor);
       name = test.plural ? 'defineAccessors' : 'defineAccessor';
       break;
 
     case this.variant.function:
-      if (test.external) return;
+      if (test.callback) return;
       if (test.wrapped)
         args.push({ get: getter, set: setter })
       else
@@ -358,7 +358,7 @@ assertTheory(function(test, id) {
       break;
 
     case this.variant.lambda:
-      if (test.external) return;
+      if (test.callback) return;
       if (test.static)
         Type.func = getter;
       else
@@ -402,7 +402,7 @@ assertTheory(function(test, id) {
     assert(getCount == expectedGetCount++);
 
     assert(target[test.name] == 0);
-    assert(getCount == (test.future ? 1 : expectedGetCount++));
+    assert(getCount == (test.lazy ? 1 : expectedGetCount++));
   }
 
   if (test.static) {
@@ -410,9 +410,9 @@ assertTheory(function(test, id) {
   }
   else {
     assertDescriptor(test, stubPrototype, test.name);
-    if (test.external)
+    if (test.callback)
       assertDescriptor(test, Type.prototype, test.name);
-    if (test.future)
+    if (test.lazy)
       assertDescriptor(test, target, test.name);
   }
 
@@ -424,8 +424,8 @@ assertTheory(function(test, id) {
     function: 'function',
     lambda: 'lambda',
   },
-  external: [ true, false ],
-  future: [ false, true ],
+  callback: [ true, false ],
+  lazy: [ false, true ],
   static: [ false, true ],
   getter: [ false, true ],
   setter: [ false, true ],

@@ -19,7 +19,7 @@ function readMe() {
 }
 readMe();
 
-function testFuture(isStatic) {
+function testLazy(isStatic) {
   function Type() { };
 
   if (isStatic) {
@@ -38,7 +38,7 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'lazy', {
     static: isStatic,
-    future: true,
+    lazy: true,
     value: withOutInit,
   });
   
@@ -50,7 +50,7 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'compile', {
     static: isStatic,
-    future: true,
+    lazy: true,
     writeOnce: true,
     value: withInit
   });
@@ -65,7 +65,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'load', {
     static: isStatic,
-    future: true,
+    lazy: true,
+    writeOnce: true,
     argument: 41,
     value: withInit
   });
@@ -79,7 +80,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'load2', {
     static: isStatic,
-    future: true,
+    lazy: true,
+    writeOnce: true,
     argument: 41,
     value: withInit
   });
@@ -92,7 +94,7 @@ function testFuture(isStatic) {
     
   objectEx.defineProperty(target, 'computedProperty', {
     static: isStatic,
-    future: true,
+    lazy: true,
     get: withOutInit
   });
   
@@ -104,7 +106,7 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'ref', {
     static: isStatic,
-    future: true,
+    lazy: true,
     writeOnce: true,
     get: withInit
   });
@@ -118,7 +120,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'refWithDefault', {
     static: isStatic,
-    future: true,
+    lazy: true,
+    writeOnce: true,
     argument: null,
     get: withInit
   });
@@ -132,7 +135,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'refWithDefault2', {
     static: isStatic,
-    future: true,
+    lazy: true,
+    writeOnce: true,
     argument: null,
     get: withInit
   });
@@ -145,7 +149,7 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'readOnly', {
     static: isStatic,
-    future: true,
+    lazy: true,
     writeOnce: true,
   });
   
@@ -156,7 +160,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'readOnlyWithDefault', {
     static: isStatic,
-    future: true,
+    lazy: true,
+    writeOnce: true,
     argument: null,
   });
   
@@ -166,7 +171,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'readOnlyWithDefault2', {
     static: isStatic,
-    future: true,
+    lazy: true,
+    writeOnce: true,
     argument: null,
   });
 
@@ -175,8 +181,8 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'readOnlyFunc', {
     static: isStatic,
-    function: true,
-    future: true,
+    value: o => o,
+    lazy: true,
     writeOnce: true,
   });
   
@@ -187,8 +193,9 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'readOnlyFuncWithDefault', {
     static: isStatic,
-    function: true,
-    future: true,
+    value: o => o,
+    lazy: true,
+    writeOnce: true,
     argument: null,
   });
   
@@ -198,16 +205,17 @@ function testFuture(isStatic) {
 
   objectEx.defineProperty(target, 'readOnlyFuncWithDefault2', {
     static: isStatic,
-    function: true,
-    future: true,
+    value: o => o,
+    lazy: true,
+    writeOnce: true,
     argument: null,
   });
 
   var instance = isStatic ? Type : new Type();
   assert(instance.readOnlyFuncWithDefault2() === null);
 }
-testFuture(false);
-testFuture(true);
+testLazy(false);
+testLazy(true);
 
 function testExternal() {
   function A() { }
@@ -217,14 +225,13 @@ function testExternal() {
   var foo = 'foo';
   var target = A.prototype;
   objectEx.defineProperty(target, foo, {
-    external: function(name, info) {
+    callback: function(self, name, info) {
       assert(name == foo);
       assert(info == target);
       var ctor = info.constructor;
-      return ctor.generate;
+      self.get = ctor.generate;
     },
-    future: true,
-    get: null
+    lazy: true
   });
 
   var a = new A();
@@ -234,87 +241,6 @@ function testExternal() {
 }
 testExternal();
 
-function testStatic() {
-  var funcName = 'foo';
-  var getterName = 'bar';
-  var setterName = 'baz';
-  var fieldName = 'moo';
-
-  var field; 
-  var Type = function Type() { };
-  objectEx.defineFunction(Type, funcName, { value: () => 0, static: true });
-  objectEx.defineAccessor(Type, getterName, { get: () => 0, static: true });
-  objectEx.defineAccessor(Type, setterName, { set: x => field = x, static: true });
-  objectEx.defineProperty(Type, fieldName, { value: 42, writable: true, static: true });
-
-  var instance = new Type();
-
-  assert(funcName in Type && funcName in instance);
-  assert(Type[funcName]() === 0);
-  assert(instance[funcName]() === 0);
-
-  assert(getterName in Type && getterName in instance);
-  assert(Type[getterName] === 0);
-  assert(instance[getterName] === 0);
-
-  assert(setterName in Type && setterName in instance);
-  assert(Type[setterName] = 0, field == 0);
-  assert(instance[setterName] = 1, field == 1);
-
-  assert(fieldName in Type && fieldName in instance);
-  assert(Type[fieldName] === 42);
-  assert(instance[fieldName] === 42);
-  assert(Type[fieldName] = 0, Type[fieldName] == 0);
-  assert(instance[fieldName] = 1, Type[fieldName] == 1);
-}
-//testStatic(); TODO: Implement bind
-
-function testThunk() {
-  var funcName = 'foo';
-  var getterName = 'bar';
-  var setterName = 'baz';
-  var fieldName = 'moo';
-
-  var funcSym = Symbol('foo');
-  var getterSym = Symbol('bar');
-  var setterSym = Symbol('baz');
-  var fieldSym = Symbol('moo');
-
-  var field; 
-  var Type = function Type() { };
-  objectEx.defineFunction(Type, funcSym, { thunk: funcName });
-  objectEx.defineAccessor(Type, getterSym, { thunk: getterName });
-  objectEx.defineAccessor(Type, setterSym, { thunk: setterName });
-  objectEx.defineProperty(Type, fieldSym, { thunk: fieldName });
-
-  objectEx.defineFunction(Type, funcName, { value: () => 0, });
-  objectEx.defineAccessor(Type, getterName, { get: () => 0, });
-  objectEx.defineAccessor(Type, setterName, { set: x => field = x });
-  objectEx.defineProperty(Type, fieldName, { value: 42, writable: true });
-
-  assert(funcName in Type && funcSym in Type);
-  assert(Type[funcName]() === 0);
-  assert(Type[funcSym]() === 0);
-
-  assert(getterName in Type && getterSym in Type);
-  assert(Type[getterName] === 0);
-  assert(Type[getterSym] === 0);
-
-  assert(setterName in Type && setterSym in Type);
-  Type[setterName] = 0;
-  assert(field == 0);
-  field == 1;
-  assert(Type[setterSym] = 1);
-
-  assert(fieldName in Type && fieldSym in Type);
-  assert(Type[fieldName] === 42);
-  assert(Type[fieldSym] === 42);
-  Type[fieldName] = 0;
-  assert(Type[fieldName] == 0);
-  Type[fieldSym] = 1;
-  assert(Type[fieldName] == 1);
-}
-testThunk();
 
 function lazyAccessor() {
   var name = 'foo';
@@ -390,10 +316,10 @@ function stubFunctionTest(isFunc) {
   var target = Type.prototype;
   objectEx['define' + (isFunc ? 'Function' : 'Accessor')](
     target, 'foo', {
-      external: function(stubName, info) {
+      callback: function(self, stubName, info) {
         assert(info == target);
         var ctor = info.constructor;
-        return function () { 
+        self[isFunc ? 'value' : 'get'] = function () { 
           return {
             name: stubName, 
             this: this, 
@@ -402,9 +328,8 @@ function stubFunctionTest(isFunc) {
           }
         };
       },
-      future: true,
-      configurable: false,
-      [isFunc ? 'value' : 'get']: null
+      lazy: true,
+      configurable: false
     }
   );
 
@@ -441,9 +366,20 @@ function testDefineReference() {
   }
 
   var defaultAddress = 2;
-  objectEx.setLazyAccessor(target, 'foo', { get: resolveOwnProperty, writeOnce: true });
-  objectEx.setLazyAccessor(target, 'bar', { get: resolveOwnProperty, argument: defaultAddress });
-  objectEx.setLazyAccessor(target, 'baz', { get: resolveOwnProperty, argument: defaultAddress });
+  objectEx.setLazyAccessor(target, 'foo', { 
+    get: resolveOwnProperty, 
+    writeOnce: true 
+  });
+  objectEx.setLazyAccessor(target, 'bar', { 
+    get: resolveOwnProperty, 
+    writeOnce: true, 
+    argument: defaultAddress 
+  });
+  objectEx.setLazyAccessor(target, 'baz', { 
+    get: resolveOwnProperty, 
+    writeOnce: true, 
+    argument: defaultAddress 
+  });
 
   assert.throws(() => target.foo);
   assert.throws(() => target.foo = undefined);
@@ -510,7 +446,7 @@ function testExtension() {
   // function
   var methodEx = Symbol('method');
   objectEx.defineProperty(
-    myObjectPrototype,
+    Object.prototype,
     methodEx, {
       function: true,
       extends: () => IFoo,
@@ -532,7 +468,7 @@ function testExtension() {
   // getter
   var getterEx = Symbol('getter');
   objectEx.defineProperty(
-    myObjectPrototype,
+    Object.prototype,
     getterEx, {
       extends: () => IFoo,
       get: function() { return this; },
@@ -545,7 +481,7 @@ function testExtension() {
   // setter
   var setterEx = Symbol('setter');
   objectEx.defineProperty(
-    myObjectPrototype,
+    Object.prototype,
     setterEx, {
       extends: () => IFoo,
       set: function(value) { 
@@ -585,20 +521,4 @@ function testArrayExtension() {
 }
 testArrayExtension();
 
-function testMap() {
-  var iface = {
-    foo: Symbol('foo'),
-    bar: Symbol('bar'),
-  }
-  
-  var target = objectEx.defineProperties({ }, {
-    foo: 'foo',
-    bar: { get: 'bar' }
-  }, { map: iface });
-
-  assert(target[iface.foo]() == 'foo');
-  assert(target[iface.bar] == 'bar');
-}
-//testMap() 
-
-require('./theory');
+//require('./theory');

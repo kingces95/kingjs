@@ -17,6 +17,8 @@ Each class name is prefixed with various combinations to form an export:
 - `lazy`: Inject stub that will cache result on `this` at runtime.
 - `static`: Modifies `lazy`. Use if `target` and `this` are the same at runtime.
 
+Each function ultimately calls [`@kingjs/property-descriptor.create`][define].
+
 Each class of exports supports different overrides. For example the following are equivalent:
 ```js
 defineFunction(target, 'foo', { value: function() { ... } })
@@ -45,10 +47,37 @@ defineField(target, 'foo', 'this.bar')
 defineProperty(target, 'foo', { value: 'this.bar' })
 ```
 ---
+## Property API
+These overrides are supported for all APIs, not just `defineProperty`:
+```js
+defineProperty(target, namedFunction)
+defineProperty(target, name, function)
+defineProperty(target, name, { value: function, ... })
+```
+|API|lazy|static|
+|---|---|---|
+|`defineProperty`|
+|`defineLazyProperty`|x|
+|`defineLazyStaticProperty`|x|x|
+## Function API
+The `Function` API family is just like the `Property` API family except all descriptors are tagged with `function`. So the following are equivalent:
+```js
+defineFunction(target, namedFunction)
+defineFunction(target, name, function)
+defineFunction(target, name, { value: function, ... })
+defineProperty(target, name, { value: function, function: true, ... })
+```
+|API|function|lazy|static|
+|---|---|---|---|
+|`defineFunction`|x|
+|`defineLazyFunction`|x|x|
+|`defineLazyStaticFunction`|x|x|x|
 ## Field API
-These overrides are supported for all prefixes, not just `define`:
+The Field family does not support passing a descriptor. Instead, the value is 
+always wrapped in a descriptor as `value`. So the following are equivalent:
 ```js
 defineField(target, name, value)
+defineProperty(target, name, { value })
 ```
 |API|configurable|enumerable|writable|
 |---|---|---|---|
@@ -60,20 +89,8 @@ defineField(target, name, value)
 |`defineHiddenField`|||x|
 |`defineConstField`||x||
 |`defineHiddenConstField`|||
-## Function API
-These overrides are supported for all prefixes, not just `define`:
-```js
-defineFunction(target, namedFunction)
-defineFunction(target, name, function)
-defineFunction(target, name, { value: function, ... })
-```
-|API|configurable|enumerable|writable|lazy|static|
-|---|---|---|---|---|---|
-|`defineFunction`|
-|`defineLazyFunction`||||x|
-|`defineLazyStaticFunction`||||x|x|
 ## Accessor API
-These overrides are supported for all prefixes, not just `define`:
+These overrides are supported for all prefixes, not just `defineAccessor`:
 ```js
 defineAccessor(target, namedGetter[, namedSetter])
 defineAccessor(target, name, getter[, setter])
@@ -103,4 +120,5 @@ $ npm install @kingjs/object-ex
 ## License
 MIT
 
+[define]: https://www.npmjs.com/package/@kingjs/property-descriptor.define
 ![Analytics](https://analytics.kingjs.net/object-ex)

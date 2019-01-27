@@ -27,11 +27,12 @@ var {
  * function, then the property will throw an exception. If present, then `name` must be 
  * a symbol and `target` must be `Object.prototype`. 
  * @param descriptor.lazy Caches the result of the property on the runtime `this`.
+ * @param descriptor.writeOnce Modifies `lazy`. Allows setting the property with a 
+ * value that gets passed to the promise when resolved.
+ * @param descriptor.argument Modifies `writeOnce`. If no value is set, then
+ * `argument` is used as a default.
  * @param descriptor.static Modifies `lazy`. Set when runtime `this` and `target`
  * are the same object.
- * @param descriptor.argument Modifies `lazy`. Allows setting the property with a 
- * value that gets passed to the promise when resolved. If no value is set, then
- * `argument` is used as a default.
  * 
  * @returns Return the target with a newly defined property.
  * 
@@ -62,8 +63,8 @@ function define(target, name, descriptor) {
 
   var isAccessor = hasGet || hasSet;
   var isFunction = descriptor.function;
-  var isLazy = descriptor.lazy;
   var isExtension = descriptor.extends;
+  var isLazy = descriptor.lazy;
 
   if (descriptor.callback)
     descriptor.callback(descriptor, name, target);
@@ -79,8 +80,15 @@ function define(target, name, descriptor) {
       targetInstanceOf.call(descriptor, descriptor.extends, name);
     }
 
-    if (isLazy) 
-      makeLazy.call(descriptor, name, descriptor.argument, descriptor.static);
+    if (isLazy) {
+      makeLazy.call(
+        descriptor, 
+        name, 
+        descriptor.writeOnce, 
+        descriptor.argument, 
+        descriptor.static
+      );
+    }
   }
 
   return Object.defineProperty(target, name, descriptor);

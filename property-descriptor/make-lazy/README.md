@@ -7,6 +7,7 @@ var assert = require('assert');
 var makeLazy = require('@kingjs/property-descriptor.make-lazy');
 
 var DefaultValue = null;
+var IsWriteOnce = true;
 
 var count;
 var next = () => count++;
@@ -17,11 +18,19 @@ Object.defineProperties(
     lazyAccessor: makeLazy.call({ get: next }, 'lazyAccessor'),
     lazyFunction: makeLazy.call({ value: next }, 'lazyFunction'),
 
-    writeOnceAccessor: makeLazy.call({ 
-      /* get: o => o */
-    }, 'writeOnceAccessor', DefaultValue),
+    writeOnceAccessor: makeLazy.call(
+      { }, // defaults to `get: o => o`
+      'writeOnceAccessor',
+      IsWriteOnce, 
+      DefaultValue
+    ),
     
-    resolve: makeLazy.call({ value: o => o }, 'resolve', DefaultValue),
+    resolve: makeLazy.call(
+      { value: o => o }, 
+      'resolve', 
+      IsWriteOnce,
+      DefaultValue
+    ),
   }
 )
 
@@ -52,12 +61,13 @@ assert(Object.getOwnPropertyDescriptor(instance, 'resolve').writable === false);
 
 ## API
 ```ts
-makeLazy(this, name[, defaultArgument[, isStatic]])
+makeLazy(this, name[, writeOnce[, argument[, isStatic]]])
 ```
 ### Parameters
 - `this`: A description of a get accessor or function. If neither, then `get` is set to the identify function.
 - `name`: The name of the property described by `this`.
-- `defaultArgument`: If provided, then its assumed the get accessor or function described by `this` accepts a single argument. In this case, the returned promise descriptor may be set with a value which will be passed  to the original descriptor when the promise is fulfilled. If no value was set then this `defaultArgument` is used.
+- `writeOnce`: If provided, then its assumed the get accessor or function described by `this` accepts a single argument. In this case, the returned promise descriptor may be set with a value which will be passed  to the original descriptor when the promise is fulfilled.
+- `argument`: Modifies `writeOnce`. If no value is set before the  function or accessor is resolved then `argument` is set as a default.
 - `isStatic`: If true then the returned promise descriptor is marked configurable. This allows the promise to replace itself as happens  when the descriptor is defined on a target that is also the `this` at  runtime.
 
 ### Remarks

@@ -20,11 +20,12 @@ var derefBeforeAssignmentError = 'Unexpected dereference attempted before addres
  * `get` is set to the identify function.
  * 
  * @param name The name of the property described by `this`.
- * @param [defaultArgument] If provided, then its assumed the get accessor
+ * @param [writeOnce] If provided, then its assumed the get accessor
  * or function described by `this` accepts a single argument. In this case, the
  * returned promise descriptor may be set with a value which will be passed 
- * to the original descriptor when the promise is fulfilled. If no value was
- * set then this `defaultArgument` is used.
+ * to the original descriptor when the promise is fulfilled. 
+ * @param [argument] Modifies `writeOnce`. If no value is set before the 
+ * function or accessor is resolved then `argument` is set as a default.
  * @param [isStatic] If true then the returned promise descriptor is
  * marked configurable. This allows the promise to replace itself as happens 
  * when the descriptor is defined on a target that is also the `this` at 
@@ -35,10 +36,9 @@ var derefBeforeAssignmentError = 'Unexpected dereference attempted before addres
  * evaluate a promise before it's ready to be fulfilled without preventing
  * fulfillment at the nominal time.
  */
-function makeLazy(name, defaultArgument, isStatic) {
+function makeLazy(name, isWriteOnce, argument, isStatic) {
   assert(is.string(name) || is.symbol(name));
 
-  var hasDefaultArgument = !is.undefined(defaultArgument);
   var hasValue = 'value' in this;
   var isFunction = hasValue || false;
   var isConfigurable = this.configurable || false;
@@ -75,7 +75,7 @@ function makeLazy(name, defaultArgument, isStatic) {
     return result;
   };
 
-  if (!hasDefaultArgument) {
+  if (!isWriteOnce) {
     this[wrap] = fulfillPromise;
   } 
 
@@ -87,8 +87,8 @@ function makeLazy(name, defaultArgument, isStatic) {
     this.get = function initializeAndFulfillPromise() {
 
       // initialize with default
-      assert(!is.undefined(defaultArgument), derefBeforeAssignmentError);
-      this[name] = defaultArgument;
+      assert(!is.undefined(argument), derefBeforeAssignmentError);
+      this[name] = argument;
 
       // fulfill
       return this[name];

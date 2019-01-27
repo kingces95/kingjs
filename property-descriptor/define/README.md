@@ -53,6 +53,7 @@ assert(instance.bar == 'Type.bar');
 var tokens = [ '?', 'x', 'y', 'z' ];
 defineProperty(Type.prototype, 'letter', {
   lazy: true,
+  writeOnce: true,
   argument: 0,
   get: o => token[o]
 });
@@ -90,8 +91,9 @@ define(target, name, descriptor)
 - `descriptor.extends`: A callback that returns a function representing  the type being extended. If runtime `this` is not an `instanceof` the returned function, then the property will throw an exception. If present, then `name` must be  a symbol and `target` must be `Object.prototype`.
   - Returns a function representing the type being extended.
 - `descriptor.lazy`: Caches the result of the property on the runtime `this`.
+- `descriptor.writeOnce`: Modifies `lazy`. Allows setting the property with a  value that gets passed to the promise when resolved.
+- `descriptor.argument`: Modifies `writeOnce`. If no value is set, then `argument` is used as a default.
 - `descriptor.static`: Modifies `lazy`. Set when runtime `this` and `target` are the same object.
-- `descriptor.argument`: Modifies `lazy`. Allows setting the property with a  value that gets passed to the promise when resolved. If no value is set, then `argument` is used as a default.
 ### Returns
 Return the target with a newly defined property.
 ### Remarks
