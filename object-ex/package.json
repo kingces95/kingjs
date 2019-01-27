@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/object-ex",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "",
   "main": "index.js",
   "files": [
@@ -9,7 +9,7 @@
     "normalize/*.js"
   ],
   "scripts": {
-    "test": "node test.js",
+    "test": "node test",
     "prepublishOnly": "npm test"
   },
   "repository": {

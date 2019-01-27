@@ -67,9 +67,6 @@ function assertDescriptor(test, target, name) {
 }
 
 assertTheory(function(test, id) {
-  if (test.map && !test.descriptor)
-    return;
-
   var name = buildName(test, 'Field');
   var descriptor = buildDescriptor(test);
 
@@ -78,14 +75,9 @@ assertTheory(function(test, id) {
     target = target.prototype;
 
   var declName = test.name;
-  if (test.map) {
-    declName = Symbol();
-    var map = { [declName]: test.name };
-  }
 
   if (test.descriptor) {
     var arg = descriptor;
-    arg.map = map;
     if (test.plural) 
       objectEx.defineProperties(target, { [declName]: arg });
     else
@@ -111,7 +103,6 @@ assertTheory(function(test, id) {
   enumerable: [ false, true ],
   writable: [ false, true ],
   plural: [ false, true ],
-  map: [ false, true ]
 })
 
 assertTheory(function(test, id) {
@@ -119,8 +110,6 @@ assertTheory(function(test, id) {
     if (test.static && !test.lazy) 
       return;
     if (test.configurable) 
-      return;
-    if (test.map) 
       return;
   }
 
@@ -138,18 +127,14 @@ assertTheory(function(test, id) {
   };
 
   var stubCount = 0;
-  var stub = function(name, info) {
+  var stub = function(self, name, info) {
     assert(stubCount++ == 0);
     assert(test.static ? (info == Type) : (Type.prototype));
     assert(name == test.name);
-    return func;
+    self.value = func;
   }
 
   var declName = test.name;
-  if (test.map) {
-    declName = Symbol();
-    var map = { [declName]: test.name };
-  }
 
   var arg;
   var named = false;
@@ -178,7 +163,6 @@ assertTheory(function(test, id) {
       descriptor.callback = test.callback ? stub : undefined;
       descriptor.function = true;
       descriptor.static = test.static;
-      descriptor.map = map;
       arg = descriptor;
       name = test.plural ? 'defineProperties' : 'defineProperty';
       break;
@@ -243,16 +227,13 @@ assertTheory(function(test, id) {
   lazy: [ true, false ],
   callback: [ true, false ],
   plural: [ false, true ],
-  map: [ false, true ],
 })
 
 assertTheory(function(test, id) {
   var name = buildName(test, 'Accessor');
 
   if (test.variant != this.variant.descriptor) {
-    if (test.static && !this.lazy) 
-      return;
-    if (test.map)
+    if (test.static && !test.lazy) 
       return;
   }
 
@@ -293,27 +274,23 @@ assertTheory(function(test, id) {
   } : undefined;
 
   var stubCount = 0;
-  var stub = function(name, ctor) {
+  var stub = function(self, name, ctor) {
     assert(ctor == test.static ? Type : Type.prototype);
     assert(name == test.name);
+
     if (getter && setter) {
       assert(stubCount++ <= 1);
-      return {
-        get: getter,
-        set: setter
-      };
+      self.get = getter;
+      self.set = setter;
+      return;
     }
 
     assert(stubCount++ == 0);
-    if (!getter) return setter;
-    if (!setter) return getter;
+    if (!getter) self.set = setter;
+    if (!setter) self.get = getter;
   }
   
   var declName = test.name;
-  if (test.map) {
-    declName = Symbol();
-    var map = { [declName]: test.name };
-  }
 
   var named = false;
   var args = [ ];
@@ -336,7 +313,6 @@ assertTheory(function(test, id) {
 
     case this.variant.descriptor:
       var descriptor = buildDescriptor(test);
-      descriptor.map = map;
       if (test.static)
         descriptor.static = true;
       if (test.callback)
@@ -433,5 +409,4 @@ assertTheory(function(test, id) {
   configurable: [ false, true ],
   enumerable: [ false, true ],
   plural: [ false, true ],
-  map: [ false, true ],
 })

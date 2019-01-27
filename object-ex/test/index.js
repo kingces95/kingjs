@@ -521,4 +521,4 @@ function testArrayExtension() {
 }
 testArrayExtension();
 
-//require('./theory');
+require('./theory');
