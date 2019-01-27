@@ -2,11 +2,23 @@
 var assert = require('assert');
 
 var {
-  '@kingjs/object-ex': objectEx,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: {
+    is,
+    propertyDescriptor: { define }
+  },
+} = require('./dependencies');
 
 var Id = Symbol.for('@kingjs/IInterface.id');
 
+/**
+ * @description description comment.
+ * 
+ * @param target target comment.
+ * @param iface iface comment.
+ * @param descriptors descriptors comment.
+ * 
+ * @returns returns comment.
+ */
 function implementInterface(target, iface, descriptors) {
 
   // assert target implements ifaces that iface extends
@@ -18,30 +30,28 @@ function implementInterface(target, iface, descriptors) {
   }
   
   // implement iface members
-  for (var member in descriptors) {
+  for (var name in descriptors) {
+    var descriptor = descriptors[name];
 
-    // map name to memberId
-    var memberId = iface[member];
-    assert(memberId);
+    // map name
+    var symbol = iface[name];
+    assert(is.symbol(symbol));
 
-    var descriptor = descriptors[member];
-    if (typeof descriptor == 'function')
-      descriptor = { value: descriptor };
-
-    objectEx.defineProperty(target, memberId, descriptor);
+    define(target, symbol, descriptor);
   }
+  
+  // tag the target as having implemented the interface
+  // Id may be in target already if iface member shares the same Id
+  if (iface[Id] in target == false)
+    target[iface[Id]] = Id;
 
   // assert all iface members implemented
   for (var name in iface) {
     var symbol = iface[name];
-    if (typeof symbol != 'symbol')
+    if (!is.symbol(symbol))
       continue;
-
     assert(symbol in target);
   }
-  
-  // tag the target as having implemented the interface
-  target[iface[Id]] = Id;
   
   return target;
 }

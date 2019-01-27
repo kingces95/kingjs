@@ -39,8 +39,10 @@ function defineInterface(target, name, descriptor) {
   for (var member in members) {
     memberId = members[member];
 
-    if (memberId === null)
+    if (!memberId) {
+      assert(symbolName);
       memberId = Symbol.for(symbolName + Delimiter + member);
+    }
 
     // member symbol must be global (or builtin)
     assert(Symbol.keyFor(memberId) || memberId in builtInSymbols);

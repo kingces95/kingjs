@@ -13,7 +13,6 @@ function initialize(id) {
   if (typeof id == 'string')
     id = Symbol.for(id);
   var name = Symbol.keyFor(id);
-  assert(name);
 
   // remove prototype (because it's never activated)
   this.prototype = null;

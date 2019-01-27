@@ -1,11 +1,7 @@
-# @[kingjs][@kingjs]/[define-interface][ns0]
-Defines or aliases a group of global symbols.
-## Usage
-```js
 'use strict';
 
 var assert = require('assert');
-var defineInterface = require('@kingjs/define-interface');
+var defineInterface = require('..');
 
 var {
   IInterface,
@@ -75,23 +71,3 @@ function readMe() {
   assert(fooBar instanceof IBaz == false);
 }
 readMe();
-```
-
-
-
-### Remarks
-
-## Install
-With [npm](https://npmjs.org/) installed, run
-```
-$ npm install @kingjs/define-interface
-```
-## Source
-https://repository.kingjs.net/define-interface
-## License
-MIT
-
-![Analytics](https://analytics.kingjs.net/define-interface)
-
-[@kingjs]: https://www.npmjs.com/package/kingjs
-[ns0]: https://www.npmjs.com/package/@kingjs/define-interface
