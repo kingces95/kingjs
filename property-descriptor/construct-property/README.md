@@ -48,8 +48,12 @@ createProperty(target, x[, y])
 - `x`: See the example for a list of overrides.
 - `y`: See the example for a list of overrides.
 ### Returns
-An object with `{ target, name, descriptor: { value } }` properties where the descriptor properties are harvested from the arguments.
-
+An object with `{ target, name, descriptor }` properties where the descriptor properties are harvested from the arguments.
+### Remarks
+- If `x` is a named function then `name` is the function name  `descriptor` is `{ value }` where `value` is the function.
+- Else, if `x` is a string then `name` is `x` and
+  - if `y` is an non-null object then `descriptor` is `y`
+  - else `descriptor` is `{ value: y }`.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

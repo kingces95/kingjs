@@ -25,6 +25,7 @@ var Callback = 'callback';
  * @remarks Remarks comment
  * that spans lines.
  * @remarks - Remarks comment on new line.
+ * @remarks   - Remarks comment on indented new line.
  * 
  * @callback
  * @param pop Default callback.
@@ -43,6 +44,7 @@ function parse(path) {
     callbacks: { },
     returns: null,
     remarks: [],
+    see: [],
   };
   walk(createSourceFile(path));
   return result;
@@ -85,10 +87,17 @@ function parse(path) {
 
           // @remarks
           case 'remarks':
-            var remarks = joinComment(node.comment);
+            var text = node.getText();
+            var indent = text.match(/(?:\s)(\s*)$/)[1] || '';
+            var remarks = joinComment(indent + node.comment);
             result.remarks.push(remarks);
             break;
-          
+ 
+          // @see
+          case 'see':
+            result.see.push(node.comment);
+            break;
+         
           default:
             //console.log(`${ts.SyntaxKind[node.kind]}.${tag}`);
         }

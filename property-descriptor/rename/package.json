@@ -17,6 +17,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/function-ex.rename": "^1.0.0",
     "@kingjs/is": "^1.0.9",
     "@kingjs/string.expand": "^1.0.0"
   }

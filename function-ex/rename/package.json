@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/function-ex.rename",
+  "version": "1.0.0",
+  "description": "Renames a function.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/function-ex/rename"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {}
+}

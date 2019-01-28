@@ -15,80 +15,62 @@ var definitions = {
   'Field': {
     pluralName: 'Fields',
     construct: constructField,
-    defaults: { 
-      configurable: false, 
-      writable: false 
-    },
     configurations: {
       'set': { configurable: true, enumerable: true, writable: true },
-      'setHidden': { configurable: true, enumerable: false, writable: true },
+      'setHidden': { configurable: true, writable: true },
       'setConst': { configurable: true, enumerable: true },
-      'setHiddenConst': { configurable: true, enumerable: false },
+      'setHiddenConst': { configurable: true },
 
       'define': { enumerable: true, writable: true },
-      'defineHidden': { enumerable: false, writable: true },
+      'defineHidden': { writable: true },
       'defineConst': { enumerable: true },
-      'defineHiddenConst': { enumerable: false },
+      'defineHiddenConst': { },
     },
   },
 
   'Property': {
     pluralName: 'Properties',
     construct: constructProperty,
-    defaults: { 
-      configurable: false 
-    },
     configurations: {
-      'define': { enumerable: false },
+      'define': { },
     }
   },
 
   'Function': {
     pluralName: 'Functions',
     construct: constructProperty,
-    defaults: { 
-      function: true,
-      configurable: false, 
-      enumerable: false, 
-      writable: false, 
-    },
     configurations: {
-      'define': { },
-      'defineLazy': { lazy: true },
-      'defineLazyStatic': { lazy: true, static: true },
+      'define': { function: true },
+      'defineLazy': { function: true, lazy: true },
+      'defineLazyStatic': { function: true, lazy: true, static: true },
     },
   },
 
   'Accessor': {
     pluralName: 'Accessors',
     construct: constructAccessor,
-    defaults: { 
-      configurable: false,
-      enumerable: true,
-    },
     configurations: {
-      'set': { configurable: true },
-      'setHidden': { configurable: true, enumerable: false },
+      'set': { configurable: true, enumerable: true },
+      'setHidden': { configurable: true },
 
-      'setLazy': { configurable: true, lazy: true },
-      'setHiddenLazy': { configurable: true, enumerable: false, lazy: true, static: true },
-      'setLazyStatic': { configurable: true, lazy: true },
-      'setHiddenLazyStatic': { configurable: true, enumerable: false, lazy: true, static: true },
+      'setLazy': { configurable: true, enumerable: true, lazy: true },
+      'setHiddenLazy': { configurable: true, lazy: true, static: true },
+      'setLazyStatic': { configurable: true, enumerable: true, lazy: true },
+      'setHiddenLazyStatic': { configurable: true, lazy: true, static: true },
 
-      'define': { },
-      'defineHidden': { enumerable: false },
+      'define': { enumerable: true },
+      'defineHidden': { },
 
-      'defineLazy': { lazy: true },
-      'defineHiddenLazy': { enumerable: false, lazy: true },
-      'defineLazyStatic': { lazy: true, static: true },
-      'defineHiddenLazyStatic': { enumerable: false, lazy: true, static: true },
+      'defineLazy': {  enumerable: true, lazy: true },
+      'defineHiddenLazy': { lazy: true },
+      'defineLazyStatic': {  enumerable: true, lazy: true, static: true },
+      'defineHiddenLazyStatic': { lazy: true, static: true },
     },
   },
 }
 
 function exportConfiguration(definition, configuration, prefix) {
   var { 
-    defaults,
     pluralName,
     construct,
   } = definition;
@@ -102,7 +84,7 @@ function exportConfiguration(definition, configuration, prefix) {
     let { target, name, descriptor } = construct(...arguments);
 
     // assign defaults
-    descriptor = { ...defaults, ...configuration, ...descriptor };
+    descriptor = { ...configuration, ...descriptor };
 
     // define descriptor + lambdize, callback, extends, lazy
     return define(target, name, descriptor);

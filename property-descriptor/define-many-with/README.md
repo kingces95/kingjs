@@ -8,16 +8,21 @@ var xxx = require('@kingjs/property-descriptor.define-many');
 
 ## API
 ```ts
-defineMany(target, values[, wrap(parameters)[, map]])
+defineMany(this, closure, target, descriptors)
 ```
 ### Parameters
-- `target`: `target` comment.
-- `values`: `values` comment.
-- `wrap`: `wrap` comment.
-  - `descriptor`: The value to wrap into a descriptor.
-- `map`: `map` comment.
+- `this`: The callback to invoke for each name or symbol in descriptors.
+- `closure`: An object, typically bound, that modifies the arguments passed to `callback`.
+- `closure.constructor`: A callback to normalize each value of `descriptors`.
+  - `target`: The `target`.
+  - `name`: The name or symbol of a value of `descriptors`.
+  - `value`: A value of `descriptors`.
+  - Returns `{ target, name, descriptor }`.
+- `closure.defaults`: Default properties to assign to each descriptor.
+- `target`: Target on which each descriptor in `descriptors` will be declared.
+- `descriptors`: Descriptors to define on `target`.
 ### Returns
-Returns comment.
+Returns `target`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
