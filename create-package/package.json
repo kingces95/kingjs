@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/create-package",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Creates or updates fields of `package.json` that can be inferred from the surrounding environment.",
   "main": "index.js",
   "files": [
@@ -12,8 +12,6 @@
     "create-package": "./cpk.js"
   },
   "scripts": {
-    "test": "node test",
-    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
@@ -23,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/git.get-dir": "^1.0.0",
-    "@kingjs/string.replace-all": "^1.0.0",
+    "@kingjs/string-ex.replace-all": "^1.0.0",
     "typescript": "^3.2.4"
   }
 }

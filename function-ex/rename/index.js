@@ -1,3 +1,11 @@
+var { 
+  ['@kingjs']: { 
+    defineExtension
+  }
+} = require('./dependencies');
+
+var { name, version } = require('./package.json');
+
 var Name = 'name';
 
 /**
@@ -16,4 +24,8 @@ function rename(name) {
   });
 }
 
-module.exports = rename;
+module.exports = defineExtension(
+  Function.prototype,
+  name, version,
+  rename
+);

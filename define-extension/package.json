@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/define-interface-extension",
+  "name": "@kingjs/define-extension",
   "version": "1.0.0",
-  "description": "",
+  "description": "Defines a property on a target with a symbol name  derived from `package` and `version`.",
   "main": "index.js",
   "files": [
     "index.js"
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/define-extension"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {}
 }

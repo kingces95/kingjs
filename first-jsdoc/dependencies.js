@@ -1,1 +1,0 @@
-exports['typescript'] = require('typescript')

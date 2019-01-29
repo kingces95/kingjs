@@ -1,5 +1,4 @@
 'use strict';
-var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
 var getJsdocDescription = require('./jsdoc-description');
@@ -14,7 +13,7 @@ var RepositoryUrl = 'https://repository.kingjs.net/';
 var {
   ['@kingjs']: { 
     git: { getDir },
-    string: { replaceAll }
+    stringEx: { replaceAll: ReplaceAll }
   }
 } = require('./dependencies');
 
@@ -53,11 +52,11 @@ function createPackage() {
   var relPath = path.relative(gitDir, cwd);
 
   // update package name
-  var packageName = `@${KingJs}/${replaceAll.call(relPath, path.sep, Period)}`;
+  var packageName = `@${KingJs}/${relPath[ReplaceAll](path.sep, Period)}`;
   pkg.name = packageName;
 
   // update package repository
-  var repository = `${RepositoryUrl}${replaceAll.call(relPath, path.sep, ForwardSlash)}`;
+  var repository = `${RepositoryUrl}${relPath[ReplaceAll](path.sep, ForwardSlash)}`;
   if (!pkg.repository)
     pkg.repository = { };
   pkg.repository.type = Git;

@@ -5,7 +5,7 @@ Give a `package.json` like this:
 ```js
 {
   "name": "@kingjs/ns0.ns1.example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Example description.",
   "main": "index.js",
   "repository": {
@@ -82,7 +82,7 @@ And a `md/API.t.md` like this:
 ${api}
 ```
 ### Parameters
-${join('- `${key}`: ${value}${join("  - `${key}`: ${value}", value.callback, "\\n", "\\n")}', parameters, '\n')}
+${join('- `${key}`: ${value}${join("  - `${key}`: ${value}", value.callback.parameters, "\\n", "\\n")}', parameters, '\n')}
 ${returns ? expand('./RETURNS.t.md') : ''}
 ````
 And a `md/RETURNS.t.md` like this:
@@ -128,10 +128,12 @@ readMe();
 
 ## API
 ```ts
-example(this, foo(moo[, boo])[, bar[, baz]])
+example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])
 ```
 ### Parameters
 - `this`: This comment
+- `callback`: Callback comment.
+  - `pop`: Default callback.
 - `foo`: Foo comment.
   - `moo`: Moo comment.
   - `boo`: Boo comment

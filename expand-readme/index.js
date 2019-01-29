@@ -7,7 +7,7 @@ var packageNameParse = require('./package-name.parse');
 
 var {
   ['@kingjs']: { 
-    string: { expand: expandString }
+    stringEx: { expand: Expand }
   }
 } = require('./dependencies');
 
@@ -98,7 +98,7 @@ function expand(templateRelPath, cwd) {
     expandBasePath = path.dirname(fullPath);
     {
       var text = include(fullPath);
-      text = expandString.call(text, descriptor);
+      text = text[Expand](descriptor);
     }
     expandBasePath = stack.pop();
     return text;

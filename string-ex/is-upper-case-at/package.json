@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/string-ex.is-upper-case-at",
+  "version": "1.0.0",
+  "description": "Test if a character at an index in a string is upper case.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/is-upper-case-at"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-extension": "^1.0.0"
+  }
+}

@@ -3,13 +3,13 @@ Renames a function.
 ## Usage
 ```js
 var assert = require('assert');
-var rename = require('@kingjs/function-ex.rename');
+var Rename = require('@kingjs/function-ex.rename');
 
 function foo() { }
 var fooDescriptor = Object.getOwnPropertyDescriptor(foo, 'name');
 assert(fooDescriptor.value == 'foo');
 
-var bar = rename.call(foo, 'bar');
+var bar = foo[Rename]('bar');
 var barDescriptor = Object.getOwnPropertyDescriptor(foo, 'name');
 assert(barDescriptor.value == 'bar');
 assert(barDescriptor.enumerable == fooDescriptor.enumerable);

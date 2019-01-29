@@ -2,7 +2,7 @@
 
 var {
   ['@kingjs']: { 
-    string: { expand }
+    stringEx: { expand: Expand }
   }
 } = require('./dependencies');
 
@@ -28,7 +28,7 @@ function printJoin(template, descriptor, source, separator, prefix, suffix) {
   var lines = [];
   var i = 0;
   for (var key of keys) {
-    var line = expand.call(template, { 
+    var line = template[Expand]({ 
       ...descriptor, i: i++, key, value: source[key] 
     });
     lines.push(line);

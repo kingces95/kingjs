@@ -4,7 +4,7 @@ var ts = require("typescript");
 
 var {
   ['@kingjs']: { 
-    string: { joinLines }
+    stringEx: { joinLines: JoinLines }
   }
 } = require('./dependencies');
 
@@ -136,7 +136,7 @@ function parse(path) {
 }
 
 function joinComment(comment) {
-  return new String(joinLines.call(comment));
+  return new String(comment[JoinLines]());
 }
 
 function defineParameter(target, node) {
@@ -185,7 +185,7 @@ function createApi(parameters, name) {
       tokens.push(', ')
 
     tokens.push(parameter.hasCallback ? 
-      createApi(parameter.callback, name) : name);
+      createApi(parameter.callback.parameters, name) : name);
     pushTokens(++i);
 
     if (isOptional)

@@ -1,7 +1,7 @@
 exports['@kingjs'] = {
-  string: {
-    expand: require('@kingjs/string.expand'),
-    joinLines: require('@kingjs/string.join-lines'),
+  stringEx: {
+    expand: require('@kingjs/string-ex.expand'),
+    joinLines: require('@kingjs/string-ex.join-lines'),
   },
 }
 exports['typescript'] = require('typescript')

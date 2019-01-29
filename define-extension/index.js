@@ -1,42 +1,27 @@
-'use strict';
 
-function defineExtension(name, descriptor) {
+/**
+ * @description Defines a property on a target with a symbol name 
+ * derived from `package` and `version`.
+ * 
+ * @param target The target on which to declare the property.
+ * @param package The name of the package containing the extension.
+ * @param version The version of the package containing the extension.
+ * @param descriptor The descriptor describing the property. 
+ * 
+ * @returns The symbol name of the property.
+ * 
+ * @remarks If `descriptor` is a function, then it will be wrapped in an 
+ * object with name `value`.
+ */
+function defineExtension(target, package, version, descriptor) {
+  var symbol = Symbol(`${package}, ${version}`);
 
-  var type; 
-  var extension = function(value) {
+  if (typeof descriptor == 'function')
+    descriptor = { value: descriptor };
 
-    // cache type
-    if (!type) {
-      type = getExtendedType();
-      assert(!is.undefined(type), failedToResolveExtensionTypeError)
-    }
-    
-    // verify type
-    assert(this instanceof type, extendsThisError);
-
-    // find target
-    var target = this;
-    while (Object.getPrototypeOf(target) instanceof type)
-      target = Object.getPrototypeOf(target);
-
-    // patch
-    Object.defineProperty(target, name, descriptor);
-
-    // dispatch
-    if (isFunction)
-      return this[name].apply(this, arguments);
-
-    if (arguments.length == 0) 
-      return this[name];
-    
-    this[name] = value;
-  }
+  Object.defineProperty(target, symbol, descriptor);
+  return symbol;
 }
 
-function initExtensions(x, y) {
-  
-}
-
-Object.defineProperties(module, {
-  exports: { value: copy }
-});
+//throw 'hi'
+module.exports = defineExtension;

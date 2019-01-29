@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     is,
     string: { expand },
-    functionEx: { rename }
+    functionEx: { rename: Rename }
   }
 } = require('./dependencies');
 
@@ -37,11 +37,7 @@ function rename(template) {
 function defineName(template) {
   var name = this.name;
   name = expand.call(template, { name });
-
-  Object.defineProperty(this, 'name', { 
-    configurable: true,
-    value: name
-  });
+  this[Rename](name);
 }
 
 module.exports = rename;

@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/string-ex.expand",
+  "version": "1.0.0",
+  "description": "Given a string with the format of a template literal,  expand its placeholders with the values corresponding to a descriptor's keys.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/expand"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-extension": "^1.0.0",
+    "@kingjs/string-ex.replace-all": "^1.0.0"
+  }
+}

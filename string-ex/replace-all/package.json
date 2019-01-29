@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/string-ex.replace-all",
+  "version": "1.0.0",
+  "description": "Returns a new string in which all occurrences of a  substring are replaced with another string.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/replace-all"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-extension": "^1.0.0"
+  }
+}
