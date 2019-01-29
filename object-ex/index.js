@@ -91,7 +91,7 @@ function exportConfiguration(definition, configuration, prefix) {
   }
 
   exports[pluralName] = function(target, values) {
-    for (var key of getOwnPropertyKeys.call(values))
+    for (var key of Reflect.ownKeys(values))
       exports[singularName](target, key, values[key]);
     return target;
   }

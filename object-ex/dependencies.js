@@ -1,5 +1,4 @@
 exports['@kingjs'] = {
-  getOwnPropertyKeys: require('@kingjs/get-own-property-keys'),
   is: require('@kingjs/is'),
   propertyDescriptor: {
     constructAccessor: require('@kingjs/property-descriptor.construct-accessor'),
