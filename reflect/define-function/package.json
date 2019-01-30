@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/reflect.define-function",
+  "version": "1.0.0",
+  "description": "Extends `kingjs/reflect.define-property` with richer overloads.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/define-function"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.lambdize": "^1.0.2",
+    "@kingjs/property-descriptor.make-lazy": "^1.0.1",
+    "@kingjs/property-descriptor.target-instance-of": "^1.0.3"
+  }
+}
