@@ -6,6 +6,8 @@ ${canInclude('./md/OVERLOADS.md') ? expand('./OVERLOADS.t.md') : ''}
 ${Object.keys(parameters).length ? expand('./PARAMETERS.t.md') : ''}
 ${remarks ? expand('./REMARKS.t.md') : ''}
 ${canInclude('./md/SEE-ALSO.md') ? expand('./SEE-ALSO.t.md') : ''}
+${expand('./INSTALL.t.md')}
+${Object.keys(dependencies).length ? expand('./DEPENDENCIES.t.md') : ''}
 ${expand('./FOOTER.t.md')}
 
 [@kingjs]: ${npmjs}kingjs

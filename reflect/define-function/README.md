@@ -12,13 +12,13 @@ defineFunction(target, name, descriptor)
 ```
 ## Overloads
 ```js
-define(target, namedFunction)
-  => define(target, name, { value: namedFunction, ... })
-
 define(target, name, string)
   => define(target, name, { value: lambda, ... })
 
 // inherited from @kingjs/reflect.define-property
+define(target, namedFunction)
+  => define(target, name, { value: namedFunction, ... })
+  
 define(target, { value: namedFunction, ... })
   => define(target, name, { value: namedFunction, ... })
 
@@ -39,6 +39,14 @@ define(target, name, nonObjectOrNull)
 ### Returns
 Returns `target` if the property was successfully created.  Otherwise `undefined` is returned. If `target` is `null` or `undefined` then `{ name, descriptor }` is returned.
 
+
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
+|[`@kingjs/property-descriptor.lambdize`](https://www.npmjs.com/package/@kingjs/property-descriptor.lambdize)|`^1.0.2`|
+|[`@kingjs/property-descriptor.make-lazy`](https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy)|`^1.0.1`|
+|[`@kingjs/property-descriptor.target-instance-of`](https://www.npmjs.com/package/@kingjs/property-descriptor.target-instance-of)|`^1.0.3`|
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

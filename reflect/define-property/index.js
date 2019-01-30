@@ -76,7 +76,7 @@ function defineProperty(target, name, descriptor) {
   var isLazy = descriptor.lazy;
   var isProcedural = isAccessor || isLazy || isExtension;
 
-  if (isProcedural)
+  if (isProcedural) {
 
     lambdize.call(descriptor, name);
 

@@ -17,20 +17,27 @@ var ReadmeName = 'README.md';
 var PackageName = 'package.json';
 var UTF8 = 'utf8';
 
-function expand(templateRelPath, cwd) {
+function expand(templateRelPath) {
   if (!templateRelPath)
     templateRelPath = TemplateName;
 
-  cwd = process.cwd();
+  var cwd = process.cwd();
 
   // parse package.json
   var packagePath = joinPath(cwd, PackageName)
   var pkg = require(packagePath);
   var { 
-    main, name, version, description, license, 
+    main, name, version, description, license, dependencies,
     repository: { url: repository },
   } = pkg;
-  var pkgInfo = { name, version, description, license, repository };
+  var pkgInfo = { 
+    name, 
+    version, 
+    description, 
+    license, 
+    dependencies,
+    repository 
+  };
 
   // find template
   var templatePath = joinPath(cwd, templateRelPath);

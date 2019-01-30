@@ -12,23 +12,23 @@ defineProperty(target, name, descriptor)
 ```
 ## Overloads
 ```js
-define(target, namedFunction)
-  => define(target, name, { value: namedFunction, ... })
+defineProperty(target, namedFunction)
+  => defineProperty(target, name, { value: namedFunction, ... })
   
-define(target, { value: namedFunction, ... })
-  => define(target, name, { value: namedFunction, ... })
+defineProperty(target, { value: namedFunction, ... })
+  => defineProperty(target, name, { value: namedFunction, ... })
 
-define(target, { get|set: namedFunction, ... })
-  => define(target, name, { get|set: namedFunction, ... })
+defineProperty(target, { get|set: namedFunction, ... })
+  => defineProperty(target, name, { get|set: namedFunction, ... })
 
-define(target, name, { get|set: string, ... })
-  => define(target, name, { get|set: lambda, ... })
+defineProperty(target, name, { get|set: string, ... })
+  => defineProperty(target, name, { get|set: lambda, ... })
 
-define(target, name, { value: string, lazy|extends: truthy, ... })
-  => define(target, name, { value: lambda, lazy|extends: truthy, ... })
+defineProperty(target, name, { value: string, lazy|extends: truthy, ... })
+  => defineProperty(target, name, { value: lambda, lazy|extends: truthy, ... })
 
-define(target, name, nonObjectOrNull)
-  => define(target, name, { value: nonObjectOrNull })
+defineProperty(target, name, nonObjectOrNull)
+  => defineProperty(target, name, { value: nonObjectOrNull })
 ```
 
 ### Parameters
@@ -53,24 +53,25 @@ Returns `target` if the property was successfully created.  Otherwise `undefined
 - Transforms are applied in the order `lambdize`, then `extends`, then `lazy`, then `callback`.
 - After applying transforms associated with the properties `callback`, `extends`,  and `lazy`, the corresponding property is deleted from the descriptor. This can only be  seen if no `target` is supplied causing the descriptor to be returned.
 ## See Also
-- [@kingjs/reflect.define-function][defineFunction]
-- [@kingjs/reflect.define-accessor][defineAccessor]
-- [@kingjs/reflect.define-value][defineValue]
-- [@kingjs/property-descriptor.lambdize][lambdize]
-- [@kingjs/property-descriptor.target-instance-of][target-instance-of]
-- [@kingjs/property-descriptor.make-lazy][make-lazy]
+- [`@kingjs/reflect.define-function`][defineFunction]
+- [`@kingjs/reflect.define-accessor`][defineAccessor]
+- [`@kingjs/reflect.define-value`][defineValue]
 
 [defineFunction]: https://www.npmjs.com/package/@kingjs/reflect.define-function
 [defineAccessor]: https://www.npmjs.com/package/@kingjs/reflect.define-accessor
 [defineValue]: https://www.npmjs.com/package/@kingjs/reflect.define-value
-[lambdize]: https://www.npmjs.com/package/@kingjs/property-descriptor.lambdize
-[target-instance-of]: https://www.npmjs.com/package/@kingjs/property-descriptor.target-instance-of
-[make-lazy]: https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/reflect.define-property
 ```
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
+|[`@kingjs/property-descriptor.lambdize`](https://www.npmjs.com/package/@kingjs/property-descriptor.lambdize)|`^1.0.2`|
+|[`@kingjs/property-descriptor.make-lazy`](https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy)|`^1.0.1`|
+|[`@kingjs/property-descriptor.target-instance-of`](https://www.npmjs.com/package/@kingjs/property-descriptor.target-instance-of)|`^1.0.3`|
 ## Source
 https://repository.kingjs.net/reflect/define-property
 ## License

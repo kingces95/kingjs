@@ -16,7 +16,9 @@ Given a `package.json` like this:
     "url": "https://repository.kingjs.net/readme-template"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/is": "^1.0.9"
+  }
 }
 
 ```
@@ -70,6 +72,7 @@ var myPackage = require('@kingjs/readme-template.test');
 ```ts
 example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])
 ```
+
 ### Parameters
 - `this`: This comment
 - `callback`: Callback comment.
@@ -84,6 +87,11 @@ The return comment. Return comment that spans a line.
 ### Remarks
 Remarks comment that spans lines.
 - Remarks comment on new line.
+
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
