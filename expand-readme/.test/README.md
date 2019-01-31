@@ -11,7 +11,6 @@ function readMe() {
 }
 readMe();
 ```
-
 ## API
 ```ts
 example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])

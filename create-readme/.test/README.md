@@ -1,12 +1,5 @@
 # @[kingjs][@kingjs]/[readme-template][ns0].[test][ns1]
 Test of the master readme template for the `kingjs` scope.
-## Usage
-```js
-var assert = require('assert');
-var myPackage = require('@kingjs/readme-template.test');
-
-// example goes here!
-```
 
 ## API
 ```ts
@@ -28,15 +21,15 @@ The return comment. Return comment that spans a line.
 Remarks comment that spans lines.
 - Remarks comment on new line.
 
-## Dependencies
-|Package|Version|
-|---|---|
-|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/readme-template.test
 ```
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
 ## Source
 https://repository.kingjs.net/readme-template
 ## License

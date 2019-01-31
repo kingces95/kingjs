@@ -7,8 +7,8 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node test",
-    "prepublishOnly": "npm test"
+    "test": "node .test",
+    "prepublishOnly": "npm .test"
   },
   "repository": {
     "type": "git",

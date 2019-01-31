@@ -14,7 +14,6 @@ Give a `package.json` like this:
   "license": "MIT",
   "dependencies": {}
 }
-
 ```
 And a `index.js` like this:
 ```js
@@ -43,26 +42,24 @@ And a `index.js` like this:
 function example(callback, foo, bar, baz) { }
 
 ```
-And a `README.t.md` like this:
+And a `.md/README.t.md` like this:
 ````
 # @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
-${canInclude('./test/readme.js') ? expand('./md/USAGE.t.md') : ''}
-${api ? expand('./md/API.t.md') : ''}
-${remarks ? expand('./md/REMARKS.t.md') : ''}
-${expand('./md/FOOTER.t.md')}
+${canInclude('./.test/readme.js') ? expand('./USAGE.t.md') : ''}
+${api ? expand('./API.t.md') : ''}
+${remarks ? expand('./REMARKS.t.md') : ''}
+${expand('./FOOTER.t.md')}
 
 [@kingjs]: ${npmjs}kingjs
 ${join('[ns${i}]: ${npmjs}@kingjs/${value}', namespaces, '\n')}
-
 ````
-And a `md/USAGE.t.md` like this:
+And a `.md/USAGE.t.md` like this:
 ````
 ## Usage
 ```js
-${include('./test/readme.js').replace('..', name)}
+${include('./.test/readme.js').replace('..', name)}
 ```
-
 ````
 And a `test/readme.js` like this:
 ```js
@@ -75,7 +72,7 @@ function readMe() {
 }
 readMe();
 ```
-And a `md/API.t.md` like this:
+And a `.md/API.t.md` like this:
 ````
 ## API
 ```ts
@@ -85,17 +82,17 @@ ${api}
 ${join('- `${key}`: ${value}${join("  - `${key}`: ${value}", value.callback.parameters, "\\n", "\\n")}', parameters, '\n')}
 ${returns ? expand('./RETURNS.t.md') : ''}
 ````
-And a `md/RETURNS.t.md` like this:
+And a `.md/RETURNS.t.md` like this:
 ````
 ### Returns
 ${returns}
 ````
-And a `md/REMARKS.t.md` like this:
+And a `.md/REMARKS.t.md` like this:
 ````
 ### Remarks
 ${remarks}
 ````
-And a `md/FOOTER.t.md` like this:
+And a `.md/FOOTER.t.md` like this:
 ````
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -125,7 +122,6 @@ function readMe() {
 }
 readMe();
 ```
-
 ## API
 ```ts
 example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])
@@ -160,7 +156,6 @@ MIT
 [ns0]: https://www.npmjs.com/package/@kingjs/ns0
 [ns1]: https://www.npmjs.com/package/@kingjs/ns0.ns1
 [ns2]: https://www.npmjs.com/package/@kingjs/ns0.ns1.example
-
 ````
 ## API
 ```ts
@@ -190,6 +185,7 @@ From `package.json`:
 * `description`
 * `license`
 * `repository`
+* `dependencies`
 
 From the package name:
 * `namespaces`: Array of namespaces. 

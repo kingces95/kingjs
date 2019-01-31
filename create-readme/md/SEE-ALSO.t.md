@@ -1,2 +1,2 @@
 ## See Also
-${include('./md/SEE-ALSO.md')}
+${include('./.md/SEE-ALSO.md')}

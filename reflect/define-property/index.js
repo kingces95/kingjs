@@ -61,7 +61,7 @@ var construct = require('./construct');
  * seen if no `target` is supplied causing the descriptor to be returned.  
  * 
  */
-function defineProperty(target, name, descriptor) {
+function defineProperty() {
 
   // construct the arguments
   let { target, name, descriptor } = construct(...arguments);

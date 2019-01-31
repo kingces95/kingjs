@@ -3,19 +3,19 @@ ${description}
 ## Usage
 Given a `package.json` like this:
 ```
-${include('test/package.json')}
+${include('.test/package.json')}
 ```
 And given a `index.js` like this:
 ```js
-${include('test/index.js')}
+${include('.test/index.js')}
 ```
-And given a `test/readme.js` like this:
+And given a `.test/readme.js` like this:
 ```js
-${include('test/test/readme.js')}
+${include('.test/.test/readme.js')}
 ```
 Then running `$ erm` will produce a `README.md` like this:
 ````
-${include('test/README.md')}
+${include('.test/README.md')}
 ````
 ## Install
 With [npm](https://npmjs.org/) installed, run

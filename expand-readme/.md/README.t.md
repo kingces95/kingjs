@@ -3,44 +3,44 @@ ${description}
 ## Usage
 Give a `package.json` like this:
 ```js
-${include('test/package.json')}
+${include('.test/package.json')}
 ```
 And a `index.js` like this:
 ```js
-${include('test/index.js')}
+${include('.test/index.js')}
 ```
-And a `README.t.md` like this:
+And a `.md/README.t.md` like this:
 ````
-${include('test/README.t.md')}
+${include('.test/.md/README.t.md')}
 ````
-And a `md/USAGE.t.md` like this:
+And a `.md/USAGE.t.md` like this:
 ````
-${include('test/md/USAGE.t.md')}
+${include('.test/.md/USAGE.t.md')}
 ````
 And a `test/readme.js` like this:
 ```js
-${include('test/test/readme.js')}
+${include('.test/.test/readme.js')}
 ```
-And a `md/API.t.md` like this:
+And a `.md/API.t.md` like this:
 ````
-${include('test/md/API.t.md')}
+${include('.test/.md/API.t.md')}
 ````
-And a `md/RETURNS.t.md` like this:
+And a `.md/RETURNS.t.md` like this:
 ````
-${include('test/md/RETURNS.t.md')}
+${include('.test/.md/RETURNS.t.md')}
 ````
-And a `md/REMARKS.t.md` like this:
+And a `.md/REMARKS.t.md` like this:
 ````
-${include('test/md/REMARKS.t.md')}
+${include('.test/.md/REMARKS.t.md')}
 ````
-And a `md/FOOTER.t.md` like this:
+And a `.md/FOOTER.t.md` like this:
 ````
-${include('test/md/FOOTER.t.md')}
+${include('.test/.md/FOOTER.t.md')}
 ````
 Running `$erm` will produce a `README.md` like this:
 ````
 
-${include('test/README.md')}
+${include('.test/README.md')}
 ````
 ## API
 ```ts
@@ -70,6 +70,7 @@ From `package.json`:
 * `description`
 * `license`
 * `repository`
+* `dependencies`
 
 From the package name:
 * `namespaces`: Array of namespaces. 

@@ -12,14 +12,15 @@ var {
 } = require('./dependencies');
 
 var NpmPackageUrl = 'https://www.npmjs.com/package/';
-var TemplateName = 'README.t.md';
+var TemplateDir = '.md';
+var TemplateName = './README.t.md';
 var ReadmeName = 'README.md';
 var PackageName = 'package.json';
 var UTF8 = 'utf8';
 
 function expand(templateRelPath) {
   if (!templateRelPath)
-    templateRelPath = TemplateName;
+    templateRelPath = joinPath(TemplateDir, TemplateName);
 
   var cwd = process.cwd();
 
