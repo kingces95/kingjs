@@ -15,7 +15,7 @@ Object.defineProperties(
     lazyFunction: makeLazy.call({ value: next }, 'lazyFunction'),
 
     writeOnceAccessor: makeLazy.call(
-      { }, // defaults to `get: o => o`
+      { get: o => o },
       'writeOnceAccessor',
       IsWriteOnce, 
       DefaultValue

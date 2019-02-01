@@ -1,25 +1,34 @@
 var assert = require('assert');
 var defineProperty = require('..');
 
+var target = null;
+
+// create descriptor by harvesting name from named function
+var { name, descriptor } = defineProperty(
+  null, function foo() { }
+)
+assert(name == 'foo');
+assert(descriptor.value.name == 'foo');
+
 var target = { };
 
 // harvest name from named function
 defineProperty(
-  target, function namedFunction() { }
+  target, function foo() { return 0; }
 )
-assert(target.namedFunction);
+assert(target.foo() == 0);
 
 // harvest name from named function in a descriptor
 defineProperty(
-  target, { value: function namedFunction() { } }
+  target, { value: function bar() { return 0; } }
 )
-assert(target.namedFunction);
+assert(target.bar() == 0);
 
 // harvest name from named get/set in a descriptor
 defineProperty(
-  target, { get: function namedAccessor() { } }
+  target, { get: function baz() { return 0; } }
 )
-assert(target.namedAccessor);
+assert(target.baz == 0);
 
 // wrap get/set in a function
 defineProperty(
@@ -27,22 +36,40 @@ defineProperty(
 )
 assert(target.lambda == target);
 
-// wrap value in a function if descriptor is lazy
+// wrap get/set/value in a function if descriptor is lazy
 defineProperty(
   target, 'lazyLambda', { 
-    value: 'this.i++', lazy: true 
+    get: 'this.i++', 
+    lazy: true,
+    static: true, // because target == this at runtime
   }
 )
 target.i = 0;
 assert(target.lazyLambda == 0);
 assert(target.lazyLambda == 0);
 
-// wrap value in a function if descriptor is an extension
+// wrap get/set/value in a function if descriptor is an extension
 var GetLength = Symbol('getLength');
 defineProperty(
   Object.prototype, GetLength, { 
-    value: 'this.length', extends: String 
+    value: 'this.length', 
+    extends: () => String 
   }
 )
-assert('foo'.length == 'foo'[GetLength]());
-assert.throws(() => [ ][GetLength]())
+assert('foo'.length == 'foo'[GetLength]()); // extends String
+assert.throws(() => [ ][GetLength]()) // does not extend Array
+
+// defer creation of descriptor until target and name are known
+defineProperty(
+  target, 
+  'extern', { 
+    callback: (d, n, t) => ({
+      ...d,
+      get: () => ({ 
+        target: t, name: n 
+      }) 
+    })
+  }
+)
+assert(target.extern.name == 'extern');
+assert(target.extern.target == target);

@@ -21,5 +21,8 @@
     "@kingjs/property-descriptor.lambdize": "^1.0.2",
     "@kingjs/property-descriptor.make-lazy": "^1.0.1",
     "@kingjs/property-descriptor.target-instance-of": "^1.0.3"
+  },
+  "devDependencies": {
+    "@kingjs/assert-theory": "^1.0.16"
   }
 }

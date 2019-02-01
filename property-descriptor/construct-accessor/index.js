@@ -42,7 +42,7 @@ function constructAccessor(target, x, y, z) {
     var name = x;
     descriptor = { ...y };
   }  
-
+ 
   // normalize name
   if (!is.stringOrSymbol(name))
     name = (descriptor.get || descriptor.set).name;

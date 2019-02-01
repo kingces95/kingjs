@@ -45,7 +45,8 @@ function makeLazy(name, isWriteOnce, argument, isStatic) {
   var isEnumerable = this.enumerable || false;
 
   var wrap = isFunction ? 'value' : 'get';
-  var promise = this.value || this.get || (o => o);
+  var promise = this.value || this.get;
+  assert(is.function(promise));
 
   // normalize name assigned to functions
   var debugName = name;

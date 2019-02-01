@@ -14,25 +14,25 @@ var {
 var construct = require('./construct');
 
 /**
- * @description Extends `Reflect.defineProperty` to allow richer descriptors
+ * @description Extends `Object.defineProperty` to allow richer descriptors
  * which can include `callback`, `extends`, and `lazy` properties. And `lazy`
  * can be modified by `writeOnce`, `argument`, and `static`.
  * 
  * @param target The target on which the property will be defined.
  * @param name The name of the property.
  * @param descriptor A descriptor which supports these additional properties:
- * @param descriptor.callback Called just before calling `Reflect.defineProperty`
+ * @param descriptor.callback Called just before calling `Object.defineProperty`
  * to allow the descriptor to configure itself given `name` and `target`.
- * @param descriptor.extends A callback that returns a function representing 
- * the type being extended. If runtime `this` is not an `instanceof` the returned
- * function, then the property will throw an exception. If present, then `name` must be 
- * a symbol and `target` must be `Object.prototype`. 
+ * @param descriptor.extends A callback that returns a type (function) representing 
+ * the type being extended. If runtime `this` is not an `instanceof` the type, 
+ * then an exception is thrown. An extension's `name` must be a symbol and its
+ * `target` must be `Object.prototype`.
  * @param descriptor.lazy Caches the result of the property on the runtime `this`.
  * @param descriptor.writeOnce Modifies `lazy`. Allows setting the property with a 
  * value that gets passed to the promise when resolved.
  * @param descriptor.argument Modifies `writeOnce`. If no value is set, then
  * `argument` is used as a default.
- * @param descriptor.static `descriptor.static`: Modifies `lazy`. Makes the stub configurable
+ * @param descriptor.static Modifies `lazy`. Makes the stub configurable
  * so, if runtime `this` and `target` are the same object, the stub can be replaced with the
  * cached value.
  * 
@@ -49,12 +49,12 @@ var construct = require('./construct');
  * @callback descriptor.extends
  * @returns Returns a function representing the type being extended. 
  * 
- * @remarks - Strings that appear where functions are expected, namely the properties 
- * `get` or `set`, or `value` when `extends` or `lazy` is present, 
- * will be wrapped into functions.
+ * @remarks - Strings that appear where functions are expected will
+ * be wrapped into functions; String values for `get` or `set`, 
+ * or `value` when `extends` or `lazy` is present are wrapped as functions.
  * 
- * @remarks - Transforms are applied in the order `lambdize`,
- * then `extends`, then `lazy`, then `callback`.
+ * @remarks - Transforms are applied in the order: `lambdize` >
+ * `extends` > `lazy` > `callback`.
  * 
  * @remarks - After applying transforms associated with the properties `callback`, `extends`, 
  * and `lazy`, the corresponding property is deleted from the descriptor. This can only be 
@@ -70,6 +70,7 @@ function defineProperty() {
 
   var hasGet = 'get' in descriptor;
   var hasSet = 'set' in descriptor;
+  var hasValue = 'value' in descriptor;
 
   var isAccessor = hasGet || hasSet;
   var isExtension = descriptor.extends;
@@ -87,6 +88,8 @@ function defineProperty() {
     }
 
     if (isLazy) {
+      assert(!hasSet);
+
       makeLazy.call(
         descriptor, 
         name, 
@@ -98,12 +101,13 @@ function defineProperty() {
   }
 
   if (descriptor.callback)
-    descriptor.callback(descriptor, name, target);
+    descriptor = descriptor.callback(descriptor, name, target);
 
   if (!target)
     return { name, descriptor };
 
-  return Reflect.defineProperty(target, name, descriptor) ? target : undefined;
+  assert(hasValue != isAccessor);
+  return Object.defineProperty(target, name, descriptor);
 }
 
 module.exports = defineProperty;

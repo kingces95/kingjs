@@ -1,6 +1,6 @@
 # @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
-${canInclude('./test/readme.js') ? expand('./USAGE.t.md') : ''}
+${canInclude('./.test/readme.js') ? expand('./USAGE.t.md') : ''}
 ${api ? expand('./API.t.md') : ''}
 ${canInclude('./.md/OVERLOADS.md') ? expand('./OVERLOADS.t.md') : ''}
 ${Object.keys(parameters).length ? expand('./PARAMETERS.t.md') : ''}

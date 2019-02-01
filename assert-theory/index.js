@@ -9,8 +9,10 @@ function assertTheory(theory, observations, runId) {
 
   var id = 0;
   for (var observation of fromEach(normalize(observations))) {
-    if (id !== runId && runId !== undefined)
+    if (id !== runId && runId !== undefined) {
+      id++;
       continue;
+    }
 
     theory.call(observations, observation, id++);
   }
