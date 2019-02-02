@@ -40,19 +40,33 @@ defineProperty(
 )
 assert(target.lambda == target);
 
-// wrap get/set/value in a function if descriptor is lazy
+// writeOnce
+defineProperty(
+  target, 'constant', { 
+    get: o => o, 
+    lazy: true,
+    writeOnce: true,
+    static: true, // because target == this at runtime
+    /* argument: 20 */ // un-comment to provide a default
+  }
+)
+target.constant = 10;
+assert.throws(() => target.constant = 20);
+assert(target.constant == 10);
+
+// wrap value in a function if descriptor is lazy
 defineProperty(
   target, 'lazyLambda', { 
-    get: 'this.i++', 
+    value: 'this.i++', 
     lazy: true,
     static: true, // because target == this at runtime
   }
 )
 target.i = 0;
-assert(target.lazyLambda == 0);
-assert(target.lazyLambda == 0);
+assert(target.lazyLambda() == 0);
+assert(target.lazyLambda() == 0);
 
-// wrap get/set/value in a function if descriptor is an extension
+// wrap value in a function if descriptor is an extension
 var GetLength = Symbol('getLength');
 defineProperty(
   Object.prototype, GetLength, { 
@@ -100,17 +114,17 @@ defineProperty(target, name, nonObjectOrNull)
 - `target`: The target on which the property will be defined.
 - `name`: The name of the property.
 - `descriptor`: A descriptor which supports these additional properties:
-- `descriptor.callback`: Called just before calling `Reflect.defineProperty` to allow the descriptor to configure itself given `name` and `target`.
-  - `descriptor`: A copy of the descriptor.
-  - `name`: The name of the property.
-  - `target`: The target on which the property will be defined.
-  - Returns an updated descriptor.
 - `descriptor.extends`: A callback that returns a type (function) representing  the type being extended. If runtime `this` is not an `instanceof` the type,  then an exception is thrown. An extension's `name` must be a symbol and its `target` must be `Object.prototype`.
   - Returns a function representing the type being extended.
 - `descriptor.lazy`: Caches the result of the property on the runtime `this`.
 - `descriptor.writeOnce`: Modifies `lazy`. Allows setting the property with a  value that gets passed to the promise when resolved.
 - `descriptor.argument`: Modifies `writeOnce`. If no value is set, then `argument` is used as a default.
 - `descriptor.static`: Modifies `lazy`. Makes the stub configurable so, if runtime `this` and `target` are the same object, the stub can be replaced with the cached value.
+- `descriptor.callback`: Called just before calling `Object.defineProperty` to allow the descriptor to configure itself given `name` and `target`.  The resulting descriptor is passed to a recursive call of `defineProperty`.
+  - `descriptor`: A copy of the descriptor.
+  - `name`: The name of the property.
+  - `target`: The target on which the property will be defined.
+  - Returns an updated descriptor.
 ### Returns
 Returns `target` if the property was successfully created.  Otherwise `undefined` is returned. If `target` is `null` or `undefined` then `{ name, descriptor }` is returned.
 ### Remarks

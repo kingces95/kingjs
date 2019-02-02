@@ -36,19 +36,33 @@ defineProperty(
 )
 assert(target.lambda == target);
 
-// wrap get/set/value in a function if descriptor is lazy
+// writeOnce
+defineProperty(
+  target, 'constant', { 
+    get: o => o, 
+    lazy: true,
+    writeOnce: true,
+    static: true, // because target == this at runtime
+    /* argument: 20 */ // un-comment to provide a default
+  }
+)
+target.constant = 10;
+assert.throws(() => target.constant = 20);
+assert(target.constant == 10);
+
+// wrap value in a function if descriptor is lazy
 defineProperty(
   target, 'lazyLambda', { 
-    get: 'this.i++', 
+    value: 'this.i++', 
     lazy: true,
     static: true, // because target == this at runtime
   }
 )
 target.i = 0;
-assert(target.lazyLambda == 0);
-assert(target.lazyLambda == 0);
+assert(target.lazyLambda() == 0);
+assert(target.lazyLambda() == 0);
 
-// wrap get/set/value in a function if descriptor is an extension
+// wrap value in a function if descriptor is an extension
 var GetLength = Symbol('getLength');
 defineProperty(
   Object.prototype, GetLength, { 

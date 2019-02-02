@@ -2,8 +2,8 @@
 var assert = require('assert');
 
 var {
-  '@kingjs/from-each': fromEach,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { fromEach },
+} = require('./dependencies');
 
 function assertTheory(theory, observations, runId) {
 

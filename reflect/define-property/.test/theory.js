@@ -6,6 +6,7 @@ assertTheory(function(test, id) {
   var value = 1;
   var nextValue = 2;
   var writeOnceValue = 3;
+  var writeOnceDefault = 4;
 
   var local = value;
 
@@ -16,6 +17,9 @@ assertTheory(function(test, id) {
 
   var hasGetter = test.getter;
   var hasSetter = test.setter;
+  var useDefault = test.useDefault;
+  var hasDefault = test.argument;
+  var argument = !test.argument ? undefined : writeOnceDefault;
   var isAccessor = hasGetter || hasSetter;
   var isFunction = test.function;
   var isField = test.field;
@@ -28,6 +32,7 @@ assertTheory(function(test, id) {
   var name = test.name;
   var configurable = test.configurable;
   var enumerable = test.enumerable;
+  var isManual = test.manual;
 
   if (!isAccessor && !isValue)
     return;
@@ -68,6 +73,7 @@ assertTheory(function(test, id) {
     lazy: isLazy,
     writeOnce: isWriteOnce,
     static: isStatic,
+    argument,
   }
 
   // lambda
@@ -89,12 +95,18 @@ assertTheory(function(test, id) {
   if (hasSetter)
     descriptor.set = setter;
 
-  if (isExternal && !throws) {
+  if (isExternal) {
     var originalDescriptor = descriptor;
     function external(d, n, t) {
       assert(n == name);
       assert(t == target);
-      return defineProperty(null, name, originalDescriptor);
+      assert('extends' in d == false);
+      assert('callback' in d == false);
+      assert('lazy' in d == false);
+      assert('static' in d == false);
+      assert('writeOnce' in d == false);
+      assert('argument' in d == false);
+      return originalDescriptor;
     }
     descriptor = { callback: external };
   }
@@ -104,19 +116,51 @@ assertTheory(function(test, id) {
     return;
   }
 
-  var result = defineProperty(target, name, descriptor);
-  assert(result == target);
-  
+  if (isManual) {
+    if (isExternal) {
+      var callback = descriptor.callback;
+      delete descriptor.callback;
+      descriptor = callback(descriptor, name, target);
+    }
+
+    var { 
+      descriptor: result,
+      name: resultName 
+    } = defineProperty(null, name, descriptor);
+
+    assert(result != descriptor);
+    assert('extends' in result == false);
+    assert('callback' in result == false);
+    assert('lazy' in result == false);
+    assert('static' in result == false);
+    assert('writeOnce' in result == false);
+    assert('argument' in result == false);
+    Object.defineProperty(target, resultName, result);
+  } 
+  else {
+    var result = defineProperty(target, name, descriptor);
+    assert(result == target);
+  }
+
   var instance = isStatic ? Type : new Type();
   var getActual = () => isFunction ? instance[name]() : instance[name];
 
   if (isLazy) {
     var expected = local;
     if (isWriteOnce) {
-      assert.throws(() => getActual());
 
-      expected = writeOnceValue;
-      instance[name] = expected;
+      if (useDefault) {
+        expected = writeOnceDefault;
+
+        if (!hasDefault) {
+          assert.throws(() => getActual());
+          return;
+        }
+      } 
+      else {
+        expected = writeOnceValue;
+        instance[name] = expected;
+      }
     }
 
     var actual = getActual();
@@ -146,8 +190,8 @@ assertTheory(function(test, id) {
   lazy: [ false, true ],
   writeOnce: [ false, true ],
   static: [ false, true ],
-
   external: [ false, true ],
+  manual: [ false, true ],
   argument: [ false, true ],
-  useArgument: [ false, true ],
+  useDefault: [ false, true ],
 })
