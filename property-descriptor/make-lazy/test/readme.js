@@ -2,8 +2,8 @@
 var assert = require('assert');
 var makeLazy = require('..');
 
-var DefaultValue = null;
-var IsWriteOnce = true;
+var Seeded = true;
+var Seed = null;
 
 var count;
 var next = () => count++;
@@ -17,15 +17,15 @@ Object.defineProperties(
     writeOnceAccessor: makeLazy.call(
       { get: o => o },
       'writeOnceAccessor',
-      IsWriteOnce, 
-      DefaultValue
+      Seeded, 
+      Seed
     ),
     
     resolve: makeLazy.call(
       { value: o => o }, 
       'resolve', 
-      IsWriteOnce,
-      DefaultValue
+      Seeded,
+      Seed
     ),
   }
 )

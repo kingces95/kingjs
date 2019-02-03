@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/reflect.define-function",
-  "version": "1.0.1",
-  "description": "Extends `kingjs/reflect.define-property` with richer overloads.",
+  "name": "@kingjs/reflect.define-field",
+  "version": "1.0.0",
+  "description": "Constrains `kingjs/reflect.define-property` to a single overload for declaring a field.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,12 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/reflect/define-function"
+    "url": "https://repository.kingjs.net/reflect/define-field"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.9",
     "@kingjs/reflect.define-property": "^1.0.2"
   }
 }

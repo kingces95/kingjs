@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.make-lazy",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Replaces a description of a function or accessor  with a corresponding descriptor that delegates to the original descriptor and caches its result in a a corresponding property on `this`.",
   "main": "index.js",
   "files": [

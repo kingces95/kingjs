@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/reflect.define-function",
+  "name": "@kingjs/reflect.define-accessor",
   "version": "1.0.1",
   "description": "Extends `kingjs/reflect.define-property` with richer overloads.",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/reflect/define-function"
+    "url": "https://repository.kingjs.net/reflect/define-accessor"
   },
   "keywords": [],
   "license": "MIT",

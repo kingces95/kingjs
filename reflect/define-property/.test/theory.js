@@ -17,9 +17,9 @@ assertTheory(function(test, id) {
 
   var hasGetter = test.getter;
   var hasSetter = test.setter;
-  var useDefault = test.useDefault;
-  var hasDefault = test.argument;
-  var argument = !test.argument ? undefined : writeOnceDefault;
+  var useSeed = test.useSeed;
+  var hasSeed = test.seed;
+  var seed = !test.seed ? undefined : writeOnceDefault;
   var isAccessor = hasGetter || hasSetter;
   var isFunction = test.function;
   var isField = test.field;
@@ -27,7 +27,7 @@ assertTheory(function(test, id) {
   var isLazy = test.lazy;
   var isStatic = test.static;
   var isLambda = test.lambda;
-  var isWriteOnce = test.writeOnce;
+  var isSeeded = test.seeded;
   var isExternal = test.external;
   var name = test.name;
   var configurable = test.configurable;
@@ -43,10 +43,10 @@ assertTheory(function(test, id) {
   if (hasSetter && !hasGetter)
     return;
 
-  if (isWriteOnce && !isLazy)
+  if (isSeeded && !isLazy)
     return;
 
-  if (isWriteOnce && isLambda)
+  if (isSeeded && isLambda)
     return;
 
   // invalid combination
@@ -71,9 +71,9 @@ assertTheory(function(test, id) {
     enumerable,
 
     lazy: isLazy,
-    writeOnce: isWriteOnce,
+    seeded: isSeeded,
     static: isStatic,
-    argument,
+    seed,
   }
 
   // lambda
@@ -104,8 +104,8 @@ assertTheory(function(test, id) {
       assert('callback' in d == false);
       assert('lazy' in d == false);
       assert('static' in d == false);
-      assert('writeOnce' in d == false);
-      assert('argument' in d == false);
+      assert('seeded' in d == false);
+      assert('seed' in d == false);
       return originalDescriptor;
     }
     descriptor = { callback: external };
@@ -133,8 +133,8 @@ assertTheory(function(test, id) {
     assert('callback' in result == false);
     assert('lazy' in result == false);
     assert('static' in result == false);
-    assert('writeOnce' in result == false);
-    assert('argument' in result == false);
+    assert('seeded' in result == false);
+    assert('seed' in result == false);
     Object.defineProperty(target, resultName, result);
   } 
   else {
@@ -147,12 +147,12 @@ assertTheory(function(test, id) {
 
   if (isLazy) {
     var expected = local;
-    if (isWriteOnce) {
+    if (isSeeded) {
 
-      if (useDefault) {
+      if (useSeed) {
         expected = writeOnceDefault;
 
-        if (!hasDefault) {
+        if (!hasSeed) {
           assert.throws(() => getActual());
           return;
         }
@@ -188,10 +188,12 @@ assertTheory(function(test, id) {
   field: [ false, true ],
   lambda: [ false, true ],
   lazy: [ false, true ],
-  writeOnce: [ false, true ],
+  seeded: [ false, true ],
+  seed: [ false, true ],
   static: [ false, true ],
   external: [ false, true ],
   manual: [ false, true ],
-  argument: [ false, true ],
-  useDefault: [ false, true ],
+  useSeed: [ false, true ],
+
+  extends: [ false, true ]
 })

@@ -36,19 +36,19 @@ defineProperty(
 )
 assert(target.lambda == target);
 
-// writeOnce
+// a "readOnly" property can be set only once
 defineProperty(
-  target, 'constant', { 
+  target, 'readOnly', { 
     get: o => o, 
     lazy: true,
-    writeOnce: true,
+    seeded: true,
     static: true, // because target == this at runtime
-    /* argument: 20 */ // un-comment to provide a default
+    /* seed: 20 */ // un-comment to provide a default
   }
 )
-target.constant = 10;
-assert.throws(() => target.constant = 20);
-assert(target.constant == 10);
+target.readOnly = 10;
+assert.throws(() => target.readOnly = 20);
+assert(target.readOnly == 10);
 
 // wrap value in a function if descriptor is lazy
 defineProperty(

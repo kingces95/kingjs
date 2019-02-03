@@ -40,19 +40,19 @@ defineProperty(
 )
 assert(target.lambda == target);
 
-// writeOnce
+// a "readOnly" property can be set only once
 defineProperty(
-  target, 'constant', { 
+  target, 'readOnly', { 
     get: o => o, 
     lazy: true,
-    writeOnce: true,
+    seeded: true,
     static: true, // because target == this at runtime
-    /* argument: 20 */ // un-comment to provide a default
+    /* seed: 20 */ // un-comment to provide a default
   }
 )
-target.constant = 10;
-assert.throws(() => target.constant = 20);
-assert(target.constant == 10);
+target.readOnly = 10;
+assert.throws(() => target.readOnly = 20);
+assert(target.readOnly == 10);
 
 // wrap value in a function if descriptor is lazy
 defineProperty(
@@ -117,8 +117,8 @@ defineProperty(target, name, nonObjectOrNull)
 - `descriptor.extends`: A callback that returns a type (function) representing  the type being extended. If runtime `this` is not an `instanceof` the type,  then an exception is thrown. An extension's `name` must be a symbol and its `target` must be `Object.prototype`.
   - Returns a function representing the type being extended.
 - `descriptor.lazy`: Caches the result of the property on the runtime `this`.
-- `descriptor.writeOnce`: Modifies `lazy`. Allows setting the property with a  value that gets passed to the promise when resolved.
-- `descriptor.argument`: Modifies `writeOnce`. If no value is set, then `argument` is used as a default.
+- `descriptor.seeded`: Modifies `lazy`. Allows setting the property with a  value that gets passed to the promise when resolved.
+- `descriptor.seed`: Modifies `seeded`. If no value is set, then `seed` is used as a default.
 - `descriptor.static`: Modifies `lazy`. Makes the stub configurable so, if runtime `this` and `target` are the same object, the stub can be replaced with the cached value.
 - `descriptor.callback`: Called just before calling `Object.defineProperty` to allow the descriptor to configure itself given `name` and `target`.  The resulting descriptor is passed to a recursive call of `defineProperty`.
   - `descriptor`: A copy of the descriptor.
@@ -149,7 +149,7 @@ $ npm install @kingjs/reflect.define-property
 |---|---|
 |[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
 |[`@kingjs/property-descriptor.lambdize`](https://www.npmjs.com/package/@kingjs/property-descriptor.lambdize)|`^1.0.2`|
-|[`@kingjs/property-descriptor.make-lazy`](https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy)|`^1.0.1`|
+|[`@kingjs/property-descriptor.make-lazy`](https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy)|`^1.0.3`|
 |[`@kingjs/property-descriptor.target-instance-of`](https://www.npmjs.com/package/@kingjs/property-descriptor.target-instance-of)|`^1.0.3`|
 ## Source
 https://repository.kingjs.net/reflect/define-property

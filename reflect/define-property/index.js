@@ -16,7 +16,7 @@ var construct = require('./construct');
 /**
  * @description Extends `Object.defineProperty` to allow richer descriptors
  * which can include `callback`, `extends`, and `lazy` properties. And `lazy`
- * can be modified by `writeOnce`, `argument`, and `static`.
+ * can be modified by `seeded`, `seed`, and `static`.
  * 
  * @param target The target on which the property will be defined.
  * @param name The name of the property.
@@ -26,16 +26,18 @@ var construct = require('./construct');
  * then an exception is thrown. An extension's `name` must be a symbol and its
  * `target` must be `Object.prototype`.
  * @param descriptor.lazy Caches the result of the property on the runtime `this`.
- * @param descriptor.writeOnce Modifies `lazy`. Allows setting the property with a 
+ * @param descriptor.seeded Modifies `lazy`. Allows setting the property with a 
  * value that gets passed to the promise when resolved.
- * @param descriptor.argument Modifies `writeOnce`. If no value is set, then
- * `argument` is used as a default.
+ * @param descriptor.seed Modifies `seeded`. If no value is set, then
+ * `seed` is used as a default.
  * @param descriptor.static Modifies `lazy`. Makes the stub configurable
  * so, if runtime `this` and `target` are the same object, the stub can be
  * replaced with the cached value.
  * @param descriptor.callback Called just before calling `Object.defineProperty`
  * to allow the descriptor to configure itself given `name` and `target`. 
  * The resulting descriptor is passed to a recursive call of `defineProperty`.
+ * @param descriptor.function Modifies `value`. If set and `value` is a string
+ * then the string is wrapped in a function.
  *
  * @returns Returns `target` if the property was successfully created. 
  * Otherwise `undefined` is returned. If `target` is `null` or
@@ -67,8 +69,10 @@ function defineProperty() {
   // construct the arguments
   let { target, name, descriptor } = construct(...arguments);
 
-  // value/function
+  // value
   var hasValue = 'value' in descriptor;
+  var isFunction = descriptor.function;
+  assert(!isFunction || hasValue);
 
   // accessor
   var hasGet = 'get' in descriptor;
@@ -82,8 +86,8 @@ function defineProperty() {
   // lazy
   var isLazy = descriptor.lazy;
   var isStatic = descriptor.static;
-  var isWriteOnce = descriptor.writeOnce;
-  var argument = descriptor.argument;
+  var isSeeded = descriptor.seeded;
+  var seed = descriptor.seed;
 
   // callback
   var callback = descriptor.callback;
@@ -92,11 +96,11 @@ function defineProperty() {
   descriptor = { ...descriptor };
   delete descriptor.extends;
   delete descriptor.lazy;
-  delete descriptor.writeOnce;
-  delete descriptor.argument;
+  delete descriptor.seeded;
+  delete descriptor.seed;
   delete descriptor.static;
 
-  var isProcedural = isAccessor || isLazy || isExtension;
+  var isProcedural = isAccessor || isLazy || isExtension || isFunction;
   if (isProcedural) {
 
     lambdize.call(descriptor, name);
@@ -107,10 +111,8 @@ function defineProperty() {
       targetInstanceOf.call(descriptor, getType, name);
     }
 
-    if (isLazy) {
-      assert(!hasSet);
-      makeLazy.call(descriptor, name, isWriteOnce, argument, isStatic);
-    }
+    if (isLazy)
+      makeLazy.call(descriptor, name, isSeeded, seed, isStatic);
   }
 
   if (target && callback) {
@@ -122,7 +124,7 @@ function defineProperty() {
   if (!target)
     return { name, descriptor };
 
-  assert(hasValue != isAccessor);
+  assert(isAccessor != hasValue);
   return Object.defineProperty(target, name, descriptor);
 }
 

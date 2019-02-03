@@ -11,8 +11,7 @@
     "cpk": "./cpk.js",
     "create-package": "./cpk.js"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://repository.kingjs.net/create-package"
