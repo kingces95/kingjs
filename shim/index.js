@@ -1,10 +1,10 @@
-//'use strict';
-
 var {
-  '@kingjs/define-interface': defineInterface,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: {
+    defineInterface
+  }
+} = require('./dependencies');
 
-var kingjs = { };
+var kingjs = Symbol.kingjs = { };
 
 // IInterface (builtIn)
 var { IInterface } = defineInterface;
@@ -12,7 +12,7 @@ kingjs.IInterface = IInterface;
 
 // IIterable
 defineInterface(kingjs, 'IIterable', {
-  id: '@kingjs/IIterable',
+  id: Symbol.iterator,
   members: { getIterator: Symbol.iterator },
 }),
 
@@ -30,8 +30,6 @@ defineInterface(kingjs, 'IEnumerator', {
     current: null,
   },
 }),
-
-Symbol.kingjs = kingjs;
 
 // Array : IIterable
 require('./shim-array');

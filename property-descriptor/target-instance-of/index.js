@@ -47,7 +47,7 @@ function targetInstanceOf(callback, name) {
 
       // find target
       var target = Object.getPrototypeOf(this);
-      while (target instanceof type)
+      while (Object.getPrototypeOf(target) instanceof type)
         target = Object.getPrototypeOf(target);
 
       // patch

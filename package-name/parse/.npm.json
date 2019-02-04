@@ -1,0 +1,55 @@
+{
+  "_id": "@kingjs/package-name.parse@1.0.1",
+  "_rev": "1-932e68a211d5d9a70a907eed880fc358",
+  "name": "@kingjs/package-name.parse",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2019-01-13T20:31:52.305Z",
+    "1.0.0": "2019-01-13T20:31:52.518Z",
+    "modified": "2019-01-13T21:55:17.866Z",
+    "1.0.1": "2019-01-13T21:55:15.372Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "## Usage ```js var assert = require('assert'); var parse = require('@kingjs/package-name.parse');",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package-name.parse"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"542a8577eb5f9f16deb96fdb64fd8dc0\"",
+  "_lastModified": "Sun, 13 Jan 2019 21:55:19 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {},
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-Jo6CHaepD2Ul366XyFd0tddXmG3BSGxn49uBu0X+PxRCtiR2jlGRw+kiSRKL4VH+ZDOta1kpEcMfqusPo6cAWQ==",
+    "shasum": "c6186d370d9b1599f9e27518312829551482bc21",
+    "tarball": "https://registry.npmjs.org/@kingjs/package-name.parse/-/package-name.parse-1.0.1.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3860,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcO7PDCRA9TVsSAnZWagAAPcAQAJ7M6Y1+WSYTsi0jA3gN\nHwGrUeVBRSy69frzpBmv5jSnWcoMZl/dRXSsgjD60JkWPHROjtL/Q+Nh2WE8\naaED89w8ekM0P0KueWYsIHZSLHwGmXxn0FEjAk8Gs63Rt0cl47ofziQwdwZk\nXp9WMvI79eUlY1nMENGv1+2cLrtsubxRVhcaLLjwoyvqeiBzBtqoAl8Q8nn+\nDCnlgqsubNt3nzTUY80lxtkdG7C5pjpMO4yOfjBO2cDYOJgR9FAgmZGsHuyp\nQPDsbb1w6qwjr7yx6yfxHRmOw0p4YQDMcTu3YmUQJ4Ddb4H4qDOHWf6FO2Kh\nbR40+FGJj8GcLLn99O6YTO0u7FbL0UpmL0dPqmwor5oFYac78Jft+4Gvzmpv\nGwXZN9Oo2EafHE+fbm1qoIwkv84vxtdXtccvpKyAOGF43blbt4Q8O2sbvhgc\nWbYx1GPPkXTTOLzwcNu4qz5Mgu1j1h2xIh1x89qcP78BuxWOp/e7DHVzy3IK\nzP+7PViPc1/QrAU2U8wkRtDviG2c/08ElF3GDZVP22v/9/ajcypDz2ift/Pp\nNZVw88gbVLFWKxGi5DCCkXCl/rX6p7uFx16vABia1Tn+WPB9Da80KqITtaHj\nxrIjdn9skF3sz1u33U+bAwxKEYpnQqhRxYDinErnfbnpZsMiF4U/Y0DUEC/x\nOYMK\r\n=OMzg\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/package-name.parse_1.0.1_1547416515176_0.5067239756817961"
+  },
+  "_hasShrinkwrap": false
+}

@@ -1,0 +1,78 @@
+{
+  "_id": "@kingjs/expand-readme@1.0.9",
+  "_rev": "9-ac72a8def454878c01e1a150d7feaa6f",
+  "name": "@kingjs/expand-readme",
+  "dist-tags": {
+    "latest": "1.0.9"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9"
+  ],
+  "time": {
+    "created": "2019-01-18T19:15:04.312Z",
+    "1.0.0": "2019-01-18T19:15:04.526Z",
+    "modified": "2019-01-29T01:39:18.260Z",
+    "1.0.1": "2019-01-18T19:56:20.964Z",
+    "1.0.2": "2019-01-18T20:10:25.297Z",
+    "1.0.3": "2019-01-18T22:39:09.797Z",
+    "1.0.4": "2019-01-18T22:41:47.813Z",
+    "1.0.5": "2019-01-19T03:10:17.365Z",
+    "1.0.6": "2019-01-19T03:17:51.283Z",
+    "1.0.7": "2019-01-20T00:29:18.027Z",
+    "1.0.8": "2019-01-20T00:49:39.710Z",
+    "1.0.9": "2019-01-29T01:39:15.785Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Expands `README.t.md` into `README.md`.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/expand-readme"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"30345561d61ed3388a2842cc2cd32caa\"",
+  "_lastModified": "Tue, 29 Jan 2019 01:39:19 GMT",
+  "version": "1.0.9",
+  "main": "index.js",
+  "bin": {
+    "erm": "./erm.js",
+    "expand-readme": "./erm.js"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "dependencies": {
+    "@kingjs/string-ex.expand": "^1.0.0",
+    "@kingjs/string-ex.join-lines": "^1.0.0",
+    "typescript": "^3.2.2"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-Y8+uZ+/BHM8N5UVy3HM8IuefpgZ3Q/qZ9PkLj1IlRO3n3tK8MCWoti7ncxA2C7Kts9FsuLKysYdrTKFmLMGNxA==",
+    "shasum": "cc783fa218d4b19a1a95b7947e84f11c80130d34",
+    "tarball": "https://registry.npmjs.org/@kingjs/expand-readme/-/expand-readme-1.0.9.tgz",
+    "fileCount": 10,
+    "unpackedSize": 20973,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT67ECRA9TVsSAnZWagAADB4P/3ursmfOE/S9ZTxFsUMp\n/+jB8mpOCyJszyFBBtUx9yLrLGohc+26d+zvLp5syfd3jZoegV15TYvPebt3\nEqPV/DDnHCNXGQRBZA+la4Gj2fZqeHj8nZk/Y/AQkmVdTkTIk6YTBMCWyRdt\nZrXDEQ5hY5e75Oo7eRYoj1YeyK5YMOh20+J72dnkf9JRkS3aUmJnQkjJ3ch4\ndB5ly3au67GNgx5u5hs5PSaFiLFHm/vhL3oqXNu44U74slcUhw3Mg98N9X9B\n47xEbEZTdVlIJWvKGDa03SbKKl6V1vSEqM1G0O3bEtBpPMgRRJMstONk52G8\nQSTVlB9LXoer++DSK60/+oRCHXm3Zqaae7FuT7sRs0j0oU24eYbAYBpSeX21\nG8hvCXS6X9cOG3t/EW+lQlj2ie1e5YL+3x1Uqg4/yEsI5nS91/Lvsgt8DIBx\ni0xV3rj3/SO7v3XXAmLSLjtTQ3gP+V3OEm+c4IcsEVol0z+Bsm5XDY00M2LO\nzEyP6d8zjWKjjeVmA2ugpmILhDRSxMxTbKYqT0lI5fpVA4Ts3gp7nMsAE8Hw\nJELuMUy5oODQtmvkciNuln9AumhQ6bE2gqSwETH91eUrGwvwEalz+oWlhnoc\nYozCoGi76WSoXX4gkqg6d4OVEkzS9Mv2xdyKJVI5CrtWEMGcDBPJ2zIZfv/m\nMmuE\r\n=Vtt8\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/expand-readme_1.0.9_1548725955709_0.8539708787839035"
+  },
+  "_hasShrinkwrap": false
+}

@@ -1,0 +1,59 @@
+{
+  "_id": "@kingjs/is-enumerable@1.0.1",
+  "_rev": "1-ab07ad6e2e006e4868ff98f89a1287ed",
+  "name": "@kingjs/is-enumerable",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2018-09-05T00:20:34.240Z",
+    "1.0.0": "2018-09-05T00:20:34.425Z",
+    "modified": "2018-09-10T05:42:39.211Z",
+    "1.0.1": "2018-09-10T05:42:36.309Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns true if own or inherited property is enumerable.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"9d3a029285612dc846fd8b900ab8deb6\"",
+  "_lastModified": "Mon, 10 Sep 2018 05:42:40 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-88QA9u6hpjkjd1Ch8vVfln4/KFXLz1OxgArEzEmxuCluFYBMszvDAbhn3Q1Q6+e2gP8lFrhg2dqJOOFg2Rc7GA==",
+    "shasum": "329a9214cb4a14a2982a2c32b488c0a30374b62f",
+    "tarball": "https://registry.npmjs.org/@kingjs/is-enumerable/-/is-enumerable-1.0.1.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2783,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJblgRMCRA9TVsSAnZWagAAlbYP/0Cr60aAtQl2hy53zMww\nxlHnY8eM1d4jd2VQUglNInlc3gRrD/WjuS3kdc110/bm+YhVmNqbmL8cl5sB\nZTqX9vnRMuTqvrsXbOaEUQJ43k8nGu2hDZtNU0ErjbaIuVvBIOr5u3VRL5RQ\n1mofS7ADYzmDx/gwhWCayA+JsxhY5y50CMMudI+ttP9zik7JGGXU9110nJ26\nrnLJPvcUnvQOLLTDDo5B93gMkBjIth35XoebV0lw7NOj3kDRxyYLzUQTb+fj\n3tGHqr0RyDt77xad+EsJXilclRN0d0r1Td4UWGoJMRBplGNF9sMBuigqDqJt\nh5W3h9klGKDR63pdCQyp06N4SoXCwInG61gPGSxm3nsAkX0ViTyQhjy1BdWB\n1FNO8hRDJCUnIYQjuDSbSBQuQcm1Yj+ndTGibNiPotvP/jf6fsQzUdb6fwJ8\nlgnlBmSZShANCzulMT0hX4J6YZFlngxuN+EGgLMWa4kyzUriEwXaC7FvNIyG\nuYvJfClN3ZY+YuBai1j5PkY4oMsiJbeEtQ14+W9bduRA2WyvJ8/KF8iclldK\nlDggMheGJ9UEAmtnpCFI2BwXg6y1Q31C/VzXij+tNznsxfayIEJ2feAqaFGJ\nREZ+Zu0ry9YZL702zzxzz7C0Tt6L1hKdfVcc5GZMsJdqg2/SRNQDCLl9fiES\nRPre\r\n=TbQP\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/is-enumerable_1.0.1_1536558156216_0.08050658883700645"
+  },
+  "_hasShrinkwrap": false
+}

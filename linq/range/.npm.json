@@ -1,0 +1,84 @@
+{
+  "_id": "@kingjs/linq.range@1.0.11",
+  "_rev": "12-47f7c97bd22333a0fc9862fe12e88883",
+  "name": "@kingjs/linq.range",
+  "dist-tags": {
+    "latest": "1.0.11"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10",
+    "1.0.11"
+  ],
+  "time": {
+    "created": "2018-08-02T04:07:20.059Z",
+    "1.0.0": "2018-08-02T04:07:20.209Z",
+    "modified": "2018-08-18T09:38:39.288Z",
+    "1.0.1": "2018-08-02T18:44:32.519Z",
+    "1.0.2": "2018-08-03T22:51:50.606Z",
+    "1.0.3": "2018-08-05T21:08:08.169Z",
+    "1.0.4": "2018-08-05T21:37:13.046Z",
+    "1.0.5": "2018-08-09T03:55:15.558Z",
+    "1.0.6": "2018-08-14T21:38:04.210Z",
+    "1.0.7": "2018-08-15T02:18:30.817Z",
+    "1.0.8": "2018-08-16T00:38:56.449Z",
+    "1.0.9": "2018-08-16T02:31:25.904Z",
+    "1.0.10": "2018-08-17T21:31:25.168Z",
+    "1.0.11": "2018-08-18T09:38:36.282Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Generate a range of numbers.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "keywords": [],
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b77e91f-6760\"",
+  "_lastModified": "Sat, 18 Aug 2018 9:38:39 GMT",
+  "version": "1.0.11",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/enumerable.define": "^1.0.0"
+  },
+  "_npmVersion": "6.2.0",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-sZEIQ8E9KHOYZC0P1RgIWazr2b/bjp+afuBu9UXqwaHzeDM+UwcV8NwdWNmocyVwVLrEIYeHG0IbO0/KYhE+2g==",
+    "shasum": "64998b989e70e9962523ff7c10bd2feea39ebed5",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.range/-/linq.range-1.0.11.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2889,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbd+kcCRA9TVsSAnZWagAA8+UQAJmZZXbvvanL/QuGsYC6\nDCS/X+48bmRRwKLoffhwmIeC1EHUoFERQQohNHz4UM0FUfcsI1B8g2Y/xcTP\nI0cSm2ipCTX9PxXfTvpy0IfkCg1+4xE79I9m7YTN1VL20/Dm0Tq7JZQKRRxg\nwDRL5fWtdDk0bAHzCul6nWKuuAP1ZD/8Khkc+vJueF7uLxeP5ss+Md4JjrSl\ng45KEHihwLOR7XCLeuOQ9+hrVX3I2jO7wyU27pHcJxPcsbTMJ80OR+VMKzXk\nOxrsh7LlR/kuYhUQ9PwWKpFnYXczAE6tio9q8OciOpbDbX0HZIgUbj2zwTNu\n2G4joP340m0r39bSl/BprIuH/AseKendcvxCYDz8XZOyrXhgV5LAKXbIJU4j\nr4AmTgITiAYSKDwdgu8OvtQw2VJ9yYLFLJH72MEOIXpzERsMq+255W0KLHCW\nOzDNEoePaJCUIgGziuxDdftnMmxfDl92mWeWAD/XuzKMbTI749uYVPngBwyD\n9r8cASHYa4pGz9UEXxaUevWqUP/kvdSKi6O1rENlm01CDDD4pj8zO8bVtpBL\nQJku5Lv8E2RUWPvM7X62uVlM4YOYwI+mX01nGXntK+yAqKcXFWXpYsjWZIMX\n+Hz/87Kho78V+EC+Uin+NiEMW52AeobG6/d7fkYlPPoADFez7chR/ijyiO9H\nESiD\r\n=pnnv\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.range_1.0.11_1534585116209_0.2432171582409417"
+  }
+}

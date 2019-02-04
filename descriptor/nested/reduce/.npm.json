@@ -1,0 +1,81 @@
+{
+  "_id": "@kingjs/descriptor.nested.reduce@1.0.11",
+  "_rev": "11-1dde275578d8d2a6f8b6e2c43079fd8b",
+  "name": "@kingjs/descriptor.nested.reduce",
+  "dist-tags": {
+    "latest": "1.0.11"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10",
+    "1.0.11"
+  ],
+  "time": {
+    "created": "2018-09-13T19:08:03.373Z",
+    "1.0.0": "2018-09-13T19:08:03.635Z",
+    "modified": "2018-11-25T02:51:42.178Z",
+    "1.0.1": "2018-09-22T04:04:38.040Z",
+    "1.0.2": "2018-09-23T22:39:30.378Z",
+    "1.0.3": "2018-10-21T06:13:27.684Z",
+    "1.0.4": "2018-10-22T18:47:42.003Z",
+    "1.0.5": "2018-10-22T18:50:27.980Z",
+    "1.0.6": "2018-11-06T22:43:53.534Z",
+    "1.0.7": "2018-11-07T21:41:30.671Z",
+    "1.0.8": "2018-11-08T01:00:46.937Z",
+    "1.0.9": "2018-11-11T22:35:03.829Z",
+    "1.0.10": "2018-11-12T19:33:03.368Z",
+    "1.0.11": "2018-11-25T02:51:39.633Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Accumulates the values of leafs at specific paths using a callback.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"84d53599291b59f8d8dc5fb18a2f85eb\"",
+  "_lastModified": "Sun, 25 Nov 2018 02:51:43 GMT",
+  "version": "1.0.11",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.4"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-rQ+bfw6kHbWvZEyEwaesOSNZosJ//tU2rlxdRBQOhMd6mX+B/eiYkCFrLvhRrDkW1R0HkDkLE4wLASOoY6FEog==",
+    "shasum": "af0e61d326e155fae5e95b31d6658d696e3f869d",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.reduce/-/descriptor.nested.reduce-1.0.11.tgz",
+    "fileCount": 4,
+    "unpackedSize": 4545,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb+g48CRA9TVsSAnZWagAADfcP/1lKLfbL2h72T8k9IaTK\nzx/qcRJ9ETll+sju7Da0AX0tYHMzeDlk5nsiS1QPCxblXktsTBTZtGuUWEhf\nwZrGJNzRXyxmYFZuxlYZfFstnDL66sj2tMjuJ0aVvd18zZ6LjVNDRA8Il3aq\nb/xGSgVwnc2TznBxhibUIO1IwPxcxiUZiuOpL4l1EVwfcQY7mshHa2g6VCeJ\naTSLmeYO61DXLjxHUI0R3fbAuUo/q+d8EcxBm5o2dFpWl70smP4uhQLdNjq0\n5uFrr8s9eGAkYV3i2uhPnnfyHFlITcpBVG55nATH8kxKVr3WldOYluBVJMM9\n/wYrgyy7eByDMl7NWdzv8/GRaAuddoO5q/TC3QieoD5uOTKbNAsjgjeycaHc\nZR4da76f7rJ3nvKHnKCP6yNQm4YRMoRuNRc7eUWZLnt1UbFXfY4Mh9xFo4e+\naVUNqHSos8//HlGOhrVazybxLsJRhgh6vTfu7Dt9akZoCGe5u3kbkX7dqNDT\nSWIGfMBF2pB8Xi+ivEKsfA+MMPK/sMBwBHn2QVmWGs1g4+racETmf9qQgiTt\n6p7z8aBCZuF4qVR6bJWXFJaUM8U89wcf0BO5JyXeOg9PSVRzB2UGAaYSfEOy\n3mKDUgWVTeq1b1Mm1xQJ7AOskkImjye1Pf9pJ/Uyo+NVbQx05HlW2vqgx/va\nWcCK\r\n=nQDp\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.reduce_1.0.11_1543114299486_0.6880473579232023"
+  },
+  "_hasShrinkwrap": false
+}

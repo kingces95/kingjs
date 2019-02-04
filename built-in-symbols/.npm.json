@@ -1,0 +1,51 @@
+{
+  "_id": "@kingjs/built-in-symbols@1.0.0",
+  "name": "@kingjs/built-in-symbols",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-07T20:59:43.436Z",
+    "1.0.0": "2019-01-07T20:59:43.759Z",
+    "modified": "2019-01-07T20:59:46.504Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns an object whose properties are the set of built in symbols. ## Remarks Basically, a reverse mapping of the properties on Symbol filtered by those properties whose values are actually symbols.  ## Install With [npm](https://npmjs.org/) installed, r",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/built-in-symbols"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"d2beecddd1cc4d88588ee87c945a3f51\"",
+  "_lastModified": "Mon, 07 Jan 2019 20:59:47 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "dependencies": {},
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-FoKLSWceHHYYd65uzyHfH3+cG9NelKf4isAuFUmEEZge05FwotCtya3wgFWpVT565FrZBT7jj8BKHI50Yae5fQ==",
+    "shasum": "52ed2b1f14cc8a7f7a07568f251f7b0575599219",
+    "tarball": "https://registry.npmjs.org/@kingjs/built-in-symbols/-/built-in-symbols-1.0.0.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2083,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcM73ACRA9TVsSAnZWagAA6akP/jZfjtuLMw/YO1kPpc4E\n0O6XV87Fs3b14992m6bAsjFOiu0YVdXYEgKvpQSnzqey3dMQsnULLIIMCYLr\nf6u4rS/ichtLpveDBibycNowAVv3J/lMi+yby30OBIzGPnagrJipM0Gj3UPd\nQvQhZVChBonIyjHzWJzxPc9UOWCo4qrmgHQsjGIDld2CEWdu5iHJBqWw/nBN\n3r9EO2HjYqCztBdRuFSh0WeMr6y3NvDhzdVfy2nXD2R4sd6BqB71lwmBEPHz\nLRAEp5gp+pzk5CO7FAO8uQgtEADEnTjormjoxjxdhLwZyB4KKlamy3gioOg3\n1JN5LFDVziSVlZMjgLbF8LiWxVd52PMLayMSaM+JcExnnbGEsmMkxSUKB+aB\ncUtHk+SfZWgnEMd/wy837icR8fJqSRx9/gXXtSrLMbIP45/IHTb9B4DF43z4\nWFVZeuD1ZBqqoDN4dt6smE5i4vHtjQyiy1ek1WIiKJPM9q4zxCUJQQLFdU4r\nJ0/F3UZOvtBLUxgIv0Y8AZm3BkmQB3tq44rSxEc09N9saqEsVJBpixQt5Em7\nWdINlIXgrtWnZIwSFe2rcMIvbrmzgv3q9p9hFAvUWfk0hReBRNlrcK+W0d+4\n3H8aAb9aQx9PSbnB7OFaRZGv43hvh/MuGy/mxOK2WXTntAE9M6IJCAMldb2t\nOFpn\r\n=uQc0\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/built-in-symbols_1.0.0_1546894783532_0.7638538746747092"
+  },
+  "_hasShrinkwrap": false
+}

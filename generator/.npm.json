@@ -1,0 +1,56 @@
+{
+  "_id": "@kingjs/generator@1.0.0",
+  "name": "@kingjs/generator",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-01T23:59:34.938Z",
+    "1.0.0": "2019-01-01T23:59:35.207Z",
+    "modified": "2019-01-01T23:59:37.765Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "The constructor for generator functions.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"64c65f046fe49870e609a2ecdb86ea1c\"",
+  "_lastModified": "Tue, 01 Jan 2019 23:59:38 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-j5DpKwxD7Pqoj02s3jTB4eWNWFAMsWvwH0ZPzoe8r7aopjsvmf27O6Cx3tl/RJYbeP7NIbT7U7k7plO2v1tgHQ==",
+    "shasum": "7f0324b1ff47c48d48a525ee705ba1f86a4dfe07",
+    "tarball": "https://registry.npmjs.org/@kingjs/generator/-/generator-1.0.0.tgz",
+    "fileCount": 4,
+    "unpackedSize": 1994,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcK/7nCRA9TVsSAnZWagAAKD4QAJwWlqJlH0keYDk0saKw\n3GcVqWIkTtF+H2Jiw7aCs+WDFhQJ6PJPPvRf5uSvjV2D8ecFNReBKzC8t5rp\n9nKE0Bh3TU/a47PkBYamecUfACfhHk9PdGUqjGGTncLTaeFfSRIEfUo8rnDh\npxSJvxMt+4to19wr/td8RaECYgzCDyKt4dBUn7Ps2rOu11XdZfgkEz1ALuuv\nH706UFm5itQs4tPoynzwjGpJzBB6Lkpi836rjV/0n3r/8qDzh3zgQ/LoN1D9\nBD6ETGFQX2V+bRbnGDfcSZeYpbKJ0CTatI6K8uDCOfAZ8WkKPLpzkyTv92AV\nzhAFmAgEdJzPfsBCBjU6F2uVNL2pkVrLPPvUDa0o203Aim9uDt+WuL/8t+cI\ncHAvLPHRDVF77gwAbEwUS8M68d0XdPRw1dJTDjCQRVbeQednOFDDbrJQ1UUo\nBa7lNo/hXfw39CbtrLucqNgOWHYyOmMlmmSOvrNFQ+0zzr8IzVNm6BT+vL6K\nzAYIQwPDmsHLboRKr+Yn/pI/KBpELs3JoOtEvpD/+xqVNhXqGR9nXC9YIud6\neztNIxIUIlh+voy7qsNWX+JSAGwP9f7Sck/bDNHDavT1AsZ2ppp83f0zJtBz\n2sRVVNiZbLSiXK0Rmm8w0VU4r8fOBlRDHZLwTnUyVXB6rr9LSMjEyuqLaZWy\n9RoD\r\n=vKsm\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/generator_1.0.0_1546387175019_0.8173124865584327"
+  },
+  "_hasShrinkwrap": false
+}

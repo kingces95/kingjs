@@ -1,0 +1,82 @@
+{
+  "_id": "@kingjs/poset.decode@1.0.10",
+  "_rev": "11-c7298ca69985713a329aa053cb0b44b7",
+  "name": "@kingjs/poset.decode",
+  "dist-tags": {
+    "latest": "1.0.10"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10"
+  ],
+  "time": {
+    "created": "2018-08-11T18:00:11.056Z",
+    "1.0.0": "2018-08-11T18:00:11.179Z",
+    "modified": "2018-08-20T09:25:45.809Z",
+    "1.0.1": "2018-08-12T06:55:13.216Z",
+    "1.0.2": "2018-08-13T08:46:52.432Z",
+    "1.0.3": "2018-08-13T23:07:18.409Z",
+    "1.0.4": "2018-08-14T21:40:12.584Z",
+    "1.0.5": "2018-08-15T02:20:24.174Z",
+    "1.0.6": "2018-08-16T02:35:54.671Z",
+    "1.0.7": "2018-08-17T21:34:17.655Z",
+    "1.0.8": "2018-08-17T22:36:35.637Z",
+    "1.0.9": "2018-08-20T09:16:46.512Z",
+    "1.0.10": "2018-08-20T09:25:42.699Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Decodes a descriptor representing a poset into an adjacency list and a vertex property map.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b7a8919-6480\"",
+  "_lastModified": "Mon, 20 Aug 2018 9:25:45 GMT",
+  "version": "1.0.10",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/dictionary": "^1.0.0"
+  },
+  "_npmVersion": "6.2.0",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-lLLBr/GZSDm7/MKSsXzQVoaGQGrij/OJ3mIwzQNKdqRJdVPWknUpHp20TNo6ugZ7mfzUrCcM2EZGow6OMOb60Q==",
+    "shasum": "65556388a8272199cf4722cca8608cdc6840f949",
+    "tarball": "https://registry.npmjs.org/@kingjs/poset.decode/-/poset.decode-1.0.10.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3796,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbeokXCRA9TVsSAnZWagAAtQcQAI9+A+JA61d3zk+g07ed\n8zKFZFPyBwMwzvtZAuPb6qdenrwFqjqAlrFnDviA6cuEuAMxbAA9Eg8Zwfjk\nBJmk94UdGxV996KgoNadKIeJkeAk5uwhC2BvE68L+mfWKmND8ei454wNs721\nf+l2FG8yqUuk4vw7LDnmknyAC5m25PV7ugqC33OMfxN8ugJGyQLAWp2jMmIp\n4gtUV1Grc5Hz7l8wrhjuQw2UQyYJxT5+6frjMAv/WIbOaNy+muOqBcISho8L\nZYOe+j2RTjXI95++PkaYv8HbcAjgSEVxiBiCgjeFbqpgq87JLI3QOnNjb8Fq\nZwC/OUPEtcIXcsSGnvUl3f0LO463T2/DSL5JGkVnBxfRgFe9yap3itUkBfCZ\nVIQwrdGsG+0YuAsk7I3q+JnBBTn2SGYqNIb+6HL/Vf8JzLIH/bGg/D96rRI4\nPQqE4NkjrUMGG8ENC+6kJMM5gysGDDv/wSqZ0sIrvPF3CO4XEmX/aIAFmsef\nXyjMAwkak8eLz4x2j8zsUzPdKks99awMMMnwzwaghpfLFkiyuRhmpaSD/Zng\n0MZBXUcRzRL4cGRYN14WixaLEUmzHwbxA7STw3lJkNbOf2bKHnixSBaBiC49\nE55aqzh7y/NPGWmLMMQTqt8Tfq7YlORl3dFXKRMXRi9H5ndificUOZMo/ISL\n5zRd\r\n=9SXa\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/poset.decode_1.0.10_1534757142603_0.9727557261684543"
+  }
+}

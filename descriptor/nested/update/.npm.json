@@ -1,0 +1,98 @@
+{
+  "_id": "@kingjs/descriptor.nested.update@1.0.18",
+  "_rev": "18-10731ed083c2997981f239d5217fba99",
+  "name": "@kingjs/descriptor.nested.update",
+  "dist-tags": {
+    "latest": "1.0.18"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10",
+    "1.0.11",
+    "1.0.12",
+    "1.0.13",
+    "1.0.14",
+    "1.0.15",
+    "1.0.16",
+    "1.0.17",
+    "1.0.18"
+  ],
+  "time": {
+    "created": "2018-09-12T04:57:20.147Z",
+    "1.0.0": "2018-09-12T04:57:20.395Z",
+    "modified": "2018-11-12T22:35:06.553Z",
+    "1.0.1": "2018-09-13T07:11:45.539Z",
+    "1.0.2": "2018-09-14T08:33:12.084Z",
+    "1.0.3": "2018-09-14T08:34:04.875Z",
+    "1.0.4": "2018-09-22T01:46:11.047Z",
+    "1.0.5": "2018-09-22T01:47:01.409Z",
+    "1.0.6": "2018-09-23T22:39:44.716Z",
+    "1.0.7": "2018-10-20T01:34:08.910Z",
+    "1.0.8": "2018-10-20T22:58:45.934Z",
+    "1.0.9": "2018-10-22T03:38:07.760Z",
+    "1.0.10": "2018-11-06T20:51:08.572Z",
+    "1.0.11": "2018-11-06T20:53:18.780Z",
+    "1.0.12": "2018-11-06T22:38:59.769Z",
+    "1.0.13": "2018-11-08T01:00:33.842Z",
+    "1.0.14": "2018-11-11T22:35:34.074Z",
+    "1.0.15": "2018-11-11T22:43:58.427Z",
+    "1.0.16": "2018-11-12T01:25:07.161Z",
+    "1.0.17": "2018-11-12T19:29:12.050Z",
+    "1.0.18": "2018-11-12T22:35:03.977Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Updates the leafs of a tree to values returned by a callback which takes the current value. ## Usage Replace the name of the person followed with the object representing the person being followed like this: ```js var update = require('@kingjs/descriptor.n",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"6de15a48b5beecb9059e007de0bca69e\"",
+  "_lastModified": "Mon, 12 Nov 2018 22:35:07 GMT",
+  "version": "1.0.18",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.write": "^1.0.0",
+    "@kingjs/is": "^1.0.5"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-ZGrVB6QpDTaTW/ECGzm1QBI7RfCdWH8iGcYSPofrggjkh6gvjRo2aTLw4zRt1Z3Q9IEZ3zE9KPBn+pipEg5qpQ==",
+    "shasum": "b6ab5a46256fdb209241c8c86a23af11b8b41cad",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.update/-/descriptor.nested.update-1.0.18.tgz",
+    "fileCount": 4,
+    "unpackedSize": 4800,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6gAYCRA9TVsSAnZWagAA8qsP/35hevxxuWYcR6qYtWaU\nTcjgtaMNHMCbQM/8VN0sIqi2d836y5SPX/l1ghZV15XWCFyOjMf6kxVJO/jh\nYpIGnS6r7nKn+9KFSzzR4+LbIiRKjXnEEWsBODRTOBaDFKc2IR/EVcdsq8oL\nUjhgiPj2F76srPhRqqExfnK3dJTAVwvllcKmIVhod+N+L4dYPsrsKTIfa+ma\nJQZcQh3Axp2gmge7SxLuDZpldb3hcSoBUQ+SSF2Yx6jp+DzQdlYWeE3A7dbb\nj/HztwFFacwuS+djcDMrgW/wS2pa2U85MZpivmSVkeGnwRo6ZiFg+NcSNGnD\n58MDKPeUqRa6YlaIiLL3+nldp4FxrihfZ74ssEEgg7GP3uPGbEronWHAD9+d\nyMm8E772DUyNhmWYFp/SZ5zon4LR8lYwMEljA2Ao7WM/EZMaLqRTRaamf/9W\nuLP+T4cuZaavaoA10gs9exFV1DYxBWW45dHMXUOtcnTms1kx8BEas6mom5UK\nOhihHacJBcZnCuM80mhcbT/D4zTGj4DSFPXYp6TAfR2MClChALRl9YfKZFGP\nRACdxLEEV8PQEUrNLA3kj0VKmjtPrk3PV1CFCqicuQwem+iVqiEQX5UCU7Jk\ntCmfY4VEymC2RXBH6sPq2BZgzvdOEbqOjcq8Zt9DGERILyo1lbR5zpcUCi7S\nEkXd\r\n=JlMt\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.update_1.0.18_1542062103821_0.3118279070576173"
+  },
+  "_hasShrinkwrap": false
+}

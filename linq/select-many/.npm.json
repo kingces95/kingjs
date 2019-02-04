@@ -1,0 +1,75 @@
+{
+  "_id": "@kingjs/linq.select-many@1.0.7",
+  "_rev": "7-4bc01d5bbba1e59f5e8788057d5ecbcf",
+  "name": "@kingjs/linq.select-many",
+  "dist-tags": {
+    "latest": "1.0.7"
+  },
+  "versions": [
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7"
+  ],
+  "time": {
+    "created": "2018-08-06T02:02:53.374Z",
+    "1.0.1": "2018-08-06T02:02:53.715Z",
+    "modified": "2018-08-17T21:31:50.189Z",
+    "1.0.2": "2018-08-06T02:06:50.703Z",
+    "1.0.3": "2018-08-09T03:55:34.706Z",
+    "1.0.4": "2018-08-14T21:38:19.139Z",
+    "1.0.5": "2018-08-15T02:18:43.275Z",
+    "1.0.6": "2018-08-16T02:31:40.158Z",
+    "1.0.7": "2018-08-17T21:31:47.318Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Generate a sequence by concatenating sequences projected from elements of a sequence.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b773ec6-46f9\"",
+  "_lastModified": "Fri, 17 Aug 2018 21:31:50 GMT",
+  "version": "1.0.7",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/enumerable.define": "^1.0.0",
+    "@kingjs/linq.to-array": "^1.0.1"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-QyDB/Lnc2Jo7DGXucvsWSeYCIKdzbHPwopbH0WQj3lfTAZ7mmaT7SxJXQfczYLGYOCYhOZnLRDhaBdOql6FZgQ==",
+    "shasum": "6c1ddd260727650dcefe991119c4bc6933a3fb49",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.select-many/-/linq.select-many-1.0.7.tgz",
+    "fileCount": 4,
+    "unpackedSize": 4809,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbdz7DCRA9TVsSAnZWagAARRUP/1DDLOzcCv7Bb1S25ciK\nYGpFJX0w3G+wG3LWRtKAFiVEGLaWD/5Ir7syySBqOY5zuB1X3Ur51dYjVo2Z\nlI4Mvd3/mzyWnQpkvqSB0KRaObwQ5KoDd2swZ9CkCpOUGbpnIooY2ydsCwhh\nYmYAmQGN1jwhB/1Mgc26ZCNFeGZMV4fbpq3UZJFC68DqD+3UFP5BGGmWGCS+\nMd3T6Elg8/NsWR8M3aFilSocW4UV0fLVT3ti3B8XdIsejhV+KMECHyj15hkj\nw8zyJvgHnXwtbpnDDHQYBYH/j07UpH2kHcqgP715g/4ISoOpdWPOu2W+RdXL\nQHlO+Y7xHLMUFoLaGif9mgQy5G4RR8wJFlLf+IOZQdY3AzWa4z3+1FknNEle\n5NlumF5YpmOtYqrJT1MQUFENKAAyh5sYVdxEQlteMHWrfau3m8bsy6ClnaTq\njIChdRtYIuJ243aj39tLn5JhNmsrtAAnC7cGpxw+j/ZOoMB2QOVLFDq+d0sO\n89zXjXjiTA/HrAh8YZ77wlg1ca6xD8ewT7K97uknPMu5VxJn+V4CAeIryibE\nRrwrdpG3zglZ18ZgzMb67tltknp4/ZloVSg32G9uHoE7arEIsDhG5g3dD50s\n0vBODuKNf4tH9HEVOTf/aKd2MBjnw7PD/ENCS9Z0xDwAXDHXtMRkqKgnuT/o\n0hLy\r\n=I+Mo\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.select-many_1.0.7_1534541507215_0.07701547530934638"
+  }
+}

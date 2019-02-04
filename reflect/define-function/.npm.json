@@ -1,0 +1,60 @@
+{
+  "_id": "@kingjs/reflect.define-function@1.0.2",
+  "_rev": "2-c2075ddd729681b5962fa4b84ee01d48",
+  "name": "@kingjs/reflect.define-function",
+  "dist-tags": {
+    "latest": "1.0.2"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2"
+  ],
+  "time": {
+    "created": "2019-02-02T22:38:15.295Z",
+    "1.0.0": "2019-02-02T22:38:15.530Z",
+    "modified": "2019-02-03T07:23:30.938Z",
+    "1.0.1": "2019-02-03T00:14:23.316Z",
+    "1.0.2": "2019-02-03T07:23:28.293Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Extends `kingjs/reflect.define-property` with richer overloads.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/define-function"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"57b29c0e58b35a14cda7f2b9919b5a35\"",
+  "_lastModified": "Sun, 03 Feb 2019 07:23:32 GMT",
+  "version": "1.0.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.define-property": "^1.0.2"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-uA84e6fBIiankEtH7RvtZErQ/PE5i8cEehtEsEUxHPOcROh0Jb2L20pz1apwvyRjZYbbrHBOIh1lcgBK9lEdxw==",
+    "shasum": "f756f8e950ce19555aef0cf4c6fa77728bb3fd8b",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.define-function/-/reflect.define-function-1.0.2.tgz",
+    "fileCount": 6,
+    "unpackedSize": 4277,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcVpbwCRA9TVsSAnZWagAAasgP/3wN9D1lPMHRr7owb0Ob\nn6v3t2B2zd3oV9YZ9taf3LspwT93KxvO2oxE72MU74sUdcNRYtsD+VKUK/eB\niIe9WthAH9xWents6ws5mm8Gy4S+0enAxZ06TPOSwjuxjfKNERfx67xfyueC\nWKYCdiee+DKiBPesycm11HY3ikVnBP9iTT6cLonJuKeUN84CMrXMOAV8cGtP\nmHVDC880N20yfA17UcCaf2OVRyT141C1UoGmkYs9hh4lN8f4EAW3p8QVIalr\nu6IqnuGWCcrG0I97fJ3+DkFOuzVE9VIzRcqCkyMlIfVjIM/rbWax5MCPkGcN\nfHKGnDnfCho67ij7DDdZA113zJ2ILvCZQEUZ52dphnFWNju6VX1oshQTSzzS\ngwM3RoGcnFGEoGuJoOC+oGETcd98ys70PTOR08OhBw3k4KAXlx/LQ9/FNU8t\nlGtCqIALMDrr9I8l1FxlHHik6WuZsZrhQTDGh700mCL4Z2kAtn0x44C/payg\nD8z96iKiY5sptL/jZkeR6jn9Gz1rOSHUf05yhsv+rxTz6RtFGoMIo4JvRYGQ\nPsvYzo+KBTSPF9tbpsLVN4nd1vXsNJq3NKjPOxEF3pzSUheWjfQuLQZWKM2W\nfRmaDeFMaCvnANdlA8WlDs9mFGyAL2qrj5ffYatC1X6pAMMi81J88Vaa6LwW\nv8rL\r\n=YSLP\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/reflect.define-function_1.0.2_1549178608167_0.9724869622883956"
+  },
+  "_hasShrinkwrap": false
+}

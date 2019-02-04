@@ -1,0 +1,78 @@
+{
+  "_id": "@kingjs/descriptor.map@1.0.9",
+  "_rev": "10-b08ff4b457b8d08b6403dff451b721d1",
+  "name": "@kingjs/descriptor.map",
+  "dist-tags": {
+    "latest": "1.0.9"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9"
+  ],
+  "time": {
+    "created": "2018-08-20T21:21:46.763Z",
+    "1.0.0": "2018-08-20T21:21:46.965Z",
+    "modified": "2018-11-13T15:38:49.172Z",
+    "1.0.1": "2018-08-20T21:38:20.285Z",
+    "1.0.2": "2018-09-03T07:44:02.076Z",
+    "1.0.3": "2018-09-04T09:04:00.330Z",
+    "1.0.4": "2018-09-04T09:04:32.169Z",
+    "1.0.5": "2018-09-05T00:26:50.022Z",
+    "1.0.6": "2018-09-13T07:55:07.628Z",
+    "1.0.7": "2018-09-20T21:20:52.047Z",
+    "1.0.8": "2018-11-07T20:44:46.301Z",
+    "1.0.9": "2018-11-13T15:38:46.618Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Maps descriptor property values.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"df4102e9c74732cd17626683c4272e49\"",
+  "_lastModified": "Tue, 13 Nov 2018 15:38:50 GMT",
+  "version": "1.0.9",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.nested.scorch": "^1.0.8",
+    "@kingjs/descriptor.nested.update": "^1.0.18"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-zhjzCkrPvvP8JVlqz05DjZtFS0MzYkMZgt9VUF+KStVYtBpi/LSSgBpFi5g3V4W3gIPONjcgPYFnGaSnslBeow==",
+    "shasum": "d8b66d6132e2a567d393123ac5c7cbb10f23eae6",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.map/-/descriptor.map-1.0.9.tgz",
+    "fileCount": 4,
+    "unpackedSize": 4693,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6vAHCRA9TVsSAnZWagAAoY0P/jAgGH0Lxe1KMpm3LMxF\ngIk14JeLdj0qsX8nfrhyo949ifWGSAL6mkW46AhdGgS+Ysl3TnzHFA+papMV\n/qz7x0tkTkfUBUamxF8n6FFvNuuO/dlgzO1cJtOrnU8rcBrFoTLDZ59jExXw\ngKgSM4/kAOiLeoWH7By/3OGhfZY+nh0KX/7HRIIN5NvLfkd2/i0EVpoaxra5\nlwjBeJZ7CeNm5mIAcy3Vqm9i2arhZbYeqlaCielBW8krhIb6gxnjFwkmBXwx\nRG40h8ffzP4STcVndHD6LHle+3IGnx76nsb4eqeTMiFtGbIvGh70TY/4qAMS\nUCHZQEMOIbX2zUB8OWc9JXKVwip1zbA64SSuOTa8XtAARDqIctGy7EsbuzEs\ncFhFJ/qDyUsRD/C660Wkvu7ahInbSdyq3q9dI4+1DTI+NfLVmO3+ak8FH6OY\ngV5o2fsnL79kFi0aU4Ssx/MOGG1aWygn2c+LoUzF/ZCrjH52RYoi5ClKfcjY\n5c1RBP85HalhajXJKFLBZMKEXXInwComb6trBHINeQc/6UrduIaueu6qOAUS\nXG7RZuEgMs6BSeD77CQ2IFPNA5Q0d/4MJ5UVoGPWbqYLDQM48sIikL5j6PR7\n4uRknTFMS9RCChKt+dpmwmlluZgEkcfSQScTdbw7RUCbrL3y6sdstrgVwuey\nGAH3\r\n=F4qC\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.map_1.0.9_1542123526510_0.7833157553294003"
+  },
+  "_hasShrinkwrap": false
+}

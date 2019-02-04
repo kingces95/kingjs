@@ -1,0 +1,65 @@
+{
+  "_id": "@kingjs/descriptor.object.epilog@1.0.2",
+  "_rev": "2-bd4b436f6166a6a0912bfa6856459603",
+  "name": "@kingjs/descriptor.object.epilog",
+  "dist-tags": {
+    "latest": "1.0.2"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2"
+  ],
+  "time": {
+    "created": "2018-11-11T06:41:47.886Z",
+    "1.0.0": "2018-11-11T06:41:48.099Z",
+    "modified": "2018-11-13T21:35:30.062Z",
+    "1.0.1": "2018-11-13T03:00:33.482Z",
+    "1.0.2": "2018-11-13T21:35:27.270Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "```js\r var xxx = require('@kingjs/descriptor.xxx');\r ```\r result:\r ```js\r ```\r ## API\r ```ts\r declare function xxx(\r ): any\r ```\r ### Interfaces\r - `Descriptor`: see [@kingjs/descriptor][descriptor]\r ### Parameters\r ### Returns\r ## Remarks\r ## Install\r Wi",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"1f536e0cc31258249a88253d9eeb1c79\"",
+  "_lastModified": "Tue, 13 Nov 2018 21:35:31 GMT",
+  "version": "1.0.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.0",
+    "@kingjs/assert": "^1.0.1",
+    "@kingjs/descriptor.object.freeze": "^1.0.1"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-t/j3UemTUvtMquffYIpGQqDhWmJCmBI0vhHBzDhTHav86G+Ot7+3u9vTGzKS5yFHkZXqaCRJruLlfeBKfN4otw==",
+    "shasum": "1c0bdc5b0875269efa38020b2b484b96f58e1879",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.object.epilog/-/descriptor.object.epilog-1.0.2.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2629,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb60OgCRA9TVsSAnZWagAAt0MP/A1JYmyGtJduAhulc04p\nqNfsWxihgbDpD5xTfdh0ynGi74QMVndORuVCPNk4HbpGm8ZV7d+FUZsxJc00\n7tphVzZOxZZc5EHIjBEFW5yAUrUAHUixnSxgpKr1GdQcKpaQMZPvCSaRxC0o\nFrUE77ijZK11lVWecxsQh0sHdTazpGgJaDEJC5PWDO+Z2Lo6ocCIE/AyO+HK\n+/AqRY2Ql05u3tgRi98Ah6dRCKkYvFN3a9GeLXU+Yp2rvotIsnabsGePjFoc\nVHGm5LJqQ4OD6PZUwVZLpvAFrLNPuvLjPZOr5LPdz4SVwFYHp+hXCJ/CYx35\nVF8dLcJ5/zx2l5MmqhIxd6fwAK54/i78RzadahcFVzeVmruI3zeJEZ+Sujeg\ndBg4eMVY9I/FmN7HdpoK++da8YcZtSEhaHvozJyykzo98sIi7E8TVR6+BzaT\nX2scEq/LCnyHo8RyJxJyoVBUfAfteMKq/aUboSsqhXkghF/fsd/FjHEk11yH\nTCKv5Z1PD/8VGPXb+tZNlOvRphFs6L9UKin47lTqT/FXBUFy3p0RjZz7o9oV\nqakmrjjKR8yl0jpKBXeJQfaiNfY7k7BnD59hS8k1ItTwk9CkG79IKhgOXYDI\nAj4pebsILKB8aMeVTXiPWAh3snyPNtQnzFW5LfwWbKdVXzyYSswZuJepbiOQ\n48Ih\r\n=6AWM\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.object.epilog_1.0.2_1542144927125_0.7477106276119472"
+  },
+  "_hasShrinkwrap": false
+}

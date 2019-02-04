@@ -1,0 +1,74 @@
+{
+  "_id": "@kingjs/linq.to-dictionary@1.0.6",
+  "_rev": "7-9f2e62377b14ad86d8e0b8ca4c218185",
+  "name": "@kingjs/linq.to-dictionary",
+  "dist-tags": {
+    "latest": "1.0.6"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6"
+  ],
+  "time": {
+    "created": "2018-08-06T08:43:29.332Z",
+    "1.0.0": "2018-08-06T08:43:29.504Z",
+    "modified": "2018-08-21T04:49:33.941Z",
+    "1.0.1": "2018-08-09T03:56:51.358Z",
+    "1.0.2": "2018-08-14T21:39:21.661Z",
+    "1.0.3": "2018-08-15T02:19:42.767Z",
+    "1.0.4": "2018-08-16T02:32:37.274Z",
+    "1.0.5": "2018-08-17T21:33:08.050Z",
+    "1.0.6": "2018-08-21T04:49:30.904Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Creates a dictionary from a sequence where the dictionary keys and values are projected from each element.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b7b99dd-45ae\"",
+  "_lastModified": "Tue, 21 Aug 2018 4:49:33 GMT",
+  "version": "1.0.6",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/dictionary": "^1.0.6",
+    "@kingjs/linq.aggregate": "^1.0.16"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-EYXQdLbl2sARcVOUfFFXsIBoLE8ZdCxVKLn4G+Uz9ayU2etuWTzU0eLqmROfqaVIlv5ogIaY2040at8v+Vj7jA==",
+    "shasum": "b434d13a480cff52fb8235079bd9971164ebd029",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.to-dictionary/-/linq.to-dictionary-1.0.6.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3875,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbe5nbCRA9TVsSAnZWagAACGEQAIUdiCD7UGb1SY2fOVmm\nV6DFYFhoD2Ns/xAVk7SgXzuxHAUphg27El6EVdPeirs/ADuB6Dynia9lV8zr\nzVl4sGZ1DexVxi2GEhDGsPxIFFnUw8Pakgs8fOlEnM4zEJMn7F1kGhRgjpGZ\nPv26K86JqV/OCsNlyYuvRRy2i50zzYGnnv4H4Zj0HOf2NwsiDea3mi9HgfqU\nFxrWlFxGOxzzYrKA4/CAQelC8BHoGcksvaT0lC0po+sjkTA5p910v7Ap+owS\nvCRqQEC8onrCXq1GsRKJ4SFWI582sKX+dR/FzlQdye1atGNnhRnPzFocRg45\n+VtaAuyikEhHUe1pUi0/v/CbJxP0BlTzRSGKbMSxqzU8YaUK6yBExz3xRW99\nlFp+TM3AiwwElJDg1UVH3iqIXL0DoQiBKMlEduBXjyqwIoRXIpzoDUzJEeX8\nfXze6ca+BVH/kk2LaPQCtAK8Tqn0fXsbLARAMPfp8v8s78JJdPJyP8Y/d3aG\nXhBtI715GKe4KFCs31rlD4fKI6WuKmly/TrDgikwKGcsgGp4SDw2931ZU7BA\nXbxUIi4ppooOBun4Vbiss6XqPZtf0V6znvVoNKnkLZjHLa4x+x5G9ipYAHAq\nsiNCj8DcWRrN232E37vqmvyNdZ1n+WoTT93EVbMTD3PF84Cn/s2rkfEJJVgW\nHyiO\r\n=iH59\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.to-dictionary_1.0.6_1534826970832_0.7339729639957808"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "_id": "@kingjs/descriptor.reduce@1.0.2",
+  "_rev": "1-842110c1cdf79fa4d71e8b0362ae71bb",
+  "name": "@kingjs/descriptor.reduce",
+  "dist-tags": {
+    "latest": "1.0.2"
+  },
+  "versions": [
+    "1.0.1",
+    "1.0.2"
+  ],
+  "time": {
+    "created": "2018-09-20T21:22:08.886Z",
+    "1.0.1": "2018-09-20T21:22:09.112Z",
+    "modified": "2018-09-23T22:40:01.115Z",
+    "1.0.2": "2018-09-23T22:39:58.220Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Accumulate properties of a descriptor using a callback.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"e33452a2ebe39612f67bf2c969705e6a\"",
+  "_lastModified": "Sun, 23 Sep 2018 22:40:02 GMT",
+  "version": "1.0.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-GgSbx937H8EPY9RTwqUbPKCUqo/Veqpzd9EmGeTqYvPqou/+wrUVybzL2rkOcvpHJBtDKO/iu8KM+SudPufO1Q==",
+    "shasum": "67b4fe3fc625b291eea439617d190f6a9de3112f",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.reduce/-/descriptor.reduce-1.0.2.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3133,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbqBY+CRA9TVsSAnZWagAAAtwQAKD1JBa1xhov9jJ8w2Tb\nmtlmaY5ZqrNlk0TMcwnWUbs6izmZ7I1a/PxWZaXeSYJ59X0ivpazW8HlATIw\npz9+qf7WO5v+MoK2y2t9LRB89TqkJlfoi7da8cIJ7NguWpFrh50w2R9kIHa7\nbx3PrbfFsbEAQvW5o9DJJhr0QRRGLdAKBpQjRZ3eqllCe2w/9sgxRua2zmLf\nxctByvRWb+HWQXvPbmIWMwDmuctmqpSqBX5zaVbBTZEGHC4cxkQdJEKJ4cba\nbmAJ3IE4HFElHrtc3OE+Mz0592Iizkbj8DgVibBpB/OPPv8rLvl+T+a9/qWP\nDEDVc0SchnSNCpAsm/bQwvxPgNluG2sCunLg1xCxMiH7iQFzkNVjnHrlApp6\nN/5QrLrnEG2EYkuhLYeuOPCnbxMaqrc7+2EwOBQA9iAM2xf9Ksaa+WHlWyNn\nHdiG2qiC8BTF4r0two6xCDevT+77QB1tD8uW4S+x1IBAjvuL/xvy1BSYNgXM\nrv46fvdPVdomzfpjwoGNwGKOoKLC/XoyNlkpAA7FOFzXkHg2pjCVxoNXvUXe\ncXMusGMZ7RoP3kN0gz/NNxi0cvXqfnw7TFPwqjmZkibn/beiQDekAYGb0N3I\nkR5RPRaiGfuu0tQDj2Z2S1r76dm4SyYxejudlPxnyEFF+xCsWORa3fK2EXfN\nnZw2\r\n=hYQ5\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.reduce_1.0.2_1537742398083_0.6772711544954746"
+  },
+  "_hasShrinkwrap": false
+}

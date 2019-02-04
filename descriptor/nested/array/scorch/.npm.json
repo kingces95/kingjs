@@ -1,0 +1,66 @@
+{
+  "_id": "@kingjs/descriptor.nested.array.scorch@1.0.3",
+  "_rev": "3-a4baab9df4d73683898b18ef86d34ed8",
+  "name": "@kingjs/descriptor.nested.array.scorch",
+  "dist-tags": {
+    "latest": "1.0.3"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3"
+  ],
+  "time": {
+    "created": "2018-11-04T01:56:12.105Z",
+    "1.0.0": "2018-11-04T01:56:12.327Z",
+    "modified": "2018-11-12T19:45:24.760Z",
+    "1.0.1": "2018-11-07T09:15:07.536Z",
+    "1.0.2": "2018-11-12T05:00:37.267Z",
+    "1.0.3": "2018-11-12T19:45:21.422Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Clears an array tree of indices with `undefined` value.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"04bbc26c84155399466cb078a540a2f5\"",
+  "_lastModified": "Mon, 12 Nov 2018 19:45:25 GMT",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.4",
+    "@kingjs/descriptor.nested.scorch": "^1.0.7"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-RgGjxdf2iiUd8nWR+impNQmo5oPa1m1CUVzDs6dfF3E/7QDuaPQGk5LHaEDYzsp3AmumvblO/t4C+uJxIDtQHQ==",
+    "shasum": "9849d51e29aaf77b791ba3f1d92785f355934067",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.array.scorch/-/descriptor.nested.array.scorch-1.0.3.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3078,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6dhSCRA9TVsSAnZWagAAzrcP/37GW2dxJ7lXBhhr3/Ai\n9hiVqQ4wFiymfaCeAvo8/OJ3V/QAPEC5fYDG+gbsiDjlEdTvyNITOiI2oWjI\nZETqpKd/Mv2H2fGkYkwvbF2dP3aaV3U7+067y9C+2odToWmwORLvnsDE49Lb\nyYplXY7LNpmpXaolQt8aUQooJ+0pJlQtgguWVO7AevYev9je5Sn7K/UXdzVH\nfrGW5tilQFqHKnVZQIbJ76K4jqcF4PZX8nVqtIa0k/3AN8rDboZQL/zRC09G\nuC+yAPezDsYX5+Tuqn+x8hOxB0BdzDSN8dcOTLzre9D8kGp6zEeDmLjM48hj\nnTNkpXq5k/6zGMfQs1FlrEKnw+KcPkQT6LebcH4J9DanyALyRY1Hwh2+nEwT\nv7yuy9SfCFxa0SWvR5HOihqF6qP4Bb1Bhu24NZlOgoziMBPtpuWkV1OXh5lq\nRD27jrf9uQGIpu8YOtg82B86yVnhpArXf0FKjgBxTBtsf8aopssXQsi4rabN\n36sY9ObXK1HOWyycfjCGsjVqOEVyiWbt8Eb1QmqurIOZUJMFg2ZdmPbz2B8S\n5Iq7d+vGERP4kPmaY3a8JJMxraIWxfgiSz/8YsS+knEfVGsKoUSxvtcO8bL6\ngiXT9M2q1wmK5QofTm1XR0E3xA70ntf4YpSBavZvjd7nCCzxNyDOQrWOWXIB\ntgNR\r\n=ZWiN\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.array.scorch_1.0.3_1542051921313_0.6081106246708898"
+  },
+  "_hasShrinkwrap": false
+}

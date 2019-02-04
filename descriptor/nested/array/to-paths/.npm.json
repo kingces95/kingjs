@@ -1,0 +1,70 @@
+{
+  "_id": "@kingjs/descriptor.nested.array.to-paths@1.0.5",
+  "_rev": "5-2811ed5ccf0d5cb0d904642325f8e462",
+  "name": "@kingjs/descriptor.nested.array.to-paths",
+  "dist-tags": {
+    "latest": "1.0.5"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5"
+  ],
+  "time": {
+    "created": "2018-11-01T01:47:48.178Z",
+    "1.0.0": "2018-11-01T01:47:48.491Z",
+    "modified": "2018-11-12T19:46:15.167Z",
+    "1.0.1": "2018-11-06T19:44:55.606Z",
+    "1.0.2": "2018-11-07T09:12:33.705Z",
+    "1.0.3": "2018-11-08T01:02:12.278Z",
+    "1.0.4": "2018-11-12T04:59:54.585Z",
+    "1.0.5": "2018-11-12T19:46:12.667Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns paths of an array tree.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"c58960a4d7da5c00b01e15aa66e0944b\"",
+  "_lastModified": "Mon, 12 Nov 2018 19:46:16 GMT",
+  "version": "1.0.5",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.nested.to-paths": "^1.0.1",
+    "@kingjs/is": "^1.0.5"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-LRoh0Tr1wlBDy6xDtvVdwm59qRMu86jtxRzZkvKkflya+1BPS1j+ub4Vk9ryh5o5eWDE5oS0HgWIbb2LZi+Mxg==",
+    "shasum": "e2a4f47064482489ca86cbf7a7a094505ee84cc7",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.array.to-paths/-/descriptor.nested.array.to-paths-1.0.5.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3285,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6diFCRA9TVsSAnZWagAADZAP/AoEtBFjv542rXXCfk5M\nrrChLuQSBRcDQBsn9Ou4BfBMxopjEdELIgRPVIc8oHQjpsQ1vBckck1tTCe5\ni12xE95HXv7+PebquZKfvcR3piGHdg7jcxNBNccIFeY/Nup9cq8gCflwpTqS\nuX+FT7rG1/yUCH/FVSlX0Mgb31RAu9RqOs3yUFYFkU8Ev/Eszkr9KqxUSN1L\nUKExFFlamBbVFAHDNay9+6QcyYFbxNTRdxukrqYKeOfJhHu672Igs1R7cuhr\nBZHYOpKMRiQGdrrW+NyO61W9eSZ4YqTILmVLMXE+vBUC9Q0fU61WmjU6jQBA\nvl2fTOlunL7056Fyq75NvbvP95MPTDuKa317bCCECP+calcSKJ8VABga29+y\nczMjNGmD9WM+1vb9yKhmb4rNjgPC7GeNYbDifJzvspu5MoR1se99tBy+uvxr\ngOUkqzex4j3t+/POdRU0qrSC4FGWStXqGSZQWVVoKwZAjh3Ppe2ID5qahPay\nYU6AVXyCL/bnWfZttwjIPc1V9CJDM919FROXdd28kS3eWLTDR1lKGQ+hmTjp\nnK69/EaHvYbZ9Ti6vz83zC/seWmGGFnjfVAi8TedhERGn/qFHHZwXRWJrm8k\nMnsXpkhhAHjFiLreoh5r4q1k3xEx02lGYyC+j5qjppk5lCohWLVDsa1NAYmW\nNXJt\r\n=3CsD\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.array.to-paths_1.0.5_1542051972528_0.002856675754370208"
+  },
+  "_hasShrinkwrap": false
+}

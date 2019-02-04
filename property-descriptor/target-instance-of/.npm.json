@@ -1,0 +1,62 @@
+{
+  "_id": "@kingjs/property-descriptor.target-instance-of@1.0.3",
+  "_rev": "3-ae7f604b7a12c0ef93e0dc6cc5db02e6",
+  "name": "@kingjs/property-descriptor.target-instance-of",
+  "dist-tags": {
+    "latest": "1.0.3"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3"
+  ],
+  "time": {
+    "created": "2019-01-22T09:23:15.422Z",
+    "1.0.0": "2019-01-22T09:23:15.611Z",
+    "modified": "2019-01-25T09:24:37.470Z",
+    "1.0.1": "2019-01-22T09:23:45.211Z",
+    "1.0.2": "2019-01-22T18:44:45.764Z",
+    "1.0.3": "2019-01-25T09:24:34.959Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Add a precondition to an accessor or function descriptor  which throws unless `this` at runtime is an `instanceof` a specific type.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor/target-instance-of"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"d44b7ad8f60bd33f9d4c440ccbc6e909\"",
+  "_lastModified": "Fri, 25 Jan 2019 09:24:38 GMT",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.rename": "^1.0.0"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-utK9xELk6rLAOWcxVZj4qvyd4U6HTrvObAzz099XvLSsUTNP8QvX8G9rFNNdAICacutEdsysrRj6Cyd4wVGEaw==",
+    "shasum": "eaea3b01611973b0a255483265bc0a0556d549f3",
+    "tarball": "https://registry.npmjs.org/@kingjs/property-descriptor.target-instance-of/-/property-descriptor.target-instance-of-1.0.3.tgz",
+    "fileCount": 5,
+    "unpackedSize": 6835,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcStXTCRA9TVsSAnZWagAAgvsP/2VafyiWOy/ZWidV1Lc4\nGkeVHrVmTWtwdaQ023MY8hr16ByS0sO1iZc5DBTIRCvlqZdcr3NVIlUfeWqZ\n+UfCy18eQSgxXE6ALtSRvi7WBbQG9Gpqq6PUoBbpX3bGBBY4YbZzehrBd3am\ngXyg+D6TEv/ou6nxSFv2Yg1wOu5r5UiPT+PSguw6nqn+7kCoEvMlMtTCEeRv\nVfixKVphI7FPNC8OEdhGyyPOzVpmExhJdSP3RURgMNRJyAlDiQpauKmLqVf+\nfaH1fPr72y5/t0X+0Y3cq2OiNxRyqFWX7eNdg/CRXOdtsrWMCqKjVZbvAaLf\n6qWPBsM5muVDRx7c4X8NC4gNMTx3pvAZvPlLx+fxP8RLvnWKy61H77U8aonR\nuX+665QzAgNZEBOl/d39thEqwl//R5Fk8fVjte4I5BUMucaARJsVybNXSwpP\n3fQlHXjqQGWhlvh9CpICz2VRXa6D1QkZr2JufsnoGh+tmX+kIOilhh7IeS+X\naZ2BFyXa6v5zFoour9JXm+x0cNI9m4QgvQj/uTXNpK8X5V1QFUZaHqwxDgEL\nYqFBF/1VWSBzE45m5mAuyZdmq5XEb5C0sA3Vk3bnrCizQ6c1i/BtdawjVKYv\nvie5aKFwY87YVRsDuzSnhRNrLaP98oUD27TKT3PJfPU9bMzccetdQS2vNrOU\nn5de\r\n=i6+f\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/property-descriptor.target-instance-of_1.0.3_1548408274835_0.48990646938541715"
+  },
+  "_hasShrinkwrap": false
+}

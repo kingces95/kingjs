@@ -1,0 +1,66 @@
+{
+  "_id": "@kingjs/implement-interface@1.0.3",
+  "_rev": "3-74aedced261f937c45a0797a40ae8207",
+  "name": "@kingjs/implement-interface",
+  "dist-tags": {
+    "latest": "1.0.3"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3"
+  ],
+  "time": {
+    "created": "2019-01-07T22:11:29.637Z",
+    "1.0.0": "2019-01-07T22:11:29.819Z",
+    "modified": "2019-02-03T07:27:16.472Z",
+    "1.0.1": "2019-01-07T22:18:35.295Z",
+    "1.0.2": "2019-01-07T23:55:03.193Z",
+    "1.0.3": "2019-02-03T07:27:13.919Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/implement-interface"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"f68d603a95ff8cac950b7ca349a6561c\"",
+  "_lastModified": "Sun, 03 Feb 2019 07:27:17 GMT",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.define-accessor": "^1.0.1",
+    "@kingjs/reflect.define-function": "^1.0.1"
+  },
+  "devDependencies": {
+    "@kingjs/define-interface": "^1.0.14"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-5YVR0fHGvzkak4WJFPdtuDY9WW7iMJ4pQzPkdSXMm93tcZ0JQqqViIx+3GPHT2JW5P3vH+ktwsc2iAqDPev4Jw==",
+    "shasum": "20692671ab359e19556c91022a653407a6bb65f2",
+    "tarball": "https://registry.npmjs.org/@kingjs/implement-interface/-/implement-interface-1.0.3.tgz",
+    "fileCount": 5,
+    "unpackedSize": 9982,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcVpfSCRA9TVsSAnZWagAAUhkP/0YAsK5zBr/MrIvtKiuF\n6ceVnHNCYxR4n6eojw1IjWM3WTa75Tnwwuc+M6f2sYw8JrAOHJkLnfujen5a\nbDByCKfuDw48TMuNJW7DdVwfipxt8QTAgiupkOhqGYgWYzw/11UwrL/XxhOO\nvM4QklkssKhFKZ/hp1oHYxMA88bzcOwXDSox8ZI20fg2ehh2wmmJ/TlUC2kM\nSi7kFog5QBZbkStf8qArDUuevHpeqtvhTDq55k4J42uTKpAV3GxRkX+/tNCR\n92viFt0Gt25TWid3HDVyLJuS6CO1P1+apwFXV2s9UquM9hc42xTQohfE1+tZ\nbuk6RmnkrVc8sVRqSiY0+WukIbYLiC+JAlCZGiUGG8g1w/bNhhtMoGZsl0vb\nu1HHV2O/4k5pVaz7V2Wv9YvK2xH8HbvZo8FZIvNyXDLnoW4tMqk2biMGH5yB\nAPDCf6OX9t0t4MUHY11Us3rCiUGAcZMK99RDt2Lleu0O+M1yovO/7KlYB2t3\n5E5KkRtxjabBIeEUOAPnA/2hKZLEC+FmsVef6TySZQSSZTHG/8l1B+khoA90\nriceFE6l8En0oMhIUXPuEtsVzWithJCW51/rAg2r6ZTjXJG4OpZjb6Q0VmDI\naMpwQ0gos5UMnuYFyzKVuHBLmb+576aZWCpa8kpzUYCeHM9DPH8gZ3T+iH8L\no1S1\r\n=gBbX\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/implement-interface_1.0.3_1549178833817_0.9222623910164585"
+  },
+  "_hasShrinkwrap": false
+}

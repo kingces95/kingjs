@@ -1,0 +1,59 @@
+{
+  "_id": "@kingjs/descriptor.nested.to-paths@1.0.1",
+  "_rev": "1-f6fb28a8da9eda4cec0614a41d371b57",
+  "name": "@kingjs/descriptor.nested.to-paths",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2018-10-31T06:39:22.612Z",
+    "1.0.0": "2018-10-31T06:39:23.244Z",
+    "modified": "2018-11-06T19:22:50.155Z",
+    "1.0.1": "2018-11-06T19:22:47.534Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns paths constructed of nodes that satisfy a predicate.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"855c2d5d167a91062067aa6e2d80c6d1\"",
+  "_lastModified": "Tue, 06 Nov 2018 19:22:51 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-c2fmZv9LVRo+Ht9XhY/RLDpW6vsyQNkLeHpTHFOKnPmNNBdTEEas9Iaqbb7fkPZ01I6gHRDsN0QIv3oiuBz+Pw==",
+    "shasum": "e1d0892d8fda25c8dae6e889a8cacf838bc89d57",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.to-paths/-/descriptor.nested.to-paths-1.0.1.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3463,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb4eoICRA9TVsSAnZWagAA56oP/iC6iAyMpCU9WXutBKox\ncM2j7rVvOTixMM7HPxl+KCpntUqPNgdx2Avr5eo193OZpByOsyTv3NSIZ+ia\nB63cY4UK9SfAHnbJ/Jni2KtNXdDhIJUNSiU5205qvgfqO8d1Si/1AYoRFOtg\nfKykoRqST1Oi8eyf9IMd0a8suACQspRQpM/EnVihpUHefGVhADzFcvWTfHKX\n+zWPlAfzZyz4MmZbizqvReDZWRufvi9b0sSZ7jnfKTBxKUd9gq5UNA4qbCB+\n5jJNobEHSy/ibXvNsS6ZwFjSGLppQA4EwVYVc078lQBe5aPmYdNTqVoo1N5Q\nNyWIhUpBn7zXzK81SPQCF/Fq3I3sSPa9U57XBhaNYuorskStvTm38yp88Q1K\ns93STsJkPpNzO1YuXSWaroYdLRAy35p0hyHEDbxerawK/I47mq0mwbfmOaoR\nkJeRfUvizq2ED4eLT/lk6tvPYR/P/5sIL8Cf9+5BHN93MATk5BI0a8//vhZZ\nmKq4YH4dCP4mLOT5H3It+5P0maRXuLOTMHT0BldTI0bUsGo1pv1StIOQhTH4\nNVitKXjGi5IMUpb+e5cEUlIfnzNgigoPolCpZujsyDrH32sP5QC2Vf8eK3g6\ngwshSpvc0vAhsgg5RCutulwVNcnAjN+VIZmX3AinNSz3cORyTBWSl+0DfNZz\n0V9D\r\n=xk3v\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.to-paths_1.0.1_1541532167464_0.26848393449060626"
+  },
+  "_hasShrinkwrap": false
+}

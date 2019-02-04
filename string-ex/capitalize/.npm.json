@@ -1,0 +1,55 @@
+{
+  "_id": "@kingjs/string-ex.capitalize@1.0.0",
+  "name": "@kingjs/string-ex.capitalize",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-29T00:55:16.775Z",
+    "1.0.0": "2019-01-29T00:55:16.943Z",
+    "modified": "2019-01-29T00:55:19.615Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Capitalize a string.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/capitalize"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"3c52a0c467995b6dcca19e57e6e56a2d\"",
+  "_lastModified": "Tue, 29 Jan 2019 00:55:20 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/define-extension": "^1.0.0",
+    "@kingjs/string-ex.is-capitalized": "^1.0.0"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-B+Bbt6ZAwSiBuIKUvWf8Ix/pFc59SCeQF4SBN84l0Bp+uVOiPt6XcE3eHOKY5ynYkHYB1qMVozt+3S8FjqrrTQ==",
+    "shasum": "35e391c8fa545eb382da7be901a7066c3185993e",
+    "tarball": "https://registry.npmjs.org/@kingjs/string-ex.capitalize/-/string-ex.capitalize-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3034,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT6R1CRA9TVsSAnZWagAAhdAQAIEXyyeZl42P0eI8iJAG\nZpAIh9Ey9kX7YDvKWcBq4tJPcUUT+9JNzdpPah9eAlr/8I2SG0F6C8UpY47H\nUbjxm84SQy5xQSaWAIOBP8mIxVNFhWUV/CK6y1BLF0wZhpPGslLD17kmCZlo\nwIHdPEKIiX0MU7rZ2rGXgZCXB4vT93hb9qwti0IDp+f2f8hI6rpbdpijiMx9\n4TgZgvQ6jDUlvnF3qAw5byr9bJAuWg7YgKQSmCfvy4bkqd23Q4m54XqowRo1\nZSLJRw1N+2Nl3yVBWE5MxFwYERCqA/t15V0ueXMFWCGlyRbeU1e8c5ner6WC\nfRNuTy5bq1HOAdV5hvLwOVhzb/wADqVLjkb7q78j0E5CQpdyQNZQpoG8Vx33\nTreIXgEaVhGql17fwIan88E6oYL48LjDsC4P+pioG/GawmbWXiQOsbVX3nZM\nH+IPdvrjjtZa+1lID5tN/RQvqe64Igbm3c1CyvgSBTG5yjCnY28y12ZEEWzz\nhOdJkIFCQ8sUlLxp3EPB4CPzRF8jZT958HiBOnHgrJfy2JwBnJ7fZ7tFTrnW\nZeUqP1NPZSxjNoMgchqfNsB0HMIeIhOIRPjQhTYq9BY9YV/N4Cfa2zQOMFiT\nxBmm7Hhf3YB97OJ5tEsGe5GvDbG28lmsPAJcE51M0orlAg7wuvuHw5uxDIbN\n1HGP\r\n=19r/\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/string-ex.capitalize_1.0.0_1548723316857_0.15060149630069364"
+  },
+  "_hasShrinkwrap": false
+}

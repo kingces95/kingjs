@@ -1,0 +1,55 @@
+{
+  "_id": "@kingjs/define-extension@1.0.1",
+  "_rev": "1-f46a5f266736d3d38d9b739f67b7647b",
+  "name": "@kingjs/define-extension",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2019-01-28T22:32:32.168Z",
+    "1.0.0": "2019-01-28T22:32:32.343Z",
+    "modified": "2019-02-03T07:22:18.414Z",
+    "1.0.1": "2019-02-03T07:22:15.970Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Defines a property on a target with a symbol name  derived from `package` and `version`.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/define-extension"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"7008d0f2dc1c8645c2008ae8059f5483\"",
+  "_lastModified": "Sun, 03 Feb 2019 07:22:19 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-ZS59HhRiLOT9xC97p8lhIf15/KELrEPkTqrBuwS/xQFhXKICVduK1y4x2R21KsNWKg4h2u2CSlJeYXc7mF66Cg==",
+    "shasum": "f442b9b589b818428772685b781223697abb0c2a",
+    "tarball": "https://registry.npmjs.org/@kingjs/define-extension/-/define-extension-1.0.1.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3401,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcVpaoCRA9TVsSAnZWagAA+qwP/j3nbrgpcptdVEYaiZVO\nB/xwVjGWIVF8jqEFBVPfvnJZFqboXcn8TxJ9abA2vSlKcaThdFoRFlOj8iP9\nodzjdI17yN4BDior7CBmynrFmuQ3fhfS0mYn5iOKwa3c6QxGbSEvtt4X2f5g\n04XHZfR0nPh4oTJr5ZW/dHBYdbpqNwWZiUAY17mymMU6IZh30F7RxA2FKhiq\nhhbx8Y3qDPUBIJRRExyIxtF8dGGqh5PGoaEuNKEatiSmw78MQymhgUYdCnXB\nHqH1RF6ydtiEaYj8H8Qp/G//tBa21EeoAblaxEl5QfPkPFnDOL0lH00QMvs2\nRK+3s/lc+BEHj1FIJJ+gDQatIYayqAfGR6jN7AL8Tl7iBT4ehdJ9eK7FDWGS\nIwEsOREVl9uQ/+axnAml7b5Tt7oEMwKrKRhYIl4V5dsVZdRc7hSKd9p0LwQy\nuJeRsbGhOPAnVKlxWPJEkpaQdsgmfCRM7joksYIHyBGLB+hO6/mP6fUE5+XM\n9Bza83khWniQO3BDT1ejc2eYAEqLiAsEKBG/gkDzlBgmzPHriVQLp/ExYmu6\nJ83FzBkPrMDySlOIC30BgS3VAAPtFuKCCgSFl2xBeOMYNFQIx8yW8Fk58uNr\ndLuBIInQZT7rGA/ROS/sT/7Qrnsb0UdGvkqZgHqW8B0ZFu1w6vSXwV2YSRlX\nqclO\r\n=rygd\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/define-extension_1.0.1_1549178535738_0.3515322591684429"
+  },
+  "_hasShrinkwrap": false
+}

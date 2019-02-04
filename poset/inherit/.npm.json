@@ -1,0 +1,85 @@
+{
+  "_id": "@kingjs/poset.inherit@1.0.11",
+  "_rev": "12-dfced1f84220c6632ad166286c78f320",
+  "name": "@kingjs/poset.inherit",
+  "dist-tags": {
+    "latest": "1.0.11"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10",
+    "1.0.11"
+  ],
+  "time": {
+    "created": "2018-08-13T23:37:51.841Z",
+    "1.0.0": "2018-08-13T23:37:52.047Z",
+    "modified": "2018-08-27T20:17:29.903Z",
+    "1.0.1": "2018-08-14T08:45:31.923Z",
+    "1.0.2": "2018-08-14T21:40:26.422Z",
+    "1.0.3": "2018-08-15T02:20:36.804Z",
+    "1.0.4": "2018-08-16T02:36:08.929Z",
+    "1.0.5": "2018-08-17T21:34:37.120Z",
+    "1.0.6": "2018-08-17T22:37:08.200Z",
+    "1.0.7": "2018-08-20T09:27:28.400Z",
+    "1.0.8": "2018-08-21T19:22:40.405Z",
+    "1.0.9": "2018-08-21T19:24:00.790Z",
+    "1.0.10": "2018-08-27T19:50:55.718Z",
+    "1.0.11": "2018-08-27T20:17:25.773Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Inherits properties of dependent vertices.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b845c59-743a\"",
+  "_lastModified": "Mon, 27 Aug 2018 20:17:29 GMT",
+  "version": "1.0.11",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.inherit": "^1.0.0",
+    "@kingjs/poset.for-each": "^1.0.14"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-7N21WJIitl1mTmYSUktI7m7nGxVUVHrOl6mv4mgTXFn8/LM+ekoBXNQwNO1s0QMPhbflP3QQ2AEi+bYJLlPjMA==",
+    "shasum": "8c2468c5f1a23fb60900c81e35fcd58c9d52ac1d",
+    "tarball": "https://registry.npmjs.org/@kingjs/poset.inherit/-/poset.inherit-1.0.11.tgz",
+    "fileCount": 4,
+    "unpackedSize": 5170,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbhFxWCRA9TVsSAnZWagAAMj0QAIXngr61IuA0UXfKpArK\nErg5htdc1AYMZU/OsShKx6wRLyLmeabXj7uKJ8l5r+Nc11BLRQJ3B/DENSXy\ndgHi+FXchei5PQAHpM6AqLCGvrqTTm/6Xu/KQ3umcCnAUFfHgexkKeuBKaJ2\nASXaNzK2vr0b+eaG0py0rVJzLZkOg8kfbeV6TmJdQwtgeHqxsdCjkw5ECuqH\nUxmp2rmxioW6/Zg/HxHlZi2k4sINFZXH8ZK2cPz6KecBf/bksbSaLRh/fTbz\nqSu5qXc8T2najAC8fvRyszXJjHIjCnKkxhn12mn2PwtrGsxCLTMCSsNTiDQp\nQ6oH13s3Wg3zJnqX42Fbva5rlWkFt6NoDp1G3fcoqFUmURvbIGXhHvUThdfT\nSuPQLfFedq7UsB9H4o7LUSDTcDeEaa4BjG1IY6m/txafVuEvnmdH6/sRwSJ2\ng0BbO1wRqDPYS2BZanI3JIKSqcM3YRbBmcSpY59JVWaxPflotehlySkHtN5H\npb50EtxJpupOhplGzf1q0IY0pGJPJ+9fcTfzgVCr0tR9+z1e+wd4PrFtNwYV\n8x3FM8JSo1/5U6zSqL2pkYdXq/44tN0I/V9NdEzWkSCvraypDbWW34xJ6g5H\nkUUxEezLDA1N5cnUmdsaohF0zME20/0vo4zSnDG/r0HBAV+LYZr5reLYhjun\naWCl\r\n=yxiH\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/poset.inherit_1.0.11_1535401045714_0.07258263308333524"
+  }
+}

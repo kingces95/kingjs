@@ -1,0 +1,70 @@
+{
+  "_id": "@kingjs/array.make-enumerable@1.0.5",
+  "_rev": "6-af6edc13b2e8604e8548732e0dbcf5ad",
+  "name": "@kingjs/array.make-enumerable",
+  "dist-tags": {
+    "latest": "1.0.5"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5"
+  ],
+  "time": {
+    "created": "2018-08-14T09:40:20.145Z",
+    "1.0.0": "2018-08-14T09:40:20.407Z",
+    "modified": "2018-08-17T22:35:22.396Z",
+    "1.0.1": "2018-08-14T21:34:48.468Z",
+    "1.0.2": "2018-08-15T02:15:46.324Z",
+    "1.0.3": "2018-08-16T02:27:51.160Z",
+    "1.0.4": "2018-08-17T21:26:21.817Z",
+    "1.0.5": "2018-08-17T22:35:19.232Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Makes an array enumerable by adding a `getEnumerable` method.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b774daa-38c8\"",
+  "_lastModified": "Fri, 17 Aug 2018 22:35:22 GMT",
+  "version": "1.0.5",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "_npmVersion": "6.2.0",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-3ybK4y25/FxnN1FHiUhJnsQibuTJ1eqeD2G9sQB/tRGFMSQhdW9mYEdTe6tl2+IkHaMt/Le0GnSZABzvXyuljg==",
+    "shasum": "6c13180549362167bb84287f4df0ded46aef43e3",
+    "tarball": "https://registry.npmjs.org/@kingjs/array.make-enumerable/-/array.make-enumerable-1.0.5.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3888,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbd02nCRA9TVsSAnZWagAAK80P/R8lReeRDU7epzJBEn4r\nTYd+7Vc3y9avBx6eXksioYP4ZHQapJC73frFH8wroYufLbHCLPLO72Qkdb3h\nSzVS5JNL3Wp8YKE3yvk2MatKQ5WK9Q5Af5J+Qv5VDC59gpyw9MwYicvIacKN\n+fD51OxqW2Ttl287e+hnfI1hO2KOIIQ11FOzDLyCT9KTWvMARzrBizuMJ6sM\n1tdoT3aVeu/wxGQn3L9j7VOdFarVqCLSbTa+QTiOdNS0pcUPARftdx6BRakW\nw7OJrKJkjdfIbrnxGoCFw+xrHMDhPmApZ2njJImEr/GL8DFhhtrCmEx9dpKi\npoqDMlE1py921Jae50Ve3fyBZ7YClGxzBBKr8lwLskQPIL0DuzuNlOtN7rcm\nj/xrHzR7PpIADnAO0eCNhzyUOAcPE2XFNr+cIVs9HpyW7062pms8eQ72l2ZF\n3tdNGOKhbmu/h+M+7WIAYZEF7amhRpkv62jgU/9xlw7sQqXljaUVRLGQiK6q\n88/wQI2dYtQyswQXjDe+x/GnI7/B3Fpsx21JP8DRwzfER9M9AoK08bdVjH0p\nFqR0YRgTortSU6tN9gsvOOT/R7j9w7IacT/LQaZGmYTn4YoG3BNg9hz/LC5v\n52qXQY6yvIEtYlHQhFPgE6JDxZRDLiXZJIc5/Yj3E4Pt2IVTjx0Qt6k6/LdL\nXkUz\r\n=m3wx\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/array.make-enumerable_1.0.5_1534545319120_0.12020355181801001"
+  }
+}

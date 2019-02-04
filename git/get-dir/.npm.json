@@ -1,0 +1,54 @@
+{
+  "_id": "@kingjs/git.get-dir@1.0.0",
+  "name": "@kingjs/git.get-dir",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-19T11:38:22.693Z",
+    "1.0.0": "2019-01-19T11:38:22.933Z",
+    "modified": "2019-01-19T11:38:25.536Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns the git root directory.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/git.get-dir"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"85b5cb1e6a66ecd9b45da1053a6eded0\"",
+  "_lastModified": "Sat, 19 Jan 2019 11:38:26 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "shelljs": "^0.8.3"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-Zz+XEfFJM6imtuDMozCwSFGbSImr6fzV90BwrYBm2Rsx0U7usqJd7cIPzFmRjH5g7OkkRVDGs9K3ojkQ7yrlKw==",
+    "shasum": "5396afd885e52432c3a4ad328181d311dfba6b01",
+    "tarball": "https://registry.npmjs.org/@kingjs/git.get-dir/-/git.get-dir-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 2787,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcQwwvCRA9TVsSAnZWagAAob0P/3Cw1wb6rAyuj6ds6nwC\nskNiZfNUJVXH5lFC9IkpFnPk8sLVZl67w84Y4mttgV5+wzGWj/uSYP59DVzC\n1CG3XetjAtByIK6O4ulLH4UVZ56rC0wT5twLIkqCDel7svfQlBBltqOUBXxr\nnmOKMKChjdj+mLoU0nn7IRVKgFZK/0p5nC46PCM+begkamdTOmyRy+kLupvU\nrJKR3kzDyoCnzZvxpUhtbWuNJhz8PFMVDQuoreXJnt85hewQffBC+yzWwSwh\non7A58SxV2Gke5hRh61ZrkhZOWInmG55l/sUTriUr1f6HyurOK5DGgjT1OnJ\nce5X4t26y5qXDKQmBzxYq7KiXWlpnO5MoHuaDw1+UoKYmvFlubP06VMGNwO+\nkS8IyiE6ywwaC2YJ50NdXXT6yp2AO1Shy3d+UawT5K+Mqc3l3ZOwt5LUN+Ey\n2iBnGDsCGUQD/pl4MBcC3YtZDeuxN9rsSqETTJONEkuw8YrKraBMYFHO48kG\nUxOJW3ozleH0q9DAyuqjidD1xJuIRll7BDuuAwVwDlrGaeTcHKDjiJIeo0a7\nDTne8Dw6Aj45dHqtorIJyla3jauDKbVnk/FyX2Ml2AoeUqfYcdPD2caI6VRt\n3ESA+SkIvKJBqQqISuJCOb2/9cXVqPgfWQtm9PtR0m0VomITYH+Rt1YqX7qL\no1Xv\r\n=1l+E\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/git.get-dir_1.0.0_1547897902773_0.5484819611111973"
+  },
+  "_hasShrinkwrap": false
+}

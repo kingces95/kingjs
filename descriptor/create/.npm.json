@@ -1,0 +1,78 @@
+{
+  "_id": "@kingjs/descriptor.create@1.0.8",
+  "_rev": "10-17bd506a860ec210a9abea4cbebdd930",
+  "name": "@kingjs/descriptor.create",
+  "dist-tags": {
+    "latest": "1.0.8"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8"
+  ],
+  "time": {
+    "created": "2018-08-28T00:36:19.785Z",
+    "1.0.0": "2018-08-28T00:36:20.369Z",
+    "modified": "2018-12-04T21:08:09.347Z",
+    "1.0.1": "2018-09-02T06:29:06.548Z",
+    "1.0.2": "2018-09-21T23:40:54.022Z",
+    "1.0.3": "2018-10-20T00:53:00.757Z",
+    "1.0.4": "2018-11-02T02:22:59.348Z",
+    "1.0.5": "2018-11-13T15:41:37.774Z",
+    "1.0.6": "2018-11-25T01:00:33.767Z",
+    "1.0.7": "2018-11-25T01:01:02.859Z",
+    "1.0.8": "2018-12-04T21:08:06.575Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Creates a descriptor.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"1a356c9d23adfcdaf1245f3f70202cc9\"",
+  "_lastModified": "Tue, 04 Dec 2018 21:08:10 GMT",
+  "version": "1.0.8",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.merge": "^1.0.10",
+    "@kingjs/empty-object": "^1.0.7",
+    "@kingjs/func.return-arg-0": "^1.0.0",
+    "@kingjs/is": "^1.0.0"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-QkMFNNsWNXg3ZR0jgU5hiLil/ROhNYuIiQoWU5e1DhIfg5XrEBuJmz4jPFllm5KmGynt/oQjz+1kUVHrTzlCdA==",
+    "shasum": "54442a98f708c78ed3f890a5fd61448140aee695",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.create/-/descriptor.create-1.0.8.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3909,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcBuy3CRA9TVsSAnZWagAANPkP+QAIMpjSYpJWmxYbDUQ8\nf86efDkEEbUC3v89uLy2ZtOaf0xpdwXGkogF0nm1wmLcdEndXbTxQpHJWWQZ\nDfghHrQ2IFSbzfxQhoLVeLJIKy6HeBuVeoWvZlBoSu0lrUCtj78Fna1FNQ4n\n6qE6vVVe/cl2K7z4zCP1mm9Jo8fGx0eKSxOs58Z73axdRN1Ff71JfUUzxjjp\nTq1fJXOBKxJeXnVe0gEpN3BvrkozMHyCHi0VjuFfJqrznqCAiEx5GEabO3AQ\nWVogkiWYj1qQsMMVVcEHw0D5QQKCB1k0k62vTiud3QPKPrWgNicyNukAzOEI\nLc5xln9yYs6hyGYaQYVZ5jzUgQFF+Z08FX/kP0qNo/zRj8qK72oubld373Z1\nyZ7qxhirlY+t/S9s5KZTBY1Yeq3G9O08Dr/IoOarkiQmQR2ZntfFYUJPFqdg\nrdkTKLPIF0edHZ2y23cnRWMIXxjAnEShEW/LYa7tEvPgBtClW0uFdZ55MrOI\nP1It7Oz2qQcXoWZleybj6obha/2uYcr/PlkmzInp7SZHVH+YZVJfaY+/y/H2\n0jfKRw+DYILl1RbU0WgouLqv6xbRYrWQYIPO1tdTA/mtE0/cD82jwokEHuxZ\nRaZ2OxPlzRkj4iRG/fu8NARbytJ7BMfORaDPyh58KG4MK2IgDF8TT7O0azWx\ni1La\r\n=yHPb\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.create_1.0.8_1543957686419_0.06624479896099134"
+  },
+  "_hasShrinkwrap": false
+}

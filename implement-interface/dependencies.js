@@ -1,6 +1,7 @@
 exports['@kingjs'] = {
   is: require('@kingjs/is'),
-  propertyDescriptor: {
-    define: require('@kingjs/property-descriptor.define'),
+  reflect: {
+    defineAccessor: require('@kingjs/reflect.define-accessor'),
+    defineFunction: require('@kingjs/reflect.define-function'),
   },
 }

@@ -1,0 +1,74 @@
+{
+  "_id": "@kingjs/assert-throws@1.0.6",
+  "_rev": "7-82689732a6559898daac3f01350de90a",
+  "name": "@kingjs/assert-throws",
+  "dist-tags": {
+    "latest": "1.0.6"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6"
+  ],
+  "time": {
+    "created": "2018-07-29T23:31:59.159Z",
+    "1.0.0": "2018-07-29T23:31:59.300Z",
+    "modified": "2018-08-17T21:26:44.244Z",
+    "1.0.1": "2018-07-31T05:50:59.024Z",
+    "1.0.2": "2018-08-14T09:04:36.768Z",
+    "1.0.3": "2018-08-14T21:34:14.610Z",
+    "1.0.4": "2018-08-15T02:15:14.315Z",
+    "1.0.5": "2018-08-16T02:28:05.763Z",
+    "1.0.6": "2018-08-17T21:26:40.959Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Throw an exception if a function fails to throw an exception.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_attachments": {},
+  "_etag": "W/\"5b773d94-415e\"",
+  "_lastModified": "Fri, 17 Aug 2018 21:26:44 GMT",
+  "version": "1.0.6",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "@kingjs/assert": "^1.0.9"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-6WX2wQd9FNIuIb9CbRHv34+xtFT1dFMquo9fm0ucUumQ42YrYWcBBfCEupFG2CcOs2YFiEHnVAkyAp1o5v3JwQ==",
+    "shasum": "4c93d0d882031d126c8623f8ba2bb196410546f3",
+    "tarball": "https://registry.npmjs.org/@kingjs/assert-throws/-/assert-throws-1.0.6.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3062,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbdz2RCRA9TVsSAnZWagAAcq0P/ieVxrNXKK/qagsQ8zGE\nPH8uRepVuyh3V62kcOqYi1D6oyQy3hPtzARnKaiOMt/pXSzb3e+DMkwDEiDk\nR8IuoW/00nYHza/nc8Huin44c81Vj0PzAgPlcLSGgrtyZLQ8EoA3pGKOPj5Z\nYY8aIhVL5n77RBoCk941M0kQiNEynnpNiE93Lh9yWc3q831sF+BGE42brRLl\n/tE4I7fsaHqZkw8yNFKklFaoQJbNNVFJnSCTQM4kFGJDImgQgjafzIx1r246\n/2t56fmQ7V0i+50lqyYqw6XbJOnbMzZWu9ntQN80A+fFWD1+kbVzlixVqEuE\n0zaH7nXPvedLBNdPiY/SO+3lb6W7t0vhYx/1pP8y90XcAHxTmKa6CmT38QHa\n+c13FmZRBzyRAj2yitXVevQQsb/DASFWFtyIjPlWL4xsM0mPKRz2AWf2f3xL\n5+hid55bTrhwkC9mg1Xky5uxxpfA0pkMSTAw1rp6QuYScIOwXER87KaquIU1\nbuad4uJG+kPXRzo8KpcJ2JHRvedkECLYmpLnL6g4qyTbmXq3ZO82wGoTkxgY\nnkYaA4djMwvSWosV0eptpUQj5a2Fk9cWy6tzbN/JL2yfy0ZkeVgqyrFvzJrU\ndYKDA3yN0sW40VpYYiripFw4LhcR/dik1SipSBBU81+tCfG/bFbLxLl7eOCk\nilHQ\r\n=QaSF\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/assert-throws_1.0.6_1534541200808_0.8577166207678413"
+  }
+}

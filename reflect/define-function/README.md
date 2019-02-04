@@ -15,10 +15,12 @@ defineFunction(target, name, descriptor)
 ```
 ## Overloads
 ```js
-define(target, name, string)
-  => define(target, name, { value: lambda, function: true });
+defineField(target, name, string)
+  => defineProperty(target, name, { value: lambda, function: true });
 
 // inherited from @kingjs/reflect.define-property
+defineField(...)
+  => defineProperty(...);
 ```
 
 ### Parameters

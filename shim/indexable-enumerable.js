@@ -1,6 +1,6 @@
 var {
-  '@kingjs/implement-interface': implementInterface,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { implementInterface },
+} = require('./dependencies');
 
 var {
   IEnumerator,
@@ -16,11 +16,11 @@ prototype.index_ = undefined;
 prototype.current_ = undefined;
 
 implementInterface(prototype, IEnumerator, {
-  current: {
-    get: 'this.current_'
+  accessors: {
+    current: `this.current_`
   },
-  moveNext: {
-    value: function() {
+  methods: {
+    moveNext: function() {
       var indexable = this.indexable_;
       var index = this.index_ + 1;
       if (index == indexable.length) {

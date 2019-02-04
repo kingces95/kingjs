@@ -1,0 +1,65 @@
+{
+  "_id": "@kingjs/create-readme@1.0.6",
+  "_rev": "5-b5d4bc3e948826ade92a591d9d3d554e",
+  "name": "@kingjs/create-readme",
+  "dist-tags": {
+    "latest": "1.0.6"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.5",
+    "1.0.6"
+  ],
+  "time": {
+    "created": "2019-01-18T19:57:44.605Z",
+    "1.0.0": "2019-01-18T19:57:44.772Z",
+    "modified": "2019-01-29T01:40:04.295Z",
+    "1.0.1": "2019-01-18T20:11:41.695Z",
+    "1.0.2": "2019-01-18T22:46:09.295Z",
+    "1.0.3": "2019-01-19T03:19:54.956Z",
+    "1.0.5": "2019-01-20T00:53:21.476Z",
+    "1.0.6": "2019-01-29T01:40:01.813Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "The master readme template for the `kingjs` scope.",
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/readme-template"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"a88a27383975f3f60eb9e7564d343baa\"",
+  "_lastModified": "Tue, 29 Jan 2019 01:40:05 GMT",
+  "version": "1.0.6",
+  "main": "index.js",
+  "bin": {
+    "create-readme": "index.js",
+    "crm": "index.js"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@kingjs/expand-readme": "^1.0.9"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-ZxXSY7GM5VZUYTiMjkEzZPBsRfqDSzUqmX5PBvN1gQLN/YcIJ5PcH0d6Bf0DBugP/niBgZ+Aw8sCRe1sswppyw==",
+    "shasum": "77c67f65398728ecbe04557845dee387f7978da0",
+    "tarball": "https://registry.npmjs.org/@kingjs/create-readme/-/create-readme-1.0.6.tgz",
+    "fileCount": 12,
+    "unpackedSize": 6287,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT67yCRA9TVsSAnZWagAAV3EP/Axn0STDTrDDvIelrFco\naPRx/oNJKgfX0Sb1QFEYRCrLdJCJwttHndv7iKu9ifvBBbthIrJCS9J7pWzP\nXsLJZG5FQycxjw9X+sA5X85rgLTC6mrs/L1RVovSkhUs2c/Ay3ZYepYu2Ori\nh2dMZHhqe382t3FHG+tCqII1wThkKUMlrt1FKYC13sFLwv4aa0Kpe8q7g8Z+\nLpDVznd7UGcHPIPLFzOcvU6w4ovWj9GdYhTEhCL0NURkpld77QTUigHAkz+W\nV8D4oO0TlSt8lQvWReGgmqu05MLoZct07WnyjqAsa3xYSCUNvIrE3e0sJjbq\nGYx21rftGovqibRWmNGBqztHbiyjher/l/B6olfTKRWSC3l5JS4rb+l3530w\n5ahw2rMkKo+Ydn6utUV3lSy1W5H2pNrKij3V+pApFI23DZU60SMO7lZTTqXt\njJtAYMX4uBYWXr1Q3+31SBqgwXWPKQaj95dpI+O/G4qEf9ZbnyqjLxWREEbX\nAKOdyIw7xS1MmjIUqpmWNkLkWIp685SZ1ZUGVdwcqZZJnZP6AWMf+EWFjNQp\n5GfKIiJQk+ZiBIKZcPU+4AVBkjUL62Ip4C13jHI0ltYCfOVbagPqLgWtJwNK\nnZW3HwIPYkAZMXhoxO3ppLawXlrqo7u7BsVqaleX6I1v9H4FS2HWSk0lEyjC\n2XLQ\r\n=hsOR\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/create-readme_1.0.6_1548726001682_0.943135294726293"
+  },
+  "_hasShrinkwrap": false
+}

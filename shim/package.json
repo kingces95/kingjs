@@ -20,7 +20,6 @@
     "@kingjs/define-symbols": "^1.0.3",
     "@kingjs/generator": "^1.0.0",
     "@kingjs/implement-interface": "^1.0.2",
-    "@kingjs/object-ex": "^1.0.29",
-    "@kingjs/require-packages": "^1.0.2"
+    "@kingjs/reflect.define-property": "^1.0.2"
   }
 }

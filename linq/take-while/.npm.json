@@ -1,0 +1,73 @@
+{
+  "_id": "@kingjs/linq.take-while@1.0.9",
+  "_rev": "7-cebb1511e545613f61987e384a490ff6",
+  "name": "@kingjs/linq.take-while",
+  "dist-tags": {
+    "latest": "1.0.9"
+  },
+  "versions": [
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9"
+  ],
+  "time": {
+    "created": "2018-08-07T00:56:53.210Z",
+    "1.0.3": "2018-08-07T00:56:53.416Z",
+    "modified": "2018-08-18T09:39:51.816Z",
+    "1.0.4": "2018-08-09T03:56:26.010Z",
+    "1.0.5": "2018-08-14T21:38:57.225Z",
+    "1.0.6": "2018-08-15T02:19:25.968Z",
+    "1.0.7": "2018-08-16T02:32:17.935Z",
+    "1.0.8": "2018-08-17T21:32:40.261Z",
+    "1.0.9": "2018-08-18T09:39:48.692Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Generates a sequence identical to another sequence so long as the elements continue to satisfy a specified condition.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b77e967-43de\"",
+  "_lastModified": "Sat, 18 Aug 2018 9:39:51 GMT",
+  "version": "1.0.9",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/enumerable.define": "^1.0.0"
+  },
+  "_npmVersion": "6.2.0",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-cYb/ZEux6kF5ZrL6B97c47RimplbBYEU6IAeXWY0DpC5LchrlJ8rer4EAEa7FsJAO2JmPIRsaH44V6Bt5tUq1A==",
+    "shasum": "d00bf21a80459007ae9eddef34feccf810b351f9",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.take-while/-/linq.take-while-1.0.9.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3514,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbd+llCRA9TVsSAnZWagAArVYP/AliLSSyw41eYCRYreIV\nkMGp2T3/g6DbSAQD57wz4iH9Cz+iArV62Vjp/DsYxDg23cGI2Mf6VMOvGJvx\nQ6PRtXqAbX6yOzkpFT3eVYNBbaQGFXMi7R77NoAF9Eer4hIeiQs6rBbSz5pu\nDBSf2z1QLaHragy0ls0wNspUP1taTBEIPh4PgRzTw1H/LuCSLaWemtUpC7RG\nCubdKPxCAP5CEe+kO3W1D91do0FxN3bL/1XBCZh8/mO5KS49lbVdywQNx4B2\nBkX+jiBRD0btSfwxdzPTUn4PgtazULfjLmCkNFKMha6hY9jq3RuaIesqz26p\nDg9EhLDk5TsC+/XaqxqDYxFVVVwBva+HVAMhfj3oO9h8rmRVZXX7WRLu8gzs\na4a/tAEGVTUnlb97cKLY9F2XIeQDt1ywy38r9XYZxkKdrJSYu5sOZBbX004+\nEqVqe/pJ21aehJLSklwuOs0Djww0DCqkhsdULOF9JQw22l6sA++kCGlkTmv4\nu9dEo4/WHq3c+4OZQwmewmHASLQGOOqrz5ru4K3B9O1aFxPD467I5uIM/IK4\nMqCf4szvxBbN6SwhMQeGMaAUC5Qsk4QlJJvy2v4JQgEHqSDd5HnapzFDDMvb\nVCRtle2QLTooHUZmDdcUnCRsz2j7fUJYn+kTqgF1GaeOYexDDulMNMYd3H0E\nQvbG\r\n=IDMA\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.take-while_1.0.9_1534585188537_0.3368052339129586"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "_id": "@kingjs/assert-theory@1.0.19",
+  "_rev": "19-2e173a79c211da17be696d3b791b5232",
+  "name": "@kingjs/assert-theory",
+  "dist-tags": {
+    "latest": "1.0.19"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10",
+    "1.0.11",
+    "1.0.12",
+    "1.0.13",
+    "1.0.14",
+    "1.0.15",
+    "1.0.16",
+    "1.0.17",
+    "1.0.18",
+    "1.0.19"
+  ],
+  "time": {
+    "created": "2018-08-11T01:15:15.057Z",
+    "1.0.0": "2018-08-11T01:15:15.344Z",
+    "modified": "2019-02-02T01:16:34.575Z",
+    "1.0.1": "2018-08-14T09:04:00.782Z",
+    "1.0.2": "2018-08-14T21:34:10.034Z",
+    "1.0.3": "2018-08-15T01:22:22.868Z",
+    "1.0.4": "2018-08-15T02:15:10.009Z",
+    "1.0.5": "2018-08-16T02:28:00.928Z",
+    "1.0.6": "2018-08-17T21:26:34.662Z",
+    "1.0.7": "2018-08-26T09:24:22.044Z",
+    "1.0.8": "2018-08-26T09:29:35.446Z",
+    "1.0.9": "2018-08-26T10:17:33.190Z",
+    "1.0.10": "2018-08-27T19:47:54.147Z",
+    "1.0.11": "2018-08-27T20:44:10.175Z",
+    "1.0.12": "2018-09-22T01:09:23.311Z",
+    "1.0.13": "2018-09-22T01:18:05.825Z",
+    "1.0.14": "2018-09-22T01:20:28.484Z",
+    "1.0.15": "2018-11-30T19:22:12.764Z",
+    "1.0.16": "2019-01-05T02:44:23.279Z",
+    "1.0.17": "2019-02-02T01:12:44.724Z",
+    "1.0.18": "2019-02-02T01:15:26.105Z",
+    "1.0.19": "2019-02-02T01:16:30.503Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Calls a theory with every combination of elements from an array set.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_etag": "W/\"5afe46613b55a757a8409ba4d233bc62\"",
+  "_lastModified": "Sat, 02 Feb 2019 01:16:35 GMT",
+  "version": "1.0.19",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/from-each": "^1.0.6"
+  },
+  "devDependencies": {},
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-TRJBCY+QxDwFRkv/Vk6OfOMsL7xOX4g/c0j6/9bBKL9XPPyUqTIbh2fY7Adc/n3BNygF5vIU9JS8u6/UgoWC3A==",
+    "shasum": "357a3e169a899cf860992dbfba35ab0d8533b831",
+    "tarball": "https://registry.npmjs.org/@kingjs/assert-theory/-/assert-theory-1.0.19.tgz",
+    "fileCount": 5,
+    "unpackedSize": 4767,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcVO9uCRA9TVsSAnZWagAAvW0P/jCBBLwCewbuE0Yp0sdm\nwDwKliMTqzUzd4JEYFTwqZmkTXOLCM4U+tuUkQz0wVRwlV5yBgAep3G8seRe\ngl9L4i75HFUURaHIvhWbwGG0kmLlfXyzeW3LVuOUs8O5P3fYt9bV+34sSy7c\nNrW+pNC/I5facmRDllwGpU+T/5KM7S/YyAm1AlImkGglmHo00jeH53J/q++r\nBlaaNru9z990X3iM2Xp5/n6Idgn2ocvJe22nbQ5pPoUJnlclCsJTHspVa9dT\npf1Je+I46hbJhqtNIpCko4o1NGUFAxR8x1RAq0/ikGZUK9rOTEyNvVhgFHaU\nCnEPMPwAg/rMwzDAPKh4dT2hrNJ+CnJf+NFhOPn+KSdniDXAN6X1howR94Pt\nZdGz3Lzqmrds6DqtYpJIRNPDOygJfHpmerMHLT3TbPIiEocDIKimmWmChf6D\nBqxfRDSJ7nqJ+yrt3jFgMRSisdh9lNLH5Km0sRRTT933np06B5/4qQk5rjU4\ny45xQcqJ7w+Uj3hAGQAYgZCrcIoyn2zRHXUAQXA5ohDgNTwxpX6Y1D8G4s2s\nuLTYnQ9Dj1QbcE/hgqwinRurwstODO8ez8zD+cpmo1+UtpHnzpiITeNYQdwp\nwHqxQOl5mcAHA2OufEVQCm+DhXCyPOF6mPAVBiMDMR5eU2mhBZ6wFlaUi0gY\nepGa\r\n=YZg3\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/assert-theory_1.0.19_1549070190303_0.2640001354444035"
+  },
+  "_hasShrinkwrap": false
+}

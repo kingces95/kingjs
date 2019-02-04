@@ -1,0 +1,52 @@
+{
+  "_id": "@kingjs/camel-case.split@1.0.0",
+  "name": "@kingjs/camel-case.split",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-13T19:27:07.954Z",
+    "1.0.0": "2019-01-13T19:27:08.173Z",
+    "modified": "2019-01-13T19:27:10.722Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "## Usage ```js var assert = require('assert'); var split = require('@kingjs/camel-case.split');",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/camel-case.split"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"c2fed2bc9f650f2423a5553b1f81c458\"",
+  "_lastModified": "Sun, 13 Jan 2019 19:27:11 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {},
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-pgPEdcwqrjznfg08ginNHptdE8gjKA4tUvVK5J0EcnTyUHiCzjjp/A/2MESZ8QN/tB5qseaXimdQ3qnsR21m6g==",
+    "shasum": "24a254839226347dc96c13a13ee4fc91ed6c1fe7",
+    "tarball": "https://registry.npmjs.org/@kingjs/camel-case.split/-/camel-case.split-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3293,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcO5EMCRA9TVsSAnZWagAAP4oP/0g0zrWJ47YaAqqS/Zhq\nHK11zm5gVlp8duJAhriV0MEALG0zOU3Pj+sdCf4UFpzBDsrTFCgs0lfaKhlE\ndVvCtbAmXu6S3ZR2pzM8fmcgyeLbb8W5MBOKOn2GMfN6WzUm2U/9ClQ+zwiB\nALFB3wUKx9lX0jSTEdjJEQ2fralf4FOnqugQoDPyLsPIAtL1YVLPVT9tu2tx\nsKbh+ILVdaUO0MQ8vlMtzIH11oHty9ODNHpCG3CWxd0g+lkWpg+VOcwlVT0y\n6cQJaZJRDvqCo7YW4iR52AtobXlot/XmJpBHqwL7gRY7PsyOOrW251T8wuRo\nB1lseBtW1g56ywujQ/WiNegA34D4SpUgE7tRosbvEPUKth7lOP3jRg7TXhG9\nUZlt/v2mHLR7NKgUc2LGgc7F50YOtXRAX8P4QPmjxfUO3dmJnUpP5HhWbHTK\nYw6PZyp3XeyZNivpLsAerm4D7zobR0v2B8AzbbXiQwrPevaJd5IPcW+v/QlV\n1C9s3wzSp7Jew/qx6Vy53JR1JnjhdWsswFxmmbdT4Dk5E4B4quPUAzf3h9SO\n/kryXbNXTRmDKU/9aCLJZ8bvXV/SzRZR4UZRaFrP69k/VAnUZ4d09q3OwGyw\n4wgtBJKFFv9n1YGerqKsCHk7OKTPTgg8cL7MYxik/lcpLG034Z49XBbbs+og\neRRA\r\n=M2fH\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/camel-case.split_1.0.0_1547407628039_0.44858119915448014"
+  },
+  "_hasShrinkwrap": false
+}

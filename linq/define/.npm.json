@@ -1,0 +1,61 @@
+{
+  "_id": "@kingjs/linq.define@1.0.1",
+  "_rev": "1-b4a99566a5de6c27e3256d6f6cc77121",
+  "name": "@kingjs/linq.define",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2018-12-29T21:50:20.883Z",
+    "1.0.0": "2018-12-29T21:50:21.107Z",
+    "modified": "2018-12-29T21:52:40.505Z",
+    "1.0.1": "2018-12-29T21:52:37.917Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Helper to define linq extensions.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"e7a800c6e62fe39e196aa6d09466b2a0\"",
+  "_lastModified": "Sat, 29 Dec 2018 21:52:41 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/loader": "^1.0.0",
+    "@kingjs/object-ex": "^1.0.29"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-jHbU+Fppm1B68eDdf7B3jBcr2lBMfnfu9q2091tbDmaxr+s9zPpJD+LbOJgjoT8ZyE6S7m/+DYSVSosluZqnEQ==",
+    "shasum": "f01a8d2b99231dd4ffc700b0e8cf139abe210bb2",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.define/-/linq.define-1.0.1.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3567,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcJ+ymCRA9TVsSAnZWagAA5d8QAI3Jwa5AEn9SJO09XlYS\nYVhXvPl8rPLrk12Tf7K0hlpxS2vDumb0wDBGGtOnCmFTl/2h5TLknKwdyL17\njwU9YxbJ9EL5eFMNs4vQ1B5vsuYm8yZKBsVhQy1dgWPVsTA3896A2UT0yuH+\n3Hmt6yT+jcYS16MbNksswq5ykkxuOo78FHqII8WEM7Yev2BaRYYQmiKjd0Sw\nzkyZi2zlfomMr8deZ71+betIQloUVo/xtYUiwVyeLWr/3qFjzAdLuSWFGDOi\n49AZ+EwoCV6CRFXCUK+tsz9/h+aSqjAfiDvOUbdQrRZrDbWNX13VTAZE5T4P\nooWN/dWis5U0KWf7gJ6hTK/HpxEMHgmpM4KoPQqhIu2cm8kXdKSEQo2ZWOm0\n7esGrbBA995XeMX5tIFnoeRbjL05ilyh+eGQHsbMVsddur+bugMD5s6Vnqjq\n9Z7+1FthSXMk7vb45zNBHqUIeJkwhzrqwzzasiEcO1M/Un3oDns5zvY8i2c3\nvfRCF9gUvADHctBboylyux/1nAEhXLYAYl2SJRVClp3HrQCx+63tKgk3ZhE0\nOB26e9nFtqpJ5HDKCDdeXTuhUQ3wU2wzab7PiDU2Y5PPrSR9jABLN4MpGm6A\nyuaoraZDIJ7PHg9bbDk3vVGPC3ttsLmXGg86h3C7fPWjzz4h2VOyd8ty/oT/\nAjCO\r\n=SpLT\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.define_1.0.1_1546120357796_0.9598920010545133"
+  },
+  "_hasShrinkwrap": false
+}

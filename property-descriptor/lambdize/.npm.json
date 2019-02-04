@@ -1,0 +1,60 @@
+{
+  "_id": "@kingjs/property-descriptor.lambdize@1.0.2",
+  "_rev": "2-6863d40a8950178f485aa2717c19027b",
+  "name": "@kingjs/property-descriptor.lambdize",
+  "dist-tags": {
+    "latest": "1.0.2"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2"
+  ],
+  "time": {
+    "created": "2019-01-22T01:39:40.404Z",
+    "1.0.0": "2019-01-22T01:39:40.614Z",
+    "modified": "2019-01-25T20:57:22.702Z",
+    "1.0.1": "2019-01-25T20:52:07.820Z",
+    "1.0.2": "2019-01-25T20:57:20.065Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Wraps strings found in a descriptor's `value`, `get` or `set` into an appropriate corresponding lambda functions.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/property-descriptor/lambdize"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"cec37a115d50d5f4b0ba0ec0272f60da\"",
+  "_lastModified": "Fri, 25 Jan 2019 20:57:24 GMT",
+  "version": "1.0.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.rename": "^1.0.0"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-yg8FnzQxQaBGKc0scwqnL1fWvhFTfCNZtfyPADw21AKv7jYnzmoEI53WjkFb/xO/nTwgvbACk4ptVLbRnRRRmg==",
+    "shasum": "677eb38d337b7203437baca2e263f4eebedec6dd",
+    "tarball": "https://registry.npmjs.org/@kingjs/property-descriptor.lambdize/-/property-descriptor.lambdize-1.0.2.tgz",
+    "fileCount": 5,
+    "unpackedSize": 4847,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcS3gwCRA9TVsSAnZWagAAOjoP/1NZ8t2gW6yUjJdebIMN\nz+qexZzseAUVfEXytxKOcrQs487VpaKYAVlGD2LIVbS2kCusR80oMoXp7+4n\n0jkXqBq3OzuRey2Sr6jLsoZDmaFZbXPsKAnlVftawPFnoayqsIA9mEeZ4eeb\nAh1r+HjbjPKdsLU9Z3sfEGSAKND4oGzUuNPnft6EWfpi6qgnB05MjD0gw2cu\nAh5h+iTqINQIfmdssEt//f1nUjGjQjyU/Kz9WCLrpWkPSdQGOfJKQCul+Q4J\nzXnBZ9qziLmtC3nUgX0F4Sds287S3lsVr81w/qrHwB8DxGC5l3j7PaesCPd0\ngdb1qkHQZOuIZPSPJc7KCr9OUUW6bnSqUwYJQS2FHhIiJ3WrUDOvkW/yYczn\nz2DW7GBzfzIRpDK9e1YQ26OwyC4dfTTg34KbV/PljZiR/XYX+Ys+5gGr8FSj\ngNWW+rhYKo00aSaKiHMPnuPUvoANf05TPPixd23oH0FhEbsEuh1WhQNOworK\nScvjlooFDEBHsbRryLVjc1OStMZO25c/MNkFnTYKockLnNAywqxEucb8bWLJ\n/iFWVXCK8i8V6Toor+NyCAnPzFTEU6uBCvInePEQjvZ8EkmKMdzAPUXQl2ni\npnYMy6U1Tvg1HYcItR3AmMeNu9IIHIc29KsWFoXgrumg9LEWytWNPKXCqc1G\nZMzO\r\n=dfcN\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/property-descriptor.lambdize_1.0.2_1548449839911_0.4918917926542201"
+  },
+  "_hasShrinkwrap": false
+}

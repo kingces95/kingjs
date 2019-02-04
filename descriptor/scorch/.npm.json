@@ -1,0 +1,71 @@
+{
+  "_id": "@kingjs/descriptor.scorch@1.0.5",
+  "_rev": "6-ca45e8d448e2c3240ecbc365eb772561",
+  "name": "@kingjs/descriptor.scorch",
+  "dist-tags": {
+    "latest": "1.0.5"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5"
+  ],
+  "time": {
+    "created": "2018-08-27T04:31:14.313Z",
+    "1.0.0": "2018-08-27T04:31:14.475Z",
+    "modified": "2018-11-11T19:19:31.313Z",
+    "1.0.1": "2018-10-22T07:32:19.235Z",
+    "1.0.2": "2018-10-22T08:11:21.712Z",
+    "1.0.3": "2018-11-02T08:49:55.899Z",
+    "1.0.4": "2018-11-11T00:52:48.066Z",
+    "1.0.5": "2018-11-11T19:19:28.857Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Deletes properties with `undefined` value. ",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"d510fc0cb93c352129db6b709d41ff9f\"",
+  "_lastModified": "Sun, 11 Nov 2018 19:19:32 GMT",
+  "version": "1.0.5",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.object.prolog": "^1.0.0",
+    "@kingjs/descriptor.object.epilog": "^1.0.0",
+    "@kingjs/descriptor.object.remove": "^1.0.0"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-QchTeTjqRTiSLDFQioQBJjcrtpWLkm0HDc78LhV3irurwRu6zke9G2zZhXm2BLEcxwi9g/rwj1FVXgLitmvqNg==",
+    "shasum": "60c2ad282c755c673ccd793ed6dd043760f60d6d",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.scorch/-/descriptor.scorch-1.0.5.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3645,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6IDBCRA9TVsSAnZWagAAQakQAI9jouao9e63XXDLcZ3F\nbQ6YpINHDOefRKFPxmpSNqbjOhrxAepW3EwzJosZ/JLi6A2rsgZZ1IhPv1Rz\nxgjAP0ZoDAflQwiXlZgsuTg1NXUw18abndi+okLj3gmRZRPRWh3GheBALGBq\nnbkjmHCQDwy+9XjQXg4CQSrZReAH/8rvYC4V3d7MJfQddvpqIfl5iskiRG1z\nw4Vb97wfRNgQxjTNvK/42/qEkJ4Qg5d5a3Wd04Z7tOORwHyaHUvmIgVIHq59\n6K1CELaoa+pbhy5diWBP2Ai/n42i9qp0VG0VFZHpssObLVESrbjKz9m3rRWO\nN8BQeGaYfl0e46DfNTAHK0iz00cdUAun1Orl5FlP6YpYy2NWwxv7CC3+UxzI\n+MjfIRClk8+xPugU66j0508mMy/Fo4bb9s8yx5QAFdLYVR9BpKnWEWeW8xJl\n8HT6hd5dDxk4gaUFL9mFVxLcpBUgJ3pyE98I7IAS+r59TmNbLqjOfhKNTNgK\n5bxj9bUfi7u0EmTlMtVztnI/6LJWpH7VL6TMxrx95YYiZEg2ECws/3eFlU0D\nXBUf11+XgHMQKcVtyxdIvJ3Qadr/kRIHXspgNCbRLyg7lxWr4zK2xqRSm1Fy\ngmaQbgOlGd9wdhIMpOlftpEin/2qF6Hqld/JiZLZ6FGh3DYovJ9Bb0QnjX47\n07ul\r\n=xKXx\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.scorch_1.0.5_1541963968742_0.526204257868816"
+  },
+  "_hasShrinkwrap": false
+}

@@ -73,7 +73,7 @@ function defineInterface(target, name, descriptor) {
       for (var inheritedExtension of Object.getOwnPropertySymbols(extension)) {
         if (extension[inheritedExtension] != Id)
           continue;
-        interface[symbol] = Id;
+        interface[inheritedExtension] = Id;
       }
     }
   }

@@ -1,0 +1,77 @@
+{
+  "_id": "@kingjs/descriptor.nested.scorch@1.0.8",
+  "_rev": "8-cee18fe802499cc6daf786d63db7c91c",
+  "name": "@kingjs/descriptor.nested.scorch",
+  "dist-tags": {
+    "latest": "1.0.8"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8"
+  ],
+  "time": {
+    "created": "2018-10-20T02:48:36.692Z",
+    "1.0.0": "2018-10-20T02:48:36.984Z",
+    "modified": "2018-11-12T22:35:40.412Z",
+    "1.0.1": "2018-10-22T08:35:27.179Z",
+    "1.0.2": "2018-11-02T20:01:32.792Z",
+    "1.0.3": "2018-11-02T20:04:54.084Z",
+    "1.0.4": "2018-11-06T22:40:35.134Z",
+    "1.0.5": "2018-11-08T01:01:25.940Z",
+    "1.0.6": "2018-11-11T22:46:04.788Z",
+    "1.0.7": "2018-11-12T19:36:15.715Z",
+    "1.0.8": "2018-11-12T22:35:37.445Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Clears a tree of descriptor properties with `undefined` value.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"3f67b9fb24843490faf34a1fd3e7725d\"",
+  "_lastModified": "Mon, 12 Nov 2018 22:35:42 GMT",
+  "version": "1.0.8",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.nested.update": "^1.0.18",
+    "@kingjs/descriptor.scorch": "^1.0.5",
+    "@kingjs/is": "^1.0.5"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-uazYOU6TEYLmYUBWfWDftwPdx1doHxFQUksOggdl8/1ZgRWqN0JH+pMmJ4bakZ9aEs9eXEgWrOEJ2bK3pAWhRw==",
+    "shasum": "25a2b849d5b650ff88ee2736d044e7c19c71add3",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.scorch/-/descriptor.nested.scorch-1.0.8.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3352,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6gA5CRA9TVsSAnZWagAAD7kP/jfjc85PR7ZPTaRrUtyD\nRQecdeYN3zI302KX0K3SHwuwUQTDPfAAYchrUM69sSXDVnyRc74mNFMC6PEP\nzQUqJK+aHydoxfMLyDPjtZUoQiQzikvhuPqRx3TpHWOGDgCKbt/yw5hFLjid\n15lSrq8Dm2YXAI+PgKmFgSy6jOAO46hZoJdj30C6Huzp52RzHNFemPkIKxCg\n22wWLnvsEwL0VX9sp5ETJYBPU4snABnGUaXoqEJLofWtCDgcyPGgUr8K/Pcm\nBRORvMVI6UfV5cjpejhhkgYnnd5/5mRugCl5uUkJ56QD6c28RgERO/xR6yLX\nnyJEVwEY8UFw3tJxcRHYJzMRt8TdfMH326/p81f7wL/WcHx97JwN3BLh40uZ\nGlAVgc+iFObERI4LdNo/oqaC3tde8bqMQINChUZfcdy7wKVrLYm0IHcRU2Q9\nfBmdm/TK/k+TMVIfGtk6M8m0gxklT9N+kxrxVKPC9bBNidIIcbr9APkLgBeT\n/7Yg3hB6vgEIJi2ZST2LeaLVh0xfw3c1bSeHHXrD37FeILBKs9essgY178KE\n/dMf0UduTpOJkwN4w6Wi3qUHzhzzGpuzf3itElgOdwHZ9sn/AZCAzGbQPZer\nWENnJ/H/2SRH2bo4ui7isrFZquZOpREBNLjkNMlSjR3chQ5idJyKeGDFDMBR\nQw15\r\n=6esH\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.scorch_1.0.8_1542062137284_0.3973437323786364"
+  },
+  "_hasShrinkwrap": false
+}

@@ -16,7 +16,7 @@ function createAccessor(target, x, y, z) {
       descriptor.set = y;
     name = descriptor.get.name || descriptor.set.name;
   }
-  else if (is.string(x) && !is.object(y)) {
+  else if (is.stringOrSymbol(x) && !is.object(y)) {
     name = x;
     descriptor = { get: y };
 

@@ -16,7 +16,7 @@ var { name, version } = require('./package.json');
  */
 function capitalize() {
   if (this[IsCapitalized]())
-  return this;
+    return this;
 
   return this.charAt(0).toUpperCase() + this.substring(1, this.length);
 }

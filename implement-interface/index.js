@@ -4,46 +4,62 @@ var assert = require('assert');
 var {
   ['@kingjs']: {
     is,
-    propertyDescriptor: { define }
+    reflect: { defineFunction, defineAccessor }
   },
 } = require('./dependencies');
 
-var Id = Symbol.for('@kingjs/IInterface.id');
+var InterfaceId = Symbol.for('@kingjs/IInterface.id');
 
 /**
- * @description description comment.
+ * @description Extends `kingjs/reflect.define-property` to map names
+ * to symbols according to iface.
  * 
- * @param target target comment.
- * @param iface iface comment.
- * @param descriptors descriptors comment.
+ * @param target The target on which the interface will be declared.
+ * @param iface A map for names to symbols used to rename properties declared
+ * in the descriptor.
+ * @param descriptors A descriptor of methods and accessors that implement
+ * the interface.
+ * @param descriptors.accessors Descriptors that implement the interfaces' accessors.
+ * @param descriptors.methods Descriptors that implement the interfaces' methods.
  * 
- * @returns returns comment.
+ * @returns Returns target.
  */
 function implementInterface(target, iface, descriptors) {
 
   // assert target implements ifaces that iface extends
-  for (var extension of Object.getOwnPropertySymbols(target)) {
-    if (target[extension] !== Id)
+  for (var extension of Object.getOwnPropertySymbols(iface)) {
+    if (iface[extension] !== InterfaceId)
       continue;
 
     assert(extension in target);
   }
   
-  // implement iface members
-  for (var name in descriptors) {
-    var descriptor = descriptors[name];
+  // accessors
+  for (var name in descriptors.accessors) {
+    var accessor = descriptors.accessors[name];
 
     // map name
     var symbol = iface[name];
     assert(is.symbol(symbol));
 
-    define(target, symbol, descriptor);
+    defineAccessor(target, symbol, accessor);
+  }
+  
+  // methods
+  for (var name in descriptors.methods) {
+    var method = descriptors.methods[name];
+
+    // map name
+    var symbol = iface[name];
+    assert(is.symbol(symbol));
+
+    defineFunction(target, symbol, method);
   }
   
   // tag the target as having implemented the interface
   // Id may be in target already if iface member shares the same Id
-  if (iface[Id] in target == false)
-    target[iface[Id]] = Id;
+  if (iface[InterfaceId] in target == false)
+    target[iface[InterfaceId]] = InterfaceId;
 
   // assert all iface members implemented
   for (var name in iface) {

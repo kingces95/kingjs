@@ -1,0 +1,55 @@
+{
+  "_id": "@kingjs/string-ex.expand@1.0.0",
+  "name": "@kingjs/string-ex.expand",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-29T01:26:02.462Z",
+    "1.0.0": "2019-01-29T01:26:02.655Z",
+    "modified": "2019-01-29T01:26:05.407Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Given a string with the format of a template literal,  expand its placeholders with the values corresponding to a descriptor's keys.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/expand"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"fb6c3522d3be4030ca4787793d1e312a\"",
+  "_lastModified": "Tue, 29 Jan 2019 01:26:06 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/define-extension": "^1.0.0",
+    "@kingjs/string-ex.replace-all": "^1.0.0"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-GGauoFCrmyTMrhpFnDrjFn47uki6VzdOBJeQcRf0PZhk8gswbOJYdYEzBNgodFreVUviXrEjxXd6xzHapvpooA==",
+    "shasum": "629a0f011dd7b7f5b9998837e52b40a3fb5c661c",
+    "tarball": "https://registry.npmjs.org/@kingjs/string-ex.expand/-/string-ex.expand-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3941,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT6urCRA9TVsSAnZWagAA6dAP/1vbucwUeDxIC7F/2fPZ\n+gr0SIYozwLWFtx7hLJpIFTM4TuUsE1ij0m1f55NHk9KSTCQJLwz8r3eaka9\n/AQvaY4NfU0qinenDwdFV5YNUCJojt2qJ1DCHbH+W1kd7fb7bD8mBfoMjnrE\nETbNCqOZ8k/VBUVHYUd97xuuTI5NT8fe0WaKHFgOYWw+GyWPMtAa0PouUcAx\n+tcNkLVsnyk11f0cI5YsGyAyx64qWuQFoiyspfUlrXy17oJx5TlRSAaM5t01\nseromo6lQxCY6nBrVWTuZ3RQ32xNmu1UMbKCUqMzXwVGBnOmIRtPr/MToEBm\nqXCAu7E3qqjxh3VE3x8BFq6h/KZC/kWNz+NqDoJUQPaQxkheIrwt3bYxCRDK\n50HJC8hkq+Okvl/ve8PTmyaoRO+zWHDEmRnDA9ouZLdO92jOZKb5ImbhNQUt\ndH0TO/+ykrNEem+M97qAxcUGHuiYZpju0Ve0e4b/vfufu19sSA33qdf29HUE\nZq9ZUBIddk/Ce9vBItuL+Tg/u9OglYhdfcuBQucr8xT8K9O5tMCrAe5JxCj2\nVg/yuE23NiCP1P+oeE+SRF3u53gJUbCJ99aisOiThDLXSeDWSE9TE5jGTA5t\nyekCrvXnBWq6CRpmtBAX1+vJ3aFWhe3b6zkkk2rE2FDOuEl+1jqGN28TZRXs\nCCf+\r\n=kABM\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/string-ex.expand_1.0.0_1548725162540_0.7334435369172094"
+  },
+  "_hasShrinkwrap": false
+}

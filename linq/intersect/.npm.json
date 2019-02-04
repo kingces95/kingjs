@@ -1,0 +1,78 @@
+{
+  "_id": "@kingjs/linq.intersect@1.0.8",
+  "_rev": "9-aebb4af1ee1d04cec2f9b8ec3d741d28",
+  "name": "@kingjs/linq.intersect",
+  "dist-tags": {
+    "latest": "1.0.8"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8"
+  ],
+  "time": {
+    "created": "2018-08-07T21:27:01.051Z",
+    "1.0.0": "2018-08-07T21:27:01.273Z",
+    "modified": "2018-08-17T21:30:26.368Z",
+    "1.0.1": "2018-08-09T03:54:18.281Z",
+    "1.0.2": "2018-08-09T22:58:15.221Z",
+    "1.0.3": "2018-08-09T23:27:14.194Z",
+    "1.0.4": "2018-08-09T23:27:53.771Z",
+    "1.0.5": "2018-08-14T21:37:22.621Z",
+    "1.0.6": "2018-08-15T02:17:52.884Z",
+    "1.0.7": "2018-08-16T02:30:42.887Z",
+    "1.0.8": "2018-08-17T21:30:23.218Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Generates the set intersection of two sequences.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b773e72-5393\"",
+  "_lastModified": "Fri, 17 Aug 2018 21:30:26 GMT",
+  "version": "1.0.8",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/enumerable.define": "^1.0.0",
+    "@kingjs/dictionary": "^1.0.0"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-7YelXTMcbbnARuzHyg+00D1cnk1mJuzctfOtPzLKVYXQLtyLlbzvF69j9Jqlq7yn0TWJV3HuhLcXPpIJMfRpmA==",
+    "shasum": "9f8aaa12a4efc136691fc7cdb86842921c3ee180",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.intersect/-/linq.intersect-1.0.8.tgz",
+    "fileCount": 4,
+    "unpackedSize": 4272,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbdz5vCRA9TVsSAnZWagAAjSwP/3lYW6+Q8d7hQZrBwbUL\nhn/ejl0q8kcZUKkSqjFb7Q0bsWbwKMm8ysYLlqu716U6w/U9fkey3ZMtM4OV\n4LLdZxWnZhZgfIA2iTb+dHoCdOTRIN+6PwSO4kk8chLJgkHUyVPvzPS8jmn9\n2VCtKC/e9LAkAGeJBQ1u0Dif/N57pOVrZl4cpRcR5K/TIHppPEAWweBTbFRt\nvUqfGx9FqlGyMxlLHo4//YRkMqfrJwZ7w9ejwRB91bjgTjfAAlWQ7qDn09hp\nLOA6xhfD4v4vBiDtPobELNb1S9SkrQ1N6+QpLguarnYxq5UgkmvVFCWO6wYp\nEKGF6erM+YsMDaXBbJnzimMqm6yw3sE07xdPYar3aTP/ObsIs7bx/Z1+iV5v\njzS+go5z6iv72KrVbEPgeNCue0zbHeinUmAGrIhbds9oURgKP4E9MTx0Ykf1\ndv5+qPaoZuwo8Y8MampZCke2A2F+DjneolxRLzWx0k3LfAaDvytrnIIoFiGd\nCFwrVUsy9A+gdkdJibHXVecgHryrlQua3soYW5Kcl4qvYWonZ0jkfVpSyYoq\nFTegEzLb0cap8RHDzVCjQd12/vNj39ryxpQbp0NPakq8TY963644nxWhsfk+\nam/M8jg38/2KmdMMWQZ5gonoqOoeSupNoWujSlK98j7LQ4GvqJ8tjWgLJutE\nk4w7\r\n=dmR1\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.intersect_1.0.8_1534541423129_0.3797614384794985"
+  }
+}

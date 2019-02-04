@@ -1,0 +1,68 @@
+{
+  "_id": "@kingjs/descriptor.nested.array.freeze@1.0.7",
+  "_rev": "4-a09f9b0f83756a770410ef2f537129bf",
+  "name": "@kingjs/descriptor.nested.array.freeze",
+  "dist-tags": {
+    "latest": "1.0.7"
+  },
+  "versions": [
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7"
+  ],
+  "time": {
+    "created": "2018-11-01T07:05:10.212Z",
+    "1.0.3": "2018-11-01T07:05:10.395Z",
+    "modified": "2018-11-12T19:38:41.633Z",
+    "1.0.4": "2018-11-07T09:15:26.433Z",
+    "1.0.5": "2018-11-07T21:47:24.350Z",
+    "1.0.6": "2018-11-12T05:07:18.960Z",
+    "1.0.7": "2018-11-12T19:38:39.119Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Freezes an array tree and it's values.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"e9b68b1901f9fb302286335d562f9ef2\"",
+  "_lastModified": "Mon, 12 Nov 2018 19:38:42 GMT",
+  "version": "1.0.7",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.nested.array.to-paths": "^1.0.4",
+    "@kingjs/descriptor.nested.freeze": "^1.0.7"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-zaEdWnGb/4tCGLKD+HrL1mi8wLuHaMr2jwciLpfzKPN6T3aPb6AaTm+5Tt1o9iOz5A4DS8zd4+cCN1ajcyi2eg==",
+    "shasum": "5d4ebbb4cf92a89bd284eb2bf688e3d617154a14",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.nested.array.freeze/-/descriptor.nested.array.freeze-1.0.7.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3141,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb6da/CRA9TVsSAnZWagAAQiMP/A2NZORWO/Bnqev7T8pJ\nFBcPLQa/5P3LXEetp1Gbyame58nmlRnb5CcEYlbuuXdmiFiM2dqWkETQLWZO\ne2Y2D3bpU9fY8cJbf7/I4SWRRUCvrwzsE7IfhrNtM6DKOhOx+dR47n63RGLz\n57zi4zjBI80lR63gqHntqcMQoU9/Jyqm/W6JtTxG0OdqgiIgdgeBkftshTXW\nyaK6hjkwlm5/Wv2aCgnhoeyWr0ccS4rgm2jtw1lebbhQCcgJsDUWTxUItaoK\nZkBAAUgH5tBBOAwKXyibcWLtbZiF8qv0kfo/zEJRRz84lcwxrK1T67CE2Bqy\nNAXVkfFRz4Eim4fIuDl2n53Q1fkUqcOyIzwXPzHgONKFa0zuSqf5rD7lboAN\nxXLUATkICc8cb/58E/IQhB+I27NTn3yJGPYFZQdqxa9l1SHfp7ZRiWC0Czk/\nGf0fCHKHbd0QzLh0YXfRVdnJrz5fonRWjkLfbOTL1qDbGgz6SS0mh9UHGGCc\nRcdTzJydb/v0Y/ab+4ycLhc6u0cuawUteTh4ZjYA+mt/Q6gQFS2AxEso+6Zl\npHK9BMu/WRImxmm12kMmtn27utF6biS5VMAIrLc8M9LqQF+OFfuYMkqSCMXS\nMzIuYVidtA3on6Wa/CYUAt/mLUyATIqZIjlGnTrKnELyp4Y2FjHiR+EMfF0Z\nUkCH\r\n=kCfj\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.nested.array.freeze_1.0.7_1542051519013_0.08397356218442553"
+  },
+  "_hasShrinkwrap": false
+}

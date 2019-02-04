@@ -1,0 +1,61 @@
+{
+  "_id": "@kingjs/tools.create-dependencies-js@1.0.2",
+  "_rev": "3-12f152d0e9a756de3620915d308fbe28",
+  "name": "@kingjs/tools.create-dependencies-js",
+  "dist-tags": {
+    "latest": "1.0.2"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2"
+  ],
+  "time": {
+    "created": "2019-01-14T09:58:54.550Z",
+    "1.0.0": "2019-01-14T09:58:54.805Z",
+    "modified": "2019-01-19T11:01:16.494Z",
+    "1.0.1": "2019-01-14T10:08:53.676Z",
+    "1.0.2": "2019-01-15T22:07:36.038Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Generates dependencies.js which exports the dependencies in package.json.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/tools.create-dependencies-js"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"a6d21cdca8f5b98f1f7d98dff49f4c79\"",
+  "_lastModified": "Sat, 19 Jan 2019 11:01:17 GMT",
+  "version": "1.0.2",
+  "main": "index.js",
+  "bin": {
+    "cdj": "./index.js"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@kingjs/camel-case.join": "^1.0.0",
+    "@kingjs/package-name.parse": "^1.0.1"
+  },
+  "_npmVersion": "6.5.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-NP0umEjMAXVjDARrljZ5hcwTsFzYsFTn+FbqSKuWQyb8WvPZfysVeweIfyakgdJ3j6TRYRcqfvrk2et7g4+tng==",
+    "shasum": "c73db5484766534f1a78af9f036e26fd838ea5e6",
+    "tarball": "https://registry.npmjs.org/@kingjs/tools.create-dependencies-js/-/tools.create-dependencies-js-1.0.2.tgz",
+    "fileCount": 6,
+    "unpackedSize": 5985,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcPlmoCRA9TVsSAnZWagAAGa4QAKDuFM+RPgUVFaWHZBnI\nVbUzfCq2zl8wvWdTsBHJeZ5qSS4BRuHc/675vbekdtHwbj1tPWHl8Ie5KZgT\nXMH7ElyCIEyVMVv0EoLRSoiwLmaM+YT+VK1J0YAvR+EM+CvvCYMlC4rScruG\nl9xoXWQl1fVEUxmP/lpQ5WPU6l8QXTfcTyUo8te7aguPuFvn5EosIgvJw0as\nOFWOE9/yMMvcSerEeX5x351NdDU7e1pZFtgk00eoSwiHzMuZgRW2PcRGhFcl\nxJlnEtNT6R8sWDz7Ga8mxWvLpv6YTI0uswm0Qbwt+lyz/RQ8xWYl2TqL0g/g\nMtW9GJYt+sfRdR625lJN3cbZmeZ7ZsDN4huDy/YhgYy7TmapYjdTU10+jUW0\nIu7+TfFSj8OuimJ6qh9FObY7ZfGOVrEzUhW2UHf1lIWPUK4CRDAOryLQvvh0\ntA6r8uZgmpcczfVstnFtzIlW6P12H/DOaI9GboGInumHhFcfNu7QWoromdBA\nOsiyEKzp9yGya9gd6pAtAOI1QbsBYYtkWM8BuTi6kHP4jg9pzfg9F0ovSpGZ\npD7ypAmN5FjKlGuvd8XGXXAUJYibhk1VHu5VN+mhkQCOOO/88n+QWKAgn/Me\ndqCLd2SJ3JHqMVX/yZsIi9R24O1Q4bwqT2+BTRXsjRXk73R/7RS3b8BLErTG\nqLzK\r\n=ShV/\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/tools.create-dependencies-js_1.0.2_1547590055885_0.6696982854852582"
+  },
+  "_hasShrinkwrap": false,
+  "deprecated": "See @kingjs/create-depjs"
+}

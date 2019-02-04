@@ -2,7 +2,7 @@
 var assert = require('assert');
 
 require('../index');
-var DefineExtension = require('../define-extension');
+var DefineExtension = require('./define-extension');
 
 function readMe() {
   

@@ -1,0 +1,74 @@
+{
+  "_id": "@kingjs/linq.sum@1.0.6",
+  "_rev": "7-8294428f46a4cb02ce0bfafde5efcb05",
+  "name": "@kingjs/linq.sum",
+  "dist-tags": {
+    "latest": "1.0.6"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6"
+  ],
+  "time": {
+    "created": "2018-08-09T00:07:02.615Z",
+    "1.0.0": "2018-08-09T00:07:02.814Z",
+    "modified": "2018-08-21T04:44:08.185Z",
+    "1.0.1": "2018-08-09T03:56:13.440Z",
+    "1.0.2": "2018-08-14T21:38:47.456Z",
+    "1.0.3": "2018-08-15T02:19:08.439Z",
+    "1.0.4": "2018-08-16T02:32:08.471Z",
+    "1.0.5": "2018-08-17T21:32:25.391Z",
+    "1.0.6": "2018-08-21T04:44:05.072Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Computes the sum of a sequence of numbers projected from elements of a sequence.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b7b9898-4037\"",
+  "_lastModified": "Tue, 21 Aug 2018 4:44:08 GMT",
+  "version": "1.0.6",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/linq.aggregate": "^1.0.16"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-RzRmIHi18QwiLhouoyaOrrZtCJ5YHRY4Rg/prF721PoUX7++J+XjTm4Z5Pah0wnbYmAJWc/Shb0uLl0gZ2GYDw==",
+    "shasum": "fcd0bf0feebd0be55e0221155f49556e1b5cc27e",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.sum/-/linq.sum-1.0.6.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2809,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbe5iVCRA9TVsSAnZWagAA5AEP/1V9xEQq1HHO8jmtomyC\nEGZgC6k8p5uixKJFQL/+gmAzIzVzPjgXVv9CnLq7MI7hZgeZneajTOmMd2MF\nCGw/9hQ2MxmXvodJCNexNInO/Bjb3OW9xxEoP5i3S/A74SBOJfkS+e462KIH\neJ/ZJc0Aia1fD/NjskmYmv5xoFVTby3oKueIM8x77IxcLm7/5BdwOP1gIqZy\nOTf2wGMLFeDZE+tLLu6iMjIqalPj1cpHd5AMdo7OJzRqSZW9m6spVI2NyUNG\nPiQr3CFSe6lt3RWHORnoT2ceTqI+UMjpNwlAHQwG68ZMWo5aeksZyEtCPRC0\n57rRctBfGftCPeeCpnKVYd4091seMlTamMv+2PI5phCWYGUk/N/mWZG5cTzZ\n91j79UHUMUWokdYa16/VKEiX7vHYGmptGDofysF2wAHBUQPTx477/+kKoHhD\nXyQKpGbsRLKMCSLGSp4tVqfgxbEUaGmAA7L8zLfgQ6ROegbgrNMORsy2+ZQI\nLUTtbnmEWgP8r2wEA8dEXsyiylK6C7fWj0D/dzswKK1D+M1BV4MJCHnstmRZ\nPF8NLp8fCigzGYL/cZCMJm2HZ3QWpt6VVh8GOqCJ1riCsm7URYBvFQWRgHYK\nrrxluk4zjhzjiMGjzDUv7ToNOxUuntfli4cIx3YV9ygwWK/OKxOPp04ms02M\nHHJF\r\n=JeiA\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.sum_1.0.6_1534826644972_0.8792650079157469"
+  }
+}

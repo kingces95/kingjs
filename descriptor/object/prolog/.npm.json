@@ -1,0 +1,59 @@
+{
+  "_id": "@kingjs/descriptor.object.prolog@1.0.0",
+  "name": "@kingjs/descriptor.object.prolog",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2018-11-11T06:35:35.762Z",
+    "1.0.0": "2018-11-11T06:35:35.962Z",
+    "modified": "2018-11-11T06:35:38.441Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Descriptor function prolog.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"0792b3dd92ecc072b452797ad478b6e0\"",
+  "_lastModified": "Sun, 11 Nov 2018 06:35:39 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/assert": "^1.0.10",
+    "@kingjs/descriptor.object.is-frozen": "^1.0.0"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-HcxUG1iQDyU341IlkAPVlqUFqvHMol6QaUY15Wp2vETZsgxUpS88awojKyCO3Cxqj9baayoAZkLe/hKZCJJVrw==",
+    "shasum": "f862a2331217239df4849f0456f21ea4d9d6cfff",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.object.prolog/-/descriptor.object.prolog-1.0.0.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2653,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb5824CRA9TVsSAnZWagAAJ1kP/13eS1S4XtwodyR9LF8w\nN9Xk4rbiTXO3c8EIdbZaRXC/x77/fbkn3jeEoFHynkofyWGhSXZSjn6kSSDY\nwfwdMHSvQJDB24E0w3uSHqXklB0WxggQnmy0+Sav24wd98AWcvcl0aERZBi3\nqEbZkW81qDA92fEdXOgScVttvo5SZ1JgC8tjBEHl0KknE2ihLpm4Wurqc7mJ\nLZD5cRnMf5pZJsZPW8rBY3duFHBgu45GLyyN2xcSDYl2DsInd86PIogw9OeU\naeFxYQXgaa0GZq9TW5Vm85CGqRQTYo0W9vQy9MJjUosgpyQzrWw3q1o+aAk4\nnjFyb7nHZH3OdVTCeCropKMszS6U1CUVHC1kdP9VCrwhr4sIB+WKNppblaf9\nwbofd72huLmJHBv3nDwasiEiMpscFPAQIHkGjKZdEmUj5yks03PnSovT6rtX\nXlm2HZJIGdzNfmnlNEE6Wrlqpt/dupsXBDmNuicmaBkvq03WMt9lkHyzmpDG\nSUMDPX9aIYUBA49qUPyXSfJN3q/KVyzp031D3+NeyIvUd24cnnpZistnkR96\nWeud8/V8W5ItUrcl8tSyYslGu3IEF53iHlyktXJTajNJe84gYsyeEp9SXQvM\n/yauPWl1a8MXPjNw2lUcKy2CXeez9LCgsQPaS/f5A7imytXq+5yPR13/SBFc\n4HiO\r\n=L+IQ\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.object.prolog_1.0.0_1541918135860_0.42487822503210815"
+  },
+  "_hasShrinkwrap": false
+}

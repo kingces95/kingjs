@@ -1,31 +1,28 @@
-'use strict';
-
 var {
-  '@kingjs/generator': Generator,
-  '@kingjs/implement-interface': implementInterface,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { 
+    generator: Generator, 
+    implementInterface 
+  }
+} = require('./dependencies');
 
-var defineIEnumerableOn = require('./define-ienumerable-on');
+var makeEnumerable = require('./make-enumerable');
 
 var { 
   IIterable, 
-  IIterable: { 
-    GetIterator,
-  }
+  IIterable: { GetIterator }
 } = Symbol.kingjs;
 
 implementInterface(Generator.prototype, IIterable, {
-  getIterator: { value: function getIterator() { return this(); } }
+  methods: { getIterator: 'this()' }
 });
 
-defineIEnumerableOn(Generator.prototype, 
-  function createMoveNext() {
-    var generator = this;
+makeEnumerable(Generator.prototype, 
+  function createMoveNext(instance) {
     var iterator = null;
 
     return function moveNext() {
       if (!iterator) {
-        var iterable = generator();
+        var iterable = instance();
         iterator = iterable[GetIterator]();
       }
       var next = iterator.next();

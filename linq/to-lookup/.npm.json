@@ -1,0 +1,76 @@
+{
+  "_id": "@kingjs/linq.to-lookup@1.0.7",
+  "_rev": "8-4389ee1a3d06ca66ff0a4328282a6c6f",
+  "name": "@kingjs/linq.to-lookup",
+  "dist-tags": {
+    "latest": "1.0.7"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7"
+  ],
+  "time": {
+    "created": "2018-08-06T22:06:06.469Z",
+    "1.0.0": "2018-08-06T22:06:06.824Z",
+    "modified": "2018-08-17T21:33:18.817Z",
+    "1.0.1": "2018-08-09T03:56:57.746Z",
+    "1.0.2": "2018-08-09T22:48:56.727Z",
+    "1.0.3": "2018-08-14T09:48:30.373Z",
+    "1.0.4": "2018-08-14T21:39:26.541Z",
+    "1.0.5": "2018-08-15T02:19:46.873Z",
+    "1.0.6": "2018-08-16T02:32:42.931Z",
+    "1.0.7": "2018-08-17T21:33:14.482Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Creates a dictionary from a sequence where values are groups of elements keyed by a name common to all members of the group.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b773f1e-4f14\"",
+  "_lastModified": "Fri, 17 Aug 2018 21:33:18 GMT",
+  "version": "1.0.7",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/array.make-enumerable": "^1.0.0",
+    "@kingjs/dictionary": "^1.0.0"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-8gYRa176ZbKGj+PrAfji8MFQcxOElwKFSDvqxkC3Piwyy43DS49Ce3BKPxyN60VceIIJwaetZv1s5B+5xGeOjg==",
+    "shasum": "8012b956d7791e2dcff04719be5231def743581c",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.to-lookup/-/linq.to-lookup-1.0.7.tgz",
+    "fileCount": 4,
+    "unpackedSize": 4454,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbdz8aCRA9TVsSAnZWagAA714QAImW23G7JyNIL728zpVj\nIY+3LiJDM3bEjryOdntqYxXqPdXIeTURXKEPXnZIdrVpJaBcRIINPyJBh4le\nLx8vKDoJEIxOnlqXm3SUOJEjm1qy2wIu0+3j3dnsASXWpn8pu9IypqN2kFfx\n/xgt4Q2lzxJaoT12bQ9efbKiO/8Bjuzy1uQ27RzZNsDl748T9t0IgxxM9V9r\n7ETy/RrHTMfBckQY+jwclXiqS65jBujEP5lwLnGvxtwfAvft/nlIncf5zKtj\nI7WOdy7Hd1kaNrHeeAwOP1qhvlHVpJj4ulw6O9I1d2SBVP3Wzba7UNJUJuzZ\nI+aXk1oS43M3p7la6rOK4Wn4KWLEUOIzLBaD9qe38CoyADAquwVVin5dBZE3\nC8dbNzXvqPUpQQxy1XqREKIT9NtyfIv+pKyIgXii1fbY65lENWKR6syPC6g8\nJOGnPgMRu8IoMx9UhMbtEX7Q/b6HzRRAF5CXLxnj1MM/VZKQDmrei4nTL92Y\nn1ow+sDThvRG/WfvaatM4YWYmHMRduBQMEeuJTIgG4gU8WmcxJ1H+wCDkA5V\nHxX4GWMkwEMQUg47MoxeTK0rAHxqLPW54GUK3i9Pqe3zc9pFDW6KegcNEghn\nrv/Ywe0dbZ+c5f2e5mRx5ukRXqvXNZKAL0cCq4a6e69I5ZqyXzkr29WJD2SC\nlaw3\r\n=l9oA\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.to-lookup_1.0.7_1534541594074_0.6648790722232012"
+  }
+}

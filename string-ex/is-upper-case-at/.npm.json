@@ -1,0 +1,54 @@
+{
+  "_id": "@kingjs/string-ex.is-upper-case-at@1.0.0",
+  "name": "@kingjs/string-ex.is-upper-case-at",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-01-29T00:42:10.163Z",
+    "1.0.0": "2019-01-29T00:42:10.418Z",
+    "modified": "2019-01-29T00:42:20.954Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Test if a character at an index in a string is upper case.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/is-upper-case-at"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"816d8bb8fd89170946e2e8bc680a3d34\"",
+  "_lastModified": "Tue, 29 Jan 2019 00:42:22 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/define-extension": "^1.0.0"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-4FcFbT6Z0FkgAQTwQz8OyEEjmCI4LQy0rUnKbMX/Ng9Qxhu7lzd8ZSL5iAEGs/ZMHJeDpw5BOSBJselPqrUPzg==",
+    "shasum": "9136017a9cc9deee43d65bf2966cc1202d50a9e0",
+    "tarball": "https://registry.npmjs.org/@kingjs/string-ex.is-upper-case-at/-/string-ex.is-upper-case-at-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3226,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT6FiCRA9TVsSAnZWagAAH38P+wU4NhW2pKVB1dlhbRNA\nhd4FbH8dQAiKrNin/by9cIgFF9SMOgUWcfW3z97b3T+ER761BDSRrp3+Mh1M\ntIQxGPBGBQHvaKbxuzR7/nLBx5pq8qz4z0HBdzpNZVZv8ptY6zQT5Mavb0zA\n0nQbjUIc9nBLcQsGfKXI6H5YWwRy1Nt9IoQoTHo7kP7dVKWyKXxuCZqjQrlR\nmc8Ekjn5FC/z94anQNxTyd4Bj4GxdsXRxhUPmVP5Omt6z/iRkrMFjTIHups7\nZU5molA9yO+fHcVHkBvV6SmmIrU1/Kgm1bqHKQVLeTs880uxGk2asqnX3T7R\n6fnjDuYmdXOJDyLKycBxXhxbjEm6MWWBOx0wmkR2cA2Y6jnxV8MBfo2HP60L\naxWRx0VTCxE4Xrwg03MMK+Mu9YAgU5S7HrkvuF+IevVjP+wzRTH9svzWtAGd\nNdOSpTru2MBOpV8Pl4TH/isdyLKdkjvuusb5Kx9MeaFNPQ9VOpGYYP+ZZzdd\nKVptm4faFBk+TJaXC/+hpb2ySzIGNJmKcGY21tonIiMyL4RG8gymyqtmOX7p\nI2Hsp+BzS+sF6nAPtj+iKHRPgt3w0ce86R/VzYr5Z3yq6Synm7I38+NeEEIz\naZ4t7JcPqPCK70cUT/cXRTu0Hgy9kSEYxpIuQbERkH9O0UXFf/jEbrEJ7zM9\nA5G2\r\n=OYhR\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/string-ex.is-upper-case-at_1.0.0_1548722530320_0.12328653715964921"
+  },
+  "_hasShrinkwrap": false
+}

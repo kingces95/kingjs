@@ -1,0 +1,75 @@
+{
+  "_id": "@kingjs/linq.concat@1.0.9",
+  "_rev": "8-d38fd18ce4dfb641c4095039ac589be3",
+  "name": "@kingjs/linq.concat",
+  "dist-tags": {
+    "latest": "1.0.9"
+  },
+  "versions": [
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9"
+  ],
+  "time": {
+    "created": "2018-08-03T07:36:44.115Z",
+    "1.0.1": "2018-08-03T07:36:44.259Z",
+    "modified": "2018-12-30T08:21:59.611Z",
+    "1.0.2": "2018-08-03T20:49:44.175Z",
+    "1.0.3": "2018-08-09T03:52:36.733Z",
+    "1.0.4": "2018-08-10T00:35:38.145Z",
+    "1.0.5": "2018-08-14T21:35:59.472Z",
+    "1.0.6": "2018-08-15T02:16:50.470Z",
+    "1.0.7": "2018-08-16T02:29:28.732Z",
+    "1.0.8": "2018-08-17T21:28:54.054Z",
+    "1.0.9": "2018-12-30T08:21:57.122Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Generates a sequence composed of elements from one sequence followed by elements from another sequence.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_etag": "W/\"54fd4926cd62127c5ff3763eb90d9919\"",
+  "_lastModified": "Sun, 30 Dec 2018 08:22:00 GMT",
+  "version": "1.0.9",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/enumerable.define": "^1.0.5",
+    "@kingjs/linq.define": "^1.0.1"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-UWPkXHnAai9HfcZtnhiF9gktbIOhGQdLmpVvTInSLhofVvCsyjtcuycjR+Rr0WWG5jE53vmSr72ZHf8PB825zQ==",
+    "shasum": "2c264f7401c33a8478eaee7366d1131dc16a1c54",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.concat/-/linq.concat-1.0.9.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3664,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcKIAlCRA9TVsSAnZWagAA+5EP/jAEijd9DwTOU3zSApli\nEHTgffG5B1QwKc+lRymWZngl6jP0oXIGxlAjb/hiJ6xiDFVxp3XTa8mDY6DL\nUmLFNxe4N7TUswAQWr/BmG/BZoXqf4mc9N3Kg0bnDcq09RHTPcEEIlDyCM8X\nLhEUkIfk2UPx/lMS6jWEYHBl4SvCl0M8iwGJAoedRpSpmO8CMQKVkb8hJH9u\nvbB2j+JuMr0NR66BzFvXi4kHCZbTQfolf0+FQWDQNof3DnuCT47RtvKdjC4z\njaRxnLiPft5YXmgkUnENNMJzP1OmsIc1ldF2kYlMV1TWeIeLmq0Zv3UMDSGA\nxp/QPym2BCejxtFXU1Guv8G0isDwogaq+LjgXMnL23Q26519rtbs5yt18DYw\nQxJ7WW05COpGtcrq0plW2tw0le3dRT2WkKsPPOqw6XXhsuj08H3pPFeQcv/P\ng8c6LpuikDDjjl9gb5GuuyfwwKch7NmzfzFPzbwl+DwXm6UQy9hNAYJ+nPr6\nb454+Da414hGmYW87bK5vpqxJn0p1pidUJYx0V8wDz8GkzakOj4L34Y0YUJa\n7Rh86Gf+fK4LodNWNkrcm1ZQtLPSptbnuUR/o1VTiD4PXFMR/xCxeku6SyEc\n8qLzyqc0QA3XWqvT7Kv2I4k/pzpFjW+xe/injY6gNmysRevnrLiiVlqf7Vsr\nlub8\r\n=IGEG\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.concat_1.0.9_1546158116953_0.35739898961760574"
+  },
+  "_hasShrinkwrap": false
+}

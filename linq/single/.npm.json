@@ -1,0 +1,75 @@
+{
+  "_id": "@kingjs/linq.single@1.0.7",
+  "_rev": "8-3b9bee723c2a18111e825904e57f80df",
+  "name": "@kingjs/linq.single",
+  "dist-tags": {
+    "latest": "1.0.7"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7"
+  ],
+  "time": {
+    "created": "2018-08-06T03:17:35.158Z",
+    "1.0.0": "2018-08-06T03:17:35.395Z",
+    "modified": "2018-08-18T09:39:11.327Z",
+    "1.0.1": "2018-08-06T03:20:04.311Z",
+    "1.0.2": "2018-08-09T03:55:47.544Z",
+    "1.0.3": "2018-08-14T21:38:29.226Z",
+    "1.0.4": "2018-08-15T02:18:51.697Z",
+    "1.0.5": "2018-08-16T02:31:49.318Z",
+    "1.0.6": "2018-08-17T21:31:59.860Z",
+    "1.0.7": "2018-08-18T09:39:08.659Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns the only element of a sequence that satisfies a specified condition.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b77e93f-4939\"",
+  "_lastModified": "Sat, 18 Aug 2018 9:39:11 GMT",
+  "version": "1.0.7",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/linq.where": "^1.0.3"
+  },
+  "_npmVersion": "6.2.0",
+  "_nodeVersion": "8.0.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-36deXnp7mRTryDBgd5pjloMneHIgmXL38P/6Ty6IZknXR2N6NzRIH5H6hzgF4Uhg0MikLYM9EZNpRF51KaXxeA==",
+    "shasum": "076841aed17574889232b0904d88ebf3a822723e",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.single/-/linq.single-1.0.7.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3400,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbd+k9CRA9TVsSAnZWagAA3oEQAJmx2q/06dCT6yjyKb+u\nKkOYgzLMB27bxyMZ3oCOvZ3QNRfy3dOP2WQ9SbZT9USFJhXaPaDkhkRd1mpx\nljEAc27oxy71Xi8rrVHAYMiwhxYlvKreq/bYzQosClFL2Z7kBl7DAKyuAJVI\nDRiL1AYpc06rqGZDK/TM5HOGF2SI2pGtkIKET+C7CGM9N/MJT517hNrr6X7P\nElK61uG+dbu0YtWzti5qLXQb9O8QcQ7i17P1QVWyCcej9fYms49dUrnG1IK9\nPcR1NYHfiSFylgLz3wP0m9XrYVjInkt0oJ4K81Kjg5J6uAZ/1G9xI4Zfyv/7\n10XRbeefYzmnXMFWbxpCjuq5KECn8WNGHIcqvdaJBAHDcgmHvpOFLd/kcWOU\nHpxdzMHWb/ZAUj88dRsYrCwCfwP6AOW9nmvw80MiWfUxDzOokYioCiIMAZ5t\nmosbS4lADdFxHxNu9pV69NPDbluFGjtabXr6S3IM4n0hUtf5g18COjJPsiMU\ndAKLhin7/XKGK9o6hp2vQ4c0wRZUvWKU8Wa2Kac/bCJtunZQn+/Ovo0HPiUC\nd7+94afmNixwXGa17awcY5daxSxgL1CkcjuiLoX9OzU/g+0bgeeZBttYbeYo\nwQhYxTRG8BUv1dmqnvuRB+9LUCMwlY47kHcLIpmLaBukrkrqXtzEgsoKsFzm\n/Vyj\r\n=s7tC\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.single_1.0.7_1534585148596_0.4605926043395068"
+  }
+}

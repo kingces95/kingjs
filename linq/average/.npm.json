@@ -1,0 +1,83 @@
+{
+  "_id": "@kingjs/linq.average@1.0.11",
+  "_rev": "12-5581e3d40ac11acc70a173ce6bbe485e",
+  "name": "@kingjs/linq.average",
+  "dist-tags": {
+    "latest": "1.0.11"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8",
+    "1.0.9",
+    "1.0.10",
+    "1.0.11"
+  ],
+  "time": {
+    "created": "2018-08-02T22:27:24.577Z",
+    "1.0.0": "2018-08-02T22:27:24.709Z",
+    "modified": "2018-08-21T04:47:46.944Z",
+    "1.0.1": "2018-08-03T06:56:55.429Z",
+    "1.0.2": "2018-08-03T20:44:21.309Z",
+    "1.0.3": "2018-08-03T20:46:42.989Z",
+    "1.0.4": "2018-08-09T03:52:30.443Z",
+    "1.0.5": "2018-08-09T04:05:24.241Z",
+    "1.0.6": "2018-08-09T04:05:38.157Z",
+    "1.0.7": "2018-08-14T21:35:54.730Z",
+    "1.0.8": "2018-08-15T02:16:36.385Z",
+    "1.0.9": "2018-08-16T02:29:23.918Z",
+    "1.0.10": "2018-08-17T21:28:47.545Z",
+    "1.0.11": "2018-08-21T04:47:43.067Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns the average value of a sequence of numbers projected from elements of a sequence.",
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b7b9972-6968\"",
+  "_lastModified": "Tue, 21 Aug 2018 4:47:46 GMT",
+  "version": "1.0.11",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/linq.aggregate": "^1.0.16"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-NAMVgfGj8x4fTZfQn1BKgyBrXBp8tx1IIHisqSl0zquTfpITK7fB38cKmCZ74jyHy8EEhn3KL9urN1zu2wCfwA==",
+    "shasum": "509b29a0e8efa9758d8309461270a4eb0d6b49e6",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.average/-/linq.average-1.0.11.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3379,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbe5lwCRA9TVsSAnZWagAAiUcQAKC7Dr1NqEoYmtRSRyAW\nMmF2FpIGBaDfSNz5NTM3VvbJ0o/wUbJ9dxiaRzlGLUZABYkZsHdzFL72Zkuy\niocsV9Myijv8kyxMam2D5rSr0OmY06Wkf2xM8Pnvi5O7KWng7YWl5JGneMUt\nlKtrqvgKKc5VEudIOASX4gjlFfFLmRcL+CVyVwUCdopccuAfEQiAYKWLUD8Z\nme9iWh5yoeLSe++QjXfeAzd131pi69RM5MBPkQfk3tli/RuIdlPd5L34e3Pl\nN+Bm/A7pgpoRF1fCoZlDLadgWQtolTkE1Da6S26WsgBZAtkAxwuJOA5DHKZI\ndWggDWU+g9X0eaSGiz6l398EDcsl4Su6/hGObqgYZqhyPaZuHlbBNOGKgI8e\nGKnERnAyXLupYUWUhZ6V7viNm2WdOj8MLW/OkCX/GXLOcyADH+A+dxEQYwZZ\nfLb/Q5ctiAa7GwXGhyD1AhGuxMAcbsTjEJqWj4jQitc1/df0OGp/qD3cBnr9\nP5zbwZqKsk9l5zo/Qxzk58hJC1JAlp2/jEZoH7cTgrDcnu/WH019oW2VQVUf\nfi9T5Q1dMzF2NvtTytDXq4gxDyw9/p/a3+mORROyL94jENrmvpaZId6N0GFH\nrzZ79i0hNhtfcG5DkxjUZIyjPaWohamuhEQan9kEfzeX8482MSns+mhlbziu\nuWTw\r\n=c7ov\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/linq.average_1.0.11_1534826862995_0.45873687710831557"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "_id": "@kingjs/dictionary@1.0.6",
+  "_rev": "7-d9a47dbbde90f52c2ca6286144bddb05",
+  "name": "@kingjs/dictionary",
+  "dist-tags": {
+    "latest": "1.0.6"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6"
+  ],
+  "time": {
+    "created": "2018-08-04T01:47:14.039Z",
+    "1.0.0": "2018-08-04T01:47:14.218Z",
+    "modified": "2018-08-17T21:26:57.955Z",
+    "1.0.1": "2018-08-14T09:05:35.516Z",
+    "1.0.2": "2018-08-14T09:12:55.599Z",
+    "1.0.3": "2018-08-14T21:34:23.975Z",
+    "1.0.4": "2018-08-15T02:15:24.759Z",
+    "1.0.5": "2018-08-16T02:28:15.385Z",
+    "1.0.6": "2018-08-17T21:26:54.199Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "A dictionary.",
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "_attachments": {},
+  "_etag": "W/\"5b773da1-3a7f\"",
+  "_lastModified": "Fri, 17 Aug 2018 21:26:57 GMT",
+  "version": "1.0.6",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node test.js"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-JtZLUQBsluCDKn8FiDweeIX4QfHhnvsAvrNpC1blfxy9ukpK7MH7/SKBVj66IAH9JHIQDIwnDbUmHS/SYOckFw==",
+    "shasum": "6c9eaa937b8492da584f11eb6ea138e9824caf8a",
+    "tarball": "https://registry.npmjs.org/@kingjs/dictionary/-/dictionary-1.0.6.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2350,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbdz2eCRA9TVsSAnZWagAANnMQAJO2h/VyQt7cVqwuRbCA\nB6zp+DdLQyKRGXae4wk0KtGhBLCmw/+CJIAGrwFhcHpp+GAHMGBrmTou0UIP\nzZQ7DjwEj9bdE+lbstkWolx+wnjgRXpqyD4FVbHmJ13PGqlvSCTXPl0/AhG8\nZkIxoIYo506sS6JV77g18EfPkKdq5oz7axuQ+8f3OMzINsOPvqSVYcCDg8cI\nZWyyfpA1SIULm802arlMiWXNE6EBNdF52ufLjnodsS6Tmuf7knkmZNVeM8Mn\n/hAAfQGuoUVdufCdbf9Q9V13XDbzRWIudfScWABcpXd7j8U9pFNmNYzIK26v\n7F7CGvwvOkxGKlul9EaUr/bNubMpULSGHtmXpZ381TUtPM5hAL5mYAzDOPSr\n/XjpYNZ+6Ba9b3xlQkSVKfqL/sXlJAx9TOrvW7FWcnwuWGcjxHuuDB9Vmq9d\nF0D9umYGIM6SBmEc3tLR6WXP/MF+FDj2c1gYar+iIDz0l0zq3XzMzfjPVosq\ntkaLcWZEqzk7ZOZgiaDWqDZb6ztZ2nk8KhOCdgRhXrMALLe02ZYXKtKwu67s\nw7OrcieMaekCTA0CA3A80n2ex4LaSUJjB2SBkIkRa++Rv5sor/4R/wtnLz0n\nTl0GakSjQD6QbcEz84NBogc20ByK0ZasBlO96Ufd4dV5UbUnGAGXDPC3x2ha\n9frT\r\n=t7My\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/dictionary_1.0.6_1534541213889_0.9782072743348229"
+  }
+}

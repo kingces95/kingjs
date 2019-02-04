@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/xxx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/xxx"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/git.get-dir": "^1.0.0",
+    "npm-api": "^0.4.12",
+    "shelljs": "^0.8.3"
+  }
+}

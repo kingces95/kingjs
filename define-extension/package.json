@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/define-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Defines a property on a target with a symbol name  derived from `package` and `version`.",
   "main": "index.js",
   "files": [

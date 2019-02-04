@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/define-extension",
+  "version": "1.0.1",
+  "description": "Defines a property on a target with a symbol name  derived from `package` and `version`.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "node .test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/define-extension"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.define-function": "^1.0.2"
+  }
+}

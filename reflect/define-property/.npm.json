@@ -1,0 +1,65 @@
+{
+  "_id": "@kingjs/reflect.define-property@1.0.2",
+  "_rev": "2-2c842da7664c75227962d2be25125d47",
+  "name": "@kingjs/reflect.define-property",
+  "dist-tags": {
+    "latest": "1.0.2"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2"
+  ],
+  "time": {
+    "created": "2019-02-02T03:27:18.647Z",
+    "1.0.0": "2019-02-02T03:27:18.862Z",
+    "modified": "2019-02-02T22:32:55.372Z",
+    "1.0.1": "2019-02-02T07:49:59.929Z",
+    "1.0.2": "2019-02-02T22:32:52.817Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Extends `Reflect.defineProperty` to allow richer descriptors which can include `callback`, `extends`, and `lazy` properties. And `lazy` can be modified by `writeOnce`, `argument`, and `static`.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/define-property"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"59f28c1f492222116e54f7b915875de6\"",
+  "_lastModified": "Sat, 02 Feb 2019 22:32:56 GMT",
+  "version": "1.0.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.lambdize": "^1.0.2",
+    "@kingjs/property-descriptor.make-lazy": "^1.0.3",
+    "@kingjs/property-descriptor.target-instance-of": "^1.0.3"
+  },
+  "devDependencies": {
+    "@kingjs/assert-theory": "^1.0.19"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-g+dk0JUDmWoch3FhxyqQYqXN4zsz6oTaUbf4NtM/Vld0fH34mf9IYBRmWffpUYJUaXS5LQW+TYpjEBLiFESCIA==",
+    "shasum": "cdc9f9e2618ab46362528805852860289099d12b",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.define-property/-/reflect.define-property-1.0.2.tgz",
+    "fileCount": 6,
+    "unpackedSize": 14436,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcVhqVCRA9TVsSAnZWagAAHJAP/iiDRFt4VdRnf+YszS3m\n2bNnlybtkvYNwOuwoOE+pyWkF1BeDUIpNsQefmn789l9KNogFEJBwW6N3O81\nVgDMmDCNui4g7OKBg2IC2HL3txhUxbUHMY43N+L3m6ptZyV6Of12OCAa76c/\neP+TOS0LnlW4LY48FPlFKKr+O9w+6hP3NQVsuc+keoktcXX7ZZj/LOX8mGUv\nejQC6yYyFaLAbcgtAexwu7UmE+wpLfOTwarHw2GfEbOt0qveJmWT1iVfoUwK\ngX8jhvVarM75Ps+RFORm3c9B4biSopNy5n9kSQPPGaFqn2AuQjSt5s2onTeM\nMLE0mrbFsu4ooV9aGUtEunnJv2TR6PA/jLB4fJVQ/0erfaTS4DaztK8ywp2N\nBXW4Hi7gKQhC9hiX6CS/i1+5VYx66mUgZbtX78B8JTjKFVjo/Vw9Fwcsxc+l\nUsmggxd9of9DwsOZ4YdFwHyaPOsirqF9bJXjDKdv1jTIqaY6ULN3ECbLgp2N\nCwmAsbuBYkkCuCUUb2UA1pju08VctXyhVLMmHt/m/Pp8OeKhnmf1RgX6IIfD\nh+kVXR9d8n95qpkg26UqQk4Sey9pEo8AqbwsFtnUQtg0hFjurJnaKwusIAWy\nGHisxppQyr5X1o670bzTmcA6TbR2NC0ffSGB47mjAkYM9QvxudO9cGzB+cRF\nwSfM\r\n=yBUa\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/reflect.define-property_1.0.2_1549146772656_0.30645694223782205"
+  },
+  "_hasShrinkwrap": false
+}

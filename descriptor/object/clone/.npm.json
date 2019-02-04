@@ -1,0 +1,59 @@
+{
+  "_id": "@kingjs/descriptor.object.clone@1.0.1",
+  "name": "@kingjs/descriptor.object.clone",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2018-11-11T06:15:56.434Z",
+    "1.0.1": "2018-11-11T06:15:56.682Z",
+    "modified": "2018-11-11T06:15:59.148Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Returns a mutable clone of a descriptor.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"fe27d1038c2dd8f7e653af23df018aa1\"",
+  "_lastModified": "Sun, 11 Nov 2018 06:16:00 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.object.writable-symbol": "^1.0.0",
+    "@kingjs/dictionary": "^1.0.6"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-0e7eepAEHdpw6r+lq+FfB6r19jU15FUmYiwc64iJqUN7JrxHdxIDSYEupxPrXZsL6b4FUHCPzQS3MVURdQmiFQ==",
+    "shasum": "f6024e00adfdc200823e3f02df4ec0ddd6a474fc",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.object.clone/-/descriptor.object.clone-1.0.1.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3026,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb58kdCRA9TVsSAnZWagAAoOkQAKEVsa/7Z2JH/0qsof1R\nXtN6Tq4//n4T+kamjRQWLS00RWLwUFu/RzTlF3qoO57k+zW71NQYW707znPi\nESHozF6hR0xuPPtdd8ispU2/TNQK26FAfFACuD1S9G2f5ySeNEdef7Zc7F9N\n+J+xFg+9lzfmV8MmGJFXhr54s+bvRxmQFU+ORnpT5LRdvsv7eunD4jyQJ/VC\ntr+Tk3Q1CMpJkHBzJM98o6NaMYUqcnap5/dX3NRujMt17Jlpw0xyAUB/Ns8L\nsBNzDdoiUrp+8roYM+I6SaDc1nZsVhtvg7lvaCt4sH6lzpnAr9Bsv6hsPzgq\nLjjic6+EufR/+2rM54hIWkwpT09o1E7YCXN0dMBMU0hHpkjKTJzBjdRMTT5E\nJ4pdmzx9t4iELsCyWNpK3aFPTesU0GDVTyP1bGK+EBLSEgD6TZRcmBKAdCOj\nMDkJL0YFx2m+KrtP9raK3FhjLazYTdl8CGAQ3H/4eJfSTBrM7K/0otncyO4J\n4wMlUtj2gsZDhHaJtTd/fE/BI3cYVSQMf2wUZGf91ZOXtxzC2khCPKcDm7tx\niLaxY4R4EVRWIayDWL1N+n92SBvoRlvuIpATSeYr2OZhOxVHWRplUChxLTQX\nr2iIvSCYI6w/ZAuEQnNI5DCB9aeb/FD/wqJJXCP1EDiWPijGO1XFiuXsNefF\n/6e9\r\n=SWzs\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.object.clone_1.0.1_1541916956529_0.4638111486356218"
+  },
+  "_hasShrinkwrap": false
+}

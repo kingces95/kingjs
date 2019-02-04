@@ -1,0 +1,70 @@
+{
+  "_id": "@kingjs/descriptor.filter@1.0.6",
+  "_rev": "5-832aaccf19bba9db1ae29edc914853c8",
+  "name": "@kingjs/descriptor.filter",
+  "dist-tags": {
+    "latest": "1.0.6"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6"
+  ],
+  "time": {
+    "created": "2018-09-13T01:18:44.689Z",
+    "1.0.0": "2018-09-13T01:18:44.874Z",
+    "modified": "2018-11-13T21:39:42.432Z",
+    "1.0.1": "2018-09-20T21:20:10.841Z",
+    "1.0.3": "2018-11-10T07:34:08.963Z",
+    "1.0.4": "2018-11-11T21:50:03.013Z",
+    "1.0.5": "2018-11-13T21:36:11.758Z",
+    "1.0.6": "2018-11-13T21:39:39.971Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Filters and renames properties.",
+  "homepage": "https://github.com/kingces95/kingjs#readme",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingces95/kingjs.git"
+  },
+  "author": "Chris King <kingces95@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/kingces95/kingjs/issues"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"76fb078ff5818e7a437b67cce7d4a200\"",
+  "_lastModified": "Tue, 13 Nov 2018 21:39:43 GMT",
+  "version": "1.0.6",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@kingjs/descriptor.object.epilog": "^1.0.2",
+    "@kingjs/descriptor.object.prolog": "^1.0.0"
+  },
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-6Ojw/p1a30v2uNuAecsT+9Q9Xkc2YaEf5G2jgqg9kze2zBqZzNH4RpNTe8KX3kYIcz2NDRzW43sxs3O/xovoQQ==",
+    "shasum": "28c72dd24f12d1a126d54e0eae1909f600307e39",
+    "tarball": "https://registry.npmjs.org/@kingjs/descriptor.filter/-/descriptor.filter-1.0.6.tgz",
+    "fileCount": 4,
+    "unpackedSize": 5027,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJb60ScCRA9TVsSAnZWagAAsCsP/i4ugySZ9NgRI1NK1NpC\nlC2H1FoJfvP3ToHJK0BPcQ+LECJVWuG/sup8+hbtdGYenUNtEYwNPg6ForC8\nu/hS+PITTfN+1frOCylOvvfPWi/+5aR6e+MdYZzJMlDR5V/VmzAHXbhxoOjt\nmXfH2X91vbBD6pKuhgPH5z1YdR8/w2DNiwjPNcxoqCb7fdJQTRFW6DL4VpkV\ngM2n8aq5RFkFZVj4oMBiGBXMZ58fKQr0JJjeibWEwf87wXT5JqXt8dDTfV+H\nbWPBiOvxfdESiE+PVkSGpEuvqgkJRgR8yzM6wXKj2tNeWZl2o1tvH0Asg+Es\nuUw9SHM9RIMTzVSlstPHmYBpJdW2uDZTpAbnfmgK31M+cLvSxSTXVSLdttyR\nYKNcXUz6gDrS2HOdrbLhauaulm9/eNYGML02+dHv6cjeUCd1JoZWRUoYZphG\nOhJmh7h+CMUXGKGoW4oaok65UFpcrRRTzzXuqArw+UQxUamDkE0tpXK+w15B\nCoQQ+eLXOOG67NgAn9vbz5ahsLLojsaQ/ZaTtvh7+lXALkQ7fhuvdQkIeZBN\nvwtokjW9RYW7BK2UWHuW7BJaok5fYrSbDvRkRQ/EaieYSSmMN2WBTIAEhTvP\nq2VDcAeftHlUcNDWLhJdNRktDS7XCqSnLjWuTmSbs86jt/KrKUytA5me9OaW\n8eBF\r\n=zOfU\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/descriptor.filter_1.0.6_1542145179821_0.41832541840966453"
+  },
+  "_hasShrinkwrap": false
+}

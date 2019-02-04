@@ -1,13 +1,14 @@
 {
   "name": "@kingjs/implement-interface",
-  "version": "1.0.2",
-  "description": "Like Object.DefineProperties but maps each name to a symbol using by an interface.",
+  "version": "1.0.3",
+  "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node test"
+    "test": "node .test",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,10 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/is": "^1.0.9",
-    "@kingjs/property-descriptor.define": "^1.0.2"
+    "@kingjs/reflect.define-accessor": "^1.0.1",
+    "@kingjs/reflect.define-function": "^1.0.1"
   },
   "devDependencies": {
-    "@kingjs/define-interface": "^1.0.13"
+    "@kingjs/define-interface": "^1.0.14"
   }
 }
