@@ -1,7 +1,7 @@
 # @[kingjs][@kingjs]/[create-package][ns0]
 Creates or updates fields of `package.json` that can be inferred from the surrounding environment.
 ## Usage
-Given a `package.json` at a relative path `create-package/example` like this:
+Given a `package.json` like this:
 ```js
 {
   "name": "",
@@ -35,7 +35,7 @@ $ cpk
 Produces a `package.json` like this:
 ```js
 {
-  "name": "@kingjs/create-package.example",
+  "name": "@kingjs/create-package..test",
   "version": "1.0.0",
   "description": "A description of the package.",
   "main": "index.js",
@@ -44,7 +44,7 @@ Produces a `package.json` like this:
   ],
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/create-package/example"
+    "url": "https://repository.kingjs.net/create-package/.test"
   },
   "license": "MIT",
   "dependencies": {}

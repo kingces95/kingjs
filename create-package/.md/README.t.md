@@ -1,13 +1,13 @@
 # @[kingjs][@kingjs]/${join('[${value}][ns${i}]', segments, '.')}
 ${description}
 ## Usage
-Given a `package.json` at a relative path `create-package/example` like this:
+Given a `package.json` like this:
 ```js
-${include('./example/package.t.json')}
+${include('./.test/package.t.json')}
 ```
 And a `index.js` like this:
 ```js
-${include('./example/index.js')}
+${include('./.test/index.js')}
 ```
 Running this:
 ```
@@ -15,7 +15,7 @@ $ cpk
 ```
 Produces a `package.json` like this:
 ```js
-${include('./example/package.json')}
+${include('./.test/package.json')}
 ``` 
 ## API
 ```ts

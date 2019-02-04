@@ -1,0 +1,58 @@
+{
+  "_id": "@kingjs/xxx@1.0.0",
+  "_rev": "2-5243c8d64604c7cfea73a78260755d0c",
+  "name": "@kingjs/xxx",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2018-08-16T02:27:36.419Z",
+    "1.0.1": "2018-08-16T02:27:36.792Z",
+    "modified": "2019-02-03T00:17:51.602Z",
+    "1.0.0": "2019-01-05T02:09:27.862Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "```js var assert = require('assert'); var xxx = require('@kingjs/xxx'); ``` ## API ```ts declare function xxx( ): any ``` ### Parameters ### Returns ## Remarks ## Install With [npm](https://npmjs.org/) installed, run ``` $ npm install @kingjs/xxx ``` ## L",
+  "keywords": [],
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/xxx"
+  },
+  "_etag": "W/\"43d8436bc57e985c6a495a5e9bc32f59\"",
+  "_lastModified": "Sun, 03 Feb 2019 00:17:52 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "dependencies": {
+    "@kingjs/odometer": "^1.0.7",
+    "@kingjs/require-packages": "^1.0.2"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "8.11.3",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-I77wsmRONwu1wp0JB0RjsO1fvwr1WlCTjS4qDoC/yILlrWxN9RKeFtWj+Z6NMAPpFF7LpMyOWzrMAQgAZsSqGA==",
+    "shasum": "f4b6959e394a7f8fb1453d369f55e663c7b77470",
+    "tarball": "https://registry.npmjs.org/@kingjs/xxx/-/xxx-1.0.0.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2392,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcMBHYCRA9TVsSAnZWagAAUmEP/3zaLLUC8s+1EOKnXVrr\nr5h5HM+m6V7S+xSzYPsGqIU+7GDT80SW3eKqGSqHcGIy/+XULP3Yn0TXsW3z\nSsbaL8z8aOBXemUIq5e/1TpA8AoddwAfAtkmJvP4+sldvvTEOXZzVs3jKY2T\nCDe5qsR/JLv/FmGQGOLs1O+VFYjoZXddvJYLhanzF1Iorl0b2SQEkFV/GD8I\nqfHEeyfHT0l11ONjz6Tx31SGoP0vtrraSOSYJeehHRwZcutmt/EQwZ3j0Yic\nFgRixcYi6Xq5Q+Qq9hk9fS5w+FB0vf9wg7VGZfUtvyo2wO1JRmtNXgKz3n+6\n86M55jxGIOp2M6QhCuh2ziUPc/KPMNEET1E/rpn/1c7ypsCGPGZCBEixAkee\npaf2GyGjwpKwapFIOq+kMpFZKvJC92FbFl/RVMcto9Vo04Ju/2eixQagCAZ8\n4gJjEoxnueYPItYs+maMimZkX852Bi5aiuN843Du2+RvRU9xmm51W55Fh0pg\nOB87yik7WQPjhuUlHEGmLMZfRM9iSOtfUZnXt+AIoMPtcV4Xj+u+oe8Yt6wW\nq9jFRYh86I6PX0zh0yiXPFMPSCZcRJMSTsu8marvZYQH0J0MUaHv8YXuJvd9\nErDAq/OQ0CnBqX3u1NPLhVM98EeMIkjWS4RZUp3OtIn1ytUQAFaCg3smnTNP\nLgOG\r\n=KwZR\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/xxx_1.0.0_1546654167704_0.09819923748271564"
+  },
+  "_hasShrinkwrap": false,
+  "deprecated": "n/a"
+}

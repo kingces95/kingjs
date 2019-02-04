@@ -8,6 +8,8 @@ var {
   shelljs 
 } = require('./dependencies');
 
+var cnj = require('./create-npm-json');
+
 var DotDir = /(^|\/)\.\w/;
 var Line = /\r?\n/;
 var PackageJson = 'package.json';
@@ -35,31 +37,33 @@ function packages() {
     return { path, name, version, dependencies };
   });
 
-  // fetch remote package.json into { path, name, version, dependencies }
+  // fetch remote package.json and save as .npm.json
   for (var x of local) {
-    var { name, path } = x;
+    var { path } = x;
 
-    var npmJsonPath = Path.join(Path.dirname(path), NpmJson);
+    var dir = Path.dirname(path);
+    var npmJsonPath = Path.join(dir, NpmJson);
     if (fs.existsSync(npmJsonPath))
       continue;
 
     console.log(path);
 
-    var showExec = shelljs.exec(
-      `npm show ${name} --json`, 
-      { silent:true }
-    );
-
-    if (showExec.code) {
-      console.log(showExec.stderr);
-      continue;
-    }
-
-    var npmJson = JSON.parse(showExec);
-    fs.writeFileSync(npmJsonPath, JSON.stringify(npmJson, null, 2));
+    pushd(dir);
+    cnj();
+    popd();
   }
 
   return local;
+}
+
+var dirStack = [];
+function pushd(dir) {
+  var cwd = process.cwd();
+  dirStack.push(cwd);
+  process.chdir(dir);
+}
+function popd() {
+  process.chdir(dirStack.pop());
 }
 
 module.exports = packages;
