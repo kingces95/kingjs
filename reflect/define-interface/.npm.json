@@ -1,0 +1,57 @@
+{
+  "_id": "@kingjs/reflect.define-interface@1.0.1",
+  "_rev": "1-02c2015b8257be353eeecda0ba3d6ac8",
+  "name": "@kingjs/reflect.define-interface",
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1"
+  ],
+  "time": {
+    "created": "2019-02-05T08:01:22.017Z",
+    "1.0.0": "2019-02-05T08:01:22.229Z",
+    "modified": "2019-02-05T08:04:45.521Z",
+    "1.0.1": "2019-02-05T08:04:43.059Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Defines or aliases a group of global symbols.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/define-interface"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"122a6b21a8db2777510d8b8e34e38953\"",
+  "_lastModified": "Tue, 05 Feb 2019 08:04:46 GMT",
+  "version": "1.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@kingjs/reflect.built-in-symbols": "^1.0.0"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-Qf0LvXbgrpuNFZTNEGBEkaHsXjtfiLGT81ipVB9M0a06ie2K5kgA9fkcRiAGi2vkund7c/CdGo+aPB6PN1n1Ig==",
+    "shasum": "4d6c4585796657a959593651ed813b6a57e590ec",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.define-interface/-/reflect.define-interface-1.0.1.tgz",
+    "fileCount": 7,
+    "unpackedSize": 8430,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWUObCRA9TVsSAnZWagAA1ewP/1TGwTOVXIM8odiSLwE5\nwY5yL+c20J6uZSaGWPwOX8ZDCemPqdHhT0E84gti+boTbEgvA/J8AnvMJ4bt\nA+OECa7Cy89V4shLQTMm47necKKGKktB/LNpIHvPanKMnD2Wgg0rk6hkRtlY\nZMZ8Us//b9NZm/6trHojt9QJx47d7Xfl0HwUQ0b/d4zSUtMBa3O5vJPJdqUO\ni4sld6XwDqTjsDLiuF8kw+U+s+gHt37hhLaZUdMmtWG0pHHN1hMD6WLyj2QD\nU2fuMxR6AX17mvfX6inqpA/SBUzks5dlZVwvLHjvXythOXVV2DmmCCtSkXAq\n4VPm+dollob2o/lzfJtkI7t/ioETrDxh3p5nWN6TYv5n88SgvNSKpPd3EDMy\ncvKbTz9FPxWImZ2DcueGcRKKsVZvmjKWJFC+vLAMGVTAIWyWVGBClBvmsyXX\nlZ5s1GiipaVuhWN5SFzGpQrZzjRzNCsihskSX+SRYLGhnad41VRxuNFk8M6w\nrRHrnsYuE1wz+L2IQA7WLXiE2GECxAd9gUJGeH58ePwZ1qKv4mPLVEb5laTy\nqjA+JADdGsLJ3v2adQxeadX3XdeZxUNq0GvJFtjbz28eS97tEco9mluWEQ3Y\nNbMM5avCNb2j3Z43oi6vrrZ6YKRqwlINI1QkS7HyWNfgmZaGteCsMw9y08r5\ndAXx\r\n=kRVE\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/reflect.define-interface_1.0.1_1549353882973_0.2248674074097059"
+  },
+  "_hasShrinkwrap": false
+}

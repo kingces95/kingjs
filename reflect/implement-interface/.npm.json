@@ -1,0 +1,59 @@
+{
+  "_id": "@kingjs/reflect.implement-interface@1.0.0",
+  "name": "@kingjs/reflect.implement-interface",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-02-05T08:06:21.916Z",
+    "1.0.0": "2019-02-05T08:06:22.100Z",
+    "modified": "2019-02-05T08:06:24.629Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/implement-interface"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"7aa797e750f543aa671ceef7a9ae2c30\"",
+  "_lastModified": "Tue, 05 Feb 2019 08:06:25 GMT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.define-accessor": "^1.0.1",
+    "@kingjs/reflect.define-function": "^1.0.1"
+  },
+  "devDependencies": {
+    "@kingjs/reflect.define-interface": "^1.0.1"
+  },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-AQ7Zc17ZpNsK1RxUr+0PKSFFKQCwSQXFO05pRz/nbKdqyx3E70sNbT24iG1Fj2WjCRN6S6zS6CbYg1tR+EdE1g==",
+    "shasum": "a32ed365fa0b739419a5612c040e88984307cb33",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.implement-interface/-/reflect.implement-interface-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 10113,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWUP+CRA9TVsSAnZWagAA4tUP/2inRhphunoTFJTqQs8+\nQhijmYwG3GKxUrCp77qwf0/wdMzivJfb9+4DWaafub5zvT1teyix5wml5nXf\n0wPo0zkX6quectmh4SfIsTxarOOdJcavbsNvyGY1X9xcYOi5zlhk/HvVs/oB\nwuGK5HVceMtZjLYifVPvuJtxHQTPUrGxAv2HO5ua5QkIaZrf74BmDOO73Y/a\niQ5phRRQ9mLcgNtOj3jd5X6fb/SuHGS+T5+l+0F+lae0B0oXxzKodCUHyIwb\nq81ASkmW0SF4OEQ3jmSdT2HGNCCV78yU1KN9ZV4S7cV+44jC3UzcGC6Hee+3\n+aOgbQII4HXE7Z1debi372cU0PwD+2OhO+viWnmaFiKXrzPraAPGEcLBdcqT\neTvMXRnEt3Hd2fp8t1GAWXmPgvOY9w3b8mPUf3oTSndxxXvHH5wL1Nm0RfSJ\nkXSr9P7/cebuwU/o10G1Wk3fumcKvzbjMvy3hDKzbtNgYpq63f37p19UlvVJ\nCFzcP4ZPbuMWebiNOc3CCzYofj/HJFoPxGjEwRmDHBplUSJADuxrPsNeUTvP\nNP9RRKScYcsUlnop5N44RzNI87sEXqFRcDbg3pU+a/Aye5tgkUp4BvfQIa7e\nZ4EVJ7ffwc43P2mtOVJzZkJtic/VY1jtqwg7xKKDb4d4lYu2DSBMTc4Oe9+W\nDpaa\r\n=fDFv\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/reflect.implement-interface_1.0.0_1549353981996_0.8539062082344591"
+  },
+  "_hasShrinkwrap": false
+}
