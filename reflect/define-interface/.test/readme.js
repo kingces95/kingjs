@@ -1,5 +1,3 @@
-'use strict';
-
 var assert = require('assert');
 var defineInterface = require('..');
 
@@ -48,7 +46,7 @@ function readMe() {
   assert(Symbol.keyFor(IFoo[Id]) == '@kingjs/IFoo');
   assert(Symbol.keyFor(IBar[Id]) == 'IBar');
 
-  assert(IFoo.name == 'IFoo');
+  assert(IFoo.name == '@kingjs/IFoo');
   assert(IBar.name == 'IBar');
 
   assert(IInterface[Id] in IFoo);

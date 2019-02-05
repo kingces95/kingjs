@@ -3,7 +3,7 @@ var hasInstance = require('./has-instance');
 
 var {
   ['@kingjs']: {
-    builtInSymbols
+    reflect: { builtInSymbols }
   },
 } = require('./dependencies');
 

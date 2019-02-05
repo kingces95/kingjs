@@ -1,6 +1,10 @@
-//'use strict';
 var assert = require('assert');
-var builtInSymbols = require('@kingjs/built-in-symbols');
+
+var { 
+  ['@kingjs']: {
+    reflect: { builtInSymbols }
+  }
+} = require('./dependencies');
 
 var initialize = require('./initialize');
 var { IInterface } = initialize;

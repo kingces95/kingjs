@@ -1,4 +1,8 @@
-'use strict';
+
+/**
+ * @description A mapping from symbol to name for 
+ * each `Symbol` property whose value is a symbol.
+ */
 var builtInSymbols = { };
 
 for (var name of Object.getOwnPropertyNames(Symbol)) {

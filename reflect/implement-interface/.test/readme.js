@@ -1,10 +1,6 @@
-# @[kingjs][@kingjs]/[implement-interface][ns0]
-Extends `kingjs/reflect.define-property` to map names to symbols according to iface.
-## Usage
-```js
 var assert = require('assert')
-var defineInterface = require('@kingjs/define-interface');
-var implementInterface = require('@kingjs/implement-interface');
+var defineInterface = require('@kingjs/reflect.define-interface');
+var implementInterface = require('..');
 
 var InterfaceId = Symbol.for('@kingjs/IInterface.id');
 
@@ -164,41 +160,3 @@ assert.throws(() =>
 implementInterface(instance, IA, {
   methods: { foo: () => null }
 });
-
-```
-
-## API
-```ts
-implementInterface(target, iface, descriptors)
-```
-
-### Parameters
-- `target`: The target on which the interface will be declared.
-- `iface`: A map for names to symbols used to rename properties declared in the descriptor.
-- `descriptors`: A descriptor of methods and accessors that implement the interface.
-- `descriptors.accessors`: Descriptors that implement the interfaces' accessors.
-- `descriptors.methods`: Descriptors that implement the interfaces' methods.
-### Returns
-Returns target.
-
-
-## Install
-With [npm](https://npmjs.org/) installed, run
-```
-$ npm install @kingjs/implement-interface
-```
-## Dependencies
-|Package|Version|
-|---|---|
-|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
-|[`@kingjs/reflect.define-accessor`](https://www.npmjs.com/package/@kingjs/reflect.define-accessor)|`^1.0.1`|
-|[`@kingjs/reflect.define-function`](https://www.npmjs.com/package/@kingjs/reflect.define-function)|`^1.0.1`|
-## Source
-https://repository.kingjs.net/implement-interface
-## License
-MIT
-
-![Analytics](https://analytics.kingjs.net/implement-interface)
-
-[@kingjs]: https://www.npmjs.com/package/kingjs
-[ns0]: https://www.npmjs.com/package/@kingjs/implement-interface
