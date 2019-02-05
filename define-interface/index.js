@@ -27,10 +27,6 @@ function defineInterface(target, name, descriptor) {
 
   // define interface
   var interface = function() { assert(false, ActivationError); };
-  Object.defineProperty(interface, 'name', {
-    enumerable: true,
-    value: name
-  });
 
   // initialize interface
   var symbolName = initialize.call(interface, descriptor.id);

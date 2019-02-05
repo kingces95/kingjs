@@ -1,8 +1,7 @@
-'use strict';
-
-var is = require('@kingjs/is');
-var objectEx = require('@kingjs/object-ex');
-var assert = require('@kingjs/assert');
+var assert = require('assert');
+var { 
+  ['@kingjs']: { is } 
+} = require('./dependencies');
 
 function createConstructor(name, base, body) {
   assert(is.string(name));
@@ -18,14 +17,23 @@ function createConstructor(name, base, body) {
       body.apply(this, arguments);
   };
   
-  objectEx.defineConstField(constructor, 'name', name);
+  Object.defineProperty(constructor, 'name', {
+    enumerable: true,
+    value: name
+  });
 
-  if (body && !body.name)
-    objectEx.defineConstField(body, 'name', `${name} (ctor)`);
+  if (body && !body.name) {
+    Object.defineProperty(body, 'name', {
+      enumerable: true,
+      value: `${name} (ctor)` 
+    });
+  }
 
   if (base) {
     constructor.prototype = Object.create(base.prototype);
-    objectEx.defineHiddenConstField(constructor.prototype, 'constructor', constructor);
+    Object.defineProperty(constructor.prototype, 'constructor', {
+      value: constructor
+    });
   }
   
   return constructor;

@@ -1,11 +1,9 @@
-'use strict';
+var assert = require('assert');
 
-var create = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var write = testRequire('@kingjs/descriptor.object.write');
-var is = testRequire('@kingjs/is');
+var create = require('..');
+var assertTheory = require('@kingjs/assert-theory');
+var write = require('@kingjs/descriptor.object.write');
+var is = require('@kingjs/is');
 
 assertTheory(function reduceWrap(test, id) {
   var result = create({

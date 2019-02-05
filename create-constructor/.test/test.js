@@ -1,8 +1,7 @@
 'use strict';
 
-var createConstructor = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+var assert = require('assert');
+var createConstructor = require('..');
 
 function readMe() {
 

@@ -1,17 +1,14 @@
-'use strict';
+var assert = require('assert');
 
-var create = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var write = testRequire('@kingjs/descriptor.write');
+var create = require('..');
+var write = require('@kingjs/descriptor.write');
 
 function badWrap() {
   var apple = {
     name: 'apple',
   };
 
-  assertThrows(() => create(apple));
+  assert.throws(() => create(apple));
 }
 badWrap();
 

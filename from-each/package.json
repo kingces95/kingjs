@@ -1,13 +1,13 @@
 {
   "name": "@kingjs/from-each",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Generates a sequence of arrays or descriptors composed of a single element each from a set of arrays.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node test"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,6 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/odometer": "^1.0.7",
-    "@kingjs/require-packages": "^1.0.2"
+    "@kingjs/odometer": "^1.0.7"
   }
 }

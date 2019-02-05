@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/define-extension",
+  "name": "@kingjs/reflect.export-extension",
   "version": "1.0.1",
   "description": "Defines a property on a target with a symbol name  derived from `package` and `version`.",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/define-extension"
+    "url": "https://repository.kingjs.net/reflect/export-extension"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",

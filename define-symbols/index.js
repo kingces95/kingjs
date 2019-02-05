@@ -1,8 +1,8 @@
 var assert = require('assert');
 
 var {
-  '@kingjs/define-interface': defineInterface,
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { defineInterface },
+} = require('./dependencies');
 
 var ScopePrefix = '@';
 var ScopeDelimiter = '/';
@@ -31,10 +31,12 @@ function defineSymbols(target, name, descriptor) {
           target[key] = value;
 
         else if (typeof value == 'object') {
+          var members = walk({ }, value.members);
+          var extnds = walk([ ], value.extends);
           target[key] = defineInterface(symbolTable, key, {
             id: Symbol.for(symbolName),
-            members: walk({ }, value.members),
-            extends: walk([ ], value.extends)
+            members,
+            extends: extnds,
           });
         }
 

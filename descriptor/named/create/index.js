@@ -5,12 +5,13 @@ var map = require('@kingjs/descriptor.map');
 var filter = require('@kingjs/descriptor.filter');
 
 var emptyObject = require('@kingjs/empty-object');
-var takeRight = require('@kingjs/func.return-arg-1');
 var nestedMerge = require('@kingjs/descriptor.nested.merge');
 var nestedArrayReduce = require('@kingjs/descriptor.nested.array.reduce');
 
 var dollarSign = '$';
 var undef = undefined;
+
+var takeRight = (x, y) => y;
 
 function composeRight(g, f) {
   return function(x) { return g(f(x)); }

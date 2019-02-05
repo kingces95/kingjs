@@ -1,60 +1,57 @@
 {
-  "_id": "@kingjs/create-constructor@1.0.0",
+  "_id": "@kingjs/create-constructor@1.0.1",
+  "_rev": "1-2ab322662b8bd081dbe461f9de180d64",
   "name": "@kingjs/create-constructor",
   "dist-tags": {
-    "latest": "1.0.0"
+    "latest": "1.0.1"
   },
   "versions": [
-    "1.0.0"
+    "1.0.0",
+    "1.0.1"
   ],
   "time": {
     "created": "2018-12-29T02:22:00.044Z",
     "1.0.0": "2018-12-29T02:22:00.385Z",
-    "modified": "2018-12-29T02:22:02.944Z"
+    "modified": "2019-02-04T22:47:42.014Z",
+    "1.0.1": "2019-02-04T22:47:39.575Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
   ],
   "description": "Create a constructor from a base function and a body function.",
-  "homepage": "https://github.com/kingces95/kingjs#readme",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/create-constructor"
   },
   "author": "Chris King <kingces95@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/kingces95/kingjs/issues"
-  },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"8850c0a02f3f7e4cdb166348e6d9eea0\"",
-  "_lastModified": "Sat, 29 Dec 2018 02:22:04 GMT",
-  "version": "1.0.0",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
   "dependencies": {
-    "@kingjs/assert": "^1.0.11",
-    "@kingjs/is": "^1.0.6",
-    "@kingjs/object-ex": "^1.0.29"
+    "@kingjs/is": "^1.0.6"
   },
-  "_npmVersion": "6.4.1",
-  "_nodeVersion": "8.11.3",
-  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
   "dist": {
-    "integrity": "sha512-e2frHYvsm4hQAoxmDuYCdDUqL1vqrNoytQtC2Tv4yAfd770I9b3tUgiG99xndr0Bz8lmq7rclVvS6QnMusJszQ==",
-    "shasum": "8983f7f1c563d0bf95049da60d0e02ee89b21c88",
-    "tarball": "https://registry.npmjs.org/@kingjs/create-constructor/-/create-constructor-1.0.0.tgz",
+    "integrity": "sha512-LOMfLcdu2TRN92s8qJXssM12zF77dIyxUmLzG+tBL+sqL0R7jokAQ8/CCA67p4h7FR6hsqj2SgF+swezaGQXAw==",
+    "shasum": "e0c0721fd830da5dd83d62aebf4c3d6329d9bb81",
+    "tarball": "https://registry.npmjs.org/@kingjs/create-constructor/-/create-constructor-1.0.1.tgz",
     "fileCount": 4,
-    "unpackedSize": 3345,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcJtpICRA9TVsSAnZWagAAiLwP/AuE54VkZiHzdscdq3eL\ngIKrGVxkFU2lPMHVg8vuQ1wfNm62QsoIyH9yraB9KQtomD6sjkZamTn7KAj2\nZpxMBeeOyDWMQrHtIQ2meyum10InRjElUES540YaHFDsitjKuIXRnCkQUgo8\nH0yKBqfrYIwVh+zFHiC9et99dpfwUsNCW1nvbUlcB9U0/qb7shB+qooVzF4j\nBzrp2/IvFoTAo5BSHnE7twSTQtXBlQnYg7PLdQZF+dyvUyQSWXSzvnBOeDiR\nvwISX2oR/Q7LfZG3fWt5Q7mGV6fjL9REjxvzzwG1DetfH8CBpZM7RtX+ZPvq\nF6EWL6d26ir+jV93yxJcSrr5I5WiiUwsZ+zsxul3wyI0oMzfQl7ouu3UBKE0\naxs0e74x1MxuuwWOhgA6gv0G+C+dxGMjlwSFhbjdV2lpItavqlv/wTTQLpzH\n/B94DUIjVpqGqdxUD4Sti2GtffrIWUtn/8G7PnuEOFmo5R6P62gQvb5/WjES\ncbYC9LrXJn8tNCzabctd30DotXDsP3j0ZVUrTKRova4IIpGBq9+K8X/90b7D\nbnXq6ta/gBWkkMgMZ+skputHxDbxCFVqZVt7sz/uIgO7lfXdTF9DAKFOGwVP\nCmOyzG6GI/tHoKn/iXInQGIB43yGxaPlL8BgUhXVDjddHew+Kws1P4s7Hfxz\nWCii\r\n=uwPs\r\n-----END PGP SIGNATURE-----\r\n"
+    "unpackedSize": 3340,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWMEMCRA9TVsSAnZWagAAU/8P/0dxkGHYFkxfpFSb8YJG\n6+2Hk1n5zR03yaKrgd5IUmLPQGqtCHGKCHs5uOwrPJB51nLLCnziP32uxyRe\nY7ILFyAqzZg2GXLO0cXGRHE+98IdTN1844S6iHnDqQ+a8TC590aJtrybDouv\n2r9bE2ehUp6VmTrJNPHaalE7ys0Z3igeZu6R4wjhaS99/2LXT6qrzXeES+V4\nyaRkb27ZZu8TsOXq3DcdGLnJEEySUdzf9qFztqy2JFEtjy1VBrcxIdPB7GTE\nFCH7x5NAA3BJ5m7G4+7Y5dIehIZvWoXuPSHqJ2yreUMZMtsVljj8BGPh5J5l\nl64jP+GPO0l23ChANIgMJh5BA5D7aU/6/kKWX1gNQYD+EiR/VhOOsl17OScl\ny+DMTZJWT3yX6n55ruWp/pdGzTY5SvShFtbuj7a0Pdhi16A3RytNspU/DChv\nxo8ZFm07D0RSatUR46xKP8JaXIiEmcOYOHv4wULMPiIYb/HWsWSWFPFUSJv4\nWH63hkM7n8vy+uZO3pea6ITUBTQETUppeL2WxtomiZqhAvofJ3vymo9NPv6Q\nS4HlHKhHfniHn2TsSsNR8k7T5Ghq4wy+y8I3qTWHwD8K30Jh7kt/0Lfb8QGY\nLWKHirjGDOb7SZLxQqMqkxcubRTohrUVBymwHRqU+lVFRcqyPgiKYh8yGLXn\nvP6H\r\n=lpk6\r\n-----END PGP SIGNATURE-----\r\n"
   },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/create-constructor_1.0.0_1546050120157_0.19844028922951185"
+    "tmp": "tmp/create-constructor_1.0.1_1549320459458_0.31401943762256734"
   },
   "_hasShrinkwrap": false
 }

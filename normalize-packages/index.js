@@ -1,9 +1,11 @@
+var assert = require('assert');
 var Path = require('path');
 var fs = require('fs');
 
 var { 
   ['@kingjs']: {
-    git: { getDir }
+    git: { getDir },
+    poset: { forEach }
   },
   shelljs 
 } = require('./dependencies');
@@ -14,6 +16,24 @@ var DotDir = /(^|\/)\.\w/;
 var Line = /\r?\n/;
 var PackageJson = 'package.json';
 var NpmJson = '.npm.json';
+var EmptyObject = { };
+var Scope = '@kingjs';
+
+function createPoset(paths) {
+  var local = {};
+  var poset = {};
+  for (var path of paths) {
+    var { name, version, dependencies } = JSON.parse(fs.readFileSync(path));
+    var x = { name, version, path, dependencies };
+    
+    // trap for duplicate names
+    assert(x.name in poset == false);
+    local[x.name] = x;
+    poset[x.name] = Object.keys(x.dependencies || EmptyObject);
+  }
+
+  return { local, poset };
+}
 
 function packages() {
   var gitDir = getDir();
@@ -32,26 +52,38 @@ function packages() {
   var paths = files.filter(x => Path.basename(x) == PackageJson && !DotDir.test(x));
 
   // parse local package.json into { path, name, version, dependencies }
-  var local = paths.map(function(path) { 
-    var { name, version, dependencies } = JSON.parse(fs.readFileSync(path));
-    return { path, name, version, dependencies };
-  });
+  var { local, poset } = createPoset(paths);
 
   // fetch remote package.json and save as .npm.json
-  for (var x of local) {
+  forEach.call(poset, function(vertex, stack) {
+    if (vertex in local == false) {
+      if (!vertex.startsWith(Scope))
+        return;
+      console.log(`Missing dependency: ${stack.join(' > ')}`);
+      return;
+    }
+
+    var x = local[vertex];
     var { path } = x;
 
     var dir = Path.dirname(path);
     var npmJsonPath = Path.join(dir, NpmJson);
-    if (fs.existsSync(npmJsonPath))
-      continue;
+    if (!fs.existsSync(npmJsonPath)) {
+      console.log(`Generating .npm.json for: ${path}`);
 
-    console.log(path);
-
-    pushd(dir);
-    cnj();
-    popd();
-  }
+      pushd(dir);
+      cnj();
+      popd();
+      if (!fs.existsSync(npmJsonPath))
+        return;
+    }
+    
+    var { name, version, dependencies } = JSON.parse(fs.readFileSync(npmJsonPath));
+    var y = { name, version, path, dependencies };
+    try { assert.deepEqual(x, y); } catch(e) {
+      console.log(e);
+    }
+  });
 
   return local;
 }

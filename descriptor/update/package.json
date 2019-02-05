@@ -1,13 +1,13 @@
 {
   "name": "@kingjs/descriptor.update",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Updates values of a descriptor using a callback.",
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,10 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/descriptor.nested.update": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kingjs/assert-theory": "^1.0.20",
+    "@kingjs/descriptor.object.clone": "^1.0.1",
+    "@kingjs/descriptor.object.is-frozen": "^1.0.0"
   }
 }

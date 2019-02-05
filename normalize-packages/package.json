@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/xxx",
+  "name": "@kingjs/normalize-packages",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,12 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/xxx"
+    "url": "https://repository.kingjs.net/normalize-packages"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/git.get-dir": "^1.0.0",
+    "@kingjs/poset.for-each": "^1.0.14",
     "npm-api": "^0.4.12",
     "shelljs": "^0.8.3"
   }

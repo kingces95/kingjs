@@ -1,14 +1,12 @@
 {
   "name": "@kingjs/define-symbols",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "files": [
     "*.js"
   ],
-  "scripts": {
-    "test": "node test"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://repository.kingjs.net/define-symbols"
@@ -16,11 +14,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-interface": "^1.0.8",
-    "@kingjs/require-packages": "^1.0.2"
+    "@kingjs/define-interface": "^1.0.8"
   },
   "devDependencies": {
-    "@kingjs/assert-theory": "^1.0.16",
-    "@kingjs/is": "^1.0.6"
+    "@kingjs/assert-theory": "^1.0.20",
+    "@kingjs/is": "^1.0.9"
   }
 }

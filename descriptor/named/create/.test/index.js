@@ -1,8 +1,5 @@
-'use strict';
-
-var create = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+var assert = require('assert');
+var create = require('..');
 
 function readMe() {
   var result = create({
@@ -19,6 +16,6 @@ function readMe() {
 }
 readMe();
 
-require('./test-singleton');
-require('./test-reduce');
-require('./test-nested');
+require('./singleton');
+require('./reduce');
+require('./nested');

@@ -1,11 +1,8 @@
-'use strict';
+var assert = require('assert');
 
-var update = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
-var clone = testRequire('@kingjs/descriptor.object.clone');
+var update = require('..');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
+var clone = require('@kingjs/descriptor.object.clone');
 
 function readMe() {
   function invoke(value, key) {
@@ -27,7 +24,7 @@ readMe();
 function precondition() {
   var thawed = clone.call({ });
   assert(!isFrozen.call(thawed));
-  assertThrows(() => update.call(thawed));
+  assert.throws(() => update.call(thawed));
 }
 precondition();
 

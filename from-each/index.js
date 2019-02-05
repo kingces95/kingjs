@@ -2,8 +2,8 @@
 var assert = require('assert');
 
 var {
-  '@kingjs/odometer': odometer
-} = require('@kingjs/require-packages').call(module);
+  ['@kingjs']: { odometer }
+} = require('./dependencies');
 
 function* fromEach(namedArrays) {
   var species = typeof namedArrays == 'array' ? Array : Object;

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/descriptor.named.create",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Returns a new descriptor family whose descriptors have been transformed by a callback.",
   "main": "index.js",
   "files": [
@@ -8,7 +8,7 @@
     "js/*"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
     "@kingjs/descriptor.nested.array.reduce": "^1.0.7",
     "@kingjs/descriptor.nested.merge": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
-    "@kingjs/func": "^1.0.0",
     "@kingjs/is": "^1.0.6"
+  },
+  "devDependencies": {
+    "@kingjs/assert-theory": "^1.0.20"
   }
 }

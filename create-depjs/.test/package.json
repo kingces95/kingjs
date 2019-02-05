@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/tools.create-dependencies-js",
+  "name": "@kingjs/create-dependencies-js",
   "version": "1.0.0",
   "dependencies": {
     "@kingjs/camel-case.join": "^1.0.0",

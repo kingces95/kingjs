@@ -21,6 +21,12 @@ function initialize(id) {
   var name = Symbol.keyFor(id);
   assert(name || id in builtInSymbols)
 
+  // interface name is the keyFor it's symbolic id
+  Object.defineProperty(this, 'name', {
+    enumerable: true,
+    value: name
+  });
+
   // remove prototype (because it's never activated)
   this.prototype = null;
 
