@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/property-descriptor.rename",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Renames functions found in a descriptor.",
   "main": "index.js",
   "files": [
@@ -19,6 +19,6 @@
   "dependencies": {
     "@kingjs/function-ex.rename": "^1.0.0",
     "@kingjs/is": "^1.0.9",
-    "@kingjs/string.expand": "^1.0.0"
+    "@kingjs/string-ex.expand": "^1.0.0"
   }
 }

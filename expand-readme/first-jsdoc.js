@@ -130,7 +130,8 @@ function parse(path) {
     // join remarks
     result.remarks = result.remarks.join(NewLine);
 
-    result.api = createApi(result.parameters, node.name.text);
+    if (node.name)
+      result.api = createApi(result.parameters, node.name.text);
     return;
   }
 }

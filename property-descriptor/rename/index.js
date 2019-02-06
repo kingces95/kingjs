@@ -1,7 +1,7 @@
 var {
   ['@kingjs']: {
     is,
-    string: { expand },
+    stringEx: { expand: Expand },
     functionEx: { rename: Rename }
   }
 } = require('./dependencies');
@@ -36,7 +36,7 @@ function rename(template) {
 
 function defineName(template) {
   var name = this.name;
-  name = expand.call(template, { name });
+  name = template[Expand]({ name });
   this[Rename](name);
 }
 

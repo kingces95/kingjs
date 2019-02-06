@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/i-interface",
+  "version": "1.0.0",
+  "description": "IInterface is implemented by functions that are interfaces and has a single member `Id` which returns a symbol identifying the interface.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-interface"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.define-interface": "^1.0.1"
+  }
+}

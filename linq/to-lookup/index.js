@@ -1,7 +1,10 @@
 'use strict';
 
-var makeEnumerable = require('@kingjs/array.make-enumerable');
-var Dictionary = require('@kingjs/dictionary');
+var {
+  ['@kingjs']: {
+    dictionary: Dictionary
+  } 
+} = require('./dependencies');
 
 function toLookup(keySelector, valueSelector) {       
   var lookup = new Dictionary();
@@ -17,7 +20,7 @@ function toLookup(keySelector, valueSelector) {
     var key = keySelector(current);
     var values = lookup[key];
     if (!values) {
-      var values = makeEnumerable.call([]);
+      var values = [];
       lookup[key] = values;
       values.key = key;
     }

@@ -22,6 +22,7 @@ function defineInterface(target, name, descriptor) {
     descriptor = Empty;
 
   var {
+    id,
     members,
     extends: extensions,
     enumerable,
@@ -33,7 +34,7 @@ function defineInterface(target, name, descriptor) {
   var interface = function() { assert(false, ActivationError); };
 
   // initialize interface
-  var symbolName = initialize.call(interface, descriptor.id);
+  var symbolName = initialize.call(interface, id);
 
   // define members
   for (var member in members) {
@@ -60,7 +61,6 @@ function defineInterface(target, name, descriptor) {
   }
 
   // inherit extensions
-  var extensions = descriptor.extends;
   if (extensions) {
 
     for (var extension of extensions) {

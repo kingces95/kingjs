@@ -1,0 +1,19 @@
+{
+  "name": "@kingjs/assert-shimmed",
+  "version": "1.0.0",
+  "description": "Assert that `kingjs` has been required by the application which means that registered symbols like `@kingjs/IEnumerable.getEnumerator` will have been set on builtin objects like `string` and `array`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/assert-shimmed"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {}
+}

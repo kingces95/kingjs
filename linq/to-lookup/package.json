@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.to-lookup",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Creates a dictionary from a sequence where values are groups of elements keyed by a name common to all members of the group.",
   "main": "index.js",
   "files": [
@@ -16,7 +16,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/array.make-enumerable": "^1.0.0",
+    "@kingjs/assert-shimmed": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0"
   }
 }

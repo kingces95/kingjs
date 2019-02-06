@@ -1,8 +1,11 @@
 'use strict';
 
-var makeEnumerable = require('@kingjs/array.make-enumerable');
-var define = require('@kingjs/enumerable.define');
-var Dictionary = require('@kingjs/dictionary');
+var {
+  ['@kingjs']: {
+    dictionary: Dictionary,
+    enumerable: { define }
+  } 
+} = require('./dependencies');
 
 function defaultSelector(x) {
   return x;

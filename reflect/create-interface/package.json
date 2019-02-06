@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/reflect.create-interface",
+  "version": "1.0.1",
+  "description": "Returns a function whose properties map strings to symbols which when defined together act as an interface.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/create-interface"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.built-in-symbols": "^1.0.0"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/linq.group-by",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Generates a sequence of groups composed of elements of another sequence which share a common key.",
   "main": "index.js",
   "files": [
@@ -16,8 +16,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/array.make-enumerable": "^1.0.0",
-    "@kingjs/enumerable.define": "^1.0.0",
-    "@kingjs/dictionary": "^1.0.0"
+    "@kingjs/assert-shimmed": "^1.0.0",
+    "@kingjs/dictionary": "^1.0.0",
+    "@kingjs/enumerable.define": "^1.0.0"
   }
 }

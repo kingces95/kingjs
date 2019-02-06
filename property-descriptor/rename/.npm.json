@@ -1,21 +1,23 @@
 {
-  "_id": "@kingjs/property-descriptor.rename@1.0.2",
-  "_rev": "2-742b02600a4a0b42d47ff817a72869cb",
+  "_id": "@kingjs/property-descriptor.rename@1.0.3",
+  "_rev": "3-187c6024abecfd25c9beac5fc3f30ee6",
   "name": "@kingjs/property-descriptor.rename",
   "dist-tags": {
-    "latest": "1.0.2"
+    "latest": "1.0.3"
   },
   "versions": [
     "1.0.0",
     "1.0.1",
-    "1.0.2"
+    "1.0.2",
+    "1.0.3"
   ],
   "time": {
     "created": "2019-01-21T22:31:42.451Z",
     "1.0.0": "2019-01-21T22:31:42.627Z",
-    "modified": "2019-01-28T22:54:56.368Z",
+    "modified": "2019-02-05T21:52:25.936Z",
     "1.0.1": "2019-01-25T20:51:33.922Z",
-    "1.0.2": "2019-01-28T22:54:53.928Z"
+    "1.0.2": "2019-01-28T22:54:53.928Z",
+    "1.0.3": "2019-02-05T21:52:23.456Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -28,9 +30,9 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"4c541ffaf8aa7e89253b3781cacb13d0\"",
-  "_lastModified": "Mon, 28 Jan 2019 22:54:57 GMT",
-  "version": "1.0.2",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.3",
   "main": "index.js",
   "scripts": {
     "test": "node test",
@@ -39,23 +41,23 @@
   "dependencies": {
     "@kingjs/function-ex.rename": "^1.0.0",
     "@kingjs/is": "^1.0.9",
-    "@kingjs/string.expand": "^1.0.0"
+    "@kingjs/string-ex.expand": "^1.0.0"
   },
   "_nodeVersion": "10.15.0",
   "_npmVersion": "6.7.0",
   "dist": {
-    "integrity": "sha512-9h/0KzIl1t5eJCFFbgc7p6Wri0s3ZyGYIHU/qUfh79R6Lnu6XjiD8jGHIqP+tLM4Xrm8SgX1rEAqBSHc0Vv5Jg==",
-    "shasum": "53604e3a63b13c74986823906444d423e2e21bf3",
-    "tarball": "https://registry.npmjs.org/@kingjs/property-descriptor.rename/-/property-descriptor.rename-1.0.2.tgz",
+    "integrity": "sha512-buhZ7sTjVvbYoqZaheo1E9BS1hTu/FFfjYI3hpUUy8iFnfz4WVvR8Gtrm6rDvFoGb72HaZ7hUdLkF93VVn8L5g==",
+    "shasum": "b4abe08c752b3de2256a552cec37da0d23f48575",
+    "tarball": "https://registry.npmjs.org/@kingjs/property-descriptor.rename/-/property-descriptor.rename-1.0.3.tgz",
     "fileCount": 5,
-    "unpackedSize": 4026,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT4g+CRA9TVsSAnZWagAAraQP/3HGOAsw/n5U/1woRJ0i\nJ6bAYNPb+lz56MsMn08BPdMUpCt1rKAGzGIxackHRs1WR7wrCs0FwV9xNKzB\nPcXIfvaAttoIDnHHk6dWtne3V29fNjmZhrw9Z9cWMo/5M1uhIk9qIv5jJpQm\nDOiSbguPdxARWbw0h6su6AR30dTVR0vjmAvqKfx7OgLnu9o1kYudZ85irZnZ\nJAFPp+aAVgx2t2V+a2UIzil5qG9EvYX+gXQjGkDMKcfxEdbmNIPTH7YVmRuQ\n1Etsrko9qzBZD7LZKilKkUaXxeeUdDcit6W6Y88HhrElGa+QwjV1Vf0JYBbV\nN8OmbtqRFLCxBZUeog18sbI5QRMwIIL6PmZSfEV9NRCZUdJDe+upwHKcgIbF\niHDQfsmILo8DoH9B742EPgl+C/k6UCByVpD5vRc+0c48MupO9Ln8WQzBbvHa\n9WDJvEgDhP9mj/38T1qc43OwzzwYgZEVYyZPW/GeJw/w501550X67+wvSnLM\n21ywNe5qPWd90nKjjEDijYqcrUfo2szG3PhHQbSKIY2BMp6IFM/Awyo0MbLu\nGWPDcgas2G2eH4gX4NRCre+XdJGuQPNf7gfj4raC2Vo7STMiKxnQa/tA0KEW\nZG/VPbzChZSicb9IdgFd9iaGMlMGaUDGrpsv7TxryoOl8nxaQspqV/Df6lUV\niXlR\r\n=gDgX\r\n-----END PGP SIGNATURE-----\r\n"
+    "unpackedSize": 4039,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWgWXCRA9TVsSAnZWagAAiggP+wZqRI20T6qU6yX+3hi4\ndV4qj1NXT2G53wmKSraQRtiVMGzeH7kNG3jg1064FD9GgQSpaLbebpLrS3OF\nFi2KeQeeCyLO/br8PleyTQOAm3DQH62VgJu9haBjqEkD3S8ow10qlQ61y/3N\nrI6vM71YUT0TF/RxtVbzWNAq/WM1JbFwwgmfHpUQD24u8/Bn2M80ti9m+4Vz\nqTynYYWFCNFfcBiwdjSAWM/rNMdyP9zX4vnPWH86vMo+BkJHa7xZAWfs+mQV\n/IBHUojfUYu+IG3ifs9oqjf9+2Ku/s9oEIWLgF7vMoEiho7JUcT8e02H0EdI\nWQVY6f0bZviGE053yEgic7RS2ogKGlwaq2tTMktUJoZzE8UnlwY4abgBFJkq\nOteKyjoIjkQf7N/KsqZ614PMWzR0UZNNdSdzYDyrOQPPZP1vkjhExJScPUsy\n7AayZuNwsKt4pq7s9zMuFjrcUD5wi5aG87htNglU1jkh/8ep51W8xH9lGYoe\nFncMEeCI7Q9hl5XaQTk7Ooo8/706z2U1cbVEU9jqmdiaj9EvJUBG9SLWDkY1\nLy98cIeaYKgCcMj92lCoQjVbqATSx3xghedvTUMpPFaF3eTQU64IAREnJ6sJ\nATRfhA58YVpzBsb4JJV1WVckUFRwKonDi6KRCEjOh9/wNPmt+lDHeXEEaGZD\nH9py\r\n=8tu7\r\n-----END PGP SIGNATURE-----\r\n"
   },
   "_npmUser": "kingces95 <kingces95@gmail.com>",
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/property-descriptor.rename_1.0.2_1548716093779_0.6791222551631075"
+    "tmp": "tmp/property-descriptor.rename_1.0.3_1549403543367_0.7173152747497074"
   },
   "_hasShrinkwrap": false
 }

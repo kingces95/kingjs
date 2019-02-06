@@ -3,7 +3,7 @@ exports['@kingjs'] = {
     rename: require('@kingjs/function-ex.rename'),
   },
   is: require('@kingjs/is'),
-  string: {
-    expand: require('@kingjs/string.expand'),
+  stringEx: {
+    expand: require('@kingjs/string-ex.expand'),
   },
 }

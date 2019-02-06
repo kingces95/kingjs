@@ -65,9 +65,5 @@
     "@kingjs/linq.union": "^1.0.0",
     "@kingjs/linq.where": "^1.0.0",
     "@kingjs/linq.zip": "^1.0.0"
-  },
-  "devDependencies": {
-    "@kingjs/apply": "^1.0.2",
-    "@kingjs/assert": "^1.0.2"
   }
 }

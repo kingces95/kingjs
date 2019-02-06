@@ -1,0 +1,51 @@
+{
+  "_id": "@kingjs/assert-shimmed@1.0.0",
+  "name": "@kingjs/assert-shimmed",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-02-05T21:36:50.536Z",
+    "1.0.0": "2019-02-05T21:36:50.782Z",
+    "modified": "2019-02-05T21:36:53.514Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Assert that `kingjs` has been required by the application which means that registered symbols like `@kingjs/IEnumerable.getEnumerator` will have been set on builtin objects like `string` and `array`.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/assert-shimmed"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test"
+  },
+  "dependencies": {},
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-o0a5/tPK1eynO9xV4iJD3QZlzSgf0RkbD+CsxkYIoiq1lmzxpw5tgUFc/xo0aEka4q4VbISu0FKSR5oVRXt7GA==",
+    "shasum": "267f3bc598c0cad6a41238cac3bc2b9ded6e92e5",
+    "tarball": "https://registry.npmjs.org/@kingjs/assert-shimmed/-/assert-shimmed-1.0.0.tgz",
+    "fileCount": 4,
+    "unpackedSize": 2882,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWgHzCRA9TVsSAnZWagAAaQQQAJH9cufg3PAijVM8AfC/\na1Xt5m/sCqoqcmBSIHBDE62UpHXoF6tPYlJvtcpDwiTdR9wxNLx1kzqdqLeP\n7AaNMJSFjTtESdoNeLKENM1a4Jp9UZnmcTBfUQsSq+7Qd054aM+011CoOkm8\n/WM4MwbL5QO78ohf0Xk4nF9gn7E84BwXOsTBmNZOAJU0qGXrhjqUZBXOnZte\nKqUIHWImQwRyI5DTQF/KwTzW7WO0qhVXtbWkMNKpYC7R6r7UDwtKo1ynInE+\nsLS4KyGUou0wDINT2IRWHe8gxT9km7dzUgH8tgfcH0pwR+GFxvo0qfW0PmXG\neYpPKO9s0iTczzMKzRulwTm+tNBVJFS03mIRlez+rJCxmO/AOPACRGp/91Yu\nVFcPill4qneFw7DckBlWD2ojauAH+VjHfDVDveLO29zBOhpnXWbhbtzyjDtz\nrrYWjuErgegr249Mk2IgFaAlgBIzMKNGAws3pBewFT3tDsahDgDUw5ksgqcO\nSvwMm1Krj6tgaN/oworTSchlHWH8KsgMhjNgJ8mzneVG9DjoJatWvcVGzehG\n8n1yAy6ePeIHtwlKjb9629yPmGjSonHnegmSKZh7eb5EYnuPmvU9XR/ryNHd\nq1LruLwCsTXODWUiMtJhdfuSjJvS40JfWAfSF+VlK4re1RUsdsxYQ6KUmnL7\nShd8\r\n=PnH6\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/assert-shimmed_1.0.0_1549402610627_0.17406572115374974"
+  },
+  "_hasShrinkwrap": false
+}

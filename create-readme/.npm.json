@@ -1,9 +1,9 @@
 {
-  "_id": "@kingjs/create-readme@1.0.6",
-  "_rev": "5-b5d4bc3e948826ade92a591d9d3d554e",
+  "_id": "@kingjs/create-readme@1.0.7",
+  "_rev": "6-ba9b497b4af7acfa6106a6f312f50c4d",
   "name": "@kingjs/create-readme",
   "dist-tags": {
-    "latest": "1.0.6"
+    "latest": "1.0.7"
   },
   "versions": [
     "1.0.0",
@@ -11,17 +11,19 @@
     "1.0.2",
     "1.0.3",
     "1.0.5",
-    "1.0.6"
+    "1.0.6",
+    "1.0.7"
   ],
   "time": {
     "created": "2019-01-18T19:57:44.605Z",
     "1.0.0": "2019-01-18T19:57:44.772Z",
-    "modified": "2019-01-29T01:40:04.295Z",
+    "modified": "2019-02-05T08:07:11.348Z",
     "1.0.1": "2019-01-18T20:11:41.695Z",
     "1.0.2": "2019-01-18T22:46:09.295Z",
     "1.0.3": "2019-01-19T03:19:54.956Z",
     "1.0.5": "2019-01-20T00:53:21.476Z",
-    "1.0.6": "2019-01-29T01:40:01.813Z"
+    "1.0.6": "2019-01-29T01:40:01.813Z",
+    "1.0.7": "2019-02-05T08:07:08.766Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -33,9 +35,9 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"a88a27383975f3f60eb9e7564d343baa\"",
-  "_lastModified": "Tue, 29 Jan 2019 01:40:05 GMT",
-  "version": "1.0.6",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.7",
   "main": "index.js",
   "bin": {
     "create-readme": "index.js",
@@ -45,21 +47,21 @@
   "dependencies": {
     "@kingjs/expand-readme": "^1.0.9"
   },
+  "_npmVersion": "6.4.1",
   "_nodeVersion": "10.15.0",
-  "_npmVersion": "6.7.0",
-  "dist": {
-    "integrity": "sha512-ZxXSY7GM5VZUYTiMjkEzZPBsRfqDSzUqmX5PBvN1gQLN/YcIJ5PcH0d6Bf0DBugP/niBgZ+Aw8sCRe1sswppyw==",
-    "shasum": "77c67f65398728ecbe04557845dee387f7978da0",
-    "tarball": "https://registry.npmjs.org/@kingjs/create-readme/-/create-readme-1.0.6.tgz",
-    "fileCount": 12,
-    "unpackedSize": 6287,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT67yCRA9TVsSAnZWagAAV3EP/Axn0STDTrDDvIelrFco\naPRx/oNJKgfX0Sb1QFEYRCrLdJCJwttHndv7iKu9ifvBBbthIrJCS9J7pWzP\nXsLJZG5FQycxjw9X+sA5X85rgLTC6mrs/L1RVovSkhUs2c/Ay3ZYepYu2Ori\nh2dMZHhqe382t3FHG+tCqII1wThkKUMlrt1FKYC13sFLwv4aa0Kpe8q7g8Z+\nLpDVznd7UGcHPIPLFzOcvU6w4ovWj9GdYhTEhCL0NURkpld77QTUigHAkz+W\nV8D4oO0TlSt8lQvWReGgmqu05MLoZct07WnyjqAsa3xYSCUNvIrE3e0sJjbq\nGYx21rftGovqibRWmNGBqztHbiyjher/l/B6olfTKRWSC3l5JS4rb+l3530w\n5ahw2rMkKo+Ydn6utUV3lSy1W5H2pNrKij3V+pApFI23DZU60SMO7lZTTqXt\njJtAYMX4uBYWXr1Q3+31SBqgwXWPKQaj95dpI+O/G4qEf9ZbnyqjLxWREEbX\nAKOdyIw7xS1MmjIUqpmWNkLkWIp685SZ1ZUGVdwcqZZJnZP6AWMf+EWFjNQp\n5GfKIiJQk+ZiBIKZcPU+4AVBkjUL62Ip4C13jHI0ltYCfOVbagPqLgWtJwNK\nnZW3HwIPYkAZMXhoxO3ppLawXlrqo7u7BsVqaleX6I1v9H4FS2HWSk0lEyjC\n2XLQ\r\n=hsOR\r\n-----END PGP SIGNATURE-----\r\n"
-  },
   "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-qaSLwD1lQmNXRGo1A2lOjNGwtdI522CMG1beN6niHXhpUNwKUkDqCNOJEqCc6R70602trs0qe90DTQAVFsBT8Q==",
+    "shasum": "43414a7aa8afe8e007f6d895aeda3ba8a59b67fc",
+    "tarball": "https://registry.npmjs.org/@kingjs/create-readme/-/create-readme-1.0.7.tgz",
+    "fileCount": 15,
+    "unpackedSize": 6117,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWUQtCRA9TVsSAnZWagAAdTsP/1CFAki9o530ZNlqH2LL\ne+46fJhA6I62/4GJqVh6R1L7vuC9OqrhA/ozu1dpfKN7f21Eigg924424w2h\nah8ZDXl0N1a4S0WnMAyV4p0pSROv8kE8a8wfoQiGprKYJxVrDvmhpJe0cT2p\ntNBUEy5CWkOyTkIbUzWcYxc0Ss5RwRFSV1wnnardL2lZrQ+6w4xJ5SJps69J\nBaBqfOvEBHEhJ9mxbjJAqcQfiFTryVlaEgLGSBJXM2YnqMWvY1kas5PTn2ty\n4bwxkap/P+K4P+2qrtzWR+8yLX8QvDT2uOSbnbDtcryQ1H+Rom3wLKw7IOnF\nPZpKxuED+ObqCB8juZalIVTw7qZhplpndGcElkwxOkK+++JIOLEfwEZmGXPx\nzf2cafI7xCabZ6sTUDFaGSfkx9230WplcuMGGrwrU2lPXOwc45xISPG2fhzO\ngkzYWXrSaG848pjwV31V7+pmAKsOB/WiTqFdCbrt4fBut9mxVSgGChhkafAB\nxZ2pB1xXa0AMPIfNGw+UIB8/RCHD48nhCNqUKo0/fNqRiiKm9t3WAk+B+jRp\nz3oGiUE9qKFEnnDN9iHLmX160dutYbFygMtSnVqYXXqhm+Jlf6MwrWA4r+yI\nHmOKgxW17XrGXYuSKgSXvMCI2ilE+hQ/CCkLvVMJjRaMl+7AW3pH4TVyKrQZ\n+2QZ\r\n=bhjG\r\n-----END PGP SIGNATURE-----\r\n"
+  },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/create-readme_1.0.6_1548726001682_0.943135294726293"
+    "tmp": "tmp/create-readme_1.0.7_1549354028565_0.7278511512296912"
   },
   "_hasShrinkwrap": false
 }
