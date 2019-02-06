@@ -6,15 +6,14 @@ var {
   }
 } = require('./dependencies');
 
-var initialize = require('./initialize');
-var { IInterface } = initialize;
+var hasInstance = require('./has-instance');
+
+var Id = Symbol.for('@kingjs/IInterface.id');
 
 // interface should throw when activated
 var ActivationError = 'Cannot activate interface.';
 var Delimiter = '.';
-var Empty = Object.create(null);
-
-var Id = Symbol.for('@kingjs/IInterface.id');
+var EmptyObject = { };
 
 /**
  * @description Returns a function whose properties map strings
@@ -76,8 +75,65 @@ function createInterface(id, descriptor) {
     assert(false, ActivationError); 
   };
 
+  // remove prototype & ctor (because it's never activated)
+  interface.prototype = null;
+  interface.constructor = null;
+
+  // support instanceof
+  Object.defineProperty(interface, Symbol.hasInstance, {
+    value: hasInstance
+  });
+
   // initialize interface
-  var symbolName = initialize.call(interface, id);
+  var name;
+  if (typeof id == 'string') {
+    name = id;
+
+    // single member interfaces use the single member's id as 
+    // the interface id unless an interface id is explicitly provided 
+    var memberNames = Object.keys(members || emptyObject);
+    var hasSingleMember = memberNames.length == 1;
+    var singleMember = hasSingleMember && members[memberNames[0]];
+    id = typeof singleMember == 'symbol' ? singleMember : Symbol.for(id);
+  }
+  else {
+    name = Symbol.keyFor(id) || builtInSymbols[id];
+  }
+
+  // interface name is the keyFor its symbolic id
+  assert(name);
+  Object.defineProperty(interface, 'name', {
+    enumerable: true,
+    value: name
+  });
+
+  // tag the function with it's id
+  interface[Id] = id;
+
+  defineMembers.call(interface, members, name);
+  if (extensions)
+    inheritExtensions.call(interface, extensions);
+
+  return interface;
+}
+
+function inheritExtensions(extensions) {
+  for (var extension of extensions) {
+
+    // extensions must be interfaces
+    assert(Id in extension);
+    this[extension[Id]] = Id;
+
+    // inherit extensions polymorphisms
+    for (var inheritedExtension of Object.getOwnPropertySymbols(extension)) {
+      if (extension[inheritedExtension] != Id)
+        continue;
+      this[inheritedExtension] = Id;
+    }
+  }
+}
+
+function defineMembers(members, symbolName) {
 
   // define members
   for (var member in members) {
@@ -90,7 +146,7 @@ function createInterface(id, descriptor) {
 
     // member symbol must be global (or builtin)
     assert(Symbol.keyFor(memberId) || memberId in builtInSymbols);
-    interface[member] = memberId;
+    this[member] = memberId;
 
     // provide a capitalized alias; When consuming an interface, deconstructing
     // into capitalized locals reflect the fact the value is a constant and the
@@ -100,29 +156,8 @@ function createInterface(id, descriptor) {
     // var { current, moveNext } = Symbol.kingjs.IEnumerator
     var capitalizedMember = member[0].toUpperCase() + member.slice(1);
     if (member != capitalizedMember)
-      interface[capitalizedMember] = memberId;
+      this[capitalizedMember] = memberId;
   }
-
-  // inherit extensions
-  if (extensions) {
-
-    for (var extension of extensions) {
-
-      // extensions must be interfaces
-      assert(extension.constructor == IInterface);
-      interface[extension[Id]] = Id;
-
-      // inherit extensions polymorphisms
-      for (var inheritedExtension of Object.getOwnPropertySymbols(extension)) {
-        if (extension[inheritedExtension] != Id)
-          continue;
-        interface[inheritedExtension] = Id;
-      }
-    }
-  }
-
-  return interface;
 }
 
-createInterface.IInterface = IInterface;
 module.exports = createInterface;
