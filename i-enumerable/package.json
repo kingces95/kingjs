@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/i-interface",
-  "version": "1.0.0",
-  "description": "IInterface is implemented by functions that are interfaces and has a single member `Id` which returns a symbol identifying the interface.",
+  "name": "@kingjs/i-enumerable",
+  "version": "1.0.6",
+  "description": "`IEnumerable` has a single member `getEnumerator`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,11 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/i-interface"
+    "url": "https://repository.kingjs.net/i-enumerable"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.define-interface": "^1.0.1"
-  }
+    "@kingjs/reflect.create-interface": "^1.0.2"
+  },
+  "devDependencies": {
+    "@kingjs/i-interface": "^1.0.1"
+  },
+  "capitalize": true
 }

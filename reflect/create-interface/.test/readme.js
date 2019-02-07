@@ -74,3 +74,37 @@ assert(enumerator instanceof IEnumerator);
 assert(enumerator[IEnumerator.moveNext]());
 assert(enumerator[IEnumerator.current] == 0);
 assert(!enumerator[IEnumerator.moveNext]());
+
+// single member interfaces use the single member's id for the interface id
+// when the interface id is a string and a symbol is provided for the member
+var IIterable = createInterface(
+  '@kingjs/IIterable', {
+    members: { 
+      getIterator: Symbol.iterator 
+    }
+  }
+)
+assert(IIterable.name == '@kingjs/IIterable');
+assert(IIterable[Id] == Symbol.iterator);
+assert(IIterable.getIterator = Symbol.iterator);
+
+// we can now check if an instance supports Symbol.iterator using
+// our IIterable interface using the instanceof operator. Cool!
+assert([] instanceof IIterable);
+assert('' instanceof IIterable);
+
+// the symbol @kingjs/IInterface.id can also be similarly turned 
+// into an interface like this:
+var IInterface = createInterface(
+  '@kingjs/IInterface', {
+    members: {
+      id: null
+    }
+  }
+)
+assert(IInterface.name == '@kingjs/IInterface');
+assert(IInterface.id == Id);
+assert(IInterface[Id] == Id);
+
+// *head explodes*
+assert(IInterface instanceof IInterface);

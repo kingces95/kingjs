@@ -1,6 +1,6 @@
 {
   "name": "kingjs",
-  "version": "1.0.46",
+  "version": "1.0.47",
   "description": "Adds Symbol.kingjs and implementations on builtin types.",
   "main": "index.js",
   "files": [
@@ -16,10 +16,14 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-interface": "^1.0.13",
-    "@kingjs/define-symbols": "^1.0.3",
-    "@kingjs/generator": "^1.0.0",
-    "@kingjs/implement-interface": "^1.0.2",
-    "@kingjs/reflect.define-property": "^1.0.2"
+    "@kingjs/generator": "^1.0.1",
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/i-iterable": "^1.0.3",
+    "@kingjs/reflect.implement-interface": "^1.0.1"
+  },
+  "devDependencies": {
+    "@kingjs/i-interface": "^1.0.3",
+    "@kingjs/reflect.define-property": "^1.0.3"
   }
 }

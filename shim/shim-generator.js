@@ -1,16 +1,13 @@
 var {
   ['@kingjs']: { 
-    generator: Generator, 
-    implementInterface 
+    reflect: { implementInterface },
+    Generator, 
+    IIterable, 
+    IIterable: { GetIterator }, 
   }
 } = require('./dependencies');
 
 var makeEnumerable = require('./make-enumerable');
-
-var { 
-  IIterable, 
-  IIterable: { GetIterator }
-} = Symbol.kingjs;
 
 implementInterface(Generator.prototype, IIterable, {
   methods: { getIterator: 'this()' }

@@ -1,16 +1,19 @@
 {
-  "_id": "@kingjs/assert-shimmed@1.0.0",
+  "_id": "@kingjs/assert-shimmed@1.0.1",
+  "_rev": "1-6d6da0aeba4b0e9bc333b0abe1753bff",
   "name": "@kingjs/assert-shimmed",
   "dist-tags": {
-    "latest": "1.0.0"
+    "latest": "1.0.1"
   },
   "versions": [
-    "1.0.0"
+    "1.0.0",
+    "1.0.1"
   ],
   "time": {
     "created": "2019-02-05T21:36:50.536Z",
     "1.0.0": "2019-02-05T21:36:50.782Z",
-    "modified": "2019-02-05T21:36:53.514Z"
+    "modified": "2019-02-07T20:17:17.251Z",
+    "1.0.1": "2019-02-07T20:17:14.839Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -23,29 +26,32 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_cached": false,
-  "_contentLength": 0,
-  "version": "1.0.0",
+  "_etag": "W/\"fad9b9ce62218d472006a9a049ff2440\"",
+  "_lastModified": "Thu, 07 Feb 2019 20:17:18 GMT",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "node .test"
   },
   "dependencies": {},
-  "_nodeVersion": "10.15.0",
-  "_npmVersion": "6.7.0",
-  "dist": {
-    "integrity": "sha512-o0a5/tPK1eynO9xV4iJD3QZlzSgf0RkbD+CsxkYIoiq1lmzxpw5tgUFc/xo0aEka4q4VbISu0FKSR5oVRXt7GA==",
-    "shasum": "267f3bc598c0cad6a41238cac3bc2b9ded6e92e5",
-    "tarball": "https://registry.npmjs.org/@kingjs/assert-shimmed/-/assert-shimmed-1.0.0.tgz",
-    "fileCount": 4,
-    "unpackedSize": 2882,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWgHzCRA9TVsSAnZWagAAaQQQAJH9cufg3PAijVM8AfC/\na1Xt5m/sCqoqcmBSIHBDE62UpHXoF6tPYlJvtcpDwiTdR9wxNLx1kzqdqLeP\n7AaNMJSFjTtESdoNeLKENM1a4Jp9UZnmcTBfUQsSq+7Qd054aM+011CoOkm8\n/WM4MwbL5QO78ohf0Xk4nF9gn7E84BwXOsTBmNZOAJU0qGXrhjqUZBXOnZte\nKqUIHWImQwRyI5DTQF/KwTzW7WO0qhVXtbWkMNKpYC7R6r7UDwtKo1ynInE+\nsLS4KyGUou0wDINT2IRWHe8gxT9km7dzUgH8tgfcH0pwR+GFxvo0qfW0PmXG\neYpPKO9s0iTczzMKzRulwTm+tNBVJFS03mIRlez+rJCxmO/AOPACRGp/91Yu\nVFcPill4qneFw7DckBlWD2ojauAH+VjHfDVDveLO29zBOhpnXWbhbtzyjDtz\nrrYWjuErgegr249Mk2IgFaAlgBIzMKNGAws3pBewFT3tDsahDgDUw5ksgqcO\nSvwMm1Krj6tgaN/oworTSchlHWH8KsgMhjNgJ8mzneVG9DjoJatWvcVGzehG\n8n1yAy6ePeIHtwlKjb9629yPmGjSonHnegmSKZh7eb5EYnuPmvU9XR/ryNHd\nq1LruLwCsTXODWUiMtJhdfuSjJvS40JfWAfSF+VlK4re1RUsdsxYQ6KUmnL7\nShd8\r\n=PnH6\r\n-----END PGP SIGNATURE-----\r\n"
+  "devDependencies": {
+    "kingjs": "^1.0.47"
   },
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
   "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-lorlo5R8AiGKmQBkIA5/N3/gjdOZiQ6TxTISfvVd2txuCZaVgXpgbl8MQyAagxtMhe0huIrPfrkbO8/Bo3wmSA==",
+    "shasum": "c816ccc7ce230ef49ebc5fe1ad33a6b204210bb1",
+    "tarball": "https://registry.npmjs.org/@kingjs/assert-shimmed/-/assert-shimmed-1.0.1.tgz",
+    "fileCount": 4,
+    "unpackedSize": 3084,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcXJJLCRA9TVsSAnZWagAAFusQAIhq9Y5jETh3uyRgZ6Uh\n1R7NvsMeW7XFXKd/F57JSt4Ffdewoq9PfhnHYOJ9XK2bYk2NbOrs6VT4pb7A\nefFSc5OKS2QzTnVxIUw+Q8NW5AdH9mpLy+0jE1Tad+EMnEJBYY7u28zK73lo\nUGN05/LAti8e3s7/fBdSB6luFLLN0G5/ZaIUmLVzIJkKEPsYHxEY6RW3Qgvk\nQJ81a/fp3PEeqXe2rNmkonti3j7Cbten9B3Rl3ArcxRT+CfND5H7dpMcwig4\nODh0Ue0EyWHANW+8BupY7gPc9c88Kr++wW+/FHT06Z9eQsJy25L7dInAnOc8\nTn2bQON2TQqy8bwUzVI5o2TRh6P5+zj5DcKZppjmRaYk60r1kwAE7D4Xv1Lv\ni4gP4NxslWvR7iiDf/2pzpdU4ONszRksKbHYsuqKli3FyspiMFDyA9nKvz4p\n5ooDYVbrkcw1I1w3PdqxQcBagTM7PN6DC4uYKuPsj8bdy/+ZS/lTM69wlA6c\n6iSu1tkwtQNB61ZteKTkTmB0iGh++ZXOJpUh7O+V1mk46eYMPNi/u9W1UEZx\nNe6tnOU0aaMNxT2oEwOTBpmFXhYy2pQo2VlzvgWCYKA2G6XSFyBorx43QVJ4\nGA953xCthM9NIyoTkhh4vKH/yH1L4zNayisWV9aVpdmh5CN5meqGFl1ADm4p\nn9sq\r\n=ivgi\r\n-----END PGP SIGNATURE-----\r\n"
+  },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/assert-shimmed_1.0.0_1549402610627_0.17406572115374974"
+    "tmp": "tmp/assert-shimmed_1.0.1_1549570634748_0.4572567866317572"
   },
   "_hasShrinkwrap": false
 }

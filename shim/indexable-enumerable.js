@@ -1,10 +1,9 @@
 var {
-  ['@kingjs']: { implementInterface },
+  ['@kingjs']: { 
+    reflect: { implementInterface },
+    IEnumerator
+  },
 } = require('./dependencies');
-
-var {
-  IEnumerator,
-} = Symbol.kingjs;
 
 function IndexableEnumerable(indexable) { 
   this.indexable_ = indexable;

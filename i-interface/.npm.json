@@ -1,0 +1,62 @@
+{
+  "_id": "@kingjs/i-interface@1.0.3",
+  "_rev": "3-10beadca4460b5b64c69695ad18e07c0",
+  "name": "@kingjs/i-interface",
+  "dist-tags": {
+    "latest": "1.0.3"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3"
+  ],
+  "time": {
+    "created": "2019-02-06T01:49:04.753Z",
+    "1.0.0": "2019-02-06T01:49:05.100Z",
+    "modified": "2019-02-07T20:09:33.427Z",
+    "1.0.1": "2019-02-07T04:18:34.654Z",
+    "1.0.2": "2019-02-07T06:44:55.221Z",
+    "1.0.3": "2019-02-07T20:09:31.012Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "IInterface.Id is found on functions representing interfaces and stores the symbol identifying the interface.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-interface"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_etag": "W/\"567199ae25367580121d38f2a3afafa5\"",
+  "_lastModified": "Thu, 07 Feb 2019 20:09:34 GMT",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "^1.0.2"
+  },
+  "capitalize": true,
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-cUQhp0YXRaUWdj5+c3ITC4JeAHx65G3B1ojW2p0nn3GJqUUho+kzqtNtgKxz0VLFR07cJVPLnz5nZAfEhqYHBQ==",
+    "shasum": "15d32aab6db4976077fac4e52b013a4705b19876",
+    "tarball": "https://registry.npmjs.org/@kingjs/i-interface/-/i-interface-1.0.3.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3684,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcXJB7CRA9TVsSAnZWagAAwUMP+QG9JP2h1diA/PgfubTM\nCYJ970OvPXe1ChsDVXZlkZJLOM8UjVKjG7T7s275cwrmECDII+GjVHojnYOw\nX/E4P8II+/kPx15LmEEqdW08EVH5RVdad5d0ZnibSR4p1YCHZvdEiltQY6Zw\nF3OzhgiNc656cQQSYi5ygF8rHWOdg+7vkkejdFpZnl3uOMPgpnSrkbtnXzZF\nS69OIIH2fGm72kGGb6VvAbUW0suofqdYciV17cXMCczUh5H+L4swvZOX9Hin\n875JGQfgqCdrz3i2TKyebGuzQeZbvbSIDT2YmDdDmLLP+D7oseGSy+vKExfD\nf7EUUPiN5hozxFrviqfXFI1sbiPk7+bmZy7JH/O9SIYOf037eOhgyXkuTzOJ\n18IRvZMtBJqUkxwFc73sd72gB/eHtqDPGC73HKbm2aGekBenV8ae9loKBWfZ\nbXMj0Jg4p+sBL0ZnGouhNkGB3BuzdPlcGPxbpco1VZVzLtC/DXuq+6AzVJIA\nd11qMFoqRF8Qj368DSnjZSar+/KxuSR8owHkoHkQyL/312ViBYxBHf/85BtC\nZZKHxqrpLWDOtsReDqLYngUIMQcb8YqTSaKT8l45V8Nammv8hoBJAO2V6b6E\nB8m3+ypI1aLKNHbKu0Y9zYW1A96Tkd36OGa8B+gZKUbmz8j25nG8I7JJCpcl\nexpG\r\n=o9Vl\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/i-interface_1.0.3_1549570170902_0.03830556938959129"
+  },
+  "_hasShrinkwrap": false
+}

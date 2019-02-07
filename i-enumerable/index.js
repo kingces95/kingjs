@@ -1,17 +1,14 @@
 var {
   ['@kingjs']: {
-    reflect: { defineInterface }
+    reflect: { createInterface }
   }
 } = require('./dependencies');
 
 /**
- * @description IInterface is implemented by functions that are interfaces
- * and has a single member `Id` which returns a symbol identifying
- * the interface.
+ * @description `IEnumerable` has a single member `getEnumerator`.
  */
-
-defineInterface(kingjs, 'IEnumerable', {
-  id: '@kingjs/IEnumerable',
-  members: { getEnumerator: null },
-}),
-module.exports = IInterface;
+module.exports = createInterface(
+  '@kingjs/IEnumerable', {
+    members: { getEnumerator: null },
+  }
+);

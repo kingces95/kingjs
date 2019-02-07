@@ -6,3 +6,5 @@ var assert = require('assert');
  * `@kingjs/IEnumerable.getEnumerator` will have been set on
  * builtin objects like `string` and `array`.
  */
+var kingJsTag = Symbol.for('@kingjs');
+assert(kingJsTag in Object.prototype);

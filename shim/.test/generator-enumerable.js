@@ -1,15 +1,16 @@
-'use strict';
 var assert = require('assert');
 
 require('../index');
 
 var {
-  IEnumerable,
-  IEnumerator,
-  IIterable: { GetIterator },
-  IEnumerable: { GetEnumerator },
-  IEnumerator: { MoveNext, Current },
-} = Symbol.kingjs;
+  ['@kingjs']: {
+    IEnumerable,
+    IEnumerator,
+    IIterable: { GetIterator },
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current },
+  }
+} = require('./dependencies');
 
 function testGeneratorEnumerableShim() {
   {

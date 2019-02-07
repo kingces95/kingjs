@@ -1,13 +1,10 @@
 var {
   ['@kingjs']: {
-    implementInterface
+    reflect: { implementInterface },
+    IEnumerable,
+    IEnumerator,
   }
 } = require('./dependencies');
-
-var { 
-  IEnumerable, 
-  IEnumerator,
-} = Symbol.kingjs;
 
 function makeEnumerable(target, createMoveNext) {
 

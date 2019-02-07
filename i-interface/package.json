@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/i-interface",
-  "version": "1.0.0",
-  "description": "IInterface is implemented by functions that are interfaces and has a single member `Id` which returns a symbol identifying the interface.",
+  "version": "1.0.3",
+  "description": "IInterface.Id is found on functions representing interfaces and stores the symbol identifying the interface.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -17,6 +17,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.define-interface": "^1.0.1"
-  }
+    "@kingjs/reflect.create-interface": "^1.0.2"
+  },
+  "capitalize": true
 }

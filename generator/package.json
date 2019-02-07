@@ -1,20 +1,21 @@
 {
   "name": "@kingjs/generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The constructor for generator functions.",
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/generator"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {},
+  "capitalize": true
 }

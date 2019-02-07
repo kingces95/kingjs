@@ -1,15 +1,16 @@
-'use strict';
 var assert = require('assert');
+
+var {
+  ['@kingjs']: {
+    IIterable,
+    IIterable: { GetIterator },
+  }
+} = require('./dependencies');
 
 require('../index');
 var DefineExtension = require('./define-extension');
 
 function readMe() {
-  
-  var {
-    IIterable,
-    IIterable: { GetIterator },
-  } = Symbol.kingjs;
 
   var repeat = function* (i) {
     yield i;

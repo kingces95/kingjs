@@ -1,33 +1,34 @@
 # @[kingjs][@kingjs]/[i-interface][ns0]
-IInterface is implemented by functions that are interfaces and has a single member `Id` which returns a symbol identifying the interface.
+IInterface.Id is found on functions representing interfaces and stores the symbol identifying the interface.
 ## Usage
 ```js
 var assert = require('assert');
 
-// an interface, in the abstract, is just a symbolic name@kingjs/i-interface.
-var IInterfaceId = Symbol.for('@kingjs/IInterface');
-
-// ...representing a collection of of symbols (just one in this case).
+// an interface, in the abstract, is just 
+// a symbolic name representing a collection 
+// of of symbols (just one in this case).
 var Id = Symbol.for('@kingjs/IInterface.id');
 
-// the name and symbol collection are gathered onto an abstract function
-var IInterface = require('..');
+// the name and symbol collection are 
+// gathered onto an abstract function
+var IInterface = require('@kingjs/i-interface');
 assert(IInterface instanceof Function);
 assert(IInterface.prototype == null);
+assert(IInterface.constructor == null);
 assert.throws(() => new IInterface);
 
 // the identifying symbol is stored in Id on the function
-assert(IInterface[Id] == IInterfaceId);
+assert(IInterface[Id] == Id);
 
-// the reason a function is used as the underlying object representing interfaces
-// is so that instances can be tested to see if they implement an interface
+// the reason a function is used as the 
+// underlying object representing interfaces
+// is so that instances can be tested to
+// see if they implement an interface
 assert(Symbol.hasInstance in IInterface);
 
-// It's mind bending, but the function itself is an instance implementing IInterface
-var instance = IInterface;
-assert(instance.constructor == IInterface);
-assert(instance[IInterfaceId] == IInterface);
-assert(instance instanceof IInterface);
+// It's mind bending, but the function 
+// itself is an instance implementing IInterface
+assert(IInterface instanceof IInterface);
 ```
 
 
@@ -43,7 +44,7 @@ $ npm install @kingjs/i-interface
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.define-interface`](https://www.npmjs.com/package/@kingjs/reflect.define-interface)|`^1.0.1`|
+|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`^1.0.0`|
 ## Source
 https://repository.kingjs.net/i-interface
 ## License

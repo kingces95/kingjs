@@ -6,14 +6,11 @@ var {
   }
 } = require('./dependencies');
 
-var hasInstance = require('./has-instance');
-
 var Id = Symbol.for('@kingjs/IInterface.id');
 
 // interface should throw when activated
 var ActivationError = 'Cannot activate interface.';
 var Delimiter = '.';
-var EmptyObject = { };
 
 /**
  * @description Returns a function whose properties map strings
@@ -93,15 +90,23 @@ function createInterface(id, descriptor) {
     // the interface id unless an interface id is explicitly provided 
     var memberNames = Object.keys(members || emptyObject);
     var hasSingleMember = memberNames.length == 1;
-    var singleMember = hasSingleMember && members[memberNames[0]];
-    id = typeof singleMember == 'symbol' ? singleMember : Symbol.for(id);
+    if (hasSingleMember) {
+      var memberName = memberNames[0];
+      id = hasSingleMember && members[memberName];
+      if (id == null)
+        id = getMemberSymbol(name, memberName);
+    }
+    else 
+      id = Symbol.for(name);
   }
   else {
     name = Symbol.keyFor(id) || builtInSymbols[id];
   }
 
+  assert(typeof id == 'symbol');
+  assert(typeof name == 'string');
+
   // interface name is the keyFor its symbolic id
-  assert(name);
   Object.defineProperty(interface, 'name', {
     enumerable: true,
     value: name
@@ -115,6 +120,20 @@ function createInterface(id, descriptor) {
     inheritExtensions.call(interface, extensions);
 
   return interface;
+}
+
+// intercept instanceof; used by extension stubs to test type
+function hasInstance(instance) {
+  var type = typeof instance;
+  if (type != 'object' && type != 'string' && type != 'function')
+    return false;
+
+  if (type == 'string')
+    instance = String.prototype;
+
+  assert(Id in this);
+  var id = this[Id];
+  return id in instance;
 }
 
 function inheritExtensions(extensions) {
@@ -133,6 +152,10 @@ function inheritExtensions(extensions) {
   }
 }
 
+function getMemberSymbol(symbolName, member) {
+  return Symbol.for(symbolName + Delimiter + member);
+}
+
 function defineMembers(members, symbolName) {
 
   // define members
@@ -141,7 +164,7 @@ function defineMembers(members, symbolName) {
 
     if (!memberId) {
       assert(symbolName);
-      memberId = Symbol.for(symbolName + Delimiter + member);
+      memberId = getMemberSymbol(symbolName, member);
     }
 
     // member symbol must be global (or builtin)

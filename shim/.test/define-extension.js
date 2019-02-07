@@ -2,14 +2,10 @@ var assert = require('assert')
 
 var {
   ['@kingjs']: {
-    defineInterface,
+    IInterface: { Id },
     reflect: { defineProperty }
   }
-} = require('../dependencies');
-
-var {
-  IInterface: { Id }
-} = defineInterface;
+} = require('./dependencies');
 
 function defineExtension(extension) {
   assert(this instanceof Function);

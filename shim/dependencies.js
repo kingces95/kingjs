@@ -1,9 +1,9 @@
 exports['@kingjs'] = {
-  defineInterface: require('@kingjs/define-interface'),
-  defineSymbols: require('@kingjs/define-symbols'),
-  generator: require('@kingjs/generator'),
-  implementInterface: require('@kingjs/implement-interface'),
+  Generator: require('@kingjs/generator'),
+  IEnumerable: require('@kingjs/i-enumerable'),
+  IEnumerator: require('@kingjs/i-enumerator'),
+  IIterable: require('@kingjs/i-iterable'),
   reflect: {
-    defineProperty: require('@kingjs/reflect.define-property'),
+    implementInterface: require('@kingjs/reflect.implement-interface'),
   },
 }

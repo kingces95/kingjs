@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/reflect.create-interface",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Returns a function whose properties map strings to symbols which when defined together act as an interface.",
   "main": "index.js",
   "files": [

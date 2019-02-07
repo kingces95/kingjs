@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/i-enumerator",
+  "version": "1.0.7",
+  "description": "`IEnumerator` has members `current` and `moveNext`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-enumerator"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "^1.0.2"
+  },
+  "devDependencies": {
+    "@kingjs/i-interface": "^1.0.1"
+  },
+  "capitalize": true
+}

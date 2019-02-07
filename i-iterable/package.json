@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/i-iterable",
+  "version": "1.0.3",
+  "description": "`IIterable` has one member `getIterator`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-iterable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "^1.0.2"
+  },
+  "capitalize": true
+}

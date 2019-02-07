@@ -1,34 +1,34 @@
 {
-  "_id": "@kingjs/reflect.define-interface@1.0.1",
-  "_rev": "1-02c2015b8257be353eeecda0ba3d6ac8",
-  "name": "@kingjs/reflect.define-interface",
+  "_id": "@kingjs/reflect.create-interface@1.0.2",
+  "_rev": "1-f324747ecf4c5d2f021eed64bf0f8e3d",
+  "name": "@kingjs/reflect.create-interface",
   "dist-tags": {
-    "latest": "1.0.1"
+    "latest": "1.0.2"
   },
   "versions": [
-    "1.0.0",
-    "1.0.1"
+    "1.0.1",
+    "1.0.2"
   ],
   "time": {
-    "created": "2019-02-05T08:01:22.017Z",
-    "1.0.0": "2019-02-05T08:01:22.229Z",
-    "modified": "2019-02-05T08:04:45.521Z",
-    "1.0.1": "2019-02-05T08:04:43.059Z"
+    "created": "2019-02-07T04:07:57.944Z",
+    "1.0.1": "2019-02-07T04:07:58.180Z",
+    "modified": "2019-02-07T06:30:25.490Z",
+    "1.0.2": "2019-02-07T06:30:22.943Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
   ],
-  "description": "Defines or aliases a group of global symbols.",
+  "description": "Returns a function whose properties map strings to symbols which when defined together act as an interface.",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/reflect/define-interface"
+    "url": "https://repository.kingjs.net/reflect/create-interface"
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"122a6b21a8db2777510d8b8e34e38953\"",
-  "_lastModified": "Tue, 05 Feb 2019 08:04:46 GMT",
-  "version": "1.0.1",
+  "_etag": "W/\"cf04c30d7e22fd94b984a222b3f81491\"",
+  "_lastModified": "Thu, 07 Feb 2019 06:30:26 GMT",
+  "version": "1.0.2",
   "main": "index.js",
   "scripts": {
     "test": "node .test",
@@ -41,17 +41,17 @@
   "_nodeVersion": "10.15.0",
   "_npmUser": "kingces95 <kingces95@gmail.com>",
   "dist": {
-    "integrity": "sha512-Qf0LvXbgrpuNFZTNEGBEkaHsXjtfiLGT81ipVB9M0a06ie2K5kgA9fkcRiAGi2vkund7c/CdGo+aPB6PN1n1Ig==",
-    "shasum": "4d6c4585796657a959593651ed813b6a57e590ec",
-    "tarball": "https://registry.npmjs.org/@kingjs/reflect.define-interface/-/reflect.define-interface-1.0.1.tgz",
-    "fileCount": 7,
-    "unpackedSize": 8430,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcWUObCRA9TVsSAnZWagAA1ewP/1TGwTOVXIM8odiSLwE5\nwY5yL+c20J6uZSaGWPwOX8ZDCemPqdHhT0E84gti+boTbEgvA/J8AnvMJ4bt\nA+OECa7Cy89V4shLQTMm47necKKGKktB/LNpIHvPanKMnD2Wgg0rk6hkRtlY\nZMZ8Us//b9NZm/6trHojt9QJx47d7Xfl0HwUQ0b/d4zSUtMBa3O5vJPJdqUO\ni4sld6XwDqTjsDLiuF8kw+U+s+gHt37hhLaZUdMmtWG0pHHN1hMD6WLyj2QD\nU2fuMxR6AX17mvfX6inqpA/SBUzks5dlZVwvLHjvXythOXVV2DmmCCtSkXAq\n4VPm+dollob2o/lzfJtkI7t/ioETrDxh3p5nWN6TYv5n88SgvNSKpPd3EDMy\ncvKbTz9FPxWImZ2DcueGcRKKsVZvmjKWJFC+vLAMGVTAIWyWVGBClBvmsyXX\nlZ5s1GiipaVuhWN5SFzGpQrZzjRzNCsihskSX+SRYLGhnad41VRxuNFk8M6w\nrRHrnsYuE1wz+L2IQA7WLXiE2GECxAd9gUJGeH58ePwZ1qKv4mPLVEb5laTy\nqjA+JADdGsLJ3v2adQxeadX3XdeZxUNq0GvJFtjbz28eS97tEco9mluWEQ3Y\nNbMM5avCNb2j3Z43oi6vrrZ6YKRqwlINI1QkS7HyWNfgmZaGteCsMw9y08r5\ndAXx\r\n=kRVE\r\n-----END PGP SIGNATURE-----\r\n"
+    "integrity": "sha512-2izFBad//rr9+dWAbni17OQP6Ct2O13MegJc8FlLRTkkln7GOBLiUpbNiE6tbqx9ymcRFuCiupDx/UxNoPv1aQ==",
+    "shasum": "34cc2dd3d1f4218a2a61bf95e61db15040776515",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.create-interface/-/reflect.create-interface-1.0.2.tgz",
+    "fileCount": 5,
+    "unpackedSize": 14444,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcW9B/CRA9TVsSAnZWagAAuIUP/1e/HWlI3IVoErlxQ021\njAYzvBbeatr95MNEZyQyE1YuXslpdSM9gLj1JTC8yJ/Plu65MRlI9fmHiMcu\nd0gEQQNnb/yi7hwdrZ3DRIRmnopC3Pq+K+NH1Mirzb/izeVTsTfH9qA35WBR\nsC4tWbkG0rWNLrFG7FYl4zjrHGPDNh9ne28EWuUXA/FJ2ciqKKIC83Ak2HIl\n/4p49Cyn7U9BUqP/vF7Na3i03W2Kec4ck5OE8cNtyOXBBq/1DvLctMdL+ktU\nu13Cp4gF70jUQVjST7f0prjF2CnEy//uzx1cAZfbDbua1x5o1gOFF6YFocCW\nexxKhwpAI8OgkkGQi9pLFS0ETpeT3g9g/BBIYujIp/q724UzZay5X7x0yvYo\nozxuX6K7ZpDs/nS2Te33EwrPzgPDh+JoLrmOYuaica2bzzZT1IOajtNEl4sH\ny3YYP4xG6EAQhpN/GZrubJvuGhZ3BmQGYKL8ZFhK9ERRxDWxowlzQe1Vx9e2\nE0QOBEIgvt2FKL41WnFHaScWuBVUoHfaXvR4frfiB2CcDaFD8ZCJkmrxbpAI\n6gnTgx3EMsxuu7dBuK3YB8s64SE5V+8L41OOOlci6BQ9ij2cIe2FLacMaxMS\nn0TV3wYoRZrKGLnpAy0q8RlIRiNFehFDTp1dCMBlIHArvsgVJMIl1keL1zEn\nIok6\r\n=HdD0\r\n-----END PGP SIGNATURE-----\r\n"
   },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/reflect.define-interface_1.0.1_1549353882973_0.2248674074097059"
+    "tmp": "tmp/reflect.create-interface_1.0.2_1549521022848_0.32979871403152505"
   },
   "_hasShrinkwrap": false
 }

@@ -1,5 +1,5 @@
 exports['@kingjs'] = {
   reflect: {
-    defineInterface: require('@kingjs/reflect.define-interface'),
+    createInterface: require('@kingjs/reflect.create-interface'),
   },
 }

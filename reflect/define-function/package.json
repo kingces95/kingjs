@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/reflect.define-function",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Extends `kingjs/reflect.define-property` with richer overloads.",
   "main": "index.js",
   "files": [
