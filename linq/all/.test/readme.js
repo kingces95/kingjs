@@ -1,7 +1,5 @@
 require('kingjs');
-
 var assert = require('assert');
-
 var All = require('..');
 
 var sequence = [0, 1, 2];

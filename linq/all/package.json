@@ -17,5 +17,9 @@
   "license": "MIT",
   "devDependencies": {
     "kingjs": "^1.0.46"
+  },
+  "dependencies": {
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7"
   }
 }

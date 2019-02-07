@@ -1,11 +1,9 @@
-'use strict';
-
 var { 
-  DefineExtension,
+  exportExtensionMethod,
   IEnumerable,
   IEnumerable: { GetEnumerator },
   IEnumerator: { MoveNext, Current }
-} = Symbol.kingjs;
+} = require('./dependencies');
 
 function all(predicate) {    
   var enumerator = this[GetEnumerator]();
@@ -17,4 +15,4 @@ function all(predicate) {
   return true;
 }
 
-module.exports = IEnumerable[DefineExtension](all);
+exportExtensionMethod(module, IEnumerable, all);

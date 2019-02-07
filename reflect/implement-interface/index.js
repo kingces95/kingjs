@@ -55,11 +55,6 @@ function implementInterface(target, iface, descriptors) {
 
     defineFunction(target, symbol, method);
   }
-  
-  // tag the target as having implemented the interface
-  // Id may be in target already if iface member shares the same Id
-  if (iface[InterfaceId] in target == false)
-    target[iface[InterfaceId]] = InterfaceId;
 
   // assert all iface members implemented
   for (var name in iface) {
@@ -68,6 +63,11 @@ function implementInterface(target, iface, descriptors) {
       continue;
     assert(symbol in target);
   }
+  
+  // tag the target as having implemented the interface
+  // Id may be in target already if iface member shares the same Id
+  if (iface[InterfaceId] in target == false)
+    target[iface[InterfaceId]] = InterfaceId;
   
   return target;
 }

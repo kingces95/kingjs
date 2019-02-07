@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/reflect.implement-interface",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
   "main": "index.js",
   "files": [
@@ -22,6 +22,9 @@
     "@kingjs/reflect.define-function": "^1.0.3"
   },
   "devDependencies": {
-    "@kingjs/reflect.define-interface": "^1.0.1"
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/i-iterable": "^1.0.3",
+    "@kingjs/reflect.create-interface": "^1.0.1"
   }
 }

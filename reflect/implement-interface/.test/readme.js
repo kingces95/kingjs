@@ -1,31 +1,9 @@
 var assert = require('assert')
-var defineInterface = require('@kingjs/reflect.define-interface');
+var IEnumerable = require('@kingjs/i-enumerable');
+var IEnumerator = require('@kingjs/i-enumerator');
+var IIterable = require('@kingjs/i-iterable');
+var createInterface = require('@kingjs/reflect.create-interface');
 var implementInterface = require('..');
-
-var InterfaceId = Symbol.for('@kingjs/IInterface.id');
-
-// Demonstrate interoperating with existing interfaces like this:
-// `Symbol.iterator` can be thought of as an interface with a single 
-// method whose symbolic id is the same as the symbolic id of the 
-// interface itself.
-var kingjs = { };
-var { IIterable } = defineInterface(
-  kingjs, 'IIterable', {
-    id: Symbol.iterator,
-    members: {
-      getIterator: Symbol.iterator
-    }
-  }
-);
-
-assert(IIterable.getIterator == Symbol.iterator);
-assert(IIterable.GetIterator == Symbol.iterator);
-assert(IIterable[InterfaceId] == IIterable.getIterator);
-
-// now, any instance that's Symbol.iterator now implements IIterable!
-assert(new Array() instanceof IIterable);
-assert(new Map() instanceof IIterable);
-assert(new Set() instanceof IIterable);
 
 var instance = { foo: 0 };
 implementInterface(instance, IIterable, {
@@ -49,34 +27,6 @@ assert(next.done);
 // `IEnumerable` has a single method `getEnumerator` that returns an
 // `IEnumerable` that has a property `current` and a method `moveNext`
 // which returns `true` if there are more elements or `false` if not.
-var { IEnumerable } = defineInterface(
-  kingjs, 'IEnumerable', {
-    id: '@kingjs/interface.IEnumerable',
-    members: {
-      getEnumerator: null
-    }
-  }
-);
-
-assert(IEnumerable[InterfaceId] == Symbol.for('@kingjs/interface.IEnumerable'))
-assert(IEnumerable.getEnumerator == Symbol.for('@kingjs/interface.IEnumerable.getEnumerator'))
-assert(IEnumerable.GetEnumerator == Symbol.for('@kingjs/interface.IEnumerable.getEnumerator'))
-
-var { IEnumerator } = defineInterface(
-  kingjs, 'IEnumerator', {
-    id: '@kingjs/interface.IEnumerator',
-    members: {
-      current: null,
-      moveNext: null,
-    }
-  }
-);
-
-assert(IEnumerator[InterfaceId] == Symbol.for('@kingjs/interface.IEnumerator'))
-assert(IEnumerator.current == Symbol.for('@kingjs/interface.IEnumerator.current'))
-assert(IEnumerator.Current == Symbol.for('@kingjs/interface.IEnumerator.current'))
-assert(IEnumerator.moveNext == Symbol.for('@kingjs/interface.IEnumerator.moveNext'))
-assert(IEnumerator.MoveNext == Symbol.for('@kingjs/interface.IEnumerator.moveNext'))
 
 var instance = [ 1 ];
 implementInterface(instance, IEnumerable, {
@@ -106,24 +56,24 @@ assert(!enumerator[IEnumerator.MoveNext]());
 // IA : IX, IY
 // IX : IB
 // IY : IB
-var { IB } = defineInterface(kingjs, "IB", {
+var IB = createInterface("IB", {
   id: '@kingjs/interface.IB',
   members: { foo: null }
 });
 
-var { IX } = defineInterface(kingjs, "IX", {
+var IX = createInterface("IX", {
   id: '@kingjs/interface.IX',
   members: { foo: null },
   extends: [ IB ]
 })
 
-var { IY } = defineInterface(kingjs, "IY", {
+var IY = createInterface("IY", {
   id: '@kingjs/interface.IY',
   members: { foo: null },
   extends: [ IB ]
 })
 
-var { IA } = defineInterface(kingjs, "IA", {
+var IA = createInterface("IA", {
   id: '@kingjs/interface.IA',
   members: { foo: null },
   extends: [ IX, IY ]
