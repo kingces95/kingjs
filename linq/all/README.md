@@ -14,10 +14,11 @@ assert(!sequence[All](function(o) { return o < 2; }));
 
 ## API
 ```ts
-all(predicate)
+all(this, predicate)
 ```
 
 ### Parameters
+- `this`: An IEnumerable that contains the elements to which the predicate will be applied.
 - `predicate`: A function to test each element for a condition.
 ### Returns
 `true` if every element of the source sequence passes the test in the  specified predicate, or if the sequence is empty; otherwise, `false`.

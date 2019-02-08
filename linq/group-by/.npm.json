@@ -55,7 +55,7 @@
   "version": "1.0.11",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {
     "@kingjs/assert-shimmed": "^1.0.0",

@@ -4,10 +4,10 @@
   "description": "For each descriptor, replaces properties containing descriptor names the actual descriptor then maps the descriptor.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

@@ -47,10 +47,10 @@
   "version": "1.0.7",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {
     "@kingjs/linq.to-array": "^1.0.0",

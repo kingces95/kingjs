@@ -49,7 +49,7 @@
   "version": "1.0.9",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {
     "@kingjs/enumerable.define": "^1.0.5",

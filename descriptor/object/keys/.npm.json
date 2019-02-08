@@ -33,7 +33,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {},
   "_npmVersion": "5.6.0",

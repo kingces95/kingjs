@@ -4,14 +4,14 @@
   "description": "Throw an exception if a function fails to throw an exception.",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kingces95/kingjs.git"
   },
   "files": [
-    "index.js"
+    "*.js"
   ],
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",

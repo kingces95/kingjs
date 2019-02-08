@@ -7,7 +7,7 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node test"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,6 @@
   },
   "devDependencies": {
     "kingjs": "^1.0.46"
-  }
+  },
+  "capitalize": true
 }

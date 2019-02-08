@@ -47,10 +47,10 @@
   "version": "1.0.6",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "files": [
-    "index.js"
+    "*.js"
   ],
   "dependencies": {
     "@kingjs/assert": "^1.0.9"

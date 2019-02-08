@@ -1,14 +1,23 @@
-'use strict';
+var { 
+  ['@kingjs']: {
+    IEnumerable,
+    reflect: { exportExtension },
+    linq: { Aggregate }
+  }
+} = require('./dependencies');
 
-var aggregate = require('@kingjs/linq.aggregate');
+var Aggregate = require('@kingjs/linq.aggregate');
 
+/**
+ * @description Creates an array from a `IEnumerable`.
+ * 
+ * @this any An `IEnumerable` from which to create an array.
+ */
 function toArray() {      
-  return aggregate.call(this, [], function(x) { 
+  return this[Aggregate]([], function(x) { 
     this.push(x); 
     return this; 
   });
 };
 
-Object.defineProperties(module, {
-  exports: { value: toArray }
-});
+exportExtension(module, IEnumerable, toArray);

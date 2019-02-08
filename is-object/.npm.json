@@ -36,7 +36,7 @@
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {},
   "_npmVersion": "6.4.1",

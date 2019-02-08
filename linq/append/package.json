@@ -1,13 +1,13 @@
 {
   "name": "@kingjs/linq.append",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generates an sequence identical to another sequence but with a value added to the end.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,9 @@
   "dependencies": {
     "@kingjs/enumerable.create": "^1.0.1",
     "@kingjs/linq.concat": "^1.0.9"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

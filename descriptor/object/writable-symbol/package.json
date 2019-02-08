@@ -4,10 +4,10 @@
   "description": "Symbol whose presence indicates a descriptor is mutable.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

@@ -4,10 +4,10 @@
   "description": "Computes the sum of a sequence of numbers projected from elements of a sequence.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

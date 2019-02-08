@@ -4,10 +4,10 @@
   "description": "Merges values at paths found in one array tree into another array tree.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

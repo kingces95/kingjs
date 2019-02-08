@@ -4,10 +4,10 @@
   "description": "Returns the only element of a sequence that satisfies a specified condition, or undefined.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

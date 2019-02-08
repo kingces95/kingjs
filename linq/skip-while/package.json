@@ -4,10 +4,10 @@
   "description": "Generates a sequence identical to another sequence after bypassing the first contiguous set of elements which satisfy a specified condition.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

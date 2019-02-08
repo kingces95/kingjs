@@ -5,18 +5,13 @@ var sequence = testRequire('@kingjs/enumerable.create');
 var toArray = testRequire('@kingjs/linq.to-array');
 var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
 
-function readme() {
-  var enumerable = sequence(0, 1, 2);
+var enumerable = [ 0, 1, 2 ];
+var result = append.call(enumerable, 3);
+var array = toArray.call(result);
 
-  var result = append.call(enumerable, 3);
-
-  var array = toArray.call(result);
-
-  assert(
-    sequenceEqual.call(
-      sequence(0, 1, 2, 3),
-      sequence.apply(this, array)
-    )
-  );
-}
-readme();
+assert(
+  sequenceEqual.call(
+    sequence(0, 1, 2, 3),
+    sequence.apply(this, array)
+  )
+);

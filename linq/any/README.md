@@ -1,58 +1,48 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).any
+# @[kingjs][@kingjs]/[linq][ns0].[any][ns1]
 Returns true if any element of a sequence satisfies a condition.
 ## Usage
-Test if any the numbers `0`, `1`, or `2`, equal `2` like this:
-
 ```js
-var any = require('@kingjs/linq.any');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
+var assert = require('assert');
+var Any = require('@kingjs/linq.any');
 
-var enumerable = sequence(0, 1, 2);
+var sequence = [0, 1, 2];
 
-any.call(enumerable,
-  function(o) { return o == 2; }
-);
-```
-result:
-```js
-true
+assert(sequence[Any]());
+assert(sequence[Any](function(o) { return o == 1; }));
+assert(!sequence[Any](function(o) { return o == 3; }));
 ```
 
 ## API
-
 ```ts
-declare function any(
-  this: Enumerable,
-  predicate?: (x) => boolean
-): boolean
+any(this[, predicate])
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: A sequence of values. 
-- `predicate` The predicate values are tested against.
+- `this`: An IEnumerable that contains the elements to which the predicate will be applied.
+- `predicate`: A function to test each element for a condition.
+### Returns
+`true` if any elements in the source sequence pass the test  in the specified predicate; otherwise, `false`.
 
-### Return Value
-Returns `true` if `predicate` is `true` for any value, otherwise, `false`.
-
-## Remarks
-Calling `all` on an empty sequence returns `false`. 
-
-The default `predicate` returns `true` for every value.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.any
 ```
-
-## Acknowledgments
-Like [Enumerable.Any](https://msdn.microsoft.com/en-us/library/bb337697(v=vs.110).aspx)
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`^1.0.6`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`^1.0.7`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`^1.0.1`|
+## Source
+https://repository.kingjs.net/linq/any
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/any)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.any

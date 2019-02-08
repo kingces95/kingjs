@@ -1,12 +1,23 @@
-'use strict';
-
 var { 
-  DefineExtension,
-  IEnumerable,
-  IEnumerable: { GetEnumerator },
-  IEnumerator: { MoveNext, Current }
-} = Symbol.kingjs;
+  ['@kingjs']: {
+    reflect: { exportExtension },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
+/**
+ * @description Determines whether a sequence contains any elements that
+ * satisfy a predicate.
+ * 
+ * @this any An `IEnumerable` that contains the elements to which the predicate will be applied.
+ * 
+ * @param [predicate] A function to test each element for a condition.
+ * 
+ * @returns `true` if any elements in the source sequence pass the test 
+ * in the specified predicate; otherwise, `false`.
+ */
 function any(predicate) {    
   var enumerator = this[GetEnumerator]();
   while (enumerator[MoveNext]()) {
@@ -17,4 +28,4 @@ function any(predicate) {
   return false;
 };
 
-module.exports = IEnumerable[DefineExtension](any);
+exportExtension(module, IEnumerable, any);

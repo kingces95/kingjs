@@ -1,21 +1,27 @@
 {
   "name": "@kingjs/linq.to-array",
-  "version": "1.0.7",
-  "description": "Creates an array from a sequence.",
+  "version": "1.0.8",
+  "description": "Creates an array from a `IEnumerable`.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test",
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/to-array"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/linq.aggregate": "^1.0.16"
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/linq.aggregate": "^1.0.20",
+    "@kingjs/reflect.export-extension": "^1.0.1"
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.47"
   }
 }

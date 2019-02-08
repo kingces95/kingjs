@@ -4,10 +4,10 @@
   "description": "Generates a sequence of elements composed of an element in one sequence and a group of elements in another sequence all of which share a common key.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

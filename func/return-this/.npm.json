@@ -35,10 +35,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {},
   "_npmVersion": "6.2.0",

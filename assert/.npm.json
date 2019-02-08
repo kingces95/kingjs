@@ -56,7 +56,7 @@
   "version": "1.0.11",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.0.0",

@@ -10,6 +10,8 @@ var {
 /**
  * @description Returns true if all elements of a sequence satisfy a condition.
  * 
+ * @this any An `IEnumerable` that contains the elements to which the predicate will be applied.
+ * 
  * @param predicate A function to test each element for a condition.
  * 
  * @returns `true` if every element of the source sequence passes the test in the 
@@ -18,7 +20,7 @@ var {
 function all(predicate) {
   var enumerator = this[GetEnumerator]();
   while (enumerator[MoveNext]()) {
-    if (!predicate(enumerator[Current]))
+    if (!predicate && !predicate(enumerator[Current]))
       return false;
   }
   

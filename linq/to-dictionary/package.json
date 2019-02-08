@@ -4,10 +4,10 @@
   "description": "Creates a dictionary from a sequence where the dictionary keys and values are projected from each element.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

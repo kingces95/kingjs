@@ -4,10 +4,10 @@
   "description": "Generates an sequence identical to another sequence but with a value added to the start.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

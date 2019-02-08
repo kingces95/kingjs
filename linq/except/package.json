@@ -4,10 +4,10 @@
   "description": "Generates the set difference of two sequences.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,9 @@
   "dependencies": {
     "@kingjs/enumerable.define": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

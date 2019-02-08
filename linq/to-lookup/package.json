@@ -4,10 +4,10 @@
   "description": "Creates a dictionary from a sequence where values are groups of elements keyed by a name common to all members of the group.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

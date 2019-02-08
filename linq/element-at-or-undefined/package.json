@@ -4,15 +4,19 @@
   "description": "Returns the element at a specified index in a sequence or undefined if the index is out of range.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kingces95/kingjs.git"
   },
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

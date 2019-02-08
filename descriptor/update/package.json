@@ -4,7 +4,7 @@
   "description": "Updates values of a descriptor using a callback.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
     "test": "node .test"

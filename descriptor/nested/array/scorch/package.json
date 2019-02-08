@@ -4,10 +4,10 @@
   "description": "Clears an array tree of indices with `undefined` value.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

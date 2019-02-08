@@ -47,10 +47,10 @@
   "version": "1.0.6",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {
     "@kingjs/linq.aggregate": "^1.0.16"

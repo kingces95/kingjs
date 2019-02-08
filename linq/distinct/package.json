@@ -4,10 +4,10 @@
   "description": "Generates a sequence composed of the distinct elements of another sequence.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,9 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.except": "^1.0.2"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

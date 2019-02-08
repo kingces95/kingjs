@@ -35,7 +35,7 @@
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {
     "@kingjs/loader": "^1.0.0",

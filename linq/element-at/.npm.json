@@ -46,10 +46,10 @@
   "version": "1.0.9",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "_npmVersion": "5.6.0",
   "_nodeVersion": "8.11.3",

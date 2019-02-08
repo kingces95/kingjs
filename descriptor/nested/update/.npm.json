@@ -70,7 +70,7 @@
   "version": "1.0.18",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "dependencies": {
     "@kingjs/descriptor.object.epilog": "^1.0.0",

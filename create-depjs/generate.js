@@ -58,13 +58,18 @@ function generate(dependencies) {
       // join parts into a camel case name
       var name = join(parts[i]);
 
-      // test for 'capitalize=true' in package.json
-      var { capitalize } = getPackageJson(dependency);
-      if (capitalize)
-        name = name[0].toUpperCase() + name.substr(1);
+      if (!node[name]) {
+        if (i == lastIndex) {
+          // test for 'capitalize=true' in package.json
+          var { capitalize } = getPackageJson(dependency);
+          if (capitalize)
+            name = name[0].toUpperCase() + name.substr(1);
 
-      if (!node[name])
-        node[name] = i == lastIndex ? dependency : { };
+          node[name] = dependency;
+        } 
+        else 
+          node[name] = { };
+      }
       node = node[name];
     }
   }

@@ -1,13 +1,13 @@
 {
   "name": "@kingjs/linq.all",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "Returns true if all elements of a sequence satisfy a condition.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,6 @@
     "@kingjs/i-enumerable": "^1.0.6",
     "@kingjs/i-enumerator": "^1.0.7",
     "@kingjs/reflect.export-extension": "^1.0.1"
-  }
+  },
+  "capitalize": true
 }
