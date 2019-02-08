@@ -20,6 +20,7 @@
     "@kingjs/i-enumerable": "^1.0.6",
     "@kingjs/i-enumerator": "^1.0.7",
     "@kingjs/i-iterable": "^1.0.3",
+    "@kingjs/package-version.parse": "^1.0.1",
     "@kingjs/reflect.implement-interface": "^1.0.1"
   },
   "devDependencies": {

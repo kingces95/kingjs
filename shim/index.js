@@ -1,3 +1,9 @@
+var {
+  ['@kingjs']: {
+    packageVersion: { parse }
+  }
+} = require('./dependencies');
+
 // Array : IIterable
 require('./shim-array');
 
@@ -7,6 +13,12 @@ require('./shim-string');
 // Generator : IIterable, IEnumerable
 require('./shim-generator');
 
-// tag environment as being shimmed!
+// tag environment as shimmed!
+var { version } = require('./package.json');
 var kingJsTag = Symbol.for('@kingjs');
-Object.defineProperty(Object.prototype, kingJsTag, { value: null });
+Object.defineProperty(
+  Object.prototype, 
+  kingJsTag, { 
+    value: parse(version) 
+  }
+);

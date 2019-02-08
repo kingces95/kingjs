@@ -4,14 +4,14 @@
   "description": "Returns true if all elements of a sequence satisfy a condition.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
     "test": "node test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/all"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@kingjs/i-enumerable": "^1.0.6",
-    "@kingjs/i-enumerator": "^1.0.7"
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/reflect.export-extension": "^1.0.1"
   }
 }

@@ -1,56 +1,46 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).all
+# @[kingjs][@kingjs]/[linq][ns0].[all][ns1]
 Returns true if all elements of a sequence satisfy a condition.
 ## Usage
-Test if all the numbers 0, 1, and 2, are less than 3 like this:
-
 ```js
-var all = require('@kingjs/linq.all');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
+var assert = require('assert');
+var All = require('@kingjs/linq.all');
 
-var enumerable = sequence(0, 1, 2);
+var sequence = [0, 1, 2];
 
-all.call(enumerable,
-  function(o) { return o < 3; }
-);
+assert(sequence[All](function(o) { return o < 3; }));
+assert(!sequence[All](function(o) { return o < 2; }));
 ```
-result:
-```js
-true
-```
+
 ## API
 ```ts
-declare function all(
-  this: Enumerable,
-  predicate?: (x) => boolean
-): boolean
+all(predicate)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: A sequence of values. 
-- `predicate` The predicate values are tested against.
+- `predicate`: A function to test each element for a condition.
+### Returns
+`true` if every element of the source sequence passes the test in the  specified predicate, or if the sequence is empty; otherwise, `false`.
 
-### Return Value
-Returns `true` if `predicate` is `true` for all values, otherwise, `false`.
-
-## Remarks
-Calling `all` on an empty sequence returns `true`. 
-
-The default `predicate` returns `true` for every value.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.all
 ```
-
-## Acknowledgments
-Like [Enumerable.All](https://msdn.microsoft.com/en-us/library/bb548541(v=vs.110).aspx)
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`^1.0.6`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`^1.0.7`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`^1.0.1`|
+## Source
+https://repository.kingjs.net/linq/all
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/all)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.all

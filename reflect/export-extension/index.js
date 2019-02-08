@@ -1,33 +1,37 @@
 var {
   ['@kingjs']: {
+    IInterface,
     reflect: { defineProperty }
   }
 } = require('./dependencies');
 
 var PackageJson = './package.json';
 var Exports = 'exports';
-var InterfaceId = Symbol.for('@kingjs/IInterface.id');
 
 /**
- * @description Defines a property on a target with a symbol name 
- * derived from `package` and `version`.
+ * @description Extend a type with a property and return a symbol
+ * whose debug name is derived from the module hosting the extension.
  * 
- * @param target The target on which to declare the property.
- * @param package The name of the package containing the extension.
- * @param version The version of the package containing the extension.
- * @param descriptor The descriptor describing the property. 
+ * @param module The module hosting the extension.
+ * @param type The type being extended. 
+ * @param descriptor The descriptor describing the property.
  * 
- * @returns The symbol name of the property.
+ * @returns Returns the symbol name of the property. The symbol is not
+ * registered. The symbol's debug name is the hosting module 
+ * name and its version.
  * 
- * @remarks If `descriptor` is a function, then it will be wrapped in an 
- * object with name `value`.
+ * @remarks If the type is an interface than all types implementing the 
+ * interface are extended.
+ * @remarks Overloads are similar to those provided by 
+ * `@kingjs/reflect.define-property`
  */
-function exportExtension(module, type, x, y) {
-  var { package, version } = module.require(PackageJson);
-  var symbol = Symbol(`${package}, ${version}`);
+function exportExtension(module, type, descriptor) {
+  var { name, version } = module.require(PackageJson);
+  var symbol = Symbol(`${name}, ${version}`);
 
-  var descriptor = defineProperty(null, symbol, x, y);
-  descriptor.extends = () => type;
+  var { descriptor } = defineProperty(null, symbol, descriptor);
+  if (type instanceof IInterface)
+    descriptor.extends = () => type;
   defineProperty(Object.prototype, symbol, descriptor);
 
   defineProperty(module, Exports, symbol);

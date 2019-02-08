@@ -1,10 +1,10 @@
 {
   "name": "@kingjs/reflect.export-extension",
   "version": "1.0.1",
-  "description": "Defines a property on a target with a symbol name  derived from `package` and `version`.",
+  "description": "Extend a type with a property and return a symbol whose debug name is derived from the module hosting the extension.",
   "main": "index.js",
   "files": [
-    "index.js"
+    "*.js"
   ],
   "scripts": {
     "test": "node .test"
@@ -17,6 +17,14 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.define-function": "^1.0.2"
+    "@kingjs/i-interface": "^1.0.3",
+    "@kingjs/reflect.define-property": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kingjs/assert-shimmed": "^1.0.1",
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/i-iterable": "^1.0.3",
+    "kingjs": "^1.0.47"
   }
 }

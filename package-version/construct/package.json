@@ -1,0 +1,20 @@
+{
+  "name": "@kingjs/package-version.construct",
+  "version": "1.0.0",
+  "description": "Simply join `{ major, minor, patch }` into `'major.minor.patch'`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package-version/construct"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {}
+}
