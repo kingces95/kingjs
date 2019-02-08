@@ -19,5 +19,9 @@
     "@kingjs/enumerable.define": "^1.0.0",
     "@kingjs/linq.empty": "^1.0.1",
     "@kingjs/linq.to-lookup": "^1.0.0"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

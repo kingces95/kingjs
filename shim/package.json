@@ -1,13 +1,13 @@
 {
   "name": "kingjs",
-  "version": "1.0.47",
+  "version": "1.0.48",
   "description": "Adds Symbol.kingjs and implementations on builtin types.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node test"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "@kingjs/i-enumerator": "^1.0.7",
     "@kingjs/i-iterable": "^1.0.3",
     "@kingjs/package-version.parse": "^1.0.1",
+    "@kingjs/reflect.implement-i-enumerable": "^1.0.0",
     "@kingjs/reflect.implement-interface": "^1.0.1"
   },
   "devDependencies": {

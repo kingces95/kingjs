@@ -19,5 +19,9 @@
     "@kingjs/assert-shimmed": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0",
     "@kingjs/enumerable.define": "^1.0.0"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

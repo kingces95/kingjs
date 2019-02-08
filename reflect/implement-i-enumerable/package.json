@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/reflect.implement-i-enumerable",
+  "version": "1.0.0",
+  "description": "Implements `IEnumerable` given a factory that, given the container, returns a `moveNext` function.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/implement-i-enumerable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/reflect.implement-interface": "^1.0.1"
+  }
+}

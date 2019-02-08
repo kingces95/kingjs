@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/linq.concat",
-  "version": "1.0.9",
-  "description": "Generates a sequence composed of elements from one sequence followed by elements from another sequence.",
+  "version": "1.0.10",
+  "description": "Concatenates two sequences.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -11,15 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/concat"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.define": "^1.0.8"
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/reflect.export-extension": "^1.0.1",
+    "@kingjs/reflect.implement-i-enumerable": "^1.0.0"
   },
   "devDependencies": {
-    "kingjs": "^1.0.46"
+    "kingjs": "^1.0.48"
   },
   "capitalize": true
 }

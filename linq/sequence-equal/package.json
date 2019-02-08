@@ -18,5 +18,9 @@
   "dependencies": {
     "@kingjs/linq.default-equal": "^1.0.0",
     "@kingjs/linq.define": "^1.0.1"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

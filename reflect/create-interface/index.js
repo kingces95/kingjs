@@ -128,12 +128,11 @@ function hasInstance(instance) {
   if (type != 'object' && type != 'string' && type != 'function')
     return false;
 
-  if (type == 'string')
-    instance = String.prototype;
-
   assert(Id in this);
   var id = this[Id];
-  return id in instance;
+
+  var prototype = Object.getPrototypeOf(instance);
+  return id in prototype;
 }
 
 function inheritExtensions(extensions) {

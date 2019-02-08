@@ -1,51 +1,61 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).concat
-Generates a sequence composed of elements from one sequence followed by elements from another sequence.
+# @[kingjs][@kingjs]/[linq][ns0].[concat][ns1]
+Concatenates two sequences.
 ## Usage
-Concatenate `0`, `1` with `1`, `2` like this:
 ```js
-var concat = require('@kingjs/linq.concat');
-var sequence = require('@kingjs/enumerable.create');
-var toArray = require('@kingjs/linq.to-array');
+require('kingjs')
 
-var result = concat.call(
-  sequence(0, 1),
-  sequence(1, 2)
-);
+var assert = require('assert');
 
-toArray.call(result);
+var Concat = require('@kingjs/linq.concat');
+var { GetEnumerator } = require('@kingjs/i-enumerable');
+var { MoveNext, Current } = require('@kingjs/i-enumerator');
+
+var result = [0, 1][Concat]([1, 2]);
+
+var enumerator = result[GetEnumerator]();
+assert(enumerator[MoveNext]());
+assert(enumerator[Current] == 0);
+
+assert(enumerator[MoveNext]());
+assert(enumerator[Current] == 1);
+
+assert(enumerator[MoveNext]());
+assert(enumerator[Current] == 1);
+
+assert(enumerator[MoveNext]());
+assert(enumerator[Current] == 2);
+
+assert(!enumerator[MoveNext]());
 ```
-result:
-```js
-[0, 1, 1, 2]
-```
-## API
-```ts
-declare function concat(
-  this: Enumerable, 
-  target: Enumerable
-): Enumerable
-```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
+
+
 
 ### Parameters
-- `this`: The sequence to which `target` is concatenated. 
-- `target`: The sequence concatenated to `this`. 
+- `this`: The first sequence to concatenate.
+- `enumerable`: The second sequence to concatenate.
+### Returns
+An `IEnumerable` that contains the concatenated  elements of the two input sequences.
 
-### Return Value
-A concatenation of the sequences. 
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.concat
 ```
-## See Also
-- Like [Enumerable.Concat](https://msdn.microsoft.com/en-us/library/bb302894(v=vs.110).aspx)
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`^1.0.6`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`^1.0.7`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`^1.0.1`|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`^1.0.0`|
+## Source
+https://repository.kingjs.net/linq/concat
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/concat)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.concat

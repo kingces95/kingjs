@@ -1,37 +1,51 @@
-'use strict';
-
 var { 
-  DefineExtension,
-  IEnumerable,
-  IEnumerable: { GetEnumerator },
-  IEnumerator: { MoveNext, Current }
-} = Symbol.kingjs;
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
-var defineEnumerable = require('@kingjs/enumerable.define');
+/**
+ * @description Concatenates two sequences.
+ * 
+ * @this any The first sequence to concatenate.
+ * @param enumerable The second sequence to concatenate.
+ * 
+ * @returns An `IEnumerable` that contains the concatenated 
+ * elements of the two input sequences.
+ */
+var concat = function concat(enumerable) {
+  var firstEnumerable = this;
+  var secondEnumerable = enumerable;
 
-var concat = defineEnumerable(function concat(enumerable) {
-  var enumerator = this[GetEnumerator]();
-  var other = enumerable[GetEnumerator]();
-  
-  return function() { 
-    
-    if (!enumerator || !enumerator[MoveNext]()) {   
-      enumerator = undefined;
-      
-      if (!other || !other[MoveNext]()) {        
+  return implementIEnumerable({ }, 
+    function createMoveNext() { 
+      var first = firstEnumerable[GetEnumerator]();
+      var second = secondEnumerable[GetEnumerator]();
+
+      return function moveNext() {
+        if (first && first[MoveNext]()) {
+          this.current_ = first[Current];
+          return true;
+        }
+        first = undefined;
+
+        if (second && second[MoveNext]()) {        
+          this.current_ = second[Current];
+          return true;
+        }
+        second = undefined;
+
         this.current_ = undefined;
         return false;
-      } 
-      else {
-        this.current_ = other[Current];
       }
-    } 
-    else {
-      this.current_ = enumerator[Current];
     }
-    
-    return true;
-  };
-});
+  );
+};
 
-module.exports = IEnumerable[DefineExtension](concat);
+exportExtension(module, IEnumerable, concat);

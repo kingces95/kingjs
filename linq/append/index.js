@@ -1,12 +1,13 @@
-'use strict';
-
-var concat = require('@kingjs/linq.concat');
-var sequence = require('@kingjs/enumerable.create');
+var { 
+  ['@kingjs']: {
+    IEnumerable,
+    reflect: { exportExtension },
+    linq: { Concat },
+  }
+} = require('./dependencies');
 
 function append(value) {    
-  return concat.call(this, sequence(value));
+  return this[Concat]([ value ]);
 };
 
-Object.defineProperties(module, {
-  exports: { value: append }
-});
+exportExtension(module, IEnumerable, append);

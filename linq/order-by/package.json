@@ -19,5 +19,9 @@
   "dependencies": {
     "@kingjs/linq.to-array": "^1.0.0",
     "@kingjs/linq.default-less-than": "^1.0.0"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

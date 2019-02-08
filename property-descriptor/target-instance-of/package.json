@@ -1,13 +1,13 @@
 {
   "name": "@kingjs/property-descriptor.target-instance-of",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Add a precondition to an accessor or function descriptor  which throws unless `this` at runtime is an `instanceof` a specific type.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node test",
+    "test": "node .test",
     "prepublishOnly": "npm test"
   },
   "repository": {

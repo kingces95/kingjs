@@ -17,5 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.default-less-than": "^1.0.1"
-  }
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "capitalize": true
 }

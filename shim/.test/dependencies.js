@@ -7,6 +7,7 @@ exports['@kingjs'] = {
     parse: require('@kingjs/package-version.parse'),
   },
   reflect: {
+    implementIEnumerable: require('@kingjs/reflect.implement-i-enumerable'),
     implementInterface: require('@kingjs/reflect.implement-interface'),
     defineProperty: require('@kingjs/reflect.define-property'),
   },

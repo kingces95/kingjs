@@ -16,11 +16,14 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/enumerable.create": "^1.0.1",
-    "@kingjs/linq.concat": "^1.0.9"
+    "@kingjs/assert-shimmed": "^1.0.1",
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/linq.concat": "^1.0.10",
+    "@kingjs/reflect.export-extension": "^1.0.2"
   },
   "devDependencies": {
-    "kingjs": "^1.0.46"
+    "@kingjs/linq.to-array": "^1.0.8",
+    "kingjs": "^1.0.48"
   },
   "capitalize": true
 }

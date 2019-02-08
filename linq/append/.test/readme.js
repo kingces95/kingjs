@@ -1,17 +1,11 @@
-var append = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var sequence = testRequire('@kingjs/enumerable.create');
-var toArray = testRequire('@kingjs/linq.to-array');
-var sequenceEqual = testRequire('@kingjs/linq.sequence-equal');
+require('kingjs')
+var assert = require('assert');
 
-var enumerable = [ 0, 1, 2 ];
-var result = append.call(enumerable, 3);
-var array = toArray.call(result);
+var Append = require('..');
+var ToArray = require('@kingjs/linq.to-array');
 
-assert(
-  sequenceEqual.call(
-    sequence(0, 1, 2, 3),
-    sequence.apply(this, array)
-  )
-);
+var source = [ 0, 1, 2 ];
+var enumerable = source[Append](3);
+var result = enumerable[ToArray]();
+
+assert.deepEqual([0, 1, 2, 3], result);

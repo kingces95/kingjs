@@ -46,9 +46,18 @@ function targetInstanceOf(callback, name) {
     if (name) {
 
       // find target
-      var target = Object.getPrototypeOf(this);
-      while (Object.getPrototypeOf(target) instanceof type)
-        target = Object.getPrototypeOf(target);
+      var target = this;
+      while (true) {
+        var prototype = Object.getPrototypeOf(target);
+        
+        if (!prototype)
+          break;
+
+        if (prototype instanceof type == false)
+          break;
+
+        target = prototype;
+      }
 
       // patch
       Object.defineProperty(target, name, descriptor);

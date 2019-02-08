@@ -6,9 +6,25 @@ var {
   }
 } = require('./dependencies');
 
-function makeEnumerable(target, createMoveNext) {
+/**
+ * @description Implements `IEnumerable` given a factory that, given
+ * the container, returns a `moveNext` function.
+ * 
+ * @param target The instance on which to implement `IEnumerable`.
+ * @param createMoveNext A factory that, given the container, returns
+ * a `moveNext` function. `moveNext` should return `true` if more 
+ * elements remain; otherwise `false`.
+ * 
+ * @returns `target`
+ * 
+ * @callback createMoveNext
+ * @param this The enumerator. When a new value is generate it should
+ * be stored in `this.current_`. 
+ * @param instance The instance to enumerate.
+ */
+function implementIEnumerable(target, createMoveNext) {
 
-  implementInterface(target, IEnumerable, {
+  return implementInterface(target, IEnumerable, {
     methods: {
       getEnumerator: function() {
         var instance = this;
@@ -37,4 +53,4 @@ function makeEnumerable(target, createMoveNext) {
   });
 }
 
-module.exports = makeEnumerable;
+module.exports = implementIEnumerable;
