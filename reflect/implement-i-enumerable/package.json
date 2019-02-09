@@ -19,6 +19,6 @@
   "dependencies": {
     "@kingjs/i-enumerable": "^1.0.6",
     "@kingjs/i-enumerator": "^1.0.7",
-    "@kingjs/reflect.implement-interface": "^1.0.1"
+    "@kingjs/reflect.implement-interface": "^1.0.2"
   }
 }

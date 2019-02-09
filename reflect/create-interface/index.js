@@ -132,7 +132,7 @@ function hasInstance(instance) {
   var id = this[Id];
 
   var prototype = Object.getPrototypeOf(instance);
-  return id in prototype;
+  return prototype && id in prototype;
 }
 
 function inheritExtensions(extensions) {

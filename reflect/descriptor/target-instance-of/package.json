@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/property-descriptor.target-instance-of",
+  "name": "@kingjs/reflect.descriptor.target-instance-of",
   "version": "1.0.6",
   "description": "Add a precondition to an accessor or function descriptor  which throws unless `this` at runtime is an `instanceof` a specific type.",
   "main": "index.js",
@@ -12,12 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/property-descriptor/target-instance-of"
+    "url": "https://repository.kingjs.net/reflect/descriptor/target-instance-of"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/is": "^1.0.9",
-    "@kingjs/property-descriptor.rename": "^1.0.0"
+    "@kingjs/reflect.descriptor.rename": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kingjs/i-iterable": "^1.0.3"
   }
 }

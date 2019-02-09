@@ -5,15 +5,14 @@ var IIterable = require('@kingjs/i-iterable');
 var createInterface = require('@kingjs/reflect.create-interface');
 var implementInterface = require('..');
 
-var instance = { foo: 0 };
-implementInterface(instance, IIterable, {
-  methods: {
-    getIterator: function* () {
+var instance = implementInterface(
+  { foo: 0 }, IIterable, {
+    *getIterator() {
       for (var name in this)
         yield { name, value: this[name] };
     }
   }
-});
+);
 
 var { GetIterator } = IIterable;
 var iterator = instance[GetIterator]();
@@ -27,26 +26,20 @@ assert(next.done);
 // `IEnumerable` has a single method `getEnumerator` that returns an
 // `IEnumerable` that has a property `current` and a method `moveNext`
 // which returns `true` if there are more elements or `false` if not.
+implementInterface(Array.prototype, IEnumerable, {
+  getEnumerator() {
+    var target = this;
+    var index = -1;
 
-var instance = [ 1 ];
-implementInterface(instance, IEnumerable, {
-  methods: {
-    getEnumerator: function() {
-      var target = this;
-      var index = -1;
-
-      return implementInterface({ }, IEnumerator, {
-        methods: {
-          moveNext: () => ++index < target.length
-        },
-        accessors: {
-          current: () => target[index]
-        }
-      });
+    // return a quick and dirty implementation of `IEnumerator` like this:
+    return {
+      [IEnumerator.MoveNext]() { return ++index < target.length },
+      get [IEnumerator.Current]() { return target[index] }
     }
   }
 });
 
+var instance = [ 1 ];
 var enumerator = instance[IEnumerable.GetEnumerator]();
 assert(enumerator[IEnumerator.MoveNext]());
 assert(enumerator[IEnumerator.Current] == 1);
@@ -83,22 +76,22 @@ var instance = { };
 
 // implement IB
 implementInterface(instance, IB, {
-  methods: { foo: () => null }
+  foo() { return null; }
 });
 
 // implement IX
 implementInterface(instance, IX, {
-  methods: { foo: () => null }
+  foo() { return null; }
 });
 
 // cannot implement IA without first implementing IY 
 assert.throws(() => 
   implementInterface(instance, IA, {
-    methods: { foo: () => null }
+    foo() { return null }
   })
 )
 implementInterface(instance, IY, {
-  methods: { foo: () => null }
+  foo() { return null }
 });
 
 // cannot implement IA without also providing IA.foo
@@ -108,5 +101,5 @@ assert.throws(() =>
 
 // implement IA
 implementInterface(instance, IA, {
-  methods: { foo: () => null }
+  foo() { return null }
 });

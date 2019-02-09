@@ -23,34 +23,37 @@ var {
  * @param instance The instance to enumerate.
  */
 function implementIEnumerable(target, createMoveNext) {
-
   return implementInterface(target, IEnumerable, {
     methods: {
-      getEnumerator: function() {
-        var instance = this;
-        var stillMoving = true;
-        var moveNextFunc = null;
-    
-        return implementInterface({ }, IEnumerator, {
-          accessors: {
-            current: 'this.current_'
-          },
-          methods: {
-            moveNext: function() {
-              if (!moveNextFunc)
-                moveNextFunc = createMoveNext(instance);
-    
-              stillMoving = stillMoving && moveNextFunc.call(this);
-              if (!stillMoving)
-                this.current_ = undefined;
-    
-              return stillMoving;
-            }  
-          }
-        })
-      }
+      getEnumerator: () => new Enumerator(this, createMoveNext);
     }
   });
 }
+
+function Enumerator(instance, createMoveNext) {
+  this.instance = instance;
+  this.createMoveNext = createMoveNext;
+}
+Object.defineProperties(Enumerator.prototype, {
+  stillMoving: { value: true, writable: true },
+  moveNextFunc: { value: null, writable: true },
+})
+implementInterface(Enumerator.prototype, IEnumerator, {
+  accessors: {
+    current: 'this.current_'
+  },
+  methods: {
+    moveNext: function() {
+      if (!moveNextFunc)
+        moveNextFunc = createMoveNext(instance);
+
+      stillMoving = stillMoving && moveNextFunc.call(this);
+      if (!stillMoving)
+        this.current_ = undefined;
+
+      return stillMoving;
+    }  
+  }
+})
 
 module.exports = implementIEnumerable;

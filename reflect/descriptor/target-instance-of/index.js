@@ -3,7 +3,7 @@ var assert = require('assert');
 var {
   ['@kingjs']: { 
     is,
-    propertyDescriptor: { rename }
+    reflect: { descriptor: { rename } }
   }
 } = require('./dependencies');
 
@@ -40,26 +40,20 @@ function targetInstanceOf(callback, name) {
       assert(!is.undefined(type), failedToResolveExtensionTypeError)
     }
 
-    // verify type
-    assert(this instanceof type, extendsThisError);
+    // `this` could be the prototype of the type (e.g. `this == type.prototype`)
+    // which is the target on which we'd like this stub to define the extension.
+    // But we cannot use `type.prototype` because `type` could be an "interface" which 
+    // has no `prototype` property. See @kingjs/reflect.create-interface. But 
+    // interfaces do implement `Symbol.hasInstance`. So we make use of that like this:
+    var instance = Object.create(this);
+    assert(instance instanceof type, extendsThisError);
 
+    // patch
     if (name) {
-
-      // find target
-      var target = this;
-      while (true) {
-        var prototype = Object.getPrototypeOf(target);
-        
-        if (!prototype)
-          break;
-
-        if (prototype instanceof type == false)
-          break;
-
-        target = prototype;
-      }
-
-      // patch
+      var target = instance;
+      do {
+        target = Object.getPrototypeOf(target); 
+      } while (target instanceof type)
       Object.defineProperty(target, name, descriptor);
     }
 

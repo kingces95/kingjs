@@ -1,4 +1,5 @@
 var assert = require('assert')
+var IIterable = require('@kingjs/i-iterable');
 var targetInstanceOf = require('..');
 
 /**
@@ -44,3 +45,28 @@ assert(descriptor.value == capitalize);
 // `this`, being an `Array`, is not an instanceof `String` and so 
 // throws. Its derivation by restriction!
 assert.throws(() => [][Capitalize]());
+
+// Extending an interface is also supported. For example, extend IIterable 
+// with Any() like this:
+var Any = Symbol('Any');
+var descriptor = { 
+  value: function() { 
+    return !this[IIterable.getIterator]().next().done 
+  },
+};
+Object.defineProperty(
+  Object.prototype,
+  Any,
+  targetInstanceOf.call(
+    descriptor, 
+    () => IIterable, 
+    Any
+  )
+);
+assert(!String.prototype[Any]());
+assert(''[Any]() == false);
+assert('.'[Any]() == true);
+
+assert(!Array.prototype[Any]());
+assert([0][Any]() == true);
+assert([][Any]() == false);

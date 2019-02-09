@@ -8,52 +8,39 @@ var {
   },
 } = require('./dependencies');
 
-var InterfaceId = Symbol.for('@kingjs/IInterface.id');
+var Slot = Symbol.for('@kingjs/IInterface.slot');
 
 /**
  * @description Extends `kingjs/reflect.define-property` to map names
  * to symbols according to iface.
  * 
- * @param target The target on which the interface will be declared.
+ * @param instance The instance on which the interface members will be defined.
  * @param iface A map for names to symbols used to rename properties declared
  * in the descriptor.
- * @param descriptors A descriptor of methods and accessors that implement
- * the interface.
- * @param descriptors.accessors Descriptors that implement the interfaces' accessors.
- * @param descriptors.methods Descriptors that implement the interfaces' methods.
+ * @param members Property descriptors defined here are copied to instance but
+ * with its corresponding symbolic name found on iface.
  * 
- * @returns Returns target.
+ * @returns Returns type.
  */
-function implementInterface(target, iface, descriptors) {
+function implementInterface(instance, iface, members) {
 
-  // assert target implements ifaces that iface extends
+  // assert type implements ifaces that iface extends
   for (var extension of Object.getOwnPropertySymbols(iface)) {
-    if (iface[extension] !== InterfaceId)
+    if (iface[extension] !== Slot)
       continue;
 
-    assert(extension in target);
+    assert(extension in instance);
   }
   
-  // accessors
-  for (var name in descriptors.accessors) {
-    var accessor = descriptors.accessors[name];
+  // define members
+  for (var name in members) {
 
     // map name
     var symbol = iface[name];
     assert(is.symbol(symbol));
 
-    defineAccessor(target, symbol, accessor);
-  }
-  
-  // methods
-  for (var name in descriptors.methods) {
-    var method = descriptors.methods[name];
-
-    // map name
-    var symbol = iface[name];
-    assert(is.symbol(symbol));
-
-    defineFunction(target, symbol, method);
+    var descriptor = Object.getOwnPropertyDescriptor(members, name);
+    Object.defineProperty(instance, symbol, descriptor);
   }
 
   // assert all iface members implemented
@@ -61,15 +48,10 @@ function implementInterface(target, iface, descriptors) {
     var symbol = iface[name];
     if (!is.symbol(symbol))
       continue;
-    assert(symbol in target);
+    assert(symbol in instance);
   }
   
-  // tag the target as having implemented the interface
-  // Id may be in target already if iface member shares the same Id
-  if (iface[InterfaceId] in target == false)
-    target[iface[InterfaceId]] = InterfaceId;
-  
-  return target;
+  return instance;
 }
 
 module.exports = implementInterface;
