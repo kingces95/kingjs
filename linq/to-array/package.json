@@ -22,7 +22,7 @@
     "@kingjs/reflect.export-extension": "^1.0.1"
   },
   "devDependencies": {
-    "kingjs": "^1.0.46"
+    "kingjs": "^1.0.48"
   },
   "capitalize": true
 }

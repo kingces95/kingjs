@@ -9,4 +9,5 @@ exports['@kingjs'] = {
     lambdize: require('@kingjs/property-descriptor.lambdize'),
     makeLazy: require('@kingjs/property-descriptor.make-lazy'),
   },
+  assertTheory: require('@kingjs/assert-theory'),
 }

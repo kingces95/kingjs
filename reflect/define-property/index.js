@@ -2,11 +2,13 @@ var assert = require('assert');
 
 var {
   ['@kingjs']: {
-    is,
+    reflect: {
+      is,
+      descriptor: { targetInstanceOf }
+    },
     propertyDescriptor: {
       lambdize, 
       makeLazy, 
-      targetInstanceOf,
     }
   }
 } = require('./dependencies');

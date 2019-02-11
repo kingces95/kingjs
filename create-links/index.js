@@ -10,6 +10,7 @@ var {
 } = require('./dependencies');
 
 var KingJs = 'kingjs';
+var Shim = '@kingjs/shim';
 var PackageJson = 'package.json';
 var RootDir = getDir();
 
@@ -21,7 +22,7 @@ function createLinks() {
   var cwd = process.cwd();
 
   var paths = { [cwd]: null };
-  var iterator = packagePaths(cwd);
+  var iterator = packagePaths(cwd, true);
   var next = iterator.next();
   while (!next.done) {
     var dir = next.value;
@@ -35,12 +36,20 @@ function createLinks() {
   }
 }
 
-function *packagePaths(dir) {
+function *packagePaths(dir, dev) {
+  //console.log(dir);
   exec(dir, `npm link`);
 
   var jsonPath = require.resolve(PackageJson, { paths: [ dir ] });
   var json = require(jsonPath);
-  var { dependencies } = json;
+  var { dependencies, devDependencies } = json;
+
+  if (dev)
+    dependencies = { ...dependencies, ...devDependencies }
+
+  if (!dependencies)
+    return;
+
   for (var dependency of Object.keys(dependencies)) {
     var dependencyDir = getPackageDir(dependency);
     if (!dependencyDir) {
@@ -58,7 +67,11 @@ function *packagePaths(dir) {
 
 function getPackageDir(name) {
   var parts = parse(name);
-  if (parts.scope != KingJs)
+
+  if (name == KingJs)
+    return getPackageDir(Shim);
+
+  if (parts.scope != KingJs && name != KingJs)
     return null;
 
   var dir = path.join(RootDir, ...parts.names);

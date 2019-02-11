@@ -2,7 +2,7 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: { is },
+  ['@kingjs']: { reflect: { is } },
 } = require('./dependencies');
 
 var EmptyString = '';

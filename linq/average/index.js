@@ -1,17 +1,20 @@
-'use strict';
-
-var aggregate = require('@kingjs/linq.aggregate');
-var { define } = require('@kingjs/linq.define');
+var { 
+  ['@kingjs']: {
+    IEnumerable,
+    reflect: { exportExtension },
+    linq: { Aggregate },
+  }
+} = require('./dependencies');
 
 function defaultSelector(x) {
   return x;
 }
 
-define(module, 'exports', function average(selector) {
+function average(selector) {
   if (!selector)
     selector = defaultSelector;
 
-  var result = this[aggregate]({ 
+  var result = this[Aggregate]({ 
       count: 0, 
       sum: 0
     }, function(x) { 
@@ -22,4 +25,6 @@ define(module, 'exports', function average(selector) {
   );
 
   return result.sum / result.count;
-})
+}
+
+exportExtension(module, IEnumerable, average);

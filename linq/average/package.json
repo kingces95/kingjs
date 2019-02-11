@@ -16,8 +16,10 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/assert-shimmed": "^1.0.1",
+    "@kingjs/i-enumerable": "^1.0.6",
     "@kingjs/linq.aggregate": "^1.0.17",
-    "@kingjs/linq.define": "^1.0.1"
+    "@kingjs/reflect.export-extension": "^1.0.1"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"

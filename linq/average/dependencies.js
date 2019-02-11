@@ -1,4 +1,5 @@
 exports['@kingjs'] = {
+  assertShimmed: require('@kingjs/assert-shimmed'),
   IEnumerable: require('@kingjs/i-enumerable'),
   linq: {
     Aggregate: require('@kingjs/linq.aggregate'),
@@ -7,4 +8,3 @@ exports['@kingjs'] = {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
 }
-exports['kingjs'] = require('kingjs')

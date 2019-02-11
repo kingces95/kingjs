@@ -1,4 +1,5 @@
 exports['@kingjs'] = {
+  IEnumerable: require('@kingjs/i-enumerable'),
   linq: {
     Aggregate: require('@kingjs/linq.aggregate'),
   },

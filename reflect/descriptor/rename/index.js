@@ -1,8 +1,8 @@
 var {
   ['@kingjs']: {
-    is,
-    stringEx: { expand: Expand },
-    functionEx: { rename: Rename }
+    reflect: { is },
+    stringEx: { Expand },
+    functionEx: { Rename }
   }
 } = require('./dependencies');
 

@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: { is }
+  ['@kingjs']: { reflect: { is } }
 } = require('./dependencies');
 
 function createProperty(target, x, y) {
