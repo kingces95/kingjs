@@ -1,6 +1,5 @@
 var {
   ['@kingjs']: {
-    IInterface,
     reflect: { defineProperty }
   }
 } = require('./dependencies');
@@ -30,8 +29,7 @@ function exportExtension(module, type, descriptor) {
   var symbol = Symbol(`${name}, ${version}`);
 
   var { descriptor } = defineProperty(null, symbol, descriptor);
-  if (type instanceof IInterface)
-    descriptor.extends = () => type;
+  descriptor.extends = () => type;
   defineProperty(Object.prototype, symbol, descriptor);
 
   defineProperty(module, Exports, symbol);

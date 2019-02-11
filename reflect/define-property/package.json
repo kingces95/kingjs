@@ -17,10 +17,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/property-descriptor.lambdize": "^1.0.2",
     "@kingjs/property-descriptor.make-lazy": "^1.0.3",
-    "@kingjs/property-descriptor.target-instance-of": "^1.0.6"
+    "@kingjs/reflect.descriptor.target-instance-of": "^1.0.0"
   },
   "devDependencies": {
     "@kingjs/assert-theory": "^1.0.20"

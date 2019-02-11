@@ -2,34 +2,54 @@ var assert = require('assert');
 
 var { 
   ['@kingjs']: {
-    reflect: { builtInSymbols }
+    stringEx: { Capitalize },
+    reflect: { is, builtInSymbols }
   }
 } = require('./dependencies');
 
-var Id = Symbol.for('@kingjs/IInterface.id');
+var IInterfaceTag = Symbol.for('@kingjs/IInterface');
 
 // interface should throw when activated
 var ActivationError = 'Cannot activate interface.';
 var Delimiter = '.';
+var EmptyObject = { };
 
 /**
  * @description Returns a function whose properties map strings
  * to symbols which, when defined together on an instance, act as an interface. 
  * 
- * @param id The symbol identifying the interface. The symbol must be registered
- * or be built-in (lives on Symbol). If a string is passed then `Symbol.keyFor`
- * is used to fetch/generate the symbol. 
+ * @param name The name of the interface. Will be used as a prefix for generating
+ * symbol names for parameters. 
  * @param descriptor The description of the interfaces this interface
  * extends, and the members that comprise interface this interface.
  * @param descriptor.extends An optional array of interfaces whose members this
  * interfaces inherits.
- * @param descriptor.members An optional object that that provides string aliases for each member's
- * symbol. If the symbol is `null`, then one is fetched/created via `Symbol.keyFor` by
- * joining the interface name and the member name with period. In that case, the 
- * interface `id` must a registered symbol.
+ * @param descriptor.members A map from member names to their symbols. If the symbol 
+ * is `null`, then one is fetched/created via `Symbol.keyFor` by joining the interface 
+ * name and the member name with period. 
  * 
- * @returns Returns a function whose properties are string alias to symbols associated with 
- * interface members.
+ * @returns Returns a function.
+ * 
+ * @remarks The returned interface is a function where
+ * @remarks - every property with a string key will contain 
+ * @remarks   - a symbol corresponding to an interface member
+ * @remarks   - or, when many members share the same name, an arrays of member symbols
+ * @remarks ---
+ * @remarks An instance implements an interface if it declares all an 
+ * interface's member symbol.
+ * @remarks ---
+ * @remarks If no members were defined then a default member with an empty string name
+ * and symbolic value equal to `Symbol.keyFor(name)` is created. In this case, an 
+ * instance implements the interface by defining a property for the the symbol
+ * and a value of `null` or `undefined`.
+ * @remarks ---
+ * @remarks Each interface member has a capitalized alias. 
+ * @remarks - This way an interface can be
+ * deconstructed into capitalized versions of its members which are less likely
+ * to conflict with local variable names.
+ * @remarks - For example, `IEnumerable.GetEnumerator` is an alias of 
+ * `IEnumerable.getEnumerator`.
+ * @remarks ---
  * @remarks The returned interface function has the following properties:
  * @remarks - throws if activated.
  * @remarks - has a `null` prototype.
@@ -38,29 +58,12 @@ var Delimiter = '.';
  * a function was chosen to represent an interface.
  * @remarks - is, itself, an instance that implements `IInterface` so
  * @remarks   - `IMyInterface instanceof IInterface` is `true`
- * @remarks   - defines `IInterface.id` with value `id`
- * @remarks ---
- * @remarks An instance implements an interface if:
- * @remarks - it implements all its extensions
- * @remarks - defines a property for each member using the symbol identifying the member.
- * @remarks - marks itself as implementing the interface by defining a property 
- * using the the interface id as a name (with any value).
- * @remarks   - An interface with a single member can use the same symbol for its own id
- * and that of its single member. This is the case for `IEnumerable`. So that the
- * property `IEnumerable.getEnumerator` provides the implementation of the interface and 
- * also serves as the tag indicating all members of the interface are implemented.
- * @remarks ---
- * @remarks Each interface member has a capitalized alias. 
- * @remarks - This way an interface can be
- * deconstructed into capitalized versions of its members which are less likely
- * to conflict with local variable names.
- * @remarks - For example, `IEnumerable.GetEnumerator` is an alias of 
- * `IEnumerable.getEnumerator`.
  * */
-function createInterface(id, descriptor) {
+function createInterface(name, descriptor) {
+  assert(is.string(name));
 
   if (!descriptor)
-    descriptor = Empty;
+    descriptor = EmptyObject;
 
   var {
     members,
@@ -68,107 +71,135 @@ function createInterface(id, descriptor) {
   } = descriptor;
 
   // define interface
-  var interface = function() { 
+  var iface = function() { 
     assert(false, ActivationError); 
   };
 
+  // interface name is the keyFor its symbolic id
+  Object.defineProperty(iface, 'name', { value: name });
+
   // remove prototype & ctor (because it's never activated)
-  interface.prototype = null;
-  interface.constructor = null;
+  Object.defineProperty(iface, 'prototype', { value: null });
+  Object.defineProperty(iface, 'constructor', { value: null });
 
   // support instanceof
-  Object.defineProperty(interface, Symbol.hasInstance, {
+  Object.defineProperty(iface, Symbol.hasInstance, {
     value: hasInstance
   });
 
-  // initialize interface
-  var name;
-  if (typeof id == 'string') {
-    name = id;
+  // Tag as an interface
+  iface[IInterfaceTag] = null;
 
-    // single member interfaces use the single member's id as 
-    // the interface id unless an interface id is explicitly provided 
-    var memberNames = Object.keys(members || emptyObject);
-    var hasSingleMember = memberNames.length == 1;
-    if (hasSingleMember) {
-      var memberName = memberNames[0];
-      id = hasSingleMember && members[memberName];
-      if (id == null)
-        id = getMemberSymbol(name, memberName);
-    }
-    else 
-      id = Symbol.for(name);
-  }
-  else {
-    name = Symbol.keyFor(id) || builtInSymbols[id];
-  }
-
-  assert(typeof id == 'symbol');
-  assert(typeof name == 'string');
-
-  // interface name is the keyFor its symbolic id
-  Object.defineProperty(interface, 'name', {
-    enumerable: true,
-    value: name
-  });
-
-  // tag the function with it's id
-  interface[Id] = id;
-
-  defineMembers.call(interface, members, name);
+  // gather extensions
+  iface = Object.create(iface);
   if (extensions)
-    inheritExtensions.call(interface, extensions);
+    inheritExtensions.call(iface, extensions);
 
-  return interface;
+  // gather members
+  iface = Object.create(iface);
+  if (members)
+    defineMembers.call(iface, members, name);
+  else
+    iface[''] = Symbol.for(name);
+
+  return iface;
 }
 
 // intercept instanceof; used by extension stubs to test type
 function hasInstance(instance) {
-  var type = typeof instance;
-  if (type != 'object' && type != 'string' && type != 'function')
+
+  var isObjectStringOrFunction =
+    is.object(instance) || is.string(instance) || is.function(instance);
+
+  if (!isObjectStringOrFunction)
     return false;
 
-  assert(Id in this);
-  var id = this[Id];
-
   var prototype = Object.getPrototypeOf(instance);
-  return prototype && id in prototype;
+  if (!prototype)
+    return false;
+
+  // test that declared members are implemented
+  var iface = this;
+  for (var name of Object.getOwnPropertyNames(iface)) {
+    var symbol = iface[name];
+    if (symbol in prototype == false)
+      return false;    
+  }
+  
+  // test that inherited members are implemented
+  iface = Object.getPrototypeOf(iface);
+  for (var name of Object.getOwnPropertyNames(iface)) {
+    var symbolOrSymbols = iface[name];
+
+    // a name may be associated with many members
+    if (is.object(symbolOrSymbols)) {
+      for (var symbol of Object.getOwnPropertySymbols(symbolOrSymbols)) {
+        if (symbol in prototype == false)
+          return false;
+      }
+    }
+
+    else if (symbolOrSymbols in prototype == false)
+      return false;    
+  }
+
+  return true;
 }
 
 function inheritExtensions(extensions) {
+  if (!is.array(extensions))
+    extensions = [ extensions ];
+
   for (var extension of extensions) {
 
     // extensions must be interfaces
-    assert(Id in extension);
-    this[extension[Id]] = Id;
+    assert(IInterfaceTag in extension);
 
-    // inherit extensions polymorphisms
-    for (var inheritedExtension of Object.getOwnPropertySymbols(extension)) {
-      if (extension[inheritedExtension] != Id)
-        continue;
-      this[inheritedExtension] = Id;
-    }
+    inherit.call(this, Object.getPrototypeOf(extension));
+    inherit.call(this, extension);
   }
 }
+function inherit(extension) {
 
-function getMemberSymbol(symbolName, member) {
-  return Symbol.for(symbolName + Delimiter + member);
-}
+    // inherit all members
+    for (var name of Object.getOwnPropertyNames(extension)) {
+      var symbol = extension[name];
 
-function defineMembers(members, symbolName) {
+      // copy
+      if (is.object(symbol))
+        symbol = { ...symbol };
+
+      if (name in this) {
+
+        // allocate object to hold overloads
+        var overloads = this[name];
+        if (!is.object(overloads))
+          this[name] = overloads = { [overloads]: null };
+
+        // merge overloads
+        if (is.object(symbol))
+          overloads = { ...overloads, ...symbol };
+        else
+          overloads[symbol] = null;
+      } 
+
+      // no overloads
+      else
+        this[name] = symbol;
+    }
+  }
+
+function defineMembers(members, interfaceName) {
 
   // define members
-  for (var member in members) {
-    memberId = members[member];
+  for (var name in members) {
+    var symbol = members[name];
 
-    if (!memberId) {
-      assert(symbolName);
-      memberId = getMemberSymbol(symbolName, member);
-    }
+    if (!symbol)
+      symbol = Symbol.for(interfaceName + Delimiter + name);
+    assert(Symbol.keyFor(symbol) || symbol in builtInSymbols);
 
-    // member symbol must be global (or builtin)
-    assert(Symbol.keyFor(memberId) || memberId in builtInSymbols);
-    this[member] = memberId;
+    this[name] = symbol;
 
     // provide a capitalized alias; When consuming an interface, deconstructing
     // into capitalized locals reflect the fact the value is a constant and the
@@ -176,9 +207,7 @@ function defineMembers(members, symbolName) {
     // var { Current, MoveNext } = Symbol.kingjs.IEnumerator
     //   vs
     // var { current, moveNext } = Symbol.kingjs.IEnumerator
-    var capitalizedMember = member[0].toUpperCase() + member.slice(1);
-    if (member != capitalizedMember)
-      this[capitalizedMember] = memberId;
+    this[name[Capitalize]()] = this[name];
   }
 }
 

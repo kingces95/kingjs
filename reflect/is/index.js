@@ -1,21 +1,4 @@
-'use strict';
-
-var functionDescriptor = {
-  configurable: false,
-  enumerable: false,
-  writable: false
-}
-
-function defineFunctions(target, functions) {
-  for (var name in functions) {
-    target[name] = functions[name];
-    Object.defineProperty(target, name, functionDescriptor);
-  }
-}
-
-var is = module.exports;
-
-defineFunctions(is, {
+var is = {
   undefined: o => o === undefined,
   null: o => o === null,
   nullOrUndefined: o => is.null(o) || is.undefined(o),
@@ -36,4 +19,6 @@ defineFunctions(is, {
 
   array: o => Array.isArray(o),
   arrayLike: o => is.array(o) || (is.object(o) && 'length' in o),
-})
+};
+
+module.exports = is;

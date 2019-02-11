@@ -1,6 +1,5 @@
 var {
   ['@kingjs']: {
-    reflect: { implementInterface },
     IEnumerable,
     IEnumerator,
   }
@@ -23,37 +22,34 @@ var {
  * @param instance The instance to enumerate.
  */
 function implementIEnumerable(target, createMoveNext) {
-  return implementInterface(target, IEnumerable, {
-    methods: {
-      getEnumerator: () => new Enumerator(this, createMoveNext);
-    }
-  });
+  target[IEnumerable.getEnumerator] = function getEnumerator() { 
+    return new Enumerator(this, createMoveNext); 
+  };
+
+  return target;
 }
 
-function Enumerator(instance, createMoveNext) {
-  this.instance = instance;
-  this.createMoveNext = createMoveNext;
-}
-Object.defineProperties(Enumerator.prototype, {
-  stillMoving: { value: true, writable: true },
-  moveNextFunc: { value: null, writable: true },
-})
-implementInterface(Enumerator.prototype, IEnumerator, {
-  accessors: {
-    current: 'this.current_'
-  },
-  methods: {
-    moveNext: function() {
-      if (!moveNextFunc)
-        moveNextFunc = createMoveNext(instance);
-
-      stillMoving = stillMoving && moveNextFunc.call(this);
-      if (!stillMoving)
-        this.current_ = undefined;
-
-      return stillMoving;
-    }  
+class Enumerator {
+  constructor(instance, createMoveNext) {
+    this.instance = instance;
+    this.createMoveNext = createMoveNext;
+    this.stillMoving = true;
   }
-})
+
+  get [IEnumerator.current]() { 
+    return this.current_; 
+  }
+
+  [IEnumerator.moveNext]() {
+    if (!this.moveNextFunc)
+      this.moveNextFunc = this.createMoveNext(this.instance);
+
+    this.stillMoving = this.stillMoving && this.moveNextFunc.call(this);
+    if (!this.stillMoving)
+      this.current_ = undefined;
+
+    return this.stillMoving;
+  }  
+}
 
 module.exports = implementIEnumerable;

@@ -22,7 +22,7 @@
     "@kingjs/create-constructor": "^1.0.0",
     "@kingjs/dictionary": "^1.0.6",
     "@kingjs/empty-object": "^1.0.7",
-    "@kingjs/is": "^1.0.6",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/object-ex": "^1.0.29",
     "@kingjs/resolver": "^1.0.2"
   }

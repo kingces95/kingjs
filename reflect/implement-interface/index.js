@@ -2,13 +2,10 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: {
-    is,
-    reflect: { defineFunction, defineAccessor }
-  },
+  ['@kingjs']: { is },
 } = require('./dependencies');
 
-var Slot = Symbol.for('@kingjs/IInterface.slot');
+var EmptyString = '';
 
 /**
  * @description Extends `kingjs/reflect.define-property` to map names
@@ -24,34 +21,50 @@ var Slot = Symbol.for('@kingjs/IInterface.slot');
  */
 function implementInterface(instance, iface, members) {
 
-  // assert type implements ifaces that iface extends
-  for (var extension of Object.getOwnPropertySymbols(iface)) {
-    if (iface[extension] !== Slot)
-      continue;
+  if (EmptyString in iface)
+    instance[iface[EmptyString]] = null;
 
-    assert(extension in instance);
-  }
-  
-  // define members
-  for (var name in members) {
+  var inherited = Object.getPrototypeOf(iface);
 
-    // map name
-    var symbol = iface[name];
-    assert(is.symbol(symbol));
+  // explicit definitions take precedence
+  var symbols = Object.getOwnPropertySymbols(members);
+  implementMembers(iface, symbols);
+  implementMembers(inherited, symbols);
 
-    var descriptor = Object.getOwnPropertyDescriptor(members, name);
-    Object.defineProperty(instance, symbol, descriptor);
-  }
+  var names = Object.getOwnPropertyNames(members);
+  implementMembers(iface, names);
+  implementMembers(inherited, names);
 
-  // assert all iface members implemented
-  for (var name in iface) {
-    var symbol = iface[name];
-    if (!is.symbol(symbol))
-      continue;
-    assert(symbol in instance);
-  }
-  
+  assert(Object.create(instance) instanceof iface);
   return instance;
+
+  function implementMembers(map, keys) {
+    
+    // define members
+    for (var key of keys) {
+
+      // map name
+      var symbolOrSymbols = is.symbol(key) ? key : map[key];
+      if (!symbolOrSymbols)
+        continue;
+
+      if (is.symbol(symbolOrSymbols))
+        implementMember(symbolOrSymbols);
+
+      else for (var symbol of Object.getOwnPropertySymbols(symbolOrSymbols))
+        implementMember(symbol);
+    }
+    return;
+
+    function implementMember(symbol) {
+      if (instance.hasOwnProperty(symbol))
+        return;
+
+      // transplant descriptor
+      var descriptor = Object.getOwnPropertyDescriptor(members, key);
+      Object.defineProperty(instance, symbol, descriptor);
+    }
+  }
 }
 
 module.exports = implementInterface;

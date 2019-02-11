@@ -18,5 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/define-extension": "^1.0.0"
-  }
+  },
+  "capitalize": true
 }

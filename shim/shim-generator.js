@@ -13,7 +13,7 @@ var {
 implementInterface(
   Generator.prototype, 
   IIterable, {
-    methods: { getIterator: 'this()' }
+    getIterator() { return this(); }
   }
 );
 

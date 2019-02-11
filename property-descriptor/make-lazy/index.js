@@ -3,7 +3,7 @@ var assert = require('assert');
 var {
   ['@kingjs']: { 
     is,
-    propertyDescriptor: { rename }
+    reflect: { descriptor: { rename } }
   }
 } = require('./dependencies');
 

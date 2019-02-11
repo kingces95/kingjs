@@ -23,7 +23,7 @@
     "@kingjs/descriptor.object.epilog": "^1.0.2",
     "@kingjs/descriptor.object.keys": "^1.0.0",
     "@kingjs/descriptor.object.prolog": "^1.0.0",
-    "@kingjs/is": "^1.0.6",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/poset.for-each": "^1.0.0"
   }
 }

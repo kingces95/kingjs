@@ -20,7 +20,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/property-descriptor.construct-accessor": "^1.0.0",
     "@kingjs/property-descriptor.construct-field": "^1.0.0",
     "@kingjs/property-descriptor.construct-property": "^1.0.0",

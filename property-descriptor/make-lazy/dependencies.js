@@ -1,6 +1,8 @@
 exports['@kingjs'] = {
-  is: require('@kingjs/is'),
-  propertyDescriptor: {
-    rename: require('@kingjs/property-descriptor.rename'),
+  reflect: {
+    is: require('@kingjs/reflect.is'),
+    descriptor: {
+      rename: require('@kingjs/reflect.descriptor.rename'),
+    },
   },
 }

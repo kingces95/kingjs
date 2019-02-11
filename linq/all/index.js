@@ -20,7 +20,7 @@ var {
 function all(predicate) {
   var enumerator = this[GetEnumerator]();
   while (enumerator[MoveNext]()) {
-    if (!predicate && !predicate(enumerator[Current]))
+    if (!predicate(enumerator[Current]))
       return false;
   }
   

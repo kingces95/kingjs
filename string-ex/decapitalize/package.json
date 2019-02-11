@@ -19,5 +19,6 @@
   "dependencies": {
     "@kingjs/define-extension": "^1.0.0",
     "@kingjs/string-ex.is-capitalized": "^1.0.0"
-  }
+  },
+  "capitalize": true
 }

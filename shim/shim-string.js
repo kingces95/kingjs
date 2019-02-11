@@ -8,9 +8,7 @@ var {
 var IndexableEnumerable = require('./indexable-enumerable');
 
 implementInterface(String.prototype, IEnumerable, {
-  methods: {
-    getEnumerator: function() { 
-      return new IndexableEnumerable(this); 
-    }
+  getEnumerator() { 
+    return new IndexableEnumerable(this); 
   }
 });

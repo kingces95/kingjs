@@ -1,7 +1,6 @@
 var {
   ['@kingjs']: { 
-    is,
-    propertyDescriptor: { rename } 
+    reflect: { is, descriptor: { rename } }
   }
 } = require('./dependencies');
 

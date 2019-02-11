@@ -9,4 +9,4 @@ assert(IEnumerable.name == '@kingjs/IEnumerable');
 
 assert(IEnumerable.getEnumerator == id);
 assert(IEnumerable.GetEnumerator == id);
-assert(IEnumerable[IInterface.Id] == id);
+assert(IEnumerable instanceof IInterface);

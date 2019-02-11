@@ -35,7 +35,7 @@
     "test": "node .test"
   },
   "dependencies": {
-    "@kingjs/is": "^1.0.6"
+    "@kingjs/reflect.is": "^1.0.0"
   },
   "_nodeVersion": "10.15.0",
   "_npmVersion": "6.7.0",

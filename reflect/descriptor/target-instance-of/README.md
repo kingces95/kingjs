@@ -1,9 +1,10 @@
-# @[kingjs][@kingjs]/[property-descriptor][ns0].[target-instance-of][ns1]
+# @[kingjs][@kingjs]/[reflect][ns0].[descriptor][ns1].[target-instance-of][ns2]
 Add a precondition to an accessor or function descriptor  which throws unless `this` at runtime is an `instanceof` a specific type.
 ## Usage
 ```js
 var assert = require('assert')
-var targetInstanceOf = require('@kingjs/property-descriptor.target-instance-of');
+var IIterable = require('@kingjs/i-iterable');
+var targetInstanceOf = require('@kingjs/reflect.descriptor.target-instance-of');
 
 /**
  * @this String The string to capitalize.
@@ -49,12 +50,37 @@ assert(descriptor.value == capitalize);
 // throws. Its derivation by restriction!
 assert.throws(() => [][Capitalize]());
 
+// Extending an interface is also supported. For example, extend IIterable 
+// with Any() like this:
+var Any = Symbol('Any');
+var descriptor = { 
+  value: function() { 
+    return !this[IIterable.getIterator]().next().done 
+  },
+};
+Object.defineProperty(
+  Object.prototype,
+  Any,
+  targetInstanceOf.call(
+    descriptor, 
+    () => IIterable, 
+    Any
+  )
+);
+assert(!String.prototype[Any]());
+assert(''[Any]() == false);
+assert('.'[Any]() == true);
+
+assert(!Array.prototype[Any]());
+assert([0][Any]() == true);
+assert([][Any]() == false);
 ```
 
 ## API
 ```ts
-targetInstanceOf(this, callback(parameters)[, name])
+targetInstanceOf(this, callback()[, name])
 ```
+
 ### Parameters
 - `this`: A descriptor describing an accessor or function.
 - `callback`: Returns the type `this` must be an `instanceof` at runtime in order to access the property.
@@ -62,18 +88,25 @@ targetInstanceOf(this, callback(parameters)[, name])
 ### Returns
 A descriptor whose accessors or function throws at runtime unless `this` at runtime is an `instanceof` the type return by `callback`.
 
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/property-descriptor.target-instance-of
+$ npm install @kingjs/reflect.descriptor.target-instance-of
 ```
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`^1.0.0`|
+|[`@kingjs/reflect.descriptor.rename`](https://www.npmjs.com/package/@kingjs/reflect.descriptor.rename)|`^1.0.0`|
 ## Source
-https://repository.kingjs.net/property-descriptor/target-instance-of
+https://repository.kingjs.net/reflect/descriptor/target-instance-of
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/property-descriptor/target-instance-of)
+![Analytics](https://analytics.kingjs.net/reflect/descriptor/target-instance-of)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
-[ns0]: https://www.npmjs.com/package/@kingjs/property-descriptor
-[ns1]: https://www.npmjs.com/package/@kingjs/property-descriptor.target-instance-of
+[ns0]: https://www.npmjs.com/package/@kingjs/reflect
+[ns1]: https://www.npmjs.com/package/@kingjs/reflect.descriptor
+[ns2]: https://www.npmjs.com/package/@kingjs/reflect.descriptor.target-instance-of

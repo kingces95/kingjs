@@ -13,7 +13,7 @@ assert(IEnumerable.name == '@kingjs/IEnumerable');
 
 assert(IEnumerable.getEnumerator == id);
 assert(IEnumerable.GetEnumerator == id);
-assert(IEnumerable[IInterface.Id] == id);
+assert(IEnumerable instanceof IInterface);
 ```
 
 
@@ -35,7 +35,7 @@ $ npm install @kingjs/i-enumerable
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`^1.0.2`|
+|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`^1.0.4`|
 ## Source
 https://repository.kingjs.net/i-enumerable
 ## License

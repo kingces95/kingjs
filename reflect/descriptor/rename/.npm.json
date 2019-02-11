@@ -1,7 +1,7 @@
 {
   "_id": "@kingjs/property-descriptor.rename@1.0.3",
   "_rev": "3-187c6024abecfd25c9beac5fc3f30ee6",
-  "name": "@kingjs/property-descriptor.rename",
+  "name": "@kingjs/reflect.descriptor.rename",
   "dist-tags": {
     "latest": "1.0.3"
   },
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@kingjs/function-ex.rename": "^1.0.0",
-    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/string-ex.expand": "^1.0.0"
   },
   "_nodeVersion": "10.15.0",

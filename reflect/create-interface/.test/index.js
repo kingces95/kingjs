@@ -1,2 +1,3 @@
 require('./readme');
-require('./interoperate');
+require('./test');
+

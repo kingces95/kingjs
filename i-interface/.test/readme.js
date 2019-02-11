@@ -4,9 +4,8 @@ var IInterface = require('..');
 // an interface, in the abstract, is just 
 // a symbolic name representing a collection 
 // of of symbols (just one in this case).
-var Id = Symbol.for('@kingjs/IInterface.id');
-assert(IInterface.Id == Id);
-assert(IInterface[Id] == Id);
+var IInterfaceTag = Symbol.for('@kingjs/IInterface');
+assert(IInterface[''] == IInterfaceTag);
 
 // the name and symbol collection are 
 // gathered onto an abstract function

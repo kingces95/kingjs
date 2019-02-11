@@ -17,6 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.4"
+    "@kingjs/reflect.is": "^1.0.0"
   }
 }

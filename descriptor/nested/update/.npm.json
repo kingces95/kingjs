@@ -76,7 +76,7 @@
     "@kingjs/descriptor.object.epilog": "^1.0.0",
     "@kingjs/descriptor.object.prolog": "^1.0.0",
     "@kingjs/descriptor.object.write": "^1.0.0",
-    "@kingjs/is": "^1.0.5"
+    "@kingjs/reflect.is": "^1.0.0"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.11.3",

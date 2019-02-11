@@ -1,7 +1,7 @@
 {
   "_id": "@kingjs/is@1.0.9",
   "_rev": "9-b8971ec6b3a42a61a303032097019305",
-  "name": "@kingjs/is",
+  "name": "@kingjs/reflect.is",
   "dist-tags": {
     "latest": "1.0.9"
   },

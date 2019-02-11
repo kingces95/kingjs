@@ -17,7 +17,7 @@ Given a `package.json` like this:
   },
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.9"
+    "@kingjs/reflect.is": "^1.0.0"
   }
 }
 

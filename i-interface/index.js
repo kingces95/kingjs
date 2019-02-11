@@ -5,13 +5,7 @@ var {
 } = require('./dependencies');
 
 /**
- * @description IInterface.Id is found on functions representing
- * interfaces and stores the symbol identifying the interface.
+ * @description IInterface has no members. It tags 
+ * functions representing interfaces.
  */
-module.exports = createInterface(
-  '@kingjs/IInterface', {
-    members: {
-      id: null
-    }
-  }
-)
+module.exports = createInterface('@kingjs/IInterface')

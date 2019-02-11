@@ -37,7 +37,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@kingjs/is": "^1.0.9",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/reflect.define-property": "^1.0.2"
   },
   "_npmVersion": "6.4.1",

@@ -55,7 +55,7 @@
   "dependencies": {
     "@kingjs/descriptor.nested.update": "^1.0.18",
     "@kingjs/descriptor.scorch": "^1.0.5",
-    "@kingjs/is": "^1.0.5"
+    "@kingjs/reflect.is": "^1.0.0"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.11.3",

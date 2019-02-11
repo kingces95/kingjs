@@ -20,6 +20,6 @@
     "@kingjs/descriptor.merge": "^1.0.10",
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/func.return-arg-0": "^1.0.0",
-    "@kingjs/is": "^1.0.0"
+    "@kingjs/reflect.is": "^1.0.0"
   }
 }

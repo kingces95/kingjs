@@ -56,7 +56,7 @@
     "@kingjs/descriptor.nested.array.reduce": "^1.0.7",
     "@kingjs/descriptor.nested.merge": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
-    "@kingjs/is": "^1.0.6"
+    "@kingjs/reflect.is": "^1.0.0"
   },
   "devDependencies": {
     "@kingjs/assert-theory": "^1.0.20"

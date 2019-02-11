@@ -7,6 +7,6 @@
     "@kingjs/package-name.parse": "^1.0.1"
   },
   "devDependencies": {
-    "@kingjs/is": "^1.0.9"
+    "@kingjs/reflect.is": "^1.0.0"
   }
 }

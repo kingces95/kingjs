@@ -1,7 +1,7 @@
 {
   "_id": "@kingjs/property-descriptor.target-instance-of@1.0.4",
   "_rev": "4-c521e338660ce53342875a9b1b8502c4",
-  "name": "@kingjs/property-descriptor.target-instance-of",
+  "name": "@kingjs/reflect.descriptor.target-instance-of",
   "dist-tags": {
     "latest": "1.0.4"
   },
@@ -41,8 +41,8 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@kingjs/is": "^1.0.9",
-    "@kingjs/property-descriptor.rename": "^1.0.0"
+    "@kingjs/reflect.is": "^1.0.0",
+    "@kingjs/reflect.descriptor.rename": "^1.0.0"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "10.15.0",

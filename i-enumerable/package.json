@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/i-enumerable",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "`IEnumerable` has a single member `getEnumerator`.",
   "main": "index.js",
   "files": [
@@ -17,10 +17,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.create-interface": "^1.0.2"
+    "@kingjs/reflect.create-interface": "^1.0.4"
   },
   "devDependencies": {
-    "@kingjs/i-interface": "^1.0.1"
+    "@kingjs/i-interface": "^1.0.4"
   },
   "capitalize": true
 }

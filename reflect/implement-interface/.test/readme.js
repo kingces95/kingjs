@@ -72,34 +72,51 @@ var IA = createInterface("IA", {
   extends: [ IX, IY ]
 })
 
-var instance = { };
-
-// implement IB
-implementInterface(instance, IB, {
-  foo() { return null; }
-});
-
-// implement IX
-implementInterface(instance, IX, {
-  foo() { return null; }
-});
-
 // cannot implement IA without first implementing IY 
 assert.throws(() => 
-  implementInterface(instance, IA, {
-    foo() { return null }
+  implementInterface({ }, IA, {
+    [IX.foo]() { return null },
+    [IB.foo]() { return null },
+    [IA.foo]() { return null }
   })
 )
-implementInterface(instance, IY, {
-  foo() { return null }
-});
 
 // cannot implement IA without also providing IA.foo
 assert.throws(() => 
-  implementInterface(instance, IA, { })
+  implementInterface({ }, IA, {
+    [IX.foo]() { return null },
+    [IY.foo]() { return null },
+    [IB.foo]() { return null },
+  })
 )
 
-// implement IA
+var instance = { };
+implementInterface(instance, IB, {
+  foo() { return null; }
+});
+implementInterface(instance, IX, {
+  foo() { return null; }
+});
+implementInterface(instance, IY, {
+  foo() { return null }
+});
 implementInterface(instance, IA, {
   foo() { return null }
 });
+
+var IAll = createInterface("IAll", {
+  id: '@kingjs/interface.IA',
+  extends: [ IA ]
+})
+
+// implement IAll
+var instance = { };
+implementInterface(instance, IAll, {
+  foo() { return 0; },
+  [IA.foo]() { return 1; }
+});
+assert(Symbol.for('IAll') in instance);
+assert(instance[IA.foo]() == 1);
+assert(instance[IX.foo]() == 0);
+assert(instance[IY.foo]() == 0);
+assert(instance[IB.foo]() == 0);

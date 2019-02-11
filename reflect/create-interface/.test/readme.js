@@ -1,16 +1,16 @@
 var assert = require('assert');
 var createInterface = require('..');
 
-var IEnumerableId = Symbol.for('@kingjs/IEnumerable');
-var GetEnumeratorId = Symbol.for('@kingjs/IEnumerable.getEnumerator');
+var IInterfaceTag = Symbol.for('@kingjs/IInterface');
 
 var IEnumerable = createInterface(
-  IEnumerableId, {
+  '@kingjs/IEnumerable', {
     members: { 
-      getEnumerator: GetEnumeratorId,
+      getEnumerator: null,
     }
   }
 );
+assert(IInterfaceTag in IEnumerable);
 
 // each interface is really just a stripped down function...
 assert(IEnumerable instanceof Function);
@@ -19,14 +19,10 @@ assert(IEnumerable.prototype == null);
 assert(IEnumerable.constructor == null);
 
 // ...that maps strings to symbols where each symbol identifies a member
-assert(IEnumerable.getEnumerator == GetEnumeratorId);
+assert(IEnumerable.getEnumerator == Symbol.for('@kingjs/IEnumerable.getEnumerator'));
 
 // each member has a capitalized alias
-assert(IEnumerable.GetEnumerator == GetEnumeratorId);
-
-// the interface's Id is stored in '@kingjs/IInterface.id'
-var Id = Symbol.for('@kingjs/IInterface.id');
-assert(IEnumerable[Id] == IEnumerableId);
+assert(IEnumerable.GetEnumerator == IEnumerable.getEnumerator);
 
 // create an interface without explicitly providing any symbols
 var IEnumerator = createInterface(
@@ -38,32 +34,27 @@ var IEnumerator = createInterface(
   }
 )
 assert(IEnumerator.name == '@kingjs/IEnumerator');
-assert(IEnumerator[Id] == Symbol.for('@kingjs/IEnumerator'));
 assert(IEnumerator.current = Symbol.for('@kingjs/IEnumerator.current'));
 assert(IEnumerator.moveNext = Symbol.for('@kingjs/IEnumerator.moveNext'));
 
 // make all arrays IEnumerable
-Array.prototype[IEnumerable[Id]] = null;
 Array.prototype[IEnumerable.getEnumerator] = function() {
   var index = -1;
   var current;
 
-  return Object.defineProperties({ }, {
-    [IEnumerator[Id]]: { 
-      value: null 
+  var enumerator = Object.create({
+    get [IEnumerator.current]() { 
+      return current; 
     },
-    [IEnumerator.current]: { 
-      get: () => current 
-    },
-    [IEnumerator.moveNext]: { 
-      value: () => {
+    [IEnumerator.moveNext]: () => { 
         if (++index >= this.length)
           return false;
         current = this[index];
         return true;
-      }
     }
-  })
+  });
+
+  return enumerator;
 }
 assert([] instanceof IEnumerable);
 
@@ -85,7 +76,6 @@ var IIterable = createInterface(
   }
 )
 assert(IIterable.name == '@kingjs/IIterable');
-assert(IIterable[Id] == Symbol.iterator);
 assert(IIterable.getIterator = Symbol.iterator);
 
 // we can now check if an instance supports Symbol.iterator using
@@ -96,15 +86,10 @@ assert('' instanceof IIterable);
 // the symbol @kingjs/IInterface.id can also be similarly turned 
 // into an interface like this:
 var IInterface = createInterface(
-  '@kingjs/IInterface', {
-    members: {
-      id: null
-    }
-  }
+  '@kingjs/IInterface'
 )
 assert(IInterface.name == '@kingjs/IInterface');
-assert(IInterface.id == Id);
-assert(IInterface[Id] == Id);
+assert(IInterface[''] = Symbol.for('@kingjs/IInterface'));
 
 // *head explodes*
 assert(IInterface instanceof IInterface);

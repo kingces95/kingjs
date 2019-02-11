@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/string-ex.capitalize",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Capitalize a string.",
   "main": "index.js",
   "files": [
@@ -19,5 +19,6 @@
   "dependencies": {
     "@kingjs/define-extension": "^1.0.0",
     "@kingjs/string-ex.is-capitalized": "^1.0.0"
-  }
+  },
+  "capitalize": true
 }

@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/reflect.export-extension",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Extend a type with a property and return a symbol whose debug name is derived from the module hosting the extension.",
   "main": "index.js",
   "files": [

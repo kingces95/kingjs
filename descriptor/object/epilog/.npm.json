@@ -41,7 +41,7 @@
     "test": "node .test"
   },
   "dependencies": {
-    "@kingjs/is": "^1.0.0",
+    "@kingjs/reflect.is": "^1.0.0",
     "@kingjs/assert": "^1.0.1",
     "@kingjs/descriptor.object.freeze": "^1.0.1"
   },

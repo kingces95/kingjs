@@ -58,7 +58,7 @@
     "@kingjs/descriptor.nested.reduce": "^1.0.0",
     "@kingjs/descriptor.nested.update": "^1.0.0",
     "@kingjs/poset.for-each": "^1.0.0",
-    "@kingjs/is": "^1.0.0"
+    "@kingjs/reflect.is": "^1.0.0"
   },
   "_npmVersion": "5.6.0",
   "_nodeVersion": "8.11.3",
