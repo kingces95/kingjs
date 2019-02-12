@@ -1,5 +1,6 @@
 var assert = require('assert');
 var path = require('path');
+var fs = require('fs');
 
 var { 
   ['@kingjs']: {
@@ -12,76 +13,70 @@ var {
 var KingJs = 'kingjs';
 var Shim = '@kingjs/shim';
 var PackageJson = 'package.json';
+var NodeModules = 'node_modules';
 var RootDir = getDir();
+var DotDir = /(^|\/)\.\w/;
+var Line = /\r?\n/;
+var EmptyString = '';
 
 /**
  * @description Recursively creates npm links for all 
  * dependent packages.
  */
 function createLinks() {
-  var cwd = process.cwd();
+  var gitDir = getDir();
+  process.chdir(gitDir);
 
-  var paths = { [cwd]: null };
-  var iterator = packagePaths(cwd, true);
-  var next = iterator.next();
-  while (!next.done) {
-    var dir = next.value;
-    if (dir in paths) {
-      next = iterator.next(false);
-      continue;
+  // dump files
+  var lsFiles = shelljs.exec(
+    'git ls-files', 
+    { silent:true }
+  ).stdout.trim();
+
+  // split dump into lines
+  var files = lsFiles.split(Line);
+
+  // select package.json in paths where no directory is prefixed with dot
+  var dirs = files
+    .filter(x => path.basename(x) == PackageJson && !DotDir.test(x))
+    .map(x => path.join(gitDir, path.dirname(x)));
+
+  for (var toDir of dirs) {
+    var jsonPath = require.resolve(PackageJson, { paths: [ toDir ] });
+    var json = require(jsonPath);
+    var { name } = json;
+
+    var parts = parse(name);
+    var fullName = parts.fullName;
+    var scope = EmptyString;
+    if (parts.scope)
+      scope = `@${parts.scope}`
+
+    var fromDir = path.join(gitDir, NodeModules, scope);
+    makeDir(fromDir);
+
+    fromDir = path.join(fromDir, fullName);
+
+    if (!fs.existsSync(fromDir)) {
+      console.log(`${fromDir} -> ${toDir}`);
+      fs.symlinkSync(toDir, fromDir, 'dir');
     }
-    
-    paths[dir] = null;
-    next = iterator.next(true);
   }
 }
 
-function *packagePaths(dir, dev) {
-  //console.log(dir);
-  exec(dir, `npm link`);
-
-  var jsonPath = require.resolve(PackageJson, { paths: [ dir ] });
-  var json = require(jsonPath);
-  var { dependencies, devDependencies } = json;
-
-  if (dev)
-    dependencies = { ...dependencies, ...devDependencies }
-
-  if (!dependencies)
+function makeDir(dir) {
+  if (fs.existsSync(dir))
     return;
 
-  for (var dependency of Object.keys(dependencies)) {
-    var dependencyDir = getPackageDir(dependency);
-    if (!dependencyDir) {
-      exec(dir, `npm i ${dependency}`);
-      continue;
-    }
-
-    var recurse = yield dependencyDir;
-    if (recurse)
-      yield *packagePaths(dependencyDir);
-
-    exec(dir, `npm link ${dependency}`);
-  }
-}
-
-function getPackageDir(name) {
-  var parts = parse(name);
-
-  if (name == KingJs)
-    return getPackageDir(Shim);
-
-  if (parts.scope != KingJs && name != KingJs)
-    return null;
-
-  var dir = path.join(RootDir, ...parts.names);
-  return dir;
+  var { dir: subDir } = path.parse(dir);
+  makeDir(subDir);
+  fs.mkdirSync(dir);
 }
 
 function exec(dir, cmd) {
-  process.chdir(dir);
-
   console.log(`${dir}$ ${cmd}`);
+
+  process.chdir(dir);
   var result = shelljs.exec(cmd, { silent:true });
 
   if (result.code != 0)

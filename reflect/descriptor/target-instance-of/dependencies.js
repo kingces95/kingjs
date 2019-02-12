@@ -1,6 +1,6 @@
 exports['@kingjs'] = {
-  is: require('@kingjs/is'),
   reflect: {
+    is: require('@kingjs/reflect.is'),
     descriptor: {
       rename: require('@kingjs/reflect.descriptor.rename'),
     },
