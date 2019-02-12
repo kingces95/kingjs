@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperties(module, {
-  exports: { 
-    value: function(l, r) { return l == r; } 
-  },
-});
+module.exports = function equal(l, r) { 
+  return l == r; 
+} 

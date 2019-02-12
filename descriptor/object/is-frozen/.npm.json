@@ -28,12 +28,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"e5eb9fe5e3d91be96f1d71e26b0824c9\"",
-  "_lastModified": "Sun, 11 Nov 2018 06:23:55 GMT",
+  "_cached": false,
+  "_contentLength": 1736,
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/assert": "^1.0.10",

@@ -40,8 +40,8 @@
     "type": "git",
     "url": "https://repository.kingjs.net/from-each"
   },
-  "_etag": "W/\"0f60b7818740a9c279049fde1d5af467\"",
-  "_lastModified": "Tue, 05 Feb 2019 00:57:41 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.8",
   "main": "index.js",
   "scripts": {

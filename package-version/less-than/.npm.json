@@ -1,0 +1,55 @@
+{
+  "_id": "@kingjs/package-version.less-than@1.0.0",
+  "name": "@kingjs/package-version.less-than",
+  "dist-tags": {
+    "latest": "1.0.0"
+  },
+  "versions": [
+    "1.0.0"
+  ],
+  "time": {
+    "created": "2019-02-08T00:47:33.152Z",
+    "1.0.0": "2019-02-08T00:47:33.386Z",
+    "modified": "2019-02-08T00:47:36.130Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "Compare if one version is less than another.",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package-version/less-than"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/package-version.parse": "^1.0.0"
+  },
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
+  "dist": {
+    "integrity": "sha512-N2BI/WXnndFAf4WOteVm9l3nsHn6D2B6D4dUl4WnflroHOqTw5ygW7S3IbQsHMzBqCfZOoG4dW8rS6XXxiZxrQ==",
+    "shasum": "f2461d643882a3e03b30d8b6b9f1d8a803b4a89e",
+    "tarball": "https://registry.npmjs.org/@kingjs/package-version.less-than/-/package-version.less-than-1.0.0.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3821,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcXNGmCRA9TVsSAnZWagAA6woP/itKONm9tsKiK1Ybm2X6\nXSzbdS0PwesVLbquEuWD5w4LiDKVGsNTD42Be0hFxlmhGHnIaYs9dbBrQQUg\nCfDP3OgmzojP5u/YBkHz7fh2gmxeIC1nyjxBhITjNQl7Cd2wpKUNVYa1PB2H\n/Xhd7HL7Ybl5SHWxGpKQtad82qdob7tcmbhUY534AlswsFvDbcPuPECv11Yq\nib11M8TWusR4YOLXQU+asnDFZjpuU1Qw/SJ4h5RlVEPZhQM0oGPywmEX74OT\n3qRpnPHkFdJ3qWQTvDGVdpoeABZuYnq7XK1qm8WAUHbMLK9b0rO2bWwLXYiD\neDBsCu2mU/4/TlKuCs0ZepBFdmdYiZggRTAZPbUi+1lsRjsE5PBdVQ3D1Ymp\nxFfmh8o8j57Q5sDe4SHcoP0rW5UXff9Nb4IV5h0EYhiURRFiwPm5rf2M+BAN\ne+FfK8EcgAr8yQntAOBahIBvJk033ue/Ipotrwz1cuthYmN6uxrJtddCJ/tc\n/+ND1JJF6BBjubjKkdxlDH8396USfSBEap3tOiPo8WjsbHXau08viLq5ILgo\nC8uyCVWiR2G9uP9wXjTFpJdXlueAaMME2qHTBLBzEFlOVn7rqyktvGNTiZdr\nCICaauzs5jyvMVR+J/GrxyFuhR6WZ+Y5web5us4wMWE4q0u5fc0qjKdpe6kG\nvsif\r\n=a37f\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/package-version.less-than_1.0.0_1549586853245_0.026039754839138674"
+  },
+  "_hasShrinkwrap": false
+}

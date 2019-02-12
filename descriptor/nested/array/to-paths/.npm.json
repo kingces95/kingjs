@@ -39,16 +39,16 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"c58960a4d7da5c00b01e15aa66e0944b\"",
-  "_lastModified": "Mon, 12 Nov 2018 19:46:16 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.5",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.nested.to-paths": "^1.0.1",
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/is": "^1.0.5"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.11.3",

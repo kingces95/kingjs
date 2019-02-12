@@ -1,16 +1,19 @@
 {
-  "_id": "@kingjs/string-ex.is-capitalized@1.0.0",
+  "_id": "@kingjs/string-ex.is-capitalized@1.0.1",
+  "_rev": "1-a7b800722fed4786ea9e7382888eaa95",
   "name": "@kingjs/string-ex.is-capitalized",
   "dist-tags": {
-    "latest": "1.0.0"
+    "latest": "1.0.1"
   },
   "versions": [
-    "1.0.0"
+    "1.0.0",
+    "1.0.1"
   ],
   "time": {
     "created": "2019-01-29T00:47:49.974Z",
     "1.0.0": "2019-01-29T00:47:50.167Z",
-    "modified": "2019-01-29T00:47:59.889Z"
+    "modified": "2019-02-10T02:38:07.753Z",
+    "1.0.1": "2019-02-10T02:38:05.242Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -23,9 +26,9 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"300c2543b3495ffbcbd4dac90ba47a8b\"",
-  "_lastModified": "Tue, 29 Jan 2019 00:48:01 GMT",
-  "version": "1.0.0",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "node test",
@@ -35,21 +38,21 @@
     "@kingjs/define-extension": "^1.0.0",
     "@kingjs/string-ex.is-upper-case-at": "^1.0.0"
   },
+  "_npmVersion": "6.4.1",
   "_nodeVersion": "10.15.0",
-  "_npmVersion": "6.7.0",
-  "dist": {
-    "integrity": "sha512-/YxOmO8cNv7/at4EZQCFLT+ez9Oz022UuPLYVwHKXsWLpHoE4YKKv7HU5+gdIWTNFC6jQQxydMamF+GlHyTthA==",
-    "shasum": "97b68105ee320a3de757bb94130b8829dc2c47d8",
-    "tarball": "https://registry.npmjs.org/@kingjs/string-ex.is-capitalized/-/string-ex.is-capitalized-1.0.0.tgz",
-    "fileCount": 5,
-    "unpackedSize": 3089,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcT6K2CRA9TVsSAnZWagAAut0QAIWKDyPEORSw5mOYUtCl\nAS1T+hu4VLDzDOF9OndgYYBNw+wWHZCbYjHr3c83MXhiE2JBKCfPVXlsZyBi\nrd/hEpUDOak+v+pmTM+TTwgswsFs7iAvbj+PA2JYMjg5a+MQ4GPGTXv5qlF2\nkY0Hujo6qqXO5Iy412UGlwwmrug0LoFCm8XrVZdcDQaD6VxreiLQVRTlLQPf\n/W+cxayFrSBWOf5inca9Yx5IEwgfNlW3y4Oc6P1jgJ8cz5i3T7ULaoW8TwCg\nxastL79q1JxpJbPKcxEvwnWYiFSkwcTYhLQESdI5j7cwzZsAMu71XCy5qtWk\nyLMFIVmpQZoiDKoVYOqgpi+0inhkuS/neEED+TzzArbBnDPgu3Ed5d4L9WSA\nKwOXrOXabw23ug7/qDuzauFdFoT6F8tYhGaR3XGrRNPJ6H6LoSIuAHyy3AqI\nf9NHrG8j3q6nhvY5qQYYUe4DQmkFw/36DN4EVRMhRJqRRz8oTlKouTPGwClw\nkgWdU+fxwX994mB3BrG1Bq05jdpUhnNdZH2rkvWjZ8TwpQItnGQT9dijclkk\nfvNP3Q6Ql1A2dwn2I1nG8g2XYvAQJFGTPV9R+og2dhNr04qFlAg6vcApvIYI\npiIk0TBnWXH07pywZ4J/OUBG1MowRQlsBNmpBcq9ZCgZfB417Lrwzcys66v2\n9RVD\r\n=R1UT\r\n-----END PGP SIGNATURE-----\r\n"
-  },
   "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-ZFPP5olghqj882V40T1MO9kuJOCg60DavFZpUlMRDYMXxP4yl93VVZG+sV5BdxEMMUyqXoJHd1sAFIXz5xTz/g==",
+    "shasum": "703670df5edc6cae96d814ce77177096d0a21423",
+    "tarball": "https://registry.npmjs.org/@kingjs/string-ex.is-capitalized/-/string-ex.is-capitalized-1.0.1.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3173,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcX46NCRA9TVsSAnZWagAAIe4P/jxck//2KQiITOIn+mrV\nWcAF3A3DueF2f8HG1Q9sboI7eWncWFC+E/vA9ZrMcwCP/azDtHrzrN7yHLdO\nsKuLLIYfpzMn5piM/qJIACPBPyWs89z2o38rNiz7jEUNb3Jo3wex9TLvKlWc\nMUU6+8lovL9D1NcRWxvZgQ7WHMTbS2laXvcicgEFvJ1WsYtD4UdpT5wmsOFG\ntLLEPRybjNVijIlzhD9LnH5m6KGzaCX+4JcaE3cC5xA45eZaiqDtey4Mn29V\n2ofuEteyMJRtp/rxMrA+iJkdcGLbC0bm9MxSpGmHNQ7eBWksWujMaej5l71K\nGnCceHoClVC7bGcCV9ey39xfvv/K/ix8bcSypO9OTufvASJIgnjEqa0IIRik\n39eXpyGO52kyu6QyYOEhXS2cGuscg6yHJ0ggtPvAbCxMJ3Op+LrZcMRjfDMz\nQ3kpyM/Advs4l2mDjG1LpKci+OKBRTJQ+z8/+gQ1hXeRDJgQA355rFb3PCWC\nSe/oue0s9w2fax56Fxl+V+xoPzfv84TlQ8RPVjPTNTklLkWDfKarbSIWbJZy\nO5eFkwin/lAcI91XIZwCAB8xI4hpABLBaLoKXgeWO1Hu2i6G/6OB1rBwIMvI\npbMufaK0BcPXx3o2LbCT9hVlJ1jc5TPQItHATEO1dqzvlQ74iTEKNJN9mXF+\nbZ8P\r\n=3Np4\r\n-----END PGP SIGNATURE-----\r\n"
+  },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/string-ex.is-capitalized_1.0.0_1548722870069_0.7866682188524803"
+    "tmp": "tmp/string-ex.is-capitalized_1.0.1_1549766285048_0.26090414191252176"
   },
   "_hasShrinkwrap": false
 }

@@ -31,12 +31,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"6aa19199ebb1f8f6e34db1d8cf0f961f\"",
-  "_lastModified": "Sun, 09 Sep 2018 22:16:54 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {},
   "_npmVersion": "6.4.1",

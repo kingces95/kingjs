@@ -27,8 +27,8 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"1b4d50a71961d646a47845895883229e\"",
-  "_lastModified": "Thu, 07 Feb 2019 20:02:45 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
-var sequenceEqual = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+require('kingjs');
+var SequenceEqual = require('..');
+var assert = require('assert');
 
 function readme() {
   var expected = [1, 2, 3];
@@ -11,10 +11,10 @@ function readme() {
   var justRight = [1, 2, 3];
   
   var result = {
-    tooFew: expected[sequenceEqual](toFew),
-    tooMany: expected[sequenceEqual](tooMany),
-    wrongOrder: expected[sequenceEqual](wrongOrder),
-    justRight: expected[sequenceEqual](justRight),
+    tooFew: expected[SequenceEqual](toFew),
+    tooMany: expected[SequenceEqual](tooMany),
+    wrongOrder: expected[SequenceEqual](wrongOrder),
+    justRight: expected[SequenceEqual](justRight),
   };
 
   assert(result.tooFew == false);
@@ -25,7 +25,7 @@ function readme() {
 readme();
 
 function test(left, right, result, equal) {
-  assert(left[sequenceEqual](right,
+  assert(left[SequenceEqual](right,
     equal
   ) == result);
 };

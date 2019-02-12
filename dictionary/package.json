@@ -15,5 +15,6 @@
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "capitalize": true
 }

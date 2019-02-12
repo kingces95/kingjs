@@ -15,8 +15,8 @@ var PackageJson = 'package.json';
 var RootDir = getDir();
 
 /**
- * @description Recursively creates npm links for all 
- * dependent packages.
+ * @description Recursively create symbolic links for all  
+ * packages in a git enlistment at the root of the enlistment.
  */
 function createLinks() {
   var cwd = process.cwd();

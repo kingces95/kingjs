@@ -27,15 +27,15 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"3cceb81757bccf7cdcafb0be51b6992d\"",
-  "_lastModified": "Mon, 04 Feb 2019 22:47:43 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/is": "^1.0.6"
   },
   "_nodeVersion": "10.15.0",
   "_npmVersion": "6.7.0",

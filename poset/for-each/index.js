@@ -50,7 +50,7 @@ function forEach(action, roots) {
       }
       
       // process vertex
-      action.call(this, vertexName);
+      action.call(this, vertexName, _stack);
     }
 
     // epilog

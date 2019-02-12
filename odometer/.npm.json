@@ -38,8 +38,8 @@
     "type": "git",
     "url": "https://repository.kingjs.net/odometer"
   },
-  "_etag": "W/\"13eb1a0427706bb44bc00669493fa55a\"",
-  "_lastModified": "Sat, 05 Jan 2019 01:35:21 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.7",
   "main": "index.js",
   "scripts": {

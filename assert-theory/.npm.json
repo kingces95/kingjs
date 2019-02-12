@@ -69,8 +69,8 @@
   "bugs": {
     "url": "https://github.com/kingces95/kingjs/issues"
   },
-  "_etag": "W/\"0c45799f4d3d0bd39f4a44b8c632dba9\"",
-  "_lastModified": "Tue, 05 Feb 2019 02:05:00 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.20",
   "main": "index.js",
   "scripts": {

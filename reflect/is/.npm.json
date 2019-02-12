@@ -1,75 +1,55 @@
 {
-  "_id": "@kingjs/is@1.0.9",
-  "_rev": "9-b8971ec6b3a42a61a303032097019305",
+  "_id": "@kingjs/reflect.is@1.0.1",
+  "_rev": "1-331fb4faa9dd1abf878ba44fe77d586b",
   "name": "@kingjs/reflect.is",
   "dist-tags": {
-    "latest": "1.0.9"
+    "latest": "1.0.1"
   },
   "versions": [
     "1.0.0",
-    "1.0.1",
-    "1.0.2",
-    "1.0.3",
-    "1.0.4",
-    "1.0.5",
-    "1.0.6",
-    "1.0.7",
-    "1.0.8",
-    "1.0.9"
+    "1.0.1"
   ],
   "time": {
-    "created": "2018-10-27T00:12:03.738Z",
-    "1.0.0": "2018-10-27T00:12:04.189Z",
-    "modified": "2019-01-12T23:05:54.031Z",
-    "1.0.1": "2018-10-27T06:37:26.463Z",
-    "1.0.2": "2018-10-28T20:49:24.641Z",
-    "1.0.3": "2018-10-29T02:35:07.759Z",
-    "1.0.4": "2018-11-08T00:45:34.186Z",
-    "1.0.5": "2018-11-10T21:46:19.156Z",
-    "1.0.6": "2018-11-21T02:31:11.946Z",
-    "1.0.7": "2019-01-12T22:28:11.584Z",
-    "1.0.8": "2019-01-12T23:03:14.075Z",
-    "1.0.9": "2019-01-12T23:05:51.166Z"
+    "created": "2019-02-09T08:07:09.936Z",
+    "1.0.0": "2019-02-09T08:07:10.161Z",
+    "modified": "2019-02-09T08:08:01.324Z",
+    "1.0.1": "2019-02-09T08:07:58.853Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
   ],
-  "description": "```js\r var copy = require('@kingjs/is');\r ```\r result:\r ```js\r ```\r ## API\r ```ts\r declare function is(\r ): any\r ```\r ### Parameters\r ### Returns\r ## Remarks\r ## Install\r With [npm](https://npmjs.org/) installed, run\r ```\r $ npm install @kingjs/is\r ```\r #",
-  "homepage": "https://github.com/kingces95/kingjs#readme",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/reflect/is"
   },
   "author": "Chris King <kingces95@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/kingces95/kingjs/issues"
-  },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"4e0acb4866b7c6acc81b81938a363f51\"",
-  "_lastModified": "Sat, 12 Jan 2019 23:05:55 GMT",
-  "version": "1.0.9",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.1",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "node .test"
   },
   "dependencies": {},
-  "_npmVersion": "5.6.0",
-  "_nodeVersion": "8.11.3",
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
   "_npmUser": "kingces95 <kingces95@gmail.com>",
   "dist": {
-    "integrity": "sha512-W/44marSlpVBOMrLjjajLDKHQUZ96v1V1ds44kAlPpnC27Y8hUW1Bvb3+vyy/D7btbj9rAJ4Pv9a2MEN9S8atg==",
-    "shasum": "512fe4c16eac1c3de81a8d62a393cb6aa982489e",
-    "tarball": "https://registry.npmjs.org/@kingjs/is/-/is-1.0.9.tgz",
+    "integrity": "sha512-Fw5uqJ6VBkEmN+qH5nETdMwaH7TZRUeCnv8XK6rIshcn2J5Kaum6bxa/2Jtm1h5wHPswY7JK6heyCi/lVTXf7A==",
+    "shasum": "f48d866d7645328bceb2306338eb6104b6133c9e",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.is/-/reflect.is-1.0.1.tgz",
     "fileCount": 4,
-    "unpackedSize": 3027,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcOnLQCRA9TVsSAnZWagAAzoEP/j39PaY0rfQwkcqjSgxt\nDnbWXV7C4lI4qkoYjyY3t5TjQebTLRidGGpVzhvnUjlU8ICa2GoP/TXvj8Pk\nMP/viMNJPnsZdBpIqjuPDFB7ERz093zjUw2iV2AlS2K/j+NiLnGUdT3CX1Me\njMvcmLDfTF+xt4oMtoudL+no3WD9U/qookIW/wn9o3HWFIzKmrPQPg6M2yf6\nmEn4gnfDZKCKMO8nwSpgLgpk52GtATfGcEIjVp1se28frkKmTUCadqdhrmA6\naTiwZdBwwdT2hmyAxSf5EzMbSTTQFQdzDTPiQGyaycMGyR/+dUGpU80pjkDH\nqMBUJlfASRIyDoQPb6vnBZGvB6E5jUBdwfmf/RsbML9ZD2guDpwkfFYXhMOr\nQxToPwwYMEc2y5Rym1klv9hipXlDVByN1SXCrI8OyXiUcniSzU65iUZjFXbK\njo9lBkzAP23L+QOAKvYdZiuk8+fGJ7AKijVRGic89A0WxYzQseCXKpFkekG2\nwtbXhBW6QB25bjDadRy/rkBfeXk6Zaaab7uBNe6s69pD+E92JlKdzUU6DQ4u\nKWuB+QFZHkVriwcZ4c65B4ogEwjp4AflXn/QogzTW1HCQA29EXBp2eE9Mkm3\nVTrJtj4A9C8GC5PJO9Y8AxB3jmT7GAeSgefUtuTf0+WENOuWZuhBnkID+r0w\nVL5l\r\n=E1PQ\r\n-----END PGP SIGNATURE-----\r\n"
+    "unpackedSize": 2752,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcXopfCRA9TVsSAnZWagAAFa4P+wbhr8Ps3ETmVOCTA+6R\n0SxgHkJwSvC0cGFucFRMDcnHzSYiFbfqA3G8vBg12BMfyg8kCIHYT1axk7yt\nVrKMlTe2k3S5d7pRBt7k4bbmmSSgL/idqi+s1YQV/Lf+muIc2h3uwwr2N7+K\nh7oj2V06p75wqPkJ7Clg/FOrXhdxwhzb6jrKqIGqRtfrj9rLjXLRkUPsH1T/\ne9ORvjXOPr+TbvoUqeH9RBVayyGnwK1mzSRv+VmoY1twLnHPYr7A7WVBLNXn\nj+7WjUoHRK/8BTywS0R5EwDzufp9nNuBZ3ZT/MI9Oc7AOR3cECgEcnOU32V+\nA3yDdUAAK/n0Rg4D/r4epOmyx3wYWBDHUTqPQfxa1jEpkWO1duET9Kc7omDf\nbRutlhig/k9tAuI8eEyrBMYwWprqVJ8ITc8/1eND1DSi9oSRgqey8ZWA6xWP\nSTxjRsAXZmyenCqkpZBj5QGC79wTncB1TRzjIc0TPkxRbgQv8OEx6R4Aqddk\nLh7Rihpyze0rIkELPDOWNlLyt4s/FTcXhoAm2ELXTUPfK8Wk8MKeYYwsZH/n\nZ/a9Jjp8YynZ3szSa5J6NoWtJrSqQI5xKBwR9f8K+hAOP4A5QohBFK3Dhsha\nGIgY6hjxosLGPCE5izloNz4qi3EEYtGTljHCGUpjj61rx8boiOGjWUmfUOCY\nEheT\r\n=+5/I\r\n-----END PGP SIGNATURE-----\r\n"
   },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/is_1.0.9_1547334351077_0.4328653997896581"
+    "tmp": "tmp/reflect.is_1.0.1_1549699678694_0.5192581913683216"
   },
   "_hasShrinkwrap": false
 }

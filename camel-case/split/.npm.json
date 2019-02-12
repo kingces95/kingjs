@@ -23,8 +23,8 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"c2fed2bc9f650f2423a5553b1f81c458\"",
-  "_lastModified": "Sun, 13 Jan 2019 19:27:11 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

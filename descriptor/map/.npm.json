@@ -47,12 +47,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"df4102e9c74732cd17626683c4272e49\"",
-  "_lastModified": "Tue, 13 Nov 2018 15:38:50 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.9",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.nested.scorch": "^1.0.8",

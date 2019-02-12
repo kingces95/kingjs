@@ -31,12 +31,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"946224a59b8402ee4b46bd2b329ea633\"",
-  "_lastModified": "Sun, 11 Nov 2018 06:22:48 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.object.writable-symbol": "^1.0.0"

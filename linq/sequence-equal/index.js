@@ -1,25 +1,32 @@
-'use strict';
+var { 
+  ['@kingjs']: {
+    linq: { defaultEqual },
+    reflect: { exportExtension },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
-var { define, getEnumerator, moveNext, current } = require('@kingjs/linq.define');
-var defaultEqual = require('@kingjs/linq.default-equal');
-
-define(module, 'exports', function sequenceEqual(other, equals) {
+function sequenceEqual(other, equals) {
   if (equals === undefined)
     equals = defaultEqual;
   
-  var lhs = this[getEnumerator]();  
-  var rhs = other[getEnumerator]();  
+  var lhs = this[GetEnumerator]();  
+  var rhs = other[GetEnumerator]();  
   
-  while (lhs[moveNext]()) {
-    if (rhs[moveNext]() == false)
+  while (lhs[MoveNext]()) {
+    if (rhs[MoveNext]() == false)
       return false;
     
-    var lhsValue = lhs[current];
-    var rhsValue = rhs[current];
+    var lhsValue = lhs[Current];
+    var rhsValue = rhs[Current];
     
     if (!equals(lhsValue, rhsValue))
       return false;
   }
   
-  return rhs[moveNext]() == false;
-})
+  return rhs[MoveNext]() == false;
+}
+
+exportExtension(module, IEnumerable, sequenceEqual);

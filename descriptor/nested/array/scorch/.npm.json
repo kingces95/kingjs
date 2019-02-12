@@ -35,12 +35,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"04bbc26c84155399466cb078a540a2f5\"",
-  "_lastModified": "Mon, 12 Nov 2018 19:45:25 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.3",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.nested.array.to-paths": "^1.0.4",

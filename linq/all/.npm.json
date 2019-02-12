@@ -1,9 +1,9 @@
 {
-  "_id": "@kingjs/linq.all@1.0.10",
-  "_rev": "11-799125f8bd53e96d2a0aa2c09a829548",
+  "_id": "@kingjs/linq.all@1.0.12",
+  "_rev": "12-49c46933ab55e89ca0d69f3bfa7e2ab2",
   "name": "@kingjs/linq.all",
   "dist-tags": {
-    "latest": "1.0.10"
+    "latest": "1.0.12"
   },
   "versions": [
     "1.0.0",
@@ -16,12 +16,14 @@
     "1.0.7",
     "1.0.8",
     "1.0.9",
-    "1.0.10"
+    "1.0.10",
+    "1.0.11",
+    "1.0.12"
   ],
   "time": {
     "created": "2018-07-30T08:26:58.571Z",
     "1.0.0": "2018-07-30T08:26:58.789Z",
-    "modified": "2018-08-17T21:28:31.281Z",
+    "modified": "2019-02-08T03:57:43.976Z",
     "1.0.1": "2018-07-30T08:34:14.447Z",
     "1.0.2": "2018-07-30T09:53:30.238Z",
     "1.0.3": "2018-08-03T06:45:43.147Z",
@@ -31,7 +33,9 @@
     "1.0.7": "2018-08-14T21:35:39.750Z",
     "1.0.8": "2018-08-15T02:16:23.636Z",
     "1.0.9": "2018-08-16T02:29:09.715Z",
-    "1.0.10": "2018-08-17T21:28:28.501Z"
+    "1.0.10": "2018-08-17T21:28:28.501Z",
+    "1.0.11": "2019-02-08T03:48:13.195Z",
+    "1.0.12": "2019-02-08T03:57:41.564Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -40,39 +44,41 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "homepage": "https://github.com/kingces95/kingjs#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/all"
   },
-  "bugs": {
-    "url": "https://github.com/kingces95/kingjs/issues"
-  },
-  "_attachments": {},
-  "_etag": "W/\"5b773dff-5ee9\"",
-  "_lastModified": "Fri, 17 Aug 2018 21:28:31 GMT",
-  "version": "1.0.10",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.12",
   "main": "index.js",
-  "files": [
-    "*.js"
-  ],
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
-  "_npmVersion": "5.6.0",
-  "_nodeVersion": "8.11.3",
-  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  },
+  "dependencies": {
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/reflect.export-extension": "^1.0.1"
+  },
+  "capitalize": true,
+  "_nodeVersion": "10.15.0",
+  "_npmVersion": "6.7.0",
   "dist": {
-    "integrity": "sha512-prGcOlVAE92ivVZLs0PxLL/dRV1suuUISsriAw7gyzljpBcC3cDiW9RXg1Bunvu9G3vzfemJ+fIp8D3cxcwKVg==",
-    "shasum": "9328334f3c14cec0737c7a7b47f430d904abc014",
-    "tarball": "https://registry.npmjs.org/@kingjs/linq.all/-/linq.all-1.0.10.tgz",
-    "fileCount": 4,
-    "unpackedSize": 3111,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbdz39CRA9TVsSAnZWagAAcEEP/0WkO7nM/ALNvCq04xpx\nXwpTn3jr/d2+bw00PkGmn7Fh47DV+zPnHSacjttTfYLJamSx9w8hefWi2giW\nYEqaK5g89/y3LvIdHQOFtGfJJPilsl+pbQ4Lkiy1Y5cBRt6l2YBrqPrP8eK4\nvkWYWwWX8WtbKckqat5PJDvcho8muZdm2oAXYJjQhg3Q8cfNY6XHmmNkd4Xe\nHGVpbXZLkoVYPYlHUZaFaWbe3KvU0l4s37tiEyqDNwnJNn2H7yyLtxRsU+pC\nqey9cbw6amQ0itVev4t7FM7c3i/uY/Nj02QP5YgFq/BnAIFVnhx+rILCm/Ld\nyhY6pIADpsCp4c4q+pBJ3MlW5A6acSux9PQJQTE1bmCHbdp/TsmrDDNlvn4b\ny31CwJQi0g2K9u0aUEGW7cgXX2nxZ6dNBHvHSSP8jJIxLioEXE30SCVHXLKD\nXa0H2feJc6dWmHAEq69vMAeb/HM4DOnxJ5hNWD6P+81Snx2ApJHgZP7obxkI\nOm5DFjD3vY3roV0MIk1/a4C/xEwot8DrB6nt4gCvItR9sHzGA6dKohnKcaBI\nxMFc0didSav/uk0wUKi6OceRGi8ZFcL2yEoh64gAM4uThuc6q6Z3dyARnmSB\nW9u3AURV0p06St6pz3QShTTEvf74bVarHKaMOkt4athTCsWBJaJETT27MZLA\nfL35\r\n=Njym\r\n-----END PGP SIGNATURE-----\r\n"
+    "integrity": "sha512-u2WGcr+vxu9Kw0cy2Dy5PZqZ4K3Mi8BQnuyddB0rmbwXzfhtsoMKd4/FWmRmdqJpFN2Fr9M7Z7RbwylX6ifhAA==",
+    "shasum": "5e5a5f322e5ad8efdbf62123fcf0b7f822653a73",
+    "tarball": "https://registry.npmjs.org/@kingjs/linq.all/-/linq.all-1.0.12.tgz",
+    "fileCount": 5,
+    "unpackedSize": 4154,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcXP41CRA9TVsSAnZWagAAqaIQAJELJbeWVK5bQvE0FA8T\n5YsVeKC4mdNtjM3MJbJNR8SrysuGRe+vbqMyj0L3nHRI4VT+JRQONR7guuUo\nLkrc4JKxsXoV7GMhs11i709bdwFL+OVuqQVIFf1JPjLMY8gkWKmq5BI5y0Hb\naFIZ0QgV3ZQJ9RwTEXrqnzPcZfeExjAwQ7QHJqtIJF4JJCYZ4OYajUqUgBZg\nCKHl5TNsSYmK3jHYfQAl434rkyfjSGILn1nODvEdmyv8iDZa9HGp0scYVuJH\nFJ7Nidq5xCrzZ0hgRgIUgraPZuq8OcVXYy4f52Ld7JgUtnvYy9wMBjSoA3Nl\nH06zRL9nPYR0ZG3iGS6kT5+Cwf9+8PWwbyXAcZia5BBlHGhTJWj59egl2npK\nA3buiBaJBGoZmHfBwOGKe/dCzwyDof1H9VTF81Iy5bCipECS5J8/ifK+rq70\nzr0dFHaRB17OSUai2e4Qtp+UFjlcElICilbyyGr53xpVBjyXOltPs+R48PRG\nB8iGpJXjer/jtaLKfeZNstHrxslQB8fuODELdH6+Yr8sqBIn3u39YMTcPzLO\nQKXIs2Z2DWnLUgcENClbaqNxvtoR1KQyjdeC/srsFvtrLiEjaapBNkyt+jKr\nMXinXAoVvK6TNqU0m+cdcHOzkyyjo+rkUkddoSPTtznVcCHOcfiPtrid+/jC\nqabE\r\n=Bt1s\r\n-----END PGP SIGNATURE-----\r\n"
   },
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/linq.all_1.0.10_1534541308403_0.26590545831513834"
-  }
+    "tmp": "tmp/linq.all_1.0.12_1549598261411_0.2157200472489944"
+  },
+  "_hasShrinkwrap": false
 }

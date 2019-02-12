@@ -51,15 +51,15 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"84d53599291b59f8d8dc5fb18a2f85eb\"",
-  "_lastModified": "Sun, 25 Nov 2018 02:51:43 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.11",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/is": "^1.0.4"
   },
   "_npmVersion": "5.6.0",
   "_nodeVersion": "8.11.3",

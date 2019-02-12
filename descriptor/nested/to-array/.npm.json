@@ -47,12 +47,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"5e4d2b38b747f6dec3f28c37759c94fe\"",
-  "_lastModified": "Sun, 25 Nov 2018 02:52:09 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.9",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.nested.reduce": "^1.0.9"

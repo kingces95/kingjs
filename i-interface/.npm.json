@@ -1,23 +1,25 @@
 {
-  "_id": "@kingjs/i-interface@1.0.3",
-  "_rev": "3-10beadca4460b5b64c69695ad18e07c0",
+  "_id": "@kingjs/i-interface@1.0.4",
+  "_rev": "4-4fc55ff8f75e3495419423ca73ef60f6",
   "name": "@kingjs/i-interface",
   "dist-tags": {
-    "latest": "1.0.3"
+    "latest": "1.0.4"
   },
   "versions": [
     "1.0.0",
     "1.0.1",
     "1.0.2",
-    "1.0.3"
+    "1.0.3",
+    "1.0.4"
   ],
   "time": {
     "created": "2019-02-06T01:49:04.753Z",
     "1.0.0": "2019-02-06T01:49:05.100Z",
-    "modified": "2019-02-07T20:09:33.427Z",
+    "modified": "2019-02-11T02:50:17.165Z",
     "1.0.1": "2019-02-07T04:18:34.654Z",
     "1.0.2": "2019-02-07T06:44:55.221Z",
-    "1.0.3": "2019-02-07T20:09:31.012Z"
+    "1.0.3": "2019-02-07T20:09:31.012Z",
+    "1.0.4": "2019-02-11T02:50:14.795Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -30,33 +32,33 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"567199ae25367580121d38f2a3afafa5\"",
-  "_lastModified": "Thu, 07 Feb 2019 20:09:34 GMT",
-  "version": "1.0.3",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.4",
   "main": "index.js",
   "scripts": {
     "test": "node .test",
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@kingjs/reflect.create-interface": "^1.0.2"
+    "@kingjs/reflect.create-interface": "^1.0.4"
   },
   "capitalize": true,
   "_npmVersion": "6.4.1",
   "_nodeVersion": "10.15.0",
   "_npmUser": "kingces95 <kingces95@gmail.com>",
   "dist": {
-    "integrity": "sha512-cUQhp0YXRaUWdj5+c3ITC4JeAHx65G3B1ojW2p0nn3GJqUUho+kzqtNtgKxz0VLFR07cJVPLnz5nZAfEhqYHBQ==",
-    "shasum": "15d32aab6db4976077fac4e52b013a4705b19876",
-    "tarball": "https://registry.npmjs.org/@kingjs/i-interface/-/i-interface-1.0.3.tgz",
+    "integrity": "sha512-/QY4cZAAqkZGvMJRo9XGOyryDC9n+MIZ1ltZkt1i937WPajh+6ofSmgG9KL4zoI3+4Xemua6pRVABiQQiLDFig==",
+    "shasum": "46fa3de78cd0d31fd696396fbe0e88bab27b7f2d",
+    "tarball": "https://registry.npmjs.org/@kingjs/i-interface/-/i-interface-1.0.4.tgz",
     "fileCount": 5,
-    "unpackedSize": 3684,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcXJB7CRA9TVsSAnZWagAAwUMP+QG9JP2h1diA/PgfubTM\nCYJ970OvPXe1ChsDVXZlkZJLOM8UjVKjG7T7s275cwrmECDII+GjVHojnYOw\nX/E4P8II+/kPx15LmEEqdW08EVH5RVdad5d0ZnibSR4p1YCHZvdEiltQY6Zw\nF3OzhgiNc656cQQSYi5ygF8rHWOdg+7vkkejdFpZnl3uOMPgpnSrkbtnXzZF\nS69OIIH2fGm72kGGb6VvAbUW0suofqdYciV17cXMCczUh5H+L4swvZOX9Hin\n875JGQfgqCdrz3i2TKyebGuzQeZbvbSIDT2YmDdDmLLP+D7oseGSy+vKExfD\nf7EUUPiN5hozxFrviqfXFI1sbiPk7+bmZy7JH/O9SIYOf037eOhgyXkuTzOJ\n18IRvZMtBJqUkxwFc73sd72gB/eHtqDPGC73HKbm2aGekBenV8ae9loKBWfZ\nbXMj0Jg4p+sBL0ZnGouhNkGB3BuzdPlcGPxbpco1VZVzLtC/DXuq+6AzVJIA\nd11qMFoqRF8Qj368DSnjZSar+/KxuSR8owHkoHkQyL/312ViBYxBHf/85BtC\nZZKHxqrpLWDOtsReDqLYngUIMQcb8YqTSaKT8l45V8Nammv8hoBJAO2V6b6E\nB8m3+ypI1aLKNHbKu0Y9zYW1A96Tkd36OGa8B+gZKUbmz8j25nG8I7JJCpcl\nexpG\r\n=o9Vl\r\n-----END PGP SIGNATURE-----\r\n"
+    "unpackedSize": 3593,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcYOLnCRA9TVsSAnZWagAAMU0P/AgbcaBSBICiJ4Ng5hCa\nKqEz5eosDd6nOG3rW2IyJNL8fi2ZZUCcMbJAwLySDXfU2rq9PdYo/9OfMz7+\nVQyU1CVcZs+Kf1wAkx+VOiZmFrkhLQm0Sqt4XDjJ3cnSn1FuyUQEAxl4Sjza\n3oZsjDpLzyC7MO//zNEx5n4aBLIrjkHQ8Fct1SajBIfLVWlzTac+9fsWcFFi\nuayXxmmKDN1N6T9RU9lfa8ljzYPqQUpyV/CpCUmiQ3y9c0RX7wZMkhBhb2il\nrx7hJ/AlLw0hD/aT8bRqTCEV5VjGyla8+Rn/X7TPEaIrD84vUyGRHafW+PII\n6yApgiS++pEG0KOBYErKVyEQj9WzY4hRroUuXpUu+oY7NzQnprChbNRz0xED\nsI8DybggIM2Jw2BmjPy1Bowlj2XJfG+RlBB/gHIqpq3bwjHxI7YKRXymCdFC\nZUviGnj6aiVnrJ7fAGqcX3tswph4ap0/iuKwDiXHIFUl9MUbYrwAxgeShLRA\n+seGoD5rkfJyjKZytsjhWrPN5BzsB56aePCxc+SuqYpLHT+47hJfbyFrGU7Z\n0WxYQ9EmBS43X5KVeKsNcoKQolTAz2ELrs9huZqkOkPVoOAqc772+HRXpsm7\n8hXNb0uPsBiez9dB1FEbxqhrS93NJfFrpd5ruhbzjHjFiIs2o671IBfcBue5\ny9H0\r\n=0ZMD\r\n-----END PGP SIGNATURE-----\r\n"
   },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/i-interface_1.0.3_1549570170902_0.03830556938959129"
+    "tmp": "tmp/i-interface_1.0.4_1549853414648_0.5411337577208475"
   },
   "_hasShrinkwrap": false
 }

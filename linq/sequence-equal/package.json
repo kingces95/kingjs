@@ -17,7 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.default-equal": "^1.0.0",
-    "@kingjs/linq.define": "^1.0.1"
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/reflect.export-extension": "^1.0.1"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"

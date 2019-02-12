@@ -51,15 +51,15 @@
     "url": "https://github.com/kingces95/kingjs/issues"
   },
   "_attachments": {},
-  "_etag": "W/\"5b7b9972-6968\"",
-  "_lastModified": "Tue, 21 Aug 2018 4:47:46 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.11",
   "main": "index.js",
   "files": [
-    "*.js"
+    "index.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/linq.aggregate": "^1.0.16"

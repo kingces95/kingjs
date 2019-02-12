@@ -33,15 +33,15 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"1f536e0cc31258249a88253d9eeb1c79\"",
-  "_lastModified": "Tue, 13 Nov 2018 21:35:31 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.2",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0",
+    "@kingjs/is": "^1.0.0",
     "@kingjs/assert": "^1.0.1",
     "@kingjs/descriptor.object.freeze": "^1.0.1"
   },

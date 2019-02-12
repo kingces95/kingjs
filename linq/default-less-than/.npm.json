@@ -42,15 +42,15 @@
     "url": "https://github.com/kingces95/kingjs/issues"
   },
   "_attachments": {},
-  "_etag": "W/\"5b773e32-3cac\"",
-  "_lastModified": "Fri, 17 Aug 2018 21:29:22 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.6",
   "main": "index.js",
   "files": [
-    "*.js"
+    "index.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "_npmVersion": "5.6.0",
   "_nodeVersion": "8.11.3",

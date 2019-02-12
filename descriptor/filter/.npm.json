@@ -39,12 +39,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"76fb078ff5818e7a437b67cce7d4a200\"",
-  "_lastModified": "Tue, 13 Nov 2018 21:39:43 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.6",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.object.epilog": "^1.0.2",

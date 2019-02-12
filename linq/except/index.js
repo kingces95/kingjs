@@ -1,7 +1,15 @@
-'use strict';
-
-var Dictionary = require('@kingjs/dictionary');
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    Dictionary,
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function defaultSelector(x) {
   return x;
@@ -13,45 +21,45 @@ function except(
 
   if (!idSelector)
     idSelector = defaultSelector;
+  var source = this;
 
-  var enumerator = this.getEnumerator();
-  var visited = new Dictionary();
-  var exceptions;
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      var enumerator = source[GetEnumerator]();
+      var visited = new Dictionary();
+      var exceptions;
 
-  return function() { 
+      return function moveNext() { 
 
-    while (true) {
-      if (!enumerator.moveNext()) 
-        return false;
+        while (true) {
+          if (!enumerator[MoveNext]()) 
+            return false;
 
-      var value = enumerator.current;
-      var id = idSelector(value);
+          var value = enumerator[Current];
+          var id = idSelector(value);
 
-      // exclude duplicates
-      if (id in visited)
-        continue;
-      visited[id] = undefined;
+          // exclude duplicates
+          if (id in visited)
+            continue;
+          visited[id] = undefined;
 
-      if (enumerable) {
-        exceptions = new Dictionary();
-        var exceptEnumerator = enumerable.getEnumerator();
-        while (exceptEnumerator.moveNext())
-          exceptions[idSelector(exceptEnumerator.current)] = undefined;
-
-        // lazy exceptions population complete
-        enumerable = null;
+          if (!exceptions) {
+            exceptions = new Dictionary();
+            var exceptEnumerator = enumerable[GetEnumerator]();
+            while (exceptEnumerator[MoveNext]())
+              exceptions[idSelector(exceptEnumerator[Current])] = undefined;
+          }
+          
+          // exclude exceptions
+          if (id in exceptions)
+            continue;
+          
+          this.current_ = value;
+          return true;
+        }
       }
-      
-      // exclude exceptions
-      if (exceptions && id in exceptions)
-        continue;
-      
-      this.current_ = value;
-      return true;
     }
-  }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(except) }
-});
+exportExtension(module, IEnumerable, except);

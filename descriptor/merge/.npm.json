@@ -49,12 +49,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"063f2899fda46044d88d3e9c86b06935\"",
-  "_lastModified": "Mon, 12 Nov 2018 19:43:14 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.10",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.object.prolog": "^1.0.0",

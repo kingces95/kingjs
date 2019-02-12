@@ -30,15 +30,15 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "_attachments": {},
-  "_etag": "W/\"5b81f19f-da3\"",
-  "_lastModified": "Sun, 26 Aug 2018 0:17:35 GMT",
+  "_cached": false,
+  "_contentLength": 1778,
   "version": "1.0.0",
   "main": "index.js",
   "files": [
-    "*.js"
+    "index.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {},
   "_npmVersion": "6.2.0",

@@ -65,19 +65,19 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"dea4a4f8c8beb0a60461b319d241d939\"",
-  "_lastModified": "Mon, 12 Nov 2018 19:44:09 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.19",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.object.epilog": "^1.0.0",
     "@kingjs/descriptor.object.prolog": "^1.0.0",
     "@kingjs/descriptor.object.write": "^1.0.0",
     "@kingjs/dictionary": "^1.0.0",
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/is": "^1.0.5"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.11.3",

@@ -45,18 +45,18 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"1a356c9d23adfcdaf1245f3f70202cc9\"",
-  "_lastModified": "Tue, 04 Dec 2018 21:08:10 GMT",
+  "_cached": false,
+  "_contentLength": 8170,
   "version": "1.0.8",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/descriptor.merge": "^1.0.10",
     "@kingjs/empty-object": "^1.0.7",
     "@kingjs/func.return-arg-0": "^1.0.0",
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/is": "^1.0.0"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.11.3",

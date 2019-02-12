@@ -27,12 +27,12 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"7008d0f2dc1c8645c2008ae8059f5483\"",
-  "_lastModified": "Sun, 03 Feb 2019 07:22:19 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {},
   "_npmVersion": "6.4.1",

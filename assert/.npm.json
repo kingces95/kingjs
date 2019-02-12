@@ -51,12 +51,12 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"e76e1da05b367eed141b30615b918da2\"",
-  "_lastModified": "Sat, 15 Dec 2018 05:50:27 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.11",
   "main": "index.js",
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "8.0.0",

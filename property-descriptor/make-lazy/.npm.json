@@ -30,8 +30,8 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"6e88766e9711370f6e266196b02c9ec5\"",
-  "_lastModified": "Sat, 02 Feb 2019 07:49:25 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.3",
   "main": "index.js",
   "scripts": {
@@ -39,8 +39,8 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0",
-    "@kingjs/reflect.descriptor.rename": "^1.0.0"
+    "@kingjs/is": "^1.0.9",
+    "@kingjs/property-descriptor.rename": "^1.0.0"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "10.15.0",

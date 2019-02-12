@@ -41,8 +41,8 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"e0f9310c2b4cada37d73c3150fea97df\"",
-  "_lastModified": "Tue, 05 Feb 2019 02:06:03 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.7",
   "main": "index.js",
   "scripts": {
@@ -56,7 +56,7 @@
     "@kingjs/descriptor.nested.array.reduce": "^1.0.7",
     "@kingjs/descriptor.nested.merge": "^1.0.0",
     "@kingjs/descriptor.write": "^1.0.9",
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/is": "^1.0.6"
   },
   "devDependencies": {
     "@kingjs/assert-theory": "^1.0.20"

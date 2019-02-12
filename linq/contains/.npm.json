@@ -43,15 +43,15 @@
     "url": "https://github.com/kingces95/kingjs/issues"
   },
   "_attachments": {},
-  "_etag": "W/\"5b773e1f-49b7\"",
-  "_lastModified": "Fri, 17 Aug 2018 21:29:03 GMT",
+  "_cached": false,
+  "_contentLength": 0,
   "version": "1.0.7",
   "main": "index.js",
   "files": [
-    "*.js"
+    "index.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node test.js"
   },
   "dependencies": {
     "@kingjs/linq.default-equal": "^1.0.0"

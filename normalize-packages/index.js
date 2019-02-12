@@ -12,6 +12,7 @@ var {
 
 var cnj = require('./create-npm-json');
 
+var Force = false;
 var DotDir = /(^|\/)\.\w/;
 var Line = /\r?\n/;
 var PackageJson = 'package.json';
@@ -68,7 +69,7 @@ function packages() {
 
     var dir = Path.dirname(path);
     var npmJsonPath = Path.join(dir, NpmJson);
-    if (!fs.existsSync(npmJsonPath)) {
+    if (Force || !fs.existsSync(npmJsonPath)) {
       console.log(`Generating .npm.json for: ${path}`);
 
       pushd(dir);

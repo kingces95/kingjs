@@ -1,19 +1,23 @@
 {
-  "_id": "@kingjs/reflect.create-interface@1.0.2",
-  "_rev": "1-f324747ecf4c5d2f021eed64bf0f8e3d",
+  "_id": "@kingjs/reflect.create-interface@1.0.4",
+  "_rev": "3-2c2c01e459bda3fc09fd0c25bcb8de80",
   "name": "@kingjs/reflect.create-interface",
   "dist-tags": {
-    "latest": "1.0.2"
+    "latest": "1.0.4"
   },
   "versions": [
     "1.0.1",
-    "1.0.2"
+    "1.0.2",
+    "1.0.3",
+    "1.0.4"
   ],
   "time": {
     "created": "2019-02-07T04:07:57.944Z",
     "1.0.1": "2019-02-07T04:07:58.180Z",
-    "modified": "2019-02-07T06:30:25.490Z",
-    "1.0.2": "2019-02-07T06:30:22.943Z"
+    "modified": "2019-02-11T00:39:35.473Z",
+    "1.0.2": "2019-02-07T06:30:22.943Z",
+    "1.0.3": "2019-02-11T00:33:15.710Z",
+    "1.0.4": "2019-02-11T00:39:33.042Z"
   },
   "maintainers": [
     "kingces95 <kingces95@gmail.com>"
@@ -26,32 +30,34 @@
   },
   "license": "MIT",
   "readmeFilename": "README.md",
-  "_etag": "W/\"cf04c30d7e22fd94b984a222b3f81491\"",
-  "_lastModified": "Thu, 07 Feb 2019 06:30:26 GMT",
-  "version": "1.0.2",
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.4",
   "main": "index.js",
   "scripts": {
     "test": "node .test",
     "build": "tsc"
   },
   "dependencies": {
-    "@kingjs/reflect.built-in-symbols": "^1.0.0"
+    "@kingjs/reflect.built-in-symbols": "^1.0.0",
+    "@kingjs/reflect.is": "^1.0.1",
+    "@kingjs/string-ex.capitalize": "^1.0.1"
   },
   "_npmVersion": "6.4.1",
   "_nodeVersion": "10.15.0",
   "_npmUser": "kingces95 <kingces95@gmail.com>",
   "dist": {
-    "integrity": "sha512-2izFBad//rr9+dWAbni17OQP6Ct2O13MegJc8FlLRTkkln7GOBLiUpbNiE6tbqx9ymcRFuCiupDx/UxNoPv1aQ==",
-    "shasum": "34cc2dd3d1f4218a2a61bf95e61db15040776515",
-    "tarball": "https://registry.npmjs.org/@kingjs/reflect.create-interface/-/reflect.create-interface-1.0.2.tgz",
+    "integrity": "sha512-dlyJzY9uUNID7MCSZE+s08FF9kElZOA6JNnFmcdUZBqm5YyzchMSIw593a9AB6cTEeIAZnCGbNOfKZW1NknsRw==",
+    "shasum": "10ec3ae43eb87de2af2c73e2e1ea35b5a3e14fc8",
+    "tarball": "https://registry.npmjs.org/@kingjs/reflect.create-interface/-/reflect.create-interface-1.0.4.tgz",
     "fileCount": 5,
-    "unpackedSize": 14444,
-    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcW9B/CRA9TVsSAnZWagAAuIUP/1e/HWlI3IVoErlxQ021\njAYzvBbeatr95MNEZyQyE1YuXslpdSM9gLj1JTC8yJ/Plu65MRlI9fmHiMcu\nd0gEQQNnb/yi7hwdrZ3DRIRmnopC3Pq+K+NH1Mirzb/izeVTsTfH9qA35WBR\nsC4tWbkG0rWNLrFG7FYl4zjrHGPDNh9ne28EWuUXA/FJ2ciqKKIC83Ak2HIl\n/4p49Cyn7U9BUqP/vF7Na3i03W2Kec4ck5OE8cNtyOXBBq/1DvLctMdL+ktU\nu13Cp4gF70jUQVjST7f0prjF2CnEy//uzx1cAZfbDbua1x5o1gOFF6YFocCW\nexxKhwpAI8OgkkGQi9pLFS0ETpeT3g9g/BBIYujIp/q724UzZay5X7x0yvYo\nozxuX6K7ZpDs/nS2Te33EwrPzgPDh+JoLrmOYuaica2bzzZT1IOajtNEl4sH\ny3YYP4xG6EAQhpN/GZrubJvuGhZ3BmQGYKL8ZFhK9ERRxDWxowlzQe1Vx9e2\nE0QOBEIgvt2FKL41WnFHaScWuBVUoHfaXvR4frfiB2CcDaFD8ZCJkmrxbpAI\n6gnTgx3EMsxuu7dBuK3YB8s64SE5V+8L41OOOlci6BQ9ij2cIe2FLacMaxMS\nn0TV3wYoRZrKGLnpAy0q8RlIRiNFehFDTp1dCMBlIHArvsgVJMIl1keL1zEn\nIok6\r\n=HdD0\r\n-----END PGP SIGNATURE-----\r\n"
+    "unpackedSize": 14880,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcYMRFCRA9TVsSAnZWagAAK+4P/iWTvflNsHU1Cf0LBYIH\nqkx99G18kNItFWJjUS3rBU6WDrYRojVHPcsH3EP5N8c5JXMcTh/eTHLxi9El\npIs4YJrBQvS8nEzZgO2drdtpdc/lM6XUNKGF8ALpanJSSXcmPLlPANjXAqeM\nmCAu97hD1j+eb0LJriquL6XigBzBZiySUg9LPdtoubwIGEcZPhzCw6dehE9o\nUMV3M3pVd7UUEDmoEGoMoxvOhqK3lbaybZnpDGE8iZb1CKS6rrI9GrREnvXc\nkQ+WSOjAmfvPwCLeXAbZB4xrD/ANCUxTL8VIkr/LJPYzta4//0VKVSNy7OlE\nRWux56aTtsCAAt3x4Cqfhb+jO2P8JxFPR20ey8TSDR8nYwjdh5WS1kKXkGH4\njN6BD+9PYg58ElkrbIkluFeLstRu+D2O41XdDfEGTwCr1uhTOCi3EZC4Qv6c\nouVWsB30xy91jRQZkYF6t1wFBnjQxuAFtZTn84BAMVhzZ7ihpZvR95+ZX01V\n30cocvnROwo0/XesLswgFuMirzXf1exIKpxqH6DVzezS8cShDNnN1/qEAqtP\nzdIdbV+BsCOog3IYrjjNAb3B5AnAPg0ZZwkJk1aB5AbBwqIvceR+PxEZYqS0\naAkBfvB10ZIGLJqAhy8Mr9O+ehWgnQf3RO7tspC63m+Ndw2PQwFcKtgUgHDg\nGCBo\r\n=Jhr3\r\n-----END PGP SIGNATURE-----\r\n"
   },
   "directories": {},
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/reflect.create-interface_1.0.2_1549521022848_0.32979871403152505"
+    "tmp": "tmp/reflect.create-interface_1.0.4_1549845572935_0.034530985262561265"
   },
   "_hasShrinkwrap": false
 }
