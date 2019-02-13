@@ -1,10 +1,10 @@
 'use strict';
 
 var merge = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var takeRight = testRequire('@kingjs/func.return-arg-1')
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var takeRight = require('@kingjs/func.return-arg-1')
 
 function readme() {
   

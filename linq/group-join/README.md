@@ -10,7 +10,7 @@ Join
 like this:
 ```js
 var groupJoin = require('@kingjs/linq.group-join');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var owners = sequence(

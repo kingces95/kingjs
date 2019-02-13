@@ -4,9 +4,9 @@ Returns the number of elements in a sequence that satisfy a condition.
 Count the number of elements in sequence `1`, `2`, `3` like this:
 ```js
 var count = require('@kingjs/linq.count');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-count.call(sequence(1, 2, 3));
+count.call([1, 2, 3]);
 ```
 result:
 ```js
@@ -15,11 +15,11 @@ result:
 Count the number of odd numbers in sequence `1`, `2`, `3` like this:
 ```js
 var count = require('@kingjs/linq.count');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
 var isOdd = function(o) { return o % 2 == 1; }
 
-count.call(sequence(1, 2, 3), isOdd);
+count.call([1, 2, 3], isOdd);
 ```
 result:
 ```js

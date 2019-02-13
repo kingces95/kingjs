@@ -1,8 +1,8 @@
 'use strict';
 
 var emptyObject = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+
+var assert = require('assert');
 
 assert(Object.getOwnPropertyNames(emptyObject).length == 0);
 assert(Object.getPrototypeOf(emptyObject) == Object.getPrototypeOf({ }));

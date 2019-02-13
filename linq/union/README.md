@@ -8,7 +8,7 @@ Create a union of the sequences
 like this:
 ```js
 var union = require('@kingjs/linq.union');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = union.call(
@@ -25,7 +25,7 @@ result:
 Create a union of the same sequences as before but wrapped in an object like this:
 ```js
 var union = require('@kingjs/linq.union');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = union.call(

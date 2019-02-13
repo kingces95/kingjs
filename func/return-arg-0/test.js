@@ -1,8 +1,8 @@
 'use strict';
 
 var returnArg0 = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+
+var assert = require('@kingjs/assert')
 
 function readMe() {
   var helloWorld = 'Hello World!';

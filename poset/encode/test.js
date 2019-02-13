@@ -1,8 +1,8 @@
 'use strict';
 
 var encodePoset = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+
+var assert = require('assert');
 
 function readMe() {
   var poset = encodePoset.call({

@@ -1,11 +1,11 @@
 'use strict';
 
 var scorch = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
-var assertThrows = testRequire('@kingjs/assert-throws');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
-var clone = testRequire('@kingjs/descriptor.object.clone');
+
+var assert = require('@kingjs/assert')
+var assertThrows = require('@kingjs/assert-throws');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
+var clone = require('@kingjs/descriptor.object.clone');
 
 function readMe() {
   var source = { a: undefined };

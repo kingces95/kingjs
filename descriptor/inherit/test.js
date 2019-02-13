@@ -1,11 +1,11 @@
 'use strict';
 
 var inherit = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
-var clone = testRequire('@kingjs/descriptor.object.clone');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var isFrozen = require('@kingjs/descriptor.is-frozen');
+var clone = require('@kingjs/descriptor.object.clone');
 
 function readMe() {
   var student = { name: '', ssn: '000-00-0000', credits: 0 };

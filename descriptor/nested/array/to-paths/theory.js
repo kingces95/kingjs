@@ -1,9 +1,9 @@
 'use strict';
 
 var toPaths = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
   var tree = test.value;

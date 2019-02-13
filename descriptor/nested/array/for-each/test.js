@@ -1,8 +1,8 @@
 'use strict';
 
 var forEach = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+
+var assert = require('assert');
 
 function readMe() {
 

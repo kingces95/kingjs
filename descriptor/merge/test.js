@@ -1,13 +1,13 @@
 'use strict';
 
 var merge = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var takeLeft = testRequire('@kingjs/func.return-arg-0');
-var takeRight = testRequire('@kingjs/func.return-arg-1');
-var isFrozen = testRequire('@kingjs/descriptor.is-frozen');
-var clone = testRequire('@kingjs/descriptor.object.clone');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var takeLeft = require('@kingjs/func.return-arg-0');
+var takeRight = require('@kingjs/func.return-arg-1');
+var isFrozen = require('@kingjs/descriptor.is-frozen');
+var clone = require('@kingjs/descriptor.object.clone');
 
 function readMe(skipIfDefined) {
 

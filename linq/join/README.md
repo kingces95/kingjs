@@ -4,7 +4,7 @@ Generates a sequence of elements composed of elements from two sequences that sh
 Match people `Alice`, `Bob`, and `Chris` to their pets `Fluffy`, `Spike`, `Snuggles`, and `Butch` like this:
 ```js
 var join = require('@kingjs/linq.join');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = join.call(

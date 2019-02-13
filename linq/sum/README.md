@@ -4,9 +4,9 @@ Computes the sum of a sequence of numbers projected from elements of a sequence.
 Sum `1`, `2`, and `3` like this:
 ```js
 var sum = require('@kingjs/linq.sum');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-var summation = sum.call(sequence(1, 2, 3));
+var summation = sum.call([1, 2, 3]);
 ```
 result:
 ```js

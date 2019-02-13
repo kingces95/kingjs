@@ -4,7 +4,7 @@ Generates the set difference of two sequences.
 Remove duplicates from the sequence `0`, `0`, `1`, `2` and also exclude values `1` and `2` like this:
 ```js
 var except = require('@kingjs/linq.except');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var justZero = except.call(
@@ -21,7 +21,7 @@ result:
 Remove duplicates from a sequence based on an `id` and also exclude those with `id` equal to `1` like this:
 ```js
 var except = require('@kingjs/linq.except');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var enumerable = sequence(

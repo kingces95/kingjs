@@ -1,8 +1,8 @@
 'use strict';
 
 var reduce = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+
+var assert = require('@kingjs/assert')
 
 var toArrayReduction = (a, o) => {
   if (!a) a = [];

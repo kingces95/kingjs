@@ -4,7 +4,7 @@ Generates a sequence composed of the distinct elements of another sequence.
 Remove duplicates from the sequence `0`, `0` like this:
 ```js
 var distinct = require('@kingjs/linq.distinct');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var justZero = distinct.call(sequence(0, 0));
@@ -18,7 +18,7 @@ result:
 Remove duplicates from a sequence based on an `id` like this:
 ```js
 var distinct = require('@kingjs/linq.distinct');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var enumerable = sequence(

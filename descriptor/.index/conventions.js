@@ -1,6 +1,6 @@
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 var filter = require('@kingjs/descriptor.filter');
 var inherit = require('@kingjs/descriptor.inherit');

@@ -1,15 +1,15 @@
 'use strict';
 
 var write = require('.');
-var testRequire = require('..');
 
-var testRequire = require('..');
-var clone = testRequire('@kingjs/descriptor.object.clone');
-var freeze = testRequire('@kingjs/descriptor.object.freeze');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
-var Dictionary = testRequire('@kingjs/dictionary');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+
+var clone = require('@kingjs/descriptor.object.clone');
+var freeze = require('@kingjs/descriptor.object.freeze');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
+var Dictionary = require('@kingjs/dictionary');
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 

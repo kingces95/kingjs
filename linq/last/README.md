@@ -4,9 +4,9 @@ Returns the last element of a sequence that satisfies a specified condition.
 Return the last value of `0`, `1`, `2` like this;
 ```js
 var lastOrUndefined = require('@kingjs/linq.last');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-lastOrUndefined.call(sequence(0, 1, 2));
+lastOrUndefined.call([1, 2, 3]);
 ```
 result:
 ```js
@@ -15,7 +15,7 @@ result:
 Return the last odd value of `0`, `1`, `2`, `3`, `4` like this;
 ```js
 var lastOrUndefined = require('@kingjs/linq.last');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
 var isOdd = function(x) { return x % 2 == 1; }
 

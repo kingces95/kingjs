@@ -5,10 +5,10 @@ Append `3` to the sequence `0`, `1`, `2` like this:
 
 ```js
 var append = require('@kingjs/linq.append');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
-var enumerable = sequence(0, 1, 2);
+var enumerable = [1, 2, 3];
 
 var result = append.call(enumerable, 3);
 

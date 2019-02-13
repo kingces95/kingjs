@@ -1,8 +1,8 @@
 'use strict';
 
-var testRequire = require('../..');
-var assert = testRequire('@kingjs/assert');
-var objectEx = testRequire('@kingjs/object-ex');
+var require = require('../..');
+var assert = require('assert');
+var objectEx = require('@kingjs/object-ex');
 
 var loader = require('..');
 var info = loader.info;
@@ -28,7 +28,7 @@ testIndexable([1]);
 testIndexable('1');
 
 function testLinq() {
-  var linqAny = testRequire('@kingjs/linq.any');
+  var linqAny = require('@kingjs/linq.any');
   assert(linqAny);
 
   var linqAnySymbol = Symbol('@kingjs/linq.any');

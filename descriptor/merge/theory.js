@@ -1,11 +1,11 @@
 'use strict';
 
 var merge = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var assertTheory = require('@kingjs/assert-theory');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 var propertyName = '0';
 

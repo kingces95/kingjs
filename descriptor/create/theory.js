@@ -1,11 +1,11 @@
 'use strict';
 
 var create = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var is = testRequire('@kingjs/is');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var assertTheory = require('@kingjs/assert-theory');
+var is = require('@kingjs/is');
 
 assertTheory(function(test, id) { 
 

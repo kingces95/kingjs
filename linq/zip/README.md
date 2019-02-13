@@ -4,11 +4,11 @@ Generates a sequence of elements composed of elements of two sequences which sha
 Zip the numbers `0`, `1`, `2` with the letters `a`, `b` like this:
 ```js
 var zip = require('@kingjs/linq.zip');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var result = zip.call(
-  sequence(0, 1, 2),
+  [1, 2, 3],
   sequence(`a`, `b`),
   function(n, l) { 
     return { number: n, letter: l }; 

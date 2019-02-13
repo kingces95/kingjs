@@ -4,9 +4,9 @@ Returns the minimum value in a sequence of values projected from elements of a s
 Return the minimum value of `1`, `2`, `3` like this:
 ```js
 var min = require('@kingjs/linq.min');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-min.call(sequence(1, 2, 3));
+min.call([1, 2, 3]);
 ```
 result:
 ```js
@@ -15,7 +15,7 @@ result:
 Return the oldest person like this:
 ```js
 var min = require('@kingjs/linq.min');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
 var compareAge = function(l, r) { return l.age < r.age; }
 

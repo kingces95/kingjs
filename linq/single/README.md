@@ -4,13 +4,13 @@ Returns the only element of a sequence that satisfies a specified condition.
 Return the single odd number in `0`, `1`, `2` like this:
 ```js
 var singleOrUndefined = require('@kingjs/linq.single');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
 function isOdd(x) { 
   return x % 2 == 1; 
 }
 
-singleOrUndefined.call(sequence(0, 1, 2), isOdd);
+singleOrUndefined.call([1, 2, 3], isOdd);
 ```
 result:
 ```js

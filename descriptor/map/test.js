@@ -1,10 +1,10 @@
 'use strict';
 
 var map = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var write = testRequire('@kingjs/descriptor.write');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var assert = require('assert');
+var write = require('@kingjs/descriptor.write');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 var myName = 'myName';
 

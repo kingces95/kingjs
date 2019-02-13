@@ -1,10 +1,10 @@
 'use strict';
 
 var scorch = require('.');
-var testRequire = require('..');
-var is = testRequire('@kingjs/is');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+var is = require('@kingjs/is');
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 

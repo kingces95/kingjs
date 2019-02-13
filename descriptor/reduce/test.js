@@ -1,9 +1,9 @@
 'use strict';
 
 var reduce = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 function readMe() {
   function invoke(accumulator, value, name) {

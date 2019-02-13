@@ -1,9 +1,9 @@
 'use strict';
 
 var freeze = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var symbol = testRequire('@kingjs/descriptor.object.writable-symbol');
+
+var assert = require('assert');
+var symbol = require('@kingjs/descriptor.object.writable-symbol');
 
 function readMe() {
   var target = { x:0 };

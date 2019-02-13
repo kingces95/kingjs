@@ -16,9 +16,11 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/reflect.export-extension": "^1.0.1",
     "@kingjs/assert-shimmed": "^1.0.0",
-    "@kingjs/dictionary": "^1.0.0",
-    "@kingjs/enumerable.define": "^1.0.0"
+    "@kingjs/dictionary": "^1.0.0"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"

@@ -1,9 +1,9 @@
 'use strict';
 
 var decodePoset = require('.');
-var testRequire = require('..');
-var Dictionary = testRequire('@kingjs/dictionary');
-var assert = testRequire('@kingjs/assert');
+
+var Dictionary = require('@kingjs/dictionary');
+var assert = require('assert');
 
 function readMe() {
 

@@ -4,9 +4,9 @@ Returns the first element of a sequence that satisfies a specified condition.
 Return the first value of `0`, `1`, `2` like this;
 ```js
 var firstOrUndefined = require('@kingjs/linq.first');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-firstOrUndefined.call(sequence(0, 1, 2));
+firstOrUndefined.call([1, 2, 3]);
 ```
 result:
 ```js
@@ -15,11 +15,11 @@ result:
 Return the first odd value of `0`, `1`, `2` like this;
 ```js
 var firstOrUndefined = require('@kingjs/linq.first');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
 var isOdd = function(x) { return x % 2 == 1; }
 
-firstOrUndefined.call(sequence(0, 1, 2), isOdd);
+firstOrUndefined.call([1, 2, 3], isOdd);
 ```
 result:
 ```js

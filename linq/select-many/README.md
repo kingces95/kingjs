@@ -4,7 +4,7 @@ Generate a sequence by concatenating sequences projected from elements of a sequ
 List all pets and their owners given a list of people and their pets like this:
 ```js
 var selectMany = require('@kingjs/linq.select-many');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var peopleAndPets = sequence(

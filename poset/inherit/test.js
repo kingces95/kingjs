@@ -1,10 +1,10 @@
 'use strict';
 
 var inherit = require('.');
-var testRequire = require('..');
-var decode = testRequire('@kingjs/poset.decode');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
+
+var decode = require('@kingjs/poset.decode');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
 function readMe() {
 

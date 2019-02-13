@@ -1,8 +1,8 @@
 'use strict';
 
 var Node = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
+
+var assert = require('assert');
 
 function testRoot(root) {
   assert(!root.parent);

@@ -4,7 +4,7 @@ Generates a sequence identical to another sequence so long as the elements conti
 Take numbers in `-2`, `-1`, `0`, `-1`, `-2` so long as they're negative like this:
 ```js
 var takeWhile = require('@kingjs/linq.take-while');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 function isNegative(x) {

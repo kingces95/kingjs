@@ -1,11 +1,11 @@
 'use strict';
 
 var linq = require('.');
-var testRequire = require('..');
 
-var assert = testRequire('@kingjs/assert');
-var sequence = testRequire('@kingjs/enumerable.create');
-var apply = testRequire('@kingjs/apply');
+
+var assert = require('assert');
+require('kingjs');
+var apply = require('@kingjs/apply');
 
 var people = sequence(
   { firstName: 'Bob', lastName: 'Smith', id: 0 },

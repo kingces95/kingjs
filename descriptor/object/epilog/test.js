@@ -1,11 +1,11 @@
 'use strict';
 
 var epilog = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var clone = testRequire('@kingjs/descriptor.object.clone');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var clone = require('@kingjs/descriptor.object.clone');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 function readMe() {
   var descriptor = { };

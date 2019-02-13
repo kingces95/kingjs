@@ -1,11 +1,11 @@
 'use strict';
 
 var remove = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
-var clone = testRequire('@kingjs/descriptor.object.clone');
+
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
+var clone = require('@kingjs/descriptor.object.clone');
 
 assertTheory(function(test, id) {
 

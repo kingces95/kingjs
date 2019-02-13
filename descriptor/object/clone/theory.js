@@ -1,10 +1,10 @@
 'use strict';
 
 var clone = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var symbol = testRequire('@kingjs/descriptor.object.writable-symbol');
+
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
+var symbol = require('@kingjs/descriptor.object.writable-symbol');
 
 assertTheory(function (test, id) { 
   var target = test.array ? [ ] : { };

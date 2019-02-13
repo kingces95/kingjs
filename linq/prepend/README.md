@@ -4,10 +4,10 @@ Generates an sequence identical to another sequence but with a value added to th
 Prepend `0` to the sequence `1`, `2`, `3` like this:
 ```js
 var prepend = require('@kingjs/linq.prepend');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
-var numbers = sequence(1, 2, 3);
+var numbers = [1, 2, 3];
 
 var result = prepend.call(numbers, 0);
 

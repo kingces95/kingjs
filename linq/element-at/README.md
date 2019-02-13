@@ -4,9 +4,9 @@ Returns the element at a specified index in a sequence.
 Return the 2nd element in the sequence `0`, `1`, `2` like this:
 ```js
 var elementAt = require('@kingjs/linq.element-at');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-elementAt.call(sequence(0, 1, 2), 1);
+elementAt.call([1, 2, 3], 1);
 ```
 result:
 ```js

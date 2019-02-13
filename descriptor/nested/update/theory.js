@@ -1,11 +1,11 @@
 'use strict';
 
 var update = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var is = testRequire('@kingjs/is');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
+var is = require('@kingjs/is');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 var context = { };
 

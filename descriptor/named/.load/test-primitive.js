@@ -1,8 +1,8 @@
 
 var load = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
 function callbackReturnUndefined() {
   var descriptor = { foo: { } };

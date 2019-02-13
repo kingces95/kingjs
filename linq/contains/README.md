@@ -4,9 +4,9 @@ Returns true if a sequence contains a specified element.
 Discover if the sequence `1`, `2`, `3` contains the value `2` like this:
 ```js
 var contains = require('@kingjs/linq.contains');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-contains.call(sequence(1, 2, 3), 2);
+contains.call([1, 2, 3], 2);
 ```
 result:
 ```js
@@ -15,7 +15,7 @@ true
 Discover if `'Chris'` is contained in a list of people like this:
 ```js
 var contains = require('@kingjs/linq.contains');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
 var people = sequence(
   { name: 'Alice' },

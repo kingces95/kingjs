@@ -1,9 +1,9 @@
 'use strict';
 
 var map = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var write = testRequire('@kingjs/descriptor.write');
+
+var assert = require('assert');
+var write = require('@kingjs/descriptor.write');
 
 function inflateThenThunks() {
   

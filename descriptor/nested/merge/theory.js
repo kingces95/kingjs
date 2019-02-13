@@ -1,10 +1,10 @@
 'use strict';
 
 var merge = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var assertTheory = require('@kingjs/assert-theory');
 
 function assertResult(test, result, left, right) {
   var takeLeft = false;

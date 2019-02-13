@@ -1,11 +1,11 @@
 'use strict';
 
 var scorch = require('.');
-var testRequire = require('..');
-var isObject = testRequire('@kingjs/is-object');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var isObject = require('@kingjs/is-object');
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 assertTheory(function(test, id) {
 

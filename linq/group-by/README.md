@@ -4,7 +4,7 @@ Generates a sequence of groups composed of elements of another sequence which sh
 Group `0`, `1`, `2`, `3` by even/odd numbers like this:
 ```js
 var groupBy = require('@kingjs/linq.group-by');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var evenOdd = groupBy.call(
@@ -37,7 +37,7 @@ result:
 Group people by their age and project their names like this:
 ```js
 var groupBy = require('@kingjs/linq.group-by');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var people = groupBy.call(

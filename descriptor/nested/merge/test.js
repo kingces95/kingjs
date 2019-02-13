@@ -1,11 +1,11 @@
 'use strict';
 
 var nestedMerge = require('.');
-var testRequire = require('..');
-var merge = testRequire('@kingjs/descriptor.merge');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
-var takeRight = testRequire('@kingjs/func.return-arg-1')
+
+var merge = require('@kingjs/descriptor.merge');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
+var takeRight = require('@kingjs/func.return-arg-1')
 
 function readme() {
   

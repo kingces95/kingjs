@@ -3,7 +3,7 @@ Creates a dictionary from a sequence where the dictionary keys and values are pr
 ## Usage 
 Create a dictionary of people's ages by their name like this:
 ```js
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toDictionary = require('@kingjs/linq.to-dictionary');
 
 toDictionary.call(

@@ -1,13 +1,13 @@
 'use strict';
 
 var write = require('.');
-var testRequire = require('..');
 
-var testRequire = require('..');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
-var Dictionary = testRequire('@kingjs/dictionary');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
+var Dictionary = require('@kingjs/dictionary');
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 

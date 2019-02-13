@@ -13,7 +13,7 @@ then create a lookup from
 like this:
 ```js
 var toLookup = require('@kingjs/linq.to-lookup');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var toArray = require('@kingjs/linq.to-array');
 
 var lookup = toLookup.call(

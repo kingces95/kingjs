@@ -4,7 +4,7 @@ Exports all `@kingjs/linq.*` functionality in one package.
 Join pets to their owners, sorted by last name, then first name, excluding fishes, like this:
 ```js
 var linq = require('@kingjs/linq');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 var apply = require('@kingjs/apply');
 
 var people = sequence(

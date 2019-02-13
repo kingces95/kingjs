@@ -1,10 +1,10 @@
 'use strict';
 
 var forEach = require('.');
-var testRequire = require('..');
-var isObject = testRequire('@kingjs/is-object');
-var assert = testRequire('@kingjs/assert');
-var assertTheory = testRequire('@kingjs/assert-theory');
+
+var isObject = require('@kingjs/is-object');
+var assert = require('assert');
+var assertTheory = require('@kingjs/assert-theory');
 
 assertTheory(function(test, id) {
 

@@ -1,10 +1,10 @@
 'use strict';
 
 var write = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var freeze = testRequire('@kingjs/descriptor.object.freeze');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var assert = require('assert');
+var freeze = require('@kingjs/descriptor.object.freeze');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 function readMe() {
   var target = { foo: 0 };

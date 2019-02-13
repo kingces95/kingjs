@@ -1,8 +1,8 @@
 'use strict';
 
 var Node = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert')
+
+var assert = require('@kingjs/assert')
 
 function readMe() {
   var node = Node.define({ }, [{

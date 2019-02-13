@@ -1,9 +1,9 @@
 'use strict';
 
 var remove = require('.');
-var testRequire = require('..');
-var assert = testRequire('@kingjs/assert');
-var isFrozen = testRequire('@kingjs/descriptor.object.is-frozen');
+
+var assert = require('assert');
+var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 function readMe() {
   var descriptor = { x:0, y:1};

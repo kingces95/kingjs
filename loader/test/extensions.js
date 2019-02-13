@@ -1,9 +1,9 @@
 'use strict';
 
-var testRequire = require('../..');
-var is = testRequire('@kingjs/is');
-var assert = testRequire('@kingjs/assert');
-var assertThrows = testRequire('@kingjs/assert-throws');
+var require = require('../..');
+var is = require('@kingjs/is');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
 var loader = require('..');
 

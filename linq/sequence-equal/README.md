@@ -4,14 +4,14 @@ Returns true if two sequences contain the same number of elements and those that
 Test if `[1,2,3]` is equal to other arrays like this:
 ```js
 var sequenceEqual = require('@kingjs/linq.sequence-equal');
-var sequence = require('@kingjs/enumerable.create');
+require('kingjs');
 
-var expected = sequence(1, 2, 3);
+var expected = [1, 2, 3];
 
 var toFew = sequence(1, 2);
 var tooMany = sequence(1, 2, 3, 4);
 var wrongOrder = sequence(3, 2, 1);
-var justRight = sequence(1, 2, 3);
+var justRight = [1, 2, 3];
 
 var result = {
   tooFew: sequenceEqual.call(expected, toFew),
