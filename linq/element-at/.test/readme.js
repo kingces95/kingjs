@@ -1,13 +1,14 @@
-var elementAt = require('..');
+require('kingjs');
+var ElementAt = require('..');
 var assert = require('assert');
 var assertThrows = require('@kingjs/assert-throws');
 
-assert(elementAt.call([1, 2, 3], 1) == 1);
+assert([0, 1, 2][ElementAt](1) == 1);
 
 assertThrows(function() {
-  elementAt.call([1, 2, 3], 3)
+  [1, 2, 3][ElementAt](3)
 });
 
 assertThrows(function() {
-  elementAt.call([1, 2, 3], -1)
+  [1, 2, 3][ElementAt](-1)
 });

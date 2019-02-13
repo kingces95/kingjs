@@ -1,21 +1,29 @@
-'use strict';
-
-var defaultEqual = require('@kingjs/linq.default-equal');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      defaultEqual
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function contains(value, equal) {
-  var enumerator = this.getEnumerator();
+  var enumerator = this[GetEnumerator]();
   
   if (!equal)
     equal = defaultEqual;
   
-  while (enumerator.moveNext()) {
-    if (equal(value, enumerator.current))
+  while (enumerator[MoveNext]()) {
+    if (equal(value, enumerator[Current]))
       return true;
   }
   
   return false;
 };
 
-Object.defineProperties(module, {
-  exports: { value: contains }
-});
+exportExtension(module, IEnumerable, contains);

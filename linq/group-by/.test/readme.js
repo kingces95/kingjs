@@ -1,21 +1,20 @@
 require('kingjs');
-var groupBy = require('..');
+var GroupBy = require('..');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var evenOdd = groupBy.call(
-    sequence(0, 1, 2, 3), 
+  var evenOdd = [0, 1, 2, 3][GroupBy](
     function(x) { return x % 2; }
   );
   
-  var groups = toArray.call(evenOdd);
+  var groups = evenOdd[ToArray]();
   assert(groups.length == 2);
 
   var evenGroup = groups[0];
   assert(evenGroup.key == 0);
 
-  var evenArray = toArray.call(evenGroup);
+  var evenArray = evenGroup[ToArray]();
   assert(evenArray.length == 2);
   assert(evenArray[0] == 0);
   assert(evenArray[1] == 2);
@@ -23,7 +22,7 @@ function readme() {
   var oddGroup = groups[1];
   assert(oddGroup.key == 1);
 
-  var oddArray = toArray.call(oddGroup);
+  var oddArray = oddGroup[ToArray]();
   assert(oddArray.length == 2);
   assert(oddArray[0] == 1);
   assert(oddArray[1] == 3);
@@ -31,43 +30,42 @@ function readme() {
 readme();
 
 function readmePeople() {
-  var people = groupBy.call(
-    sequence(
-      { name: 'Alice', age: 17 },
-      { name: 'Bob', age: 16 },
-      { name: 'Chris', age: 30 }
-    ), 
+  var people =  
+  [{ name: 'Alice', age: 17 },
+  { name: 'Bob', age: 16 },
+  { name: 'Chris', age: 30 }]
+  [GroupBy](
     function(x) { return x.age <= 18; }, // key selector
     function(x) { return x.name; }, // element selector
     function(group) {  // result selector
       return 'Under 18: ' + group.key + '; ' + 
-        toArray.call(group).join(', ');
+      group[ToArray]().join(', ');
     },
   );
   
-  var result = toArray.call(people);
+  var result = people[ToArray]();
   assert(result.length == 2);
   assert(result[0] == 'Under 18: true; Alice, Bob');
   assert(result[1] == 'Under 18: false; Chris');
 }
 readmePeople();
 
-var numbers = sequence( 0, 1, 2, 3 );
-var groups = groupBy.call(numbers, function(o) {
+var numbers = [0, 1, 2, 3];
+var groups = numbers[GroupBy](function(o) {
    return o % 2;
 });
 
-var array = toArray.call(groups);
+var array = groups[ToArray]();
 assert(array.length == 2);
 assert(array[0].key == 0);
 assert(array[1].key == 1);
 
-var even = toArray.call(array[0]);
+var even = array[0][ToArray]();
 assert(even.length == 2);
 assert(even[0] == 0);
 assert(even[1] == 2);
 
-var odd = toArray.call(array[1]);
+var odd = array[1][ToArray]();
 assert(odd.length == 2);
 assert(odd[0] == 1);
 assert(odd[1] == 3);

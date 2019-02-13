@@ -1,11 +1,13 @@
-var distinct = require('..');
+require('kingjs');
 var assert = require('assert');
-var sequenceEquals = require('@kingjs/linq.sequence-equal');
-var toArray = require('@kingjs/linq.to-array');
+var Distinct = require('..');
+var SequenceEquals = require('@kingjs/linq.sequence-equal');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
   var enumerable = [0, 0, 1, 1, 2, 2];
-  assert(sequenceEquals.call(distinct.call(enumerable), [1, 2, 3]));
+  enumerable = enumerable[Distinct]();
+  assert(enumerable[SequenceEquals]([0, 1, 2]));
 }
 readme();
 
@@ -15,24 +17,18 @@ function readmeId() {
     { id: 0, name: 'bar' },
   ]
 
-  var distinctIdAndName = toArray.call(
-    distinct.call(
-      idAndName, 
-      function selectName(x) { return x.id; }
-    )
-  );
+  var distinctIdAndName =
+    idAndName[Distinct](x => x.id)
+    [ToArray]()
 
-  var actualJSON = JSON.stringify(distinctIdAndName);
-  var expectedJSON = JSON.stringify([
-    { id: 0, name: 'foo' },
-  ]);
-
-  assert(actualJSON == expectedJSON);
+  assert.deepEqual(distinctIdAndName, [{ id: 0, name: 'foo' }]);
 }
 readmeId();
 
 function dictionaryTest() {
   var enumerable = 'toString';
-  assert(sequenceEquals.call(distinct.call(enumerable), 'toString'));
+  enumerable = enumerable[Distinct]();
+  enumerable = enumerable[ToArray]()
+  assert(enumerable[SequenceEquals]('toSring'));
 }
 dictionaryTest();

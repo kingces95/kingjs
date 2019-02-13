@@ -1,11 +1,12 @@
-'use strict';
+var { 
+  ['@kingjs']: {
+    reflect: { exportExtension },
+    IEnumerable,
+  }
+} = require('./dependencies');
 
-var define = require('@kingjs/enumerable.define');
+var EmptyArray = [];
 
-var empty = define(function() {
-  return function() { return false; }
-})();
+function empty() { return EmptyArray; }
 
-Object.defineProperties(module, {
-  exports: { value: function() { return empty; } }
-});
+exportExtension(module, IEnumerable, empty);

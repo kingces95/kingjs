@@ -1,7 +1,8 @@
-var count = require('..');
+require('kingjs');
+var Count = require('..');
 var assert = require('assert');
 
-assert(3 == count.call([1, 2, 3]));
+assert(3 == [1, 2, 3][Count]());
 
 var isOdd = function(o) { return o % 2 == 1; }
-assert(2 == count.call([1, 2, 3], isOdd));
+assert(2 == [1, 2, 3][Count](isOdd));

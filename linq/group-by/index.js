@@ -1,10 +1,14 @@
-'use strict';
-
-var {
+var { 
   ['@kingjs']: {
-    dictionary: Dictionary,
-    enumerable: { define }
-  } 
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    Dictionary,
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
 } = require('./dependencies');
 
 function defaultSelector(x) {
@@ -15,51 +19,54 @@ function groupBy(
   keySelector,
   elementSelector,
   resultSelector) {
+  var source = this;
 
-  if (!elementSelector)
-    elementSelector = defaultSelector;
-
-  if (!resultSelector)
-    resultSelector = defaultSelector;
-
-  var enumerator = this.getEnumerator();  
-  var groupsEnumerator;
-  
-  return function() {
-    
-    if (enumerator) {
-      var groups = makeEnumerable.call([]);
+  return implementIEnumerable({ }, 
+    function createMoveNext() { 
       
-      var groupByKey = new Dictionary();
+      if (!elementSelector)
+        elementSelector = defaultSelector;
+
+      if (!resultSelector)
+        resultSelector = defaultSelector;
+
+      var enumerator = source[GetEnumerator]();
+      var groupsEnumerator;
       
-      while (enumerator.moveNext()) {
-        var current = enumerator.current;         
-        var key = keySelector(current);
+      return function moveNext() {
         
-        var group = groupByKey[key];
-        if (!group) {
-          group = makeEnumerable.call([]);
-          group.key = key;
-          groupByKey[key] = group;
-          groups.push(group);
+        if (enumerator) {
+          var groups = [];
+          var groupByKey = new Dictionary();
+          
+          while (enumerator[MoveNext]()) {
+            var current = enumerator[Current];         
+            var key = keySelector(current);
+            
+            var group = groupByKey[key];
+            if (!group) {
+              group = [];
+              group.key = key;
+              groupByKey[key] = group;
+              groups.push(group);
+            }
+            
+            group.push(elementSelector(current))
+          }
+
+          groupsEnumerator = groups[GetEnumerator]();
+          enumerator = undefined;
         }
         
-        group.push(elementSelector(current))
+        if (!groupsEnumerator[MoveNext]())
+          return false;
+        
+        var current = groupsEnumerator[Current];
+        this.current_ = resultSelector(current);
+        return true;
       }
-
-      groupsEnumerator = groups.getEnumerator();
-      enumerator = undefined;
     }
-    
-    if (!groupsEnumerator.moveNext())
-      return false;
-    
-    var current = groupsEnumerator.current;
-    this.current_ = resultSelector(current);
-    return true;
-  }
+  );
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(groupBy) }
-});
+exportExtension(module, IEnumerable, groupBy);

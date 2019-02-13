@@ -1,22 +1,27 @@
-'use strict';
+var { 
+  ['@kingjs']: {
+    reflect: { exportExtension },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function elementAt(index) {
   if (index < 0)
     throw "elementAt: index < 0"
 
-  var enumerator = this.getEnumerator();
+  var enumerator = this[GetEnumerator]();
   
   var current = 0;
 
-  while (enumerator.moveNext()) {
+  while (enumerator[MoveNext]()) {
     if (current++ == index)
-      return enumerator.current;
+      return enumerator[Current];
   }
 
   throw "elementAt: sequence.count() => " + current + 
     " < index => " + index;
 };
 
-Object.defineProperties(module, {
-  exports: { value: elementAt }
-});
+exportExtension(module, IEnumerable, elementAt);

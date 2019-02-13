@@ -43,16 +43,19 @@ function except(
             continue;
           visited[id] = undefined;
 
-          if (!exceptions) {
-            exceptions = new Dictionary();
-            var exceptEnumerator = enumerable[GetEnumerator]();
-            while (exceptEnumerator[MoveNext]())
-              exceptions[idSelector(exceptEnumerator[Current])] = undefined;
+          if (enumerable) {
+            
+            if (!exceptions) {
+              exceptions = new Dictionary();
+              var exceptEnumerator = enumerable[GetEnumerator]();
+              while (exceptEnumerator[MoveNext]())
+                exceptions[idSelector(exceptEnumerator[Current])] = undefined;
+            }
+            
+            // exclude exceptions
+            if (id in exceptions)
+              continue;
           }
-          
-          // exclude exceptions
-          if (id in exceptions)
-            continue;
           
           this.current_ = value;
           return true;

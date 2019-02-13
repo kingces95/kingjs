@@ -1,13 +1,12 @@
-var elementAtOrDefault = require('..');
-
 require('kingjs');
+var ElementAtOrDefault = require('..');
 var assert = require('assert');
 var assertThrows = require('@kingjs/assert-throws');
 
-assert(elementAtOrDefault.call([1, 2, 3], 1) == 1);
+assert([0, 1, 2][ElementAtOrDefault](1) == 1);
 
-assert(elementAtOrDefault.call([1, 2, 3], 3) == undefined);
+assert([0, 1, 2][ElementAtOrDefault](3) == undefined);
 
 assertThrows(function() {
-  elementAtOrDefault.call([1, 2, 3], -1)
+  [1, 2, 3][ElementAtOrDefault](-1)
 });

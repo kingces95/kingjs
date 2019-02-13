@@ -18,6 +18,5 @@
   "license": "MIT",
   "devDependencies": {
     "kingjs": "^1.0.46"
-  },
-  "capitalize": true
+  }
 }

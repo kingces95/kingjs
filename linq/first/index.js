@@ -1,21 +1,25 @@
-'use strict';
-
-var where = require('@kingjs/linq.where');
+var { 
+  ['@kingjs']: {
+    reflect: { exportExtension },
+    linq: { Where },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function first(predicate) {
   var enumerable = this;
   
   if (predicate)
-    enumerable = where.call(enumerable, predicate);
+    enumerable = enumerable[Where](predicate);
   
-  var enumerator = enumerable.getEnumerator();
+  var enumerator = enumerable[GetEnumerator]();
   
-  if (!enumerator.moveNext())
+  if (!enumerator[MoveNext]())
     throw 'first: Sequence contains no matching elements.';
   
-  return enumerator.current;
+  return enumerator[Current];
 };
 
-Object.defineProperties(module, {
-  exports: { value: first }
-});
+exportExtension(module, IEnumerable, first);

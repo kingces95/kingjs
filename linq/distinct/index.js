@@ -1,11 +1,17 @@
-'use strict';
-
-var except = require('@kingjs/linq.except');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Except
+    },
+    IEnumerable,
+  }
+} = require('./dependencies');
 
 function distinct(selectId) {
-  return except.call(this, undefined, selectId);
+  return this[Except](undefined, selectId);
 };
 
-Object.defineProperties(module, {
-  exports: { value: distinct }
-});
+exportExtension(module, IEnumerable, distinct);

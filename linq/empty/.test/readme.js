@@ -1,9 +1,9 @@
-var empty = require('.');
+var empty = require('..');
 
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
 
 assert(empty() === empty());
 
-var array = toArray.call(empty());
+var array = empty()[ToArray]();
 assert(array.length == 0);

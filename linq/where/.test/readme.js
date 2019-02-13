@@ -1,16 +1,16 @@
 require('kingjs');
-var where = require('..');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var Where = require('..');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var numbers = sequence(0, 1, 2, 3);
+  var numbers = [0, 1, 2, 3];
 
   var isEven = function (x) { return x % 2 == 0; }
 
-  var evenNumbers = where.call(numbers, isEven);
+  var evenNumbers = numbers[Where](isEven);
 
-  var result = toArray.call(evenNumbers);
+  var result = evenNumbers[ToArray]();
   assert(result.length == 2);
   assert(result[0] == 0);
   assert(result[1] == 2);
@@ -18,13 +18,13 @@ function readme() {
 readme();
 
 function readmeIndex() {
-  var letters = sequence('a', 'b', 'c', 'd');
+  var letters = ['a', 'b', 'c', 'd'];
 
   var isEvenIndex = function (x, i) { return i % 2 == 0; }
   
-  var everyOther = where.call(letters, isEvenIndex);
+  var everyOther = letters[Where](isEvenIndex);
   
-  var result = toArray.call(everyOther);
+  var result = everyOther[ToArray]();
   assert(result.length == 2);
   assert(result[0] == 'a');
   assert(result[1] == 'c');

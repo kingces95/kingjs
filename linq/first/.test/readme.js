@@ -1,21 +1,21 @@
 require('kingjs');
-var first = require('..');
+var First = require('..');
 var assert = require('assert');
 var assertThrows = require('@kingjs/assert-throws');
 
 function readme() {
-  assert(first.call([1, 2, 3]) == 0);
+  assert([0, 1, 2][First]() == 0);
   assertThrows(function() {
-    first.call(sequence())
+    [][First]()
   });
 }
 readme();
 
 function readmePredicate() {
   var isOdd = function(x) { return x % 2 == 1; }
-  assert(first.call([1, 2, 3], isOdd) == 1);
+  assert([1, 2, 3][First](isOdd) == 1);
   assertThrows(function() {
-    first.call(sequence(0, 2), isOdd)
+    [0, 2][First](isOdd)
   });
 }
 readmePredicate();

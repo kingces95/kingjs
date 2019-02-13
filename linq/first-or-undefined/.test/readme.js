@@ -1,16 +1,16 @@
 require('kingjs');
-var firstOrUndefined = require('..');
+var FirstOrUndefined = require('..');
 var assert = require('assert');
 
 function readme() {
-  assert(firstOrUndefined.call([1, 2, 3]) == 0);
-  assert(firstOrUndefined.call(sequence()) == undefined);
+  assert([0, 1, 2][FirstOrUndefined]() == 0);
+  assert([][FirstOrUndefined]() == undefined);
 }
 readme();
 
 function readmePredicate() {
   var isOdd = function(x) { return x % 2 == 1; }
-  assert(firstOrUndefined.call([1, 2, 3], isOdd) == 1);
-  assert(firstOrUndefined.call(sequence(0, 2), isOdd) == undefined);
+  assert([0, 1, 2][FirstOrUndefined](isOdd) == 1);
+  assert([0, 2][FirstOrUndefined](isOdd) == undefined);
 }
 readmePredicate();

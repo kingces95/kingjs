@@ -1,9 +1,17 @@
-'use strict';
-
-var aggregate = require('@kingjs/linq.aggregate');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Aggregate
+    },
+    IEnumerable,
+  }
+} = require('./dependencies');
 
 function count(predicate) {      
-  return aggregate.call(this, 0, function(x) {
+  return this[Aggregate](0, function(x) {
     var aggregate = this;
 
     if (!predicate || predicate(x))
@@ -13,6 +21,4 @@ function count(predicate) {
   });
 };
 
-Object.defineProperties(module, {
-  exports: { value: count }
-});
+exportExtension(module, IEnumerable, count);
