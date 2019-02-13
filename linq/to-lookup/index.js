@@ -1,17 +1,21 @@
-'use strict';
-
-var {
+var { 
   ['@kingjs']: {
-    dictionary: Dictionary
-  } 
+    reflect: { 
+      exportExtension
+    },
+    Dictionary,
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
 } = require('./dependencies');
 
 function toLookup(keySelector, valueSelector) {       
   var lookup = new Dictionary();
   
-  var enumerator = this.getEnumerator();  
-  while (enumerator.moveNext()) {
-    var current = enumerator.current;
+  var enumerator = this[GetEnumerator]();  
+  while (enumerator[MoveNext]()) {
+    var current = enumerator[Current];
     
     var value = current;
     if (valueSelector)
@@ -31,6 +35,4 @@ function toLookup(keySelector, valueSelector) {
   return lookup;
 };
 
-Object.defineProperties(module, {
-  exports: { value: toLookup }
-});
+exportExtension(module, IEnumerable, toLookup);

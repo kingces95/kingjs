@@ -9,4 +9,4 @@ var EmptyArray = [];
 
 function empty() { return EmptyArray; }
 
-exportExtension(module, IEnumerable, empty);
+module.exports = empty;

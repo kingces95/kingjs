@@ -1,42 +1,48 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
-var toLookup = require('@kingjs/linq.to-lookup');
-var empty = require('@kingjs/linq.empty');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    linq: {
+      ToLookup,
+      empty
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function groupJoin(
   innerEnumerable, 
   outerKeySelector, 
   innerKeySelector, 
   resultSelector) {
-  
+
   var outerEnumerable = this;
-  
-  var innerLookup = undefined;
-  var outerEnumerator = undefined;
-  
-  return function() { 
-    
-    if (!innerLookup) 
-      innerLookup = toLookup.call(innerEnumerable, innerKeySelector);
-    
-    if (!outerEnumerator)
-    outerEnumerator = outerEnumerable.getEnumerator();
-    
-    if (!outerEnumerator.moveNext()) {
-      innerLookup = undefined;
-      outerEnumerator = undefined;
-      return false;
+
+  return implementIEnumerable({ }, 
+    function createMoveNext() { 
+      var innerLookup = innerEnumerable[ToLookup](innerKeySelector);
+      var outerEnumerator = outerEnumerable[GetEnumerator]();
+
+      return function moveNext() { 
+        
+        if (!outerEnumerator[MoveNext]()) {
+          innerLookup = undefined;
+          outerEnumerator = undefined;
+          return false;
+        }
+
+        var outerElement = outerEnumerator[Current];
+        var key = outerKeySelector(outerElement);
+        var innerSequence = innerLookup[key] || empty();
+        this.current_ = resultSelector(outerElement, innerSequence);
+        return true;
+      }
     }
+  );
+};
 
-    var outerElement = outerEnumerator.current;
-    var key = outerKeySelector(outerElement);
-    var innerSequence = innerLookup[key] || empty();
-    this.current_ = resultSelector(outerElement, innerSequence);
-    return true;
-  }
-}
-
-Object.defineProperties(module, {
-  exports: { value: define(groupJoin) }
-});
+exportExtension(module, IEnumerable, groupJoin);

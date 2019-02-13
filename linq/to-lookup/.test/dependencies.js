@@ -7,3 +7,4 @@ exports['@kingjs'] = {
   assertShimmed: require('@kingjs/assert-shimmed'),
   Dictionary: require('@kingjs/dictionary'),
 }
+exports['kingjs'] = require('kingjs')

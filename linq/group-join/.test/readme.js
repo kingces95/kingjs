@@ -1,35 +1,34 @@
 require('kingjs');
-var groupJoin = require('..');
-var toArray = require('@kingjs/linq.to-array');
+var GroupJoin = require('..');
+var ToArray = require('@kingjs/linq.to-array');
 var assert = require('assert');
 
 function readme() {
-  var owners = sequence(
+  var owners = [
     { name: 'Alice', id: 0 },
     { name: 'Bob', id: 1 },
     { name: 'Chris', id: 2 },
-  );
+  ];
   
-  var pets = sequence(
+  var pets = [
     { name: 'Fluffy', ownerId: 0 },
     { name: 'Spike', ownerId: 0 },
     { name: 'Snuggles', ownerId: 1 },
-  )
+  ];
   
-  var ownersAndPets = groupJoin.call(
-    owners,
+  var ownersAndPets = owners[GroupJoin](
     pets,
     function(x) { return x.id; },
     function(x) { return x.ownerId; },
     function(x, group) { 
       return {
         owner: x.name,
-        pets: toArray.call(group)
+        pets: group[ToArray]()
       }; 
     }
   );
   
-  var result = toArray.call(ownersAndPets);
+  var result = ownersAndPets[ToArray]();
 
   assert(result.length == 3);
   assert(result[0].owner == 'Alice');

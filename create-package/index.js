@@ -1,4 +1,10 @@
-'use strict';
+var {
+  ['@kingjs']: { 
+    git: { getDir },
+    stringEx: { replaceAll: ReplaceAll }
+  }
+} = require('./dependencies');
+
 var fs = require('fs');
 var path = require('path');
 var getJsdocDescription = require('./jsdoc-description');
@@ -10,12 +16,6 @@ var KingJs = 'kingjs';
 var PackageName = 'package.json';
 var RepositoryUrl = 'https://repository.kingjs.net/';
 
-var {
-  ['@kingjs']: { 
-    git: { getDir },
-    stringEx: { replaceAll: ReplaceAll }
-  }
-} = require('./dependencies');
 
 /**
  * @description Creates or updates fields of `package.json`
