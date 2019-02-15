@@ -6,6 +6,7 @@ var {
 } = require('./dependencies');
 
 var path = require('path');
+var fs = require('fs');
 
 var EmptyString = '';
 var Tab = '  ';
@@ -119,6 +120,9 @@ function getPackageJson(dependency) {
   var index = require.resolve(dependency, { paths: [ cwd ] });
   var dir = path.dirname(index);
   var packageJson = path.join(dir, 'package.json');
+  if (!fs.existsSync(packageJson))
+    return { };
+
   var json = require(packageJson);
   return json;
 }

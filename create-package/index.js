@@ -1,7 +1,7 @@
 var {
   ['@kingjs']: { 
     git: { getDir },
-    stringEx: { replaceAll: ReplaceAll }
+    stringEx: { ReplaceAll }
   }
 } = require('./dependencies');
 
