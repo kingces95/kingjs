@@ -1,0 +1,21 @@
+{
+  "name": "@kingjs/watch-package.temp.root.baz",
+  "version": "1.0.0",
+  "description": "This becomes my package description when I save.",
+  "main": "index.js",
+  "files": [
+    "**/*.js",
+    "*.txt"
+  ],
+  "scripts": {
+    "generate": "cpk & crm"
+  },
+  "dependencies": {
+    "@kingjs/camel-case.join": "^1.0.0",
+    "@kingjs/package-name.parse": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/watch-package/temp/root/baz"
+  }
+}

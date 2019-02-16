@@ -20,7 +20,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/reflect.is": "^1.0.0", 
+    "deep-equals": "^1.0.0",
     "shelljs": "^1.0.0",
+    "rxjs": "^1.0.0",
     "chokidar": "^2.1.1"
   }
 }
