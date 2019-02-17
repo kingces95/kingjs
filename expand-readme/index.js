@@ -1,15 +1,13 @@
-'use strict';
-var fs = require('fs');
-var path = require('path');
-var getFirstJsdoc = require('./first-jsdoc');
-var printJoin = require('./print-join');
-var packageNameParse = require('./package-name.parse');
-
 var {
+  fs, path,
   ['@kingjs']: { 
     stringEx: { expand: Expand }
   }
 } = require('./dependencies');
+
+var getFirstJsdoc = require('./first-jsdoc');
+var printJoin = require('./print-join');
+var packageNameParse = require('./package-name.parse');
 
 var NpmPackageUrl = 'https://www.npmjs.com/package/';
 var TemplateDir = '.md';

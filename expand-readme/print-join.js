@@ -1,8 +1,6 @@
-'use strict';
-
 var {
   ['@kingjs']: { 
-    stringEx: { expand: Expand }
+    stringEx: { Expand }
   }
 } = require('./dependencies');
 

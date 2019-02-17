@@ -1,12 +1,12 @@
-"use strict";
+var {
+  ['@kingjs']: { 
+    stringEx: { JoinLines }
+  }
+} = require('./dependencies');
+
 var fs = require("fs");
 var ts = require("typescript");
 
-var {
-  ['@kingjs']: { 
-    stringEx: { joinLines: JoinLines }
-  }
-} = require('./dependencies');
 
 var NewLine = '\n';
 var Callback = 'callback';

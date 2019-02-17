@@ -1,4 +1,6 @@
-var assert = require('assert');
+var {
+  assert,
+} = require('./dependencies');
 
 var At = '@';
 var ForwardSlash = '/';
