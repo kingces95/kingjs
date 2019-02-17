@@ -7,14 +7,19 @@ var {
 
 var fs = require("fs");
 
-var AddKind = true;
+var EmptyObject = { };
+var AnyListRx = /List$/;
+var AnyTokenRx = /Token$/;
+var AnyLiteralRx = /Literal$/;
+var AnyKeywordRx = /Keyword$/;
+var Parent = 'parent';
 
 var types = { }
 for (var i = 0; i < ts.SyntaxKind.Count; i++) {
   var name = ts.SyntaxKind[i];
-  if (name.match(/Token$/))
+  if (name.match(AnyTokenRx))
     continue;
-  if (name.match(/Keyword$/))
+  if (name.match(AnyKeywordRx))
     continue;
   types[name] = new Function(`return function ${name}() { }`)();
 }
@@ -38,18 +43,27 @@ var leafs = {
   ComputedPropertyName: o => o.expression.text,
 }
 
-function parse(path) {
-
-  var stack = [];
-  var root = createSourceFile(path);
-  return walk(root)
+/**
+ * @description Expresses a TypeScript AST as an object literal.
+ * 
+ * @param path Path to file to a file to parse. 
+ * @param options Options to add type, and positioning information to AST.
+ * @param options.type If true, type information is added to the AST as
+ * `.` properties so it'll appear if the AST is serialized to JSON.
+ * @param options.line If true, line numbers are added to the AST.
+ * @param options.character If true, character position is added to the AST.
+ * 
+ * @returns Each node of the Typescript AST is stripped down to just
+ * those properties that return nodes or are terminal literals. 
+ */
+function parse(path, options = EmptyObject) {
+  var sourceFile = createSourceFile(path, options.languageVersion);
+  return walk(sourceFile);
 
   function walk(node) {
-    if (!node)
-      return;
-
     var kind = ts.SyntaxKind[node.kind];
 
+    // leaf => value OR function
     if (kind in leafs) {
       var leaf = leafs[kind];
       if (is.function(leaf))
@@ -57,22 +71,32 @@ function parse(path) {
       return leaf;
     }
 
-    if (kind.match(/Token$/))
+    // leaf => node.getText
+    var isToken = kind.match(AnyTokenRx);
+    var isLiteral = kind.match(AnyLiteralRx);
+    var isKeyword = kind.match(AnyKeywordRx);
+    if (isToken || isLiteral || isKeyword)
       return node.getText();
 
-    if (kind.match(/Keyword$/))
-      return node.getText();
-
-    if (kind.match(/Literal$/))
-      return node.getText();
-
+    // activate typed result
     var result = new types[kind]();
 
-    if (AddKind)
+    // add type as property so it shows up in JSON
+    if (options.type)
       result['.'] = kind;
+    if (node.getStart && (options.lines || options.character)) {
+      let start = sourceFile.getLineAndCharacterOfPosition(node.getStart());
+      let end = sourceFile.getLineAndCharacterOfPosition(node.getEnd());
+
+      if (options.lines)
+        result['.line'] = `${start.line + 1}:${end.line + 1}`;
+
+      if (options.character)
+        result['.character'] = `${start.character + 1}:${end.character + 1}`;
+    }
 
     for (var name in node) {
-      if (name == 'parent')
+      if (name == Parent)
         continue;
 
       var value = node[name];
@@ -81,13 +105,12 @@ function parse(path) {
         if (!value.length)
           continue;
 
-        var first = value[0];
-        if (!is.object(first) || 'kind' in first == false)
+        if (!isNode(value[0]))
           continue;
         
         result[name] = value.map(o => walk(o));
 
-        if (kind.match(/List$/)) {
+        if (kind.match(AnyListRx)) {
           result = result[name];
           break;
         }
@@ -100,7 +123,7 @@ function parse(path) {
         continue;
       }
 
-      if (!is.object(value) || 'kind' in value == false)
+      if (!isNode(value))
         continue;
 
       result[name] = walk(value)
@@ -115,19 +138,37 @@ function parse(path) {
   }
 }
 
-function createSourceFile(path) {
-  var js = fs.readFileSync(path).toString();
-  var result = ts.createSourceFile(
+function createSourceFile(
+  path, 
+  languageVersion = ts.ScriptTarget.Latest) {
+
+  var buffer = fs.readFileSync(path);
+  var text = buffer.toString();
+  var setParentNodes = true; // else `.getText()` fails
+
+  return ts.createSourceFile(
     path, 
-    js,
-    ts.ScriptTarget.ES2015, 
-    true
+    text,
+    languageVersion, 
+    setParentNodes
   )
-  return result;
+}
+
+function isNode(value) {
+ return is.object(value) && 'kind' in value;
 }
 
 module.exports = parse;
+for (var name in types)
+  parse[name] = types[name];
 
-var ast = parse('.test/js-doc.js');
-//console.log(ast);
-fs.writeFileSync('./ast.json', JSON.stringify(ast, null, 2))
+return;
+fs.writeFileSync('./.ast.json', 
+  JSON.stringify(
+    parse('.test/sample.js', { 
+      type: true, 
+      lines: true,
+      character: true
+    }
+  ), null, 2)
+)
