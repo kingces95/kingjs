@@ -1,125 +1,94 @@
-"use strict";
-var fs = require("fs");
-var ts = require("typescript");
+var { 
+  ['@kingjs']: { 
+    is, parseSource,
+  } 
+} = require('./dependencies');
 
-var Space = ' ';
+var assert = require('assert');
+var path = require('path');
 
-/**
- * @description
- * A jsDoc comment.
- * That spans a
- * few lines.
- * 
- * @param foo Foo comment
- */
-function example(foo) { }
+var Require = 'require';
+var Dependencies = 'dependencies';
 
-function parse(path) {
-  var kindStack = [];
-  var idStack;
-  var packages;
+var {
+  ObjectBindingPattern,
+} = parseSource;
 
-  var root = createSourceFile(path);
-  var statements = root.statements;
-  if (!statements)
-    return;
+function parse(file) {
+  try {
 
-  walk(statements[0])
-  return packages;
+    // deconstruct the AST
+    var {
+      statements: {
+        [0]: {
+          declarationList: {
+            [0]: {
+              initializer: {
+                expression,
+                arguments: {
+                  [0]: argument
+                }
+              },
+              name: obp
+            }
+          }
+        }
+      }
+    } = parseSource(file);
 
-  function walk(node, prefix) {
-    if (!node)
+    // match the call is to 'require'
+    if (expression != Require)
       return;
 
-    prefix = prefix ? prefix + ': ' : '';
+    // match the call argument is a path that ends in 'dependencies'
+    if (path.basename(argument) != Dependencies)
+      return;
 
-    var kind = ts.SyntaxKind[node.kind];
-    var tab = ''.padStart(kindStack.length * 2, ' ');
-    var log = x => console.log(`${tab}${prefix}${kind} ${x || ''}`);
+    // transform the ObjectBindingPattern into a literal
+    var literal = evaluate(obp);
 
-    kindStack.push(kind);
-    switch (node.kind) {
-      case ts.SyntaxKind.VariableStatement:
-        log();
-        ts.forEachChild(node, walk);
-        break;
+    return walk(root);
 
-      case ts.SyntaxKind.VariableDeclarationList:
-        log();
-        for (var declaration of node.declarations)
-          walk(declaration);
-        break;
-
-      case ts.SyntaxKind.VariableDeclaration:
-        log();
-        walk(node.initializer, 'initializer');
-        idStack = [];
-        packages = [];
-        walk(node.name, 'root');
-        break;
-
-      case ts.SyntaxKind.ObjectBindingPattern:
-        log();
-        for (var element of node.elements)
-          walk(element);
-        break;
-
-      case ts.SyntaxKind.BindingElement:
-        log();
-        if (node.name.kind == ts.SyntaxKind.ObjectBindingPattern) {
-          walk(node.propertyName, 'propertyName');
-          if (idStack[0] != '@kingjs')
-            packages.push(idStack.join('.'));
-          else
-            walk(node.name, 'name');
-        } else {
-          if (node.propertyName)
-            walk(node.propertyName, 'propertyName');
-          else 
-            walk(node.name, 'name');
-          packages.push(idStack.join('.'));
-        } 
-        idStack.pop();
-        break;
-
-      case ts.SyntaxKind.ComputedPropertyName:
-        var id = node.expression.text;
-        log(id);
-        if (idStack) idStack.push(id);
-        break;
-
-      case ts.SyntaxKind.Identifier:
-        var id = node.text;
-        log(id);
-        if (idStack) idStack.push(id);
-        break;
-
-      case ts.SyntaxKind.StringLiteral:
-        log(node.text);
-        break;
-        
-      case ts.SyntaxKind.CallExpression:
-        log();
-        walk(node.expression, 'expression');
-        for (var argument of node.arguments)
-          walk(argument, 'argument');
-        break;
-
-      default:
-        log('???');
-    }
-    kindStack.pop();
+  } catch(e) { 
+    console.log(e);
   }
 }
 
-function createSourceFile(path) {
-  var js = fs.readFileSync(path).toString();
-  return ts.createSourceFile(
-    path, 
-    js,
-    ts.ScriptTarget.ES2015, 
-    true
-  )
+function getPackageNames(literal) {
+  
+}
+
+function evaluate(obp) {
+  assert(obp instanceof ObjectBindingPattern);
+  var result = { };
+
+  for (var element of obp.elements) {
+    var name = element.propertyName;
+
+    // leaf; { ['@kingjs']: { package } }
+    if (!name) {
+      name = element.name;
+      result[name] = undefined;
+      continue;
+    }
+  
+    // ignore alias; { ['@kingjs']: { package: alias } }
+    if (is.string(element.name)) {
+      result[name] = undefined;
+      continue;
+    }
+
+    // special; { ['rxjs/operators']: { groupBy, ... } }
+    if (name.match(/\//)) {
+      result[name] = undefined;
+      continue;
+    }
+
+    // namespace; { ['@kingjs']: { ns: { ... } } }
+    result[name] = evaluate(element.name);
+  }
+
+  return result;
 }
 
 module.exports = parse;

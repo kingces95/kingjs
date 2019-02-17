@@ -19,8 +19,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/is": "^1.0.0",
     "@kingjs/git.get-dir": "^1.0.0",
     "@kingjs/string-ex.replace-all": "^1.0.0",
+    "@kingjs/parse-source": "^1.0.0",
     "typescript": "^3.2.4"
   }
 }
