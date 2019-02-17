@@ -1,12 +1,17 @@
 var { 
   ['@kingjs']: { 
-    is, parseSource,
-  } 
+    camelCase: { split },
+    packageName: { construct },
+    is, 
+    parseSource,
+  },
+  assert, 
+  path
 } = require('./dependencies');
 
-var assert = require('assert');
-var path = require('path');
-
+var EmptyObject = { };
+var KingJs = 'kingjs';
+var AtKingJs = '@' + KingJs;
 var Require = 'require';
 var Dependencies = 'dependencies';
 
@@ -15,6 +20,43 @@ var {
 } = parseSource;
 
 function parse(file) {
+  var obp = matchDependencies(file);
+
+  // transform the ObjectBindingPattern into a literal
+  var literal = evaluate(obp);
+
+  // transform literal to package names
+  var packages = getPackageNames(literal);
+
+  return packages;
+}
+
+function getPackageNames(literal) {
+  var packages = [];
+  var stack = [];
+  walk(literal);
+  return packages;
+
+  function walk(node) {
+    for (var name in node) {
+      var value = node[name];
+      stack.push(split(name));
+
+      if (!value) {
+        if (stack[0][0] == AtKingJs)
+          packages.push(construct(KingJs, stack.slice(1)));
+        else
+          packages.push(name)
+      }
+      else
+        walk(value);
+
+      stack.pop();
+    }
+  }
+}
+
+function matchDependencies(file) {
   try {
 
     // deconstruct the AST
@@ -44,18 +86,11 @@ function parse(file) {
     if (path.basename(argument) != Dependencies)
       return;
 
-    // transform the ObjectBindingPattern into a literal
-    var literal = evaluate(obp);
+    return obp;
 
-    return walk(root);
-
-  } catch(e) { 
-    console.log(e);
+  } catch(e) {
+    return EmptyObject;
   }
-}
-
-function getPackageNames(literal) {
-  
 }
 
 function evaluate(obp) {
@@ -93,4 +128,4 @@ function evaluate(obp) {
 
 module.exports = parse;
 
-console.log(JSON.stringify(parse('.test/sample.js'), null, 2));
+//console.log(JSON.stringify(parse('.test/sample.js'), null, 2));

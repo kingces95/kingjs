@@ -128,11 +128,6 @@ function parse(path, options = EmptyObject) {
 
       result[name] = walk(value)
     }
-
-    if (Object.getOwnPropertyNames(result).length == 0) {
-      console.log(kind);
-      result['.'] = kind;
-    }
         
     return result;
   }

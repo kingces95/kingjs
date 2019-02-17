@@ -18,8 +18,15 @@
   },
   "keywords": [],
   "license": "MIT",
+  "nodeDependencies": [
+    "assert",
+    "path",
+    "fs"
+  ],
   "dependencies": {
     "@kingjs/is": "^1.0.0",
+    "@kingjs/package-name.construct": "^1.0.0",
+    "@kingjs/camel-case.split": "^1.0.0",
     "@kingjs/git.get-dir": "^1.0.0",
     "@kingjs/string-ex.replace-all": "^1.0.0",
     "@kingjs/parse-source": "^1.0.0",

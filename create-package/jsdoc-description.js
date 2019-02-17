@@ -1,62 +1,39 @@
-"use strict";
-var fs = require("fs");
-var ts = require("typescript");
+var { 
+  ['@kingjs']: { parseSource }
+} = require('./dependencies');
+
+var {
+  FirstJSDocTagNode
+} = parseSource;
 
 var Space = ' ';
-
-/**
- * @description
- * A jsDoc comment.
- * That spans a
- * few lines.
- * 
- * @param foo Foo comment
- */
-function example(foo) { }
+var NewLineRx = /\r\n|\r|\n/g;
+var Description = 'description';
 
 function parse(path) {
-  var description;
-  walk(createSourceFile(path));
+  var ast = parseSource(path);
+  var description = walk(ast);
+  description = description.replace(NewLineRx, Space);
   return description;
 
-  function walkDocs(node) {
-    switch (node.kind) {
+  function walk(node) {
+    for (var name in node) {
+      var value = node[name];
       
-      case ts.SyntaxKind.FirstJSDocTagNode:
-        var tag = node.tagName.text;
-        switch (tag) {
+      if (value instanceof FirstJSDocTagNode) {
+        if (value.tagName == Description)
+          return value.comment;
+      }
 
-          // @description
-          case 'description':
-            description = node.comment;
-            description = description.replace(/\r/g, Space);
-            description = description.replace(/\n/g, Space);
-            break;
-        }
-        break;
+      if (value instanceof Object) {
+        var result = walk(value);
+        if (result)
+          return result;
+      }
     }
   }
-
-  function walk(node) {
-    // skip ahead to first jsDoc comment
-    if (!node.jsDoc) 
-      return ts.forEachChild(node, walk);
-    
-    // parse jsDoc comment
-    for (var jsDoc of node.jsDoc) 
-      ts.forEachChild(jsDoc, walkDocs);
-  }
-}
-
-function createSourceFile(path) {
-  return ts.createSourceFile(
-    path, 
-    fs.readFileSync(path).toString(), 
-    ts.ScriptTarget.ES2015, 
-    true
-  )
 }
 
 module.exports = parse;
 
-//console.log(JSON.stringify(parse('jsdoc-description.js'), null, 2));
+//console.log(JSON.stringify(parse('.test/sample.js'), null, 2));

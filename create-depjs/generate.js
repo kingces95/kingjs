@@ -2,7 +2,8 @@ var {
   ['@kingjs']: {
     packageName: { parse },
     camelCase: { join }
-  }
+  },
+  isBuiltinModule
 } = require('./dependencies');
 
 var path = require('path');
@@ -61,10 +62,12 @@ function generate(dependencies) {
 
       if (!node[name]) {
         if (i == lastIndex) {
-          // test for 'capitalize=true' in package.json
-          var { capitalize } = getPackageJson(dependency);
-          if (capitalize)
-            name = name[0].toUpperCase() + name.substr(1);
+            // test for 'capitalize=true' in package.json
+            var { capitalize } = isBuiltinModule(dependency) ? 
+              false : getPackageJson(dependency);
+              
+            if (capitalize)
+              name = name[0].toUpperCase() + name.substr(1);
 
           node[name] = dependency;
         } 

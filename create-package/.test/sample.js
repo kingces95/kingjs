@@ -8,3 +8,9 @@ var {
   },
   ['foo/bar']: { baz, moo }
 } = require('../dependencies');
+
+/**
+ * @description A description
+ * that spans a line.
+ */
+function goodStuff() { }
