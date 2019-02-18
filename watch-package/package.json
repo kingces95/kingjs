@@ -20,7 +20,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0", 
+    "@kingjs/reflect.is": "^1.0.0",
     "deep-equals": "latest",
     "shelljs": "latest",
     "rxjs": "latest",

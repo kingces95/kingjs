@@ -5,7 +5,9 @@ exports['@kingjs'] = {
   git: {
     getDir: require('@kingjs/git.get-dir'),
   },
-  is: require('@kingjs/is'),
+  reflect: {
+    is: require('@kingjs/reflect.is'),
+  },
   packageName: {
     construct: require('@kingjs/package-name.construct'),
   },

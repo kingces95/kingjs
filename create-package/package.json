@@ -21,9 +21,9 @@
   "dependencies": {
     "@kingjs/camel-case.split": "latest",
     "@kingjs/git.get-dir": "latest",
-    "@kingjs/is": "latest",
     "@kingjs/package-name.construct": "latest",
     "@kingjs/parse-source": "latest",
+    "@kingjs/reflect.is": "latest",
     "@kingjs/string-ex.replace-all": "latest",
     "is-builtin-module": "latest",
     "npm-packlist": "latest"

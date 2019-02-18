@@ -7,14 +7,8 @@
     "*.js"
   ],
   "bin": {
-    "crate-depjs": "./index.js",
-    "cdj": "./index.js"
-  },
-  "scripts": {
-    "update-package": "cpk"
-  },
-  "watch": {
-    "index.js": "update-package"
+    "crate-depjs": "./cdj.js",
+    "cdj": "./cdj.js"
   },
   "repository": {
     "type": "git",

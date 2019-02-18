@@ -1,9 +1,7 @@
 var { 
   ['@kingjs']: {
     reflect: { exportExtension },
-    IEnumerable,
-    IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerable
   }
 } = require('./dependencies');
 

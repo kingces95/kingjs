@@ -3,7 +3,7 @@ var {
   ['@kingjs']: { 
     camelCase: { split },
     packageName: { construct },
-    is, 
+    reflect: { is }, 
     parseSource,
   },
 } = require('./dependencies');

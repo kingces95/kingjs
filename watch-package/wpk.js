@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-var watchPackage = require('./index');
-watchPackage();
+process.chdir('..');
+require('./index');

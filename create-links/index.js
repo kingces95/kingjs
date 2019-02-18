@@ -41,27 +41,50 @@ function createLinks() {
     .filter(x => path.basename(x) == PackageJson && !DotDir.test(x))
     .map(x => path.join(gitDir, path.dirname(x)));
 
-  for (var toDir of dirs) {
-    var jsonPath = require.resolve(PackageJson, { paths: [ toDir ] });
-    var json = require(jsonPath);
-    var { name } = json;
-
-    var parts = parse(name);
-    var fullName = parts.fullName;
-    var scope = EmptyString;
-    if (parts.scope)
-      scope = `@${parts.scope}`
-
-    var fromDir = path.join(gitDir, NodeModules, scope);
-    makeDir(fromDir);
-
-    fromDir = path.join(fromDir, fullName);
-
-    if (!fs.existsSync(fromDir)) {
-      console.log(`${fromDir} -> ${toDir}`);
-      fs.symlinkSync(toDir, fromDir, 'dir');
+  var set = new Set();
+  for (var packageDir of dirs) {
+    var { dependencies = { } } = require(path.join(packageDir, PackageJson))
+    for (var dependency of Object.keys(dependencies)) {
+      var parts = parse(dependency);
+      if (parts.scope == KingJs)
+        continue;
+      set.add(dependency)
     }
   }
+
+  for (var dependency of set)
+    exec(gitDir, `npm i ${dependency}`);
+    
+  for (var toDir of dirs) {
+    if (fs.existsSync(path.join(toDir, NodeModules)))
+      continue;
+
+    var jsonPath = require.resolve(PackageJson, { paths: [ toDir ] })
+    var json = require(jsonPath)
+    var { name } = json
+
+    var fromDir = getModuleDir(gitDir, name)
+    if (!fs.existsSync(fromDir)) {
+      var scopeDir = path.dirname(fromDir)
+      makeDir(scopeDir)
+  
+      console.log(`${fromDir} -> ${toDir}`)
+      fs.symlinkSync(toDir, fromDir, 'dir')
+    }
+  }
+}
+
+function getModuleDir(dir, name) {
+  dir = path.join(dir, NodeModules)
+
+  var parts = parse(name)
+  var fullName = parts.fullName
+
+  if (parts.scope)
+    dir = path.join(dir, `@${parts.scope}`)
+
+  dir = path.join(dir, fullName)
+  return dir;
 }
 
 function makeDir(dir) {

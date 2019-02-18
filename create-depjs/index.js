@@ -10,6 +10,7 @@ var DevDependenciesJs = '.test/dependencies.js';
 
 // extract dependencies from package.json
 var cwd = process.cwd();
+
 var packageJsonPath = path.join(cwd, PackageJson);
 var { 
   dependencies, 

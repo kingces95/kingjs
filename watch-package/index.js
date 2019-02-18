@@ -18,6 +18,7 @@ var path = require('path');
 
 var LogLevel = 2;
 var DebounceMs = 250;
+var PostCmdMs = 5000;
 var Add = 'add';
 var All = 'all';
 var Unlink = 'unlink';
@@ -36,8 +37,8 @@ var DotDirGlob = [
   /(^|[\/\\])\../
 ];
 
-process.chdir('.temp');
 var cwd = process.cwd();
+console.log('watching:', cwd)
 
 /**
  * @description A tool which, for each `package.json` found
@@ -105,7 +106,7 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
     var key = package.key
     var dir = path.dirname(key);
     var subject = new Subject();
-    var files;
+    var files = [ ];
     var subscription;
     var generate;
 
@@ -164,8 +165,12 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
 )
 packages.subscribe(o => {
   control.next({ event: Unlink, path: o.path });
-  exec(o.dir, o.generate)
-  control.next({ event: Add, path: o.path });
+  exec(o.dir, o.generate);
+  console.log('waiting (ms):', PostCmdMs)
+  setTimeout(function() {
+    //control.next({ event: Add, path: o.path })
+  }, PostCmdMs);
+  ;
 });
 
 function parsePackage(path) {
@@ -176,6 +181,9 @@ function parsePackage(path) {
       return EmptyPackage;
 
     if (!is.array(json.files))
+      return EmptyPackage;
+
+    if (!json.scripts)
       return EmptyPackage;
 
     return json;
@@ -198,7 +206,9 @@ function exec(dir, cmd) {
     console.log(`${dir}$ ${cmd}`);
     var result = shelljs.exec(cmd, { silent:true });
 
-    if (result.code != 0)
+    if (result.stdout)
+      console.log(result.stdout.trim());
+    if (result.code != 0 || result.stderr)
       console.log(result.stderr.trim());
 
   } finally {
