@@ -1,6 +1,9 @@
 var a, b, c;
 var ok = { foo: 1 + 1 }, ok2 = { yo: ok };
 
+/**
+ * @description Hello world!
+ */
 var {
   ['@kingjs']: { 
     git: { getDir },

@@ -28,7 +28,10 @@ example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])
 The return comment. Return comment that spans a line.
 ### Remarks
 Remarks comment that spans lines.
-- Remarks comment on new line.
+---
+ - Remarks comment on new line.
+   - Indented remarks comment on new line.
+     - Indented x2 remarks comment on new line.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```

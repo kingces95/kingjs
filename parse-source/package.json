@@ -16,8 +16,10 @@
   },
   "keywords": [],
   "license": "MIT",
+  "nodeDependencies": [ "assert" ],
   "dependencies": {
     "@kingjs/reflect.is": "^1.0.1",
+    "@kingjs/create-constructor": "latest",
     "typescript": "^3.2.4"
   }
 }

@@ -1,7 +1,7 @@
 var {
   fs, path,
   ['@kingjs']: { 
-    stringEx: { expand: Expand }
+    stringEx: { Expand }
   }
 } = require('./dependencies');
 

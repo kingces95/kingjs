@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 var expand = require('./index');
-process.chdir('.test')
+process.chdir('.test');
 expand();

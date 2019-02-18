@@ -11,7 +11,10 @@
  * 
  * @remarks Remarks comment
  * that spans lines.
+ * @remarks ---
  * @remarks - Remarks comment on new line.
+ * @remarks -- Indented remarks comment on new line.
+ * @remarks --- Indented x2 remarks comment on new line.
  * 
  * @callback
  * @param pop Default callback.

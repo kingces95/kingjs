@@ -1,16 +1,3 @@
-var {
-  ['@kingjs']: { 
-    stringEx: { JoinLines }
-  }
-} = require('./dependencies');
-
-var fs = require("fs");
-var ts = require("typescript");
-
-
-var NewLine = '\n';
-var Callback = 'callback';
-
 /**
  * @this any This comment
  * 
@@ -25,10 +12,11 @@ var Callback = 'callback';
  * @remarks Remarks comment
  * that spans lines.
  * @remarks - Remarks comment on new line.
- * @remarks   - Remarks comment on indented new line.
+ * @remarks -- Remarks comment on indented new line.
  * 
  * @callback
  * @param pop Default callback.
+ * @returns callback return comment.
  * 
  * @callback foo
  * @param moo Moo comment.
@@ -36,6 +24,20 @@ var Callback = 'callback';
  */
 function example(callback, foo, bar, baz) { }
 
+var {
+  ['@kingjs']: { 
+    stringEx: { JoinLines },
+    parseSource
+  }
+} = require('./dependencies');
+
+var {
+  JSDocComment,
+  FunctionDeclaration
+} = parseSource;
+
+var NewLine = '\n';
+var Callback = 'callback';
 
 function parse(path) {
   var result = { 
@@ -46,15 +48,42 @@ function parse(path) {
     remarks: [],
     see: [],
   };
-  walk(createSourceFile(path));
+
+  var ast = parseSource(path, { debug: 0 });
+  
+  // find first JSDocComment
+  for (var node of ast) {
+    if (node instanceof JSDocComment) {
+      for (var tag of node.tags)
+        walkDocs(tag);
+      break;
+    }
+    var parent = node;
+  }
+
+  // join callbacks to their parameters
+  for (var name in result.parameters) {
+    var parameter = result.parameters[name];
+    if (result.callbacks[name])
+      parameter.hasCallback = true;
+
+    // default makes template easier to author
+    parameter.callback = result.callbacks[name] || { };
+  }
+
+  // join remarks
+  result.remarks = result.remarks.join(NewLine);
+
+  if (parent instanceof FunctionDeclaration)
+    result.api = createApi(result.parameters, parent.name);
+    
   return result;
 
   function walkDocs(node) {
 
-    switch (node.kind) {
+    switch (node.tagName) {
             
-      // @callback
-      case ts.SyntaxKind.JSDocCallbackTag:
+      case 'callback':
         var name = getName(node, Callback);
         
         var callback = result.callbacks[name] = { };
@@ -66,73 +95,37 @@ function parse(path) {
           defineParameter(parameters, parameter);
         break;
 
-      // @param
-      case ts.SyntaxKind.JSDocParameterTag:
+      case 'param':
         defineParameter(result.parameters, node);
         break;
 
-      // @this
-      case ts.SyntaxKind.JSDocThisTag:
+      case 'this':
         result.parameters.this = joinComment(node.comment);
         break;
 
-      // @return
-      case ts.SyntaxKind.JSDocReturnTag:
+      case 'return':
+      case 'returns':
         result.returns = joinComment(node.comment);
         break;
 
-      case ts.SyntaxKind.FirstJSDocTagNode:
-        var tag = node.tagName.text;
-        switch (tag) {
+      case 'remarks':
+        var comment = node.comment;
+        comment = comment.replace(/^(?!---$)[-]+/, 
+          // special sauce; e.g. '-- foo' -> ' - foo'
+          o => '-'.padStart(o.length * 2, ' ')
+        )
+        comment = joinComment(comment);
 
-          // @remarks
-          case 'remarks':
-            var text = node.getText();
-            var indent = text.match(/(?:\s)(\s*)$/)[1] || '';
-            var remarks = joinComment(indent + node.comment);
-            result.remarks.push(remarks);
-            break;
- 
-          // @see
-          case 'see':
-            result.see.push(node.comment);
-            break;
-         
-          default:
-            //console.log(`${ts.SyntaxKind[node.kind]}.${tag}`);
-        }
+        result.remarks.push(comment);
+        break;
+
+      case 'see':
+        result.see.push(node.comment);
         break;
 
       default:
-        //console.log(ts.SyntaxKind[node.kind]);
+        console.log(node.tagName);
     }
-  }
-
-  function walk(node) {
-    // skip ahead to first jsDoc comment
-    if (!node.jsDoc) 
-      return ts.forEachChild(node, walk);
-    
-    // parse jsDoc comment
-    for (var jsDoc of node.jsDoc) 
-      ts.forEachChild(jsDoc, walkDocs);
-
-    // join callbacks to their parameters
-    for (var name in result.parameters) {
-      var parameter = result.parameters[name];
-      if (result.callbacks[name])
-        parameter.hasCallback = true;
-
-      // default makes template easier to author
-      parameter.callback = result.callbacks[name] || { };
-    }
-
-    // join remarks
-    result.remarks = result.remarks.join(NewLine);
-
-    if (node.name)
-      result.api = createApi(result.parameters, node.name.text);
-    return;
   }
 }
 
@@ -153,12 +146,11 @@ function getName(node, dfault) {
     return dfault;
 
   if (node.fullName)
-    return node.fullName.getText();
+    return node.fullName;
 
   // hack fullName support to enable documenting descriptor properties
   // e.g. `descriptor.callback`
-  var name = node.name.getText();
-  return name;
+  return node.name;
 }
 
 function createApi(parameters, name) {
@@ -193,15 +185,6 @@ function createApi(parameters, name) {
       tokens.push(']')
     return tokens;
   }
-}
-
-function createSourceFile(path) {
-  return ts.createSourceFile(
-    path, 
-    fs.readFileSync(path).toString(), 
-    ts.ScriptTarget.ES2015, 
-    true
-  )
 }
 
 module.exports = parse;

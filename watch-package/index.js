@@ -52,12 +52,12 @@ var cwd = process.cwd();
  * 
  * @remarks - Various heuristics are used to attempt to only kick
  * off runs in response to manual interactions:
- * @remarks   - After a change is detected, a timer starts. If
+ * @remarks -- After a change is detected, a timer starts. If
  * 100ms elapses without another change then `npm run generate`
  * is executed in the `package.json` directory. If another
  * change is detected with that 100ms, then the timer restarts.
  * This should batch changes made by Save All or Replace All.
- * @remarks   - Watching is suspended while `npm run generate` is
+ * @remarks -- Watching is suspended while `npm run generate` is
  * executing. This way changes made by the run itself do not
  * generate subsequent runs.
  * 

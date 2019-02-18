@@ -1,6 +1,6 @@
-var assert = require('assert');
 var { 
-  ['@kingjs']: { is } 
+  assert,
+  ['@kingjs']: { reflect: { is } } 
 } = require('./dependencies');
 
 function createConstructor(name, base, body) {

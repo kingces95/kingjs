@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
+  "nodeDependencies": [
+    "assert"
+  ],
   "dependencies": {
     "@kingjs/reflect.is": "^1.0.0"
   }

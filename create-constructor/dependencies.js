@@ -3,3 +3,4 @@ exports['@kingjs'] = {
     is: require('@kingjs/reflect.is'),
   },
 }
+exports['assert'] = require('assert')
