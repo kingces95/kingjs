@@ -1,15 +1,13 @@
 var { 
+  assert, path,
   ['@kingjs']: { 
     camelCase: { split },
     packageName: { construct },
     is, 
     parseSource,
   },
-  assert, 
-  path
 } = require('./dependencies');
 
-var EmptyObject = { };
 var KingJs = 'kingjs';
 var AtKingJs = '@' + KingJs;
 var Require = 'require';
@@ -21,6 +19,8 @@ var {
 
 function parse(file) {
   var obp = matchDependencies(file);
+  if (!obp)
+    return [ ];
 
   // transform the ObjectBindingPattern into a literal
   var literal = evaluate(obp);
@@ -89,7 +89,6 @@ function matchDependencies(file) {
     return obp;
 
   } catch(e) {
-    return EmptyObject;
   }
 }
 

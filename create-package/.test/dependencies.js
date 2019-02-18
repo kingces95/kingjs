@@ -15,6 +15,8 @@ exports['@kingjs'] = {
   parseSource: require('@kingjs/parse-source'),
 }
 exports['typescript'] = require('typescript')
+exports['npmPacklist'] = require('npm-packlist')
+exports['isBuiltinModule'] = require('is-builtin-module')
 exports['assert'] = require('assert')
-exports['path'] = require('path')
 exports['fs'] = require('fs')
+exports['path'] = require('path')

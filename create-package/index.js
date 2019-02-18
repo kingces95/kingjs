@@ -1,21 +1,23 @@
 var {
+  fs, path,
   ['@kingjs']: { 
     git: { getDir },
     stringEx: { ReplaceAll }
-  }
+  },
+  npmPacklist,
+  isBuiltinModule,
 } = require('./dependencies');
 
-var fs = require('fs');
-var path = require('path');
 var getJsdocDescription = require('./jsdoc-description');
+var getJsDependencies = require('./js-dependencies');
 
 var Period = '.';
 var ForwardSlash = '/';
+var DotJs = '.js';
 var Git = 'git';
 var KingJs = 'kingjs';
 var PackageName = 'package.json';
 var RepositoryUrl = 'https://repository.kingjs.net/';
-
 
 /**
  * @description Creates or updates fields of `package.json`
@@ -61,6 +63,17 @@ function createPackage() {
     pkg.repository = { };
   pkg.repository.type = Git;
   pkg.repository.url = repository;
+
+  // get .js files in package
+  var files = npmPacklist.sync();
+  var jsFiles = files.filter(o => path.extname(o) == DotJs);
+  var dependencies = [...new Set(
+    jsFiles.map(o => getJsDependencies(o))
+    .reduce((a, o) => { a.push(...o); return a }, [])
+  )].sort();
+
+  // add nodeDependencies
+  pkg.nodeDependencies = dependencies.filter(o => isBuiltinModule(o));
 
   fs.writeFileSync(targetPath, JSON.stringify(pkg, null, 2));
 }
