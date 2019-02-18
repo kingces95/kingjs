@@ -67,13 +67,18 @@ function createPackage() {
   // get .js files in package
   var files = npmPacklist.sync();
   var jsFiles = files.filter(o => path.extname(o) == DotJs);
-  var dependencies = [...new Set(
-    jsFiles.map(o => getJsDependencies(o))
-    .reduce((a, o) => { a.push(...o); return a }, [])
+  var arraysOfDependencies = jsFiles.map(o => getJsDependencies(o))
+  var allDependencies = [...new Set(
+    arraysOfDependencies
+    .reduce((a, o) => { a.push(...o); return a }, [ ])
   )].sort();
 
+  pkg.dependencies = allDependencies
+    .filter(o => !isBuiltinModule(o))
+    .reduce((a, o) => { a[o] = 'latest'; return a; }, { });
+
   // add nodeDependencies
-  pkg.nodeDependencies = dependencies.filter(o => isBuiltinModule(o));
+  pkg.nodeDependencies = allDependencies.filter(o => isBuiltinModule(o));
 
   fs.writeFileSync(targetPath, JSON.stringify(pkg, null, 2));
 }

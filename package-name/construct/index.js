@@ -9,9 +9,14 @@ var Dash = '-';
  * @returns Returns the package name.
  */
 function construct(scope, parts) {
-  scope = scope.toLowerCase();
-  var names = parts.map(x => x.join(Dash).toLowerCase());
-  return `${AtSymbol}${scope}${ForwardSlash}${names.join(Period)}`;
+  var result = parts.map(x => x.join(Dash).toLowerCase()).join(Period);
+
+  if (scope) {
+    scope = scope.toLowerCase();
+    result = `${AtSymbol}${scope}${ForwardSlash}${result}`;
+  }
+
+  return result;
 }
 
 module.exports = construct;

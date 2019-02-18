@@ -8,8 +8,6 @@ var PackageJson = './package.json';
 var DependenciesJs = './dependencies.js';
 var DevDependenciesJs = '.test/dependencies.js';
 
-//process.chdir('../create-package')
-
 // extract dependencies from package.json
 var cwd = process.cwd();
 var packageJsonPath = path.join(cwd, PackageJson);

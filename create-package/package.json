@@ -19,15 +19,14 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/is": "^1.0.0",
-    "@kingjs/package-name.construct": "^1.0.0",
-    "@kingjs/camel-case.split": "^1.0.0",
-    "@kingjs/git.get-dir": "^1.0.0",
-    "@kingjs/string-ex.replace-all": "^1.0.0",
-    "@kingjs/parse-source": "^1.0.0",
-    "typescript": "^3.2.4",
-    "npm-packlist": "latest",
-    "is-builtin-module": "latest"
+    "@kingjs/camel-case.split": "latest",
+    "@kingjs/git.get-dir": "latest",
+    "@kingjs/is": "latest",
+    "@kingjs/package-name.construct": "latest",
+    "@kingjs/parse-source": "latest",
+    "@kingjs/string-ex.replace-all": "latest",
+    "is-builtin-module": "latest",
+    "npm-packlist": "latest"
   },
   "nodeDependencies": [
     "assert",

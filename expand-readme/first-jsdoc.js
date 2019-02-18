@@ -124,7 +124,7 @@ function parse(path) {
         break;
 
       default:
-        console.log(node.tagName);
+        //console.log(node.tagName);
     }
   }
 }

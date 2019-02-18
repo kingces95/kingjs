@@ -43,10 +43,15 @@ function getPackageNames(literal) {
       stack.push(split(name));
 
       if (!value) {
-        if (stack[0][0] == AtKingJs)
-          packages.push(construct(KingJs, stack.slice(1)));
-        else
-          packages.push(name)
+        var scope;
+        var names = stack;
+
+        if (stack[0][0] == AtKingJs) {
+          scope = KingJs;
+          names = stack.slice(1);
+        }
+
+        packages.push(construct(scope, names))
       }
       else
         walk(value);
