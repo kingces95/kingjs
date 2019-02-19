@@ -1,17 +1,16 @@
 require('kingjs');
-var selectMany = require('..');
+var SelectMany = require('..');
 var assert = require('assert');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
-var toArray = require('@kingjs/linq.to-array');
+var SequenceEqual = require('@kingjs/linq.sequence-equal');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var peopleAndPets = sequence(
-    { name: 'Alice', pets: sequence('Tiger', 'Butch') },
-    { name: 'Bob', pets: sequence('Spike', 'Fluffy') }
-  );
+  var peopleAndPets = [
+    { name: 'Alice', pets: ['Tiger', 'Butch'] },
+    { name: 'Bob', pets: ['Spike', 'Fluffy'] }
+  ];
 
-  var petOwners = selectMany.call(
-    peopleAndPets,
+  var petOwners = peopleAndPets[SelectMany](
     function(x, i) { 
       assert(x.name != 'Alice' || i == 0);
       assert(x.name != 'Bob' || i == 1);
@@ -20,37 +19,22 @@ function readme() {
     function(x, p) { return x.name + ' owns ' + p; }
   )
 
-  var debug = toArray.call(petOwners);
+  petOwners = petOwners[ToArray]();
 
   assert(
-    sequenceEqual.call(
-      petOwners,
-      sequence(
-        'Alice owns Tiger', 
-        'Alice owns Butch', 
-        'Bob owns Spike', 
-        'Bob owns Fluffy'
-      )
-    )
+    petOwners[SequenceEqual]([
+      'Alice owns Tiger', 
+      'Alice owns Butch', 
+      'Bob owns Spike', 
+      'Bob owns Fluffy'
+    ])
   )
 }
 readme();
 
 function flatten() {
-  var result = selectMany.call(
-    sequence(
-      sequence(0, 1),
-      sequence(2, 3)
-    )
-  );
-
-  var debug = toArray.call(result);
-
-  assert(
-    sequenceEqual.call(
-      result,
-      sequence(0, 1, 2, 3)
-    )
-  )
+  var result = [[0, 1],[2, 3]][SelectMany]();
+  result = result[ToArray]();
+  assert(result[SequenceEqual]([0, 1, 2, 3]))
 }
 flatten();

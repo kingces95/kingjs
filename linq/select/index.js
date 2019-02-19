@@ -1,6 +1,14 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence of elements composed of 
@@ -9,18 +17,22 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} selector 
  */
 function select(selector) {
-  var enumerator = this.getEnumerator();
-  var i = 0;
-  
-  return function() {    
-    if (!enumerator.moveNext())
-      return false;
-    
-    this.current_ = selector(enumerator.current, i++);
-    return true;
-  };
+  var source = this;
+
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      var enumerator = source[GetEnumerator]();
+      var i = 0;
+
+      return function moveNext() {
+        if (!enumerator[MoveNext]())
+          return false;
+      
+        this.current_ = selector(enumerator[Current], i++);
+        return true;
+      }
+    }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(select) }
-});
+exportExtension(module, IEnumerable, select);

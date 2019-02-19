@@ -16,7 +16,7 @@ var {
  * 
  * @param {*} predicate 
  */
-function where(predicate) {
+function where(predicate) { 
   var source = this;
 
   return implementIEnumerable({ }, function makeMoveNext() {
