@@ -1,25 +1,13 @@
-'use strict';
+require('./readme.js')
 
 var Dictionary = require(`.`);
 var require = require(`..`);
-var assert = require(`@kingjs/assert`);
-var assertThrows = require(`@kingjs/assert-throws`);
-
-function readme() {
-  var dictionary = new Dictionary();
-  assert('toString' in dictionary == false);
-  assert(Object.keys(dictionary) == 0);
-
-  var object = { };
-  assert('toString' in object == true);
-  assert(Object.keys(object) == 0);
-}
-readme();
+var assert = require(`assert`);
 
 function trivia() {
   assert({ }.hasOwnProperty('hasOwnProperty'));
 
-  assertThrows(function() { 
+  assert.throws(function() { 
     new Dictionary().hasOwnProperty('hasOwnProperty'); 
   });
 

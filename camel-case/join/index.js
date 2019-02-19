@@ -7,8 +7,11 @@ function toUpperFirst(name) {
 }
 
 /**
+ * @description Capitalizes an array of strings and joins them together.
+ * 
  * @param names Array of names to join together into a camel case string.
  * @param [capitalize] True if the result should be capitalized.
+ * 
  * @returns Returns a camel case string, optionally capitalized, or null.
  */
 function join(names, capitalize) {

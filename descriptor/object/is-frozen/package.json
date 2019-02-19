@@ -17,7 +17,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/assert": "^1.0.10",
     "@kingjs/descriptor.object.writable-symbol": "^1.0.0"
   }
 }

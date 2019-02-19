@@ -1,20 +1,21 @@
 {
   "name": "@kingjs/camel-case.split",
   "version": "1.0.0",
-  "description": "",
+  "description": "Splits a string on its capital letters.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
     "test": "node test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/camel-case.split"
+    "url": "https://repository.kingjs.net/camel-case/split"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {}
 }

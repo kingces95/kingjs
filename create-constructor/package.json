@@ -1,13 +1,14 @@
 {
   "name": "@kingjs/create-constructor",
   "version": "1.0.1",
-  "description": "Create a constructor from a base function and a body function.",
+  "description": "Create a constructor from a base  function and a body function.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,6 @@
     "assert"
   ],
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0"
+    "@kingjs/reflect.is": "latest"
   }
 }

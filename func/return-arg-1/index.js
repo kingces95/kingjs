@@ -1,7 +1,8 @@
+/**
+ * @description A function that returns the second argument.
+ */
 function returnArg1() {
   return arguments[1];
 }
 
-Object.defineProperties(module, {
-  exports: { value: returnArg1 }
-});
+module.exports = returnArg1;

@@ -1,14 +1,4 @@
-'use strict';
-
-var returnThis = require('.');
-
-var assert = require('@kingjs/assert')
-
-function readMe() {
-  var helloWorld = 'Hello World!';
-  assert(helloWorld == returnThis.call(helloWorld));
-}
-readMe();
+require('./readme.js')
 
 function boxing() {
   var zero = 0;

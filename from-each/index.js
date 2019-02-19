@@ -1,10 +1,13 @@
-'use strict';
-var assert = require('assert');
-
 var {
   ['@kingjs']: { odometer }
 } = require('./dependencies');
 
+/**
+ * @description Generates a sequence of arrays or descriptors 
+ * composed of a single element each from a set of arrays.
+ * 
+ * @param {*} namedArrays 
+ */
 function* fromEach(namedArrays) {
   var species = typeof namedArrays == 'array' ? Array : Object;
 

@@ -1,7 +1,7 @@
 //'use strict';
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 var objectEx = require('@kingjs/object-ex');
 
 function load(func) {

@@ -1,7 +1,6 @@
+/**
+ * @description An empty frozen object.
+ */
 var emptyObject = { };
-
 Object.freeze(emptyObject);
-
-Object.defineProperties(module, {
-  exports: { value: emptyObject }
-});
+module.exports = emptyObject;

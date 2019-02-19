@@ -2,7 +2,7 @@
 
 var Node = require('.');
 
-var assert = require('@kingjs/assert')
+var assert = require('assert')
 
 function readMe() {
   var node = Node.define({ }, [{

@@ -3,12 +3,12 @@ Returns the last element of a sequence that  satisfies a specified condition.
 ## Usage
 ```js
 require('kingjs');
-var last = require('@kingjs/linq.last');
+var Last = require('@kingjs/linq.last');
 var assert = require('assert');
 var assertThrows = require('@kingjs/assert-throws');
 
 function readme() {
-  assert(last.call([1, 2, 3]) == 2);
+  assert([1, 2, 3][Last]() == 3);
   assertThrows(function() {
     last.call(sequence())
   });
@@ -17,9 +17,9 @@ readme();
 
 function readmePredicate() {
   var isOdd = function(x) { return x % 2 == 1; }
-  assert(last.call(sequence(0, 1, 2, 3, 4), isOdd) == 3);
+  assert([0, 1, 2, 3, 4][Last](isOdd) == 3);
   assertThrows(function() {
-    last.call(sequence(0, 2), isOdd)
+    [0, 2][Last](isOdd)
   });
 }
 readmePredicate();

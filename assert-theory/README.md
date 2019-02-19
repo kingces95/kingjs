@@ -1,10 +1,11 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/assert-theory
-Assert that a theory is true for a combination of observations.
+# @[kingjs][@kingjs]/[assert-theory][ns0]
+Calls a theory with every combination of elements from an array set.
 ## Usage
-Assert that addition and multiplication are [commutative](https://en.wikipedia.org/wiki/Commutative_property) operations for a combination of 3 whole numbers and 3 fractions like this:
 ```js
+'use strict';
+
 var testTheory = require('@kingjs/assert-theory');
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 
 var id = 0;
 
@@ -13,7 +14,6 @@ testTheory(function(o, i) {
 
   var naturalFirst = eval(o.natural + o.op + o.fraction);
   var fractionFirst = eval(o.fraction + o.op + o.natural);
-
   assert(naturalFirst == fractionFirst); 
 }, {
   op: [ '+', '*' ],
@@ -21,38 +21,38 @@ testTheory(function(o, i) {
   fraction: [.1, .2, .3],
 });
 
-assert(id == 3 * 3 * 2); // = 18
+assert(id == 3 * 3 * 2);
+
 ```
+
 ## API
 ```ts
-declare function testTheory(
-  theory: (
-    this, 
-    observation, 
-    i
-  ) => void,
-  observations: { [index: string]: any },
-  runId?: number
-);
+assertTheory(theory(this, observation, id), observations, runId)
 ```
+
 ### Parameters
 - `theory`: A function that tests a set of observations.
   - `this`: The `observations`.
   - `observation`: The observation generated from `data`.
-  - `id`: The number identifying `observation`. 
-- `observations`: A descriptor whose every property contains either an array, primitive, or object from which a sequence of similar descriptors is generated where each property is replaced with an array element, the primitive, or a property value respectively.
+  - `id`: The number identifying `observation`.
+- `observations`: A descriptor whose every property contains  either an array, primitive, or object from which a sequence of  similar descriptors is generated where each property is replaced  with an array element, the primitive, or a property value respectively.
 - `runId`: If present, runs only the observation with the given `id`.
-## Remarks
-If an `observation` fails then it can be easily debugged by supplying `runId`. If `runId` is specified an exception is still thrown after the test pass to ensure that the `runId` is removed.
+
+### Remarks
+If an `observation` fails then it can be easily debugged by supplying  `runId`. If `runId` is specified an exception is still thrown after the test  pass to ensure that the `runId` is removed.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/assert-theory
 ```
-## Acknowledgments
-Like nUnit [`TheoryAttribute`](https://github.com/nunit/docs/wiki/Theory-Attribute).
+
+## Source
+https://repository.kingjs.net/assert-theory
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/assert-theory)
 
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/assert-theory

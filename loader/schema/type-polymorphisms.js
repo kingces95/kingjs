@@ -1,6 +1,6 @@
 //'use strict';
 
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 
 function createPolymorphisms() {
   assert(this.isType || this.isInterface);

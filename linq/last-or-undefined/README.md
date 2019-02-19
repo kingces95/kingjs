@@ -3,19 +3,19 @@ Returns the last element of a sequence  that satisfies a specified condition or 
 ## Usage
 ```js
 require('kingjs');
-var lastOrUndefined = require('@kingjs/linq.last-or-undefined');
+var LastOrUndefined = require('@kingjs/linq.last-or-undefined');
 var assert = require('assert');
 
 function readme() {
-  assert(lastOrUndefined.call([1, 2, 3]) == 2);
-  assert(lastOrUndefined.call(sequence()) == undefined);
+  assert([1, 2, 3][LastOrUndefined]() == 3);
+  assert([][LastOrUndefined]() == undefined);
 }
 readme();
 
 function readmePredicate() {
   var isOdd = function(x) { return x % 2 == 1; }
-  assert(lastOrUndefined.call(sequence(0, 1, 2, 3, 4), isOdd) == 3);
-  assert(lastOrUndefined.call(sequence(0, 2), isOdd) == undefined);
+  assert([0, 1, 2, 3, 4][LastOrUndefined](isOdd) == 3);
+  assert([0, 2][LastOrUndefined](isOdd) == undefined);
 }
 readmePredicate();
 

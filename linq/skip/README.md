@@ -3,13 +3,13 @@ Generates a sequence identical to another sequence  after bypassing a specified 
 ## Usage
 ```js
 require('kingjs');
-var skip = require('@kingjs/linq.skip');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var Skip = require('@kingjs/linq.skip');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var result = skip.call(sequence(-2, -1, 0, 1, 2), 2);
-  var array = toArray.call(result);
+  var result = [-2, -1, 0, 1, 2][Skip](2);
+  var array = result[ToArray]();
 
   assert(array.length == 3);
   assert(array[0] == 0);

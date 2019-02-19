@@ -85,7 +85,7 @@ function createPackage() {
   var nodeDependencies = allDependencies
     .filter(o => isBuiltinModule(o));
   if (nodeDependencies.length)
-    pkg.nodeDependencies;
+    pkg.nodeDependencies = nodeDependencies;
 
   fs.writeFileSync(targetPath, JSON.stringify(pkg, null, 2));
 }

@@ -3,6 +3,10 @@ var {
   ['@kingjs']: { reflect: { is } } 
 } = require('./dependencies');
 
+/**
+ * @description Create a constructor from a base 
+ * function and a body function.
+ */
 function createConstructor(name, base, body) {
   assert(is.string(name));
   assert(!base || is.function(base));

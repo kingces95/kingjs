@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 var isFrozen = require('@kingjs/descriptor.object.is-frozen');
 
 function prolog() {

@@ -1,6 +1,6 @@
 //'use strict';
 
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 var is = require('@kingjs/is');
 var Dictionary = require('@kingjs/dictionary');
 

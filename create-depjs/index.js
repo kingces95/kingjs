@@ -18,7 +18,7 @@ var {
   nodeDependencies = [] 
 } = require(packageJsonPath);
 
-if (fs.existsSync('.test')) {
+if (fs.existsSync('.test') && false) {
   // write .test/dependencies.js
   var result = generate(Object.keys({ 
     ...dependencies, ...devDependencies 

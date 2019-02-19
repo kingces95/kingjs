@@ -12,7 +12,8 @@
   },
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,5 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/git.get-dir": "^1.0.0",
-    "@kingjs/package-name.parse": "^1.0.1",
-    "shelljs": "^0.8.3",
-    "is-builtin-module": "latest"
-  }
+  "dependencies": {}
 }

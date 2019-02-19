@@ -3,14 +3,16 @@ Generates a sequence of elements in  ascending order according to a key.
 ## Usage
 ```js
 require('kingjs');
-var orderByDescending = require('@kingjs/linq.order-by-descending');
+var OrderByDescending = require('@kingjs/linq.order-by-descending');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
+var IOrderedEnumerable = require('@kingjs/i-ordered-enumerable');
+var { CreateOrderedEnumerable } = IOrderedEnumerable;
 
 function readme() {
-  var numbers = sequence(1, 0, 2);
-  var sortedSequence = orderByDescending.call(numbers);
-  var sortedArray = toArray.call(sortedSequence);
+  var numbers = [1, 0, 2];
+  var sortedSequence = numbers[OrderByDescending]();
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[0] == 2);
   assert(sortedArray[1] == 1);
@@ -20,10 +22,10 @@ readme();
 
 function readmeWrapped() {
 
-  var numbers = sequence({ value: 1 }, { value: 0 }, { value: 2 });
+  var numbers = [{ value: 1 }, { value: 0 }, { value: 2 }];
   var selectValue = function(x) { return x.value; };
-  var sortedSequence = orderByDescending.call(numbers, selectValue);
-  var sortedArray = toArray.call(sortedSequence);
+  var sortedSequence = numbers[OrderByDescending](selectValue);
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[0].value == 2);
   assert(sortedArray[1].value == 1);
@@ -32,9 +34,8 @@ function readmeWrapped() {
 readmeWrapped();
 
 function readmeComp() {
-  var numbers = sequence(1, 0, 2, 'b', 'a');
-  var sortedSequence = orderByDescending.call(
-    numbers, 
+  var numbers = [1, 0, 2, 'b', 'a'];
+  var sortedSequence = numbers[OrderByDescending](
     null, 
     function(l, r) {
       if (typeof l != typeof r)
@@ -42,7 +43,7 @@ function readmeComp() {
       return l < r;
     }
   );
-  var sortedArray = toArray.call(sortedSequence);
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[4] == 'a');
   assert(sortedArray[3] == 'b');
@@ -53,21 +54,21 @@ function readmeComp() {
 readmeComp();
 
 function readmeThen() {
-  var people = sequence(
+  var people = [
     { first: 'Bob', last: 'Smith' },
     { first: 'Alice', last: 'Smith' },
     { first: 'Chris', last: 'King' },
-  );
+  ];
 
   var lastSelector = function(x) { return x.last; }
   var firstSelector = function(x) { return x.first; }
   var lessThan = null; // use default
 
-  var sortedSequence = orderByDescending
-    .call(people, lastSelector)
-    .createOrderedEnumerable(firstSelector, lessThan, true);
+  var sortedSequence = people
+    [OrderByDescending](lastSelector)
+    [CreateOrderedEnumerable](firstSelector, lessThan, true);
 
-  var sortedArray = toArray.call(sortedSequence);
+  var sortedArray = sortedSequence[ToArray]();
   assert(sortedArray[2].last == 'King');
   assert(sortedArray[2].first == 'Chris');
   assert(sortedArray[1].last == 'Smith');

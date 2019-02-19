@@ -1,34 +1,36 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[func](https://www.npmjs.com/package/func).return-this
-A function that returns `this`.
+# @[kingjs][@kingjs]/[func][ns0].[return-this][ns1]
+A function that returns this.
 ## Usage
-Return `this` like this:
 ```js
 var returnThis = require('@kingjs/func.return-this');
+var assert = require('assert')
 
-returnThis.call('Hello World!');
+var helloWorld = 'Hello World!';
+assert(helloWorld == returnThis.call(helloWorld));
+
 ```
-result:
-```js
-'Hello World!'
-```
+
 ## API
 ```ts
-declare function returnThis(
-  this: any
-): any
+returnThis()
 ```
-### Parameters
-- `this`: Any value.
-### Returns
-Returns `this`.
-## Remarks
-If `this` is a primitive value, then `returnThis` will return a boxed version of the primitive value.
+
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/func.return-this
 ```
+
+## Source
+https://repository.kingjs.net/func/return-this
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/func/return-this)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/func
+[ns1]: https://www.npmjs.com/package/@kingjs/func.return-this

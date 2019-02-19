@@ -1,7 +1,8 @@
+/**
+ * @description A function that returns this.
+ */
 function returnThis() {
   return this;
 }
 
-Object.defineProperties(module, {
-  exports: { value: returnThis }
-});
+module.exports = returnThis;

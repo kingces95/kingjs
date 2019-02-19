@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[camel-case][ns0].[split][ns1]
-
+Splits a string on its capital letters.
 ## Usage
 ```js
 var assert = require('assert');
@@ -24,23 +24,30 @@ var apart = split('');
 assert(apart.length == 0);
 
 ```
+
 ## API
 ```ts
 split(name)
 ```
+
 ### Parameters
 - `name`: A camel case name to split.
 ### Returns
 Array of names, all lower case, composing the camel case name.
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/camel-case.split
 ```
+
+## Source
+https://repository.kingjs.net/camel-case/split
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/camel-case/split)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/camel-case

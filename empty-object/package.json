@@ -7,11 +7,12 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/empty-object"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",

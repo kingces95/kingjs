@@ -3,31 +3,30 @@ Returns the only element of a sequence  that satisfies a specified condition.
 ## Usage
 ```js
 require('kingjs');
-var single = require('@kingjs/linq.single');
+var Single = require('@kingjs/linq.single');
 var assert = require('assert');
-var assertThrows = require('@kingjs/assert-throws');
 
-assert(single.call(sequence(0)) == 0);
-assertThrows(function() { 
-  single.call(sequence());
+assert([0][Single]() == 0);
+assert.throws(function() { 
+  [][Single]();
 });
-assertThrows(function() { 
-  single.call(sequence(0, 1))
+assert.throws(function() { 
+  [0, 1][Single]()
 });
 
 function isOdd(x) {
   return x % 2 == 1; 
 }
 
-assert(single.call([1, 2, 3], isOdd) == 1);
-assertThrows(function() { 
-  single.call(sequence(), isOdd)
+assert([0, 1, 2][Single](isOdd) == 1);
+assert.throws(function() { 
+  [][Single](isOdd)
 });
-assertThrows(function() { 
-  single.call(sequence(0), isOdd)
+assert.throws(function() { 
+  [0][Single](isOdd)
 });
-assertThrows(function() { 
-  single.call(sequence(0, 1, 3), isOdd)
+assert.throws(function() { 
+  [0, 1, 3][Single](isOdd)
 });
 
 ```

@@ -3,17 +3,15 @@ Generates the set union of two sequences.
 ## Usage
 ```js
 require('kingjs');
-var union = require('@kingjs/linq.union');
+var Union = require('@kingjs/linq.union');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var result = union.call(
-    sequence(0, 0, 1, 2),
-    sequence(1, 3, 3)
-  );
+  var result = [0, 0, 1, 2]
+    [Union]([1, 3, 3]);
   
-  result = toArray.call(result);
+  result = result[ToArray]();
 
   assert(result.length = 4);
   assert(result[0] == 0);
@@ -24,13 +22,10 @@ function readme() {
 readme();
 
 function readmeWrapped() {
-  var result = union.call(
-    sequence({ id: 0 }, { id: 0 }, { id: 1 }, { id: 2 }),
-    sequence({ id: 1 }, { id: 3 }, { id: 3 }),
-    function(x) { return x.id; }
-  );
+  var result = [{ id: 0 }, { id: 0 }, { id: 1 }, { id: 2 }]
+    [Union]([{ id: 1 }, { id: 3 }, { id: 3 }], x => x.id);
   
-  result = toArray.call(result);
+  result = result[ToArray]();
 
   assert(result.length = 4);
   assert(result[0].id == 0);

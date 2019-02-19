@@ -18,7 +18,6 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/assert": "^1.0.10",
     "@kingjs/descriptor.create": "^1.0.0",
     "@kingjs/descriptor.filter": "^1.0.6",
     "@kingjs/descriptor.map": "^1.0.0",

@@ -2,7 +2,7 @@
 
 var is = require('@kingjs/is');
 var objectEx = require('@kingjs/object-ex');
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 var create = require('@kingjs/descriptor.named.create');
 
 var define = require('./js/define')

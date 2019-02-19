@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[camel-case][ns0].[join][ns1]
-
+Capitalizes an array of strings and joins them together.
 ## Usage
 ```js
 var assert = require('assert');
@@ -17,24 +17,31 @@ assert(together === null);
 var together = join(['']);
 assert(together === null);
 ```
+
 ## API
 ```ts
 join(names[, capitalize])
 ```
+
 ### Parameters
 - `names`: Array of names to join together into a camel case string.
 - `capitalize`: True if the result should be capitalized.
 ### Returns
 Returns a camel case string, optionally capitalized, or null.
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/camel-case.join
 ```
+
+## Source
+https://repository.kingjs.net/camel-case/join
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/camel-case/join)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/camel-case

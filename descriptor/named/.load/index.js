@@ -1,7 +1,7 @@
 'use strict';
 
 var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 var keys = require('@kingjs/descriptor.object.keys');
 var prolog = require('@kingjs/descriptor.object.prolog');
 var epilog = require('@kingjs/descriptor.object.epilog');

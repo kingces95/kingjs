@@ -1,4 +1,4 @@
-var assert = require('@kingjs/assert');
+var assert = require('assert');
 var writableSymbol = require('@kingjs/descriptor.object.writable-symbol');
 
 function isFrozen() {
