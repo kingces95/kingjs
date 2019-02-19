@@ -16,7 +16,12 @@
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/assert-shimmed": "latest",
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/linq.concat": "latest",
+    "@kingjs/reflect.export-extension": "latest"
+  },
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

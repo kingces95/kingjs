@@ -36,7 +36,10 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.repeat
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/repeat
 ## License

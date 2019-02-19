@@ -1,7 +1,17 @@
-'use strict';
-
-var toArray = require('@kingjs/linq.to-array');
-var defaultLessThan = require('@kingjs/linq.default-less-than');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      ToArray,
+      defaultLessThan
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function defaultKeySelector(x) {
   return x;
@@ -65,30 +75,30 @@ function orderBy(keySelector, lessThan, descending_, stack_) {
       } 
     },
 
-    getEnumerator: {
-      value : function() {
+    [GetEnumerator]: {
+      value : function getEnumerator() {
         var i = 0;
         var sortedArray = null;
-        var current = null;
+        var current_ = null;
         
         compare = defineCompare(this.stack_, 0);
 
         return Object.defineProperties({ }, {
-          current: { 
-            get: function() { return current; } 
+          [Current]: { 
+            get: function current() { return current_; } 
           },
-          moveNext: { 
-            value: function() {
+          [MoveNext]: { 
+            value: function moveNext() {
 
               if (!sortedArray)
-                sortedArray = toArray.call(source).sort(compare);
+                sortedArray = source[ToArray]().sort(compare);
               
               if (i == sortedArray.length) {
-                current = undefined;
+                current_ = undefined;
                 return false;
               }
               
-              current = sortedArray[i++];
+              current_ = sortedArray[i++];
               return true;
             }
           }
@@ -105,6 +115,4 @@ function orderBy(keySelector, lessThan, descending_, stack_) {
   });
 };
 
-Object.defineProperties(module, {
-  exports: { value: orderBy }
-});
+exportExtension(module, IEnumerable, orderBy);

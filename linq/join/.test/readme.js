@@ -1,27 +1,25 @@
 require('kingjs');
-var join = require('..');
-var toArray = require('@kingjs/linq.to-array');
 var assert = require('assert');
+var Join = require('..');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var result = join.call(
-    sequence(
+  var result = [
       { name: `Alice`, key: 0 },
       { name: `Bob`, key: 1 },
       { name: `Chris`, key: 2 }, // no pets
-    ), 
-    sequence(
+    ][Join]([
       { name: `Fluffy`, ownerKey: 0 },
       { name: `Spike`, ownerKey: 0 },
       { name: `Snuggles`, ownerKey: 1 },
       { name: `Butch`, ownerKey: 3 }, // no owner
-    ),
+    ],
     function(person) { return person.key; },
     function(animal) { return animal.ownerKey; },
     function(owner, pet) { return owner.name + ' owns ' + pet.name; },
   )
   
-  var result = toArray.call(result);
+  var result = result[ToArray]();
 
   assert(result.length == 3);
   assert(result[0] == 'Alice owns Fluffy');
@@ -31,24 +29,22 @@ function readme() {
 readme();
 
 function readmeFlipped() {
-  var result = join.call(
-    sequence(
+  var result = [
       { name: `Fluffy`, ownerKey: 0 },
       { name: `Spike`, ownerKey: 0 },
       { name: `Snuggles`, ownerKey: 1 },
       { name: `Butch`, ownerKey: 3 }, // no owner
-    ),
-    sequence(
+    ][Join]([
       { name: `Alice`, key: 0 },
       { name: `Bob`, key: 1 },
       { name: `Chris`, key: 2 }, // no pets
-    ), 
+    ], 
     function(animal) { return animal.ownerKey; },
     function(person) { return person.key; },
     function(owner, pet) { return owner.name + ' is owned by ' + pet.name; },
   )
   
-  var result = toArray.call(result);
+  var result = result[ToArray]();
 
   assert(result.length == 3);
   assert(result[0] == 'Fluffy is owned by Alice');

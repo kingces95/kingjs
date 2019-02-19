@@ -1,6 +1,17 @@
-'use strict';
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Where
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
-var where = require('@kingjs/linq.where');
 
 /**
  * @description Returns the last element of a sequence 
@@ -12,17 +23,15 @@ function lastOrUndefined(predicate) {
   var enumerable = this;
       
   if (predicate)
-    enumerable = where.call(enumerable, predicate);
+  enumerable = enumerable[Where](predicate);
   
-  var enumerator = enumerable.getEnumerator();  
+  var enumerator = enumerable[GetEnumerator]();  
   
   var current;
-  while (enumerator.moveNext())
-    current = enumerator.current;
+  while (enumerator[MoveNext]())
+    current = enumerator[Current];
   
   return current;
 };
 
-Object.defineProperties(module, {
-  exports: { value: lastOrUndefined }
-});
+exportExtension(module, IEnumerable, lastOrUndefined);

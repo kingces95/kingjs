@@ -17,7 +17,11 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/linq.order-by": "latest",
+    "@kingjs/reflect.export-extension": "latest"
+  },
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

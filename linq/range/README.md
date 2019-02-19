@@ -5,15 +5,10 @@ Generate a range of numbers.
 require('kingjs');
 var range = require('@kingjs/linq.range');
 var assert = require('assert');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
+var SequenceEqual = require('@kingjs/linq.sequence-equal');
 
 function test(enumerable, array) {
-  assert(
-    sequenceEqual.call(
-      enumerable, 
-      sequence.apply(this, array)
-    )
-  );
+  assert(enumerable[SequenceEqual](array));
 }
 
 test(range(0, 0), []);
@@ -37,7 +32,10 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.range
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/range
 ## License

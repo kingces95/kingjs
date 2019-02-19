@@ -1,11 +1,10 @@
 exports['@kingjs'] = {
+  assertShimmed: require('@kingjs/assert-shimmed'),
   IEnumerable: require('@kingjs/i-enumerable'),
-  IEnumerator: require('@kingjs/i-enumerator'),
   linq: {
-    defaultLessThan: require('@kingjs/linq.default-less-than'),
+    Concat: require('@kingjs/linq.concat'),
   },
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
 }
-exports['kingjs'] = require('kingjs')

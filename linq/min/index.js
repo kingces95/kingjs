@@ -1,6 +1,16 @@
-'use strict';
-
-var defaultLessThan = require('@kingjs/linq.default-less-than');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      defaultLessThan
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Returns the minimum value in a sequence of values 
@@ -13,19 +23,17 @@ function min(lessThan) {
     lessThan = defaultLessThan;
   
   var result = undefined
-  var enumerator = this.getEnumerator();
-  if (enumerator.moveNext()) {
-    result = enumerator.current;
+  var enumerator = this[GetEnumerator]();
+  if (enumerator[MoveNext]()) {
+    result = enumerator[Current];
     
-    while (enumerator.moveNext()) {
-      if (lessThan(enumerator.current, result) == true)
-        result = enumerator.current;
+    while (enumerator[MoveNext]()) {
+      if (lessThan(enumerator[Current], result) == true)
+        result = enumerator[Current];
     }
   }
 
   return result;
 };
 
-Object.defineProperties(module, {
-  exports: { value: min }
-});
+exportExtension(module, IEnumerable, min);

@@ -1,12 +1,12 @@
 require('kingjs');
-var orderBy = require('..');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var OrderBy = require('..');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var numbers = sequence(1, 0, 2);
-  var sortedSequence = orderBy.call(numbers);
-  var sortedArray = toArray.call(sortedSequence);
+  var numbers = [1, 0, 2];
+  var sortedSequence = numbers[OrderBy]();
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[0] == 0);
   assert(sortedArray[1] == 1);
@@ -16,10 +16,10 @@ readme();
 
 function readmeWrapped() {
 
-  var numbers = sequence({ value: 1 }, { value: 0 }, { value: 2 });
+  var numbers = [{ value: 1 }, { value: 0 }, { value: 2 }];
   var selectValue = function(x) { return x.value; };
-  var sortedSequence = orderBy.call(numbers, selectValue);
-  var sortedArray = toArray.call(sortedSequence);
+  var sortedSequence = numbers[OrderBy](selectValue);
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[0].value == 0);
   assert(sortedArray[1].value == 1);
@@ -28,9 +28,8 @@ function readmeWrapped() {
 readmeWrapped();
 
 function readmeComp() {
-  var numbers = sequence(1, 0, 2, 'b', 'a');
-  var sortedSequence = orderBy.call(
-    numbers, 
+  var numbers = [1, 0, 2, 'b', 'a'];
+  var sortedSequence = numbers[OrderBy](
     null, 
     function(l, r) {
       if (typeof l != typeof r)
@@ -38,7 +37,7 @@ function readmeComp() {
       return l < r;
     }
   );
-  var sortedArray = toArray.call(sortedSequence);
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[0] == 'a');
   assert(sortedArray[1] == 'b');
@@ -49,9 +48,9 @@ function readmeComp() {
 readmeComp();
 
 function readmeDesc() {
-  var numbers = sequence(1, 0, 2);
-  var sortedSequence = orderBy.call(numbers, null, null, true);
-  var sortedArray = toArray.call(sortedSequence);
+  var numbers = [1, 0, 2];
+  var sortedSequence = numbers[OrderBy](null, null, true);
+  var sortedArray = sortedSequence[ToArray]();
 
   assert(sortedArray[0] == 2);
   assert(sortedArray[1] == 1);
@@ -60,20 +59,19 @@ function readmeDesc() {
 readmeDesc();
 
 function readmeThen() {
-  var people = sequence(
+  var people = [
     { first: 'Bob', last: 'Smith' },
     { first: 'Alice', last: 'Smith' },
     { first: 'Chris', last: 'King' },
-  );
+  ];
 
   var lastSelector = function(x) { return x.last; }
   var firstSelector = function(x) { return x.first; }
 
-  var sortedSequence = orderBy
-    .call(people, lastSelector)
+  var sortedSequence = people[OrderBy](lastSelector)
     .createOrderedEnumerable(firstSelector);
 
-  var sortedArray = toArray.call(sortedSequence);
+  var sortedArray = sortedSequence[ToArray]();
   assert(sortedArray[0].last == 'King');
   assert(sortedArray[0].first == 'Chris');
   assert(sortedArray[1].last == 'Smith');

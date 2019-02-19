@@ -1,21 +1,16 @@
 require('kingjs');
-var prepend = require('..');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
+var Prepend = require('..');
+var SequenceEqual = require('@kingjs/linq.sequence-equal');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
   var numbers = [1, 2, 3];
-
-  var result = prepend.call(numbers, 0);
-
-  var array = toArray.call(result);
+  var result = numbers[Prepend](0);
+  var array = result[ToArray]();
 
   assert(
-    sequenceEqual.call(
-      sequence(0, 1, 2, 3),
-      sequence.apply(this, array)
-    )
+    [0, 1, 2, 3][SequenceEqual](array)
   );
 }
 readme();

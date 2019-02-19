@@ -1,6 +1,14 @@
-'use strict';
-
-var orderBy = require('@kingjs/linq.order-by');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      OrderBy,
+    },
+    IEnumerable,
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence of elements in 
@@ -10,9 +18,7 @@ var orderBy = require('@kingjs/linq.order-by');
  * @param {*} lessThan 
  */
 function orderByDescending(keySelector, lessThan) {
-  return orderBy.call(this, keySelector, lessThan, true);
+  return this[OrderBy](keySelector, lessThan, true);
 }
 
-Object.defineProperties(module, {
-  exports: { value: orderByDescending }
-});
+exportExtension(module, IEnumerable, orderByDescending);

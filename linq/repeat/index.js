@@ -1,6 +1,10 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+    }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generate a sequence of a repeated value.
@@ -9,18 +13,21 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} count 
  */
 function repeat(element, count) {  
-  return function() {
-    
-    if (count-- <= 0) {
-      this.current_ = undefined;
-      return false;
+  
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      return function moveNext() {
+        
+        if (count-- <= 0) {
+          this.current_ = undefined;
+          return false;
+        }
+        
+        this.current_ = element;
+        return true;
+      }
     }
-    
-    this.current_ = element;
-    return true;
-  }
-};
+  )
+}
 
-Object.defineProperties(module, {
-  exports: { value: define(repeat) }
-});
+module.exports = repeat;

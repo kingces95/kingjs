@@ -17,7 +17,9 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/reflect.implement-i-enumerable": "latest"
+  },
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

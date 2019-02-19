@@ -10,7 +10,7 @@ var {
     IEnumerator: { MoveNext, Current }
   }
 } = require('./dependencies');
-
+ 
 function defaultSelector(x) {
   return x;
 }

@@ -1,7 +1,15 @@
-'use strict';
-
-var concat = require('@kingjs/linq.concat');
-require('kingjs');
+var { 
+  ['@kingjs']: {
+    assertShimmed,
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Concat
+    },
+    IEnumerable,
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates an sequence identical to another 
@@ -10,9 +18,7 @@ require('kingjs');
  * @param {*} value 
  */
 function prepend(value) {
-  return concat.call(sequence(value), this);
+  return [value][Concat](this);
 };
 
-Object.defineProperties(module, {
-  exports: { value: prepend }
-});
+exportExtension(module, IEnumerable, prepend);

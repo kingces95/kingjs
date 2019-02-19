@@ -19,7 +19,7 @@ function readme() {
 readme();
 
 function readmeFlipped() {
-  var result = [0, 1][Intersect]([0, 0, 1, 2])
+  var result = [1, 0][Intersect]([0, 0, 1, 2])
   
   var result = result[ToArray]();
 

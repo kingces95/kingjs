@@ -1,9 +1,9 @@
 require('kingjs');
-var min = require('..');
+var Min = require('..');
 var assert = require('assert');
 
 function readme() {
-  assert(min.call([1, 2, 3]) == 1);
+  assert([1, 2, 3][Min]() == 1);
 }
 readme();
 
@@ -12,11 +12,11 @@ function readmePredicate() {
      return l.age < r.age; 
   }
   
-  var person = min.call(sequence(
+  var person = [
     { name: 'Alice', age: 18 },
     { name: 'Bob', age: 18 },
     { name: 'Chris', age: 19 },
-  ), compareAge);
+  ][Min](compareAge);
 
   assert(person.name == 'Alice');
   assert(person.age == 18);

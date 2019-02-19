@@ -3,11 +3,11 @@ Returns the minimum value in a sequence of values  projected from elements of a 
 ## Usage
 ```js
 require('kingjs');
-var min = require('@kingjs/linq.min');
+var Min = require('@kingjs/linq.min');
 var assert = require('assert');
 
 function readme() {
-  assert(min.call([1, 2, 3]) == 1);
+  assert([1, 2, 3][Min]() == 1);
 }
 readme();
 
@@ -16,11 +16,11 @@ function readmePredicate() {
      return l.age < r.age; 
   }
   
-  var person = min.call(sequence(
+  var person = [
     { name: 'Alice', age: 18 },
     { name: 'Bob', age: 18 },
     { name: 'Chris', age: 19 },
-  ), compareAge);
+  ][Min](compareAge);
 
   assert(person.name == 'Alice');
   assert(person.age == 18);
@@ -44,7 +44,13 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.min
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.default-less-than`](https://www.npmjs.com/package/@kingjs/linq.default-less-than)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/min
 ## License

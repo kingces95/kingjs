@@ -1,7 +1,17 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
-var toLookup = require('@kingjs/linq.to-lookup');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    linq: {
+      ToLookup
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence of elements composed of elements 
@@ -19,52 +29,55 @@ function join(
   resultSelector) {
 
   var outerEnumerable = this;
-  
-  var outerEnumerator = undefined;
-  var innerLookup = undefined;
 
-  var innerEnumerator = undefined;
-  var outerCurrent = undefined;
-  
-  return function() { 
-    
-    if (!outerEnumerator)
-      outerEnumerator = outerEnumerable.getEnumerator();
-    
-    if (!innerLookup) 
-      innerLookup = toLookup.call(innerEnumerable, innerKeySelector);
-    
-    while (true) {
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
       
-      // find outer element with matching inner enumerable
-      while (!innerEnumerator) {
+      var outerEnumerator = undefined;
+      var innerLookup = undefined;
 
-        if (!outerEnumerator.moveNext())
-          return false;
+      var innerEnumerator = undefined;
+      var outerCurrent = undefined;
+      
+      return function moveNext() { 
         
-        outerCurrent = outerEnumerator.current;
+        if (!outerEnumerator)
+          outerEnumerator = outerEnumerable[GetEnumerator]();
         
-        var key = outerKeySelector(outerCurrent);
-        innerEnumerable = innerLookup[key];  
-        if (!innerEnumerable)
-          continue;
+        if (!innerLookup) 
+          innerLookup = innerEnumerable[ToLookup](innerKeySelector);
+        
+        while (true) {
+          
+          // find outer element with matching inner enumerable
+          while (!innerEnumerator) {
 
-        innerEnumerator = innerEnumerable.getEnumerator();
+            if (!outerEnumerator[MoveNext]())
+              return false;
+            
+            outerCurrent = outerEnumerator[Current];
+            
+            var key = outerKeySelector(outerCurrent);
+            innerEnumerable = innerLookup[key];  
+            if (!innerEnumerable)
+              continue;
+
+            innerEnumerator = innerEnumerable[GetEnumerator]();
+          }
+          
+          // test if matches exhausted
+          if (!innerEnumerator[MoveNext]()) {
+            innerEnumerator = undefined;
+            continue;
+          }
+          
+          // yield match
+          this.current_ = resultSelector(outerCurrent, innerEnumerator[Current]);
+          return true;
+        }
       }
-      
-      // test if matches exhausted
-      if (!innerEnumerator.moveNext()) {
-        innerEnumerator = undefined;
-        continue;
-      }
-      
-      // yield match
-      this.current_ = resultSelector(outerCurrent, innerEnumerator.current);
-      return true;
     }
-  }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(join) }
-});
+exportExtension(module, IEnumerable, join);

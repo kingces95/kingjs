@@ -1,6 +1,10 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+    }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generate a range of numbers.
@@ -8,20 +12,22 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} start 
  * @param {*} count 
  */
-function range(start, count) {    
-  return function() {
-    
-    if (count-- <= 0) {
-      this.current_ = undefined;
-      return false;
+function range(start, count) {
+  
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      return function moveNext() {
+        
+        if (count-- <= 0) {
+          this.current_ = undefined;
+          return false;
+        }
+        
+        this.current_ = start++;
+        return true;
+      }
     }
-    
-    this.current_ = start++;
-    return true;
-  }
+  );
 };
 
-
-Object.defineProperties(module, {
-  exports: { value: define(range) }
-});
+module.exports = range;

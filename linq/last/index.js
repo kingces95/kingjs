@@ -1,6 +1,16 @@
-'use strict';
-
-var where = require('@kingjs/linq.where');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Where
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Returns the last element of a sequence that 
@@ -12,20 +22,18 @@ function last(predicate) {
   var enumerable = this;
       
   if (predicate)
-    enumerable = where.call(enumerable, predicate);
+    enumerable = enumerable[Where](predicate);
   
-  var enumerator = enumerable.getEnumerator();  
+  var enumerator = enumerable[GetEnumerator]();  
   
-  if (!enumerator.moveNext())
+  if (!enumerator[MoveNext]())
     throw 'last: Sequence contains no matching elements.';
 
-  var current = enumerator.current;
-  while (enumerator.moveNext())
-    current = enumerator.current;
+  var current = enumerator[Current];
+  while (enumerator[MoveNext]())
+    current = enumerator[Current];
   
   return current;
 };
 
-Object.defineProperties(module, {
-  exports: { value: last }
-});
+exportExtension(module, IEnumerable, last);

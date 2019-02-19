@@ -1,15 +1,10 @@
 require('kingjs');
 var repeat = require('..');
 var assert = require('assert');
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
+var SequenceEqual = require('@kingjs/linq.sequence-equal');
 
 function test(enumerable, array) {
-  assert(
-    sequenceEqual.call(
-      enumerable, 
-      sequence.apply(this, array)
-    )
-  );
+  assert(enumerable[SequenceEqual](array));
 }
 
 test(repeat(0, 0), []);
