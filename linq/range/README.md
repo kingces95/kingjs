@@ -1,49 +1,50 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).range
+# @[kingjs][@kingjs]/[linq][ns0].[range][ns1]
 Generate a range of numbers.
 ## Usage
-Generate a range of 3 numbers starting at `1`.
-
 ```js
+require('kingjs');
 var range = require('@kingjs/linq.range');
-var toArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
+var sequenceEqual = require('@kingjs/linq.sequence-equal');
 
-toArray.call(range(1, 3));
-```
+function test(enumerable, array) {
+  assert(
+    sequenceEqual.call(
+      enumerable, 
+      sequence.apply(this, array)
+    )
+  );
+}
 
-result:
-```js
-[1, 2, 3]
+test(range(0, 0), []);
+test(range(0, 3), [0, 1, 2]);
+test(range(-2, 2), [-2, -1]);
 ```
 
 ## API
 ```ts
-function range(
-  start: number, 
-  count: number
-): Enumerable
+range(start, count)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `start`: Number at which to start sequence.
-- `count`: Values in sequence.
+- `start`: 
+- `count`: 
 
-### Return Value
-A sequence of `count` incrementing numbers starting at `start`.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
-$ npm install @kingjs/link.range
+$ npm install @kingjs/linq.range
 ```
 
-## Acknowledgments
-Like [Enumerable.Range](https://msdn.microsoft.com/en-us/library/system.linq.enumerable.range(v=vs.110).aspx)
-
+## Source
+https://repository.kingjs.net/linq/range
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/range)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.range

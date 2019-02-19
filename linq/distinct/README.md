@@ -1,75 +1,71 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).distinct
-Generates a sequence composed of the distinct elements of another sequence.
+# @[kingjs][@kingjs]/[linq][ns0].[distinct][ns1]
+Generates a sequence composed of the  distinct elements of another sequence.
 ## Usage
-Remove duplicates from the sequence `0`, `0` like this:
 ```js
-var distinct = require('@kingjs/linq.distinct');
 require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
+var Distinct = require('@kingjs/linq.distinct');
+var SequenceEquals = require('@kingjs/linq.sequence-equal');
+var ToArray = require('@kingjs/linq.to-array');
 
-var justZero = distinct.call(sequence(0, 0));
+function readme() {
+  var enumerable = [0, 0, 1, 1, 2, 2];
+  enumerable = enumerable[Distinct]();
+  assert(enumerable[SequenceEquals]([0, 1, 2]));
+}
+readme();
 
-toArray.call(justZero);
-```
-result:
-```js
-[0]
-```
-Remove duplicates from a sequence based on an `id` like this:
-```js
-var distinct = require('@kingjs/linq.distinct');
-require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+function readmeId() {
+  var idAndName = [
+    { id: 0, name: 'foo' },
+    { id: 0, name: 'bar' },
+  ]
 
-var enumerable = sequence(
-  { id: 0, name: 'foo' },
-  { id: 0, name: 'bar' }
-);
+  var distinctIdAndName =
+    idAndName[Distinct](x => x.id)
+    [ToArray]()
 
-var justZero = distinct.call(
-  enumerable, 
-  function(x) { return x.id; }
-);
+  assert.deepEqual(distinctIdAndName, [{ id: 0, name: 'foo' }]);
+}
+readmeId();
 
-toArray.call(justZero);
-```
-result:
-```js
-[{ 
-  id: 0,
-  name: 'foo'
-}]
+function dictionaryTest() {
+  var enumerable = 'toString';
+  enumerable = enumerable[Distinct]();
+  enumerable = enumerable[ToArray]()
+  assert(enumerable[SequenceEquals]('toSring'));
+}
+dictionaryTest();
 ```
 
 ## API
 ```ts
-function distinct(
-  this: Enumerable, 
-  selectId?: (x) => any
-): Enumerable;
+distinct(selectId)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The sequence to deduplicate.
-- `selectId`: Optional, function to select an identifier.
+- `selectId`: 
 
-### Result
-Returns a de-duplicated sequence.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
-$ npm install @kingjs/link.distinct
+$ npm install @kingjs/linq.distinct
 ```
-
-## Acknowledgments
-Like [`Enumerable.Distinct`](https://msdn.microsoft.com/en-us/library/bb338049(v=vs.110).aspx).
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/linq.except`](https://www.npmjs.com/package/@kingjs/linq.except)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/distinct
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/distinct)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.distinct

@@ -7,8 +7,7 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node .test",
-    "build": "tsc"
+    "test": "node .test"
   },
   "repository": {
     "type": "git",

@@ -2,6 +2,12 @@
 
 var where = require('@kingjs/linq.where');
 
+/**
+ * @description Returns the only element of a sequence that 
+ * satisfies a specified condition, or undefined.
+ * 
+ * @param {*} predicate 
+ */
 function singleOrUndefined(predicate) {
   var enumerable = this;
   

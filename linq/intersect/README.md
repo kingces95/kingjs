@@ -1,54 +1,66 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).intersect
+# @[kingjs][@kingjs]/[linq][ns0].[intersect][ns1]
 Generates the set intersection of two sequences.
 ## Usage
-Intersect the numbers `0`, `0`, `1`, `2` with the numbers `1`, `0` like this:
 ```js
-var intersect = require('@kingjs/linq.intersect');
 require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+var Intersect = require('@kingjs/linq.intersect');
+var ToArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
 
-var result = intersect.call(
-  sequence(0, 0, 1, 2),
-  sequence(1, 0)
-)
+function readme() {
+  var result = [0, 0, 1, 2][Intersect]([1, 0])
+  
+  var result = result[ToArray]();
 
-toArray.call(result);
+  assert(result.length == 2);
+  assert(result[0] == 0);
+  assert(result[1] == 1);
+}
+readme();
+
+function readmeFlipped() {
+  var result = [0, 1][Intersect]([0, 0, 1, 2])
+  
+  var result = result[ToArray]();
+
+  assert(result.length == 2);
+  assert(result[1] == 0);
+  assert(result[0] == 1);
+}
+readmeFlipped();
 ```
-result:
-```js
-[ 0, 1 ]
-```
+
 ## API
 ```ts
-declare function intersect(
-  this: Enumerable,
-  second: Enumerable,
-  idSelector?: (x) => any
-)
+intersect(second, idSelector)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
+
 ### Parameters
-- `this`: The first sequence.
-- `second`: The second sequence. 
-- `idSelector`: Return a value whose stringified representation uniquely identifies an element.
-  - `x`: The element to identify.
-### Return Value
-A sequence of elements common to both sequences.
-## Remarks
-Elements are deemed equal if their stringified id representations returned by `idSelector` are the same.
+- `second`: 
+- `idSelector`: 
 
-Only unique elements are included in the resulting sequence. 
 
-Elements are included in the order they appear in the first sequence.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.intersect
 ```
-## Acknowledgments
-Like [`Enumerable.Intersect`](https://msdn.microsoft.com/en-us/library/bb355408(v=vs.110).aspx).
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/dictionary`](https://www.npmjs.com/package/@kingjs/dictionary)|`latest`|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
+## Source
+https://repository.kingjs.net/linq/intersect
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/intersect)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.intersect

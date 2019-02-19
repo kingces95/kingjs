@@ -1,72 +1,53 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).contains
-Returns true if a sequence contains a specified element.
+# @[kingjs][@kingjs]/[linq][ns0].[contains][ns1]
+Returns true if a sequence contains  a specified element.
 ## Usage
-Discover if the sequence `1`, `2`, `3` contains the value `2` like this:
 ```js
-var contains = require('@kingjs/linq.contains');
-require('kingjs');
+require('kingjs')
+var Contains = require('@kingjs/linq.contains');
+var assert = require('assert');
 
-contains.call([1, 2, 3], 2);
-```
-result:
-```js
-true
-```
-Discover if `'Chris'` is contained in a list of people like this:
-```js
-var contains = require('@kingjs/linq.contains');
-require('kingjs');
+assert([1, 2, 3][Contains](2));
 
-var people = sequence(
+var people = [
   { name: 'Alice' },
   { name: 'Bob' },
   { name: 'Chris' },
-);
+];
 
 var equal = function(l, r) { 
   return l.name == r.name; 
 }
 
-contains.call(people, { name: 'Chris' }, equal);
+assert(people[Contains]({ name: 'Chris' }, equal));
 ```
-result:
-```js
-true
-```
+
 ## API
-
 ```ts
-declare function contains(
-  this: Enumerable,
-  target: any,
-  equal?: (left, right) => boolean
-): boolean
+contains()
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
- 
-### Parameters
-- `this`: The sequence to search.
-- `target`: The value to find.
-- `equal`: Optional comparison operator.
 
-### Return Value
-Returns `true` if `target` is present, `false` otherwise.
 
-## Remarks
-By default, the comparison operator is Javascript's `==` operator.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.contains
 ```
-## Acknowledgments
-Like [Enumerable.Contains](https://msdn.microsoft.com/en-us/library/bb339118(v=vs.110).aspx).
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.default-equal`](https://www.npmjs.com/package/@kingjs/linq.default-equal)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/contains
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/contains)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.contains

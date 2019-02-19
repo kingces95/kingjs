@@ -1,24 +1,22 @@
 {
   "name": "@kingjs/linq.prepend",
   "version": "1.0.6",
-  "description": "Generates an sequence identical to another sequence but with a value added to the start.",
+  "description": "Generates an sequence identical to another  sequence but with a value added to the start.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/prepend"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/enumerable.create": "^1.0.0",
-    "@kingjs/linq.concat": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

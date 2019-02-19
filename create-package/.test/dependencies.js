@@ -5,13 +5,14 @@ exports['@kingjs'] = {
   git: {
     getDir: require('@kingjs/git.get-dir'),
   },
-  reflect: {
-    is: require('@kingjs/reflect.is'),
-  },
   packageName: {
+    parse: require('@kingjs/package-name.parse'),
     construct: require('@kingjs/package-name.construct'),
   },
   parseSource: require('@kingjs/parse-source'),
+  reflect: {
+    is: require('@kingjs/reflect.is'),
+  },
   stringEx: {
     ReplaceAll: require('@kingjs/string-ex.replace-all'),
   },

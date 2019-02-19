@@ -2,6 +2,12 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generates a sequence of elements composed of 
+ * elements of another sequence subject to a transform.
+ * 
+ * @param {*} selector 
+ */
 function select(selector) {
   var enumerator = this.getEnumerator();
   var i = 0;

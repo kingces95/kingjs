@@ -1,50 +1,60 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).single
-Returns the only element of a sequence that satisfies a specified condition.
-## Usage 
-Return the single odd number in `0`, `1`, `2` like this:
+# @[kingjs][@kingjs]/[linq][ns0].[single][ns1]
+Returns the only element of a sequence  that satisfies a specified condition.
+## Usage
 ```js
-var singleOrUndefined = require('@kingjs/linq.single');
 require('kingjs');
+var single = require('@kingjs/linq.single');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
-function isOdd(x) { 
+assert(single.call(sequence(0)) == 0);
+assertThrows(function() { 
+  single.call(sequence());
+});
+assertThrows(function() { 
+  single.call(sequence(0, 1))
+});
+
+function isOdd(x) {
   return x % 2 == 1; 
 }
 
-singleOrUndefined.call([1, 2, 3], isOdd);
+assert(single.call([1, 2, 3], isOdd) == 1);
+assertThrows(function() { 
+  single.call(sequence(), isOdd)
+});
+assertThrows(function() { 
+  single.call(sequence(0), isOdd)
+});
+assertThrows(function() { 
+  single.call(sequence(0, 1, 3), isOdd)
+});
+
 ```
-result:
-```js
-1
-```
+
 ## API
 ```ts
-declare function single(
-  this: Enumerable,
-  predicate?: function(x): boolean
-): any
+single(predicate)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The enumerable to search for a single element.
-- `predicate`: The predicate with which to test elements.
+- `predicate`: 
 
-### Return Value
-A single element that satisfies `predicate` else, if more than one or no element satisfies `predicate`, than throws. 
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.single
 ```
 
-## Acknowledgments
-Like [`Element.Single`](https://msdn.microsoft.com/en-us/library/bb535118(v=vs.110).aspx).
-
+## Source
+https://repository.kingjs.net/linq/single
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/single)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.single

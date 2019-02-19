@@ -23,7 +23,7 @@ aggregate(this, seed, aggregator, selector)
 ### Parameters
 - `this`: An `IEnumerable` over which to aggregate.
 - `seed`: The initial accumulator value.
-- `aggregator`: An accumulator function to be invoked on each element.
+- `aggregator`: An accumulator function toı be invoked on each element.
 - `selector`: A function to transform the final accumulator value  into the result value.
 ### Returns
 The transformed final accumulator value.
@@ -38,6 +38,7 @@ $ npm install @kingjs/linq.aggregate
 |Package|Version|
 |---|---|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/aggregate

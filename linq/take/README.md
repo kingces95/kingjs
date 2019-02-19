@@ -1,45 +1,46 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).take
-Generates a sequence identical to another sequence up to a specified index.
-## Usage 
-Take the first 2 numbers in `-2`, `-1`, `0`, `1`, `2` like this:
+# @[kingjs][@kingjs]/[linq][ns0].[take][ns1]
+Generates a sequence identical to  another sequence up to a specified index.
+## Usage
 ```js
-var take = require('@kingjs/linq.take');
 require('kingjs');
+var take = require('@kingjs/linq.take');
+var assert = require('assert');
 var toArray = require('@kingjs/linq.to-array');
 
-var result = take.call(sequence(-2, -1, 0, 1, 2), 2);
+function readme() {
+  var result = take.call(sequence(-2, -1, 0, 1, 2), 2);
+  var array = toArray.call(result);
 
-toArray.call(result);
+  assert(array.length == 2);
+  assert(array[0] == -2);
+  assert(array[1] == -1);
+}
+readme();
 ```
-result:
-```js
-[-2, -1]
-```
+
 ## API
 ```ts
-declare function take(
-  this: Enumerable,
-  count: number
-): Enumerable
+take(count)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The sequence.
-- `count`: The number of elements to take.
+- `count`: 
 
-### Return Value
-A sequence of only the first `count` elements. 
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.take
 ```
-## Acknowledgments
-Like [`Element.Take`](https://msdn.microsoft.com/en-us/library/bb503062(v=vs.110).aspx).
+
+## Source
+https://repository.kingjs.net/linq/take
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/take)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.take

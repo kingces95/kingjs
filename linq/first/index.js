@@ -8,6 +8,12 @@ var {
   }
 } = require('./dependencies');
 
+/**
+ * @description Returns the first element of a sequence 
+ * that satisfies a specified condition.
+ * 
+ * @param {*} predicate 
+ */
 function first(predicate) {
   var enumerable = this;
   

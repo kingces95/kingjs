@@ -1,23 +1,22 @@
 {
   "name": "@kingjs/linq.skip-while",
   "version": "1.0.9",
-  "description": "Generates a sequence identical to another sequence after bypassing the first contiguous set of elements which satisfy a specified condition.",
+  "description": "Generates a sequence identical to another  sequence after bypassing the first contiguous set of  elements which satisfy a specified condition.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/skip-while"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/enumerable.define": "^1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

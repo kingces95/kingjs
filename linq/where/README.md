@@ -1,75 +1,70 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).where
-Generates a sequence of elements composed of elements from another sequences which satisfy a specified condition.
+# @[kingjs][@kingjs]/[linq][ns0].[where][ns1]
+Generates a sequence of elements composed of  elements from another sequences which satisfy a specified condition.
 ## Usage
-Filter `0`, `1`, `2`, `3` to even numbers like this: 
 ```js
-var where = require('@kingjs/linq.where');
 require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
+var Where = require('@kingjs/linq.where');
+var ToArray = require('@kingjs/linq.to-array');
 
-var numbers = sequence(0, 1, 2, 3);
+function readme() {
+  var numbers = [0, 1, 2, 3];
 
-var isEven = function (x) { return x % 2 == 0; }
+  var isEven = function (x) { return x % 2 == 0; }
 
-var evenNumbers = where.call(numbers, isEven);
+  var evenNumbers = numbers[Where](isEven);
 
-toArray.call(evenNumbers);
-```
-result:
-```js
-[0, 2]
-```
-Filter out every other element in `'a'`, `'b'`, `'c'`, `'d'` like this: 
-```js
-var where = require('@kingjs/linq.where');
-require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+  var result = evenNumbers[ToArray]();
+  assert(result.length == 2);
+  assert(result[0] == 0);
+  assert(result[1] == 2);
+}
+readme();
 
-var letters = sequence('a', 'b', 'c', 'd');
+function readmeIndex() {
+  var letters = ['a', 'b', 'c', 'd'];
 
-var isEvenIndex = function (x, i) { return i % 2 == 0; }
-
-var everyOther = where.call(letters, isEvenIndex);
-
-toArray.call(everyOther);
-```
-result:
-```js
-['a', 'c']
+  var isEvenIndex = function (x, i) { return i % 2 == 0; }
+  
+  var everyOther = letters[Where](isEvenIndex);
+  
+  var result = everyOther[ToArray]();
+  assert(result.length == 2);
+  assert(result[0] == 'a');
+  assert(result[1] == 'c');
+}
+readmeIndex();
 ```
 
 ## API
-
 ```ts
-declare function where(
-  this: Enumerable,
-  predicate: (x, i) => boolean,
-): Enumerable
+where(predicate)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The sequence to filter.
-- `predicate`: The filtering predicate.
-  - `x`: The value being considered for inclusion.
-  - `i`: The index of the value being considered.
+- `predicate`: 
 
-### Return Value
-A sequence filtered by the predicate.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.where
 ```
-
-## Acknowledgments
-Like [`Enumerable.Where`](https://msdn.microsoft.com/en-us/library/bb549418(v=vs.110).aspx).
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
+## Source
+https://repository.kingjs.net/linq/where
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/where)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.where

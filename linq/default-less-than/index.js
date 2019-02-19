@@ -1,7 +1,4 @@
-'use strict';
-
-Object.defineProperties(module, {
-  exports: { 
-    value: function(l, r) { return l < r; } 
-  },
-});
+/**
+ * @description Default lessThan operator.
+ */
+module.exports = (l, r) => l < r;

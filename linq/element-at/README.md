@@ -1,46 +1,51 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).element-at
-Returns the element at a specified index in a sequence.
+# @[kingjs][@kingjs]/[linq][ns0].[element-at][ns1]
+Returns the element at a specified  index in a sequence.
 ## Usage
-Return the 2nd element in the sequence `0`, `1`, `2` like this:
 ```js
-var elementAt = require('@kingjs/linq.element-at');
 require('kingjs');
+var ElementAt = require('@kingjs/linq.element-at');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
-elementAt.call([1, 2, 3], 1);
-```
-result:
-```js
-1
+assert([0, 1, 2][ElementAt](1) == 1);
+
+assertThrows(function() {
+  [1, 2, 3][ElementAt](3)
+});
+
+assertThrows(function() {
+  [1, 2, 3][ElementAt](-1)
+});
 ```
 
 ## API
 ```ts
-declare function elementAt(
-  this: Enumerable,
-  index: number
-): any
+elementAt(index)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The sequence to traverse.
-- `index`: The 0 based index of of the sequence to return.
+- `index`: 
 
-### Return Value
-The 0 based index of of the sequence or an exception if the sequence is too short.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.element-at
 ```
-## See Also
-Like [Enumerable.ElementAt](https://msdn.microsoft.com/en-us/library/bb299233(v=vs.110).aspx).
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/element-at
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/element-at)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.element-at

@@ -1,24 +1,22 @@
 {
   "name": "@kingjs/linq.join",
   "version": "1.0.5",
-  "description": "Generates a sequence of elements composed of elements from two sequences that share a common key.",
+  "description": "Generates a sequence of elements composed of elements  from two sequences that share a common key.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/join"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/enumerable.define": "^1.0.0",
-    "@kingjs/linq.to-lookup": "^1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

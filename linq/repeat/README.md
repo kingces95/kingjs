@@ -1,47 +1,49 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).range
+# @[kingjs][@kingjs]/[linq][ns0].[repeat][ns1]
 Generate a sequence of a repeated value.
 ## Usage
-Repeat `0` 3 times like this:
 ```js
+require('kingjs');
 var repeat = require('@kingjs/linq.repeat');
-var toArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
+var sequenceEqual = require('@kingjs/linq.sequence-equal');
 
-toArray.call(repeat(0, 3));
-```
-result:
-```js
-[0, 0, 0]
+function test(enumerable, array) {
+  assert(
+    sequenceEqual.call(
+      enumerable, 
+      sequence.apply(this, array)
+    )
+  );
+}
+
+test(repeat(0, 0), []);
+test(repeat(0, 3), [0, 0, 0]);
 ```
 
 ## API
 ```ts
-function repeat(
-  value: any, 
-  count: number
-): Enumerable
+repeat(element, count)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `value`: The value to repeat.
-- `count`: The number of repetitions.
+- `element`: 
+- `count`: 
 
-### Return Value
-A sequence of `count` repetitions of `value`.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
-$ npm install @kingjs/link.repeat
+$ npm install @kingjs/linq.repeat
 ```
 
-## Acknowledgments
-Like [Enumerable.Repeat](https://msdn.microsoft.com/en-us/library/bb348899(v=vs.110).aspx)
-
+## Source
+https://repository.kingjs.net/linq/repeat
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/repeat)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.repeat

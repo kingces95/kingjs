@@ -15,6 +15,14 @@ function defaultSelector(x) {
   return x;
 }
 
+/**
+ * @description Generates a sequence of groups composed of 
+ * elements of another sequence which share a common key.
+ * 
+ * @param {*} keySelector 
+ * @param {*} elementSelector 
+ * @param {*} resultSelector 
+ */
 function groupBy(
   keySelector,
   elementSelector,

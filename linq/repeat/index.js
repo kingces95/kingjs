@@ -2,6 +2,12 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generate a sequence of a repeated value.
+ * 
+ * @param {*} element 
+ * @param {*} count 
+ */
 function repeat(element, count) {  
   return function() {
     

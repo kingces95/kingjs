@@ -1,24 +1,25 @@
 {
   "name": "@kingjs/linq.element-at",
   "version": "1.0.9",
-  "description": "Returns the element at a specified index in a sequence.",
+  "description": "Returns the element at a specified  index in a sequence.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/element-at"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-enumerable": "^1.0.6",
-    "@kingjs/i-enumerator": "^1.0.7",
-    "@kingjs/reflect.export-extension": "^1.0.1"
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-enumerator": "latest",
+    "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"

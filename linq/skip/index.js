@@ -2,6 +2,12 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generates a sequence identical to another sequence 
+ * after bypassing a specified number of elements.
+ * 
+ * @param {*} count 
+ */
 function skip(count) {
   var enumerator = this.getEnumerator();
   

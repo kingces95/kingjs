@@ -1,23 +1,22 @@
 {
   "name": "@kingjs/linq.last",
   "version": "1.0.7",
-  "description": "Returns the last element of a sequence that satisfies a specified condition.",
+  "description": "Returns the last element of a sequence that  satisfies a specified condition.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/last"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/linq.where": "^1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

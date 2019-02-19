@@ -1,51 +1,55 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).average
-Returns the average value of a sequence of numbers projected from elements of a sequence.
+# @[kingjs][@kingjs]/[linq][ns0].[average][ns1]
+Returns the average value of a sequence of  numbers projected from elements of a sequence.
 ## Usage
-Compute the average of `[-2, 0, 2]` like this:
 ```js
-var average = require('@kingjs/linq.average');
-require('kingjs');
+require('kingjs')
+var assert = require('assert');
+var Average = require('@kingjs/linq.average');
 
-average.call(sequence(-2, 0, 2));
-```
-result:
-```js
-0
+function test(array, result) {
+  assert(array[Average]() == result);
+}
+
+test([2], 2);
+test([1, 2, 3], 2);
+test([-2, 0, 2], 0);
+
+var empty = [];
+assert(Number.isNaN(empty[Average]()));
+
+assert(
+  [{ value: -1 }, { value: 1 }][Average](
+    function (x) { return x.value; }
+  ) == 0
+)
 ```
 
 ## API
 ```ts
-declare function average(
-  this: Enumerable,
-  selector?: function(x): number
-): number
+average()
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
-### Parameters
-- `this`: The sequence of numbers to average.
-- `selector`: A function to select a number from each element.
 
-### Return Value
-The average value of the sequence of numbers. Returns `NaN` if the sequence is empty.
 
-## Remarks
-Elements are summed using the `+` operator.
-
-Average of an empty sequence is `NaN`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.average
 ```
-## See Also
-Like [Enumerable.Average](https://msdn.microsoft.com/en-us/library/bb358946(v=vs.110).aspx)
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/linq.aggregate`](https://www.npmjs.com/package/@kingjs/linq.aggregate)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/average
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/average)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.average

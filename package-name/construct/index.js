@@ -9,7 +9,11 @@ var Dash = '-';
  * @returns Returns the package name.
  */
 function construct(scope, parts) {
-  var result = parts.map(x => x.join(Dash).toLowerCase()).join(Period);
+  var result = parts.map(x => {
+    if (x instanceof Array)
+      return x.join(Dash).toLowerCase();
+    return x
+  }).join(Period);
 
   if (scope) {
     scope = scope.toLowerCase();

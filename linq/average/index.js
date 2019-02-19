@@ -10,6 +10,10 @@ function defaultSelector(x) {
   return x;
 }
 
+/**
+ * @description Returns the average value of a sequence of 
+ * numbers projected from elements of a sequence.
+ */
 function average(selector) {
   if (!selector)
     selector = defaultSelector;

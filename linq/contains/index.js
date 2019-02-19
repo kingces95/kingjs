@@ -12,6 +12,11 @@ var {
   }
 } = require('./dependencies');
 
+/**
+ * 
+ * @description Returns true if a sequence contains 
+ * a specified element.
+ */
 function contains(value, equal) {
   var enumerator = this[GetEnumerator]();
   

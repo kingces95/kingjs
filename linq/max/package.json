@@ -1,23 +1,22 @@
 {
   "name": "@kingjs/linq.max",
   "version": "1.0.6",
-  "description": "Returns the maximum value in a sequence of values projected from elements of a sequence.",
+  "description": "Returns the maximum value in a sequence of values  projected from elements of a sequence.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/max"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/linq.default-less-than": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

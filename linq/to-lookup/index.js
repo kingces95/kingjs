@@ -10,6 +10,14 @@ var {
   }
 } = require('./dependencies');
 
+/**
+ * @description Creates a dictionary from a sequence 
+ * where values are groups of elements keyed by a 
+ * name common to all members of the group.
+ * 
+ * @param {*} keySelector 
+ * @param {*} valueSelector 
+ */
 function toLookup(keySelector, valueSelector) {       
   var lookup = new Dictionary();
   

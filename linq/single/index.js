@@ -6,6 +6,12 @@ function throwNoSingleMatch() {
   throw "single: sequence does not contain a single elements matching predicate.";
 }
 
+/**
+ * @description Returns the only element of a sequence 
+ * that satisfies a specified condition.
+ * 
+ * @param {*} predicate 
+ */
 function single(predicate) {
   var enumerable = this;
   

@@ -7,19 +7,21 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/intersect"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-enumerable": "^1.0.6",
-    "@kingjs/i-enumerator": "^1.0.7",
-    "@kingjs/reflect.export-extension": "^1.0.1",
-    "@kingjs/dictionary": "^1.0.0"
+    "@kingjs/dictionary": "latest",
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-enumerator": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/reflect.implement-i-enumerable": "latest"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"

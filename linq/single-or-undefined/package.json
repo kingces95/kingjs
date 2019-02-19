@@ -1,23 +1,22 @@
 {
   "name": "@kingjs/linq.single-or-undefined",
   "version": "1.0.8",
-  "description": "Returns the only element of a sequence that satisfies a specified condition, or undefined.",
+  "description": "Returns the only element of a sequence that  satisfies a specified condition, or undefined.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/single-or-undefined"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/linq.where": "^1.0.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "kingjs": "^1.0.46"
   },

@@ -1,0 +1,1 @@
+exports['kingjs'] = require('kingjs')

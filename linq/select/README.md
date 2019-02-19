@@ -1,56 +1,57 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).select
-Generates a sequence of elements composed of elements of another sequence subject to a transform.
+# @[kingjs][@kingjs]/[linq][ns0].[select][ns1]
+Generates a sequence of elements composed of  elements of another sequence subject to a transform.
 ## Usage
-Lower the case of `'A'`, `'B'`, `'C'` like this:
 ```js
-var select = require('@kingjs/linq.select');
 require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+var select = require('@kingjs/linq.select');
+var assert = require('assert');
+var sequenceEqual = require('@kingjs/linq.sequence-equal');
 
-function selectLowerCase(x) {
-  return String.prototype.toLowerCase.call(x);
+function readme() {
+  function selectLowerCase(x) {
+    return String.prototype.toLowerCase.call(x);
+  }
+
+  assert(sequenceEqual.call(
+    select.call(sequence('A', 'B', 'C'), selectLowerCase), 
+    sequence('a', 'b', 'c')
+  ));
+}
+readme();
+
+function appendIndex(x, i) {
+  return x + i;
 }
 
-var result = select.call(sequence('A', 'B', 'C'), selectLowerCase);
-
-toArray.call(result);
-```
-result:
-```js
-['a', 'b', 'c']
+assert(sequenceEqual.call(
+  select.call(sequence('A', 'B', 'C'), appendIndex), 
+  sequence('A0', 'B1', 'C2')
+));
 ```
 
 ## API
 ```ts
-function select(
-  this: Enumerable, 
-  selector: (x, i) => any
-): Enumerable
+select(selector)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: A sequence of element to transform.
-- `selector`: A transform applied to each element.
-  - `x`: The element to transform.
-  - `i`: The index of the element being transformed.
+- `selector`: 
 
-### Return Value
-A transformation of each element of the original sequence. 
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
-$ npm install @kingjs/link.select
+$ npm install @kingjs/linq.select
 ```
 
-## Acknowledgments
-Like [Enumerable.Select](https://msdn.microsoft.com/en-us/library/bb548891(v=vs.110).aspx)
-
+## Source
+https://repository.kingjs.net/linq/select
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/select)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.select

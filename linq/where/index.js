@@ -10,6 +10,12 @@ var {
   }
 } = require('./dependencies');
 
+/**
+ * @description Generates a sequence of elements composed of 
+ * elements from another sequences which satisfy a specified condition.
+ * 
+ * @param {*} predicate 
+ */
 function where(predicate) {
   var source = this;
 

@@ -1,3 +1,4 @@
+require('kingjs');
 var empty = require('..');
 
 var assert = require('assert');

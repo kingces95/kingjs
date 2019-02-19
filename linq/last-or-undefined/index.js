@@ -2,6 +2,12 @@
 
 var where = require('@kingjs/linq.where');
 
+/**
+ * @description Returns the last element of a sequence 
+ * that satisfies a specified condition or a undefined.
+ * 
+ * @param {*} predicate 
+ */
 function lastOrUndefined(predicate) {
   var enumerable = this;
       

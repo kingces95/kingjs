@@ -1,26 +1,26 @@
 {
   "name": "@kingjs/linq.to-lookup",
   "version": "1.0.8",
-  "description": "Creates a dictionary from a sequence where values are groups of elements keyed by a name common to all members of the group.",
+  "description": "Creates a dictionary from a sequence  where values are groups of elements keyed by a  name common to all members of the group.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/linq/to-lookup"
   },
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-enumerable": "^1.0.6",
-    "@kingjs/i-enumerator": "^1.0.7",
-    "@kingjs/reflect.export-extension": "^1.0.1",
-    "@kingjs/assert-shimmed": "^1.0.0",
-    "@kingjs/dictionary": "^1.0.0"
+    "@kingjs/dictionary": "latest",
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-enumerator": "latest",
+    "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"

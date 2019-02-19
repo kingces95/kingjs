@@ -1,60 +1,57 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).max
-Returns the minimum value in a sequence of values projected from elements of a sequence.
+# @[kingjs][@kingjs]/[linq][ns0].[min][ns1]
+Returns the minimum value in a sequence of values  projected from elements of a sequence.
 ## Usage
-Return the minimum value of `1`, `2`, `3` like this:
 ```js
-var min = require('@kingjs/linq.min');
 require('kingjs');
-
-min.call([1, 2, 3]);
-```
-result:
-```js
-1
-```
-Return the oldest person like this:
-```js
 var min = require('@kingjs/linq.min');
-require('kingjs');
+var assert = require('assert');
 
-var compareAge = function(l, r) { return l.age < r.age; }
+function readme() {
+  assert(min.call([1, 2, 3]) == 1);
+}
+readme();
 
-min.call(sequence(
-  { name: 'Alice', age: 18 },
-  { name: 'Bob', age: 18 },
-  { name: 'Chris', age: 19 },
-), compareAge);
+function readmePredicate() {
+  var compareAge = function(l, r) {
+     return l.age < r.age; 
+  }
+  
+  var person = min.call(sequence(
+    { name: 'Alice', age: 18 },
+    { name: 'Bob', age: 18 },
+    { name: 'Chris', age: 19 },
+  ), compareAge);
+
+  assert(person.name == 'Alice');
+  assert(person.age == 18);
+}
+readmePredicate();
+
 ```
-result:
-```js
-{ name: 'Alice', age: 18 }
-```
+
 ## API
 ```ts
-declare function min(
-  this: Enumerable,
-  lessThan?: (l, r) => boolean
-)
+min(lessThan)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
+
 ### Parameters
-- `this`: Sequence to search for max element.
-- `lessThan`: Optional element comparison function.
-### Return Value
-The minimum element.
+- `lessThan`: 
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.min
 ```
 
-## Acknowledgments
-Like [Enumerable.Min](https://msdn.microsoft.com/en-us/library/bb548741(v=vs.110).aspx).
-
+## Source
+https://repository.kingjs.net/linq/min
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/min)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.min

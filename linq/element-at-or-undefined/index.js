@@ -7,6 +7,13 @@ var {
   }
 } = require('./dependencies');
 
+/**
+ * 
+ * @description Returns the element at a specified index in a 
+ * sequence or undefined if the index is out of range.
+ * 
+ * @param {*} index 
+ */
 function elementAtOrDefault(index) {
   if (index < 0)
     throw "elementAt: index < 0"

@@ -15,6 +15,12 @@ function defaultSelector(x) {
   return x;
 }
 
+/**
+ * @description Generates the set difference of two sequences.
+ * 
+ * @param {*} enumerable 
+ * @param {*} idSelector 
+ */
 function except(
   enumerable, 
   idSelector) {

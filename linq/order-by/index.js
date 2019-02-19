@@ -34,6 +34,15 @@ function defineCompare(stack, i) {
   }
 }
 
+/**
+ * @description Generates a sequence of elements in ascending 
+ * order according to a key.
+ * 
+ * @param {*} keySelector 
+ * @param {*} lessThan 
+ * @param {*} descending_ 
+ * @param {*} stack_ 
+ */
 function orderBy(keySelector, lessThan, descending_, stack_) {
   if (!keySelector)
     keySelector = defaultKeySelector;

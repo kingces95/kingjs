@@ -1,94 +1,91 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).group-join
-Generates a sequence of elements composed of an element in one sequence and a group of elements in another sequence all of which share a common key.
+# @[kingjs][@kingjs]/[linq][ns0].[group-join][ns1]
+Generates a sequence of elements composed  of an element in one sequence and a group of elements  in another sequence all of which share a common key.
 ## Usage
-Join
-
-- `Alice` with her pets `Fluffy` and `Spike`,
-- `Bob` with his pet `Snuggles`, and
-- `Chris` without any pets
-
-like this:
 ```js
-var groupJoin = require('@kingjs/linq.group-join');
 require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+var GroupJoin = require('@kingjs/linq.group-join');
+var ToArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
 
-var owners = sequence(
-  { name: 'Alice', id: 0 },
-  { name: 'Bob', id: 1 },
-  { name: 'Chris', id: 2 },
-);
-
-var pets = sequence(
-  { name: 'Fluffy', ownerId: 0 },
-  { name: 'Spike', ownerId: 0 },
-  { name: 'Snuggles', ownerId: 1 },
-)
-
-var ownersAndPets = groupJoin.call(
-  owners,
-  pets,
-  function(x) { return x.id; },
-  function(x) { return x.ownerId; },
-  function(x, group) { 
-    return {
-      owner: x.name,
-      pets: toArray.call(group)
-    }; 
-  }
-);
-
-toArray.call(ownersAndPets);
-```
-result:
-```js
-[{
-  owner: 'Alice', 
-  pets: [
+function readme() {
+  var owners = [
+    { name: 'Alice', id: 0 },
+    { name: 'Bob', id: 1 },
+    { name: 'Chris', id: 2 },
+  ];
+  
+  var pets = [
     { name: 'Fluffy', ownerId: 0 },
     { name: 'Spike', ownerId: 0 },
-  ],
-}, {
-  owner: 'Bob', 
-  pets: [
     { name: 'Snuggles', ownerId: 1 },
-  ],
-}, {
-  owner: 'Chris', 
-  pets: [     
-  ],
-}]
+  ];
+  
+  var ownersAndPets = owners[GroupJoin](
+    pets,
+    function(x) { return x.id; },
+    function(x) { return x.ownerId; },
+    function(x, group) { 
+      return {
+        owner: x.name,
+        pets: group[ToArray]()
+      }; 
+    }
+  );
+  
+  var result = ownersAndPets[ToArray]();
+
+  assert(result.length == 3);
+  assert(result[0].owner == 'Alice');
+  assert(result[0].pets.length == 2);
+  assert(result[0].pets[0].name == 'Fluffy');
+  assert(result[0].pets[0].ownerId == '0');
+  assert(result[0].pets[1].name == 'Spike');
+  assert(result[0].pets[1].ownerId == '0');
+  assert(result[1].owner == 'Bob');
+  assert(result[1].pets.length == 1);
+  assert(result[1].pets[0].name == 'Snuggles');
+  assert(result[1].pets[0].ownerId == '1');
+  assert(result[2].owner == 'Chris');
+  assert(result[2].pets.length == 0);
+}
+readme();
+
 ```
+
 ## API
 ```ts
-declare function groupJoin(
-  this: Enumerable,
-  outerEnumerable: Enumerable,
-  innerKeySelector: (x) => any,
-  outerKeySelector: (x) => any,
-  resultSelector: (innerElement, outerPartition) => any
-)
+groupJoin(innerEnumerable, outerKeySelector, innerKeySelector, resultSelector)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
+
 ### Parameters
-- `this`: The inner sequence whose elements are matched with a partition of the outer sequence.
-- `outerEnumerable`: The outer sequence whose partitions are joined with elements of the inner sequence. 
-- `innerKeySelector`: Selects a key from elements of the inner sequence.
-- `outerKeySelector`: Selects a key from an element of the outer sequence which specifies the named partition to which the element belongs. 
-- `resultSelector`: Joins inner elements to an outer partition which shares the same key.
-  - `innerElement`: An inner element.
-  - `outerPartition`: The outer partition that shares the same key as the inner element. 
-### Return Value
-A sequence of inner elements joined to partitions of outer elements.
+- `innerEnumerable`: 
+- `outerKeySelector`: 
+- `innerKeySelector`: 
+- `resultSelector`: 
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.group-join
 ```
-## Acknowledgments
-Like [`Enumerable.GroupJoin`](https://msdn.microsoft.com/en-us/library/bb534297(v=vs.110).aspx).
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.empty`](https://www.npmjs.com/package/@kingjs/linq.empty)|`latest`|
+|[`@kingjs/linq.to-lookup`](https://www.npmjs.com/package/@kingjs/linq.to-lookup)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
+## Source
+https://repository.kingjs.net/linq/group-join
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/group-join)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.group-join

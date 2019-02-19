@@ -1,69 +1,86 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).to-lookup
-Creates a dictionary from a sequence where values are groups of elements keyed by a name common to all members of the group.
-## Usage 
-If the following people own the following pets 
-- Alice owns Fluffy
-- Alice owns Spike
-- Bob owns Tiger
-
-then create a lookup from 
-- Alice to Fluffy and Spike 
-- Bob to Tiger 
-
-like this:
+# @[kingjs][@kingjs]/[linq][ns0].[to-lookup][ns1]
+Creates a dictionary from a sequence  where values are groups of elements keyed by a  name common to all members of the group.
+## Usage
 ```js
-var toLookup = require('@kingjs/linq.to-lookup');
 require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+var ToLookup = require('@kingjs/linq.to-lookup');
+var ToArray = require('@kingjs/linq.to-array');
+var assert = require('assert');
 
-var lookup = toLookup.call(
-  sequence(
-    { name: 'Alice', pet: 'Fluffy' },
-    { name: 'Alice', pet: 'Spike' },
-    { name: 'Bob', pet: 'Tiger' }
-  ),
-  function(x) { return x.name; },
-  function(x) { return x.pet; }
-)
-
-for (var key in lookup)
-  lookup[key] = toArray.call(lookup[key]);
+function readme() {
+  var lookup = [
+      { name: 'Alice', pet: 'Fluffy' },
+      { name: 'Alice', pet: 'Spike' },
+      { name: 'Bob', pet: 'Tiger' }
+    ][ToLookup](
+    function(x) { return x.name; },
+    function(x) { return x.pet; }
+  )
+  assert(!('toString' in lookup));
   
-lookup;
-```
-result:
-```js
-{
-  Alice: [ 'Fluffy', 'Spike' ],
-  Bob: [ 'Tiger' ]
+  for (var key in lookup)
+    lookup[key] = lookup[key][ToArray]();
+
+  assert(Object.keys(lookup).length == 2);
+  assert(lookup.Alice[0] == 'Fluffy');
+  assert(lookup.Alice[1] == 'Spike');
+  assert(lookup.Bob[0] == 'Tiger');
 }
+readme();
+
+function defaultValueSelector() {
+  var lookup = [
+      { name: 'Alice', pet: 'Fluffy' },
+      { name: 'Alice', pet: 'Spike' },
+      { name: 'Bob', pet: 'Tiger' }
+    ][ToLookup](
+    function(x) { return x.name; }
+    // default selector
+  )
+  assert(!('toString' in lookup));
+  
+  for (var key in lookup)
+    lookup[key] = lookup[key][ToArray]();
+
+  assert(Object.keys(lookup).length == 2);
+  assert(lookup.Alice[0].pet == 'Fluffy');
+  assert(lookup.Alice[1].pet == 'Spike');
+  assert(lookup.Bob[0].pet == 'Tiger');
+}
+defaultValueSelector();
+
 ```
+
 ## API
 ```ts
-declare function(
-  this: Enumerable,
-  keySelector: function(x): any,
-  valueSelector?: function(x): any,
-): Dictionary
+toLookup(keySelector, valueSelector)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
-- `Dictionary`: See [@kingjs/dictionary](https://www.npmjs.com/package/@kingjs/dictionary).
+
 ### Parameters
-- `this`: Sequence to partition into named sequences.
-- `keySelector`: Selects a partition key from an element.
-- `valueSelector`: Transforms an element before inclusion in a partition. By default, selects the entire element.
-### Return Value
-A partitioning of the sequence as a dictionary mapping partition names to partitions.  
+- `keySelector`: 
+- `valueSelector`: 
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.to-lookup
 ```
-## Acknowledgments
-Like [Enumerable.ToLookup](https://msdn.microsoft.com/en-us/library/bb548544(v=vs.110).aspx).
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/dictionary`](https://www.npmjs.com/package/@kingjs/dictionary)|`latest`|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/to-lookup
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/to-lookup)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.to-lookup

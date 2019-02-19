@@ -7,6 +7,12 @@ function defaultSelector(x) {
   return x;
 }
 
+/**
+ * @description Generates the set union of two sequences.
+ * 
+ * @param {*} second 
+ * @param {*} idSelector 
+ */
 function union(
   second, 
   idSelector) {

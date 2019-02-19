@@ -1,61 +1,55 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).first-or-undefined
-Returns the first element of a sequence that satisfies a specified condition or a undefined.
+# @[kingjs][@kingjs]/[linq][ns0].[first-or-undefined][ns1]
+Returns the first element of a sequence  that satisfies a specified condition or a undefined.
 ## Usage
-Return the first value of `0`, `1`, `2` like this;
 ```js
-var firstOrUndefined = require('@kingjs/linq.first-or-undefined');
 require('kingjs');
+var FirstOrUndefined = require('@kingjs/linq.first-or-undefined');
+var assert = require('assert');
 
-firstOrUndefined.call([1, 2, 3]);
-```
-result:
-```js
-0
-```
-Return the first odd value of `0`, `1`, `2` like this;
-```js
-var firstOrUndefined = require('@kingjs/linq.first-or-undefined');
-require('kingjs');
+function readme() {
+  assert([0, 1, 2][FirstOrUndefined]() == 0);
+  assert([][FirstOrUndefined]() == undefined);
+}
+readme();
 
-var isOdd = function(x) { return x % 2 == 1; }
+function readmePredicate() {
+  var isOdd = function(x) { return x % 2 == 1; }
+  assert([0, 1, 2][FirstOrUndefined](isOdd) == 1);
+  assert([0, 2][FirstOrUndefined](isOdd) == undefined);
+}
+readmePredicate();
 
-firstOrUndefined.call([1, 2, 3], isOdd);
-```
-result:
-```js
-1
 ```
 
 ## API
 ```ts
-declare function firstOrUndefined(
-  this: Enumerable,
-  predicate?: (x) => boolean
-)
+firstOrUndefined(predicate)
 ```
 
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
-
 ### Parameters
-- `this`: The sequence of which first element is returned.
-- `predicate`: Optional predicate element must satisfy. 
+- `predicate`: 
 
-### Return Value
-First element in the sequence or undefined if sequence is empty. If a predicate is provided, then the first element to match the predicate else undefined if no element satisfies the predicate.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.first-or-undefined
 ```
-
-## Acknowledgments
-Like [`Enumerable.FirstOrDefault`](https://msdn.microsoft.com/en-us/library/bb549039(v=vs.110).aspx).
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.where`](https://www.npmjs.com/package/@kingjs/linq.where)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/first-or-undefined
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/first-or-undefined)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.first-or-undefined

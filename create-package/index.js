@@ -2,7 +2,8 @@ var {
   fs, path,
   ['@kingjs']: { 
     git: { getDir },
-    stringEx: { ReplaceAll }
+    stringEx: { ReplaceAll },
+    packageName: { parse, construct },
   },
   npmPacklist,
   isBuiltinModule,
@@ -16,6 +17,7 @@ var ForwardSlash = '/';
 var DotJs = '.js';
 var Git = 'git';
 var KingJs = 'kingjs';
+var AtKingJs = '@' + KingJs;
 var PackageName = 'package.json';
 var RepositoryUrl = 'https://repository.kingjs.net/';
 
@@ -70,17 +72,43 @@ function createPackage() {
   var arraysOfDependencies = jsFiles.map(o => getJsDependencies(o))
   var allDependencies = [...new Set(
     arraysOfDependencies
-    .reduce((a, o) => { a.push(...o); return a }, [ ])
+      .reduce((a, o) => { a.push(...o); return a }, [ ])
   )].sort();
 
+  // add non-built-in dependencies
   pkg.dependencies = allDependencies
     .filter(o => !isBuiltinModule(o))
+    .map(o => trimDependencies(o, gitDir))
     .reduce((a, o) => { a[o] = 'latest'; return a; }, { });
 
-  // add nodeDependencies
-  pkg.nodeDependencies = allDependencies.filter(o => isBuiltinModule(o));
+  // add node dependencies
+  var nodeDependencies = allDependencies
+    .filter(o => isBuiltinModule(o));
+  if (nodeDependencies.length)
+    pkg.nodeDependencies;
 
   fs.writeFileSync(targetPath, JSON.stringify(pkg, null, 2));
+}
+
+function trimDependencies(dependency, dir) {
+  var parts = parse(dependency);
+
+  var scope = parts.scope;
+  if (!scope || scope != KingJs)
+    return dependency;
+
+  var names = parts.names;
+  var options = { paths: [ dir ] };
+  while (names.length) {
+    var result = construct(scope, names);
+    try { 
+      require.resolve(result, options)
+      return result;
+    } catch(e) { }
+    names.pop();
+  }
+
+  throw 'Failed to resolve: ' + dependency;
 }
 
 function joinPath(basePath, relPath) {

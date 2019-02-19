@@ -1,61 +1,60 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).first
-Returns the first element of a sequence that satisfies a specified condition.
+# @[kingjs][@kingjs]/[linq][ns0].[first][ns1]
+Returns the first element of a sequence  that satisfies a specified condition.
 ## Usage
-Return the first value of `0`, `1`, `2` like this;
 ```js
-var firstOrUndefined = require('@kingjs/linq.first');
 require('kingjs');
+var First = require('@kingjs/linq.first');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
-firstOrUndefined.call([1, 2, 3]);
-```
-result:
-```js
-0
-```
-Return the first odd value of `0`, `1`, `2` like this;
-```js
-var firstOrUndefined = require('@kingjs/linq.first');
-require('kingjs');
+function readme() {
+  assert([0, 1, 2][First]() == 0);
+  assertThrows(function() {
+    [][First]()
+  });
+}
+readme();
 
-var isOdd = function(x) { return x % 2 == 1; }
+function readmePredicate() {
+  var isOdd = function(x) { return x % 2 == 1; }
+  assert([1, 2, 3][First](isOdd) == 1);
+  assertThrows(function() {
+    [0, 2][First](isOdd)
+  });
+}
+readmePredicate();
 
-firstOrUndefined.call([1, 2, 3], isOdd);
-```
-result:
-```js
-1
 ```
 
 ## API
 ```ts
-declare function first(
-  this: Enumerable,
-  predicate?: (x) => boolean
-)
+first(predicate)
 ```
 
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
-
 ### Parameters
-- `this`: The sequence of which first element is returned.
-- `predicate`: Optional predicate element must satisfy. 
+- `predicate`: 
 
-### Return Value
-First element in the sequence or throw if sequence is empty. If a predicate is provided, then the first element to match the predicate else throw if no element satisfies the predicate.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.first
 ```
-
-## Acknowledgments
-Like [`Enumerable.First`](https://msdn.microsoft.com/en-us/library/bb535050(v=vs.110).aspx).
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.where`](https://www.npmjs.com/package/@kingjs/linq.where)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/first
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/first)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.first

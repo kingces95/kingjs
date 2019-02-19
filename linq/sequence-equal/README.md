@@ -1,70 +1,88 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).sequence-equal
-Returns true if two sequences contain the same number of elements and those that share the same index are equal.
+# @[kingjs][@kingjs]/[linq][ns0].[sequence-equal][ns1]
+Returns true if two sequences contain the same  number of elements and those that share the same index are equal.
 ## Usage
-Test if `[1,2,3]` is equal to other arrays like this:
 ```js
-var sequenceEqual = require('@kingjs/linq.sequence-equal');
 require('kingjs');
+var SequenceEqual = require('@kingjs/linq.sequence-equal');
+var assert = require('assert');
 
-var expected = [1, 2, 3];
+function readme() {
+  var expected = [1, 2, 3];
+  
+  var toFew = [1, 2];
+  var tooMany = [1, 2, 3, 4];
+  var wrongOrder = [3, 2, 1];
+  var justRight = [1, 2, 3];
+  
+  var result = {
+    tooFew: expected[SequenceEqual](toFew),
+    tooMany: expected[SequenceEqual](tooMany),
+    wrongOrder: expected[SequenceEqual](wrongOrder),
+    justRight: expected[SequenceEqual](justRight),
+  };
 
-var toFew = sequence(1, 2);
-var tooMany = sequence(1, 2, 3, 4);
-var wrongOrder = sequence(3, 2, 1);
-var justRight = [1, 2, 3];
-
-var result = {
-  tooFew: sequenceEqual.call(expected, toFew),
-  tooMany: sequenceEqual.call(expected, tooMany),
-  wrongOrder: sequenceEqual.call(expected, wrongOrder),
-  justRight: sequenceEqual.call(expected, justRight),
-};
-```
-
-returns:
-```js
-{
-  tooFew: false,
-  tooMany: false,
-  wrongOrder: false,
-  justRight: true
+  assert(result.tooFew == false);
+  assert(result.tooMany == false);
+  assert(result.wrongOrder == false);
+  assert(result.justRight == true);
 }
+readme();
+
+function test(left, right, result, equal) {
+  assert(left[SequenceEqual](right,
+    equal
+  ) == result);
+};
+
+test([ ], [ ], true);
+test([ 0 ], [ 0 ], true);
+test([ 0, 1 ], [ 0, 1 ], true);
+
+test([ 0 ], [ ], false);
+test([ ], [ 0 ], false);
+test([ 0, 1 ], [ 0, 0 ], false);
+
+var myEqual = function(l,r) { return l == -r; }
+test([ ], [ ], true, myEqual);
+test([ 0 ], [ 0 ], true, myEqual);
+test([ 0, 1 ], [ 0, 1 ], false, myEqual);
+test([ 0, 1 ], [ 0, -1 ], true, myEqual);
+
+test([ 0 ], [ ], false, myEqual);
+test([ ], [ 0 ], false, myEqual);
+test([ 0, 1 ], [ 0, 0 ], false, myEqual);
 ```
 
 ## API
 ```ts
-declare function sequenceEqual(
-    this: Enumerable,
-    target: Enumerable,
-    equal?: (left, right) => boolean
-): boolean
+sequenceEqual(other, equals)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: the first sequence being compared
-- `target`: the second sequence being compared
-- `equal`: optional equality predicate.
+- `other`: 
+- `equals`: 
 
-### Return Value
-`true` if both sequences have the same number of elements and corresponding elements compare `==`, otherwise `false`.
 
-## Remarks
-The default value for `equal` is exposed by `@kingjs/linq`.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.sequence-equal
 ```
-
-## Acknowledgments
-Like [Enumerable.SequenceEqual](https://msdn.microsoft.com/en-us/library/bb342073(v=vs.110).aspx)
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.default-equal`](https://www.npmjs.com/package/@kingjs/linq.default-equal)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+## Source
+https://repository.kingjs.net/linq/sequence-equal
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/sequence-equal)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.sequence-equal

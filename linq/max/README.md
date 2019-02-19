@@ -1,61 +1,57 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).max
-Returns the maximum value in a sequence of values projected from elements of a sequence.
-
+# @[kingjs][@kingjs]/[linq][ns0].[max][ns1]
+Returns the maximum value in a sequence of values  projected from elements of a sequence.
 ## Usage
-Return the maximum value of `1`, `2`, `3` like this:
 ```js
-var max = require('@kingjs/linq.max');
 require('kingjs');
-
-max.call([1, 2, 3]);
-```
-result:
-```js
-3
-```
-Return the oldest person like this:
-```js
 var max = require('@kingjs/linq.max');
-require('kingjs');
+var assert = require('assert');
 
-var compareAge = function(l, r) { return l.age < r.age; }
+function readme() {
+  assert(max.call([1, 2, 3]) == 3);
+}
+readme();
 
-max.call(sequence(
-  { name: 'Alice', age: 18 },
-  { name: 'Bob', age: 19 },
-  { name: 'Chris', age: 19 },
-), compareAge);
+function readmePredicate() {
+  var compareAge = function(l, r) {
+     return l.age < r.age; 
+  }
+  
+  var person = max.call(sequence(
+    { name: 'Alice', age: 18 },
+    { name: 'Bob', age: 19 },
+    { name: 'Chris', age: 19 },
+  ), compareAge);
+
+  assert(person.name == 'Bob');
+  assert(person.age == 19);
+}
+readmePredicate();
+
 ```
-result:
-```js
-{ name: 'Bob', age: 19 }
-```
+
 ## API
 ```ts
-declare function max(
-  this: Enumerable,
-  lessThan?: (l, r) => boolean
-)
+max(lessThan)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
+
 ### Parameters
-- `this`: Sequence to search for max element.
-- `lessThan`: Optional element comparison function.
-### Return Value
-The maximum element.
+- `lessThan`: 
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.max
 ```
 
-## Acknowledgments
-Like [Enumerable.Max](https://msdn.microsoft.com/en-us/library/bb534962(v=vs.110).aspx).
-
+## Source
+https://repository.kingjs.net/linq/max
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/max)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.max

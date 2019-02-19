@@ -18,7 +18,7 @@ all(this, predicate)
 ```
 
 ### Parameters
-- `this`: An IEnumerable that contains the elements to which the predicate will be applied.
+- `this`: An `IEnumerable` that contains the elements to which the predicate will be applied.
 - `predicate`: A function to test each element for a condition.
 ### Returns
 `true` if every element of the source sequence passes the test in the  specified predicate, or if the sequence is empty; otherwise, `false`.
@@ -32,9 +32,9 @@ $ npm install @kingjs/linq.all
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`^1.0.6`|
-|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`^1.0.7`|
-|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`^1.0.1`|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/all
 ## License

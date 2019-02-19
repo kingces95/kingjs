@@ -2,6 +2,13 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generates a sequence identical to another 
+ * sequence so long as the elements continue to satisfy 
+ * a specified condition.
+ * 
+ * @param {*} predicate 
+ */
 function takeWhile(predicate) {
   var enumerator = this.getEnumerator();
   var i = 0; 

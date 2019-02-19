@@ -2,6 +2,13 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generates a sequence identical to another 
+ * sequence after bypassing the first contiguous set of 
+ * elements which satisfy a specified condition.
+ * 
+ * @param {*} predicate 
+ */
 function skipWhile(predicate) {
   var enumerator = this.getEnumerator();
   var i = 0;

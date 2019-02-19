@@ -10,6 +10,13 @@ function defaultResultSelector(x, y) {
   return y;
 }
 
+/**
+ * @description Generate a sequence by concatenating sequences 
+ * projected from elements of a sequence.
+ * 
+ * @param {*} collectionSelector 
+ * @param {*} resultSelector 
+ */
 function selectMany(
   collectionSelector,
   resultSelector

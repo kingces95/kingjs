@@ -2,6 +2,12 @@
 
 var defaultLessThan = require('@kingjs/linq.default-less-than');
 
+/**
+ * @description Returns the minimum value in a sequence of values 
+ * projected from elements of a sequence.
+ * 
+ * @param {*} lessThan 
+ */
 function min(lessThan) {
   if (!lessThan)
     lessThan = defaultLessThan;

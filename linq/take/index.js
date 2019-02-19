@@ -2,6 +2,12 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generates a sequence identical to 
+ * another sequence up to a specified index.
+ * 
+ * @param {*} count 
+ */
 function take(count) {
   var enumerator = this.getEnumerator();
   

@@ -2,6 +2,12 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generate a range of numbers.
+ * 
+ * @param {*} start 
+ * @param {*} count 
+ */
 function range(start, count) {    
   return function() {
     

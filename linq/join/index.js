@@ -3,6 +3,15 @@
 var define = require('@kingjs/enumerable.define');
 var toLookup = require('@kingjs/linq.to-lookup');
 
+/**
+ * @description Generates a sequence of elements composed of elements 
+ * from two sequences that share a common key.
+ * 
+ * @param {*} innerEnumerable 
+ * @param {*} outerKeySelector 
+ * @param {*} innerKeySelector 
+ * @param {*} resultSelector 
+ */
 function join(
   innerEnumerable, 
   outerKeySelector, 

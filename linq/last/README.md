@@ -1,61 +1,54 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).last
-Returns the last element of a sequence that satisfies a specified condition.
+# @[kingjs][@kingjs]/[linq][ns0].[last][ns1]
+Returns the last element of a sequence that  satisfies a specified condition.
 ## Usage
-Return the last value of `0`, `1`, `2` like this;
 ```js
-var lastOrUndefined = require('@kingjs/linq.last');
 require('kingjs');
+var last = require('@kingjs/linq.last');
+var assert = require('assert');
+var assertThrows = require('@kingjs/assert-throws');
 
-lastOrUndefined.call([1, 2, 3]);
-```
-result:
-```js
-2
-```
-Return the last odd value of `0`, `1`, `2`, `3`, `4` like this;
-```js
-var lastOrUndefined = require('@kingjs/linq.last');
-require('kingjs');
+function readme() {
+  assert(last.call([1, 2, 3]) == 2);
+  assertThrows(function() {
+    last.call(sequence())
+  });
+}
+readme();
 
-var isOdd = function(x) { return x % 2 == 1; }
+function readmePredicate() {
+  var isOdd = function(x) { return x % 2 == 1; }
+  assert(last.call(sequence(0, 1, 2, 3, 4), isOdd) == 3);
+  assertThrows(function() {
+    last.call(sequence(0, 2), isOdd)
+  });
+}
+readmePredicate();
 
-lastOrUndefined.call(sequence(0, 1, 2, 3, 4), isOdd);
-```
-result:
-```js
-3
 ```
 
 ## API
 ```ts
-declare function last(
-  this: Enumerable,
-  predicate?: (x) => boolean
-)
+last(predicate)
 ```
 
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
-
 ### Parameters
-- `this`: The sequence of which last element is returned.
-- `predicate`: Optional predicate element must satisfy. 
+- `predicate`: 
 
-### Return Value
-Last element in the sequence or throw if sequence is empty. If a predicate is provided, then the last element to match the predicate else throw if no element satisfies the predicate.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
-
 ```
 $ npm install @kingjs/linq.last
 ```
 
-## Acknowledgments
-Like [`Enumerable.Last`](https://msdn.microsoft.com/en-us/library/bb549138(v=vs.110).aspx).
-
+## Source
+https://repository.kingjs.net/linq/last
 ## License
-
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/last)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.last

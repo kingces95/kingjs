@@ -31,36 +31,6 @@ function parse(file) {
   return packages;
 }
 
-function getPackageNames(literal) {
-  var packages = [];
-  var stack = [];
-  walk(literal);
-  return packages;
-
-  function walk(node) {
-    for (var name in node) {
-      var value = node[name];
-      stack.push(split(name));
-
-      if (!value) {
-        var scope;
-        var names = stack;
-
-        if (stack[0][0] == AtKingJs) {
-          scope = KingJs;
-          names = stack.slice(1);
-        }
-
-        packages.push(construct(scope, names))
-      }
-      else
-        walk(value);
-
-      stack.pop();
-    }
-  }
-}
-
 function matchDependencies(file) {
   try {
 
@@ -83,17 +53,46 @@ function matchDependencies(file) {
       }
     } = parseSource(file);
 
-    // match the call is to 'require'
+    // call is 'require'
     if (expression != Require)
       return;
 
-    // match the call argument is a path that ends in 'dependencies'
+    // argument like './.../dependencies.js'
     if (path.basename(argument) != Dependencies)
       return;
 
     return obp;
+  } catch(e) { }
+}
 
-  } catch(e) {
+function getPackageNames(literal) {
+  var packages = [];
+  var stack = [];
+  walk(literal);
+  return packages;
+
+  function walk(node) {
+    for (var name in node) {
+      var value = node[name];
+
+      try {
+        stack.push(split(name));
+
+        if (stack.length == 1 && name != AtKingJs) {
+          packages.push(construct(null, stack))
+          continue
+        }
+
+        if (!value)
+          packages.push(construct(KingJs, stack.slice(1)))
+
+        else
+          walk(value);
+
+      } finally {
+        stack.pop();
+      }
+    }
   }
 }
 

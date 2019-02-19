@@ -14,6 +14,16 @@ var {
   }
 } = require('./dependencies');
 
+/**
+ * @description Generates a sequence of elements composed 
+ * of an element in one sequence and a group of elements 
+ * in another sequence all of which share a common key.
+ * 
+ * @param {*} innerEnumerable 
+ * @param {*} outerKeySelector 
+ * @param {*} innerKeySelector 
+ * @param {*} resultSelector 
+ */
 function groupJoin(
   innerEnumerable, 
   outerKeySelector, 

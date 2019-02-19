@@ -1,52 +1,69 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
-var Dictionary = require('@kingjs/dictionary');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    Dictionary,
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function defaultSelector(x) {
   return x;
 }
 
+/**
+ * @description Generates the set intersection of two sequences.
+ * 
+ * @param {*} second 
+ * @param {*} idSelector 
+ */
 function intersect(
   second,
   idSelector) {
+  var first = this;
 
-  if (!idSelector)
-    idSelector = defaultSelector;
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      if (!idSelector)
+        idSelector = defaultSelector;
 
-  var firstEnumerator = this.getEnumerator();
-  var secondEnumerator = second.getEnumerator();
-  
-  var set;
-  
-  return function() {
-
-    if (!set)
-      set = new Dictionary();
-    
-    if (secondEnumerator) {
-      while (secondEnumerator.moveNext())
-        set[idSelector(secondEnumerator.current)] = undefined;
-        secondEnumerator = null;
-    }
-    
-    while (firstEnumerator.moveNext()) {
-      var current = firstEnumerator.current;
-      var id = idSelector(current);
-      if (!(id in set))
-        continue;
+      var firstEnumerator = first[GetEnumerator]();
+      var secondEnumerator = second[GetEnumerator]();
       
-      // skip future duplicates
-      delete set[id];
+      var set;
+      
+      return function moveNext() {
 
-      this.current_ = current;
-      return true;
+        if (!set)
+          set = new Dictionary();
+        
+        if (secondEnumerator) {
+          while (secondEnumerator[MoveNext]())
+            set[idSelector(secondEnumerator[Current])] = undefined;
+            secondEnumerator = null;
+        }
+        
+        while (firstEnumerator[MoveNext]()) {
+          var current = firstEnumerator[Current];
+          var id = idSelector(current);
+          if (!(id in set))
+            continue;
+          
+          // skip future duplicates
+          delete set[id];
+
+          this.current_ = current;
+          return true;
+        }
+
+        return false;
+      }
     }
-
-    return false;
-  }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(intersect) }
-});
+exportExtension(module, IEnumerable, intersect);

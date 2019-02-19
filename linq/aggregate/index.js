@@ -1,7 +1,9 @@
 var { 
   ['@kingjs']: {
     reflect: { exportExtension },
-    IEnumerable
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
   }
 } = require('./dependencies');
 
@@ -13,7 +15,7 @@ var {
  * @this any An `IEnumerable` over which to aggregate.
  * 
  * @param seed The initial accumulator value.
- * @param aggregator An accumulator function to be invoked on each element.
+ * @param aggregator An accumulator function toı be invoked on each element.
  * @param selector A function to transform the final accumulator value 
  * into the result value.
  * 

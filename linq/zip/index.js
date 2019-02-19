@@ -2,6 +2,13 @@
 
 var define = require('@kingjs/enumerable.define');
 
+/**
+ * @description Generates a sequence of elements composed 
+ * of elements of two sequences which share the same index.
+ * 
+ * @param {*} other 
+ * @param {*} result 
+ */
 function zip(other, result) {
   var first = this.getEnumerator();
   var second = other.getEnumerator();

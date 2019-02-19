@@ -1,75 +1,70 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).union
+# @[kingjs][@kingjs]/[linq][ns0].[union][ns1]
 Generates the set union of two sequences.
 ## Usage
-Create a union of the sequences
-- `0`, `0`, `1`, `2`, and
-- `1`, `3`, `3` 
-
-like this:
 ```js
-var union = require('@kingjs/linq.union');
 require('kingjs');
+var union = require('@kingjs/linq.union');
+var assert = require('assert');
 var toArray = require('@kingjs/linq.to-array');
 
-var result = union.call(
-  sequence(0, 0, 1, 2),
-  sequence(1, 3, 3)
-);
+function readme() {
+  var result = union.call(
+    sequence(0, 0, 1, 2),
+    sequence(1, 3, 3)
+  );
+  
+  result = toArray.call(result);
 
-toArray.call(result);
-```
-result:
-```js
-[0, 1, 2, 3]
-```
-Create a union of the same sequences as before but wrapped in an object like this:
-```js
-var union = require('@kingjs/linq.union');
-require('kingjs');
-var toArray = require('@kingjs/linq.to-array');
+  assert(result.length = 4);
+  assert(result[0] == 0);
+  assert(result[1] == 1);
+  assert(result[2] == 2);
+  assert(result[3] == 3);
+}
+readme();
 
-var result = union.call(
-  sequence({ id: 0 }, { id: 0 }, { id: 1 }, { id: 2 }),
-  sequence({ id: 1 }, { id: 3 }, { id: 3 }),
-  function(x) { return x.id; }
-);
+function readmeWrapped() {
+  var result = union.call(
+    sequence({ id: 0 }, { id: 0 }, { id: 1 }, { id: 2 }),
+    sequence({ id: 1 }, { id: 3 }, { id: 3 }),
+    function(x) { return x.id; }
+  );
+  
+  result = toArray.call(result);
 
-toArray.call(result);
+  assert(result.length = 4);
+  assert(result[0].id == 0);
+  assert(result[1].id == 1);
+  assert(result[2].id == 2);
+  assert(result[3].id == 3);
+}
+readmeWrapped();
 ```
-result:
-```js
-[{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }]
-```
+
 ## API
 ```ts
-function union(
-  this: Enumerable, 
-  second: Enumerable, 
-  idSelector?: (x) => any
-): Enumerable;
+union(second, idSelector)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
-### Parameters
-- `this`: The first sequence.
-- `second`: The second sequence.
-- `idSelector`: Return a value whose stringified representation uniquely identifies an element.
-  - `x`: The element to identify.
-### Result
-A sequence containing unique elements of sequences `first` and `second`.
-## Remarks
-Elements are deemed equal if their key's stringified representations are the same. 
 
-Elements are included in the order they are appear in the first sequence and then the second sequence.
+### Parameters
+- `second`: 
+- `idSelector`: 
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/link.union
+$ npm install @kingjs/linq.union
 ```
-## Acknowledgments
-Like [`Enumerable.Union`](https://msdn.microsoft.com/en-us/library/bb358407(v=vs.110).aspx).
-## License
 
+## Source
+https://repository.kingjs.net/linq/union
+## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/union)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.union

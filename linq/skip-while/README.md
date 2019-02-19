@@ -1,51 +1,59 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).skip-while
-Generates a sequence identical to another sequence after bypassing the first contiguous set of elements which satisfy a specified condition.
-## Usage 
-Skip numbers in `-2`, `-1`, `0`, `-1`, `-2` so long as they're negative like this:
+# @[kingjs][@kingjs]/[linq][ns0].[skip-while][ns1]
+Generates a sequence identical to another  sequence after bypassing the first contiguous set of  elements which satisfy a specified condition.
+## Usage
 ```js
-var skipWhile = require('@kingjs/linq.skip-while');
 require('kingjs');
+var skipWhile = require('@kingjs/linq.skip-while');
+var assert = require('assert');
 var toArray = require('@kingjs/linq.to-array');
 
-function isNegative(x) {
-  return x < 0;
+function readme() {
+  function isNegative(x) { return x < 0; };
+
+  var result = skipWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
+  var array = toArray.call(result);
+
+  assert(array.length == 3);
+  assert(array[0] == 0);
+  assert(array[1] == -1);
+  assert(array[2] == -2);
 }
+readme();
 
-var result = skipWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
+function isFirstTwo(x, i) { return i < 2; };
 
-toArray.call(result);
+var result = skipWhile.call(sequence(-2, -1, 0, -1, -2), isFirstTwo);
+var array = toArray.call(result);
+
+assert(array.length == 3);
+assert(array[0] == 0);
+assert(array[1] == -1);
+assert(array[2] == -2);
 ```
-result:
-```js
-[0, -1, -2]
-```
+
 ## API
 ```ts
-declare function skipWhile(
-  this: Enumerable,
-  predicate: function(x, i): boolean
-): Enumerable
+skipWhile(predicate)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The sequence.
-- `predicate`: Predicates elements must satisfy in order to continue skipping elements.
-  - `x`: The element to test.
-  - `i`: The zero based index of the element.
+- `predicate`: 
 
-### Return Value
-A sequence where the first elements that satisfy `predicate` have been skipped over. 
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.skip-while
 ```
-## Acknowledgments
-Like [`Element.SkipWhile`](https://msdn.microsoft.com/en-us/library/bb549288(v=vs.110).aspx).
+
+## Source
+https://repository.kingjs.net/linq/skip-while
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/skip-while)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.skip-while

@@ -13,6 +13,9 @@ var Description = 'description';
 function parse(path) {
   var ast = parseSource(path);
   var description = walk(ast);
+  if (!description)
+    return;
+    
   description = description.replace(NewLineRx, Space);
   return description;
 

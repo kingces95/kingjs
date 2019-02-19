@@ -1,51 +1,57 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/[linq](https://www.npmjs.com/package/@kingjs/linq).take-while
-Generates a sequence identical to another sequence so long as the elements continue to satisfy a specified condition.
+# @[kingjs][@kingjs]/[linq][ns0].[take-while][ns1]
+Generates a sequence identical to another  sequence so long as the elements continue to satisfy  a specified condition.
 ## Usage
-Take numbers in `-2`, `-1`, `0`, `-1`, `-2` so long as they're negative like this:
 ```js
-var takeWhile = require('@kingjs/linq.take-while');
 require('kingjs');
+var takeWhile = require('@kingjs/linq.take-while');
+var assert = require('assert');
 var toArray = require('@kingjs/linq.to-array');
 
-function isNegative(x) {
-  return x < 0;
+function readme() {
+  function isNegative(x) { return x < 0; };
+
+  var result = takeWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
+  var array = toArray.call(result);
+
+  assert(array.length == 2);
+  assert(array[0] == -2);
+  assert(array[1] == -1);
 }
+readme();
 
-var result = takeWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
+function isFirstTwo(x, i) { return i < 2; };
 
-toArray.call(result);
+var result = takeWhile.call(sequence(-2, -1, 0, -1, -2), isFirstTwo);
+var array = toArray.call(result);
+
+assert(array.length == 2);
+assert(array[0] == -2);
+assert(array[1] == -1);
 ```
-result:
-```js
-[-2, -1]
-```
+
 ## API
 ```ts
-declare function takeWhile(
-  this: Enumerable,
-  predicate: function(x, i): boolean
-): Enumerable
+takeWhile(predicate)
 ```
-### Interfaces
-- `Enumerable`: See [@kingjs/enumerable.define](https://www.npmjs.com/package/@kingjs/enumerable.define).
 
 ### Parameters
-- `this`: The sequence.
-- `predicate`: Predicates elements must satisfy in order to continue taking elements.
-  - `x`: The element to test.
-  - `i`: The zero based index of the element.
+- `predicate`: 
 
-### Return Value
-A sequence where of first elements of `this` that satisfy `predicate`. 
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.take-while
 ```
-## Acknowledgments
-Like [`Element.TakeWhile`](https://msdn.microsoft.com/en-us/library/bb548775(v=vs.110).aspx).
+
+## Source
+https://repository.kingjs.net/linq/take-while
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/linq/take-while)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/linq
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.take-while
