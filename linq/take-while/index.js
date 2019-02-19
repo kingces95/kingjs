@@ -1,6 +1,14 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence identical to another 
@@ -10,21 +18,25 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} predicate 
  */
 function takeWhile(predicate) {
-  var enumerator = this.getEnumerator();
-  var i = 0; 
+  var source = this;
   
-  return function() {    
-    
-    if (!enumerator.moveNext() || 
-      !predicate || 
-      !predicate(enumerator.current, i++))
-      return false;
-    
-    this.current_ = enumerator.current;
-    return true;
-  };
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      var enumerator = source[GetEnumerator]();
+      var i = 0; 
+      
+      return function moveNext() {    
+        
+        if (!enumerator[MoveNext]() || 
+          !predicate || 
+          !predicate(enumerator[Current], i++))
+          return false;
+        
+        this.current_ = enumerator[Current];
+        return true;
+      };
+    }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(takeWhile) }
-});
+exportExtension(module, IEnumerable, takeWhile);

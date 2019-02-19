@@ -34,7 +34,13 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.skip
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/skip
 ## License

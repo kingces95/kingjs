@@ -1,0 +1,75 @@
+{
+  "_id": "@kingjs/i-enumerable@1.0.8",
+  "_rev": "10-3c81fb8ed3da0a6080d093491a9928d2",
+  "name": "@kingjs/i-enumerable",
+  "dist-tags": {
+    "latest": "1.0.8"
+  },
+  "versions": [
+    "1.0.0",
+    "1.0.1",
+    "1.0.2",
+    "1.0.3",
+    "1.0.4",
+    "1.0.5",
+    "1.0.6",
+    "1.0.7",
+    "1.0.8"
+  ],
+  "time": {
+    "created": "2018-07-28T21:17:09.554Z",
+    "1.0.0": "2018-07-28T21:17:09.749Z",
+    "modified": "2019-02-11T02:53:02.934Z",
+    "1.0.1": "2018-07-30T09:31:20.840Z",
+    "1.0.2": "2018-07-30T09:50:07.265Z",
+    "1.0.3": "2018-07-30T10:05:04.657Z",
+    "1.0.4": "2019-01-02T02:30:31.613Z",
+    "1.0.5": "2019-02-07T06:37:59.951Z",
+    "1.0.6": "2019-02-07T20:08:53.353Z",
+    "1.0.7": "2019-02-11T02:51:26.189Z",
+    "1.0.8": "2019-02-11T02:52:59.065Z"
+  },
+  "maintainers": [
+    "kingces95 <kingces95@gmail.com>"
+  ],
+  "description": "`IEnumerable` has a single member `getEnumerator`.",
+  "keywords": [],
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-enumerable"
+  },
+  "_cached": false,
+  "_contentLength": 0,
+  "version": "1.0.8",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "^1.0.4"
+  },
+  "devDependencies": {
+    "@kingjs/i-interface": "^1.0.4"
+  },
+  "capitalize": true,
+  "_npmVersion": "6.4.1",
+  "_nodeVersion": "10.15.0",
+  "_npmUser": "kingces95 <kingces95@gmail.com>",
+  "dist": {
+    "integrity": "sha512-IwlpMUZgNQHM3ymKWxfD1fdm8IWRIKlcQL0YEEJ6q6P5hyVUr4yDNEfQqJpyR4YdsfqQ8/cT+MsYH9wzoeKGIQ==",
+    "shasum": "c6bd56717efb04519f0e7db9c1a70b07c63e9f9e",
+    "tarball": "https://registry.npmjs.org/@kingjs/i-enumerable/-/i-enumerable-1.0.8.tgz",
+    "fileCount": 5,
+    "unpackedSize": 3327,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJcYOOLCRA9TVsSAnZWagAAgKUQAJWtcyE4OyPNRQft6ndv\nt9qctM7gP6ZvOzoebMGTEiiwzkUtL5GwB1+P3FZl4u5yWkWpMCwpaewetp6L\nTch5LRS9D4Vtmf/+H0OgNIM3K2wx1LA41gesCexI0AWTJltIbHDo/NNrC7FF\nS50k2PxC9/BgMNoXbLVg3SqHC7OL89pLTyGNaz78NBWVhoSBlW+ipGEEIWD9\na/vPsdfOXYVU0UgVwqjCFUMJ4qLryoQWGA/2BkdsXd3W8MBLG2JSemlF5+vi\n9Vg1/qWFY+sqkI8sA1H/Hf5U1crBRIvlbM/kB0WHWhBx4KFw4yEr3ZW66yxC\ndHPnIe8khsWItxuN9bGHCCgfh1W1TAt/GlkzmwrbyGg2xRE6+cYovJT/kZQ4\n/7LEdOXLGyuvGKFi3y0DjYyTDMUM7VX0QIoVTMW6oaID0SCyKPn3MbeGxZ+a\niWZigc2A7czwtP3NgqM7hnwdjBW2EFLjfJBlnVRKYx39paufXYH5KBxdiT63\nAa5rvcyr8BaP9J+hpmTLmYC0HGkxNxFzwcS1813KvHF/Sg54IKStjsojdSn/\n3NIbJ4DJOgqERuwzvixxfn+KxAPP+CQ038i6Iqn/oO4s1te7AVy4lF6AJ6Y4\n1VMG2AHc/TaWWb1Tb/bPnq0PBcfWL7qaXz+Jo70ks7v89D/hAOBK+eOVKnGu\n6gml\r\n=y0P8\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "directories": {},
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/i-enumerable_1.0.8_1549853578990_0.5174141845340119"
+  },
+  "_hasShrinkwrap": false
+}

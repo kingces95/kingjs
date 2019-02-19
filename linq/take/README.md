@@ -3,13 +3,13 @@ Generates a sequence identical to  another sequence up to a specified index.
 ## Usage
 ```js
 require('kingjs');
-var take = require('@kingjs/linq.take');
+var Take = require('@kingjs/linq.take');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var result = take.call(sequence(-2, -1, 0, 1, 2), 2);
-  var array = toArray.call(result);
+  var result = [-2, -1, 0, 1, 2][Take](2);
+  var array = result[ToArray]();
 
   assert(array.length == 2);
   assert(array[0] == -2);
@@ -33,7 +33,13 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.take
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/take
 ## License

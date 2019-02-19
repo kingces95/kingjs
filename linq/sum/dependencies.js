@@ -7,4 +7,3 @@ exports['@kingjs'] = {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
 }
-exports['kingjs'] = require('kingjs')

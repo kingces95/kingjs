@@ -1,15 +1,15 @@
 require('kingjs');
-var sum = require('..');
+var Sum = require('..');
 var assert = require('assert');
 
 function readme() {
-  var summation = sum.call([1, 2, 3]);
+  var summation = [1, 2, 3][Sum]();
   assert(summation == 6);
 }
 readme();
 
 function zero() {
-  var summation = sum.call(sequence());
+  var summation = [][Sum]();
   assert(summation == 0);
 }
 zero();

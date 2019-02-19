@@ -1,6 +1,14 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence identical to another sequence 
@@ -9,20 +17,24 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} count 
  */
 function skip(count) {
-  var enumerator = this.getEnumerator();
-  
-  return function() {    
-    
-    do {      
-      if (!enumerator.moveNext())
-        return false;
-    } while (count-- > 0);
-    
-    this.current_ = enumerator.current;
-    return true;
-  }
+  var source = this;
+
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      var enumerator = source[GetEnumerator]();
+      
+      return function moveNext() {    
+        
+        do {      
+          if (!enumerator[MoveNext]())
+            return false;
+        } while (count-- > 0);
+        
+        this.current_ = enumerator[Current];
+        return true;
+      }
+    }
+  );
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(skip) }
-});
+exportExtension(module, IEnumerable, skip);

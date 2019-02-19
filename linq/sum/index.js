@@ -1,17 +1,23 @@
-'use strict';
-
-var aggregate = require('@kingjs/linq.aggregate');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Aggregate
+    },
+    IEnumerable,
+  }
+} = require('./dependencies');
 
 /**
  * @description Computes the sum of a sequence of 
  * numbers projected from elements of a sequence.
  */
 function sum() {
-  return aggregate.call(this, 0, function(x) { 
+  return this[Aggregate](0, function(x) { 
     return this + x; 
   });
 };
 
-Object.defineProperties(module, {
-  exports: { value: sum }
-});
+exportExtension(module, IEnumerable, sum);

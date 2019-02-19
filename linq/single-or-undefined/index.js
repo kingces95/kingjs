@@ -1,6 +1,16 @@
-'use strict';
-
-var where = require('@kingjs/linq.where');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Where
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Returns the only element of a sequence that 
@@ -12,21 +22,19 @@ function singleOrUndefined(predicate) {
   var enumerable = this;
   
   if (predicate)
-    enumerable = where.call(enumerable, predicate);
+    enumerable = enumerable[Where](predicate);
   
-  var enumerator = enumerable.getEnumerator();
+  var enumerator = enumerable[GetEnumerator]();
   
-  if (!enumerator.moveNext())
+  if (!enumerator[MoveNext]())
     return undefined;
   
-  var result = enumerator.current;
+  var result = enumerator[Current];
   
-  if (enumerator.moveNext())
+  if (enumerator[MoveNext]())
     result = undefined;
   
   return result;
 };
 
-Object.defineProperties(module, {
-  exports: { value: singleOrUndefined }
-});
+exportExtension(module, IEnumerable, singleOrUndefined);

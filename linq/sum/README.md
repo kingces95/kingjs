@@ -3,17 +3,17 @@ Computes the sum of a sequence of  numbers projected from elements of a sequence
 ## Usage
 ```js
 require('kingjs');
-var sum = require('@kingjs/linq.sum');
+var Sum = require('@kingjs/linq.sum');
 var assert = require('assert');
 
 function readme() {
-  var summation = sum.call([1, 2, 3]);
+  var summation = [1, 2, 3][Sum]();
   assert(summation == 6);
 }
 readme();
 
 function zero() {
-  var summation = sum.call(sequence());
+  var summation = [][Sum]();
   assert(summation == 0);
 }
 zero();
@@ -32,7 +32,12 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.sum
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/linq.aggregate`](https://www.npmjs.com/package/@kingjs/linq.aggregate)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/sum
 ## License

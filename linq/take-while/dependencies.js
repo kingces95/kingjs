@@ -1,10 +1,8 @@
 exports['@kingjs'] = {
   IEnumerable: require('@kingjs/i-enumerable'),
-  linq: {
-    Aggregate: require('@kingjs/linq.aggregate'),
-  },
+  IEnumerator: require('@kingjs/i-enumerator'),
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
+    implementIEnumerable: require('@kingjs/reflect.implement-i-enumerable'),
   },
 }
-exports['kingjs'] = require('kingjs')

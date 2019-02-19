@@ -1,6 +1,14 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence identical to 
@@ -9,17 +17,21 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} count 
  */
 function take(count) {
-  var enumerator = this.getEnumerator();
-  
-  return function() {    
-    if (!enumerator.moveNext() || count-- <= 0)
-      return false;
-    
-    this.current_ = enumerator.current;
-    return true;
-  }
+  var source = this;
+
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      var enumerator = source[GetEnumerator]();
+      
+      return function moveNext() {    
+        if (!enumerator[MoveNext]() || count-- <= 0)
+          return false;
+        
+        this.current_ = enumerator[Current];
+        return true;
+      }
+    }
+  );
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(take) }
-});
+exportExtension(module, IEnumerable, take);

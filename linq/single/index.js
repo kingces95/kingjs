@@ -1,6 +1,16 @@
-'use strict';
-
-var where = require('@kingjs/linq.where');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    linq: {
+      Where
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 function throwNoSingleMatch() {
   throw "single: sequence does not contain a single elements matching predicate.";
@@ -16,21 +26,19 @@ function single(predicate) {
   var enumerable = this;
   
   if (predicate)
-    enumerable = where.call(enumerable, predicate);
+    enumerable = enumerable[Where](predicate);
   
-  var enumerator = enumerable.getEnumerator();
+  var enumerator = enumerable[GetEnumerator]();
   
-  if (!enumerator.moveNext())
+  if (!enumerator[MoveNext]())
     throwNoSingleMatch();
   
-  var result = enumerator.current;
+  var result = enumerator[Current];
   
-  if (enumerator.moveNext())
+  if (enumerator[MoveNext]())
     throwNoSingleMatch();
   
   return result;
 };
 
-Object.defineProperties(module, {
-  exports: { value: single }
-});
+exportExtension(module, IEnumerable, single);

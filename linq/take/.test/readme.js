@@ -1,11 +1,11 @@
 require('kingjs');
-var take = require('..');
+var Take = require('..');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
-  var result = take.call(sequence(-2, -1, 0, 1, 2), 2);
-  var array = toArray.call(result);
+  var result = [-2, -1, 0, 1, 2][Take](2);
+  var array = result[ToArray]();
 
   assert(array.length == 2);
   assert(array[0] == -2);

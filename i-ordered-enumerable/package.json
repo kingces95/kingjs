@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/i-ordered-enumerable",
+  "version": "1.0.8",
+  "description": "`IOrderedEnumerable` has a single member `createOrderedEnumerable`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-ordered-enumerable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/reflect.create-interface": "latest"
+  },
+  "capitalize": true
+}

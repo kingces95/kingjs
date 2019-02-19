@@ -1,13 +1,13 @@
 require('kingjs');
-var skipWhile = require('..');
+var SkipWhile = require('..');
 var assert = require('assert');
-var toArray = require('@kingjs/linq.to-array');
+var ToArray = require('@kingjs/linq.to-array');
 
 function readme() {
   function isNegative(x) { return x < 0; };
 
-  var result = skipWhile.call(sequence(-2, -1, 0, -1, -2), isNegative);
-  var array = toArray.call(result);
+  var result = [-2, -1, 0, -1, -2][SkipWhile](isNegative);
+  var array = result[ToArray]();
 
   assert(array.length == 3);
   assert(array[0] == 0);
@@ -18,8 +18,8 @@ readme();
 
 function isFirstTwo(x, i) { return i < 2; };
 
-var result = skipWhile.call(sequence(-2, -1, 0, -1, -2), isFirstTwo);
-var array = toArray.call(result);
+var result = [-2, -1, 0, -1, -2][SkipWhile](isFirstTwo);
+var array = result[ToArray]();
 
 assert(array.length == 3);
 assert(array[0] == 0);

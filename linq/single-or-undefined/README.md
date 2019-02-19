@@ -37,7 +37,13 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.single-or-undefined
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.where`](https://www.npmjs.com/package/@kingjs/linq.where)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/single-or-undefined
 ## License

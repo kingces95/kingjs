@@ -1,6 +1,14 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence identical to another 
@@ -10,23 +18,26 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} predicate 
  */
 function skipWhile(predicate) {
-  var enumerator = this.getEnumerator();
-  var i = 0;
-  
-  return function() {    
-    
-    do {      
-      if (!enumerator.moveNext())
-        return false;
-    } while (predicate && predicate(enumerator.current, i++));
-    
-    predicate = undefined;
-    
-    this.current_ = enumerator.current;
-    return true;
-  }
+  var source = this;
+
+  return implementIEnumerable({ }, 
+    function createMoveNext() {
+      var enumerator = source[GetEnumerator]();
+      var i = 0;
+      
+      return function moveNext() {    
+        do {      
+          if (!enumerator[MoveNext]())
+            return false;
+        } while (predicate && predicate(enumerator[Current], i++));
+        
+        predicate = undefined;
+        
+        this.current_ = enumerator[Current];
+        return true;
+      }
+    }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(skipWhile) }
-});
+exportExtension(module, IEnumerable, skipWhile);
