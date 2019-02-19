@@ -20,6 +20,7 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
+    "@kingjs/i-ordered-enumerable": "latest",
     "@kingjs/linq.default-less-than": "latest",
     "@kingjs/linq.to-array": "latest",
     "@kingjs/reflect.export-extension": "latest"

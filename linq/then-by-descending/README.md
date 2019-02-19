@@ -50,7 +50,12 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.then-by-descending
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-ordered-enumerable`](https://www.npmjs.com/package/@kingjs/i-ordered-enumerable)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/then-by-descending
 ## License

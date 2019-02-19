@@ -3,17 +3,15 @@ Creates a dictionary from a sequence where the  dictionary keys and values are p
 ## Usage
 ```js
 require('kingjs');
-var toDictionary = require('@kingjs/linq.to-dictionary');
+var ToDictionary = require('@kingjs/linq.to-dictionary');
 var assert = require('assert');
-var assertThrows = require('@kingjs/assert-throws');
 
 function readme() {
-  var result = toDictionary.call(
-    sequence(
-      { name: 'Alice', age: 18 },
-      { name: 'Bob', age: 19 },
-      { name: 'Chris', age: 20 },
-    ), 
+  var result = [
+    { name: 'Alice', age: 18 },
+    { name: 'Bob', age: 19 },
+    { name: 'Chris', age: 20 },
+  ][ToDictionary](
     function(x) { return x.name; },
     function(x) { return x.age; }
   );
@@ -27,12 +25,11 @@ function readme() {
 readme();
 
 function defaultValueSelector() {
-  var result = toDictionary.call(
-    sequence(
-      { name: 'Alice', age: 18 },
-      { name: 'Bob', age: 19 },
-      { name: 'Chris', age: 20 },
-    ), 
+  var result = [
+    { name: 'Alice', age: 18 },
+    { name: 'Bob', age: 19 },
+    { name: 'Chris', age: 20 },
+  ][ToDictionary](
     function(x) { return x.name; }
     // test default valueSelector
   );
@@ -45,9 +42,8 @@ function defaultValueSelector() {
 }
 defaultValueSelector();
 
-assertThrows(function() {
-  toDictionary.call(
-    sequence(0, 0), 
+assert.throws(function() {
+  [0, 0][ToDictionary](
     function(x) { return x; }
   )
 })
@@ -70,7 +66,13 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/linq.to-dictionary
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/dictionary`](https://www.npmjs.com/package/@kingjs/dictionary)|`latest`|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/linq.aggregate`](https://www.npmjs.com/package/@kingjs/linq.aggregate)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/to-dictionary
 ## License

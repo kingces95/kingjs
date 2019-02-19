@@ -6,7 +6,9 @@ var {
 } = require('./dependencies');
 
 /**
- * @description `IOrderedEnumerable` has a single member `createOrderedEnumerable`.
+ * @description `IOrderedEnumerable` extends
+ * `IEnumerable` with  a single member 
+ * `createOrderedEnumerable`.
  */
 module.exports = createInterface(
   '@kingjs/IOrderedEnumerable', {

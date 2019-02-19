@@ -9,7 +9,8 @@ var {
     },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    IOrderedEnumerable: { CreateOrderedEnumerable },
   }
 } = require('./dependencies');
 
@@ -106,7 +107,7 @@ function orderBy(keySelector, lessThan, descending_, stack_) {
       }
     },
 
-    createOrderedEnumerable: {
+    [CreateOrderedEnumerable]: {
       value: function(keySelector, lessThan, descending) {
         return orderBy.call(
           this, keySelector, lessThan, descending, this.stack_);

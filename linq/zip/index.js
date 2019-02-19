@@ -1,6 +1,14 @@
-'use strict';
-
-var define = require('@kingjs/enumerable.define');
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      implementIEnumerable,
+      exportExtension
+    },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence of elements composed 
@@ -10,18 +18,25 @@ var define = require('@kingjs/enumerable.define');
  * @param {*} result 
  */
 function zip(other, result) {
-  var first = this.getEnumerator();
-  var second = other.getEnumerator();
-  
-  return function() {    
-    if (!first.moveNext() || !second.moveNext())
-      return false;
-    
-    this.current_ = result(first.current, second.current);
-    return true;
-  };
+  var source = this;
+
+  return implementIEnumerable({ }, 
+    function makeMoveNext() {
+      var first = source[GetEnumerator]();
+      var second = other[GetEnumerator]();
+      
+      return function() {    
+        if (!first[MoveNext]() || 
+          !second[MoveNext]())
+          return false;
+        
+        this.current_ = result(
+          first[Current], 
+          second[Current]);
+        return true;
+      }
+    }
+  )
 };
 
-Object.defineProperties(module, {
-  exports: { value: define(zip) }
-});
+exportExtension(module, IEnumerable, zip);

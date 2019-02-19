@@ -1,12 +1,14 @@
 var assert = require('assert');
 var IInterface = require('@kingjs/i-interface');
-var IEnumerable = require('..');
+var IEnumerable = require('@kingjs/i-enumerable');
+var IOrderedEnumerable = require('..');
 
-var id = Symbol.for('@kingjs/IEnumerable.getEnumerator');
+var id = Symbol.for('@kingjs/IOrderedEnumerable.createOrderedEnumerable');
 
-assert(IEnumerable instanceof Function);
-assert(IEnumerable.name == '@kingjs/IEnumerable');
+assert(IOrderedEnumerable instanceof Function);
+assert(IOrderedEnumerable.name == '@kingjs/IOrderedEnumerable');
 
-assert(IEnumerable.getEnumerator == id);
-assert(IEnumerable.GetEnumerator == id);
-assert(IEnumerable instanceof IInterface);
+assert(IOrderedEnumerable.getEnumerator == IEnumerable.getEnumerator);
+assert(IOrderedEnumerable.GetEnumerator == IEnumerable.getEnumerator);
+assert(IOrderedEnumerable.createOrderedEnumerable == id);
+assert(IOrderedEnumerable instanceof IInterface);

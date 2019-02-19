@@ -6,6 +6,8 @@ require('kingjs');
 var assert = require('assert');
 var OrderBy = require('@kingjs/linq.order-by');
 var ToArray = require('@kingjs/linq.to-array');
+var IOrderedEnumerable = require('@kingjs/i-ordered-enumerable');
+var { CreateOrderedEnumerable } = IOrderedEnumerable;
 
 function readme() {
   var numbers = [1, 0, 2];
@@ -72,8 +74,9 @@ function readmeThen() {
   var lastSelector = function(x) { return x.last; }
   var firstSelector = function(x) { return x.first; }
 
-  var sortedSequence = people[OrderBy](lastSelector)
-    .createOrderedEnumerable(firstSelector);
+  var sortedSequence = people
+    [OrderBy](lastSelector)
+    [CreateOrderedEnumerable](firstSelector);
 
   var sortedArray = sortedSequence[ToArray]();
   assert(sortedArray[0].last == 'King');
@@ -110,6 +113,7 @@ $ npm install @kingjs/linq.order-by
 |---|---|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
 |[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/i-ordered-enumerable`](https://www.npmjs.com/package/@kingjs/i-ordered-enumerable)|`latest`|
 |[`@kingjs/linq.default-less-than`](https://www.npmjs.com/package/@kingjs/linq.default-less-than)|`latest`|
 |[`@kingjs/linq.to-array`](https://www.npmjs.com/package/@kingjs/linq.to-array)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|

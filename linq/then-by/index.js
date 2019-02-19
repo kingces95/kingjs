@@ -4,6 +4,7 @@ var {
       exportExtension
     },
     IEnumerable,
+    IOrderedEnumerable: { CreateOrderedEnumerable },
   }
 } = require('./dependencies');
 
@@ -16,7 +17,7 @@ var {
  * @param {*} lessThan 
  */
 function thenBy(keySelector, lessThan) {
-  return this.createOrderedEnumerable(keySelector, lessThan, false);
+  return this[CreateOrderedEnumerable](keySelector, lessThan, false);
 }
 
 exportExtension(module, IEnumerable, thenBy);

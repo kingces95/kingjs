@@ -1,5 +1,4 @@
 exports['@kingjs'] = {
-  Dictionary: require('@kingjs/dictionary'),
   IEnumerable: require('@kingjs/i-enumerable'),
   IEnumerator: require('@kingjs/i-enumerator'),
   reflect: {
@@ -7,4 +6,3 @@ exports['@kingjs'] = {
     implementIEnumerable: require('@kingjs/reflect.implement-i-enumerable'),
   },
 }
-exports['kingjs'] = require('kingjs')

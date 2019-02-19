@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/i-ordered-enumerable",
   "version": "1.0.8",
-  "description": "`IOrderedEnumerable` has a single member `createOrderedEnumerable`.",
+  "description": "`IOrderedEnumerable` extends `IEnumerable` with  a single member  `createOrderedEnumerable`.",
   "main": "index.js",
   "files": [
     "*.js"

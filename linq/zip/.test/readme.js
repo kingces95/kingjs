@@ -1,19 +1,18 @@
 require('kingjs');
-var zip = require('..');
-var toArray = require('@kingjs/linq.to-array');
+var Zip = require('..');
+var ToArray = require('@kingjs/linq.to-array');
 var assert = require('assert');
 
 function readme() {
   
-  var result = zip.call(
-    [1, 2, 3],
-    sequence(`a`, `b`),
+  var result = [0, 1, 2][Zip](
+    [`a`, `b`],
     function(n, l) { 
       return { number: n, letter: l }; 
     }
   )
   
-  var result = toArray.call(result);
+  var result = result[ToArray]();
 
   assert(result.length == 2);
   assert(result[0].number == 0);
@@ -25,15 +24,14 @@ readme();
 
 function readmeFlipped() {
   
-  var result = zip.call(
-    sequence(`a`, `b`),
-    [1, 2, 3],
+  var result = [`a`, `b`][Zip](
+    [0, 1, 2],
     function(l, n) { 
       return { number: n, letter: l }; 
     }
   )
   
-  var result = toArray.call(result);
+  var result = result[ToArray]();
 
   assert(result.length == 2);
   assert(result[0].number == 0);

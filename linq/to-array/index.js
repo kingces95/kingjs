@@ -1,8 +1,12 @@
 var { 
   ['@kingjs']: {
     IEnumerable,
-    reflect: { exportExtension },
-    linq: { Aggregate }
+    reflect: {
+       exportExtension
+    },
+    linq: { 
+      Aggregate 
+    }
   }
 } = require('./dependencies');
 

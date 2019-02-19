@@ -1,7 +1,15 @@
-'use strict';
-
-var aggregate = require('@kingjs/linq.aggregate');
-var Dictionary = require('@kingjs/dictionary');
+var { 
+  ['@kingjs']: {
+    IEnumerable,
+    Dictionary,
+    linq: {
+      Aggregate
+    },
+    reflect: { 
+      exportExtension 
+    },
+  }
+} = require('./dependencies');
 
 /**
  * @description Creates a dictionary from a sequence where the 
@@ -11,7 +19,7 @@ var Dictionary = require('@kingjs/dictionary');
  * @param {*} valueSelector 
  */
 function toDictionary(keySelector, valueSelector) {      
-  return aggregate.call(this, new Dictionary(), function(x) { 
+  return this[Aggregate](new Dictionary(), function(x) { 
     var key = keySelector(x);
     if (key in x)
       throw "toDictionary: key already exists: " + key;
@@ -25,6 +33,4 @@ function toDictionary(keySelector, valueSelector) {
   });
 };
 
-Object.defineProperties(module, {
-  exports: { value: toDictionary }
-});
+exportExtension(module, IEnumerable, toDictionary);

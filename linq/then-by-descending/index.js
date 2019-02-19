@@ -1,4 +1,12 @@
-'use strict';
+var { 
+  ['@kingjs']: {
+    reflect: { 
+      exportExtension
+    },
+    IEnumerable,
+    IOrderedEnumerable: { CreateOrderedEnumerable },
+  }
+} = require('./dependencies');
 
 /**
  * @description Generates a sequence of elements from a sorted 
@@ -9,9 +17,7 @@
  * @param {*} lessThan 
  */
 function thenByDescending(keySelector, lessThan) {
-  return this.createOrderedEnumerable(keySelector, lessThan, true);
+  return this[CreateOrderedEnumerable](keySelector, lessThan, true);
 }
 
-Object.defineProperties(module, {
-  exports: { value: thenByDescending }
-});
+exportExtension(module, IEnumerable, thenByDescending);

@@ -2,6 +2,8 @@ require('kingjs');
 var OrderByDescending = require('..');
 var assert = require('assert');
 var ToArray = require('@kingjs/linq.to-array');
+var IOrderedEnumerable = require('@kingjs/i-ordered-enumerable');
+var { CreateOrderedEnumerable } = IOrderedEnumerable;
 
 function readme() {
   var numbers = [1, 0, 2];
@@ -58,8 +60,9 @@ function readmeThen() {
   var firstSelector = function(x) { return x.first; }
   var lessThan = null; // use default
 
-  var sortedSequence = people[OrderByDescending](lastSelector)
-    .createOrderedEnumerable(firstSelector, lessThan, true);
+  var sortedSequence = people
+    [OrderByDescending](lastSelector)
+    [CreateOrderedEnumerable](firstSelector, lessThan, true);
 
   var sortedArray = sortedSequence[ToArray]();
   assert(sortedArray[2].last == 'King');

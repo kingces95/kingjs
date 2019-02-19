@@ -23,6 +23,7 @@
   "capitalize": true,
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-ordered-enumerable": "latest",
     "@kingjs/reflect.export-extension": "latest"
   }
 }

@@ -1,15 +1,13 @@
 require('kingjs');
-var toDictionary = require('..');
+var ToDictionary = require('..');
 var assert = require('assert');
-var assertThrows = require('@kingjs/assert-throws');
 
 function readme() {
-  var result = toDictionary.call(
-    sequence(
-      { name: 'Alice', age: 18 },
-      { name: 'Bob', age: 19 },
-      { name: 'Chris', age: 20 },
-    ), 
+  var result = [
+    { name: 'Alice', age: 18 },
+    { name: 'Bob', age: 19 },
+    { name: 'Chris', age: 20 },
+  ][ToDictionary](
     function(x) { return x.name; },
     function(x) { return x.age; }
   );
@@ -23,12 +21,11 @@ function readme() {
 readme();
 
 function defaultValueSelector() {
-  var result = toDictionary.call(
-    sequence(
-      { name: 'Alice', age: 18 },
-      { name: 'Bob', age: 19 },
-      { name: 'Chris', age: 20 },
-    ), 
+  var result = [
+    { name: 'Alice', age: 18 },
+    { name: 'Bob', age: 19 },
+    { name: 'Chris', age: 20 },
+  ][ToDictionary](
     function(x) { return x.name; }
     // test default valueSelector
   );
@@ -41,9 +38,8 @@ function defaultValueSelector() {
 }
 defaultValueSelector();
 
-assertThrows(function() {
-  toDictionary.call(
-    sequence(0, 0), 
+assert.throws(function() {
+  [0, 0][ToDictionary](
     function(x) { return x; }
   )
 })
