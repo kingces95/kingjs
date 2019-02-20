@@ -1,1 +1,1 @@
-require('./test.js')
+require('./readme.js')

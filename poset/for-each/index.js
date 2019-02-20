@@ -6,6 +6,29 @@ var {
 
 var noop = function() { };
 
+/** 
+ * @description Invokes a callback on vertices of 
+ * a poset such that dependent vertices are called 
+ * back first.
+ * 
+ * @this any A poset expressed as an descriptor where 
+ * each property represents a named vertex and each 
+ * property value is an array of strings each representing 
+ * the name of adjacent vertices.
+ * @param {*} action Action to take when visiting a vertex.
+ * @param {*} action.vertex The name of the vertex being visited.
+ * @param {*} roots The vertex or vertices from which to commence 
+ * the traversal. If none are provided, all vertices are used as roots. 
+ * 
+ * @remarks - If a cycle is detected, then an exception is 
+ * thrown listing the vertices involved in the cycle.
+ * @remarks - Algorithm will _randomly_ decide the direction to 
+ * traverse the adjacency vertices. This helps callers ensure 
+ * they only rely on dependencies defined in the adjacency 
+ * list and not on dependencies  that are artifacts of its 
+ * expression. This is why the example in the usage section 
+ * may generate two different results.  
+ */
 function forEach(action, roots) {
   if (!roots)
     roots = Object.keys(this);

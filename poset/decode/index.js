@@ -6,6 +6,20 @@ var {
 
 var Delimiter = '$';
   
+/**
+ * @description Decodes a descriptor 
+ * representing a poset into an adjacency 
+ * list and a vertex property map.
+ * 
+ * @this any An encoded poset.
+ * @param {*} vertices A out descriptor augmented 
+ * with vertex properties.
+ * 
+ * @returns An descriptor with a property for 
+ * every vertex that has adjacent vertices. 
+ * Each property value is an array of names of 
+ * the adjacent vertices. 
+ */
 function decodeGraph(vertices) {
   var edges = new Dictionary();
        

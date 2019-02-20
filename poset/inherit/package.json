@@ -7,17 +7,18 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/poset/inherit"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.inherit": "^1.0.0",
-    "@kingjs/poset.for-each": "^1.0.14"
+    "@kingjs/descriptor.inherit": "latest",
+    "@kingjs/poset.for-each": "latest"
   }
 }

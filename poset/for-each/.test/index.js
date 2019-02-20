@@ -17,6 +17,7 @@ function cycle() {
 }
 cycle();
 
+return;
 function manyGraphs() {
   assertTheory(function(vertices) {
 

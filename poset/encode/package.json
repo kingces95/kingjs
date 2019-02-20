@@ -1,19 +1,21 @@
 {
   "name": "@kingjs/poset.encode",
   "version": "1.0.8",
-  "description": "Encodes an adjacency list and vertex property map into a descriptor whose property names, when split on `$`, reveal a vertex name followed by its adjacent vertices, and whose property values correspond to vertex properties.",
+  "description": "Encodes an adjacency list and vertex  property map into a descriptor whose property  names, when split on `$`, reveal a vertex name  followed by its adjacent vertices, and whose property  values correspond to vertex properties.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/poset/encode"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }
