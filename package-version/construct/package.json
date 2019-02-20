@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",

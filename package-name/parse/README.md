@@ -28,23 +28,30 @@ assert(apart.fullName == 'foo-bar.baz');
 var apart = parse('Bad-Name');
 assert(apart === undefined);
 ```
+
 ## API
 ```ts
 parse(name)
 ```
+
 ### Parameters
 - `name`: The package name to parse.
 ### Returns
 Returns an AST of literals comprising the package name.
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/package-name.parse
 ```
+
+## Source
+https://repository.kingjs.net/package-name/parse
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/{path})
+![Analytics](https://analytics.kingjs.net/package-name/parse)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/package-name

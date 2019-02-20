@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * @description Generates arrays of odometer digits.
+ * 
+ * @param {*} bases 
+ */
 function* odometer(bases) {
   var bases = arguments[0];
 

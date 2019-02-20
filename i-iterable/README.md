@@ -27,7 +27,7 @@ $ npm install @kingjs/i-iterable
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`^1.0.2`|
+|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`latest`|
 ## Source
 https://repository.kingjs.net/i-iterable
 ## License

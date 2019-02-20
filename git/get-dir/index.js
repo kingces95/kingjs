@@ -1,11 +1,13 @@
-var path = require('path');
-
-var { 
+var {
+  path,
   shelljs 
 } = require('./dependencies');
 
 /**
+ * @description Returns the git root directory.
+ * 
  * @param [subDir] A sub-directory to join to the git root directory.
+ * 
  * @returns Returns the git root directory.
  */
 function getDir(subDir) {

@@ -7,19 +7,22 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingces95/kingjs.git"
+    "url": "https://repository.kingjs.net/descriptor/create"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/descriptor.merge": "^1.0.10",
-    "@kingjs/empty-object": "^1.0.7",
-    "@kingjs/func.return-arg-0": "^1.0.0",
-    "@kingjs/reflect.is": "^1.0.0"
-  }
+    "@kingjs/descriptor.merge": "latest",
+    "@kingjs/dictionary": "latest",
+    "@kingjs/reflect.is": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
 }

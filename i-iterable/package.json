@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.create-interface": "^1.0.2"
+    "@kingjs/reflect.create-interface": "latest"
   },
   "capitalize": true
 }

@@ -1,8 +1,10 @@
 exports['@kingjs'] = {
-  createConstructor: require('@kingjs/create-constructor'),
+  descriptor: {
+    merge: require('@kingjs/descriptor.merge'),
+  },
+  Dictionary: require('@kingjs/dictionary'),
   reflect: {
     is: require('@kingjs/reflect.is'),
   },
 }
-exports['typescript'] = require('typescript')
 exports['assert'] = require('assert')

@@ -7,14 +7,15 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node test",
-    "prepublishOnly": "npm test"
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package-name.construct"
+    "url": "https://repository.kingjs.net/package-name/construct"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {}
 }

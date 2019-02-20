@@ -2,12 +2,16 @@
 Expresses a TypeScript AST as an object literal.
 ## Usage
 ```js
+/**
+ * @description My description.
+ */
 var assert = require('assert');
 var parseSource = require('@kingjs/parse-source');
 
 var ast = parseSource(__filename, { 
   type: true, 
   lines: true,
+  position: true,
   character: true
 });
 
@@ -32,21 +36,28 @@ assert(callExpression instanceof CallExpression);
 assert(callExpression.expression == 'require');
 assert(callExpression.arguments[0] == 'assert');
 
+var { 
+  Node,
+} = parseSource;
+
+for (var node of ast) {
+  console.log(node.constructor.name);
+  assert(node instanceof Node);
+}
+
 var json = JSON.stringify(ast, null, 2);
 console.log(json);
 ```
 
 ## API
 ```ts
-parse(path, options)
+parse(path, options, [object Object])
 ```
 
 ### Parameters
 - `path`: Path to file to a file to parse.
 - `options`: Options to add type, and positioning information to AST.
-- `options.type`: If true, type information is added to the AST as `.` properties so it'll appear if the AST is serialized to JSON.
-- `options.line`: If true, line numbers are added to the AST.
-- `options.character`: If true, character position is added to the AST.
+- `[object Object]`: If true, type information is added to the AST as `.` properties so it'll appear if the AST is serialized to JSON.
 ### Returns
 Each node of the Typescript AST is stripped down to just those properties that return nodes or are terminal literals.
 
@@ -59,8 +70,9 @@ $ npm install @kingjs/parse-source
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`^1.0.1`|
-|[`typescript`](https://www.npmjs.com/package/typescript)|`^3.2.4`|
+|[`@kingjs/create-constructor`](https://www.npmjs.com/package/@kingjs/create-constructor)|`latest`|
+|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
+|[`typescript`](https://www.npmjs.com/package/typescript)|`latest`|
 ## Source
 https://repository.kingjs.net/parse-source
 ## License

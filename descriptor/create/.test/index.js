@@ -1,10 +1,5 @@
-'use strict';
-
-var create = require('.');
-
+var create = require('..');
 var assert = require('assert');
-var assertThrows = require('@kingjs/assert-throws');
-var is = require('@kingjs/is');
 
 function empty() {
   assert(create());
@@ -15,7 +10,7 @@ function empty() {
 empty();
 
 function fail() {
-  assertThrows(() => create('Bob'));
+  assert.throws(() => create('Bob'));
 }
 fail();
 

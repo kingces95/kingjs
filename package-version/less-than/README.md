@@ -34,11 +34,7 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/package-version.less-than
 ```
-## Dependencies
-|Package|Version|
-|---|---|
-|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
-|[`@kingjs/package-version.parse`](https://www.npmjs.com/package/@kingjs/package-version.parse)|`^1.0.0`|
+
 ## Source
 https://repository.kingjs.net/package-version/less-than
 ## License

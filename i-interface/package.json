@@ -1,14 +1,15 @@
 {
   "name": "@kingjs/i-interface",
   "version": "1.0.4",
-  "description": "IInterface.Id is found on functions representing interfaces and stores the symbol identifying the interface.",
+  "description": "IInterface has no members. It tags  functions representing interfaces.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.create-interface": "^1.0.4"
+    "@kingjs/reflect.create-interface": "latest"
   },
   "capitalize": true
 }

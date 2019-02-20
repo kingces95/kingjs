@@ -1,10 +1,12 @@
-'use strict';
-
-var is = require('@kingjs/is');
-var assert = require('@kingjs/assert');
-var Dictionary = require('@kingjs/Dictionary');
-var takeLeft = require('@kingjs/func.return-arg-0');
-var merge = require('@kingjs/descriptor.merge');
+var {
+  assert, 
+  ['@kingjs']: { 
+    Dictionary,
+    reflect: { is },
+    descriptor: { merge },
+    func: { returnArg0: takeLeft }
+  }
+} = require('./dependencies');
 
 function wrap(descriptor, action, thisArg) {
 
@@ -24,6 +26,17 @@ function wrap(descriptor, action, thisArg) {
   assert(false, 'Unable to create descriptor.');
 }
 
+/**
+ * @description Creates a descriptor.
+ * 
+ * @param {*} descriptor The value to create into a descriptor.
+ * @param {*} action The name of the property to hold `value` 
+ * or a function that accepts `value` and returns a descriptor. 
+ * @param {*} thisArg 
+ * 
+ * @returns Returns `value` if already a descriptor, else a 
+ * normalized descriptor for value.
+ */
 function create(descriptor, action, thisArg) {
 
   if (is.undefined(descriptor))
@@ -48,6 +61,4 @@ function create(descriptor, action, thisArg) {
   return descriptor;
 }
 
-Object.defineProperties(module, {
-  exports: { value: create }
-});
+module.exports = create;

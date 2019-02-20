@@ -1,24 +1,22 @@
 # @[kingjs][@kingjs]/[i-interface][ns0]
-IInterface.Id is found on functions representing interfaces and stores the symbol identifying the interface.
+IInterface has no members. It tags  functions representing interfaces.
 ## Usage
 ```js
 var assert = require('assert');
+var IInterface = require('@kingjs/i-interface');
 
 // an interface, in the abstract, is just 
 // a symbolic name representing a collection 
 // of of symbols (just one in this case).
-var Id = Symbol.for('@kingjs/IInterface.id');
+var IInterfaceTag = Symbol.for('@kingjs/IInterface');
+assert(IInterface[''] == IInterfaceTag);
 
 // the name and symbol collection are 
 // gathered onto an abstract function
-var IInterface = require('@kingjs/i-interface');
 assert(IInterface instanceof Function);
 assert(IInterface.prototype == null);
 assert(IInterface.constructor == null);
 assert.throws(() => new IInterface);
-
-// the identifying symbol is stored in Id on the function
-assert(IInterface[Id] == Id);
 
 // the reason a function is used as the 
 // underlying object representing interfaces
@@ -44,7 +42,7 @@ $ npm install @kingjs/i-interface
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`^1.0.0`|
+|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`latest`|
 ## Source
 https://repository.kingjs.net/i-interface
 ## License

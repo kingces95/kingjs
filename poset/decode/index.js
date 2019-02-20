@@ -1,18 +1,21 @@
-'use strict';
+var {
+  ['@kingjs']: {
+    Dictionary
+  }
+} = require('./dependencies');
 
-var Dictionary = require('@kingjs/dictionary');
-var delimiter = '$';
+var Delimiter = '$';
   
 function decodeGraph(vertices) {
   var edges = new Dictionary();
        
   for (var name in this) {
 
-    if (name.indexOf(delimiter) == -1) {
+    if (name.indexOf(Delimiter) == -1) {
       vertices[name] = this[name];
     }
     else {
-      var split = name.split(delimiter);
+      var split = name.split(Delimiter);
       var vertexName = split.shift();
       
       vertices[vertexName] = this[name];
@@ -27,6 +30,4 @@ function decodeGraph(vertices) {
   return edges;
 }
 
-Object.defineProperties(module, {
-  exports: { value: decodeGraph }
-});
+module.exports = decodeGraph;

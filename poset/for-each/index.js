@@ -1,6 +1,8 @@
-'use strict';
-
-var Dictionary = require('@kingjs/dictionary');
+var {
+  ['@kingjs']: {
+    Dictionary
+  }
+} = require('./dependencies');
 
 var noop = function() { };
 
@@ -62,6 +64,4 @@ function forEach(action, roots) {
     visit.call(this, roots[i]); 
 }
 
-Object.defineProperties(module, {
-  exports: { value: forEach }
-});
+module.exports = forEach;

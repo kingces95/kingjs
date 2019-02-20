@@ -1,5 +1,3 @@
-'use strict';
-
 var delimiter = '$';
   
 function encodePoset(vertices) {
@@ -18,6 +16,4 @@ function encodePoset(vertices) {
   return poset;
 }
 
-Object.defineProperties(module, {
-  exports: { value: encodePoset }
-});
+module.exports = encodePoset;

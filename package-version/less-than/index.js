@@ -1,6 +1,4 @@
-var assert = require('assert');
-
-var { 
+var {
   ['@kingjs']: {
     is,
     packageVersion: { parse }

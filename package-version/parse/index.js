@@ -1,4 +1,3 @@
-var assert = require('assert');
 
 var regex = /^(\d+)\.(\d+).(\d+)$/
 /**

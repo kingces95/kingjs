@@ -1,23 +1,28 @@
-# @[kingjs](https://www.npmjs.com/package/kingjs)/odometer
-## Usage
-```js
-var assert = require('assert');
-var odometer = require('@kingjs/odometer');
-```
+# @[kingjs][@kingjs]/[odometer][ns0]
+Generates arrays of odometer digits.
+
 ## API
 ```ts
-declare function odometer(
-): any
+odometer(bases)
 ```
+
 ### Parameters
-### Returns
-## Remarks
+- `bases`: 
+
+
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/odometer
 ```
+
+## Source
+https://repository.kingjs.net/odometer
 ## License
 MIT
 
 ![Analytics](https://analytics.kingjs.net/odometer)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/odometer

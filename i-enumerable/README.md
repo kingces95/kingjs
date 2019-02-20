@@ -35,7 +35,7 @@ $ npm install @kingjs/i-enumerable
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`^1.0.4`|
+|[`@kingjs/reflect.create-interface`](https://www.npmjs.com/package/@kingjs/reflect.create-interface)|`latest`|
 ## Source
 https://repository.kingjs.net/i-enumerable
 ## License

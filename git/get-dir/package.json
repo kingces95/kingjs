@@ -7,16 +7,20 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node test",
-    "prepublishOnly": "npm test"
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/git.get-dir"
+    "url": "https://repository.kingjs.net/git/get-dir"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "shelljs": "^0.8.3"
-  }
+    "shelljs": "latest"
+  },
+  "nodeDependencies": [
+    "path"
+  ]
 }

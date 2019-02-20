@@ -1,5 +1,3 @@
-var assert = require('assert');
-
 /**
  * @description Simply join `{ major, minor, patch }` into `'major.minor.patch'`.
  * 

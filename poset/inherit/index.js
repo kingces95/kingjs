@@ -1,7 +1,9 @@
-'use strict';
-
-var inherit = require('@kingjs/descriptor.inherit');
-var forEach = require('@kingjs/poset.for-each');
+var {
+  ['@kingjs']: {
+    descriptor: { inherit },
+    poset: { forEach },
+  }
+} = require('./dependencies');
 
 function posetInherit(vertices) {   
 
@@ -25,6 +27,4 @@ function posetInherit(vertices) {
   return vertices;
 }
 
-Object.defineProperties(module, {
-  exports: { value: posetInherit }
-});
+module.exports = posetInherit

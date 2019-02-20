@@ -1,9 +1,5 @@
-'use strict';
-
-var create = require('.');
-
+var create = require('..');
 var assert = require('assert');
-var assertThrows = require('@kingjs/assert-throws');
 var assertTheory = require('@kingjs/assert-theory');
 var is = require('@kingjs/is');
 
@@ -37,7 +33,7 @@ assertTheory(function(test, id) {
     action = action.wrap;
 
   if (!is.object(value) && !test.wrap && !is.undefined(value)) {
-    assertThrows(() => create(value, action));
+    assert.throws(() => create(value, action));
     return;
   }
 

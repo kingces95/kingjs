@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert');
-var is = require('@kingjs/is');
+var is = require('@kingjs/reflect.is');
 var freeze = require('@kingjs/descriptor.object.freeze');
 
 function epilog() {
