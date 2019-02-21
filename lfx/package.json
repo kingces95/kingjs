@@ -1,21 +1,24 @@
 {
-  "name": "@kingjs/xxx",
+  "name": "@kingjs/lfx",
   "version": "1.0.0",
-  "description": "",
+  "description": "The description.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
+  "bin": {
+    "lfx": "./lfx.js"
+  },
   "scripts": {
     "test": "node .test",
     "prepublishOnly": "npm .test",
-    "build": "cpk && crm && cdj"
+    "build": "cpk && cdj"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/xxx"
+    "url": "https://repository.kingjs.net/lfx"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": { }
+  "dependencies": {}
 }
