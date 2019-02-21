@@ -1,1 +1,1 @@
-require('./readme');
+//require('./readme');
