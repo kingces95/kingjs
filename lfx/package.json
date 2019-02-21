@@ -20,5 +20,10 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {},
+  "nodeDependencies": [
+    "assert",
+    "fs",
+    "path"
+  ]
 }

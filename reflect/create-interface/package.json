@@ -1,13 +1,14 @@
 {
   "name": "@kingjs/reflect.create-interface",
   "version": "1.0.4",
-  "description": "Returns a function whose properties map strings to symbols which when defined together act as an interface.",
+  "description": "Returns a function whose properties map strings to symbols which, when defined together on an instance, act as an interface.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node .test"
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -15,9 +16,5 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/reflect.built-in-symbols": "^1.0.0",
-    "@kingjs/reflect.is": "^1.0.1",
-    "@kingjs/string-ex.capitalize": "^1.0.1"
-  }
+  "dependencies": {}
 }

@@ -1,6 +1,5 @@
-var assert = require('assert');
-
 var {
+  assert,
   ['@kingjs']: {
     reflect: {
       is,
@@ -65,7 +64,7 @@ var construct = require('./construct');
  * and `lazy`, the corresponding property is deleted from the descriptor. This can only be 
  * seen if no `target` is supplied causing the descriptor to be returned.  
  * 
- */
+ */ 
 function defineProperty() {
 
   // construct the arguments

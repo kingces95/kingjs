@@ -91,8 +91,9 @@ function parse(path) {
           callback.returns = node.typeExpression.type.comment;
 
         var parameters = callback.parameters = { };
-        for (var parameter of node.typeExpression.parameters) 
-          defineParameter(parameters, parameter);
+        if (node.typeExpression && node.typeExpression.parameters)
+          for (var parameter of node.typeExpression.parameters) 
+            defineParameter(parameters, parameter);
         break;
 
       case 'param':

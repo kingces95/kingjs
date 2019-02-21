@@ -32,8 +32,8 @@ var EmptyObject = { };
  * 
  * @remarks The returned interface is a function where
  * @remarks - every property with a string key will contain 
- * @remarks   - a symbol corresponding to an interface member
- * @remarks   - or, when many members share the same name, an arrays of member symbols
+ * @remarks -- a symbol corresponding to an interface member
+ * @remarks -- or, when many members share the same name, an arrays of member symbols
  * @remarks ---
  * @remarks An instance implements an interface if it declares all an 
  * interface's member symbol.
@@ -57,7 +57,7 @@ var EmptyObject = { };
  * implement an interface via `myInstance instanceof IMyInterface`. This is why
  * a function was chosen to represent an interface.
  * @remarks - is, itself, an instance that implements `IInterface` so
- * @remarks   - `IMyInterface instanceof IInterface` is `true`
+ * @remarks -- `IMyInterface instanceof IInterface` is `true`
  * */
 function createInterface(name, descriptor) {
   assert(is.string(name));

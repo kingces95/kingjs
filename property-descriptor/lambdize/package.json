@@ -7,8 +7,9 @@
     "*.js"
   ],
   "scripts": {
-    "test": "node test",
-    "prepublishOnly": "npm test"
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0",
-    "@kingjs/reflect.descriptor.rename": "^1.0.0"
+    "@kingjs/reflect.descriptor.rename": "latest",
+    "@kingjs/reflect.is": "latest"
   }
 }

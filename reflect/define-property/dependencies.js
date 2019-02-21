@@ -1,12 +1,13 @@
 exports['@kingjs'] = {
-  reflect: {
-    is: require('@kingjs/reflect.is'),
-    descriptor: {
-      targetInstanceOf: require('@kingjs/reflect.descriptor.target-instance-of'),
-    },
-  },
   propertyDescriptor: {
     lambdize: require('@kingjs/property-descriptor.lambdize'),
     makeLazy: require('@kingjs/property-descriptor.make-lazy'),
   },
+  reflect: {
+    descriptor: {
+      targetInstanceOf: require('@kingjs/reflect.descriptor.target-instance-of'),
+    },
+    is: require('@kingjs/reflect.is'),
+  },
 }
+exports['assert'] = require('assert')

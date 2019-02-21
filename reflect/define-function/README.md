@@ -38,8 +38,8 @@ $ npm install @kingjs/reflect.define-function
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
-|[`@kingjs/reflect.define-property`](https://www.npmjs.com/package/@kingjs/reflect.define-property)|`^1.0.2`|
+|[`@kingjs/reflect.define-property`](https://www.npmjs.com/package/@kingjs/reflect.define-property)|`latest`|
+|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 ## Source
 https://repository.kingjs.net/reflect/define-function
 ## License

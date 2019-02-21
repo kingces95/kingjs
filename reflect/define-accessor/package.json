@@ -1,14 +1,15 @@
 {
   "name": "@kingjs/reflect.define-accessor",
   "version": "1.0.2",
-  "description": "Extends `kingjs/reflect.define-property` with richer overloads.",
+  "description": "Extends `kingjs/reflect.define-property` with richer overloads  for declaring accessors and makes accessors enumerable by default.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0",
-    "@kingjs/reflect.define-property": "^1.0.2"
-  }
+    "@kingjs/reflect.define-property": "latest",
+    "@kingjs/reflect.is": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
 }

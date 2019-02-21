@@ -1,9 +1,6 @@
-var assert = require('assert');
-
 var {
   ['@kingjs']: { 
-    is,
-    reflect: { defineProperty }
+    reflect: { is, defineProperty }
   }
 } = require('./dependencies');
 

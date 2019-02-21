@@ -1,6 +1,5 @@
-var assert = require('assert');
-
 var {
+  assert,
   ['@kingjs']: { reflect: { is } }
 } = require('./dependencies');
 

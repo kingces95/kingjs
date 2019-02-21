@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[reflect][ns0].[define-property][ns1]
-Extends `Reflect.defineProperty` to allow richer descriptors which can include `callback`, `extends`, and `lazy` properties. And `lazy` can be modified by `writeOnce`, `argument`, and `static`.
+Extends `Object.defineProperty` to allow richer descriptors which can include `callback`, `extends`, and `lazy` properties. And `lazy` can be modified by `seeded`, `seed`, and `static`.
 ## Usage
 ```js
 var assert = require('assert');
@@ -96,7 +96,7 @@ assert(target.extern.target == target);
 
 ## API
 ```ts
-defineProperty(target, name, descriptor)
+defineProperty(target, name, descriptor, [object Object]())
 ```
 ## Overloads
 ```js
@@ -114,23 +114,14 @@ defineProperty(target, name, nonObjectOrNull)
 - `target`: The target on which the property will be defined.
 - `name`: The name of the property.
 - `descriptor`: A descriptor which supports these additional properties:
-- `descriptor.extends`: A callback that returns a type (function) representing  the type being extended. If runtime `this` is not an `instanceof` the type,  then an exception is thrown. An extension's `name` must be a symbol and its `target` must be `Object.prototype`.
+- `[object Object]`: Modifies `value`. If set and `value` is a string then the string is wrapped in a function.
   - Returns a function representing the type being extended.
-- `descriptor.lazy`: Caches the result of the property on the runtime `this`.
-- `descriptor.seeded`: Modifies `lazy`. Allows setting the property with a  value that gets passed to the promise when resolved.
-- `descriptor.seed`: Modifies `seeded`. If no value is set, then `seed` is used as a default.
-- `descriptor.static`: Modifies `lazy`. Makes the stub configurable so, if runtime `this` and `target` are the same object, the stub can be replaced with the cached value.
-- `descriptor.callback`: Called just before calling `Object.defineProperty` to allow the descriptor to configure itself given `name` and `target`.  The resulting descriptor is passed to a recursive call of `defineProperty`.
-  - `descriptor`: A copy of the descriptor.
-  - `name`: The name of the property.
-  - `target`: The target on which the property will be defined.
-  - Returns an updated descriptor.
 ### Returns
 Returns `target` if the property was successfully created.  Otherwise `undefined` is returned. If `target` is `null` or `undefined` then `{ name, descriptor }` is returned.
 ### Remarks
-- Strings that appear where functions are expected will be wrapped into functions; String values for `get` or `set`,  or `value` when `extends` or `lazy` is present are wrapped as functions.
-- Transforms are applied in the order: `lambdize` > `extends` > `lazy` > `callback`.
-- After applying transforms associated with the properties `callback`, `extends`,  and `lazy`, the corresponding property is deleted from the descriptor. This can only be  seen if no `target` is supplied causing the descriptor to be returned.
+ - Strings that appear where functions are expected will be wrapped into functions; String values for `get` or `set`,  or `value` when `extends` or `lazy` is present are wrapped as functions.
+ - Transforms are applied in the order: `lambdize` > `extends` > `lazy` > `callback`.
+ - After applying transforms associated with the properties `callback`, `extends`,  and `lazy`, the corresponding property is deleted from the descriptor. This can only be  seen if no `target` is supplied causing the descriptor to be returned.
 ## See Also
 - [`@kingjs/reflect.define-function`][defineFunction]
 - [`@kingjs/reflect.define-accessor`][defineAccessor]
@@ -147,10 +138,10 @@ $ npm install @kingjs/reflect.define-property
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/is`](https://www.npmjs.com/package/@kingjs/is)|`^1.0.9`|
-|[`@kingjs/property-descriptor.lambdize`](https://www.npmjs.com/package/@kingjs/property-descriptor.lambdize)|`^1.0.2`|
-|[`@kingjs/property-descriptor.make-lazy`](https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy)|`^1.0.3`|
-|[`@kingjs/property-descriptor.target-instance-of`](https://www.npmjs.com/package/@kingjs/property-descriptor.target-instance-of)|`^1.0.3`|
+|[`@kingjs/property-descriptor.lambdize`](https://www.npmjs.com/package/@kingjs/property-descriptor.lambdize)|`latest`|
+|[`@kingjs/property-descriptor.make-lazy`](https://www.npmjs.com/package/@kingjs/property-descriptor.make-lazy)|`latest`|
+|[`@kingjs/reflect.descriptor.target-instance-of`](https://www.npmjs.com/package/@kingjs/reflect.descriptor.target-instance-of)|`latest`|
+|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 ## Source
 https://repository.kingjs.net/reflect/define-property
 ## License

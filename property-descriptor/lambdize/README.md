@@ -28,6 +28,7 @@ assert(target.field == 2);
 ```ts
 lambdize(this[, name])
 ```
+
 ### Parameters
 - `this`: The descriptor whose `value`, `get` or `set` property, if strings, will be replaced with appropriate corresponding lambda functions. Only `set` has arguments, a single parameter named `value`.
 - `name`: The name to assign any freshly created lambda functions.
@@ -35,11 +36,17 @@ lambdize(this[, name])
 Returns `this` after it's strings are replaced with lambda functions.
 ### Remarks
 A normal lambda uses the `this` from the surrounding lexical scope.  These pseduo-lambda's use the `this` supplied at runtime.
+
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/property-descriptor.lambdize
 ```
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/reflect.descriptor.rename`](https://www.npmjs.com/package/@kingjs/reflect.descriptor.rename)|`latest`|
+|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 ## Source
 https://repository.kingjs.net/property-descriptor/lambdize
 ## License

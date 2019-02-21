@@ -1,14 +1,15 @@
 {
   "name": "@kingjs/property-descriptor.make-lazy",
   "version": "1.0.3",
-  "description": "Replaces a description of a function or accessor  with a corresponding descriptor that delegates to the original descriptor and caches its result in a a corresponding property on `this`.",
+  "description": "Replaces a description of a function or accessor with  a corresponding descriptor that delegates to the original descriptor and caches its result in a corresponding property on `this`.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
-    "test": "node test",
-    "prepublishOnly": "npm test"
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -16,8 +17,5 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0",
-    "@kingjs/reflect.descriptor.rename": "^1.0.0"
-  }
+  "dependencies": {}
 }

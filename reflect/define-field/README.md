@@ -34,7 +34,7 @@ $ npm install @kingjs/reflect.define-field
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/reflect.define-property`](https://www.npmjs.com/package/@kingjs/reflect.define-property)|`^1.0.2`|
+|[`@kingjs/reflect.define-property`](https://www.npmjs.com/package/@kingjs/reflect.define-property)|`latest`|
 ## Source
 https://repository.kingjs.net/reflect/define-field
 ## License

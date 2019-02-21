@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.is": "^1.0.0",
-    "@kingjs/reflect.define-property": "^1.0.2"
+    "@kingjs/reflect.define-property": "latest",
+    "@kingjs/reflect.is": "latest"
   }
 }
