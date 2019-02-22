@@ -24,6 +24,7 @@
   "nodeDependencies": [
     "assert",
     "fs",
-    "path"
+    "path",
+    "util"
   ]
 }
