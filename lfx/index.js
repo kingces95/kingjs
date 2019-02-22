@@ -1,5 +1,6 @@
 var { 
-  assert, fs, path, util
+  assert, fs, path, util, http,
+  request
 } = require('./dependencies');
 
 var { promises: fsPromises } = fs;
@@ -16,47 +17,46 @@ var CacheDir = path.join(pwd, CacheDirName);
 var StagedDirName = path.join(CacheDir, StagedDirName);
 var TargetRootDir = path.join(pwd, "../bin");
 
-var heap = [];
+var prototype = Object.getPrototypeOf((async function* () { })());
+prototype = Object.getPrototypeOf(prototype);
+var AsyncGenerator = function() { };
+AsyncGenerator.prototype = prototype;
+
 var pointers = [];
+
+var count = 0;
+async function log() {  
+  setTimeout(() => {
+    if (pointers.length > count) {
+      count = pointers.length;
+      console.log(pointers);
+    }
+    log();
+  })
+}
+
+function start(task) {
+  if (task === undefined)
+    return;
+
+  if (task instanceof Promise)
+    return setTimeout(async () => { start(await task) });
+  
+  if (task instanceof Array)
+    return task.forEach(o => start(o));
+
+  if (task instanceof AsyncGenerator)
+    return setTimeout(async () => { for await (var o of task) { start(o) } });
+
+  assert.fail();
+}
 
 /**
  * @description The description.
  */
 async function execute() {
-  heap.push(sync(pwd));
-
-  while (heap.length) {
-
-    var all = [];
-    for (var item of heap) {
-      if (item instanceof Promise)
-        all.push(item)
-
-      else {
-        var next = item.next();
-        if (next.done)
-          item.done = true;
-        else if (next instanceof Promise) {
-          if (next.value)
-            item.done = true;
-          else
-            all.push(next);
-        }
-        else if (next.value instanceof Promise)
-          all.push(next.value);
-      }
-    }
-
-    heap = heap.filter(o => !o.done);
-
-    var { value, done } = await Promise.race(all);
-    if (done)
-      continue;
-
-    if (Symbol.iterator in value)
-      value = value[Symbol.iterator]();
-    heap.push(value);
-  }
+  log();
+  start(sync(pwd));
 }
 
 async function* sync(source) {
@@ -76,7 +76,6 @@ async function* sync(source) {
 
 async function link(pointerFile) {
   var pointer = await decompress(pointerFile);
-  return pointer;
 }
 
 async function decompress(pointerFile) {
@@ -92,32 +91,56 @@ async function download(pointerFile) {
     ...JSON.parse(json)
   };
 
+  var response = await curl(pointer.url);
+
+  pointers.push(pointer);
+
+  http.get(pointer.url, x => {
+    return;
+  })
+
   try {
-    console.log('pointerFile', pointerFile);
     var exists = await fsPromises.access(pointer.target);
   } catch(e) { 
   }
 
-  await pause();
   return pointer;
 }
 
-var id = 0;
-async function reportStatus(id) {
-  console.log(id);
 
-  var count = 0;
-  while (count++ < 5) {
-    console.log(id, await count);
-    await yieldPromise();
-  }
-
-  return id;
-}
-
-function pause() {
+function curl(url) {
   return new Promise(function(resolve, reject) {
-    setTimeout(() => resolve(), 1000);
+
+    var compressedSubTotal = 0;
+    request({ 
+      method: 'GET', 
+      uri: url,
+      //gzip: true,
+    }, function (error, response, body) {
+        // body is the decompressed response body
+        console.log('server encoded the data as: ' + (response.headers['content-encoding'] || 'identity'))
+        //console.log('the decoded data is: ' + body)
+        resolve();
+      }
+    )
+    .on('data', function(data) {
+      // decompressed data as it is received
+      //console.log('decoded chunk: ' + data)
+      compressedSubTotal += data.length;
+    })
+    .on('response', function(response) {
+      var total = Number(response.headers['content-length']);
+      console.log(`${total} bytes of compressed data expected.`)
+      var subTotal = 0;
+
+      // unmodified http.IncomingMessage object
+      response.on('data', function(data) {
+        // compressed data as it is received
+        subTotal += data.length;
+        var percentage = Math.round(subTotal / total * 100);
+        console.log(`${percentage}%, received ${subTotal.toLocaleString()}/${compressedSubTotal.toLocaleString()}.`)
+      })
+    })
   });
 }
 

@@ -1,4 +1,6 @@
+exports['request'] = require('request')
 exports['assert'] = require('assert')
 exports['fs'] = require('fs')
+exports['http'] = require('http')
 exports['path'] = require('path')
 exports['util'] = require('util')

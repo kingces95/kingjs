@@ -20,10 +20,13 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "request": "latest"
+  },
   "nodeDependencies": [
     "assert",
     "fs",
+    "http",
     "path",
     "util"
   ]
