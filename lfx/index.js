@@ -1,12 +1,28 @@
 var { 
-  assert, fs, path, util, http,
-  request
+  assert, fs, path, http, crypto,
+  rxjs: { Subject },
+  unzipper,
 } = require('./dependencies');
+
+process.chdir('.test');
+
+var cwd = process.cwd();
+var target = path.join(cwd, 'unzip');
+
+fs.createReadStream('test.zip')
+  .pipe(unzipper.Extract({ path: target }))
+  .on('close', () => log('done'));
+return;
 
 var { promises: fsPromises } = fs;
 var WithFileTypes = { withFileTypes: true };
 var Encoding = { encoding: 'utf8' }
 
+var HttpOkStatus = 200;
+var OneSecond = 1000;
+var LogFrequency = 1;
+var Sha256 = 'sha256';
+var Hex = 'hex';
 var DotJson = '.json';
 var CacheDirName = '.cache';
 var StagedDirName = 'staged';
@@ -24,15 +40,18 @@ AsyncGenerator.prototype = prototype;
 
 var pointers = [];
 
-var count = 0;
-async function log() {  
+function log() {
+  console.log.apply(this, arguments);
+}
+
+async function logger() {  
   setTimeout(() => {
-    if (pointers.length > count) {
-      count = pointers.length;
-      console.log(pointers);
+    for (var pointer of pointers) {
+      if ('downloaded' in pointer)
+        log(`${pointer.compressedSize}/${pointer.downloaded}`)
     }
-    log();
-  })
+    logger();
+  }, OneSecond / LogFrequency)
 }
 
 function start(task) {
@@ -55,7 +74,7 @@ function start(task) {
  * @description The description.
  */
 async function execute() {
-  log();
+  logger();
   start(sync(pwd));
 }
 
@@ -90,14 +109,21 @@ async function download(pointerFile) {
     target: path.join(TargetRootDir, path.basename(pointerFile, DotJson)),
     ...JSON.parse(json)
   };
-
-  var response = await curl(pointer.url);
-
   pointers.push(pointer);
 
-  http.get(pointer.url, x => {
-    return;
-  })
+  if (!pointer.hash) {
+    var subject = new Subject();
+    var observable = subject;
+    var observer = subject;
+
+    await Promise.all([
+      streamCounter.call(observable, pointer, 'downloaded'),
+      streamHasher.call(observable, pointer, 'hash'),
+      streamFile.call(observer, pointer, 'compressedSize', pointer.url)
+    ]);
+
+    log(pointer);
+  }
 
   try {
     var exists = await fsPromises.access(pointer.target);
@@ -107,41 +133,75 @@ async function download(pointerFile) {
   return pointer;
 }
 
+function streamCounter(target, name) {
+  var observable = this;
+  var count = 0;
 
-function curl(url) {
-  return new Promise(function(resolve, reject) {
-
-    var compressedSubTotal = 0;
-    request({ 
-      method: 'GET', 
-      uri: url,
-      //gzip: true,
-    }, function (error, response, body) {
-        // body is the decompressed response body
-        console.log('server encoded the data as: ' + (response.headers['content-encoding'] || 'identity'))
-        //console.log('the decoded data is: ' + body)
-        resolve();
+  return new Promise(function(resolve) {
+    observable.subscribe({
+      next(o) { 
+        count += o.length;
+        target[name] = count;
+      },
+      complete() {
+        delete target[name];
+        resolve(count);
       }
-    )
-    .on('data', function(data) {
-      // decompressed data as it is received
-      //console.log('decoded chunk: ' + data)
-      compressedSubTotal += data.length;
     })
-    .on('response', function(response) {
-      var total = Number(response.headers['content-length']);
-      console.log(`${total} bytes of compressed data expected.`)
-      var subTotal = 0;
+  })
+}
 
-      // unmodified http.IncomingMessage object
-      response.on('data', function(data) {
-        // compressed data as it is received
-        subTotal += data.length;
-        var percentage = Math.round(subTotal / total * 100);
-        console.log(`${percentage}%, received ${subTotal.toLocaleString()}/${compressedSubTotal.toLocaleString()}.`)
-      })
+function streamHasher(target, name) {
+  var observable = this;
+  var hasher = crypto.createHash(Sha256);
+
+  return new Promise(function(resolve, reject) {
+    observable.subscribe({
+      next(o) { 
+        hasher.update(o) 
+      },
+      complete() {
+        hasher.end();
+        target[name] = hasher.read().toString(Hex);
+        resolve()
+      }
     })
   });
 }
 
+function streamFile(target, name, url) {
+  var observer = this;
+  var next = observer.next.bind(this);
+
+  return new Promise(function(resolve, reject) {
+    var error = o => { observer.error(o); reject(o); }
+    var complete = () => { observer.complete(); resolve(); }
+
+    http.get(url, (response) => {
+
+      // report error
+      let error;
+      if (response.statusCode !== HttpOkStatus) {
+        response.resume();
+        return error(`error on server: ${statusCode}: ${url}`);
+      }
+
+      // report length
+      var contentLength = response.headers['content-length'];
+      var length = contentLength ? Number(contentLength) : undefined;
+      target[name] = length;
+
+      // report data
+      response.on('data', next);
+      response.on('end', () => {
+        if (!response.complete)
+          return error(`error during download: ${url}`);
+        complete();
+      });
+    }).on('error', () => error(`error on connect: ${url}`));
+  })
+}
+
 module.exports = execute;
+
+execute().then();

@@ -21,5 +21,9 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/git.get-dir": "^1.0.0",
+    "@kingjs/package-name.parse": "^1.0.1",
+    "shelljs": "^0.8.3"
+  }
 }

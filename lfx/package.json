@@ -21,13 +21,14 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "request": "latest"
+    "rxjs": "latest",
+    "unzipper": "^0.9.11"
   },
   "nodeDependencies": [
     "assert",
+    "crypto",
     "fs",
     "http",
-    "path",
-    "util"
+    "path"
   ]
 }
