@@ -154,9 +154,8 @@ async function download(infoFile) {
 
     if (!info.hash) {
 
-      // create staging dir/path to save compressed file
+      // create staging directories
       var url = Url.parse(info.url);
-      info.ext = Path.extname(url.pathname);
       info.compressedStaging = Path.join(await Dirs.compressedStaging, url.pathname);
       info.decompressedStaging = Path.join(await Dirs.decompressedStaging, url.pathname);
       await mkdir(Path.dirname(info.download));
@@ -179,6 +178,7 @@ async function download(infoFile) {
 
       try {
         // publish downloaded compressed file to cache
+        info.ext = Path.extname(url.pathname);
         info.compressed = Path.join(await Dirs.compressed, info.hash + info.ext);
         await fsPromises.rename(info.download, info.compressed);
       } catch(e) { log(e); /* ignore races to publish compressed files */ }
