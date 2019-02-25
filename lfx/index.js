@@ -1,54 +1,79 @@
 var { 
-  assert, fs, path, http, crypto,
-  rxjs: { Subject },
-  unzipper,
+  assert, fs, http, crypto, zlib, os,
+  fs, fs: { promises: fsPromises },
+  path: Path, url: Url,
+  rxjs: { Subject }
 } = require('./dependencies');
 
-process.chdir('.test');
+var AsyncGenerator = require('./async-generator.js');
 
-var cwd = process.cwd();
-var target = path.join(cwd, 'unzip');
+/// debug
+process.chdir('.test/.lfx');
+/// debug
 
-fs.createReadStream('test.zip')
-  .pipe(unzipper.Extract({ path: target }))
-  .on('close', () => log('done'));
-return;
-
-var { promises: fsPromises } = fs;
 var WithFileTypes = { withFileTypes: true };
 var Encoding = { encoding: 'utf8' }
 
+var OneMeg = 1 << 20;
+var EmptyBuffer = Buffer.alloc(0);
 var HttpOkStatus = 200;
 var OneSecond = 1000;
 var LogFrequency = 1;
 var Sha256 = 'sha256';
 var Hex = 'hex';
-var DotJson = '.json';
-var CacheDirName = '.cache';
-var StagedDirName = 'staged';
+var Dot = '.';
+var DotJson = Dot + 'json';
+var Compressed = 'compressed';
+var Decompressed = 'decompressed';
 
-var pwd = process.cwd();
+var MkdirRecursive = { recursive: true };
 
-var CacheDir = path.join(pwd, CacheDirName);
-var StagedDirName = path.join(CacheDir, StagedDirName);
-var TargetRootDir = path.join(pwd, "../bin");
+var DirNames = {
+  target: '.target',
+  staging: '.staging',
+  get compressedStaging() { return Path.join(DirNames.cache, Compressed); },
+  get decompressedStaging() { return Path.join(DirNames.cache, Decompressed); },
 
-var prototype = Object.getPrototypeOf((async function* () { })());
-prototype = Object.getPrototypeOf(prototype);
-var AsyncGenerator = function() { };
-AsyncGenerator.prototype = prototype;
+  cache: '.cache',
+  get compressed() { return Path.join(DirNames.cache, Compressed); },
+  get decompressed() { return Path.join(DirNames.cache, Decompressed); },
+}
 
-var pointers = [];
+var Dirs = {
+  get target() { return mkdir(DirNames.target); },
+  get staging() { return mkdir(DirNames.staging); },
+  get compressedStaging() { return mkdir(DirNames.compressedStaging); },
+  get decompressedStaging() { return mkdir(DirNames.decompressedStaging); },
+
+  get cache() { return mkdir(DirNames.cache); },
+  get compressed() { return mkdir(DirNames.compressed); },
+  get decompressed() { return mkdir(DirNames.decompressed); },
+}
+
+var infos = [];
 
 function log() {
   console.log.apply(this, arguments);
 }
 
+async function mkdir(path) {
+  await fsPromises.mkdir(path, MkdirRecursive);
+  return path;
+}
+
 async function logger() {  
   setTimeout(() => {
-    for (var pointer of pointers) {
-      if ('downloaded' in pointer)
-        log(`${pointer.compressedSize}/${pointer.downloaded}`)
+    for (var info of infos) {
+      if ('downloadedLength' in info) {
+        if ('contentLength' in info) {
+          var percent = info.downloadedLength / info.contentLength;
+          log(`${Math.round(percent * 100)}% ${info.url}`)
+        }
+        else {
+          var megs = info.downloadedLength / OneMeg;
+          log(`${megs.toFixed(1)} (Mb)  ${info.url}`)
+        }
+      }
     }
     logger();
   }, OneSecond / LogFrequency)
@@ -58,14 +83,22 @@ function start(task) {
   if (task === undefined)
     return;
 
-  if (task instanceof Promise)
-    return setTimeout(async () => { start(await task) });
+  if (task instanceof Promise) {
+    return process.nextTick(async () => { 
+      start(await task) 
+    });
+  }
   
   if (task instanceof Array)
     return task.forEach(o => start(o));
 
-  if (task instanceof AsyncGenerator)
-    return setTimeout(async () => { for await (var o of task) { start(o) } });
+  if (task instanceof AsyncGenerator) {
+    return process.nextTick(async () => { 
+      for await (var o of task) { 
+        start(o) 
+      } 
+    });
+  }
 
   assert.fail();
 }
@@ -75,16 +108,19 @@ function start(task) {
  */
 async function execute() {
   logger();
-  start(sync(pwd));
+  start(sync(Dot));
 }
 
 async function* sync(source) {
   var entries = await fsPromises.readdir(source, WithFileTypes);
 
   for (var entry of entries) {
-    var entryPath = path.join(source, entry.name);
+    var entryPath = Path.join(source, entry.name);
 
     if (entry.isDirectory()) {
+      if (entry.name[0] == Dot)
+        continue;
+
       yield sync(entryPath);
       continue;
     }
@@ -93,114 +129,162 @@ async function* sync(source) {
   }
 }
 
-async function link(pointerFile) {
-  var pointer = await decompress(pointerFile);
+async function link(infoFile) {
+  var info = await decompress(infoFile);
 }
 
-async function decompress(pointerFile) {
-  var pointer = await download(pointerFile);
-  return pointer;
+async function decompress(infoFile) {
+  var info = await download(infoFile);
+  return info;
 }
 
-async function download(pointerFile) {
-  var json = await fsPromises.readFile(pointerFile, Encoding);
-  var pointer = {
-    source: pointerFile,
-    target: path.join(TargetRootDir, path.basename(pointerFile, DotJson)),
-    ...JSON.parse(json)
-  };
-  pointers.push(pointer);
-
-  if (!pointer.hash) {
-    var subject = new Subject();
-    var observable = subject;
-    var observer = subject;
-
-    await Promise.all([
-      streamCounter.call(observable, pointer, 'downloaded'),
-      streamHasher.call(observable, pointer, 'hash'),
-      streamFile.call(observer, pointer, 'compressedSize', pointer.url)
-    ]);
-
-    log(pointer);
-  }
+async function download(infoFile) {
+  var subject = new Subject();
+  var observable = subject;
+  var observer = subject;
 
   try {
-    var exists = await fsPromises.access(pointer.target);
-  } catch(e) { 
-  }
+    var json = await fsPromises.readFile(infoFile, Encoding);
+    var info = {
+      source: infoFile,
+      target: Path.join(await Dirs.target, Path.basename(infoFile, DotJson)),
+      ...JSON.parse(json)
+    };
+    infos.push(info);
 
-  return pointer;
+    if (!info.hash) {
+
+      // create staging dir/path to save compressed file
+      var url = Url.parse(info.url);
+      info.ext = Path.extname(url.pathname);
+      info.compressedStaging = Path.join(await Dirs.compressedStaging, url.pathname);
+      info.decompressedStaging = Path.join(await Dirs.decompressedStaging, url.pathname);
+      await mkdir(Path.dirname(info.download));
+
+      // while streaming: save to disk, decompress, compute hash, report progress
+      info.backPressure = [];
+      observable[Write](info, 'compressedStaging', 'backPressure');
+      observable[Decompress](info, 'decompressedStaging', 'backPressure');
+      observable[Hash](info, 'hash');
+      observable[Count](info, 'downloadedLength');
+
+      // start stream and observe incoming chunks
+      var remoteFile = await get(info, 'contentLength', info.url);
+      for await (var data of remoteFile) {
+        observer.next(data);
+        if (info.backPressure.length)
+          await Promise.all(...info.backPressure);
+      }
+      observer.complete();
+
+      try {
+        // publish downloaded compressed file to cache
+        info.compressed = Path.join(await Dirs.compressed, info.hash + info.ext);
+        await fsPromises.rename(info.download, info.compressed);
+      } catch(e) { log(e); /* ignore races to publish compressed files */ }
+    }
+
+    log(info);
+    return info;
+
+    // var exists = yield fsPromises.access(info.target);
+  } 
+  catch(e) {
+    log(e);
+    info.error = e;
+    observer.error(e);
+  } 
 }
 
-function streamCounter(target, name) {
-  var observable = this;
-  var count = 0;
+var Decompress = Symbol('@kingjs/Observable.stream.decompress');
+Subject.prototype[Decompress] = async function(target, name, backPressure) {
 
-  return new Promise(function(resolve) {
-    observable.subscribe({
-      next(o) { 
-        count += o.length;
-        target[name] = count;
-      },
-      complete() {
-        delete target[name];
-        resolve(count);
-      }
-    })
+  this.subscribe({
+    next(o) { 
+      if (!stream.write(o))
+        target[backPressure].add(flush(stream));
+    },
+    complete() {
+      delete target[backPressure]
+    }
   })
 }
 
-function streamHasher(target, name) {
-  var observable = this;
-  var hasher = crypto.createHash(Sha256);
+var Write = Symbol('@kingjs/Observable.stream.write');
+Subject.prototype[Write] = async function(target, name, backPressure) {
+  var stream = fs.createWriteStream(target[name])
 
-  return new Promise(function(resolve, reject) {
-    observable.subscribe({
-      next(o) { 
-        hasher.update(o) 
-      },
-      complete() {
-        hasher.end();
-        target[name] = hasher.read().toString(Hex);
-        resolve()
-      }
-    })
-  });
+  this.subscribe({
+    next(o) { 
+      if (!stream.write(o))
+        target[backPressure].add(flush(stream));
+    },
+    complete() {
+      delete target[backPressure]
+    }
+  })
 }
 
-function streamFile(target, name, url) {
-  var observer = this;
-  var next = observer.next.bind(this);
+var Count = Symbol('@kingjs/Observable.stream.count');
+Subject.prototype[Count] = function(target, name) {
+  var count = 0;
 
+  this.subscribe(o => { 
+    count += o.length;
+    target[name] = count;
+  })
+}
+
+var Hash = Symbol('@kingjs/Observable.stream.hash');
+Subject.prototype[Hash] = function(target, name) {
+  var hash = crypto.createHash(Sha256);
+
+  this.subscribe({
+    next(o) { 
+      hash.update(o) 
+    },
+    complete() {
+      hash.end();
+      target[name] = hash.digest(Hex);
+    }
+  })
+}
+
+function flush(stream) {
   return new Promise(function(resolve, reject) {
-    var error = o => { observer.error(o); reject(o); }
-    var complete = () => { observer.complete(); resolve(); }
+    stream
+      .on('error', reject)
+      .write(EmptyBuffer, () => {
+        stream.off('error', reject)
+        resolve();
+      }
+    );
+  })
+}
 
+function get(target, name, url) {
+  return new Promise(function(resolve, reject) {
     http.get(url, (response) => {
 
       // report error
       let error;
       if (response.statusCode !== HttpOkStatus) {
         response.resume();
-        return error(`error on server: ${statusCode}: ${url}`);
+        return error(`Server error ${statusCode}: ${url}`);
       }
 
       // report length
       var contentLength = response.headers['content-length'];
-      var length = contentLength ? Number(contentLength) : undefined;
-      target[name] = length;
+      if (contentLength)
+        target[name] = Number(contentLength);
 
-      // report data
-      response.on('data', next);
-      response.on('end', () => {
-        if (!response.complete)
-          return error(`error during download: ${url}`);
-        complete();
-      });
-    }).on('error', () => error(`error on connect: ${url}`));
+      resolve(response);
+
+    }).on('error', () => reject(`error on connect: ${url}`));
   })
 }
+
+var log = console.log.bind(console);
 
 module.exports = execute;
 

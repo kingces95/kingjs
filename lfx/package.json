@@ -4,7 +4,8 @@
   "description": "The description.",
   "main": "index.js",
   "files": [
-    "*.js"
+    "*.js",
+    "zip/*.js"
   ],
   "bin": {
     "lfx": "./lfx.js"
@@ -21,14 +22,17 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "rxjs": "latest",
-    "unzipper": "^0.9.11"
+    "@kingjs/reflect.is": "latest",
+    "rxjs": "latest"
   },
   "nodeDependencies": [
     "assert",
     "crypto",
     "fs",
     "http",
-    "path"
+    "os",
+    "path",
+    "url",
+    "zlib"
   ]
 }
