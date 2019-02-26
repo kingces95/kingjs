@@ -2,19 +2,20 @@ var ZipFlags = {
   // indicates that the file is encrypted
   isEncryptedFile: { bit: 0 },
 
-  // 'deflating' compression:
+  // 'deflated' compression:
   //    0:normal (-en), 1:maximum (-exx/-ex), 
   //    2: fast (-ef), 3: super fast (-es)
   // 'imploding' compression: n/a
   // 'LZMA' compression: n/a
-  //compressionOption: { bit: 1, count: 2 },
+  hasCompressionOption0: { bit: 1 },
+  hasCompressionOption1: { bit: 2 },
 
   // crc-32, compressed size, and uncompressed size are 0
   // correct values are put in the data descriptor following
-  // the compressed date. Applies only to 'deflating' compression
+  // the compressed date. Applies only to 'deflated' compression
   isDataDescriptor: { bit: 3 },
 
-  // Reserved for use with method 8, for enhanced deflating.
+  // Reserved for use with method 8, for enhanced deflated.
   isEnhancedDeflation: { bit: 4 },
 
   // file is compressed patched data.

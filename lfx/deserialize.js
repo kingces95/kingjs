@@ -1,15 +1,31 @@
 var { 
   ['@kingjs']: { reflect: { is } }
-} = require('../dependencies');
+} = require('./dependencies');
 
-function* decodeIterator(buffer) {
+var Pairs = require('./pairs.js');
+var Deserialize = Symbol('@kingjs/stream.binary.deserialize');
+
+var EmptyArray = [ ];
+
+Object.prototype[Deserialize] = function* deserialize(descriptors) {
   var offset = 0;
+  var buffer = EmptyArray;
+
+  var pairs = descriptors[Pairs]();
 
   while (true) {
     var value;
 
+    // get next field to deserialize
+    var next = pairs.next();
+    if (next.done) {
+      if (buffer.length != offset)
+        return buffer.slice(offset);
+      return;
+    }
+
     // update info
-    var { name, info } = yield offset;
+    var { value: { name, value: info} } = next;
 
     // get bytes or pointer to bytes
     var bytes = info.bytes;
@@ -26,6 +42,7 @@ function* decodeIterator(buffer) {
     // ignore
     else if (info.ignore) {
       yield* forEach(bytes, () => null);
+      value = undefined;
     }
 
     // decode little endian
@@ -37,6 +54,14 @@ function* decodeIterator(buffer) {
       // map enumeration
       if (info.enum)
         value = info.enum[value];
+
+      // map flags
+      else if (info.flags) {
+        for (var flagName in info.flags) {
+          var flag = info.flags[flagName];
+          this[flagName] = (value & 1 << flag.bit) != 0;
+        }
+      }
     }
 
     // publish value
@@ -47,11 +72,12 @@ function* decodeIterator(buffer) {
     for (var i = 0; i < bytes; i++) {
       while (offset == buffer.length) {
         offset = 0;
-        buffer = yield false;
+        buffer = yield;
       }
-      callback(buffer[offset++], i);
+      var byte = buffer[offset++]
+      callback(byte, i);
     }
   }
 }
 
-module.exports = decodeIterator;
+module.exports = Deserialize;

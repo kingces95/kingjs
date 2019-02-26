@@ -5,7 +5,23 @@ var {
   rxjs: { Subject }
 } = require('./dependencies');
 
-var AsyncGenerator = require('./async-generator.js');
+function test() {
+  process.chdir('..');
+
+  var subject = new Subject();
+  var observable = subject;
+  var observer = subject;
+  var info = { };
+
+  var data = fs.readFileSync('zipme.zip');
+  observable[Decompress](info, 'decompressedStaging', 'backPressure');
+  observer.next(data);
+}
+
+var AsyncGenerator = require('./async-generator');
+var Deserialize = require('./deserialize');
+var inflate = require('./inflate');
+var LocalFileHeader = require('./zip/local-file-header');
 
 /// debug
 process.chdir('.test/.lfx');
@@ -158,7 +174,7 @@ async function download(infoFile) {
       var url = Url.parse(info.url);
       info.compressedStaging = Path.join(await Dirs.compressedStaging, url.pathname);
       info.decompressedStaging = Path.join(await Dirs.decompressedStaging, url.pathname);
-      await mkdir(Path.dirname(info.download));
+      await mkdir(Path.dirname(info.compressedStaging));
 
       // while streaming: save to disk, decompress, compute hash, report progress
       info.backPressure = [];
@@ -171,8 +187,10 @@ async function download(infoFile) {
       var remoteFile = await get(info, 'contentLength', info.url);
       for await (var data of remoteFile) {
         observer.next(data);
-        if (info.backPressure.length)
-          await Promise.all(...info.backPressure);
+        if (info.backPressure.length) {
+          await Promise.all(info.backPressure);
+          info.backPressure.length = 0;
+        }
       }
       observer.complete();
 
@@ -181,7 +199,9 @@ async function download(infoFile) {
         info.ext = Path.extname(url.pathname);
         info.compressed = Path.join(await Dirs.compressed, info.hash + info.ext);
         await fsPromises.rename(info.download, info.compressed);
-      } catch(e) { log(e); /* ignore races to publish compressed files */ }
+      } catch(e) { 
+        log(infoFile, e); /* ignore races to publish compressed files */ 
+      }
     }
 
     log(info);
@@ -190,24 +210,54 @@ async function download(infoFile) {
     // var exists = yield fsPromises.access(info.target);
   } 
   catch(e) {
-    log(e);
-    info.error = e;
+    log(infoFile, e);
+    if (info)
+      info.error = e;
     observer.error(e);
   } 
 }
 
 var Decompress = Symbol('@kingjs/Observable.stream.decompress');
 Subject.prototype[Decompress] = async function(target, name, backPressure) {
+  var itr = unzip();
+  itr.next();
 
   this.subscribe({
-    next(o) { 
-      if (!stream.write(o))
-        target[backPressure].add(flush(stream));
-    },
-    complete() {
-      delete target[backPressure]
+    next(o) {
+      itr.next(o);
     }
   })
+
+  function* unzip() {
+    var buffer;
+
+    while (true) {
+      var header = { };
+
+      var itr = header[Deserialize](LocalFileHeader);
+      var next = itr.next();
+      if (buffer)
+        next = itr.next(buffer);
+      while (!next.done)
+        next = itr.next(yield);
+
+      buffer = next.value;
+
+      if (header.compression != 'noCompression') {
+        //var path = Path.join(header.fileName);
+        var path = Path.join('.cache/decompressed', header.fileName);
+        fs.mkdirSync(Path.dirname(path), MkdirRecursive);
+        var itr = inflate(path, header.compressedSize);
+        var next = itr.next();
+        if (buffer)
+          next = itr.next(buffer);
+        while (!next.done)
+          next = itr.next(yield);
+
+        buffer = next.value;
+      }
+    }
+  }
 }
 
 var Write = Symbol('@kingjs/Observable.stream.write');
@@ -217,10 +267,10 @@ Subject.prototype[Write] = async function(target, name, backPressure) {
   this.subscribe({
     next(o) { 
       if (!stream.write(o))
-        target[backPressure].add(flush(stream));
+        target[backPressure].push(flush(stream));
     },
     complete() {
-      delete target[backPressure]
+      stream.end();
     }
   })
 }
@@ -262,6 +312,7 @@ function flush(stream) {
   })
 }
 
+
 function get(target, name, url) {
   return new Promise(function(resolve, reject) {
     http.get(url, (response) => {
@@ -288,4 +339,5 @@ var log = console.log.bind(console);
 
 module.exports = execute;
 
-execute().then();
+test();
+//execute().then();
