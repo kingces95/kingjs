@@ -19,7 +19,7 @@ function test() {
 }
 
 var AsyncGenerator = require('./async-generator');
-var Deserialize = require('./deserialize');
+var deserialize = require('./deserialize');
 var inflate = require('./inflate');
 var LocalFileHeader = require('./zip/local-file-header');
 
@@ -221,40 +221,34 @@ var Decompress = Symbol('@kingjs/Observable.stream.decompress');
 Subject.prototype[Decompress] = async function(target, name, backPressure) {
   var itr = unzip();
   itr.next();
+  this.subscribe(o => itr.next(o))
 
-  this.subscribe({
-    next(o) {
-      itr.next(o);
-    }
-  })
-
+  function* write() {
+    
+  }
   function* unzip() {
     var buffer;
 
     while (true) {
       var header = { };
+      buffer = yield* deserialize(buffer, header, LocalFileHeader);
 
-      var itr = header[Deserialize](LocalFileHeader);
-      var next = itr.next();
-      if (buffer)
-        next = itr.next(buffer);
-      while (!next.done)
-        next = itr.next(yield);
+      var path = Path.join('.cache/decompressed', header.fileName);
 
-      buffer = next.value;
+      if (header.compression == 'noCompression') {
 
-      if (header.compression != 'noCompression') {
+        if (header.uncompressedSize) {
+          fs.mkdirSync(Path.dirname(path), MkdirRecursive);
+          var stream = fs.createWriteStream(path)
+          if (!stream.write(o))
+            target[backPressure].push(flush(stream));
+          stream.end();
+        }
+      } 
+      else {
         //var path = Path.join(header.fileName);
-        var path = Path.join('.cache/decompressed', header.fileName);
         fs.mkdirSync(Path.dirname(path), MkdirRecursive);
-        var itr = inflate(path, header.compressedSize);
-        var next = itr.next();
-        if (buffer)
-          next = itr.next(buffer);
-        while (!next.done)
-          next = itr.next(yield);
-
-        buffer = next.value;
+        buffer = yield* inflate(buffer, path, header.compressedSize);
       }
     }
   }

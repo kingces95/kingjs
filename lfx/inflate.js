@@ -4,13 +4,16 @@ var {
 
 var inflate = zlib.createInflate();
 
-function* decompress(path, length) {
+function* decompress(buffer, path, length) {
   path = Path.join(process.cwd(), path);
   var stream = inflate.pipe(fs.createWriteStream(path));
   //var stream = fs.createWriteStream(path);
 
   while (true) {
-    var buffer = yield;
+
+    var offset = buffer.indexOf("08074b50", 0, "hex");
+    if (offset != -1)
+      return;
 
     if (buffer.length < length) {
       length -= buffer.length;
@@ -21,6 +24,7 @@ function* decompress(path, length) {
     }
 
     stream.write(buffer);
+    buffer = yield;
   }
 }
 

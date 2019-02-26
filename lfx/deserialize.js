@@ -3,15 +3,13 @@ var {
 } = require('./dependencies');
 
 var Pairs = require('./pairs.js');
-var Deserialize = Symbol('@kingjs/stream.binary.deserialize');
 
 var EmptyArray = [ ];
 
-Object.prototype[Deserialize] = function* deserialize(descriptors) {
+function* deserialize(buffer, target, descriptors) {
   var offset = 0;
-  var buffer = EmptyArray;
-
   var pairs = descriptors[Pairs]();
+  buffer = buffer || EmptyArray;
 
   while (true) {
     var value;
@@ -30,7 +28,7 @@ Object.prototype[Deserialize] = function* deserialize(descriptors) {
     // get bytes or pointer to bytes
     var bytes = info.bytes;
     if (is.string(bytes))
-      bytes = this[bytes];
+      bytes = target[bytes];
 
     // decode string
     if (info.string) {
@@ -59,13 +57,13 @@ Object.prototype[Deserialize] = function* deserialize(descriptors) {
       else if (info.flags) {
         for (var flagName in info.flags) {
           var flag = info.flags[flagName];
-          this[flagName] = (value & 1 << flag.bit) != 0;
+          target[flagName] = (value & 1 << flag.bit) != 0;
         }
       }
     }
 
     // publish value
-    this[name] = value;
+    target[name] = value;
   }
 
   function* forEach(bytes, callback) {
@@ -80,4 +78,4 @@ Object.prototype[Deserialize] = function* deserialize(descriptors) {
   }
 }
 
-module.exports = Deserialize;
+module.exports = deserialize;
