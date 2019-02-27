@@ -1,4 +1,4 @@
-var ZipFlags = {
+var Flags = {
   // indicates that the file is encrypted
   isEncryptedFile: { bit: 0 },
 
@@ -13,7 +13,7 @@ var ZipFlags = {
   // crc-32, compressed size, and uncompressed size are 0
   // correct values are put in the data descriptor following
   // the compressed date. Applies only to 'deflated' compression
-  isDataDescriptor: { bit: 3 },
+  hasDataDescriptor: { bit: 3 },
 
   // Reserved for use with method 8, for enhanced deflated.
   isEnhancedDeflation: { bit: 4 },
@@ -34,7 +34,7 @@ var ZipFlags = {
   isMaskHeaderValues: { bit: 13 },
 }
 
-var ZipCompressionMethod = [
+var CompressionMethod = [
   'noCompression',
   'shrunk',
   'reducedWithCompressionFactor1',
@@ -57,11 +57,11 @@ var ZipCompressionMethod = [
   'ibmLZ77z'
 ]
 
-var ZipLocalFileHeaderInfo = {
+var LocalFileHeaderInfo = {
   signature: { bytes: 4, magic: [0x50,0x4b,0x03,0x04] },
   version: { bytes: 2 },
-  flags: { bytes: 2, flags: ZipFlags },
-  compression: { bytes: 2, enum: ZipCompressionMethod },
+  flags: { bytes: 2, flags: Flags },
+  compression: { bytes: 2, enum: CompressionMethod },
   modificationTime: { bytes: 2 },
   modificationDate: { bytes: 2 },
   crc: { bytes: 4 },
@@ -73,4 +73,4 @@ var ZipLocalFileHeaderInfo = {
   extraField: { bytes: 'extraFieldLength', ignore: true }
 }
 
-module.exports = ZipLocalFileHeaderInfo;
+module.exports = LocalFileHeaderInfo;
