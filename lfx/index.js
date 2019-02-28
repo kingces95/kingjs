@@ -6,22 +6,8 @@ var {
   ['@kingjs']: { reflect: { is } },
 } = require('./dependencies');
 
-function test() {
-  process.chdir('..');
-
-  var subject = new Subject();
-  var observable = subject;
-  var observer = subject;
-  var info = { };
-
-  var data = fs.readFileSync('zipme.zip');
-  observable[SubscribeIterator](unzip('.', []));
-  observer.next(data);
-}
-
 var AsyncGenerator = require('./async-generator');
 var deserialize = require('./deserialize');
-var inflate = require('./inflate');
 var LocalFileHeader = require('./zip/local-file-header');
 var DataDescriptor = require('./zip/data-descriptor');
 
@@ -189,7 +175,7 @@ async function download(infoFile) {
       observable[SubscribeIterator](write(compressedStagingStream, backPressure));
       observable[SubscribeIterator](unzip(info.decompressedStaging, backPressure));
       observable[SubscribeIterator](count(info, 'downloadedLength'));
-      observable[SubscribeIterator](Hash(info, 'hash'));
+      observable[SubscribeIterator](hash(info, 'hash'));
 
       // start stream and observe incoming chunks
       var remoteFile = await get(info, 'contentLength', info.url);
@@ -226,16 +212,20 @@ async function download(infoFile) {
 }
 
 var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
-Object.prototype[SubscribeIterator] = async function(iterator) {
+Object.prototype[SubscribeIterator] = async function(iterator, observations, name) {
   var next = iterator.next();
   return this.subscribe({
-    next(o) {
-      iterator.next(o); 
-    },
-    complete(o) { 
-      iterator.next(null); 
-    }
+    next: observe,
+    complete: observe(null)
   })
+
+  function observe(o) {
+    if (next.done)
+      return;
+
+    next = iterator.next(o);
+    observations[name] = next.value;
+  }
 }
 
 function take(observable, length) {
@@ -258,57 +248,6 @@ function take(observable, length) {
               observer.push(buffer);
             }
 
-            observer.complete();
-            return;
-          }
-
-          remaining -= buffer.length;
-          observer.next(buffer);
-        }
-      }
-    )
-  })
-}
-
-function takeUntil(observable, magic) {
-  return new Observable(observer => {
-    observable[SubscribeIterator](
-      function* () {
-        var prefix;
-
-        while (remaining) {
-          var buffer = yield;
-
-          if (prefix) {
-
-            // check if prefix + buffer == magic
-            if (!buffer.cmp(magic, prefix.length, magic.length)) {
-              buffer = buffer.splice(magic.length - prefix.length);
-              remaining = 0;
-            }
-            prefix = null;
-          }
-
-          var length = buffer.length;
-          if (length >= magic.length) {
-
-            // check if any length start of magic is buffer suffix
-            for (i = magic.length; i >= 0; i--) {
-              if (!buffer.cmp(magic, 0, i, length - i, i)) {
-                prefix = magic.splice(0, i);
-                buffer = buffer.splice(buffer.length - i);
-                break;
-              }
-            }
-          }
-
-          var remaining = buffer ? buffer.indexOf(magic) : 0;
-          if (remaining != -1) {
-            if (remaining) {
-              buffer = buffer.slice(remaining);
-              observer.push(buffer);
-            }
-            
             observer.complete();
             return;
           }
@@ -345,7 +284,7 @@ function* unzip(dir, backPressure) {
     var stream = fs.createWriteStream(path)
 
     if (isCompressed) {
-      var stream = inflate.pipe(stream);
+      stream = inflate.pipe(stream);
       var options = hasDataDescriptor ? 
         { magic : DataFileSignature } : 
         { length: header.compressedSize };
@@ -372,50 +311,20 @@ function* unzip(dir, backPressure) {
   }
 }
 
-function* write(stream, backPressure, options) {
-  if (is.undefined(options))
-    options = EmptyObject;
-  
-  if (is.number(options))
-    options = { length: options };
-    
-  var { length = MaxNumber, magic } = options;
-
+function* write(stream, backPressure) {
   var buffer;
+
   while (buffer = yield) {
-
-    // eof (null)
-    if (!buffer) {
-      buffer = EmptyBuffer;
-      length = 0;
-    }
-
-    // eof (magic)
-    if (magic) {
-      var offset = buffer.indexOf(magic);
-      if (offset != -1)
-        length = offset;
-    }
-
-    // end (length)
-    if (buffer.length >= length) {
-      backPressure.push(end(stream, buffer.slice(0, length)));
-      var remainder = buffer.slice(length);
-      if (magic)
-        options.remainder = remainder;
-      return buffer;
-    }
-
-    length -= buffer.length;
     if (!stream.write(buffer))
-      backPressure.push(flush(stream));
+      backPressure.push(drain(stream));
   }
 
-  return EmptyBuffer;
+  backPressure.push(end(stream, buffer));
 }
 
 function* count(observations, name) {
   observations[name] = 0;
+
   while (buffer = yield)
     observations[name] += buffer.length;
 }
@@ -432,16 +341,18 @@ function* hash(observations, name) {
 
 function end(stream, buffer) {
   return new Promise(function(resolve, reject) {
-    stream.end(buffer, resolve);
+    stream
+      .on('error', reject)
+      .end(buffer, resolve);
   });
 }
 
-function flush(stream) {
+function drain(stream) {
   return new Promise(function(resolve, reject) {
     stream
       .on('error', reject)
-      .write(EmptyBuffer, () => {
-        stream.off('error', reject)
+      .write(EmptyBuffer, o => {
+        stream.off('error', reject(o))
         resolve();
       }
     );
@@ -474,5 +385,4 @@ var log = console.log.bind(console);
 
 module.exports = execute;
 
-test();
-//execute().then();
+execute().then();

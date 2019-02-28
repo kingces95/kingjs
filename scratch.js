@@ -1,23 +1,33 @@
 var zlib = require('zlib');
+var assert = require('assert');
 
-var buf;
+const input = Buffer.from('01234567890123456789');
 
+zlib.deflate(input, (err, deflatedBuffer) => {
+  assert(!err);
 
-const input = '.................................';
-zlib.deflate(input, (err, buffer) => {
-  if (!err) {
-    buf = buffer;
-    console.log(buffer.toString('base64'));
-  } else {
-    // handle error
-  }
+  var numberRead = 0;
+  var buffers = [];
+
+  var stream = zlib.createInflate()
+    .on('data', function(chunk) {
+      console.log(stream.bytesWritten);
+      buffers.push(chunk);
+      numberRead += chunk.length;
+    })
+
+  stream.write(deflatedBuffer.slice(0, 5));
+  stream.write(deflatedBuffer.slice(5, 10));
+  stream.write(deflatedBuffer.slice(10));
+  stream.write(Buffer.from([1,2,3,4,5]));
+  stream.write(Buffer.from([1,2,3,4,5,6]));
+  stream.write(Buffer.from([1,2,3,4,5,6]));
+  stream.end(function() {
+    var result = Buffer.concat(buffers, numberRead);
+    this.close();
+    console.log(result.toString());
+    console.log('chunks', buffers.length);
+    console.log(stream.bytesWritten);
+  })
 });
 
-const buffer = Buffer.from('eJzT0yMAAGTvBe8=', 'base64');
-zlib.unzip(buffer, (err, buffer) => {
-  if (!err) {
-    console.log(buffer.toString());
-  } else {
-    // handle error
-  }
-});
