@@ -1,11 +1,38 @@
-var {
-  fs, zlib, path: Path
-} = require('./dependencies');
+/**
+ * https://en.wikipedia.org/wiki/Cyclic_redundancy_check
+ 
+  Function CRC32
+    Input:
+        data:  Bytes     //Array of bytes
+    Output:
+        crc32: UInt32    //32-bit unsigned crc-32 value
 
-function* crc(observations, name) {
+  //Initialize crc-32 to starting value
+  crc32 ← 0xFFFFFFFF
+
+  for each byte in data do
+    nLookupIndex ← (crc32 xor byte) and 0xFF;
+    crc32 ← (crc32 shr 8) xor CRCTable[nLookupIndex] //CRCTable is an array of 256 32-bit constants
+
+  //Finalize the CRC-32 value by inverting all the bits
+  crc32 ← crc32 xor 0xFFFFFFFF
+  return crc32
+
+ */
+
+ var NegativeOne = 0xFFFFFFFF;
+
+function* crc() {
+  var result = NegativeOne;
+
+  var byte;
+  while ((byte = yield) != null)
+    result = (result >> 8) ^ table[(result ^ byte) & 0xFF];
+
+  return result ^ NegativeOne;
 }
 
-crcTable = [  
+table = [  
   0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419,
   0x706af48f, 0xe963a535, 0x9e6495a3, 0x0edb8832, 0x79dcb8a4,
   0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07,
@@ -60,4 +87,4 @@ crcTable = [
   0x2d02ef8d
 ];
 
-module.exports = decompress;
+module.exports = crc;

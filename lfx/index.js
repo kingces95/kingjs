@@ -10,6 +10,7 @@ var AsyncGenerator = require('./async-generator');
 var deserialize = require('./deserialize');
 var LocalFileHeader = require('./zip/local-file-header');
 var DataDescriptor = require('./zip/data-descriptor');
+var crc = require('./crc');
 
 /// debug
 process.chdir('.test/.lfx');
@@ -147,10 +148,6 @@ async function decompress(infoFile) {
 }
 
 async function download(infoFile) {
-  var subject = new Subject();
-  var observable = subject;
-  var observer = subject;
-
   try {
     var json = await fsPromises.readFile(infoFile, Encoding);
     var info = {
@@ -161,32 +158,37 @@ async function download(infoFile) {
     infos.push(info);
 
     if (!info.hash) {
-
-      // create staging directories
       var url = Url.parse(info.url);
-      info.compressedStaging = Path.join(await Dirs.compressedStaging, url.pathname);
-      info.decompressedStaging = Path.join(await Dirs.decompressedStaging, url.pathname);
-      await mkdir(Path.dirname(info.compressedStaging));
 
-      var compressedStagingStream = fs.createWriteStream(info.compressedStaging)
+      // start streaming zip file
+      var stream = await get(info.url, info, 'contentLength');
+
+      // make incoming data chunks observable
+      var backPressure = [];
+      var observable = stream[ToObservable](stream, backPressure)
 
       // while streaming: save to disk, decompress, compute hash, report progress
-      var backPressure = [];
-      observable[SubscribeIterator](write(compressedStagingStream, backPressure));
-      observable[SubscribeIterator](unzip(info.decompressedStaging, backPressure));
-      observable[SubscribeIterator](count(info, 'downloadedLength'));
-      observable[SubscribeIterator](hash(info, 'hash'));
+      var subject = new Subject();
 
-      // start stream and observe incoming chunks
-      var remoteFile = await get(info, 'contentLength', info.url);
-      for await (var data of remoteFile) {
-        observer.next(data);
-        if (backPressure.length) {
-          await Promise.all(backPressure);
-          backPressure.length = 0;
-        }
-      }
-      observer.complete();
+      // save compressed file
+      info.compressedStaging = Path.join(await Dirs.compressedStaging, url.pathname);
+      await mkdir(Path.dirname(info.compressedStaging));
+      var compressedStagingStream = fs.createWriteStream(info.compressedStaging)
+      subject[SubscribeIterator](write(compressedStagingStream, backPressure));
+
+      // decompressed file on the fly
+      info.decompressedStaging = Path.join(await Dirs.decompressedStaging, url.pathname);
+      await mkdir(Path.dirname(info.compressedStaging));
+      subject[SubscribeIterator](unzip(info.decompressedStaging, backPressure));
+
+      // report bytes downloaded so far after every chunk
+      subject[SubscribeIterator](count(), info, 'downloadedLength');
+
+      // stream bytes into hasher to create the identifier for cached files
+      subject[SubscribeIterator](hash(), info, 'hash');
+
+      // observe incoming chunks
+      observable.subscribe(subject);
 
       try {
         // publish downloaded compressed file to cache
@@ -211,7 +213,25 @@ async function download(infoFile) {
   } 
 }
 
-var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
+var ToObservable = Symbol('@kingjs/Observable.stream-to-observable');
+Object.prototype[ToObservable] = async function(stream, backPressure) {
+  return new Observable(function(observer) {
+    stream
+      .on('error', () => observer.error)
+      .on('data', data => {
+        observer.next(data);
+        if (!backPressure.length) 
+          return;
+          
+        stream.pause();
+        Promise.all(backPressure).then(() => stream.resume())
+        backPressure.length = 0;
+      })
+      .on('end', () => observer.complete());
+  })
+}
+
+var ToObservable = Symbol('@kingjs/Observable.subscribe-iterator');
 Object.prototype[SubscribeIterator] = async function(iterator, observations, name) {
   var next = iterator.next();
   return this.subscribe({
@@ -222,42 +242,12 @@ Object.prototype[SubscribeIterator] = async function(iterator, observations, nam
   function observe(o) {
     if (next.done)
       return;
-
     next = iterator.next(o);
+
+    if (!observations)
+      return;
     observations[name] = next.value;
   }
-}
-
-function take(observable, length) {
-  return new Observable(observer => {
-    observable[SubscribeIterator](
-      function* () {
-        var remaining = length;
-
-        while (remaining) {
-          var buffer = yield;
-
-          if (!buffer) {
-            buffer = EmptyBuffer;
-            remaining = 0;
-          }
-
-          if (buffer.length >= remaining) {
-            if (remaining) {
-              buffer = buffer.slice(remaining);
-              observer.push(buffer);
-            }
-
-            observer.complete();
-            return;
-          }
-
-          remaining -= buffer.length;
-          observer.next(buffer);
-        }
-      }
-    )
-  })
 }
 
 function* unzip(dir, backPressure) {
@@ -295,8 +285,8 @@ function* unzip(dir, backPressure) {
     var observations = { };
     var observable = subject;
     
-    observable[SubscribeIterator](write(stream, backPressure, options));
-    observable[SubscribeIterator](count(observations, 'compressedSize'));
+    observable[SubscribeIterator](write(stream, backPressure));
+    observable[SubscribeIterator](count(), observations, 'compressedSize');
 
     var observer = subject;
     while (!options.remainder)
@@ -322,21 +312,24 @@ function* write(stream, backPressure) {
   backPressure.push(end(stream, buffer));
 }
 
-function* count(observations, name) {
-  observations[name] = 0;
+function* count() {
+  var result = 0;
 
-  while (buffer = yield)
-    observations[name] += buffer.length;
+  var buffer;
+  while (buffer = yield result)
+    result += buffer.length;
+
+  return result;
 }
 
-function* hash(observations, name) {
+function* hash() {
   var hash = crypto.createHash(Sha256);
 
   while (buffer = yield)
     hash.update(buffer);
   hash.end();
 
-  observations[name] = hash.digest(Hex);
+  return hash.digest(Hex);
 }
 
 function end(stream, buffer) {
@@ -359,9 +352,9 @@ function drain(stream) {
   })
 }
 
-function get(target, name, url) {
+function get(url, target, name) {
   return new Promise(function(resolve, reject) {
-    http.get(url, (response) => {
+    http.get(url, response => {
 
       // report error
       let error;
@@ -378,6 +371,38 @@ function get(target, name, url) {
       resolve(response);
 
     }).on('error', () => reject(`error on connect: ${url}`));
+  })
+}
+
+function take(observable, length) {
+  return new Observable(observer => {
+    observable[SubscribeIterator](
+      function* () {
+        var remaining = length;
+
+        while (remaining) {
+          var buffer = yield;
+
+          if (!buffer) {
+            buffer = EmptyBuffer;
+            remaining = 0;
+          }
+
+          if (buffer.length >= remaining) {
+            if (remaining) {
+              buffer = buffer.slice(remaining);
+              observer.push(buffer);
+            }
+
+            observer.complete();
+            return;
+          }
+
+          remaining -= buffer.length;
+          observer.next(buffer);
+        }
+      }
+    )
   })
 }
 
