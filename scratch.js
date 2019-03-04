@@ -1,7 +1,7 @@
 var zlib = require('zlib');
 var assert = require('assert');
 
-const input = Buffer.from('01234567890123456789');
+const input = Buffer.from('0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789');
 
 zlib.deflate(input, (err, deflatedBuffer) => {
   assert(!err);
@@ -27,7 +27,8 @@ zlib.deflate(input, (err, deflatedBuffer) => {
     this.close();
     console.log(result.toString());
     console.log('chunks', buffers.length);
-    console.log(stream.bytesWritten);
+    console.log('bytesWritten', stream.bytesWritten);
+    console.log('numberRead', numberRead);
   })
 });
 

@@ -61,6 +61,52 @@ var Dirs = {
 
 var infos = [];
 
+/**
+ * path - path to info file
+ * source - path at which decompressed file is made available via link
+ * target - path at which decompressed file is published
+ * cache - path at which compressed file is published
+ * decompressedStaging - temp path to decompress file into before publishing to source
+ * compressedStaging {promise} temp path to download file into before publishing to cache
+ * url - compressed file url
+ * contentLength - compressed file size
+ * downloadedLength - compressed bytes downloaded
+ * hash - MD5 hash of compressed file
+ */
+class Info {
+  static async create(path) {
+    var source = await mkdir(Path.join(await Dirs.target, Path.basename(path, DotJson)));
+    var json = JSON.parse(await fsPromises.readFile(path, Encoding));
+    return new Info(path, source, json);
+  }
+
+  constructor(path, source, json) {
+    infos.push(this);
+
+    this.path = path;
+    this.source = source;
+    for (var name in json)
+      this[name] = json[name];
+  }
+  get name() { 
+    if (!this.url)
+      return;
+    return Url.parse(this.url).pathname;
+  }
+  async compressedStaging() { 
+    if (!this.name)
+      return;
+    var baseDir = await Dirs.compressedStaging;
+    return mkdir(Path.join(baseDir, this.name));
+  }
+  async decompressedStaging() { 
+    if (!this.name)
+      return;
+    var baseDir = await Dirs.decompressedStaging;
+    return mkdir(Path.join(baseDir, this.name));
+  }
+}
+
 function log() {
   console.log.apply(this, arguments);
 }
@@ -149,46 +195,35 @@ async function decompress(infoFile) {
 
 async function download(infoFile) {
   try {
-    var json = await fsPromises.readFile(infoFile, Encoding);
-    var info = {
-      source: infoFile,
-      target: Path.join(await Dirs.target, Path.basename(infoFile, DotJson)),
-      ...JSON.parse(json)
-    };
-    infos.push(info);
+    var info = await Info.create(infoFile);
 
     if (!info.hash) {
-      var url = Url.parse(info.url);
 
       // start streaming zip file
-      var stream = await get(info.url, info, 'contentLength');
+      var deflateIn = await get(info.url, info, 'contentLength');
 
       // make incoming data chunks observable
       var backPressure = [];
-      var observable = stream[ToObservable](stream, backPressure)
 
       // while streaming: save to disk, decompress, compute hash, report progress
       var subject = new Subject();
 
       // save compressed file
-      info.compressedStaging = Path.join(await Dirs.compressedStaging, url.pathname);
-      await mkdir(Path.dirname(info.compressedStaging));
-      var compressedStagingStream = fs.createWriteStream(info.compressedStaging)
-      subject[SubscribeIterator](write(compressedStagingStream, backPressure));
+      subject[Write](fs.createWriteStream(await info.compressedStaging()), backPressure);
 
       // decompressed file on the fly
-      info.decompressedStaging = Path.join(await Dirs.decompressedStaging, url.pathname);
-      await mkdir(Path.dirname(info.compressedStaging));
-      subject[SubscribeIterator](unzip(info.decompressedStaging, backPressure));
+      var inflate = subject[Unzip](await info.decompressedStaging(), backPressure);
 
-      // report bytes downloaded so far after every chunk
-      subject[SubscribeIterator](count(), info, 'downloadedLength');
+      subject[SubscribeProperties](info, {
+        // report bytes downloaded so far after every chunk
+        [Count]: 'downloadedLength',
 
-      // stream bytes into hasher to create the identifier for cached files
-      subject[SubscribeIterator](hash(), info, 'hash');
+        // stream bytes into hasher to create the identifier for cached files
+        [Hash]: 'hash',
+      });
 
       // observe incoming chunks
-      observable.subscribe(subject);
+      await deflateIn[Subscribe](subject, backPressure)
 
       try {
         // publish downloaded compressed file to cache
@@ -213,11 +248,20 @@ async function download(infoFile) {
   } 
 }
 
-var ToObservable = Symbol('@kingjs/Observable.stream-to-observable');
-Object.prototype[ToObservable] = async function(stream, backPressure) {
-  return new Observable(function(observer) {
+var Unzip = Symbol('@kingjs/stream.unzip');
+
+var Subscribe = Symbol('@kingjs/stream.subscribe');
+Object.prototype[Subscribe] = function(observer, backPressure) {
+  var stream = this;
+  if (!backPressure)
+    backPressure = EmptyArray;
+
+  return new Promise(function(resolve, reject) {
     stream
-      .on('error', () => observer.error)
+      .on('error', o => {
+        observer.error(o);
+        reject(o);
+      })
       .on('data', data => {
         observer.next(data);
         if (!backPressure.length) 
@@ -227,12 +271,36 @@ Object.prototype[ToObservable] = async function(stream, backPressure) {
         Promise.all(backPressure).then(() => stream.resume())
         backPressure.length = 0;
       })
-      .on('end', () => observer.complete());
-  })
+      .on('end', () => {
+        observer.complete();
+        resolve();
+      });
+  });
 }
 
-var ToObservable = Symbol('@kingjs/Observable.subscribe-iterator');
-Object.prototype[SubscribeIterator] = async function(iterator, observations, name) {
+var SubscribeProperties = Symbol('@kingjs/Observable.subscribe-properties');
+Object.prototype[SubscribeProperties] = function(target, descriptor) {
+  for (var name in descriptor)
+    this[name](target, name);
+}
+
+var Write = Symbol('@kingjs/Observable.write');
+Object.prototype[Write] = function(stream, backPressure) {
+  this[SubscribeIterator](write(), stream, backPressure);
+}
+
+var Hash = Symbol('@kingjs/Observable.hash');
+Object.prototype[Hash] = function(observations, name) {
+  this[SubscribeIterator](hash(), observations, name);
+}
+
+var Count = Symbol('@kingjs/Observable.count');
+Object.prototype[Count] = function(observations, name) {
+  this[SubscribeIterator](count(), observations, name);
+}
+
+var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
+Object.prototype[SubscribeIterator] = function(iterator, observations, name) {
   var next = iterator.next();
   return this.subscribe({
     next: observe,
@@ -251,8 +319,6 @@ Object.prototype[SubscribeIterator] = async function(iterator, observations, nam
 }
 
 function* unzip(dir, backPressure) {
-  var inflate = zlib.createInflate();
-
   var buffer;
 
   while (true) {
@@ -270,6 +336,10 @@ function* unzip(dir, backPressure) {
       fs.mkdirSync(Path.basename(path), MkdirRecursive);
       continue;
     } 
+
+    // make incoming data chunks observable
+    var backPressure = [];
+    var observable = inflate[subscribe](backPressure)
 
     var stream = fs.createWriteStream(path)
 
@@ -292,6 +362,7 @@ function* unzip(dir, backPressure) {
     while (!options.remainder)
       observer.next(buffer || (yield));
     observer.complete();
+
     buffer = options.remainder;
     var compressedSize = observations.compressedSize - buffer.length;
 
@@ -299,6 +370,44 @@ function* unzip(dir, backPressure) {
       buffer = yield* deserialize(buffer, header, DataDescriptor);
     assert(compressedSize == header.compressedSize);
   }
+}
+
+function inflate(observable, backPressure) {
+  return new Observable(function(observer) {
+    var inflate = zlib.createInflate();
+    inflate.on('end', function() {
+      observer.complete();
+      backPressure.push(
+        new Promise(function(resolve) {
+
+        })
+      )
+    });
+
+    observable.subscribe({
+      next(o) { 
+        inflate.on('data', function(chunk) {
+          observer.next(chunk);
+        })
+      },
+      complete() { 
+        backPressure.push(
+
+        );
+      },
+      error(o) { 
+        inflate.destroy();
+        observer.error(o);
+      }
+    })
+
+    function complete() {
+      observer.complete();
+      new Promise(function(resolve) {
+        inflate.on('close', resolve);
+      })
+    }
+  });
 }
 
 function* write(stream, backPressure) {
