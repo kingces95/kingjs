@@ -48,17 +48,6 @@ var DirNames = {
   get decompressed() { return Path.join(DirNames.cache, Decompressed); },
 }
 
-var Dirs = {
-  get target() { return mkdir(DirNames.target); },
-  get staging() { return mkdir(DirNames.staging); },
-  get compressedStaging() { return mkdir(DirNames.compressedStaging); },
-  get decompressedStaging() { return mkdir(DirNames.decompressedStaging); },
-
-  get cache() { return mkdir(DirNames.cache); },
-  get compressed() { return mkdir(DirNames.compressed); },
-  get decompressed() { return mkdir(DirNames.decompressed); },
-}
-
 var infos = [];
 
 /**
@@ -75,7 +64,7 @@ var infos = [];
  */
 class Info {
   static async create(path) {
-    var source = await mkdir(Path.join(await Dirs.target, Path.basename(path, DotJson)));
+    var source = Path.join(DirNames.target, Path.basename(path, DotJson))
     var json = JSON.parse(await fsPromises.readFile(path, Encoding));
     return new Info(path, source, json);
   }
@@ -93,17 +82,17 @@ class Info {
       return;
     return Url.parse(this.url).pathname;
   }
-  async compressedStaging() { 
+  get compressedStaging() { 
     if (!this.name)
       return;
-    var baseDir = await Dirs.compressedStaging;
-    return mkdir(Path.join(baseDir, this.name));
+    var baseDir = DirNames.compressedStaging;
+    return Path.join(baseDir, this.name);
   }
-  async decompressedStaging() { 
+  get decompressedStaging() { 
     if (!this.name)
       return;
-    var baseDir = await Dirs.decompressedStaging;
-    return mkdir(Path.join(baseDir, this.name));
+    var baseDir = DirNames.decompressedStaging;
+    return Path.join(baseDir, this.name);
   }
 }
 
@@ -209,10 +198,12 @@ async function download(infoFile) {
       var subject = new Subject();
 
       // save compressed file
-      subject[Write](fs.createWriteStream(await info.compressedStaging()), backPressure);
+      await mkdir(Path.basename(info.compressedStaging));
+      var stream = fs.createWriteStream(info.compressedStaging);
+      subject[Write](stream, backPressure);
 
       // decompressed file on the fly
-      var inflate = subject[Unzip](await info.decompressedStaging(), backPressure);
+      var inflate = subject[Unzip](info.decompressedStaging, backPressure);
 
       subject[SubscribeProperties](info, {
         // report bytes downloaded so far after every chunk
@@ -228,7 +219,7 @@ async function download(infoFile) {
       try {
         // publish downloaded compressed file to cache
         info.ext = Path.extname(url.pathname);
-        info.compressed = Path.join(await Dirs.compressed, info.hash + info.ext);
+        info.compressed = Path.join(DirsName.compressed, info.hash + info.ext);
         await fsPromises.rename(info.download, info.compressed);
       } catch(e) { 
         log(infoFile, e); /* ignore races to publish compressed files */ 
@@ -247,8 +238,6 @@ async function download(infoFile) {
     observer.error(e);
   } 
 }
-
-var Unzip = Symbol('@kingjs/stream.unzip');
 
 var Subscribe = Symbol('@kingjs/stream.subscribe');
 Object.prototype[Subscribe] = function(observer, backPressure) {
@@ -284,9 +273,14 @@ Object.prototype[SubscribeProperties] = function(target, descriptor) {
     this[name](target, name);
 }
 
+var Unzip = Symbol('@kingjs/stream.unzip');
+Object.prototype[Unzip] = function(dir, backPressure) {
+  this[SubscribeIterator](unzip(dir, backPressure));
+}
+
 var Write = Symbol('@kingjs/Observable.write');
 Object.prototype[Write] = function(stream, backPressure) {
-  this[SubscribeIterator](write(), stream, backPressure);
+  this[SubscribeIterator](write(stream, backPressure));
 }
 
 var Hash = Symbol('@kingjs/Observable.hash');
@@ -301,10 +295,12 @@ Object.prototype[Count] = function(observations, name) {
 
 var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
 Object.prototype[SubscribeIterator] = function(iterator, observations, name) {
+  // pump data into iterator and publish results to observations[name]
+  
   var next = iterator.next();
   return this.subscribe({
     next: observe,
-    complete: observe(null)
+    complete: () => observe(null)
   })
 
   function observe(o) {
