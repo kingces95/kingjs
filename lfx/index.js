@@ -197,25 +197,22 @@ async function download(infoFile) {
       // while streaming: save to disk, decompress, compute hash, report progress
       var subject = new Subject();
 
-      // save compressed file
       await mkdir(Path.dirname(info.compressedStaging));
       var stream = fs.createWriteStream(info.compressedStaging);
-      subject[Write](stream, backPressure);
-
-      // decompressed file on the fly
-      var inflate = subject[Unzip](
-        info.decompressedStaging, 
-        backPressure,
-        info,
-        "unzip"
-      );
 
       subject[SubscribeProperties](info, {
+
+        // save compressed file
+        compressedWritten: write(stream, backPressure),
+
+        // decompressed file on the fly
+        unzip: unzip(info.decompressedStaging, backPressure),
+
         // report bytes downloaded so far after every chunk
-        downloadedLength: Count,
+        downloadedLength: count(),
 
         // stream bytes into hasher to create the identifier for cached files
-        hash: Hash,
+        hash: hash(),
       });
 
       // observe incoming chunks
@@ -273,29 +270,9 @@ Object.prototype[Subscribe] = function(observer, backPressure) {
 }
 
 var SubscribeProperties = Symbol('@kingjs/Observable.subscribe-properties');
-Object.prototype[SubscribeProperties] = function(target, descriptor) {
+Object.prototype[SubscribeProperties] = function(observations, descriptor) {
   for (var name in descriptor)
-    this[descriptor[name]](target, name);
-}
-
-var Unzip = Symbol('@kingjs/stream.unzip');
-Object.prototype[Unzip] = function(dir, backPressure, observations, name) {
-  this[SubscribeIterator](unzip(dir, backPressure), observations, name);
-}
-
-var Write = Symbol('@kingjs/Observable.write');
-Object.prototype[Write] = function(stream, backPressure) {
-  this[SubscribeIterator](write(stream, backPressure));
-}
-
-var Hash = Symbol('@kingjs/Observable.hash');
-Object.prototype[Hash] = function(observations, name) {
-  this[SubscribeIterator](hash(), observations, name);
-}
-
-var Count = Symbol('@kingjs/Observable.count');
-Object.prototype[Count] = function(observations, name) {
-  this[SubscribeIterator](count(), observations, name);
+    this[SubscribeIterator](descriptor[name], observations, name);
 }
 
 var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
@@ -383,44 +360,6 @@ function* unzip(dir, backPressure) {
   }
 }
 
-function inflate(observable, backPressure) {
-  return new Observable(function(observer) {
-    var inflate = zlib.createInflate();
-    inflate.on('end', function() {
-      observer.complete();
-      backPressure.push(
-        new Promise(function(resolve) {
-
-        })
-      )
-    });
-
-    observable.subscribe({
-      next(o) { 
-        inflate.on('data', function(chunk) {
-          observer.next(chunk);
-        })
-      },
-      complete() { 
-        backPressure.push(
-
-        );
-      },
-      error(o) { 
-        inflate.destroy();
-        observer.error(o);
-      }
-    })
-
-    function complete() {
-      observer.complete();
-      new Promise(function(resolve) {
-        inflate.on('close', resolve);
-      })
-    }
-  });
-}
-
 function* write(stream, backPressure) {
   var buffer;
 
@@ -491,38 +430,6 @@ function get(url, target, name) {
       resolve(response);
 
     }).on('error', () => reject(`error on connect: ${url}`));
-  })
-}
-
-function take(observable, length) {
-  return new Observable(observer => {
-    observable[SubscribeIterator](
-      function* () {
-        var remaining = length;
-
-        while (remaining) {
-          var buffer = yield;
-
-          if (!buffer) {
-            buffer = EmptyBuffer;
-            remaining = 0;
-          }
-
-          if (buffer.length >= remaining) {
-            if (remaining) {
-              buffer = buffer.slice(remaining);
-              observer.push(buffer);
-            }
-
-            observer.complete();
-            return;
-          }
-
-          remaining -= buffer.length;
-          observer.next(buffer);
-        }
-      }
-    )
   })
 }
 
