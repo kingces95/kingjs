@@ -49,6 +49,7 @@ var DirNames = {
   get decompressed() { return Path.join(DirNames.cache, Decompressed); },
 }
 
+var nop = () => { };
 var log = console.log.bind(console);
 
 var infos = [];
@@ -249,6 +250,7 @@ function* unzip(dir, backPressure) {
     buffer = yield* deserialize(buffer, header, LocalFileHeader);
 
     var path = Path.join(dir, header.fileName);
+    log(path);
     var isCompressed = header.compression != 'noCompression';
     var isDirectory = !isCompressed && !header.uncompressedSize;
     var hasDataDescriptor = header.hasDataDescriptor;
@@ -265,7 +267,6 @@ function* unzip(dir, backPressure) {
     var numberRead = 0;
     var observations = { };
     var inflateStream = zlib.createInflateRaw();
-    var window = [];
 
     start(async () => {
       try {
@@ -280,8 +281,6 @@ function* unzip(dir, backPressure) {
 
           // report bytes decompressed so far after every chunk
           decompressedCount: count(),
-
-          window: inflateWindow(inflateStream)
         });
 
         // start streaming zip file & observe incoming chunks
@@ -291,17 +290,24 @@ function* unzip(dir, backPressure) {
       finally { complete = true; }
     });
 
+    var subject = new Subject();
+    subject[SubscribeProperties](observations, {
+      inflateStream: write2(inflateStream, backPressure),
+      buffer: inflateWindow(inflateStream)
+    });
+
     do {
-      window.push(buffer);
-      if (!inflateStream.write(buffer))
-        backPressure.push(drain(inflateStream))
-    } while (!complete && (buffer = yield observations))
+      subject.next(buffer);
+    } while (!complete && (buffer = yield observations));
 
     // propagate error
-    if (error)
+    if (error) {
+      subject.error();
       throw error;
+    }
 
-    buffer = Buffer.concat(observations.window);
+    subject.complete();
+    buffer = observations.buffer;
 
     if (hasDataDescriptor)
       buffer = yield* deserialize(buffer, header, DataDescriptor);
@@ -309,11 +315,22 @@ function* unzip(dir, backPressure) {
   }
 }
 
+function* write2(stream, backPressure) {
+  var buffer;
+
+  while (buffer = yield) {
+    if (!stream.write(buffer)) 
+      backPressure.push(drain2(stream));
+  }
+
+  backPressure.push(end(stream, buffer));
+}
+
 function* write(stream, backPressure) {
   var buffer;
 
   while (buffer = yield) {
-    if (!stream.write(buffer))
+    if (!stream.write(buffer)) 
       backPressure.push(drain(stream));
   }
 
@@ -321,29 +338,39 @@ function* write(stream, backPressure) {
 }
 
 function* inflateWindow(stream) {
-  var window = [];
+  var buffers = [];
   var totalBytesFlushed = 0;
   var bytesWritten = 0;
 
   var buffer;
-  while (buffer = yield window) {
-    window.push(buffer);
+  while (buffer = yield) {
+    buffers.push(buffer);
     bytesWritten += buffer.length;
     assert(bytesWritten >= stream.bytesWritten);
-
+ 
     var bytesToFlush = stream.bytesWritten - totalBytesFlushed;
-    while (bytesToFlush && window[0].length < bytesToFlush) {
-      var bytesFlushed = window.shift(0).length;
+    while (bytesToFlush) {
+      
+      var bytesFlushed;
+      if (buffers[0].length <= bytesToFlush) {
+        bytesFlushed = buffers.shift(0).length;
+      }
+      else {
+        buffers[0] = buffers[0].slice(bytesToFlush);
+        bytesFlushed = bytesToFlush;
+      }
 
       bytesToFlush -= bytesFlushed;
-      assert(bytesToFlush > 0);
+      assert(bytesToFlush >= 0);
 
       totalBytesFlushed += bytesFlushed;
       assert(totalBytesFlushed <= stream.bytesWritten);
     }
   }
 
-  return window;
+  var tos = buffers[0];
+  assert(stream.bytesWritten == totalBytesFlushed);
+  return Buffer.concat(buffers);
 }
 
 function* count() {
@@ -372,6 +399,38 @@ function end(stream, buffer) {
       .on('error', reject)
       .end(buffer, resolve);
   });
+}
+
+var i = 0;
+function drain2(stream) {
+  var id = i++;
+  return new Promise(function(resolve, reject) {
+    var end = () => handler('end');
+    var finish = () => handler('finish');
+    var drain = () => handler('drain');
+    var close = () => handler('close');
+
+    var handler = (e) => {
+      stream.off('error', reject)
+
+      stream.off('end', end)
+      stream.off('finish', finish)
+      stream.off('drain', drain)
+      stream.off('close', close)
+
+      if (e != 'drain')
+        log('>>>>>>>>>>>', e, id);
+
+      resolve();
+    };
+
+    stream
+      .on('error', reject)
+      .on('end', end)
+      .on('finish', finish)
+      .on('drain', drain)
+      .on('close', close)
+  })
 }
 
 function drain(stream) {
@@ -408,6 +467,7 @@ function get(url, target, name) {
   })
 }
 
+var i = 0;
 var Subscribe = Symbol('@kingjs/stream.subscribe');
 Object.prototype[Subscribe] = function(observer, backPressure) {
   var stream = this;
