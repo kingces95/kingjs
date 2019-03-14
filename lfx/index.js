@@ -11,6 +11,7 @@ var deserialize = require('./deserialize');
 var LocalFileHeader = require('./zip/local-file-header');
 var DataDescriptor = require('./zip/data-descriptor');
 var crc = require('./crc');
+var start = require('./start');
 
 /// debug
 process.chdir('.test/.lfx');
@@ -47,6 +48,8 @@ var DirNames = {
   get compressed() { return Path.join(DirNames.cache, Compressed); },
   get decompressed() { return Path.join(DirNames.cache, Decompressed); },
 }
+
+var log = console.log.bind(console);
 
 var infos = [];
 
@@ -144,6 +147,9 @@ function start(task) {
     });
   }
 
+  if (task instanceof Function)
+    return start(task());
+
   assert.fail();
 }
 
@@ -187,23 +193,16 @@ async function download(infoFile) {
     var info = await Info.create(infoFile);
 
     if (!info.hash) {
-
-      // start streaming zip file
-      var deflateIn = await get(info.url, info, 'contentLength');
-
-      // make incoming data chunks observable
-      var backPressure = [];
+      await mkdir(Path.dirname(info.compressedStaging));
+      var compressedStream = fs.createWriteStream(info.compressedStaging);
 
       // while streaming: save to disk, decompress, compute hash, report progress
+      var backPressure = [];
       var subject = new Subject();
-
-      await mkdir(Path.dirname(info.compressedStaging));
-      var stream = fs.createWriteStream(info.compressedStaging);
-
       subject[SubscribeProperties](info, {
 
         // save compressed file
-        compressedWritten: write(stream, backPressure),
+        compressedWritten: write(compressedStream, backPressure),
 
         // decompressed file on the fly
         unzip: unzip(info.decompressedStaging, backPressure),
@@ -215,8 +214,9 @@ async function download(infoFile) {
         hash: hash(),
       });
 
-      // observe incoming chunks
-      await deflateIn[Subscribe](subject, backPressure)
+      // start streaming zip file & observe incoming chunks
+      var downloadStream = await get(info.url, info, 'contentLength');
+      await downloadStream[Subscribe](subject, backPressure)
 
       try {
         // publish downloaded compressed file to cache
@@ -239,6 +239,173 @@ async function download(infoFile) {
       info.error = e;
     observer.error(e);
   } 
+}
+
+function* unzip(dir, backPressure) {
+  var buffer;
+
+  while (true) {
+    var header = { };
+    buffer = yield* deserialize(buffer, header, LocalFileHeader);
+
+    var path = Path.join(dir, header.fileName);
+    var isCompressed = header.compression != 'noCompression';
+    var isDirectory = !isCompressed && !header.uncompressedSize;
+    var hasDataDescriptor = header.hasDataDescriptor;
+
+    if (isDirectory) {
+      assert(!hasDataDescriptor);
+      continue;
+    }
+
+    assert(isCompressed);
+
+    var error;
+    var complete = false;
+    var numberRead = 0;
+    var observations = { };
+    var inflateStream = zlib.createInflateRaw();
+    var window = [];
+
+    start(async () => {
+      try {
+        await mkdir(Path.dirname(path));
+        var decompressedStream = fs.createWriteStream(path);
+
+        var subject = new Subject();
+        subject[SubscribeProperties](observations, {
+
+          // save compressed file
+          decompressedWritten: write(decompressedStream, backPressure),
+
+          // report bytes decompressed so far after every chunk
+          decompressedCount: count(),
+
+          window: inflateWindow(inflateStream)
+        });
+
+        // start streaming zip file & observe incoming chunks
+        await inflateStream[Subscribe](subject, backPressure);
+      } 
+      catch(e) { error = e }
+      finally { complete = true; }
+    });
+
+    do {
+      window.push(buffer);
+      if (!inflateStream.write(buffer))
+        backPressure.push(drain(inflateStream))
+    } while (!complete && (buffer = yield observations))
+
+    // propagate error
+    if (error)
+      throw error;
+
+    buffer = Buffer.concat(observations.window);
+
+    if (hasDataDescriptor)
+      buffer = yield* deserialize(buffer, header, DataDescriptor);
+    assert(inflateStream.bytesWritten == header.compressedSize);
+  }
+}
+
+function* write(stream, backPressure) {
+  var buffer;
+
+  while (buffer = yield) {
+    if (!stream.write(buffer))
+      backPressure.push(drain(stream));
+  }
+
+  backPressure.push(end(stream, buffer));
+}
+
+function* inflateWindow(stream) {
+  var window = [];
+  var totalBytesFlushed = 0;
+  var bytesWritten = 0;
+
+  var buffer;
+  while (buffer = yield window) {
+    window.push(buffer);
+    bytesWritten += buffer.length;
+    assert(bytesWritten >= stream.bytesWritten);
+
+    var bytesToFlush = stream.bytesWritten - totalBytesFlushed;
+    while (bytesToFlush && window[0].length < bytesToFlush) {
+      var bytesFlushed = window.shift(0).length;
+
+      bytesToFlush -= bytesFlushed;
+      assert(bytesToFlush > 0);
+
+      totalBytesFlushed += bytesFlushed;
+      assert(totalBytesFlushed <= stream.bytesWritten);
+    }
+  }
+
+  return window;
+}
+
+function* count() {
+  var result = 0;
+
+  var buffer;
+  while (buffer = yield result)
+    result += buffer.length;
+
+  return result;
+}
+
+function* hash() {
+  var hash = crypto.createHash(Sha256);
+
+  while (buffer = yield)
+    hash.update(buffer);
+  hash.end();
+
+  return hash.digest(Hex);
+}
+
+function end(stream, buffer) {
+  return new Promise(function(resolve, reject) {
+    stream
+      .on('error', reject)
+      .end(buffer, resolve);
+  });
+}
+
+function drain(stream) {
+  return new Promise(function(resolve, reject) {
+    stream
+      .on('error', reject)
+      .once('drain', () => {
+        stream.off('error', reject)
+        resolve();
+      }
+    );
+  })
+}
+
+function get(url, target, name) {
+  return new Promise(function(resolve, reject) {
+    http.get(url, response => {
+
+      // report error
+      let error;
+      if (response.statusCode !== HttpOkStatus) {
+        response.resume();
+        return error(`Server error ${statusCode}: ${url}`);
+      }
+
+      // report length
+      var contentLength = response.headers['content-length'];
+      if (contentLength)
+        target[name] = Number(contentLength);
+
+      resolve(response);
+
+    }).on('error', () => reject(`error on connect: ${url}`));
+  })
 }
 
 var Subscribe = Symbol('@kingjs/stream.subscribe');
@@ -279,161 +446,29 @@ var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
 Object.prototype[SubscribeIterator] = function(iterator, observations, name) {
   // pump data into iterator and publish results to observations[name]
   
-  var next = iterator.next();
+  var next;
+
   return this.subscribe({
     next: o => observe(o),
     complete: () => observe(null)
   })
 
   function observe(o) {
-    if (next.done)
-      return;
-    next = iterator.next(o);
+    try {
+      if (!next)
+        next = iterator.next();
 
-    if (observations)
-      observations[name] = next.value;
+      if (next.done)
+        return;
+
+      next = iterator.next(o);
+
+      if (observations)
+        observations[name] = next.value;
+    } 
+    catch(e) { log(e) }
   }
 }
-
-function* unzip(dir, backPressure) {
-  var buffer;
-
-  while (true) {
-    var header = { };
-    buffer = yield* deserialize(buffer, header, LocalFileHeader);
-
-    var path = Path.join(dir, header.fileName);
-    var isCompressed = header.compression != 'noCompression';
-    var isDirectory = !isCompressed && !header.uncompressedSize;
-    var hasDataDescriptor = header.hasDataDescriptor;
-
-    if (isDirectory) {
-      assert(!hasDataDescriptor);
-      continue;
-    }
-
-    assert(isCompressed);
-
-    // var inflate = zlib.createInflate();
-    // inflate.write(buffer);
-
-    var inflate = zlib.createInflateRaw();
-    //   .on('data', function(chunk) {
-    //     console.log(inflate.bytesWritten);
-    //     buffers.push(chunk);
-    //     numberRead += chunk.length;
-    //   })
-
-    var observations = { };
-
-    var done = false;
-    start((async () => {
-      var subject = new Subject();
-
-      var observable = subject;
-      var observer = subject;
-
-      await mkdir(Path.dirname(path));
-      observable[SubscribeIterator](write(fs.createWriteStream(path), backPressure));
-      observable[SubscribeIterator](count(), observations, 'inflatedLength');
-    
-      // make incoming data chunks observable
-      await inflate[Subscribe](observer, backPressure);
-      done = true;
-    })());
-
-    if (buffer)
-      inflate.write(buffer);
-
-    while (!done && (buffer = yield observations)) {
-      if (!inflate.write(buffer))
-        backPressure.push(drain(inflate))
-    }
-
-    return;
-    // buffer = options.remainder;
-    // var compressedSize = observations.compressedSize - buffer.length;
-
-    // if (hasDataDescriptor)
-    //   buffer = yield* deserialize(buffer, header, DataDescriptor);
-    // assert(compressedSize == header.compressedSize);
-  }
-}
-
-function* write(stream, backPressure) {
-  var buffer;
-
-  while (buffer = yield) {
-    if (!stream.write(buffer))
-      backPressure.push(drain(stream));
-  }
-
-  backPressure.push(end(stream, buffer));
-}
-
-function* count() {
-  var result = 0;
-
-  var buffer;
-  while (buffer = yield result)
-    result += buffer.length;
-
-  return result;
-}
-
-function* hash() {
-  var hash = crypto.createHash(Sha256);
-
-  while (buffer = yield)
-    hash.update(buffer);
-  hash.end();
-
-  return hash.digest(Hex);
-}
-
-function end(stream, buffer) {
-  return new Promise(function(resolve, reject) {
-    stream
-      .on('error', reject)
-      .end(buffer, resolve);
-  });
-}
-
-function drain(stream) {
-  return new Promise(function(resolve, reject) {
-    stream
-      .on('error', reject)
-      .write(EmptyBuffer, o => {
-        stream.off('error', reject)
-        resolve();
-      }
-    );
-  })
-}
-
-function get(url, target, name) {
-  return new Promise(function(resolve, reject) {
-    http.get(url, response => {
-
-      // report error
-      let error;
-      if (response.statusCode !== HttpOkStatus) {
-        response.resume();
-        return error(`Server error ${statusCode}: ${url}`);
-      }
-
-      // report length
-      var contentLength = response.headers['content-length'];
-      if (contentLength)
-        target[name] = Number(contentLength);
-
-      resolve(response);
-
-    }).on('error', () => reject(`error on connect: ${url}`));
-  })
-}
-
-var log = console.log.bind(console);
 
 module.exports = execute;
 

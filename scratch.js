@@ -39,7 +39,10 @@ zlib.deflateRaw(input, (err, deflatedBuffer) => {
   log('download: delayed')
   setTimeout(() => {
     log('download: resumed')
-    log(stream.write(Buffer.from([1,2,3,4,5,6]))); // rejected
+    try {
+      log(stream.write(Buffer.from([1,2,3,4,5,6]))); // rejected
+    } catch(e) { log(e); }
+    
     log('download: finished')
     stream.end();
   }, 1000);

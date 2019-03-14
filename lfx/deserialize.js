@@ -5,6 +5,7 @@ var {
 var Pairs = require('./pairs.js');
 
 var EmptyArray = [ ];
+var EmptyBuffer = Buffer.alloc(0);
 
 function* deserialize(buffer, target, descriptors) {
   var offset = 0;
@@ -19,7 +20,7 @@ function* deserialize(buffer, target, descriptors) {
     if (next.done) {
       if (buffer.length != offset)
         return buffer.slice(offset);
-      return;
+      return EmptyBuffer;
     }
 
     // update info
