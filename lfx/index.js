@@ -250,7 +250,7 @@ function* unzip(dir, backPressure) {
     buffer = yield* deserialize(buffer, header, LocalFileHeader);
 
     var path = Path.join(dir, header.fileName);
-    log(path);
+    log('inflating', path);
     var isCompressed = header.compression != 'noCompression';
     var isDirectory = !isCompressed && !header.uncompressedSize;
     var hasDataDescriptor = header.hasDataDescriptor;
@@ -263,7 +263,6 @@ function* unzip(dir, backPressure) {
     assert(isCompressed);
 
     var error;
-    var complete = false;
     var numberRead = 0;
     var observations = { };
     var inflateStream = zlib.createInflateRaw();
@@ -281,13 +280,14 @@ function* unzip(dir, backPressure) {
 
           // report bytes decompressed so far after every chunk
           decompressedCount: count(),
+
+          complete: completed(),
         });
 
         // start streaming zip file & observe incoming chunks
-        await inflateStream[Subscribe](subject, backPressure);
+        await inflateStream[Subscribe2](subject, backPressure);
       } 
       catch(e) { error = e }
-      finally { complete = true; }
     });
 
     var subject = new Subject();
@@ -296,9 +296,17 @@ function* unzip(dir, backPressure) {
       buffer: inflateWindow(inflateStream)
     });
 
-    do {
-      subject.next(buffer);
-    } while (!complete && (buffer = yield observations));
+    while(true) {
+      if (buffer)
+        subject.next(buffer);
+        
+      if (!buffer || observations.complete) {
+        subject.complete();
+        break;
+      }
+
+      buffer = yield observations;
+    }
 
     // propagate error
     if (error) {
@@ -306,8 +314,8 @@ function* unzip(dir, backPressure) {
       throw error;
     }
 
-    subject.complete();
     buffer = observations.buffer;
+    log('inflated', path);
 
     if (hasDataDescriptor)
       buffer = yield* deserialize(buffer, header, DataDescriptor);
@@ -323,7 +331,7 @@ function* write2(stream, backPressure) {
       backPressure.push(drain2(stream));
   }
 
-  backPressure.push(end(stream, buffer));
+  stream.end();
 }
 
 function* write(stream, backPressure) {
@@ -334,7 +342,7 @@ function* write(stream, backPressure) {
       backPressure.push(drain(stream));
   }
 
-  backPressure.push(end(stream, buffer));
+  stream.end();
 }
 
 function* inflateWindow(stream) {
@@ -373,6 +381,14 @@ function* inflateWindow(stream) {
   return Buffer.concat(buffers);
 }
 
+function* completed() {
+  while (yield false)
+    ;
+
+  log('observed completed')
+  return true;
+}
+
 function* count() {
   var result = 0;
 
@@ -404,6 +420,12 @@ function end(stream, buffer) {
 var i = 0;
 function drain2(stream) {
   var id = i++;
+  log('draining:', id)
+  var resolved = false;
+  setTimeout(() => {
+    if (!resolved)
+      log(id);
+  }, 2000)
   return new Promise(function(resolve, reject) {
     var end = () => handler('end');
     var finish = () => handler('finish');
@@ -418,9 +440,9 @@ function drain2(stream) {
       stream.off('drain', drain)
       stream.off('close', close)
 
-      if (e != 'drain')
-        log('>>>>>>>>>>>', e, id);
+      log('drained:', e, id);
 
+      resolved = true;
       resolve();
     };
 
@@ -467,7 +489,36 @@ function get(url, target, name) {
   })
 }
 
-var i = 0;
+var Subscribe2 = Symbol('@kingjs/stream.subscribe');
+Object.prototype[Subscribe2] = function(observer, backPressure) {
+  var stream = this;
+  if (!backPressure)
+    backPressure = EmptyArray;
+
+  return new Promise(function(resolve, reject) {
+    stream
+      .on('error', o => {
+        observer.error(o);
+        reject(o);
+      })
+      .on('data', data => {
+        observer.next(data);
+        if (!backPressure.length) 
+          return;
+          
+        stream.pause();
+        Promise.all(backPressure).then(() => stream.resume())
+        backPressure.length = 0;
+      })
+      .on('end', () => {
+        observer.complete();
+        log('inflate end (eof)');
+        //stream.destroy();
+        resolve();
+      });
+  });
+}
+
 var Subscribe = Symbol('@kingjs/stream.subscribe');
 Object.prototype[Subscribe] = function(observer, backPressure) {
   var stream = this;

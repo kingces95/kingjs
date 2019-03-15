@@ -4,6 +4,7 @@ var assert = require('assert');
 const input = Buffer.from('0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789');
 
 var log = console.log.bind(console);
+var stream = zlib.createInflateRaw();
 
 zlib.deflateRaw(input, (err, deflatedBuffer) => {
   assert(!err);
@@ -22,7 +23,7 @@ zlib.deflateRaw(input, (err, deflatedBuffer) => {
 
   stream.on('end', function done() {
     var result = Buffer.concat(buffers, bytesRead);
-    this.close();
+    //this.close();
     log('result:', result.toString());
     log('chunks:', buffers.length);
     log('bytesWritten:', stream.bytesWritten);
@@ -44,7 +45,7 @@ zlib.deflateRaw(input, (err, deflatedBuffer) => {
     } catch(e) { log(e); }
     
     log('download: finished')
-    stream.end();
+    //tream.end();
   }, 1000);
 });
 
