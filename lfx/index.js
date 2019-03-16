@@ -410,7 +410,6 @@ function* hash() {
 
   while (buffer = yield)
     hash.update(buffer);
-  hash.end();
 
   return hash.digest(Hex);
 }
@@ -520,13 +519,6 @@ Object.prototype[Subscribe] = function(observer, backPressure) {
             stream.resume();
           })
         }
-
-        // if (!backPressure.length) 
-        //   return;
-          
-        // stream.pause();
-        // Promise.all(backPressure).then(() => stream.resume())
-        // backPressure.length = 0;
       })
       .on('end', () => {
         observer.complete();
