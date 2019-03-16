@@ -115,7 +115,7 @@ async function logger() {
       if ('downloadedLength' in info) {
         if ('contentLength' in info) {
           var percent = info.downloadedLength / info.contentLength;
-          log(`${Math.round(percent * 100)}% ${info.url}`, info.unzip)
+          log(`${Math.round(percent * 100)}% ${info.url}`, 'inflated:', info.unzip)
         }
         else {
           var megs = info.downloadedLength / OneMeg;
@@ -194,22 +194,18 @@ async function download(infoFile) {
     var info = await Info.create(infoFile);
 
     if (!info.hash) {
-      await mkdir(Path.dirname(info.compressedStaging));
-      var compressedStream = fs.createWriteStream(info.compressedStaging);
+      var backPressure = [];
+      info.backPressure = backPressure;
 
       // while streaming: save to disk, decompress, compute hash, report progress
-      var backPressure = [];
       var subject = new Subject();
       subject[SubscribeProperties](info, {
 
         // save compressed file
-        compressedWritten: write(compressedStream, backPressure),
+        downloadedLength: write(info.compressedStaging, backPressure),
 
         // decompressed file on the fly
         unzip: unzip(info.decompressedStaging, backPressure),
-
-        // report bytes downloaded so far after every chunk
-        downloadedLength: count(),
 
         // stream bytes into hasher to create the identifier for cached files
         hash: hash(),
@@ -244,69 +240,51 @@ async function download(infoFile) {
 
 function* unzip(dir, backPressure) {
   var buffer;
+  var observations = { };
 
   while (true) {
     var header = { };
     buffer = yield* deserialize(buffer, header, LocalFileHeader);
 
     var path = Path.join(dir, header.fileName);
-    log('inflating', path);
+    //log('inflating', path);
     var isCompressed = header.compression != 'noCompression';
     var isDirectory = !isCompressed && !header.uncompressedSize;
     var hasDataDescriptor = header.hasDataDescriptor;
 
+    // skip empty directories
     if (isDirectory) {
       assert(!hasDataDescriptor);
       continue;
     }
 
-    assert(isCompressed);
+    // uncompressed file
+    assert(isCompressed || !hasDataDescriptor);
+    if (!isCompressed) {
+      buffer = yield* writeCount(
+        path, buffer, header.compressedSize, observations, backPressure
+      );
+      continue;
+    }
 
+    // compressed file
     var error;
     var numberRead = 0;
-    var observations = { };
-    var inflateStream = zlib.createInflateRaw();
-
+    var stream = zlib.createInflateRaw();
     start(async () => {
       try {
-        await mkdir(Path.dirname(path));
-        var decompressedStream = fs.createWriteStream(path);
-
+        // drain deflated stream into file on disk
         var subject = new Subject();
         subject[SubscribeProperties](observations, {
-
-          // save compressed file
-          decompressedWritten: write(decompressedStream, backPressure),
-
-          // report bytes decompressed so far after every chunk
-          decompressedCount: count(),
-
-          complete: completed(),
-        });
-
-        // start streaming zip file & observe incoming chunks
-        await inflateStream[Subscribe2](subject, backPressure);
+          [path]: write(path, backPressure)
+        })
+        await stream[Subscribe](subject, backPressure)
       } 
       catch(e) { error = e }
     });
 
-    var subject = new Subject();
-    subject[SubscribeProperties](observations, {
-      inflateStream: write2(inflateStream, backPressure),
-      buffer: inflateWindow(inflateStream)
-    });
-
-    while(true) {
-      if (buffer)
-        subject.next(buffer);
-        
-      if (!buffer || observations.complete) {
-        subject.complete();
-        break;
-      }
-
-      buffer = yield observations;
-    }
+    // pump inflated bytes into stream and return remainder
+    buffer = yield* inflate(stream, buffer, observations, backPressure);
 
     // propagate error
     if (error) {
@@ -314,48 +292,29 @@ function* unzip(dir, backPressure) {
       throw error;
     }
 
-    buffer = observations.buffer;
-    log('inflated', path);
-
     if (hasDataDescriptor)
       buffer = yield* deserialize(buffer, header, DataDescriptor);
-    assert(inflateStream.bytesWritten == header.compressedSize);
+    assert(stream.bytesWritten == header.compressedSize);
   }
 }
 
-function* write2(stream, backPressure) {
-  var buffer;
-
-  while (buffer = yield) {
-    if (!stream.write(buffer)) 
-      backPressure.push(drain2(stream));
-  }
-
-  stream.end();
-}
-
-function* write(stream, backPressure) {
-  var buffer;
-
-  while (buffer = yield) {
-    if (!stream.write(buffer)) 
-      backPressure.push(drain(stream));
-  }
-
-  stream.end();
-}
-
-function* inflateWindow(stream) {
+function* inflate(stream, buffer, observations, backPressure) {
   var buffers = [];
   var totalBytesFlushed = 0;
   var bytesWritten = 0;
+  var completed = false;
 
-  var buffer;
-  while (buffer = yield) {
+  var ended = stream[Ended]();
+
+  while (true) {
+
+    if (!completed && !stream.write(buffer)) 
+      backPressure.push(Promise.race([ended, stream[Drained]()]));
+
     buffers.push(buffer);
     bytesWritten += buffer.length;
     assert(bytesWritten >= stream.bytesWritten);
- 
+
     var bytesToFlush = stream.bytesWritten - totalBytesFlushed;
     while (bytesToFlush) {
       
@@ -374,29 +333,76 @@ function* inflateWindow(stream) {
       totalBytesFlushed += bytesFlushed;
       assert(totalBytesFlushed <= stream.bytesWritten);
     }
+    assert(stream.bytesWritten == totalBytesFlushed);
+
+    if (ended.resolved)
+      break;
+
+    buffer = yield observations;
+    if (!buffer)
+      break;
   }
 
-  var tos = buffers[0];
   assert(stream.bytesWritten == totalBytesFlushed);
   return Buffer.concat(buffers);
 }
 
-function* completed() {
-  while (yield false)
-    ;
-
-  log('observed completed')
-  return true;
-}
-
-function* count() {
-  var result = 0;
+function* writeCount(streamOrPath, buffer, count, observations,  backPressure) {
+  
+  var stream = streamOrPath;
+  if (is.string(streamOrPath)) {
+    backPressure.push(mkdir(Path.dirname(streamOrPath)));
+    yield observations;
+    stream = fs.createWriteStream(streamOrPath);
+  }
 
   var buffer;
-  while (buffer = yield result)
-    result += buffer.length;
+  while (true) {
 
-  return result;
+    if (count == 0)
+      break;
+
+    if (count <= buffer.length) {
+      stream.write(buffer.slice(0, count));
+      buffer = buffer.slice(count);
+      count = 0;
+      continue;
+    }
+
+    if (!stream.write(buffer)) 
+      backPressure.push(stream[Drained]());
+    count -= buffer;
+
+    buffer = yield observations;
+  }
+
+  stream.end();
+  return buffer;
+}
+
+function* write(streamOrPath, backPressure) {
+  var bytesWritten = 0;
+
+  var stream;
+  var buffer;
+  while (buffer = yield bytesWritten) {
+
+    if (!stream) {
+      stream = streamOrPath;
+      if (is.string(streamOrPath)) {
+        backPressure.push(mkdir(Path.dirname(streamOrPath)));
+        yield bytesWritten;
+        stream = fs.createWriteStream(streamOrPath);
+      }
+    }
+
+    if (!stream.write(buffer)) 
+      backPressure.push(stream[Drained]());
+    bytesWritten += buffer.length;
+  }
+
+  stream.end();
+  return bytesWritten;
 }
 
 function* hash() {
@@ -417,55 +423,6 @@ function end(stream, buffer) {
   });
 }
 
-var i = 0;
-function drain2(stream) {
-  var id = i++;
-  log('draining:', id)
-  var resolved = false;
-  setTimeout(() => {
-    if (!resolved)
-      log(id);
-  }, 2000)
-  return new Promise(function(resolve, reject) {
-    var end = () => handler('end');
-    var finish = () => handler('finish');
-    var drain = () => handler('drain');
-    var close = () => handler('close');
-
-    var handler = (e) => {
-      stream.off('error', reject)
-
-      stream.off('end', end)
-      stream.off('finish', finish)
-      stream.off('drain', drain)
-      stream.off('close', close)
-
-      log('drained:', e, id);
-
-      resolved = true;
-      resolve();
-    };
-
-    stream
-      .on('error', reject)
-      .on('end', end)
-      .on('finish', finish)
-      .on('drain', drain)
-      .on('close', close)
-  })
-}
-
-function drain(stream) {
-  return new Promise(function(resolve, reject) {
-    stream
-      .on('error', reject)
-      .once('drain', () => {
-        stream.off('error', reject)
-        resolve();
-      }
-    );
-  })
-}
 
 function get(url, target, name) {
   return new Promise(function(resolve, reject) {
@@ -489,34 +446,45 @@ function get(url, target, name) {
   })
 }
 
-var Subscribe2 = Symbol('@kingjs/stream.subscribe');
-Object.prototype[Subscribe2] = function(observer, backPressure) {
+var Ended = Symbol('@kingjs/stream.ended');
+Object.prototype[Ended] = function ended() {
   var stream = this;
-  if (!backPressure)
-    backPressure = EmptyArray;
-
-  return new Promise(function(resolve, reject) {
+  var promise = new Promise(function(resolve, reject) {
+    var onError = e => {
+      reject(e);
+      promise.rejected = true;
+    };
     stream
-      .on('error', o => {
-        observer.error(o);
-        reject(o);
-      })
-      .on('data', data => {
-        observer.next(data);
-        if (!backPressure.length) 
-          return;
-          
-        stream.pause();
-        Promise.all(backPressure).then(() => stream.resume())
-        backPressure.length = 0;
-      })
-      .on('end', () => {
-        observer.complete();
-        log('inflate end (eof)');
-        //stream.destroy();
+      .on('error', onError)
+      .once('end', () => {
+        stream.off('error', onError);
         resolve();
-      });
+        promise.resolved = true;
+      }
+    );
   });
+
+  return promise;
+}
+
+var Drained = Symbol('@kingjs/stream.drained');
+Object.prototype[Drained] = function drained() {
+  var stream = this;
+  var promise = new Promise(function(resolve, reject) {
+    var onError = e => {
+      reject(e);
+      promise.rejected = true;
+    }
+    stream
+      .on('error', onError)
+      .once('drain', () => {
+        stream.off('error', onError);
+        resolve();
+        promise.resolved = true;
+      })
+    });
+
+  return promise;
 }
 
 var Subscribe = Symbol('@kingjs/stream.subscribe');
@@ -533,24 +501,38 @@ Object.prototype[Subscribe] = function(observer, backPressure) {
       })
       .on('data', data => {
         observer.next(data);
-        if (!backPressure.length) 
-          return;
+
+        // pump empty buffers to flush back pressure
+        if (backPressure.length) {
+          stream.pause();
+
+          process.nextTick(async () => {
+            while (backPressure.length) {
+              var promise = Promise.all(backPressure);
+              backPressure.length = 0;
+              await promise;
+
+              // iterators reporting back pressure may safely ignore
+              // the next buffer yielded to them. This provides iterators
+              // a way to 'await' promises (e.g. directory creation)
+              observer.next(EmptyBuffer);
+            }
+            stream.resume();
+          })
+        }
+
+        // if (!backPressure.length) 
+        //   return;
           
-        stream.pause();
-        Promise.all(backPressure).then(() => stream.resume())
-        backPressure.length = 0;
+        // stream.pause();
+        // Promise.all(backPressure).then(() => stream.resume())
+        // backPressure.length = 0;
       })
       .on('end', () => {
         observer.complete();
         resolve();
       });
   });
-}
-
-var SubscribeProperties = Symbol('@kingjs/Observable.subscribe-properties');
-Object.prototype[SubscribeProperties] = function(observations, descriptor) {
-  for (var name in descriptor)
-    this[SubscribeIterator](descriptor[name], observations, name);
 }
 
 var SubscribeIterator = Symbol('@kingjs/Observable.subscribe-iterator');
@@ -579,6 +561,12 @@ Object.prototype[SubscribeIterator] = function(iterator, observations, name) {
     } 
     catch(e) { log(e) }
   }
+}
+
+var SubscribeProperties = Symbol('@kingjs/Observable.subscribe-properties');
+Object.prototype[SubscribeProperties] = function(observations, descriptor) {
+  for (var name in descriptor)
+    this[SubscribeIterator](descriptor[name], observations, name);
 }
 
 module.exports = execute;
