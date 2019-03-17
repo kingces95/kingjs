@@ -41,6 +41,7 @@ function createLinks() {
     .filter(x => path.basename(x) == PackageJson && !DotDir.test(x))
     .map(x => path.join(gitDir, path.dirname(x)));
 
+  // reduce all non-kingjs dependencies into a single set
   var set = new Set();
   for (var packageDir of dirs) {
     var { dependencies = { } } = require(path.join(packageDir, PackageJson))
@@ -52,9 +53,11 @@ function createLinks() {
     }
   }
 
+  // install non-kingjs dependencies
   for (var dependency of set)
     exec(gitDir, `npm i ${dependency}`);
-    
+
+  // create links
   for (var toDir of dirs) {
     if (fs.existsSync(path.join(toDir, NodeModules)))
       continue;

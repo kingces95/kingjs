@@ -27,6 +27,7 @@
     "uuid": "latest"
   },
   "nodeDependencies": [
+    "readline",
     "assert",
     "crypto",
     "fs",

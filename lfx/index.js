@@ -4,6 +4,7 @@ var {
   path: Path, url: Url,
   rxjs: { Subject },
   uuid: { v4: uuid },
+  readline,
   ['@kingjs']: { reflect: { is } },
 } = require('./dependencies');
 
@@ -201,11 +202,12 @@ async function* recursiveSync(source) {
       if ('downloadedLength' in info) {
         if ('contentLength' in info) {
           var percent = info.downloadedLength / info.contentLength;
-          log(`${Math.round(percent * 100)}% ${info.url}`)
+          readline.cursorTo(process.stderr, 0);
+          process.stderr.write(`${Math.round(percent * 100)}% ${info.url}`)
         }
         else {
           var megs = info.downloadedLength / OneMeg;
-          log(`${megs.toFixed(1)} (Mb)  ${info.url}`)
+          sllog(`${megs.toFixed(1)} (Mb)  ${info.url}`)
         }
       }
     }
