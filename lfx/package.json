@@ -23,7 +23,8 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.is": "latest",
-    "rxjs": "latest"
+    "rxjs": "latest",
+    "uuid": "latest"
   },
   "nodeDependencies": [
     "assert",

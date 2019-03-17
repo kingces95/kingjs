@@ -3,6 +3,7 @@ var {
   fs, fs: { promises: fsPromises },
   path: Path, url: Url,
   rxjs: { Subject },
+  uuid: { v4: uuid },
   ['@kingjs']: { reflect: { is } },
 } = require('./dependencies');
 
@@ -39,64 +40,76 @@ var Decompressed = 'decompressed';
 var MkdirRecursive = { recursive: true };
 
 var DirNames = {
+  downloads: '.downloads',
+  compressed: '.compressed',
+  decompressed: '.decompressed',
   target: '.target',
-  staging: '.staging',
-  get compressedStaging() { return Path.join(DirNames.cache, Compressed); },
-  get decompressedStaging() { return Path.join(DirNames.cache, Decompressed); },
-
-  cache: '.cache',
-  get compressed() { return Path.join(DirNames.cache, Compressed); },
-  get decompressed() { return Path.join(DirNames.cache, Decompressed); },
 }
 
 var nop = () => { };
 var log = console.log.bind(console);
 
-var infos = [];
-
 /**
  * path - path to info file
- * source - path at which decompressed file is made available via link
- * target - path at which decompressed file is published
- * cache - path at which compressed file is published
- * decompressedStaging - temp path to decompress file into before publishing to source
- * compressedStaging {promise} temp path to download file into before publishing to cache
  * url - compressed file url
+ * 
+ * downloads - path to download file; will be published to `compressed`
+ * compressed - path to compressed file; will be inflated to `decompressed`
+ * decompressed - path to decompressed file
+ * 
  * contentLength - compressed file size
  * downloadedLength - compressed bytes downloaded
  * hash - MD5 hash of compressed file
  */
 class Info {
   static async create(path) {
-    var source = Path.join(DirNames.target, Path.basename(path, DotJson))
+    var result = new Info(path);
+
     var json = JSON.parse(await fsPromises.readFile(path, Encoding));
-    return new Info(path, source, json);
+    for (var name in json)
+      result[name] = json[name];
+
+    return result;
   }
 
-  constructor(path, source, json) {
-    infos.push(this);
-
+  constructor(path) {
     this.path = path;
-    this.source = source;
-    for (var name in json)
-      this[name] = json[name];
+    this.source = Path.join(DirNames.target, Path.basename(path, DotJson));
+    this.uuid = uuid();
   }
   get name() { 
     if (!this.url)
       return;
     return Url.parse(this.url).pathname;
   }
-  get compressedStaging() { 
-    if (!this.name)
-      return;
-    var baseDir = DirNames.compressedStaging;
-    return Path.join(baseDir, this.name);
+  get nameUuid() { 
+    return this.uuid + this.ext;
   }
-  get decompressedStaging() { 
+  get nameHash() { 
+    if (!this.hash)
+      return;
+    return this.hash + this.ext;
+  }
+  get ext() {
     if (!this.name)
       return;
-    var baseDir = DirNames.decompressedStaging;
-    return Path.join(baseDir, this.name);
+    return Path.extname(this.name);
+  }
+  get downloaded() { 
+    return Path.join(DirNames.downloads, this.nameUuid);
+  }
+  get compressed() { 
+    if (!this.hash)
+      return;
+    return Path.join(DirNames.compressed, this.nameHash);
+  }
+  get decompressedUuid() { 
+    return Path.join(DirNames.decompressed, this.nameUuid);
+  }
+  get decompressed() { 
+    if (!this.hash)
+      return;
+    return Path.join(DirNames.decompressed, this.nameHash);
   }
 }
 
@@ -104,27 +117,13 @@ function log() {
   console.log.apply(this, arguments);
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function mkdir(path) {
   await fsPromises.mkdir(path, MkdirRecursive);
   return path;
-}
-
-async function logger() {  
-  setTimeout(() => {
-    for (var info of infos) {
-      if ('downloadedLength' in info) {
-        if ('contentLength' in info) {
-          var percent = info.downloadedLength / info.contentLength;
-          log(`${Math.round(percent * 100)}% ${info.url}`, 'inflated:', info.unzip)
-        }
-        else {
-          var megs = info.downloadedLength / OneMeg;
-          log(`${megs.toFixed(1)} (Mb)  ${info.url}`)
-        }
-      }
-    }
-    logger();
-  }, OneSecond / LogFrequency)
 }
 
 function start(task) {
@@ -158,41 +157,88 @@ function start(task) {
  * @description The description.
  */
 async function execute() {
-  logger();
-  start(sync(Dot));
+  start(recursiveSync(Dot));
 }
 
-async function* sync(source) {
+async function* recursiveSync(source) {
+  var loggerStarted = false;
+  var infos = { };
+  var finished = [ ];
   var entries = await fsPromises.readdir(source, WithFileTypes);
 
   for (var entry of entries) {
-    var entryPath = Path.join(source, entry.name);
+    var path = Path.join(source, entry.name);
 
     if (entry.isDirectory()) {
       if (entry.name[0] == Dot)
         continue;
 
-      yield sync(entryPath);
+      yield recursiveSync(path);
       continue;
     }
 
-    yield [ link(entryPath) ];
+    yield [ sync(path) ];
+  }
+
+  async function sync(path) {
+    var info = await Info.create(path);
+    infos[path] = info;
+
+    if (!loggerStarted) {
+      loggerStarted = true;
+      logger();
+    }      
+
+    await link(info);
+    delete infos[path];
+    finished.push[info];
+  }
+
+  function dump() {
+    for (var name in infos) {
+      var info = infos[name];
+
+      if ('downloadedLength' in info) {
+        if ('contentLength' in info) {
+          var percent = info.downloadedLength / info.contentLength;
+          log(`${Math.round(percent * 100)}% ${info.url}`)
+        }
+        else {
+          var megs = info.downloadedLength / OneMeg;
+          log(`${megs.toFixed(1)} (Mb)  ${info.url}`)
+        }
+      }
+    }
+  }
+
+  async function logger() {
+    process.nextTick(async function() {
+      while (true) {
+
+        var names = Reflect.ownKeys(infos);        
+        if (!names.length)
+          break;
+        
+        dump();
+        await sleep(OneSecond / LogFrequency);
+      }
+
+      dump();
+    })
   }
 }
 
-async function link(infoFile) {
-  var info = await decompress(infoFile);
+async function link(info) {
+  var info = await decompress(info);
 }
 
-async function decompress(infoFile) {
-  var info = await download(infoFile);
+async function decompress(info) {
+  var info = await download(info);
   return info;
 }
 
-async function download(infoFile) {
+async function download(info) {
   try {
-    var info = await Info.create(infoFile);
-
     if (!info.hash) {
       var backPressure = [];
       info.backPressure = backPressure;
@@ -201,13 +247,13 @@ async function download(infoFile) {
       var subject = new Subject();
       subject[SubscribeProperties](info, {
 
-        // save compressed file
-        downloadedLength: write(info.compressedStaging, backPressure),
+        // download file
+        downloadedLength: write(info.downloaded, backPressure),
 
         // decompressed file on the fly
-        unzip: unzip(info.decompressedStaging, backPressure),
+        unzip: unzip(info.decompressedUuid, backPressure),
 
-        // stream bytes into hasher to create the identifier for cached files
+        // compute hash
         hash: hash(),
       });
 
@@ -215,25 +261,19 @@ async function download(infoFile) {
       var downloadStream = await get(info.url, info, 'contentLength');
       await downloadStream[Subscribe](subject, backPressure)
 
-      try {
-        // publish downloaded compressed file to cache
-        info.ext = Path.extname(url.pathname);
-        info.compressed = Path.join(DirsName.compressed, info.hash + info.ext);
-        await fsPromises.rename(info.download, info.compressed);
-      } catch(e) { 
-        log(infoFile, e); /* ignore races to publish compressed files */ 
-      }
+      // publish downloaded file to compressed
+      await mkdir(Path.dirname(info.compressed));
+      await fsPromises.rename(info.downloaded, info.compressed);
+
+      // create alias for decompressed directory/file; hash -> uuid 
+      await fsPromises.symlink(info.nameUuid, info.decompressed, 'dir')
     }
 
-    log(info);
     return info;
-
-    // var exists = yield fsPromises.access(info.target);
   } 
   catch(e) {
-    log(infoFile, e);
-    if (info)
-      info.error = e;
+    log(info.path, e);
+    info.error = e;
     observer.error(e);
   } 
 }

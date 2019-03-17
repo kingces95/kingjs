@@ -4,6 +4,7 @@ exports['@kingjs'] = {
   },
 }
 exports['rxjs'] = require('rxjs')
+exports['uuid'] = require('uuid')
 exports['assert'] = require('assert')
 exports['crypto'] = require('crypto')
 exports['fs'] = require('fs')
