@@ -12,6 +12,7 @@ var AsyncGenerator = require('./async-generator');
 var deserialize = require('./deserialize');
 var LocalFileHeader = require('./zip/local-file-header');
 var DataDescriptor = require('./zip/data-descriptor');
+var sleep = require('./sleep');
 var crc = require('./crc');
 var start = require('./start');
 
@@ -37,8 +38,6 @@ var Dot = '.';
 var DotJson = Dot + 'json';
 var Compressed = 'compressed';
 var Decompressed = 'decompressed';
-
-var MkdirRecursive = { recursive: true };
 
 var DirNames = {
   downloads: '.downloads',
@@ -118,9 +117,7 @@ function log() {
   console.log.apply(this, arguments);
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+var MkdirRecursive = { recursive: true };
 
 async function mkdir(path) {
   await fsPromises.mkdir(path, MkdirRecursive);
