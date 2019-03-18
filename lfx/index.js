@@ -1,27 +1,35 @@
 var { 
-  assert, fs, http, crypto, zlib, os,
-  fs, fs: { promises: fsPromises },
-  path: Path, url: Url,
+  readline, assert, fs, http, crypto, zlib, os,
+  fs: { promises: fsPromises },
+  path: Path, 
   rxjs: { Subject },
-  uuid: { v4: uuid },
-  readline,
+  osUtils,
   ['@kingjs']: { reflect: { is } },
 } = require('./dependencies');
+var os = require('os');
 
-var AsyncGenerator = require('./async-generator');
+console.log(os.cpus());
+console.log(os.totalmem());
+console.log(os.freemem());
+
 var deserialize = require('./deserialize');
 var LocalFileHeader = require('./zip/local-file-header');
 var DataDescriptor = require('./zip/data-descriptor');
-var sleep = require('./sleep');
 var crc = require('./crc');
 var start = require('./start');
+var Info = require('./info');
+
+var sleep = require('./promise/sleep');
+var pollUntil = require('./promise/poll-until')
+
+var cpusObservable = require('./observable/cpus')
+var freeMemoryObservable = require('./observable/free-memory')
 
 /// debug
 process.chdir('.test/.lfx');
 /// debug
 
 var WithFileTypes = { withFileTypes: true };
-var Encoding = { encoding: 'utf8' }
 
 var EmptyObject = { };
 var EmptyArray = [ ];
@@ -35,83 +43,12 @@ var LogFrequency = 1;
 var Sha256 = 'sha256';
 var Hex = 'hex';
 var Dot = '.';
-var DotJson = Dot + 'json';
 var Compressed = 'compressed';
 var Decompressed = 'decompressed';
 
-var DirNames = {
-  downloads: '.downloads',
-  compressed: '.compressed',
-  decompressed: '.decompressed',
-  target: '.target',
-}
 
 var nop = () => { };
 var log = console.log.bind(console);
-
-/**
- * path - path to info file
- * url - compressed file url
- * 
- * downloads - path to download file; will be published to `compressed`
- * compressed - path to compressed file; will be inflated to `decompressed`
- * decompressed - path to decompressed file
- * 
- * contentLength - compressed file size
- * downloadedLength - compressed bytes downloaded
- * hash - MD5 hash of compressed file
- */
-class Info {
-  static async create(path) {
-    var result = new Info(path);
-
-    var json = JSON.parse(await fsPromises.readFile(path, Encoding));
-    for (var name in json)
-      result[name] = json[name];
-
-    return result;
-  }
-
-  constructor(path) {
-    this.path = path;
-    this.source = Path.join(DirNames.target, Path.basename(path, DotJson));
-    this.uuid = uuid();
-  }
-  get name() { 
-    if (!this.url)
-      return;
-    return Url.parse(this.url).pathname;
-  }
-  get nameUuid() { 
-    return this.uuid + this.ext;
-  }
-  get nameHash() { 
-    if (!this.hash)
-      return;
-    return this.hash + this.ext;
-  }
-  get ext() {
-    if (!this.name)
-      return;
-    return Path.extname(this.name);
-  }
-  get downloaded() { 
-    return Path.join(DirNames.downloads, this.nameUuid);
-  }
-  get compressed() { 
-    if (!this.hash)
-      return;
-    return Path.join(DirNames.compressed, this.nameHash);
-  }
-  get decompressedUuid() { 
-    return Path.join(DirNames.decompressed, this.nameUuid);
-  }
-  get decompressed() { 
-    if (!this.hash)
-      return;
-    return Path.join(DirNames.decompressed, this.nameHash);
-  }
-}
 
 function log() {
   console.log.apply(this, arguments);
@@ -124,58 +61,33 @@ async function mkdir(path) {
   return path;
 }
 
-function start(task) {
-  if (task === undefined)
-    return;
-
-  if (task instanceof Promise) {
-    return process.nextTick(async () => { 
-      start(await task) 
-    });
-  }
-  
-  if (task instanceof Array)
-    return task.forEach(o => start(o));
-
-  if (task instanceof AsyncGenerator) {
-    return process.nextTick(async () => { 
-      for await (var o of task) { 
-        start(o) 
-      } 
-    });
-  }
-
-  if (task instanceof Function)
-    return start(task());
-
-  assert.fail();
-}
-
 /**
  * @description The description.
  */
 async function execute() {
-  start(recursiveSync(Dot));
-}
-
-async function* recursiveSync(source) {
   var loggerStarted = false;
   var infos = { };
   var finished = [ ];
-  var entries = await fsPromises.readdir(source, WithFileTypes);
+  var cpuUsage = 0;
 
-  for (var entry of entries) {
-    var path = Path.join(source, entry.name);
+  start(recursiveSync(Dot));
 
-    if (entry.isDirectory()) {
-      if (entry.name[0] == Dot)
+  async function* recursiveSync(source) {
+    var entries = await fsPromises.readdir(source, WithFileTypes);
+
+    for (var entry of entries) {
+      var path = Path.join(source, entry.name);
+
+      if (entry.isDirectory()) {
+        if (entry.name[0] == Dot)
+          continue;
+
+        yield recursiveSync(path);
         continue;
+      }
 
-      yield recursiveSync(path);
-      continue;
+      yield [ sync(path) ];
     }
-
-    yield [ sync(path) ];
   }
 
   async function sync(path) {
@@ -192,37 +104,86 @@ async function* recursiveSync(source) {
     finished.push[info];
   }
 
-  function dump() {
-    for (var name in infos) {
+  function logger() {
+
+    var ms = OneSecond / LogFrequency;
+
+    var finished = pollUntil(() => !Reflect.keys(infos).length, ms);
+    var cpus = cpusObservable(ms);
+    var freeMemory = freeMemoryObservable(ms)
+  }
+
+  function dump(totals) {
+
+    osUtils.cpuUsage(o => cpuUsage = o);
+
+    var stream = process.stderr;
+    readline.clearScreenDown(stream);
+    stream.write(`CPU Usage: ${Math.round(cpuUsage * 100)}%\n`);
+    stream.write(`Network: ${totals.downloadSpeed} Mb/s\n`);
+    stream.write(`Mb: ${totals.downloadedMBytes} Mb\n`);
+    stream.write(`T: ${totals.elapsedSeconds} s\n`);
+
+    var names = Object.keys(infos);
+    for (var name of names) {
+      readline.clearLine(stream, 0);
+
       var info = infos[name];
 
       if ('downloadedLength' in info) {
         if ('contentLength' in info) {
           var percent = info.downloadedLength / info.contentLength;
-          readline.cursorTo(process.stderr, 0);
-          process.stderr.write(`${Math.round(percent * 100)}% ${info.url}`)
+          stream.write(`${Math.round(percent * 100)}% ${info.url}\n`)
         }
         else {
           var megs = info.downloadedLength / OneMeg;
-          sllog(`${megs.toFixed(1)} (Mb)  ${info.url}`)
+          stream.write(`${megs.toFixed(1)} (Mb) ${info.url}\n`)
         }
       }
     }
+
+    readline.cursorTo(stream, 0);
+    readline.moveCursor(stream, 0, -names.length - 3);
   }
 
-  async function logger() {
+  async function logger2() {
     process.nextTick(async function() {
+      var bytesPerMeg = (1 << 20);
+      var msPerS = 1000;
+      var start = Date.now();
+      var totals = {
+        ticks: start,
+        downloadedBytes: 0,
+
+        downloadedMBytes: 0,
+        elapsedSeconds: 0,
+      };
+
       while (true) {
+        
+        var values = Object.values(infos);
+
+        var downloadedBytes = values.reduce(o => o.downloadedLength || 0);
+        var megabytes = (downloadedBytes - totals.downloadedBytes) / bytesPerMeg;
+        totals.downloadedBytes = downloadedBytes;
+        totals.downloadedMBytes = (totals.downloadedBytes / bytesPerMeg).toFixed(1);
+
+        var ticks = Date.now();
+        var seconds = (ticks - totals.ticks) / msPerS;
+        totals.elapsedSeconds = ((ticks - start) / msPerS).toFixed(1);
+        totals.ticks = ticks;
+        
+        totals.downloadSpeed = (megabytes / seconds).toFixed(1);
 
         var names = Reflect.ownKeys(infos);        
         if (!names.length)
           break;
         
-        dump();
+        dump(totals);
         await sleep(OneSecond / LogFrequency);
       }
 
-      dump();
+      dump(totals);
     })
   }
 }
@@ -387,6 +348,8 @@ function* inflate(stream, buffer, observations, backPressure) {
 }
 
 function* writeCount(streamOrPath, buffer, count, observations,  backPressure) {
+  assert(is.number(count));
+  assert(buffer);
   
   var stream = streamOrPath;
   if (is.string(streamOrPath)) {
@@ -410,7 +373,9 @@ function* writeCount(streamOrPath, buffer, count, observations,  backPressure) {
 
     if (!stream.write(buffer)) 
       backPressure.push(stream[Drained]());
-    count -= buffer;
+    
+    count -= buffer.length;
+    assert(count > 0);
 
     buffer = yield observations;
   }

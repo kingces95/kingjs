@@ -4,7 +4,7 @@ var is = {
   nullOrUndefined: o => is.null(o) || is.undefined(o),
 
   boolean: o => typeof o == 'boolean' || o instanceof Boolean,
-  number: o => typeof o == 'number' || o instanceof Number,
+  number: o => (typeof o == 'number' || o instanceof Number) && o != NaN,
   string: o => typeof o == 'string' || o instanceof String,
   symbol: o => typeof o == 'symbol',
   stringOrSymbol: o => is.string(o) || is.symbol(o),

@@ -24,7 +24,8 @@
   "dependencies": {
     "@kingjs/reflect.is": "latest",
     "rxjs": "latest",
-    "uuid": "latest"
+    "uuid": "latest",
+    "os-utils": "latest"
   },
   "nodeDependencies": [
     "readline",
