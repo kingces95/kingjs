@@ -4,12 +4,12 @@ var {
   ['@kingjs']: { reflect: { is } },
 } = require('../dependencies');
 
-var sleep = require('../sleep');
+var sleep = require('../promise/sleep');
 
 function pollingObservable(poll, interval, finished) {
 
   return new Observable(subscriber => {
-    process.nextTick(() => {
+    process.nextTick(async () => {
       if (finished())
         break;
 

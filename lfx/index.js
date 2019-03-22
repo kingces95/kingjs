@@ -104,11 +104,11 @@ async function execute() {
     finished.push[info];
   }
 
-  function logger() {
+  function logger2() {
 
     var ms = OneSecond / LogFrequency;
 
-    var finished = pollUntil(() => !Reflect.keys(infos).length, ms);
+    var finished = pollUntil(() => !Reflect.ownKeys(infos).length, ms);
     var cpus = cpusObservable(ms);
     var freeMemory = freeMemoryObservable(ms)
   }
@@ -143,10 +143,10 @@ async function execute() {
     }
 
     readline.cursorTo(stream, 0);
-    readline.moveCursor(stream, 0, -names.length - 3);
+    readline.moveCursor(stream, 0, -names.length - 4);
   }
 
-  async function logger2() {
+  async function logger() {
     process.nextTick(async function() {
       var bytesPerMeg = (1 << 20);
       var msPerS = 1000;
