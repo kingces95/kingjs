@@ -4,7 +4,7 @@ var Observable = require('..');
 class DataSource {
   constructor() {
     let i = 0;
-    this._id = setInterval(() => this.emit(i++), 200);
+    this.id = setInterval(() => this.emit(i++), 200);
   }
   
   emit(n) {
@@ -22,15 +22,11 @@ class DataSource {
   
   destroy() {
     console.log('destroy')
-    clearInterval(this._id);
+    clearInterval(this.id);
   }
 }
 
-
-/**
- * our observable
- */
-const myObservable = new Observable((observer) => {
+var myObservable = new Observable((observer) => {
   const dataSource = new DataSource();
   dataSource.onData = (e) => observer.next(e);
   dataSource.onError = (err) => observer.error(err);
@@ -39,20 +35,13 @@ const myObservable = new Observable((observer) => {
   return dataSource.destroy.bind(dataSource);
 })
 
-
-/**
- * now let's use it
- */
-const unsub = myObservable.subscribe({
+var dispose = myObservable.subscribe({
   next(x) { console.log(x); },
   error(err) { console.error(err); },
   complete() { console.log('done')}
 });
 
-/**
- * uncomment to try out unsubscription
- */
 setTimeout(() => {
   console.log('timeout')
-  unsub()
+  dispose()
 }, 1000);

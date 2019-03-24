@@ -16,7 +16,7 @@
       {
         "type": "node",
         "request": "launch",
-        "runtimeExecutable": "X:\\git\\node\\Release\\node",
+        "runtimeExecutable": "C:\\git\\node\\Release\\node",
         "name": "Launch Program (pri)",
         "program": "${file}",
         "cwd": "${fileDirname}",

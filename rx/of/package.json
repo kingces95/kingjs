@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/.template",
+  "name": "@kingjs/rx.of",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",
@@ -13,11 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/.template"
+    "url": "https://repository.kingjs.net/rx/of"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/rx.observable": "latest"
+  },
   "nodeDependencies": [
     "assert"
   ]

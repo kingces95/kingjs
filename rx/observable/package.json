@@ -17,9 +17,12 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/reflect.is": "latest"
+  },
   "nodeDependencies": [
     "assert",
     "events"
-  ]
+  ],
+  "capitalize": true
 }

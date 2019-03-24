@@ -1,3 +1,10 @@
+var source = [1,2,3]
+var Map = Symbol()
+Array.prototype[Map] = Array.prototype.map
+var i = source[Map](x => x + 1)
+var j = source
+  [Map](x => x + 1)
+
 var { interval } = require('rxjs');
 var { take, timeInterval, timeout } = require('rxjs/operators');
 

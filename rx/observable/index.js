@@ -1,96 +1,83 @@
 var {
-  assert, events: { EventEmitter }
+  assert, events: { EventEmitter },
+  ['@kingjs']: { reflect: { is } }
 } = require('./dependencies');
 
-var Next = 'next';
-var Error = 'error';
-var Complete = 'complete';
+var NextEvent = 'next';
+var CompleteEvent = 'complete';
+var ErrorEvent = 'error';
 
-var defaultError = e => undefined;
-var defaultNext = x => undefined;
-var defaultComplete = () => undefined;
-var defaultDispose = () => undefined;
-
+var DefaultNext = x => undefined;
 var throwNextTick = x => process.nextTick(() => { throw x });
-
-var defaultOptions = { };
 
 /**
  * @description The description.
  */
-class Observable {
+class Observable extends EventEmitter {
 
-  constructor(activate, options = defaultOptions) {
+  constructor(activate, isSubject) {
+    super();
     this.activate = activate;
-    this.options = options;
+    this.isSubject = isSubject;
   }
 
-  static activateEmitter(activate) {
+  on(name, listener) { if (listener) super.on(name, listener); }
+  off(name, listener) { if (listener) super.off(name, listener); }
+  emit(name, event) { super.emit(name, event); }
 
-    var emitter = new EventEmitter();
-    
-    emitter.refs = 0;
-    
-    var next = x => {
-      try { emitter.emit(Next, x) }
-      catch (e) { 
+  subscribe(next = DefaultNext, complete, error) {
+
+    // singleton
+    if (!this.isSubject) {
+      var singleton = new Observable(this.activate, true);
+      return singleton.subscribe(next, complete, error);
+    }
+
+    // subscribe(observer) -> subscribe(next, complete, error)
+    if (is.object(next))
+      return this.subscribe(next.next, next.complete, next.error)
+
+    var tryNext = x => { 
+      try { next(x) } 
+      catch(e) { 
         throwNextTick(e); 
         unsubscribe(); 
-      }
-    };
+      } 
+    }
 
-    var error = x => {
-      try { emitter.emit(Error, x) }
-      catch(e) { throwNextTick(e); }
+    var tryComplete = !complete ? null : () => { 
+      try { complete() } 
+      catch(e) { throwNextTick(e); } 
+      unsubscribe(); 
+    }
+
+    var tryError = !error ? null : x => { 
+      try { error(x) } 
+      catch(e) { throwNextTick(e); } 
       unsubscribe();
-    };
-
-    var complete = () => {
-      try { emitter.emit(Complete, x) }
-      catch(e) { throwNextTick(e); }
-      unsubscribe();
-    };
-
-    emitter.dispose = activate({ next, error, complete }) || defaultDispose;
-
-    return emitter;
-  }
-
-  getOrActivateEmitter() {
-    if (!this.options.singleton)
-      return activateEmitter(this.activate);
-
-    if (!this.emitter)
-      this.emitter = activateEmitter(this.activate);
-
-    return this.emitter;
-  }
-
-  subscribe(observer) {
-    var { 
-      next = defaultNext, 
-      error = defaultError, 
-      complete = defaultComplete
-    } = observer;
-
-    var emitter = this.getOrActivateEmitter();
+    }
 
     // subscribe
-    emitter
-      .on(Next, next)
-      .on(Error, error)
-      .on(Complete, complete);
-    emitter.refs ++; 
+    this.on(NextEvent, tryNext)
+    this.on(CompleteEvent, tryComplete)
+    this.on(ErrorEvent, tryError)
 
-    // lazy unsubscribe
+    // unsubscribe
     var unsubscribe = () => {
-      emitter.off(Next, next);
-      emitter.off(Error, error);
-      emitter.off(Complete, complete);
+      this.off(NextEvent, tryNext);
+      this.off(CompleteEvent, tryComplete);
+      this.off(ErrorEvent, tryError);
 
-      emitter.refs --; 
-      if (!emitter.refs)
-        emitter.dispose();
+      if (this.dispose && !this.listenerCount(NextEvent))
+        this.dispose();
+    }
+
+    if (!this.dispose) {
+      this.dispose = this.activate({ 
+        next: x => this.emit(NextEvent, x),
+        complete: () => this.emit(CompleteEvent),
+        error: x => this.emit(ErrorEvent, x),
+      });
     }
 
     return unsubscribe;

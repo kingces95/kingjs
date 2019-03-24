@@ -64,8 +64,9 @@ console.log('watching:', cwd)
  * build subsequent runs.
  * 
  * @remarks - The watched files are those specified in `files`
- * in the `package.json`. If `files` is specified, then no files 
- * are watched for that package. */
+ * in the `package.json`. If `files` is not specified, then no files 
+ * are watched for that package. 
+ **/
 function watchFiles(glob, options) {
   return new Observable((subscriber) => {
     try {

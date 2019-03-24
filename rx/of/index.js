@@ -1,5 +1,6 @@
 var { 
-  assert
+  assert,
+  ['@kingjs']: { rx: { Observable } }
 } = require('./dependencies');
 
 /**
@@ -11,7 +12,11 @@ var {
  * 
  * @returns Returns comment.
  */
-function xxx(foo) {
+function of() {
+  return new Observable(observer => {
+    for (o of arguments)
+      observer.next(o);
+  });
 }
 
-module.exports = xxx;
+module.exports = of;
