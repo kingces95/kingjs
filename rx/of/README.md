@@ -3,11 +3,12 @@ The description.
 ## Usage
 ```js
 var assert = require('assert');
+var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
 
 var result = [];
 var observable = of(0, 1, 2);
-observable.subscribe(o => result.push(o));
+observable[Subscribe](o => result.push(o));
 assert.deepEqual(result, [0, 1, 2]);
 ```
 
@@ -32,6 +33,7 @@ $ npm install @kingjs/rx.of
 |Package|Version|
 |---|---|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
+|[`@kingjs/linq.to-observable`](https://www.npmjs.com/package/@kingjs/linq.to-observable)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/of

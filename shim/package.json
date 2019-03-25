@@ -22,10 +22,10 @@
     "@kingjs/i-enumerator": "latest",
     "@kingjs/i-iterable": "latest",
     "@kingjs/i-observable": "latest",
+    "@kingjs/linq.to-observable": "latest",
     "@kingjs/package-version.parse": "latest",
     "@kingjs/reflect.implement-i-enumerable": "latest",
-    "@kingjs/reflect.implement-interface": "latest",
-    "@kingjs/rx.of": "latest"
+    "@kingjs/reflect.implement-interface": "latest"
   },
   "devDependencies": {
     "@kingjs/i-interface": "^1.0.3",

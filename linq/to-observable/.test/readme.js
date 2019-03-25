@@ -1,6 +1,7 @@
 require('kingjs')
 var assert = require('assert');
 var ToObservable = require('..');
+var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
   var interval = 50;
@@ -9,7 +10,7 @@ async function run() {
 
   var start = Date.now();
   await new Promise((resolve, reject) => {
-    observable.subscribe(
+    observable[Subscribe](
       o => { 
         result.push(o);
 

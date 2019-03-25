@@ -1,4 +1,5 @@
 var {
+  assert,
   events: { EventEmitter },
   ['@kingjs']: { 
     reflect: { is },
@@ -12,40 +13,45 @@ var CompleteEvent = 'complete';
 var ErrorEvent = 'error';
 
 var DefaultNext = () => undefined;
+var DefaultComplete = x => undefined;
 var throwNextTick = x => process.nextTick(() => { throw x });
-var defaultOptions = { };
 
 /**
  * @description The description.
  */
 class Subject extends EventEmitter {
 
-  constructor(activate, options = defaultOptions) {
+  constructor(activate) {
     super();
     this.activate = activate;
-    this.options = options;
   }
+
+  assertOk() { assert(!this.disposed) }
 
   on(name, listener) { if (listener) super.on(name, listener); }
   off(name, listener) { if (listener) super.off(name, listener); }
   emit(name, event) { super.emit(name, event); }
 
   // IObserver
-  [Next](x) { this.emit(NextEvent, x); }
-  [Complete]() { this.emit(CompleteEvent); }
-  [Error](x) { this.emit(ErrorEvent, x); }
+  [Next](x) { 
+    this.assertOk(); 
+    this.emit(NextEvent, x); 
+  }
+  [Complete]() { 
+    this.assertOk(); 
+    this.emit(CompleteEvent); 
+    this.disposed = true;
+  }
+  [Error](x) { 
+    this.assertOk(); 
+    this.emit(ErrorEvent, x); 
+    this.disposed = true;
+  }
 
   // IObservable
-  [Subscribe](next = DefaultNext, complete, error) {
+  [Subscribe](next = DefaultNext, complete = DefaultComplete, error) {
 
-    // singleton
-    if (!this.options.singleton) {
-      var singleton = new Subject(this.activate, { 
-        ...this.options,
-        singleton: true 
-      });
-      return singleton[Subscribe](next, complete, error);
-    }
+    this.assertOk();
 
     // subscribe(observer) -> subscribe(next, complete, error)
     if (is.object(next))
@@ -82,8 +88,13 @@ class Subject extends EventEmitter {
       this.off(CompleteEvent, tryComplete);
       this.off(ErrorEvent, tryError);
 
+      if (this.disposed)
+        return;
+
       if (this.dispose && !this.listenerCount(NextEvent))
         this.dispose();
+
+      this.disposed = true;
     }
 
     if (this.activate && !this.dispose) {

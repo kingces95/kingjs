@@ -1,5 +1,6 @@
 require('kingjs')
 var ToObservable = require('..');
+var { Subscribe } = require('@kingjs/i-observable');
 
 function* throws() { throw 'my error' }
 
@@ -7,7 +8,7 @@ async function run() {
   var observable = throws[ToObservable](0);
 
   await new Promise((resolve) => {
-    observable.subscribe(null, null, resolve);
+    observable[Subscribe](null, null, resolve);
   });
 }
 run();

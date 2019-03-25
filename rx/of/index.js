@@ -1,6 +1,7 @@
 var { 
   ['@kingjs']: {
     rx: { create },
+    linq: { ToObservable },
     IObserver: { Next, Complete }
   }
 } = require('./dependencies');
@@ -15,11 +16,7 @@ var {
  * @returns Returns comment.
  */
 function of() {
-  return create(observer => {
-    for (o of arguments)
-      observer[Next](o);
-    observer[Complete]();
-  });
+  return [...arguments][ToObservable]();
 }
 
 module.exports = of;

@@ -1,12 +1,10 @@
 var { 
   ['@kingjs']: {
     reflect: { exportExtension },    
-    rx: { Observable },
-    promise: { sleep },
+    rx: { createAsync },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    IObserver: { Next, Complete, Error },
   }
 } = require('./dependencies');
 
@@ -24,33 +22,17 @@ var {
 function toObservable(interval) {
   var enumerable = this;
 
-  return new Observable(observer => {
-    var cancelled = false;
+  return createAsync(interval, function(next) {
+    var enumerator = this.enumerator;
 
-    process.nextTick(async () => {
-      try {
-        var enumerator;
+    if (!enumerator)
+      enumerator = this.enumerator = enumerable[GetEnumerator]();
 
-        while (true) {
-          await sleep(interval);
+    if (!enumerator[MoveNext]())
+      return false;
 
-          if (cancelled)
-            return;
-
-          if (!enumerator)
-            enumerator = enumerable[GetEnumerator]();
-
-          if (!enumerator[MoveNext]())
-            return observer[Complete]();
-
-          observer[Next](enumerator[Current]);
-        }
-      } catch(e) { 
-        observer[Error](e);
-      }
-    });
-
-    return () => cancelled = true;
+    next(enumerator[Current]);
+    return true;
   });
 }
 

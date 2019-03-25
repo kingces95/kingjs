@@ -1,9 +1,8 @@
 exports['@kingjs'] = {
-  IEnumerable: require('@kingjs/i-enumerable'),
-  IEnumerator: require('@kingjs/i-enumerator'),
+  IObservable: require('@kingjs/i-observable'),
   IObserver: require('@kingjs/i-observer'),
-  promise: {
-    sleep: require('@kingjs/promise.sleep'),
+  linq: {
+    ToObservable: require('@kingjs/linq.to-observable'),
   },
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),

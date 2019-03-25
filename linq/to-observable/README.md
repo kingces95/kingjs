@@ -5,6 +5,7 @@ Returns a cold IObservable of an IEnumerable published at a specified `interval`
 require('kingjs')
 var assert = require('assert');
 var ToObservable = require('@kingjs/linq.to-observable');
+var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
   var interval = 50;
@@ -13,7 +14,7 @@ async function run() {
 
   var start = Date.now();
   await new Promise((resolve, reject) => {
-    observable.subscribe(
+    observable[Subscribe](
       o => { 
         result.push(o);
 
@@ -56,7 +57,7 @@ $ npm install @kingjs/linq.to-observable
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/promise.sleep`](https://www.npmjs.com/package/@kingjs/promise.sleep)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/rx.observable`](https://www.npmjs.com/package/@kingjs/rx.observable)|`latest`|
+|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/to-observable
 ## License

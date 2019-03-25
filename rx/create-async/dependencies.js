@@ -1,10 +1,10 @@
 exports['@kingjs'] = {
   IObserver: require('@kingjs/i-observer'),
-  linq: {
-    ToObservable: require('@kingjs/linq.to-observable'),
+  promise: {
+    sleep: require('@kingjs/promise.sleep'),
   },
   rx: {
     create: require('@kingjs/rx.create'),
   },
 }
-exports['assert'] = require('assert')
+exports['events'] = require('events')

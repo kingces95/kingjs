@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.subject",
+  "name": "@kingjs/rx.once",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Filter values by those followed without emissions for `duration` milliseconds.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,18 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/subject"
+    "url": "https://repository.kingjs.net/rx/once"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/reflect.is": "latest"
+    "@kingjs/linq.to-observable": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "events"
+    "assert"
   ],
   "capitalize": true
 }
