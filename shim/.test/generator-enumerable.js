@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-require('../index');
+require('..');
 
 var {
   ['@kingjs']: {
@@ -12,22 +12,27 @@ var {
   }
 } = require('./dependencies');
 
+
 function testGeneratorEnumerableShim() {
-  {
-    function* range3() {
-      yield 0;
-      yield 1;
-      yield 2;
-    };
+  function* range3() {
+    yield 0;
+    yield 1;
+    yield 2;
+  };
 
-    var test = range(3);
-    var x = test[GetIterator]();
-    var next0 = x.next();
-    var next1 = x.next();
-    var next2 = x.next();
-    var next3 = x.next();
-  }
+  assert(range3 instanceof IEnumerable);
+  var enumerator = range3[GetEnumerator]();
+  assert(enumerator instanceof IEnumerator);
 
+  var i = 0;
+  while (enumerator[MoveNext]())
+    assert(enumerator[Current] == i++);
+  assert(i == 3);
+}
+testGeneratorEnumerableShim();
+
+function testBindGeneratorEnumerableShim() {
+  
   function* range(count) {
     for (var i = 0; i < count; i++)
       yield i;
@@ -46,4 +51,4 @@ function testGeneratorEnumerableShim() {
     assert(enumerator[Current] == i++);
   assert(i == count);
 }
-testGeneratorEnumerableShim();
+testBindGeneratorEnumerableShim();

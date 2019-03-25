@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-require('../index');
+require('..');
 
 function readMe() {
   function* generator() { yield 0; }

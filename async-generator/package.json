@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.create",
+  "name": "@kingjs/async-generator",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "A function for testing if another function is an `instanceof` an async generator.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/create"
+    "url": "https://repository.kingjs.net/async-generator"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/generator": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/rx.subject": "latest"
-  },
+  "dependencies": {},
   "nodeDependencies": [
-    "events"
-  ]
+    "assert"
+  ],
+  "capitalize": true
 }
