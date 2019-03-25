@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/promise.poll-until",
+  "version": "1.0.0",
+  "description": "Return a promise fulfilled when `predicate`, polled at `period`, returns `true`, or rejected after a timeout.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/promise/poll-until"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/promise.sleep": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

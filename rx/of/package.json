@@ -18,6 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/i-observer": "latest",
     "@kingjs/rx.observable": "latest"
   },
   "nodeDependencies": [

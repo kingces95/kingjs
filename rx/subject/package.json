@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/rx.subject",
+  "version": "1.0.0",
+  "description": "The description.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/subject"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
+    "@kingjs/reflect.is": "latest"
+  },
+  "nodeDependencies": [
+    "events"
+  ],
+  "capitalize": true
+}

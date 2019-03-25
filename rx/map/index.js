@@ -1,9 +1,14 @@
 var { 
-  assert,
-  ['@kingjs']: { rx: { Observable } }
+  ['@kingjs']: {
+    rx: { Observable },
+    reflect: { 
+      exportExtension
+    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error }
+  }
 } = require('./dependencies');
-
-var Map = Symbol('@kingjs/rx.map');
 
 /**
  * @description The description.
@@ -18,10 +23,12 @@ function map(callback) {
   var observable = this;
 
   return new Observable(observer => {
-    return observable.subscribe(o => observer.next(callback(o)));
+    return observable[Subscribe](
+      o => observer[Next](callback(o)),
+      () => observer[Complete](),
+      o => observer[Error]()
+    );
   })
 }
 
-Observable.prototype[Map] = map;
-
-module.exports = Map;
+exportExtension(module, IObservable, map);

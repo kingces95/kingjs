@@ -1,6 +1,10 @@
 var {
-  assert, events: { EventEmitter },
-  ['@kingjs']: { reflect: { is } }
+  events: { EventEmitter },
+  ['@kingjs']: { 
+    reflect: { is },
+    IObservable,
+    IObserver: { Next, Complete, Error }
+  },
 } = require('./dependencies');
 
 var NextEvent = 'next';
@@ -25,6 +29,9 @@ class Observable extends EventEmitter {
   off(name, listener) { if (listener) super.off(name, listener); }
   emit(name, event) { super.emit(name, event); }
 
+  [IObservable.subscribe](next, complete, error) { 
+    return this.subscribe(next, complete, error) 
+  }
   subscribe(next = DefaultNext, complete, error) {
 
     // singleton
@@ -35,7 +42,7 @@ class Observable extends EventEmitter {
 
     // subscribe(observer) -> subscribe(next, complete, error)
     if (is.object(next))
-      return this.subscribe(next.next, next.complete, next.error)
+      return this.subscribe(next[Next], next[Complete], next[Error])
 
     var tryNext = x => { 
       try { next(x) } 
@@ -74,9 +81,9 @@ class Observable extends EventEmitter {
 
     if (!this.dispose) {
       this.dispose = this.activate({ 
-        next: x => this.emit(NextEvent, x),
-        complete: () => this.emit(CompleteEvent),
-        error: x => this.emit(ErrorEvent, x),
+        [Next]: x => this.emit(NextEvent, x),
+        [Complete]: () => this.emit(CompleteEvent),
+        [Error]: x => this.emit(ErrorEvent, x),
       });
     }
 

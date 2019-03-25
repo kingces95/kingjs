@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/linq.to-observable",
+  "version": "1.0.0",
+  "description": "Returns a cold IObservable of an IEnumerable published at a specified `interval` until exhausted.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/linq/to-observable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-enumerator": "latest",
+    "@kingjs/i-observer": "latest",
+    "@kingjs/promise.sleep": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.observable": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

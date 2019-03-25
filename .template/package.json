@@ -9,7 +9,7 @@
   "scripts": {
     "test": "node .test",
     "prepublishOnly": "npm .test",
-    "build": "cpk && crm && cdj"
+    "build": "cpk && crm && cdj && clk"
   },
   "repository": {
     "type": "git",
