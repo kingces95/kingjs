@@ -32,7 +32,7 @@ $ npm install @kingjs/rx.of
 |Package|Version|
 |---|---|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/rx.observable`](https://www.npmjs.com/package/@kingjs/rx.observable)|`latest`|
+|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/of
 ## License

@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observer": "latest",
-    "@kingjs/rx.observable": "latest"
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
     "assert"

@@ -2,7 +2,6 @@ var {
   events: { EventEmitter },
   ['@kingjs']: { 
     reflect: { is },
-    IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error }
   },
@@ -12,45 +11,45 @@ var NextEvent = 'next';
 var CompleteEvent = 'complete';
 var ErrorEvent = 'error';
 
-var DefaultNext = x => undefined;
+var DefaultNext = () => undefined;
 var throwNextTick = x => process.nextTick(() => { throw x });
+var defaultOptions = { };
 
 /**
  * @description The description.
  */
-class Observable extends EventEmitter {
+class Subject extends EventEmitter {
 
-  constructor(activate, isSubject) {
+  constructor(activate, options = defaultOptions) {
     super();
     this.activate = activate;
-    this.isSubject = isSubject;
+    this.options = options;
   }
 
   on(name, listener) { if (listener) super.on(name, listener); }
   off(name, listener) { if (listener) super.off(name, listener); }
   emit(name, event) { super.emit(name, event); }
 
-  // IObservable
-  [Subscribe](next, complete, error) { 
-    return this.subscribe(next, complete, error) 
-  }
-
   // IObserver
   [Next](x) { this.emit(NextEvent, x); }
   [Complete]() { this.emit(CompleteEvent); }
   [Error](x) { this.emit(ErrorEvent, x); }
 
-  subscribe(next = DefaultNext, complete, error) {
+  // IObservable
+  [Subscribe](next = DefaultNext, complete, error) {
 
     // singleton
-    if (!this.isSubject) {
-      var singleton = new Observable(this.activate, true);
-      return singleton.subscribe(next, complete, error);
+    if (!this.options.singleton) {
+      var singleton = new Subject(this.activate, { 
+        ...this.options,
+        singleton: true 
+      });
+      return singleton[Subscribe](next, complete, error);
     }
 
     // subscribe(observer) -> subscribe(next, complete, error)
     if (is.object(next))
-      return this.subscribe(next[Next], next[Complete], next[Error])
+      return this[Subscribe](next[Next], next[Complete], next[Error])
 
     var tryNext = x => { 
       try { next(x) } 
@@ -91,7 +90,7 @@ class Observable extends EventEmitter {
       this.dispose = this.activate({ 
         [Next]: x => this[Next](x),
         [Complete]: () => this[Complete](),
-        [Error]: x => this[ErrorEvent](x),
+        [Error]: x => this[Error](x),
       });
     }
 
@@ -99,4 +98,4 @@ class Observable extends EventEmitter {
   }
 }
 
-module.exports = Observable;
+module.exports = Subject;

@@ -1,7 +1,6 @@
 var { 
-  assert,
   ['@kingjs']: {
-    rx: { Observable },
+    rx: { create },
     IObserver: { Next, Complete }
   }
 } = require('./dependencies');
@@ -16,7 +15,7 @@ var {
  * @returns Returns comment.
  */
 function of() {
-  return new Observable(observer => {
+  return create(observer => {
     for (o of arguments)
       observer[Next](o);
     observer[Complete]();

@@ -5,7 +5,7 @@ exports['@kingjs'] = {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
   rx: {
-    Observable: require('@kingjs/rx.observable'),
+    create: require('@kingjs/rx.create'),
   },
 }
 exports['assert'] = require('assert')

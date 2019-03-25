@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    rx: { Observable },
+    rx: { create },
     reflect: { 
       exportExtension
     },
@@ -22,7 +22,7 @@ var {
 function count() {
   var observable = this;
 
-  return new Observable(observer => {
+  return create(observer => {
     var i = 0;
     return observable[Subscribe](
       () => i++,

@@ -3,7 +3,8 @@ The description.
 ## Usage
 ```js
 var assert = require('assert');
-var Observable = require('@kingjs/rx.subject');
+var Subject = require('@kingjs/rx.subject');
+var { Subscribe } = require('@kingjs/i-observable');
 var { Next, Complete, Error } = require('@kingjs/i-observer');
 
 class DataSource {
@@ -31,7 +32,7 @@ class DataSource {
   }
 }
 
-var myObservable = new Observable((observer) => {
+var myObservable = new Subject((observer) => {
   const dataSource = new DataSource();
   dataSource.onData = (e) => observer[Next](e);
   dataSource.onError = (err) => observer[Error](err);
@@ -40,7 +41,7 @@ var myObservable = new Observable((observer) => {
   return dataSource.destroy.bind(dataSource);
 })
 
-var dispose = myObservable.subscribe({
+var dispose = myObservable[Subscribe]({
   [Next](x) { console.log(x); },
   [Error](err) { console.error(err); },
   [Complete]() { console.log('done')}

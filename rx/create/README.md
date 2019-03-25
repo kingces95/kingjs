@@ -1,9 +1,9 @@
-# @[kingjs][@kingjs]/[rx][ns0].[observable][ns1]
+# @[kingjs][@kingjs]/[rx][ns0].[create][ns1]
 The description.
 ## Usage
 ```js
 var assert = require('assert');
-var Observable = require('@kingjs/rx.observable');
+var Observable = require('@kingjs/rx.create');
 var { Next, Complete, Error } = require('@kingjs/i-observer');
 
 class DataSource {
@@ -60,21 +60,19 @@ setTimeout(() => {
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.observable
+$ npm install @kingjs/rx.create
 ```
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
+|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/observable
+https://repository.kingjs.net/rx/create
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/observable)
+![Analytics](https://analytics.kingjs.net/rx/create)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.observable
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.create

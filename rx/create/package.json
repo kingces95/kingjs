@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.observable",
+  "name": "@kingjs/rx.create",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",
@@ -9,21 +9,18 @@
   "scripts": {
     "test": "node .test",
     "prepublishOnly": "npm .test",
-    "build": "cpk && crm && cdj"
+    "build": "cpk && crm && cdj && clk"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/observable"
+    "url": "https://repository.kingjs.net/rx/create"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-observable": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/reflect.is": "latest"
+    "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
     "events"
-  ],
-  "capitalize": true
+  ]
 }

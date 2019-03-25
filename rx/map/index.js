@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    rx: { Observable },
+    rx: { create },
     reflect: { 
       exportExtension
     },
@@ -22,7 +22,7 @@ var {
 function map(callback) {
   var observable = this;
 
-  return new Observable(observer => {
+  return create(observer => {
     return observable[Subscribe](
       o => observer[Next](callback(o)),
       () => observer[Complete](),
