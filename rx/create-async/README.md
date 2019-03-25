@@ -32,8 +32,14 @@ async function run() {
 run();
 ```
 
+## API
+```ts
+createAsync(callback, interval)
+```
 
-
+### Parameters
+- `callback`: 
+- `interval`: 
 
 
 
