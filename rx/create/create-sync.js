@@ -12,7 +12,7 @@ function createSync(observer) {
   if (observer instanceof Generator) {
     var generator = observer;
 
-    return create(function(observer) {
+    return createSync(function(observer) {
       try {
         for (var o of generator())
           observer[Next](o);

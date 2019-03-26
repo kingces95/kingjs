@@ -18,8 +18,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/async-generator": "latest",
     "@kingjs/generator": "latest",
     "@kingjs/i-observer": "latest",
+    "@kingjs/promise.sleep": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [

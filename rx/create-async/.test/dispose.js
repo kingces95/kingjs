@@ -7,7 +7,7 @@ async function run() {
   var result = [];
 
   await new Promise(resolve => {
-    var dispose = new createAsync(next => {
+    var dispose = new createAsync(function(next) {
 
       if (!this.i)
         this.i = 0;

@@ -66,8 +66,10 @@ $ npm install @kingjs/rx.create
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/async-generator`](https://www.npmjs.com/package/@kingjs/async-generator)|`latest`|
 |[`@kingjs/generator`](https://www.npmjs.com/package/@kingjs/generator)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
+|[`@kingjs/promise.sleep`](https://www.npmjs.com/package/@kingjs/promise.sleep)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/create

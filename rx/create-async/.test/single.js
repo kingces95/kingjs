@@ -7,7 +7,7 @@ async function run() {
 
   var result;
   await new Promise(resolve => {
-    new createAsync(next => {
+    new createAsync(function(next) {
       next(value);
       return false;
     })[Subscribe](o => result = o, resolve);
