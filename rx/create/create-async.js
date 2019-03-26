@@ -1,12 +1,13 @@
 var {
   ['@kingjs']: { 
     promise: { sleep },
-    rx: { create },
     IObserver: { Next, Complete, Error },
     Generator,
     AsyncGenerator
   },
 } = require('./dependencies');
+
+var createSync = require('./create-sync');
 
 /**
  * 
@@ -36,7 +37,7 @@ function createAsync(callback, interval) {
     }, interval);
   }
 
-  return create(observer => {
+  return createSync(observer => {
     var cancelled = false;
 
     process.nextTick(async () => {

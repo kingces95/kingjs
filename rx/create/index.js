@@ -1,29 +1,9 @@
-var {
-  ['@kingjs']: { 
-    rx: { Subject },
-    Generator,
-    IObserver: { Next, Complete, Error }
-  },
-} = require('./dependencies');
+var createAsync = require('./create-async');
+var createSync = require('./create-sync');
 
-function create(observer) {
-  
-  // create(function* () { ... }) => create(callback)
-  if (observer instanceof Generator) {
-    var generator = observer;
-  
-    return create(function(observer) {
-      try {
-        for (var o of generator())
-          observer[Next](o);
-        observer[Complete]();
-      } catch(e) { 
-        observer[Error](e);
-      }
-    });
-  }
-
-  return new Subject(observer);
+function create() {
+  var factory = arguments.length <= 1 ? createSync : createAsync;
+  return factory.apply(this, arguments);
 }
 
 module.exports = create;
