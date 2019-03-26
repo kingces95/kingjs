@@ -1,3 +1,10 @@
+var {
+  ['@kingjs']: { 
+    Generator,
+    AsyncGenerator
+  },
+} = require('./dependencies');
+
 var is = {
   undefined: o => o === undefined,
   null: o => o === null,
@@ -19,6 +26,9 @@ var is = {
 
   array: o => Array.isArray(o),
   arrayLike: o => is.array(o) || (is.object(o) && 'length' in o),
+
+  generator: o => o instanceof Generator,
+  asyncGenerator: o => o instanceof AsyncGenerator,
 };
 
 module.exports = is;

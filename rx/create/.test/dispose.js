@@ -1,5 +1,5 @@
 var assert = require('assert');
-var createAsync = require('..');
+var create = require('..');
 var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
@@ -7,7 +7,7 @@ async function run() {
   var result = [];
 
   await new Promise(resolve => {
-    var dispose = new createAsync(function(next) {
+    var dispose = new create(function(next) {
 
       if (!this.i)
         this.i = 0;

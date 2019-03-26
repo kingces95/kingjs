@@ -20,8 +20,6 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest"
   },

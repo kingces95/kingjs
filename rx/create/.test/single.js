@@ -1,16 +1,19 @@
 var assert = require('assert');
-var createAsync = require('..');
+var create = require('..');
 var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
-  var value = 1;
+  var value = 'value';
 
-  var result;
+  var result = [];
   await new Promise(resolve => {
-    new createAsync(function(next) {
+    new create(function(next) {
       next(value);
       return false;
-    })[Subscribe](o => result = o, resolve);
+    })[Subscribe](
+      o => result = o, 
+      () => resolve()
+    );
   })
 
   assert.deepEqual(result, value)

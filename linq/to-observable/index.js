@@ -1,7 +1,7 @@
 var { 
   ['@kingjs']: {
     reflect: { exportExtension },    
-    rx: { createAsync },
+    rx: { create },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
@@ -22,18 +22,7 @@ var {
 function toObservable(interval) {
   var enumerable = this;
 
-  return create(function(observer) {
-    try {
-      var enumerator = enumerable[GetEnumerator]();
-      while (enumerator[MoveNext]())
-        observer[Next](enumerator[Current]);
-      observer[Complete]();
-    } catch(e) { 
-      observer[Error](e);
-    }
-  });
-
-  return createAsync(interval, function(next) {
+  return create(interval, function(next) {
     var enumerator = this.enumerator;
 
     if (!enumerator)

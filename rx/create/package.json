@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/rx.create",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Create an `IObservable` that, once per tick per `interval`, invokes `callback` with a `next` function to call with the next value to emit.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -18,13 +18,12 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/async-generator": "latest",
-    "@kingjs/generator": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/promise.sleep": "latest",
+    "@kingjs/reflect.is": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
-    "events"
+    "assert"
   ]
 }

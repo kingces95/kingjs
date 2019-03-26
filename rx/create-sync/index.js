@@ -9,7 +9,12 @@ var {
 function createSync(observer) {
   
   // create(function* () { ... }) => create(callback)
-  if (observer instanceof Generator) {
+  if (observer instanceof Generator)
+    return fromGenerator(); 
+
+  return new Subject(observer);
+
+  function fromGenerator() {
     var generator = observer;
 
     return createSync(function(observer) {
@@ -22,8 +27,6 @@ function createSync(observer) {
       }
     });
   }
-
-  return new Subject(observer);
 }
 
 module.exports = createSync;

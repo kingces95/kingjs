@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.create-async",
+  "name": "@kingjs/rx.create-sync",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",
@@ -13,12 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/create-async"
+    "url": "https://repository.kingjs.net/rx/create-sync"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/rx.create": "latest"
+    "@kingjs/generator": "latest",
+    "@kingjs/i-observer": "latest",
+    "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
     "events"
