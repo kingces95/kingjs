@@ -1,5 +1,6 @@
 require('./readme')
 require('./async-iterable')
+require('./delay')
 require('./dispose')
 require('./iterable')
 require('./readme')

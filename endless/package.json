@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.create",
+  "name": "@kingjs/endless",
   "version": "1.0.0",
-  "description": "Create an `IObservable` that asynchronously emits values.",
+  "description": "Returns a function that returns `value`. If value  is iterable it's elements are returned after which undefined is returned.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/create"
+    "url": "https://repository.kingjs.net/endless"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/endless": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
-    "@kingjs/reflect.is": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/reflect.is": "latest"
   },
   "nodeDependencies": [
     "assert"
