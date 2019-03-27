@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.map",
+  "name": "@kingjs/rx.subscribe-iterator",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Pump data into iterator and publish results to observations[name]",
   "main": "index.js",
   "files": [
     "*.js"
@@ -9,19 +9,18 @@
   "scripts": {
     "test": "node .test",
     "prepublishOnly": "npm .test",
-    "build": "cpk && crm && cdj"
+    "build": "cpk && crm && cdj && clk"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/map"
+    "url": "https://repository.kingjs.net/rx/subscribe-iterator"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create-sync": "latest"
+    "@kingjs/reflect.export-extension": "latest"
   },
   "nodeDependencies": [
     "assert"

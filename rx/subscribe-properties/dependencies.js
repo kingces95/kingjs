@@ -1,11 +1,10 @@
 exports['@kingjs'] = {
   IObservable: require('@kingjs/i-observable'),
-  IObserver: require('@kingjs/i-observer'),
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
   rx: {
-    createSync: require('@kingjs/rx.create-sync'),
+    SubscribeIterator: require('@kingjs/rx.subscribe-iterator'),
   },
 }
 exports['assert'] = require('assert')

@@ -1,4 +1,4 @@
-require('kingjs');
+require('@kingjs/shim');
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
 var Map = require('..');

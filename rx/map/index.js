@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    rx: { create },
+    rx: { createSync },
     reflect: { 
       exportExtension
     },
@@ -22,7 +22,7 @@ var {
 function map(callback) {
   var observable = this;
 
-  return create(observer => {
+  return createSync(observer => {
     return observable[Subscribe](
       o => observer[Next](callback(o)),
       () => observer[Complete](),

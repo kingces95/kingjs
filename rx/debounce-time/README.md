@@ -4,32 +4,36 @@ Filter values by those followed without emissions for `duration` milliseconds.
 ```js
 require('kingjs');
 var assert = require('assert');
+var DebounceTime = require('@kingjs/rx.debounce-time');
+var ToObservable = require('@kingjs/linq.to-observable');
 var { Subscribe } = require('@kingjs/i-observable');
-var Map = require('@kingjs/rx.debounce-time');
+
+var duration = 50;
 
 async function run() {
   var result = [];
 
+  var start = Date.now();
   await new Promise((resolve) => {
-    [0, 1, 2][Map](o => o + 1)[Subscribe](
+    [0, 1][ToObservable](duration * 2)[DebounceTime](duration)[Subscribe](
       o => result.push(o),
       resolve,
     );
   });
 
-  assert.deepEqual(result, [1, 2, 3]);
+  assert.deepEqual(result, [0, 1]);
 }
 run();
 ```
 
 ## API
 ```ts
-debounceTime(this, foo)
+debounceTime(this, duration)
 ```
 
 ### Parameters
-- `this`: `this` The observable whose values will be filtered.
-- `foo`: `duration` The time in milliseconds an emission must be followed by no additional emission to pass through this filter.
+- `this`: The observable whose values will be filtered.
+- `duration`: The time in milliseconds an emission must be followed by no additional emission to pass through this filter.
 ### Returns
 Returns an observable whose values are filtered by emissions followed by no emissions for `duration` milliseconds.
 

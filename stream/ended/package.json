@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/stream.ended",
+  "version": "1.0.0",
+  "description": "Return a promise that is fulfilled when a stream ends.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/stream/ended"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

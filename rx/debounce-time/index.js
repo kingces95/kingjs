@@ -15,9 +15,9 @@ var {
  * @description Filter values by those followed without
  * emissions for `duration` milliseconds.
  * 
- * @this any `this` The observable whose values will be filtered.
+ * @this any The observable whose values will be filtered.
  * 
- * @param foo `duration` The time in milliseconds an emission must
+ * @param duration The time in milliseconds an emission must
  * be followed by no additional emission to pass through this filter.
  * 
  * @returns Returns an observable whose values are filtered by

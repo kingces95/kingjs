@@ -4,16 +4,22 @@ The description.
 ```js
 require('kingjs');
 var assert = require('assert');
+var { Subscribe } = require('@kingjs/i-observable');
 var Map = require('@kingjs/rx.map');
 
-var result = [];
-var completed = false;
-[0, 1, 2][Map](o => o + 1).subscribe(
-  o => result.push(o),
-  () => completed = true,
-);
-assert.deepEqual(result, [1, 2, 3]);
-assert(completed);
+async function run() {
+  var result = [];
+
+  await new Promise((resolve) => {
+    [0, 1, 2][Map](o => o + 1)[Subscribe](
+      o => result.push(o),
+      resolve,
+    );
+  });
+
+  assert.deepEqual(result, [1, 2, 3]);
+}
+run();
 ```
 
 ## API
@@ -39,7 +45,7 @@ $ npm install @kingjs/rx.map
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.create-sync`](https://www.npmjs.com/package/@kingjs/rx.create-sync)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/map
 ## License

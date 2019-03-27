@@ -418,14 +418,13 @@ function* hash() {
   return hash.digest(Hex);
 }
 
-function end(stream, buffer) {
-  return new Promise(function(resolve, reject) {
-    stream
-      .on('error', reject)
-      .end(buffer, resolve);
-  });
-}
-
+// function end(stream, buffer) {
+//   return new Promise(function(resolve, reject) {
+//     stream
+//       .on('error', reject)
+//       .end(buffer, resolve);
+//   });
+// }
 
 function get(url, target, name) {
   return new Promise(function(resolve, reject) {

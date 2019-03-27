@@ -6,27 +6,25 @@ var {
   },
 } = require('./dependencies');
 
-function createSync(observer) {
+function createSync(callback) {
   
   // create(function* () { ... }) => create(callback)
-  if (observer instanceof Generator)
+  if (callback instanceof Generator)
     return fromGenerator(); 
 
-  return new Subject(observer);
+  return new Subject(callback);
+}
 
-  function fromGenerator() {
-    var generator = observer;
-
-    return createSync(function(observer) {
-      try {
-        for (var o of generator())
-          observer[Next](o);
-        observer[Complete]();
-      } catch(e) { 
-        observer[Error](e);
-      }
-    });
-  }
+function fromGenerator(generator) {
+  return createSync(function(observer) {
+    try {
+      for (var o of generator())
+        observer[Next](o);
+      observer[Complete]();
+    } catch(e) { 
+      observer[Error](e);
+    }
+  });
 }
 
 module.exports = createSync;

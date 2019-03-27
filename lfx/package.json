@@ -23,18 +23,18 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.is": "latest",
+    "os-utils": "latest",
     "rxjs": "latest",
-    "uuid": "latest",
-    "os-utils": "latest"
+    "uuid": "latest"
   },
   "nodeDependencies": [
-    "readline",
     "assert",
     "crypto",
     "fs",
     "http",
     "os",
     "path",
+    "readline",
     "url",
     "zlib"
   ]

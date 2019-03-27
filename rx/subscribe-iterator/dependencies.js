@@ -4,8 +4,5 @@ exports['@kingjs'] = {
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
-  rx: {
-    createSync: require('@kingjs/rx.create-sync'),
-  },
 }
 exports['assert'] = require('assert')
