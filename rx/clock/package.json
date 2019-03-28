@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.create-sync",
+  "name": "@kingjs/rx.create",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Create an `IObservable` that asynchronously emits values.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/create-sync"
+    "url": "https://repository.kingjs.net/rx/create"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/generator": "latest",
+    "@kingjs/endless": "latest",
     "@kingjs/i-observer": "latest",
+    "@kingjs/promise.sleep": "latest",
+    "@kingjs/reflect.is": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
-    "events"
+    "assert"
   ]
 }

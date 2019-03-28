@@ -1,20 +1,15 @@
 var assert = require('assert');
 var create = require('..');
 var { Subscribe } = require('@kingjs/i-observable');
+var { Error } = require('@kingjs/i-observer');
 
-async function run() {
-  var result;
-  var error = 'generator error';
+process.on('uncaughtException', function(err) {  
+  console.log('Caught exception:', err);
+});
 
-  await new Promise(resolve => {
-    new create(() => {
-      throw error;
-    })[Subscribe](null, null, e => {
-      result = e;
-      resolve();
-    });
-  })
+new create((observer) => {
+  observer[Error]();
+  assert.fail();
+})[Subscribe]();
 
-  assert.deepEqual(result, error)
-}
-run();
+assert.fail();

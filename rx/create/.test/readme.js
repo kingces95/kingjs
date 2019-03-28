@@ -1,28 +1,49 @@
 var assert = require('assert');
 var create = require('..');
 var { Subscribe } = require('@kingjs/i-observable');
+var { Next, Complete, Error } = require('@kingjs/i-observer');
 
-async function run() {
-  var count = 3;
-  var result = [];
-
-  await new Promise(resolve => {
-    new create(function(next) {
-
-      if (!this.i)
-        this.i = 0;
-
-      // prove values are returned in different clock ticks
-      process.nextTick(() => result.push(null));
-      
-      if (this.i == count)
-        return false;
-
-      next(this.i++);
-      return true;
-    })[Subscribe](o => result.push(o), resolve);
-  })
-
-  assert.deepEqual(result, [0, null, 1, null, 2, null])
+class DataSource {
+  constructor() {
+    let i = 0;
+    this.id = setInterval(() => this.emit(i++), 200);
+  }
+  
+  emit(n) {
+    const limit = 10;
+    if (this.onData) {
+      this.onData(n);
+    }
+    if (n === limit) {
+      if (this.oncomplete) {
+        this.onComplete();
+      }
+      this.destroy();
+    }
+  }
+  
+  destroy() {
+    console.log('destroy')
+    clearInterval(this.id);
+  }
 }
-run();
+
+var myObservable = create((observer) => {
+  const dataSource = new DataSource();
+  dataSource.onData = (e) => observer[Next](e);
+  dataSource.onError = (err) => observer[Error](err);
+  dataSource.onComplete = () => observer[Complete]();
+
+  return dataSource.destroy.bind(dataSource);
+})
+
+var dispose = myObservable[Subscribe]({
+  [Next](x) { console.log(x); },
+  [Error](err) { console.error(err); },
+  [Complete]() { console.log('done')}
+});
+
+setTimeout(() => {
+  console.log('timeout')
+  dispose()
+}, 1000);

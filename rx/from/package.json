@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.create",
+  "name": "@kingjs/rx.from",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Create an `IObservable` from a generator or  implementor of the iterator protocol.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/create"
+    "url": "https://repository.kingjs.net/rx/from"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/generator": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
-    "events"
+    "assert"
   ]
 }
