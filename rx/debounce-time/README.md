@@ -2,10 +2,11 @@
 Filter values by those followed without emissions for `duration` milliseconds.
 ## Usage
 ```js
-require('kingjs');
+require('@kingjs/shim');
 var assert = require('assert');
 var DebounceTime = require('@kingjs/rx.debounce-time');
-var ToObservable = require('@kingjs/linq.to-observable');
+var clock = require('@kingjs/rx.clock');
+var Zip = require('@kingjs/rx.zip');
 var { Subscribe } = require('@kingjs/i-observable');
 
 var duration = 50;
@@ -13,27 +14,46 @@ var duration = 50;
 async function run() {
   var result = [];
 
-  var start = Date.now();
   await new Promise((resolve) => {
-    [0, 1][ToObservable](duration * 2)[DebounceTime](duration)[Subscribe](
-      o => result.push(o),
-      resolve,
-    );
+    clock(() => duration * 2)
+      [Zip]([0, 1], (l, r) => r)
+      [DebounceTime](duration)
+      [Subscribe](
+        o => result.push(o),
+        resolve,
+      );
   });
 
   assert.deepEqual(result, [0, 1]);
 }
 run();
+
+async function bounce() {
+  var result = [];
+
+  await new Promise((resolve) => {
+    clock(() => duration / 2)
+      [Zip]([0, 1], (l, r) => r)
+      [DebounceTime](duration)
+      [Subscribe](
+        o => result.push(o),
+        resolve,
+      );
+  });
+
+  assert.deepEqual(result, [1]);
+}
+bounce();
 ```
 
 ## API
 ```ts
-debounceTime(this, duration)
+debounceTime(this, window)
 ```
 
 ### Parameters
 - `this`: The observable whose values will be filtered.
-- `duration`: The time in milliseconds an emission must be followed by no additional emission to pass through this filter.
+- `window`: The time in milliseconds an emission must be followed by no additional emission to pass through this filter.
 ### Returns
 Returns an observable whose values are filtered by emissions followed by no emissions for `duration` milliseconds.
 
@@ -48,8 +68,8 @@ $ npm install @kingjs/rx.debounce-time
 |---|---|
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/linq.to-observable`](https://www.npmjs.com/package/@kingjs/linq.to-observable)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.clock`](https://www.npmjs.com/package/@kingjs/rx.clock)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/debounce-time

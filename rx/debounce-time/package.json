@@ -20,8 +20,8 @@
   "dependencies": {
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/linq.to-observable": "latest",
     "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.clock": "latest",
     "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [

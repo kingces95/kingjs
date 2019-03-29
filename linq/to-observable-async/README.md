@@ -1,10 +1,10 @@
-# @[kingjs][@kingjs]/[linq][ns0].[to-observable][ns1]
+# @[kingjs][@kingjs]/[linq][ns0].[to-observable-async][ns1]
 Returns a cold IObservable of an IEnumerable published at a specified `interval` until exhausted.
 ## Usage
 ```js
 require('kingjs')
 var assert = require('assert');
-var ToObservable = require('@kingjs/linq.to-observable');
+var ToObservable = require('@kingjs/linq.to-observable-async');
 var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
@@ -47,24 +47,22 @@ Returns a cold IObservable.
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/linq.to-observable
+$ npm install @kingjs/linq.to-observable-async
 ```
 ## Dependencies
 |Package|Version|
 |---|---|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
 |[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/promise.sleep`](https://www.npmjs.com/package/@kingjs/promise.sleep)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
-https://repository.kingjs.net/linq/to-observable
+https://repository.kingjs.net/linq/to-observable-async
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/linq/to-observable)
+![Analytics](https://analytics.kingjs.net/linq/to-observable-async)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/linq
-[ns1]: https://www.npmjs.com/package/@kingjs/linq.to-observable
+[ns1]: https://www.npmjs.com/package/@kingjs/linq.to-observable-async

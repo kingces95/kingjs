@@ -1,7 +1,7 @@
 var { 
   ['@kingjs']: {
     reflect: { exportExtension },    
-    rx: { createAsync },
+    rx: { create },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },

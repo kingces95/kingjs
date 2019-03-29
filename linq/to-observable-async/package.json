@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.to-observable",
+  "name": "@kingjs/linq.to-observable-async",
   "version": "1.0.0",
   "description": "Returns a cold IObservable of an IEnumerable published at a specified `interval` until exhausted.",
   "main": "index.js",
@@ -13,15 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/linq/to-observable"
+    "url": "https://repository.kingjs.net/linq/to-observable-async"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest"
   },

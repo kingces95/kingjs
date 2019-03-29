@@ -1,7 +1,6 @@
 var { 
   ['@kingjs']: {
-    rx: { create },
-    linq: { ToObservable },
+    rx: { create, clock },
     reflect: { 
       exportExtension
     },
@@ -17,41 +16,67 @@ var {
  * 
  * @this any The observable whose values will be filtered.
  * 
- * @param duration The time in milliseconds an emission must
+ * @param window The time in milliseconds an emission must
  * be followed by no additional emission to pass through this filter.
  * 
  * @returns Returns an observable whose values are filtered by
  * emissions followed by no emissions for `duration` milliseconds.
  */
-function debounceTime(duration) {
+function debounceTime(window) {
   var observable = this;
 
   return create(observer => {
+    var received;
+    var value;
+    var delay;
+    var nextTick = () => delay;
+    
     var start;
-    var cancel;
+    delay = new Promise(resolve => start = resolve);
+    var disposeClock = clock(nextTick)[Subscribe](
+      now => {
+
+        // filter values to those followed by `window` ms
+        var elapsed = now - received;
+        if (elapsed < window) {
+          delay = window - elapsed;
+          return;
+        }
+
+        // emit value and reset received time
+        observer[Next](value);
+        received = undefined;
+
+        // pause clock
+        delay = new Promise(resolve => start = resolve);
+      }
+    );
 
     var dispose = observable[Subscribe](
       o => {
+        value = o;
         var now = Date.now();
-        if (start && now - start < duration)
-          cancel();
 
-        cancel = [o]
-          [ToObservable](duration)
-          [Subscribe](x => observer[Next](x));
-
-        start = now;
+        // start clock
+        if (!received)
+          start(window);
+          
+        received = now;
       },
-      () => observer[Complete](),
-      o => observer[Error]()
+      () => {
+        if (!received)
+          received = window;
+        var elapsed = Date.now() - received;
+
+        // drain last value
+        setTimeout(() => observer[Complete](), window - elapsed)
+      },
+      o => observer[Error](o)
     );
 
     return () => {
-      if (dispose)
-        dispose();
-        
-      if (cancel)
-        cancel();
+      dispose();
+      disposeClock();
     }
   })
 }
