@@ -1,14 +1,10 @@
 exports['@kingjs'] = {
-  endless: require('@kingjs/endless'),
   IObserver: require('@kingjs/i-observer'),
   promise: {
     sleep: require('@kingjs/promise.sleep'),
   },
-  reflect: {
-    is: require('@kingjs/reflect.is'),
-  },
   rx: {
-    Subject: require('@kingjs/rx.subject'),
+    create: require('@kingjs/rx.create'),
   },
 }
 exports['assert'] = require('assert')

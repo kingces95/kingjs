@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.clock",
+  "name": "@kingjs/rx.zip",
   "version": "1.0.0",
-  "description": "Create an `IObservable` that asynchronously emits `Date.now()` endlessly.",
+  "description": "Create an `IObservable` that asynchronously emits values.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,13 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/clock"
+    "url": "https://repository.kingjs.net/rx/zip"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/get-iterator": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
     "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [

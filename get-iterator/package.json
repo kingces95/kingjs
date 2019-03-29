@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.clock",
+  "name": "@kingjs/get-iterator",
   "version": "1.0.0",
-  "description": "Create an `IObservable` that asynchronously emits `Date.now()` endlessly.",
+  "description": "Returns an `iterator` given a `generator` or an `iterable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,14 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/clock"
+    "url": "https://repository.kingjs.net/get-iterator"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/reflect.is": "latest"
   },
   "nodeDependencies": [
     "assert"

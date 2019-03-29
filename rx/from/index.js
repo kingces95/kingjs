@@ -1,7 +1,6 @@
 var { 
-  assert,
   ['@kingjs']: {
-    reflect: { is },
+    getIterator,
     rx: { create },
     IObserver: { Next, Complete, Error }
   }
@@ -19,22 +18,9 @@ var {
  * a toy or testing tool with limited practical use otherwise.
  */
 function from(value) {
-
-  // arrays, maps, etc...
-  if (Symbol.iterator in value)
-    return fromGenerator(value[Symbol.iterator].bind(value))
-    
-  // function* () { ... }
-  if (is.generator(value))
-    return fromGenerator(value); 
-
-  assert.fail();
-}
-
-function fromGenerator(generator) {
   return create(function(observer) {
     try {
-      for (var o of generator())
+      for (var o of getIterator(value))
         observer[Next](o);
       observer[Complete]();
     } catch(e) { 
