@@ -1,22 +1,18 @@
-require('kingjs');
+require('@kingjs/shim')
 var assert = require('assert');
-var DebounceTime = require('..');
-var ToObservable = require('@kingjs/linq.to-observable');
+var Once = require('..');
+var clock = require('@kingjs/rx.clock');
 var { Subscribe } = require('@kingjs/i-observable');
 
-var duration = 50;
-
 async function run() {
-  var result = [];
+  var value = 1;
+  var result;
 
-  var start = Date.now();
-  await new Promise((resolve) => {
-    [0, 1][ToObservable](duration * 2)[DebounceTime](duration)[Subscribe](
-      o => result.push(o),
-      resolve,
-    );
-  });
+  await new Promise(resolve => {
+    var observer = clock()[Once](value);
+    observer[Subscribe](o => result = o, resolve);
+  })
 
-  assert.deepEqual(result, [0, 1]);
+  assert.equal(result, value)
 }
 run();

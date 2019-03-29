@@ -2,6 +2,7 @@
 Create an `IObservable` from a generator or  implementor of the iterator protocol.
 ## Usage
 ```js
+require('@kingjs/shim')
 var assert = require('assert');
 var from = require('@kingjs/rx.from');
 var { Subscribe } = require('@kingjs/i-observable');
@@ -44,7 +45,8 @@ $ npm install @kingjs/rx.from
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/get-generator`](https://www.npmjs.com/package/@kingjs/get-generator)|`latest`|
+|[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
+|[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/rx.zip",
   "version": "1.0.0",
-  "description": "Create an `IObservable` that asynchronously emits values.",
+  "description": "Create an `IObservable` that zips emitted values with an `IEnumerable` of values.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -18,7 +18,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/get-generator": "latest",
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-enumerator": "latest",
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
@@ -26,5 +27,6 @@
   },
   "nodeDependencies": [
     "assert"
-  ]
+  ],
+  "capitalize": true
 }

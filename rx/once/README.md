@@ -1,41 +1,37 @@
 # @[kingjs][@kingjs]/[rx][ns0].[once][ns1]
-Filter values by those followed without emissions for `duration` milliseconds.
+Create an `IObservable` that emits a single value.
 ## Usage
 ```js
-require('kingjs');
+require('@kingjs/shim')
 var assert = require('assert');
-var DebounceTime = require('@kingjs/rx.once');
-var ToObservable = require('@kingjs/linq.to-observable');
+var Once = require('@kingjs/rx.once');
+var clock = require('@kingjs/rx.clock');
 var { Subscribe } = require('@kingjs/i-observable');
 
-var duration = 50;
-
 async function run() {
-  var result = [];
+  var value = 1;
+  var result;
 
-  var start = Date.now();
-  await new Promise((resolve) => {
-    [0, 1][ToObservable](duration * 2)[DebounceTime](duration)[Subscribe](
-      o => result.push(o),
-      resolve,
-    );
-  });
+  await new Promise(resolve => {
+    var observer = clock()[Once](value);
+    observer[Subscribe](o => result = o, resolve);
+  })
 
-  assert.deepEqual(result, [0, 1]);
+  assert.equal(result, value)
 }
 run();
 ```
 
 ## API
 ```ts
-once(this, foo)
+once(this, value)
 ```
 
 ### Parameters
-- `this`: `this` The observable whose values will be filtered.
-- `foo`: `duration` The time in milliseconds an emission must be followed by no additional emission to pass through this filter.
+- `this`: The `IObservable` whose next emission is replaced with `value`.
+- `value`: The value emit.
 ### Returns
-Returns an observable whose values are filtered by emissions followed by no emissions for `duration` milliseconds.
+Returns an observable that emits a single value, completes, and then disposes itself.
 
 
 ## Install
@@ -47,10 +43,8 @@ $ npm install @kingjs/rx.once
 |Package|Version|
 |---|---|
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/linq.to-observable`](https://www.npmjs.com/package/@kingjs/linq.to-observable)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.zip`](https://www.npmjs.com/package/@kingjs/rx.zip)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/once
 ## License

@@ -59,16 +59,23 @@ function createLinks() {
   }
 }
 
+function getFiles(options = '') {
+  return shelljs.exec(
+    `git ls-files ${options}`, 
+    { silent:true }
+  ).stdout.trim().split(Line);
+}
+
 function getLocalPackages() {
 
-  // dump files
-  var lsFiles = shelljs.exec(
-    'git ls-files', 
-    { silent:true }
-  ).stdout.trim();
+  var trackedFiles = getFiles();
+  var deletedFiles = getFiles('-d');
+  var addedFiles = getFiles('--others --exclude-standard');
 
-  // split dump into lines
-  var files = lsFiles.split(Line);
+  // dump files
+  var files = trackedFiles
+    .filter(o => deletedFiles.indexOf(o) == -1)
+    .concat(addedFiles);
 
   // select package.json in paths where no directory is prefixed with dot
   var dirs = files

@@ -1,5 +1,6 @@
 exports['@kingjs'] = {
-  getGenerator: require('@kingjs/get-generator'),
+  IEnumerable: require('@kingjs/i-enumerable'),
+  IEnumerator: require('@kingjs/i-enumerator'),
   IObserver: require('@kingjs/i-observer'),
   rx: {
     create: require('@kingjs/rx.create'),

@@ -1,3 +1,4 @@
+require('@kingjs/shim')
 var assert = require('assert');
 var from = require('..');
 var { Subscribe } = require('@kingjs/i-observable');

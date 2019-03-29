@@ -5,26 +5,21 @@ var clock = require('@kingjs/rx.clock');
 var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
-  var count = 3;
-  var result = [];
+  var result;
+  var value = 1;
 
   await new Promise(resolve => {
-    var observer = clock()[Zip](function* () {
-      for (var i = 0; i < count; i ++) {
-        process.nextTick(() => result.push(null));
-        yield i;
-      }
-    }, (tick, i) => ({ tick, i }));
-
+    var observer = clock()[Zip](value, (tick, i) => ({ tick, i }));
+    
     observer[Subscribe](
       o => {
         assert(o.tick <= Date.now());
-        result.push(o.i);
+        result = o.i;
       },
       resolve
     );
   })
 
-  assert.deepEqual(result, [0, null, 1, null, 2, null])
+  assert.deepEqual(result, value)
 }
 run();

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/rx.once",
   "version": "1.0.0",
-  "description": "Filter values by those followed without emissions for `duration` milliseconds.",
+  "description": "Create an `IObservable` that emits a single value.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -19,10 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/linq.to-observable": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/rx.zip": "latest"
   },
   "nodeDependencies": [
     "assert"

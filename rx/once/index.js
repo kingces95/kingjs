@@ -1,23 +1,27 @@
 var { 
   ['@kingjs']: {
-    rx: { create },
+    IObservable,
+    reflect: { 
+      exportExtension
+    },
+    rx: { Zip },
   }
 } = require('./dependencies');
 
+var zipper = (l, r) => r;
+
 /**
- * @description Filter values by those followed without
- * emissions for `duration` milliseconds.
+ * @description Create an `IObservable` that emits a single value.
  * 
- * @this any `this` The observable whose values will be filtered.
+ * @this any The `IObservable` whose next emission is replaced with `value`.
  * 
- * @param foo `duration` The time in milliseconds an emission must
- * be followed by no additional emission to pass through this filter.
+ * @param value The value emit.
  * 
- * @returns Returns an observable whose values are filtered by
- * emissions followed by no emissions for `duration` milliseconds.
+ * @returns Returns an observable that emits a single value, completes,
+ * and then disposes itself. 
  */
-function once(interval, value) {
-  return create(interval, next => next(value));
+function once(value) {
+  return this[Zip](value, zipper);
 }
 
-module.exports = once;
+exportExtension(module, IObservable, once);

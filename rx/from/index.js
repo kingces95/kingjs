@@ -1,8 +1,11 @@
 var { 
+  assert,
   ['@kingjs']: {
-    getGenerator,
     rx: { create },
-    IObserver: { Next, Complete, Error }
+    IObserver: { Next, Complete, Error },
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current }
   }
 } = require('./dependencies');
 
@@ -20,9 +23,11 @@ var {
 function from(value) {
   return create(function(observer) {
     try {
-      var generator = getGenerator(value);
-      for (var o of generator())
-        observer[Next](o);
+      assert(value instanceof IEnumerable);
+      var enumerator = value[GetEnumerator]();
+      while (enumerator[MoveNext]())
+        observer[Next](enumerator[Current]);
+        
       observer[Complete]();
     } catch(e) { 
       observer[Error](e);
