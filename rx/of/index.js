@@ -1,22 +1,19 @@
 var { 
   ['@kingjs']: {
-    rx: { create },
-    linq: { ToObservable },
-    IObserver: { Next, Complete }
+    rx: { from },
   }
 } = require('./dependencies');
 
 /**
- * @description The description.
+ * @description Create an `IObservable` from `arguments`.
  * 
- * @this any `this` comment.
+ * @returns Returns `IObservable` that emits elements `arguments`.
  * 
- * @param foo `foo` comment.
- * 
- * @returns Returns comment.
+ * @remarks All values are emitted synchronously. As such, this is primarily
+ * a toy or testing tool with limited practical use.
  */
 function of() {
-  return [...arguments][ToObservable]();
+  return from([...arguments]);
 }
 
 module.exports = of;

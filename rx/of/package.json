@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/rx.of",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Create an `IObservable` from `arguments`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -18,9 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-observer": "latest",
-    "@kingjs/linq.to-observable": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/rx.from": "latest"
   },
   "nodeDependencies": [
     "assert"

@@ -5,7 +5,7 @@ exports['@kingjs'] = {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
   rx: {
-    createSync: require('@kingjs/rx.create-sync'),
+    create: require('@kingjs/rx.create'),
   },
 }
 exports['assert'] = require('assert')

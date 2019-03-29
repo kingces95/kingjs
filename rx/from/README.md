@@ -44,7 +44,7 @@ $ npm install @kingjs/rx.from
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/get-iterator`](https://www.npmjs.com/package/@kingjs/get-iterator)|`latest`|
+|[`@kingjs/get-generator`](https://www.npmjs.com/package/@kingjs/get-generator)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source

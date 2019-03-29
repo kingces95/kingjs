@@ -1,17 +1,17 @@
 # @[kingjs][@kingjs]/[rx][ns0].[map][ns1]
-The description.
+Returns an `IObservable` that maps values emitted from the current `IObservable`.
 ## Usage
 ```js
-require('kingjs');
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
+var from = require('@kingjs/rx.from');
 var Map = require('@kingjs/rx.map');
 
 async function run() {
   var result = [];
 
   await new Promise((resolve) => {
-    [0, 1, 2][Map](o => o + 1)[Subscribe](
+    from([0, 1, 2])[Map](o => o + 1)[Subscribe](
       o => result.push(o),
       resolve,
     );
@@ -24,14 +24,14 @@ run();
 
 ## API
 ```ts
-map(this, foo)
+map(this, callback)
 ```
 
 ### Parameters
-- `this`: `this` comment.
-- `foo`: `foo` comment.
+- `this`: The `IObservable` whose emitted value are mapped.
+- `callback`: The function that maps each emitted value.
 ### Returns
-Returns comment.
+Returns a new `IObservable` that emits mapped values.
 
 
 ## Install
@@ -45,7 +45,7 @@ $ npm install @kingjs/rx.map
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/rx.create-sync`](https://www.npmjs.com/package/@kingjs/rx.create-sync)|`latest`|
+|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/map
 ## License

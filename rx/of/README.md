@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[rx][ns0].[of][ns1]
-The description.
+Create an `IObservable` from `arguments`.
 ## Usage
 ```js
 var assert = require('assert');
@@ -14,15 +14,12 @@ assert.deepEqual(result, [0, 1, 2]);
 
 ## API
 ```ts
-of(this, foo)
+of()
 ```
 
-### Parameters
-- `this`: `this` comment.
-- `foo`: `foo` comment.
-### Returns
-Returns comment.
 
+### Remarks
+All values are emitted synchronously. As such, this is primarily a toy or testing tool with limited practical use.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -32,9 +29,7 @@ $ npm install @kingjs/rx.of
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/linq.to-observable`](https://www.npmjs.com/package/@kingjs/linq.to-observable)|`latest`|
-|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.from`](https://www.npmjs.com/package/@kingjs/rx.from)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/of
 ## License

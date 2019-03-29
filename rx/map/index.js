@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    rx: { createSync },
+    rx: { create },
     reflect: { 
       exportExtension
     },
@@ -11,18 +11,19 @@ var {
 } = require('./dependencies');
 
 /**
- * @description The description.
+ * @description Returns an `IObservable` that maps values emitted
+ * from the current `IObservable`.
  * 
- * @this any `this` comment.
+ * @this any The `IObservable` whose emitted value are mapped.
  * 
- * @param foo `foo` comment.
+ * @param callback The function that maps each emitted value.
  * 
- * @returns Returns comment.
+ * @returns Returns a new `IObservable` that emits mapped values.
  */
 function map(callback) {
   var observable = this;
 
-  return createSync(observer => {
+  return create(observer => {
     return observable[Subscribe](
       o => observer[Next](callback(o)),
       () => observer[Complete](),

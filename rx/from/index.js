@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    getIterator,
+    getGenerator,
     rx: { create },
     IObserver: { Next, Complete, Error }
   }
@@ -20,7 +20,8 @@ var {
 function from(value) {
   return create(function(observer) {
     try {
-      for (var o of getIterator(value))
+      var generator = getGenerator(value);
+      for (var o of generator())
         observer[Next](o);
       observer[Complete]();
     } catch(e) { 

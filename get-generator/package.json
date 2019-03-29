@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/get-iterator",
+  "name": "@kingjs/get-generator",
   "version": "1.0.0",
-  "description": "Returns an `iterator` given a `generator` or an `iterable`.",
+  "description": "Returns a `generator` given an `iterable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/get-iterator"
+    "url": "https://repository.kingjs.net/get-generator"
   },
   "keywords": [],
   "license": "MIT",

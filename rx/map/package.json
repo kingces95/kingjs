@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/rx.map",
   "version": "1.0.0",
-  "description": "The description.",
+  "description": "Returns an `IObservable` that maps values emitted from the current `IObservable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -21,7 +21,7 @@
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create-sync": "latest"
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
     "assert"

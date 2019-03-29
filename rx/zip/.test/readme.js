@@ -1,5 +1,6 @@
 var assert = require('assert');
-var create = require('..');
+var Zip = require('..');
+var clock = require('@kingjs/rx.clock');
 var { Subscribe } = require('@kingjs/i-observable');
 
 async function run() {
@@ -7,20 +8,19 @@ async function run() {
   var result = [];
 
   await new Promise(resolve => {
-    new create(function(next) {
-
-      if (!this.i)
-        this.i = 0;
-
-      // prove values are returned in different clock ticks
-      process.nextTick(() => result.push(null));
-      
-      if (this.i == count)
-        return false;
-
-      next(this.i++);
-      return true;
-    })[Subscribe](o => result.push(o), resolve);
+    var ticker = clock();
+    ticker[Zip](function* () {
+      for (var i = 0; i < count; i ++) {
+        process.nextTick(() => result.push(null));
+        yield i;
+      }
+    }, (tick, i) => ({ tick, i }))[Subscribe](
+      o => {
+        assert(o.tick <= Date.now());
+        result.push(o.i);
+      },
+      resolve
+    );
   })
 
   assert.deepEqual(result, [0, null, 1, null, 2, null])

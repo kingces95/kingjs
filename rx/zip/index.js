@@ -1,7 +1,12 @@
 var {
   ['@kingjs']: {
-    getIterator,
+    getGenerator,
+    reflect: { 
+      exportExtension
+    },
     rx: { create },
+    IObservable,
+    IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
   },
 } = require('./dependencies');
@@ -19,7 +24,7 @@ function zip(value, callback) {
     return dispose = observable[Subscribe](
       o => {
         if (!iterator)
-          iterator = getIterator(value);
+          iterator = getGenerator(value)();
 
         var current = iterator.next();
         if (current.done) {
@@ -36,4 +41,4 @@ function zip(value, callback) {
   });
 }
 
-module.exports = zip;
+exportExtension(module, IObservable, zip);
