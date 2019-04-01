@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/watch-package.temp.root.foo",
+  "name": "@kingjs/watch-package..temp.root.foo",
   "version": "1.0.0",
   "description": "This becomes my package description when I save.",
   "main": "index.js",
@@ -8,14 +8,11 @@
     "*.txt"
   ],
   "scripts": {
-    "generate": "cpk"
+    "build": "cpk"
   },
-  "dependencies": {
-    "@kingjs/camel-case.join": "^1.0.0",
-    "@kingjs/package-name.parse": "^1.0.1"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/watch-package/temp/root/foo"
+    "url": "https://repository.kingjs.net/watch-package/.temp/root/foo"
   }
 }

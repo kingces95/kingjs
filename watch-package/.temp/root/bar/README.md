@@ -17,11 +17,7 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/watch-package..temp.root.bar
 ```
-## Dependencies
-|Package|Version|
-|---|---|
-|[`@kingjs/camel-case.join`](https://www.npmjs.com/package/@kingjs/camel-case.join)|`^1.0.0`|
-|[`@kingjs/package-name.parse`](https://www.npmjs.com/package/@kingjs/package-name.parse)|`^1.0.1`|
+
 ## Source
 https://repository.kingjs.net/watch-package/.temp/root/bar
 ## License

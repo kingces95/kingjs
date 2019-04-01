@@ -44,6 +44,9 @@ function endless(value) {
   if (is.generator(value) || is.asyncGenerator(value))
     return endlessIterator(value);
 
+  if (is.function(value))
+    return value;
+
   return () => value;
 }
 

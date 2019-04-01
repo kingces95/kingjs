@@ -28,7 +28,8 @@ function clock(timeOut = endlessZero) {
         while (true) {
 
           // sleep
-          await sleep(await timeOut());
+          var ms = await timeOut();
+          await sleep(ms);
 
           // externally terminated
           if (cancelled)

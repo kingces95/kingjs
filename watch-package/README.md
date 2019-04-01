@@ -22,7 +22,9 @@ $ npm install @kingjs/watch-package
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/i-grouped-observable`](https://www.npmjs.com/package/@kingjs/i-grouped-observable)|`latest`|
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
+|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.blend`](https://www.npmjs.com/package/@kingjs/rx.blend)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|

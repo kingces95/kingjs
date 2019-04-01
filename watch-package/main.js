@@ -1,24 +1,16 @@
 var {
+  assert, fs, path: Path,
   ['@kingjs']: { 
     IObservable: { Subscribe },
+    IObserver: { Next },
+    IGroupedObservable: { Key },
     rx: { create, Subject, Blend, SelectMany, GroupBy, DebounceTime },
     reflect: { is } 
   },
   chokidar,
   deepEquals,
   shelljs,
-  rxjs: { Observable, Subject, merge }
 } = require('./dependencies');
-
-var { 
-  groupBy,
-  mergeMap,
-  debounceTime,
-} = require('rxjs/operators');
-
-var assert = require('assert');
-var fs = require('fs');
-var Path = require('path');
 
 var LogLevel = 2;
 var DebounceMs = 250;
@@ -72,7 +64,7 @@ console.log('watching:', cwd)
  * are watched for that package. 
  **/
 function watchFiles(glob, options) {
-  return new Observable((subscriber) => {
+  return create((observer) => {
     try {
 
       options = { 
@@ -86,10 +78,9 @@ function watchFiles(glob, options) {
       // report watched events
       watcher.on(
         All,
-        (event, path) => subscriber.next({ 
-          event,
-          path 
-        })
+        (event, path) => {
+          observer[Next]({ event, path })
+        }
       );
 
       // stop observing file events
@@ -104,12 +95,13 @@ function watchFiles(glob, options) {
 
 var control = new Subject();
 
-var packages = merge(watchFiles(PackagesGlob), control).pipe(
-  groupBy(x => {
+var packages = watchFiles(PackagesGlob)
+  [Blend](control)
+  [GroupBy](x => {
     return x.path;
-  }),
-  mergeMap(package => {
-    var key = package.key
+  })
+  [SelectMany](package => {
+    var key = package[Key];
     var dir = Path.dirname(key);
     var subject = new Subject();
     var files = [ ];
@@ -117,7 +109,7 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
     var task;
     var isPaused;
 
-    package.subscribe(p => {
+    package[Subscribe](p => {
       assert(p.path == key);
       var isPause = p.event == Pause;
       var isResume = p.event == Resume;
@@ -127,10 +119,11 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
       if (isPaused)
         return;
 
+      var packageJson = isUnlink ? EmptyPackage : parsePackage(key);
       var { 
         files: newFiles, 
         scripts: { [Task]: newTask } 
-      } = isUnlink ? EmptyPackage : parsePackage(key);
+      } = packageJson;
 
       // no command => don't watch any files
       if (!newTask)
@@ -151,7 +144,7 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
       if (subscription) {
 
         // stop watching previous file glob
-        subscription.unsubscribe();
+        subscription();
         subscription = null;
       }
 
@@ -167,25 +160,25 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
           cwd: dir, 
           ignoreInitial: true 
         }
-      ).subscribe(f => {
+      )[Subscribe](f => {
         if (isPaused)
           return;
 
         log(2, f.event, Path.join(dir, f.path));
-        subject.next({ path: key, dir, task }); 
+        subject[Next]({ path: key, dir, task }); 
       });
     });
 
-    return subject.pipe(debounceTime(DebounceMs));
-  })
-)
-packages.subscribe(o => {
+    return subject[DebounceTime](DebounceMs);
+  });
+
+packages[Subscribe](o => {
   var { dir, path, task } = o;
 
-  control.next({ event: Pause, path });
+  control[Next]({ event: Pause, path });
   exec(dir, task);
   setTimeout(function() {
-    control.next({ event: Resume, path })
+    control[Next]({ event: Resume, path })
   }, DebounceMs);
   ;
 });

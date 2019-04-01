@@ -8,7 +8,7 @@
     "*.txt"
   ],
   "scripts": {
-    "generate": "cpk & crm"
+    "build": "cpk & crm"
   },
   "dependencies": {
     "@kingjs/camel-case.join": "^1.0.0",
