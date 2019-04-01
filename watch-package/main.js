@@ -4,20 +4,18 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next },
     IGroupedObservable: { Key },
-    rx: { create, Subject, Blend, SelectMany, GroupBy, DebounceTime },
+    rx: { create, Subject, SelectMany, GroupBy, DebounceTime },
     reflect: { is } 
   },
   chokidar,
-  deepEquals,
   shelljs,
 } = require('./dependencies');
 
 var LogLevel = 2;
 var DebounceMs = 250;
+var PostCallSleepMs = DebounceMs * 2;
+
 var All = 'all';
-var Unlink = 'unlink';
-var Pause = 'pause';
-var Resume = 'resume';
 var Task = 'build';
 var EmptyArray = [ ];
 var EmptyObject = { };
@@ -93,98 +91,61 @@ function watchFiles(glob, options) {
   })
 }
 
-var control = new Subject();
-
-var packages = watchFiles(PackagesGlob)
-  [Blend](control)
-  [GroupBy](x => {
-    return x.path;
-  })
+watchFiles(PackagesGlob)
+  [GroupBy](x => x.path)
   [SelectMany](package => {
-    var key = package[Key];
-    var dir = Path.dirname(key);
+    const path = package[Key];
+    const dir = Path.dirname(path);
+
     var subject = new Subject();
-    var files = [ ];
-    var subscription;
-    var task;
-    var isPaused;
+    var dispose;
 
     package[Subscribe](p => {
-      assert(p.path == key);
-      var isPause = p.event == Pause;
-      var isResume = p.event == Resume;
-      var isUnlink = p.event == Unlink;
-
-      isPaused = isResume ? false : isPause ? true : isPaused;
-      if (isPaused)
-        return;
-
-      var packageJson = isUnlink ? EmptyPackage : parsePackage(key);
-      var { 
-        files: newFiles, 
-        scripts: { [Task]: newTask } 
-      } = packageJson;
-
-      // no command => don't watch any files
-      if (!newTask)
-        newFiles = EmptyArray;
-      else if (task != newTask)
-        log(1, key, '=>', `{ scripts: { ${Task}: ${newTask} } }`);
-
-      // update task
-      task = newTask;
-
-      // bail if file glob did not change
-      if (deepEquals(files, newFiles))
-        return;
-      files = newFiles;
-      log(1, key, '=>', `{ files: [${files}] }`);
-
-      // file glob changed!
-      if (subscription) {
-
-        // stop watching previous file glob
-        subscription();
-        subscription = null;
+      assert(p.path == path);
+      
+      // always re-create watcher
+      if (dispose) {
+        dispose();
+        dispose = null;
       }
 
-      // optimization; don't spin up a watcher if empty file glob
-      if (!files || files.length == 0) {
-        assert(!subscription);
+      var packageJson = tryParsePackage(path);
+      var { 
+        files, 
+        scripts: { [Task]: task } 
+      } = packageJson;
+
+      log(1, path, '=>', `{ scripts: { ${Task}: ${task} } }`);
+      log(1, path, '=>', `{ files: [${files}] }`);
+
+      // don't spin up a watcher if nothing to do
+      if (!task || !files || files.length == 0) {
+        assert(!dispose);
         return;
       }
 
       // watch files specified by the new file glob
-      subscription = watchFiles(
+      dispose = watchFiles(
         files, { 
           cwd: dir, 
           ignoreInitial: true 
         }
       )[Subscribe](f => {
-        if (isPaused)
-          return;
-
         log(2, f.event, Path.join(dir, f.path));
-        subject[Next]({ path: key, dir, task }); 
+        subject[Next](() => exec.bind(dir, task)); 
       });
     });
 
-    return subject[DebounceTime](DebounceMs);
+    return subject
+      [DebounceTime](DebounceMs)
+      [Call](PostCallSleepMs);
   });
 
-packages[Subscribe](o => {
-  var { dir, path, task } = o;
-
-  control[Next]({ event: Pause, path });
-  exec(dir, task);
-  setTimeout(function() {
-    control[Next]({ event: Resume, path })
-  }, DebounceMs);
-  ;
-});
-
-function parsePackage(path) {
+function tryParsePackage(path) {
   try {
+    if (!fs.existsSync(path))
+      return EmptyPackage;
+
     var json = JSON.parse(fs.readFileSync(path));
 
     if (!json)

@@ -25,7 +25,6 @@
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.is": "latest",
-    "@kingjs/rx.blend": "latest",
     "@kingjs/rx.create": "latest",
     "@kingjs/rx.debounce-time": "latest",
     "@kingjs/rx.group-by": "latest",
