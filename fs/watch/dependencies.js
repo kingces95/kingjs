@@ -1,11 +1,11 @@
 exports['@kingjs'] = {
-  endless: require('@kingjs/endless'),
   IObserver: require('@kingjs/i-observer'),
-  promise: {
-    sleep: require('@kingjs/promise.sleep'),
+  reflect: {
+    is: require('@kingjs/reflect.is'),
   },
   rx: {
     create: require('@kingjs/rx.create'),
   },
 }
+exports['chokidar'] = require('chokidar')
 exports['assert'] = require('assert')

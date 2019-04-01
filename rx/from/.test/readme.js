@@ -2,7 +2,6 @@ require('@kingjs/shim')
 var assert = require('assert');
 var from = require('..');
 var { Subscribe } = require('@kingjs/i-observable');
-var { Next, Complete, Error } = require('@kingjs/i-observer');
 
 function example(value) {
   var next;

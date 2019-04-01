@@ -1,5 +1,6 @@
 var {
   ['@kingjs']: {
+    endless,
     promise: { sleep },
     rx: { create },
     IObserver: { Next, Error },
@@ -17,6 +18,8 @@ var endlessZero = () => 0;
  * @returns A function which can be called to cancel the emission of values.
  */
 function clock(timeOut = endlessZero) {
+  timeOut = endless(timeOut);
+
   return create(observer => {
     var cancelled = false;
 
@@ -39,7 +42,9 @@ function clock(timeOut = endlessZero) {
       }
     });
 
-    return () => cancelled = true;
+    return () => {
+      cancelled = true
+    };
   });
 }
 

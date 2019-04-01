@@ -1,8 +1,8 @@
 exports['@kingjs'] = {
-  endless: require('@kingjs/endless'),
+  IObservable: require('@kingjs/i-observable'),
   IObserver: require('@kingjs/i-observer'),
-  promise: {
-    sleep: require('@kingjs/promise.sleep'),
+  reflect: {
+    exportExtension: require('@kingjs/reflect.export-extension'),
   },
   rx: {
     create: require('@kingjs/rx.create'),

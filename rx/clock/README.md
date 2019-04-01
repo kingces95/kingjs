@@ -50,6 +50,7 @@ $ npm install @kingjs/rx.clock
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/endless`](https://www.npmjs.com/package/@kingjs/endless)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/promise.sleep`](https://www.npmjs.com/package/@kingjs/promise.sleep)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|

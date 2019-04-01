@@ -33,7 +33,7 @@ function toObservable(backPressure) {
   return create(observer => {
     stream
       .on('error', observer[Error])
-      .on('end', observer[Complete]);
+      .on('end', observer[Complete])
       .on('data', data => {
 
         // emit buffer

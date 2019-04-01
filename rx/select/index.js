@@ -27,7 +27,7 @@ function map(callback) {
     return observable[Subscribe](
       o => observer[Next](callback(o)),
       () => observer[Complete](),
-      o => observer[Error]()
+      o => observer[Error](o)
     );
   })
 }

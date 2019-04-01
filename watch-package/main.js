@@ -1,5 +1,9 @@
 var {
-  ['@kingjs']: { reflect: { is } },
+  ['@kingjs']: { 
+    IObservable: { Subscribe },
+    rx: { create, Subject, Blend, SelectMany, GroupBy, DebounceTime },
+    reflect: { is } 
+  },
   chokidar,
   deepEquals,
   shelljs,

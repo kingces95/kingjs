@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/promise.never",
+  "version": "1.0.0",
+  "description": "Return a promise that never resolves.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/promise/never"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {},
+  "nodeDependencies": [
+    "assert"
+  ]
+}

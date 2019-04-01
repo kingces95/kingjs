@@ -1,37 +1,29 @@
 {
-  "name": "@kingjs/watch-package",
+  "name": "@kingjs/fs.watch",
   "version": "1.0.0",
   "description": "A tool which, for each `package.json` found in any subdirectory, excluding dot directories, runs  `npm run build`  in the subdirectory whenever a change  is made to any file explicitly included in the package.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
-  "bin": {
-    "wpk": "./wpk.js"
-  },
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm test",
+    "prepublishOnly": "npm .test",
     "build": "cpk && crm && cdj && clk"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/watch-package"
+    "url": "https://repository.kingjs.net/fs/watch"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
     "@kingjs/reflect.is": "latest",
-    "@kingjs/rx.blend": "latest",
     "@kingjs/rx.create": "latest",
-    "@kingjs/rx.debounce-time": "latest",
-    "@kingjs/rx.group-by": "latest",
-    "@kingjs/rx.select-many": "latest",
-    "@kingjs/rx.subject": "latest",
-    "chokidar": "latest",
-    "deep-equals": "latest",
-    "rxjs": "latest",
-    "shelljs": "latest"
-  }
+    "chokidar": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
 }

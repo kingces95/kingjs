@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.clock",
+  "name": "@kingjs/rx.select",
   "version": "1.0.0",
-  "description": "Create an `IObservable` that asynchronously emits `Date.now()` endlessly.",
+  "description": "Returns an `IObservable` that maps values emitted from the current `IObservable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,17 +13,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/clock"
+    "url": "https://repository.kingjs.net/rx/select"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/endless": "latest",
+    "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
+    "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
     "assert"
-  ]
+  ],
+  "capitalize": true
 }

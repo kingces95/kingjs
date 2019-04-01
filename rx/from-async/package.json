@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.clock",
+  "name": "@kingjs/rx.from-async",
   "version": "1.0.0",
-  "description": "Create an `IObservable` that asynchronously emits `Date.now()` endlessly.",
+  "description": "Create an `IObservable` from an async generator.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,14 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/clock"
+    "url": "https://repository.kingjs.net/rx/from-async"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/endless": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/promise.sleep": "latest",
     "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
