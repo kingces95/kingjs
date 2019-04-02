@@ -8,7 +8,7 @@ var xxx = require('@kingjs/stream.subscribe');
 
 ## API
 ```ts
-toObservable(this[, backPressure])
+subscribe(this[, backPressure])
 ```
 
 ### Parameters

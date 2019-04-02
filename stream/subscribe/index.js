@@ -27,7 +27,7 @@ var {
  * @remarks - If the file handle backs up, it would push a promise that would 
  * be fulfilled with the `drain` event fired. 
  */
-function toObservable(backPressure) {
+function subscribe(backPressure) {
   var stream = this;
 
   return create(observer => {

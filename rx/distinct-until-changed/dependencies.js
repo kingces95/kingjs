@@ -8,5 +8,4 @@ exports['@kingjs'] = {
     create: require('@kingjs/rx.create'),
   },
 }
-exports['chokidar'] = require('chokidar')
 exports['assert'] = require('assert')

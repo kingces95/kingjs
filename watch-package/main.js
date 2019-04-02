@@ -4,9 +4,11 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next },
     IGroupedObservable: { Key },
-    rx: { create, Subject, SelectMany, GroupBy, DebounceTime },
+    fs: { Watch },
+    rx: { create, of, Subject, SelectMany, GroupBy, DebounceTime, DistinctUntilChanged },
     reflect: { is } 
   },
+  deepEqual,
   chokidar,
   shelljs,
 } = require('./dependencies');
@@ -61,85 +63,23 @@ console.log('watching:', cwd)
  * in the `package.json`. If `files` is not specified, then no files 
  * are watched for that package. 
  **/
-function watchFiles(glob, options) {
-  return create((observer) => {
-    try {
-
-      options = { 
-        ...options, 
-        ignored: DotDirGlob 
-      };
-
-      // spin up package watcher
-      var watcher = chokidar.watch(glob, options);
-
-      // report watched events
-      watcher.on(
-        All,
-        (event, path) => {
-          observer[Next]({ event, path })
-        }
-      );
-
-      // stop observing file events
-      return () => watcher.close();
-
-    } catch(e) {
-      console.log(e);
-      return () => null;
-    }
-  })
-}
-
-watchFiles(PackagesGlob)
+of(PackagesGlob)
+  [Watch]()
   [GroupBy](x => x.path)
   [SelectMany](package => {
     const path = package[Key];
     const dir = Path.dirname(path);
 
-    var subject = new Subject();
-    var dispose;
-
-    package[Subscribe](p => {
-      assert(p.path == path);
-      
-      // always re-create watcher
-      if (dispose) {
-        dispose();
-        dispose = null;
-      }
-
-      var packageJson = tryParsePackage(path);
-      var { 
-        files, 
-        scripts: { [Task]: task } 
-      } = packageJson;
-
-      log(1, path, '=>', `{ scripts: { ${Task}: ${task} } }`);
-      log(1, path, '=>', `{ files: [${files}] }`);
-
-      // don't spin up a watcher if nothing to do
-      if (!task || !files || files.length == 0) {
-        assert(!dispose);
-        return;
-      }
-
-      // watch files specified by the new file glob
-      dispose = watchFiles(
-        files, { 
-          cwd: dir, 
-          ignoreInitial: true 
-        }
-      )[Subscribe](f => {
-        log(2, f.event, Path.join(dir, f.path));
-        subject[Next](() => exec.bind(dir, task)); 
-      });
-    });
-
-    return subject
+    return package
+      [Select](tryParsePackage)
+      [Select](o => { o.files, o.scripts[Task] })
+      [DistinctUntilChanged](deepEqual)
+      [Watch]({ cwd: dir, ignoreInitial: true }, o => o.files)
       [DebounceTime](DebounceMs)
-      [Call](PostCallSleepMs);
-  });
+      [Select](o => exec.bind(dir, o.task))
+  })
+  [Spy](o => log(2, o.event, Path.join(dir, o.path)))
+  [Call](PostCallSleepMs);
 
 function tryParsePackage(path) {
   try {
