@@ -1,0 +1,31 @@
+{
+  "name": "@kingjs/rx.spy",
+  "version": "1.0.0",
+  "description": "Returns an `IObservable` that spies on life-cycle events.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/spy"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.create": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

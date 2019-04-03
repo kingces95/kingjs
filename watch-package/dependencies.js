@@ -1,6 +1,6 @@
 exports['@kingjs'] = {
   fs: {
-    watch: require('@kingjs/fs.watch'),
+    //watch: require('@kingjs/fs.watch'),
   },
   IGroupedObservable: require('@kingjs/i-grouped-observable'),
   IObservable: require('@kingjs/i-observable'),

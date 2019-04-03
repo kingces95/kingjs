@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/rx.rethrow",
+  "version": "1.0.0",
+  "description": "Returns an `IObservable` that spies on the `error` event.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/rethrow"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-observable": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.spy": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

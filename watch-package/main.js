@@ -5,7 +5,16 @@ var {
     IObserver: { Next },
     IGroupedObservable: { Key },
     fs: { Watch },
-    rx: { create, of, Subject, SelectMany, GroupBy, DebounceTime, DistinctUntilChanged },
+    rx: { 
+      create, 
+      of, 
+      Subject, 
+      SelectMany, 
+      GroupBy, 
+      DebounceTime, 
+      DistinctUntilChanged, 
+      Do 
+    },
     reflect: { is } 
   },
   deepEqual,
@@ -70,13 +79,21 @@ of(PackagesGlob)
     const path = package[Key];
     const dir = Path.dirname(path);
 
-    return package
+    const behavior = package
       [Select](tryParsePackage)
       [Select](o => { o.files, o.scripts[Task] })
       [DistinctUntilChanged](deepEqual)
-      [Watch]({ cwd: dir, ignoreInitial: true }, o => o.files)
-      [DebounceTime](DebounceMs)
-      [Select](o => exec.bind(dir, o.task))
+      [Do](new BehaviorSubject());
+    
+    function foo() {
+      const asyncSubject = new AsyncSubject();
+    
+      return behavior
+        [Watch]({ cwd: dir, ignoreInitial: true }, o => o.files)
+        [DebounceTime](DebounceMs)
+        [Subscribe](asyncSubject)
+        [Select](o => exec.bind(dir, o.task))
+    }
   })
   [Spy](o => log(2, o.event, Path.join(dir, o.path)))
   [Call](PostCallSleepMs);
