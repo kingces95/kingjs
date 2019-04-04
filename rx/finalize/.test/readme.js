@@ -2,7 +2,8 @@ require('@kingjs/shim')
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
-var Finally = require('..');
+var fail = require('@kingjs/rx.fail');
+var Finalize = require('..');
 
 var f = 'f';
 
@@ -11,15 +12,14 @@ var C = 'C';
 var E = 'E';
 
 var result = [];
-
 of(0, 1)
-  [Finally](
+  [Finalize](
     () => result.push(f),
   )
   [Subscribe](
     o => result.push(N, o),
     () => result.push(C),
-    o => result.push(E, o),
+    o => result.push(o),
   );
 
 assert.deepEqual(result, [
@@ -27,3 +27,17 @@ assert.deepEqual(result, [
   N, 1, 
   f, C
 ]);
+
+var result = [];
+fail(E)
+  [Finalize](
+    () => result.push(f)
+  )
+  [Subscribe](
+    o => result.push(N, o),
+    () => result.push(C),
+    o => result.push(o),
+  );
+  assert.deepEqual(result, [
+    f, E
+  ]);

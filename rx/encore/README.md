@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[rx][ns0].[completed][ns1]
+# @[kingjs][@kingjs]/[rx][ns0].[report][ns1]
 Returns an `IObservable` that spies on the `complete` event.
 ## Usage
 ```js
@@ -6,7 +6,7 @@ require('@kingjs/shim')
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
-var Finally = require('@kingjs/rx.completed');
+var Report = require('@kingjs/rx.report');
 
 var f = 'f';
 
@@ -17,7 +17,7 @@ var E = 'E';
 var result = [];
 
 of(0, 1)
-  [Finally](
+  [Report](
     () => result.push(f),
   )
   [Subscribe](
@@ -35,7 +35,7 @@ assert.deepEqual(result, [
 
 ## API
 ```ts
-completed(this, callback)
+encore(this, callback)
 ```
 
 ### Parameters
@@ -48,7 +48,7 @@ Returns a new `IObservable` that behaves like the source `IObservable` modulo an
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.completed
+$ npm install @kingjs/rx.report
 ```
 ## Dependencies
 |Package|Version|
@@ -57,12 +57,12 @@ $ npm install @kingjs/rx.completed
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.spy`](https://www.npmjs.com/package/@kingjs/rx.spy)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/completed
+https://repository.kingjs.net/rx/report
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/completed)
+![Analytics](https://analytics.kingjs.net/rx/report)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.completed
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.report

@@ -14,7 +14,7 @@ var {
  * @description Returns an `IObservable` that maps values emitted
  * from the current `IObservable`.
  * 
- * @this any The `IObservable` whose emitted value are mapped.
+ * @this any The source `IObservable` whose emitted value are mapped.
  * 
  * @param callback The function that maps each emitted value.
  * 

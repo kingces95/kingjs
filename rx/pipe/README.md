@@ -1,11 +1,11 @@
-# @[kingjs][@kingjs]/[rx][ns0].[select][ns1]
-Returns an `IObservable` that maps values emitted from the current `IObservable`.
+# @[kingjs][@kingjs]/[rx][ns0].[pipe][ns1]
+Subscribes `subject` to the source `IObservable` and returns the `subject`.
 ## Usage
 ```js
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
-var Select = require('@kingjs/rx.select');
+var Select = require('@kingjs/rx.pipe');
 
 async function run() {
   var result = [];
@@ -24,20 +24,20 @@ run();
 
 ## API
 ```ts
-map(this, callback)
+pipe(this, subject)
 ```
 
 ### Parameters
-- `this`: The source `IObservable` whose emitted value are mapped.
-- `callback`: The function that maps each emitted value.
+- `this`: The `IObservable` to which `subject` will be subscribed.
+- `subject`: The subject to be subscribed to the source `IObservables`.
 ### Returns
-Returns a new `IObservable` that emits mapped values.
+Returns `subject`.
 
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.select
+$ npm install @kingjs/rx.pipe
 ```
 ## Dependencies
 |Package|Version|
@@ -47,12 +47,12 @@ $ npm install @kingjs/rx.select
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/select
+https://repository.kingjs.net/rx/pipe
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/select)
+![Analytics](https://analytics.kingjs.net/rx/pipe)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.select
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.pipe

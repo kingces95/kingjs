@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/rx.timer",
+  "version": "1.0.0",
+  "description": "Create an `IObservable` that waits for `timeOut` milliseconds and then emits `completed`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/timer"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-observer": "latest",
+    "@kingjs/promise.sleep": "latest",
+    "@kingjs/rx.create": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

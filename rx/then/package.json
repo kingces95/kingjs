@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.finally",
+  "name": "@kingjs/rx.then",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that spies on the `complete` and `error` events.",
+  "description": "Returns an `IObservable` that emits values from the source `IObservable` followed by the values of another `IObservable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,14 +13,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/finally"
+    "url": "https://repository.kingjs.net/rx/then"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.spy": "latest"
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
     "assert"

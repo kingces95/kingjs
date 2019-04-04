@@ -51,6 +51,12 @@ class Subject extends EventEmitter {
   // IObservable
   [Subscribe](next = DefaultNext, complete = DefaultComplete, error) {
 
+    if (!next)
+      next = DefaultNext;
+
+    if (!complete)
+      complete = DefaultComplete;
+
     this.assertOk();
 
     // subscribe(observer) -> subscribe(next, complete, error)

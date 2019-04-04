@@ -18,8 +18,8 @@ var {
  * @returns Returns a new `IObservable` that behaves like the source
  * `IObservable` modulo any side effects introduced by `callback`.
  */
-function $finally(callback) {
-  return this[Spy](null, callback, () => callback);
+function finalize(callback) {
+  return this[Spy](null, callback, () => callback());
 }
 
-exportExtension(module, IObservable, $finally);
+exportExtension(module, IObservable, finalize);

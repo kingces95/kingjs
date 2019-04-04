@@ -18,8 +18,8 @@ var {
  * @returns Returns a new `IObservable` that behaves like the source
  * `IObservable` modulo any side effects introduced by `callback`.
  */
-function completed(callback) {
+function encore(callback) {
   return this[Spy](null, callback, null);
 }
 
-exportExtension(module, IObservable, completed);
+exportExtension(module, IObservable, encore);

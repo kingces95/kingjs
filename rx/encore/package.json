@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.completed",
+  "name": "@kingjs/rx.report",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that spies on the `complete` event.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/completed"
+    "url": "https://repository.kingjs.net/rx/report"
   },
   "keywords": [],
   "license": "MIT",

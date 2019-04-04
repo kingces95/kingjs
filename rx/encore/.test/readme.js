@@ -2,7 +2,7 @@ require('@kingjs/shim')
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
-var Finally = require('..');
+var Encore = require('..');
 
 var f = 'f';
 
@@ -13,7 +13,7 @@ var E = 'E';
 var result = [];
 
 of(0, 1)
-  [Finally](
+  [Encore](
     () => result.push(f),
   )
   [Subscribe](

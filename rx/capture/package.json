@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/rx.capture",
+  "version": "1.0.0",
+  "description": "Returns an `IObservable` that emits values from the source `IObservable` unless and until it emits  an error at which point it emits values from a provided  another `IObservable`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/capture"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.subject": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}
