@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    rx: { create },
+    rx: { create, ToPromise },
     reflect: { 
       exportExtension
     },
@@ -32,7 +32,7 @@ function count() {
       },
       o => observer[Error](o)
     );
-  })
+  })[ToPromise]()
 }
 
 exportExtension(module, IObservable, count);

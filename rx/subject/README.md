@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[rx][ns0].[subject][ns1]
-The description.
+The Subject.
 ## Usage
 ```js
 var assert = require('assert');
@@ -56,7 +56,9 @@ setTimeout(() => {
 
 
 
-
+### Remarks
+ - All `IObservable`s are `Subject`s
+ - All `Subject`s are ref-counted. When the last subscription is removed, the `Subject` disposes itself.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run

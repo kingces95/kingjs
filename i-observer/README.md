@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[i-observer][ns0]
-`IObserver` has a members `next`, `current`, and `error`.
+`IObserver` has a members `next`, `complete`, and `error`.
 ## Usage
 ```js
 var assert = require('assert');

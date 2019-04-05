@@ -1,10 +1,28 @@
 var assert = require('assert');
 var Subject = require('..');
 var { Subscribe } = require('@kingjs/i-observable');
-var { Complete } = require('@kingjs/i-observer');
+var { Complete, Error } = require('@kingjs/i-observer');
 
 var subject = new Subject();
 subject[Complete]();
 
-// cannot subscribe to a subject after complete has been called
-assert.throws(() => subject[Subscribe]());
+var result = false;
+subject[Subscribe](
+  assert.fail,
+  () => result = true,
+  assert.fail
+);
+assert(result);
+
+var E = 'E';
+var subject = new Subject();
+subject[Subscribe](null, null, e => null);
+subject[Error](E);
+
+var result;
+subject[Subscribe](
+  assert.fail,
+  assert.fail,
+  e => result = e,
+);
+assert(result == E);

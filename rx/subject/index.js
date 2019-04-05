@@ -11,13 +11,18 @@ var {
 var NextEvent = 'next';
 var CompleteEvent = 'complete';
 var ErrorEvent = 'error';
+var DisposedError = 'This subject has been disposed.'
 
 var DefaultNext = () => undefined;
 var DefaultComplete = x => undefined;
 var throwNextTick = x => process.nextTick(() => { throw x });
 
 /**
- * @description The description.
+ * @description The Subject.
+ * 
+ * @remarks - All `IObservable`s are `Subject`s
+ * @remarks - All `Subject`s are ref-counted. When the last
+ * subscription is removed, the `Subject` disposes itself.
  */
 class Subject extends EventEmitter {
 
@@ -26,7 +31,7 @@ class Subject extends EventEmitter {
     this.activate = activate;
   }
 
-  assertOk() { assert(!this.disposed) }
+  assertCanEmit() { assert(!this.disposed) }
 
   on(name, listener) { if (listener) super.on(name, listener); }
   off(name, listener) { if (listener) super.off(name, listener); }
@@ -34,17 +39,20 @@ class Subject extends EventEmitter {
 
   // IObserver
   [Next](x) { 
-    this.assertOk(); 
+    this.assertCanEmit(); 
     this.emit(NextEvent, x); 
   }
   [Complete]() { 
-    this.assertOk(); 
+    this.assertCanEmit(); 
     this.emit(CompleteEvent); 
+    this.epitaph = Complete;
     this.disposed = true;
   }
   [Error](x) { 
-    this.assertOk(); 
+    this.assertCanEmit(); 
     this.emit(ErrorEvent, x); 
+    this.epitaph = Error;
+    this.error = x;
     this.disposed = true;
   }
 
@@ -57,12 +65,25 @@ class Subject extends EventEmitter {
     if (!complete)
       complete = DefaultComplete;
 
-    this.assertOk();
-
     // subscribe(observer) -> subscribe(next, complete, error)
     if (is.object(next))
       return this[Subscribe](next[Next], next[Complete], next[Error])
 
+    // epilog
+    if (this.disposed) {
+      assert(this.epitaph == Complete || this.epitaph == Error);
+
+      if (this.epitaph == Complete)
+        complete(); 
+      else if (error)
+        error(this.error);
+      else
+        throwNextTick(this.error); 
+
+      return;
+    }
+
+    // declare event handlers
     var tryNext = x => { 
       try { next(x) } 
       catch(e) { 
@@ -73,13 +94,13 @@ class Subject extends EventEmitter {
 
     var tryComplete = !complete ? null : () => { 
       try { complete() } 
-      catch(e) { throwNextTick(e); } 
+      catch(e) { throwNextTick(e); }
       unsubscribe(); 
     }
 
     var tryError = !error ? null : x => { 
       try { error(x) } 
-      catch(e) { throwNextTick(e); } 
+      catch(e) { throwNextTick(e); }
       unsubscribe();
     }
 
@@ -94,16 +115,23 @@ class Subject extends EventEmitter {
       this.off(CompleteEvent, tryComplete);
       this.off(ErrorEvent, tryError);
 
-      if (this.disposed)
+      if (this.disposed || this.listenerCount(NextEvent))
         return;
 
-      if (this.dispose && !this.listenerCount(NextEvent))
+      // dispose
+      if (this.dispose)
         this.dispose();
-
       this.disposed = true;
+
+      if (this.epitaph)
+        return;
+      this.epitaph = Error;
+      this.error = DisposedError;
     }
 
     if (this.activate && !this.dispose) {
+
+      // emit
       this.dispose = this.activate({ 
         [Next]: x => this[Next](x),
         [Complete]: () => this[Complete](),

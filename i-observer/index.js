@@ -5,13 +5,13 @@ var {
 } = require('./dependencies');
 
 /**
- * @description `IObserver` has a members `next`, `current`, and `error`.
+ * @description `IObserver` has a members `next`, `complete`, and `error`.
  */
 module.exports = createInterface(
   '@kingjs/IObserver', {
     members: { 
       next: null,
-      current: null,
+      complete: null,
       error: null
     },
   }

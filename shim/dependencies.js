@@ -2,9 +2,6 @@ exports['@kingjs'] = {
   Generator: require('@kingjs/generator'),
   IEnumerable: require('@kingjs/i-enumerable'),
   IEnumerator: require('@kingjs/i-enumerator'),
-  IEventBroadcaster: require('@kingjs/i-event-broadcaster'),
-  IEventDetunable: require('@kingjs/i-event-detunable'),
-  IEventTunable: require('@kingjs/i-event-tunable'),
   IIterable: require('@kingjs/i-iterable'),
   IObservable: require('@kingjs/i-observable'),
   IObserver: require('@kingjs/i-observer'),
@@ -17,6 +14,9 @@ exports['@kingjs'] = {
   reflect: {
     implementIEnumerable: require('@kingjs/reflect.implement-i-enumerable'),
     implementInterface: require('@kingjs/reflect.implement-interface'),
+  },
+  rx: {
+    create: require('@kingjs/rx.create'),
   },
 }
 exports['events'] = require('events')

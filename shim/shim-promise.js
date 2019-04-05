@@ -1,27 +1,39 @@
 var {
   ['@kingjs']: { 
     reflect: { implementInterface },
+    rx: { create },
     IObservable,
-    IObserver: { Next, Complete, Error }
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
   },
 } = require('./dependencies');
 
+var Observable = Symbol('@kingjs/shim.promise.observable');
+
 implementInterface(Promise.prototype, IObservable, {
-  subscribe(observer) {
-    var canceled; 
+  subscribe() {
 
-    this.then(o => {
-      if (canceled)
-        return;
-      observer[Next](o);
-      observer[Complete]();
-    },
-    o => {
-      if (canceled)
-        return;
-      observer[Error](o);
-    });
+    var observable = this[Observable];
+    if (!observable) {
+      this[Observable] = observable = create(subject => {
+        var canceled;
 
-    return () => canceled = true;
+        this.then(o => {
+          if (canceled)
+            return;
+          subject[Next](o);
+          subject[Complete]();
+        },
+        o => {
+          if (canceled)
+            return;
+          subject[Error](o);
+        });
+
+        return () => canceled = true;
+      })
+    }
+
+    return observable[Subscribe].apply(observable, arguments);
   }
 });

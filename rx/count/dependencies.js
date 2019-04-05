@@ -6,6 +6,7 @@ exports['@kingjs'] = {
   },
   rx: {
     create: require('@kingjs/rx.create'),
+    ToPromise: require('@kingjs/rx.to-promise'),
   },
 }
 exports['assert'] = require('assert')

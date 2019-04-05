@@ -13,9 +13,6 @@ require('./shim-string');
 // Generator : IIterable, IEnumerable
 require('./shim-generator');
 
-// EventEmitter : IEventTunable, IEventDetunable, IEventBroadcaster
-require('./shim-event-emitter');
-
 // Promise : IObservable
 require('./shim-promise');
 

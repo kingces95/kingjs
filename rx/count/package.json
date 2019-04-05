@@ -21,7 +21,8 @@
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.to-promise": "latest"
   },
   "nodeDependencies": [
     "assert"

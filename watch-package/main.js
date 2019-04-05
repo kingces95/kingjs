@@ -79,20 +79,27 @@ of(PackagesGlob)
     const path = package[Key];
     const dir = Path.dirname(path);
 
-    const behavior = package
+    const files = package
       [Select](tryParsePackage)
       [Select](o => { o.files, o.scripts[Task] })
       [DistinctUntilChanged](deepEqual)
-      [Do](new BehaviorSubject());
+      [PublishBehavior]();
     
-    function foo() {
-      const asyncSubject = new AsyncSubject();
-    
-      return behavior
+    const result = new Subject();
+    watchFiles.call(files, result);
+
+    return result
+      [Select](o => exec.bind(dir, o.task));
+
+    function watchFiles(result) {
+      const subject = new Subject();
+      const dispose = subject[Subscribe](this);
+      subject
         [Watch]({ cwd: dir, ignoreInitial: true }, o => o.files)
         [DebounceTime](DebounceMs)
-        [Subscribe](asyncSubject)
-        [Select](o => exec.bind(dir, o.task))
+        [Spy](dispose)
+        [Last]()
+        [Pipe](result);
     }
   })
   [Spy](o => log(2, o.event, Path.join(dir, o.path)))

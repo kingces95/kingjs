@@ -7,18 +7,14 @@ var assert = require('assert');
 var of = require('@kingjs/rx.of');
 var timer = require('@kingjs/rx.timer');
 var Then = require('@kingjs/rx.then');
-var Spy = require('@kingjs/rx.spy');
 var ToPromise = require('@kingjs/rx.to-promise');
 
 async function run() {
-  var result = [];
-
-  await timer()
-    [Then](of(0, 1, 2))
-    [Spy](o => result.push(o))
+  var value = await timer()
+    [Then](of(0))
     [ToPromise]();
 
-  assert.deepEqual(result, [0, 1, 2]);
+  assert(value == 0);
 }
 run();
 ```
