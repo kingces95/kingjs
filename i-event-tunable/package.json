@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/i-event-tunable",
+  "version": "1.0.0",
+  "description": "`IEventTunable` has a member `on` that takes the name of the event for which to listen and a callback that accepts the event when emitted.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-event-tunable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

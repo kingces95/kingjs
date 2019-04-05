@@ -17,8 +17,12 @@ $ npm install @kingjs/shim
 |[`@kingjs/generator`](https://www.npmjs.com/package/@kingjs/generator)|`latest`|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
 |[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/i-event-broadcaster`](https://www.npmjs.com/package/@kingjs/i-event-broadcaster)|`latest`|
+|[`@kingjs/i-event-detunable`](https://www.npmjs.com/package/@kingjs/i-event-detunable)|`latest`|
+|[`@kingjs/i-event-tunable`](https://www.npmjs.com/package/@kingjs/i-event-tunable)|`latest`|
 |[`@kingjs/i-iterable`](https://www.npmjs.com/package/@kingjs/i-iterable)|`latest`|
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
+|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/linq.to-observable`](https://www.npmjs.com/package/@kingjs/linq.to-observable)|`latest`|
 |[`@kingjs/package-version.parse`](https://www.npmjs.com/package/@kingjs/package-version.parse)|`latest`|
 |[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|

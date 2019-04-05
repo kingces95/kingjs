@@ -20,8 +20,12 @@
     "@kingjs/generator": "latest",
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
+    "@kingjs/i-event-broadcaster": "latest",
+    "@kingjs/i-event-detunable": "latest",
+    "@kingjs/i-event-tunable": "latest",
     "@kingjs/i-iterable": "latest",
     "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
     "@kingjs/linq.to-observable": "latest",
     "@kingjs/package-version.parse": "latest",
     "@kingjs/reflect.implement-i-enumerable": "latest",
@@ -30,5 +34,8 @@
   "devDependencies": {
     "@kingjs/i-interface": "^1.0.3",
     "@kingjs/reflect.define-property": "^1.0.3"
-  }
+  },
+  "nodeDependencies": [
+    "events"
+  ]
 }
