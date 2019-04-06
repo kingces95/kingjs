@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.watch",
+  "name": "@kingjs/rx.first",
   "version": "1.0.0",
-  "description": "Watches a path until cancelled.",
+  "description": "Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,19 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/watch"
+    "url": "https://repository.kingjs.net/rx/first"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/reflect.export-extension": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
-    "path"
-  ]
+    "assert"
+  ],
+  "capitalize": true
 }

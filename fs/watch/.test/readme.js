@@ -1,7 +1,16 @@
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var fs = require('fs');
+var ToPromise = require('@kingjs/rx.to-promise');
 var watch = require('..');
 
-var observable = watch(process.cwd());
-var dispose = observable[Subscribe](() => console.log('changed'));
-setTimeout(dispose, 3000);
+var fileName = 'temp';
+
+async function run() {
+  var observable = watch();
+  var promise = observable[ToPromise]();
+  fs.writeFileSync(fileName);
+  var result = await promise;
+  assert(result);
+  fs.unlinkSync(fileName);
+}
+run()

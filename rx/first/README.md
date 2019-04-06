@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[rx][ns0].[to-promise][ns1]
+# @[kingjs][@kingjs]/[rx][ns0].[first][ns1]
 Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.
 ## Usage
 ```js
@@ -7,7 +7,7 @@ var assert = require('assert');
 var of = require('@kingjs/rx.of');
 var timer = require('@kingjs/rx.timer');
 var Then = require('@kingjs/rx.then');
-var ToPromise = require('@kingjs/rx.to-promise');
+var ToPromise = require('@kingjs/rx.first');
 
 async function run() {
   var value = await timer()
@@ -21,7 +21,7 @@ run();
 
 ## API
 ```ts
-toPromise(this)
+first(this)
 ```
 
 ### Parameters
@@ -29,12 +29,12 @@ toPromise(this)
 ### Returns
 Returns a promise that that resolves with the value of the next `next` emission or `complete` and rejects on `error`.
 ### Remarks
-The subscription used by the promise to resolve upon a `next` emission also schedules a disposal of the subscription.
+The promise will dispose its subscription upon receiving the first `next` emission.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.to-promise
+$ npm install @kingjs/rx.first
 ```
 ## Dependencies
 |Package|Version|
@@ -42,12 +42,12 @@ $ npm install @kingjs/rx.to-promise
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/to-promise
+https://repository.kingjs.net/rx/first
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/to-promise)
+![Analytics](https://analytics.kingjs.net/rx/first)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.to-promise
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.first

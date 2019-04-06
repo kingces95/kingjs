@@ -4,25 +4,18 @@ Watches a path until cancelled.
 ```js
 var assert = require('assert');
 var fs = require('fs');
-var sleep = require('@kingjs/promise.sleep');
-var { Subscribe } = require('@kingjs/i-observable');
 var ToPromise = require('@kingjs/rx.to-promise');
+var { Subscribe } = require('@kingjs/i-observable');
 var watch = require('@kingjs/fs.watch');
 
-var name = 'readme.js';
-//var name = process.cwd();
-
-var observable = watch(name);
-var dispose = observable[Subscribe](
-  o => console.log('> next'),
-  () => console.log('> complete'),
-  e => console.log('> error'),
-);
-
-setTimeout(() => {
-  console.log('unwatch', name)
-  dispose();
-}, 5000)
+async function run() {
+  var observable = watch();
+  var promise = observable[ToPromise]();
+  fs.writeFileSync('temp');
+  var result = await promise;
+  assert(result);
+}
+run()
 
 ```
 

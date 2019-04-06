@@ -1,5 +1,5 @@
 var { 
-  assert, fs,
+  assert, fs, path: Path,
   ['@kingjs']: {
     rx: { create },
     reflect: { 
@@ -40,13 +40,14 @@ var Sink = {
  * 
  * @remarks - No provision is made for typing the change that happened. 
  **/
-function watch(path) {
+function watch(path = '.') {
   return create(observer => {
+    path = Path.join(process.cwd(), path);
     var watcher = fs.watch(path, Options);
 
     watcher.on(Event.Error, e => observer[Error](e));
     watcher.on(Event.Close, () => observer[Complete]());
-    watcher.on(Event.Change, () => observer[Next]());
+    watcher.on(Event.Change, () => observer[Next](path));
 
     return () => {
       observer = Sink;

@@ -17,16 +17,18 @@ var {
  * @returns Returns a promise that that resolves with the value of
  * the next `next` emission or `complete` and rejects on `error`.
  * 
- * @remarks The subscription used by the promise to resolve upon
- * a `next` emission also schedules a disposal of the subscription.
+ * @remarks The promise will dispose its subscription upon receiving
+ * the first `next` emission.
  */
-function toPromise() {
+function first() {
   return new Promise((resolve, reject) => {
+    var resolved;
     var dispose = this[Subscribe](o => {
-      process.nextTick(dispose);
+      if (resolved)
+        return;
       resolve(o);
     }, resolve, reject);
   });
 }
 
-exportExtension(module, IObservable, toPromise);
+exportExtension(module, IObservable, first);

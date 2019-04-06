@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.watch",
+  "name": "@kingjs/rx.select-many",
   "version": "1.0.0",
-  "description": "Watches a path until cancelled.",
+  "description": "Returns an `IObservable` that blends this `IObservable` with those passed as arguments.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/watch"
+    "url": "https://repository.kingjs.net/rx/select-many"
   },
   "keywords": [],
   "license": "MIT",
@@ -24,8 +24,7 @@
     "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
-    "path"
-  ]
+    "assert"
+  ],
+  "capitalize": true
 }
