@@ -1,4 +1,4 @@
 #!/usr/bin/env node
+process.chdir('..');
 require('./index');
-//process.chdir('.temp');
 //require('./main');

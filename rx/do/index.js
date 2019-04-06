@@ -29,11 +29,11 @@ var {
  * @remarks Like `subscribe` except instead of returning a disposable 
  * function, another `IObservable` is returned.
  */
-function spy(next, complete, error) {
+function _do(next, complete, error) {
   var observable = this;
 
   if (is.object(next))
-    return spy(next[Next], next[Complete], next[Error]);
+    return _do(next[Next], next[Complete], next[Error]);
 
   return create(observer => {
     return observable[Subscribe](
@@ -56,4 +56,4 @@ function spy(next, complete, error) {
   })
 }
 
-exportExtension(module, IObservable, spy);
+exportExtension(module, IObservable, _do);

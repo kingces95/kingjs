@@ -22,20 +22,8 @@ $ npm install @kingjs/watch-package
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/fs.watch`](https://www.npmjs.com/package/@kingjs/fs.watch)|`latest`|
-|[`@kingjs/i-grouped-observable`](https://www.npmjs.com/package/@kingjs/i-grouped-observable)|`latest`|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
-|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
-|[`@kingjs/rx.debounce-time`](https://www.npmjs.com/package/@kingjs/rx.debounce-time)|`latest`|
-|[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
-|[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
-|[`@kingjs/rx.of`](https://www.npmjs.com/package/@kingjs/rx.of)|`latest`|
-|[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 |[`chokidar`](https://www.npmjs.com/package/chokidar)|`latest`|
-|[`deep-equal`](https://www.npmjs.com/package/deep-equal)|`latest`|
 |[`deep-equals`](https://www.npmjs.com/package/deep-equals)|`latest`|
 |[`rxjs`](https://www.npmjs.com/package/rxjs)|`latest`|
 |[`shelljs`](https://www.npmjs.com/package/shelljs)|`latest`|

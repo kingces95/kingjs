@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[rx][ns0].[spy][ns1]
+# @[kingjs][@kingjs]/[rx][ns0].[do][ns1]
 Returns an `IObservable` that spies on life-cycle events.
 ## Usage
 ```js
@@ -6,7 +6,7 @@ require('@kingjs/shim')
 var assert = require('assert');
 var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
-var Spy = require('@kingjs/rx.spy');
+var Spy = require('@kingjs/rx.do');
 
 var n = 'n';
 var c = 'c';
@@ -39,7 +39,7 @@ assert.deepEqual(result, [
 
 ## API
 ```ts
-spy(this, next[, complete[, error]])
+_do(this, next[, complete[, error]])
 ```
 
 ### Parameters
@@ -55,7 +55,7 @@ Like `subscribe` except instead of returning a disposable  function, another `IO
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.spy
+$ npm install @kingjs/rx.do
 ```
 ## Dependencies
 |Package|Version|
@@ -66,12 +66,12 @@ $ npm install @kingjs/rx.spy
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/spy
+https://repository.kingjs.net/rx/do
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/spy)
+![Analytics](https://analytics.kingjs.net/rx/do)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.spy
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.do

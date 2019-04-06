@@ -53,8 +53,8 @@ function createLinks() {
       if (!fs.existsSync(scopeDir))
         fs.mkdirSync(scopeDir, { recursive: true })
   
-      fs.symlinkSync(toDir, fromDir, 'dir')
       console.log(`${fromDir} -> ${toDir}`)
+      fs.symlinkSync(toDir, fromDir, 'dir')
     }
   }
 }
@@ -120,7 +120,7 @@ function getNpmPackages(dirs) {
   // bail if all dependencies loaded
   var npmPackages = path.join(npmDir, NodeModules);
   var packages = Object.keys(dependencies)
-  if (!fs.existsSync(npmPackages) && packages.every(o => set.has(o))) {
+  if (!fs.existsSync(npmPackages) || !Array.from(set).every(o => packages.includes(o))) {
 
     // refresh ~/.npm/packages.json
     for (var o of set)

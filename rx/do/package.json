@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.report",
+  "name": "@kingjs/rx.do",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that spies on the `complete` event.",
+  "description": "Returns an `IObservable` that spies on life-cycle events.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,14 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/report"
+    "url": "https://repository.kingjs.net/rx/do"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
+    "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.spy": "latest"
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
     "assert"

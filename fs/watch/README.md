@@ -1,25 +1,42 @@
 # @[kingjs][@kingjs]/[fs][ns0].[watch][ns1]
-Transform files specified by the source `IObservable` into file change events.
+Watches a path until cancelled.
 ## Usage
 ```js
 var assert = require('assert');
-var xxx = require('@kingjs/fs.watch');
+var fs = require('fs');
+var sleep = require('@kingjs/promise.sleep');
+var { Subscribe } = require('@kingjs/i-observable');
+var ToPromise = require('@kingjs/rx.to-promise');
+var watch = require('@kingjs/fs.watch');
+
+var name = 'readme.js';
+//var name = process.cwd();
+
+var observable = watch(name);
+var dispose = observable[Subscribe](
+  o => console.log('> next'),
+  () => console.log('> complete'),
+  e => console.log('> error'),
+);
+
+setTimeout(() => {
+  console.log('unwatch', name)
+  dispose();
+}, 5000)
+
 ```
 
 ## API
 ```ts
-watch(this[, options[, [object Object][, fileSelector[, selector]]]])
+watch([path])
 ```
 
 ### Parameters
-- `this`: The source `IObservable`.
-- `options`: `chokidar` initialization options.
-- `[object Object]`: The name of the property to add to `observations` that returns an array of files currently being watched.
-- `fileSelector`: A callback to select the files to watch given an  emission from the source `IObservable`.
-- `selector`: A callback to select a result given the last emission from the source `IObservable` and a file event.
+- `path`: The path to watch.
 ### Returns
-Returns an `IObservable` which emits file changed events.
-
+Returns an `IObservable` which emits `next` when a change to the path is observed and `error` with if the watcher reports an error.
+### Remarks
+ - No provision is made for typing the change that happened.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -33,7 +50,6 @@ $ npm install @kingjs/fs.watch
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
-|[`chokidar`](https://www.npmjs.com/package/chokidar)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/watch
 ## License

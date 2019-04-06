@@ -20,11 +20,13 @@ var LogLevel = 2;
 var DebounceMs = 250;
 var All = 'all';
 var Unlink = 'unlink';
+var UnlinkDir = 'unlinkDir';
 var Pause = 'pause';
 var Resume = 'resume';
 var Task = 'build';
 var EmptyArray = [ ];
 var EmptyObject = { };
+var UsePolling = true;
 
 var EmptyPackage = { 
   files: EmptyArray,
@@ -73,7 +75,9 @@ function watchFiles(glob, options) {
 
       options = { 
         ...options, 
-        ignored: DotDirGlob 
+        ignored: DotDirGlob,
+        usePolling: UsePolling,
+        followSymlinks: false
       };
 
       // spin up package watcher
@@ -82,10 +86,13 @@ function watchFiles(glob, options) {
       // report watched events
       watcher.on(
         All,
-        (event, path) => subscriber.next({ 
-          event,
-          path 
-        })
+        (event, path) => {
+          console.log(event, path);
+          subscriber.next({ 
+            event,
+            path 
+          })
+        }
       );
 
       // stop observing file events
@@ -102,6 +109,7 @@ var control = new Subject();
 
 var packages = merge(watchFiles(PackagesGlob), control).pipe(
   groupBy(x => {
+    console.log('watching: ', x.path)
     return x.path;
   }),
   mergeMap(package => {
@@ -117,7 +125,7 @@ var packages = merge(watchFiles(PackagesGlob), control).pipe(
       assert(p.path == key);
       var isPause = p.event == Pause;
       var isResume = p.event == Resume;
-      var isUnlink = p.event == Unlink;
+      var isUnlink = p.event == Unlink || p.event == UnlinkDir;
 
       isPaused = isResume ? false : isPause ? true : isPaused;
       if (isPaused)
@@ -213,9 +221,8 @@ function log(level) {
 }
 
 function exec(dir, cmd) {
-  process.chdir(dir);
-
   try {
+    process.chdir(dir);
     console.log(`${dir}$ ${cmd}`);
     var result = shelljs.exec(cmd, { silent:true });
 
@@ -224,6 +231,8 @@ function exec(dir, cmd) {
     if (result.code != 0 || result.stderr)
       console.log(result.stderr.trim());
 
+  } catch(e) {
+    console.log('exec exception:', e);
   } finally {
     process.chdir(cwd);
   }

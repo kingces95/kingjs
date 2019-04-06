@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.watch",
   "version": "1.0.0",
-  "description": "Transform files specified by the source `IObservable` into file change events.",
+  "description": "Watches a path until cancelled.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -21,10 +21,10 @@
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest",
-    "chokidar": "latest"
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
-    "assert"
+    "assert",
+    "fs"
   ]
 }
