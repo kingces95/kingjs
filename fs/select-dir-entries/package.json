@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.select-many",
+  "name": "@kingjs/fs.select-dir-entries",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that blends this `IObservable` with those passed as arguments.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/select-many"
+    "url": "https://repository.kingjs.net/fs/select-dir-entries"
   },
   "keywords": [],
   "license": "MIT",
@@ -21,10 +21,11 @@
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.select-many": "latest"
   },
   "nodeDependencies": [
-    "assert"
+    "fs"
   ],
   "capitalize": true
 }

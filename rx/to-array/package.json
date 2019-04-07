@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.watch",
+  "name": "@kingjs/rx.to-array",
   "version": "1.0.0",
-  "description": "Watches a path until cancelled.",
+  "description": "Returns a promise that resolves with an array containing emitted values before `complete` or rejects on `error`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,20 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/watch"
+    "url": "https://repository.kingjs.net/rx/to-array"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
-    "@kingjs/i-observer": "latest",
-    "@kingjs/path.make-absolute": "latest",
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/reflect.export-extension": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
-    "path"
-  ]
+    "assert"
+  ],
+  "capitalize": true
 }

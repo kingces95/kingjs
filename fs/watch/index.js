@@ -1,6 +1,7 @@
 var { 
   assert, fs, path: Path,
   ['@kingjs']: {
+    path: { makeAbsolute },
     rx: { create },
     reflect: { 
       exportExtension
@@ -42,7 +43,7 @@ var Sink = {
  **/
 function watch(path = '.') {
   return create(observer => {
-    path = Path.join(process.cwd(), path);
+    path = makeAbsolute(path);
     var watcher = fs.watch(path, Options);
 
     watcher.on(Event.Error, e => observer[Error](e));

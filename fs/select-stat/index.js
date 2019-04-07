@@ -10,24 +10,22 @@ var {
   }
 } = require('./dependencies');
 
-var Options = { withFileTypes: true };
+var Options = { };
 
 /**
  * @description Returns an `IObservable` that blends this `IObservable`
  * with those passed as arguments.
  */
-function selectDirEntries() {
-  return this[SelectMany](dir => {
+function selectStat() {
+  return this[SelectMany](path => {
     return create(observer => {
       try {
-        fs.readdir(dir, Options, (error, entries) => {
+        fs.stat(path, Options, (error, stats) => {
           if (error)
             return observer[Error](error);
 
-          for (var e of entries) {
-            e.dir = dir;
-            observer[Next](e);
-          }
+          stats.path = path;
+          observer[Next](stats);
         });
       } 
       catch(e) { 
@@ -37,4 +35,4 @@ function selectDirEntries() {
   })
 }
 
-exportExtension(module, IObservable, selectDirEntries);
+exportExtension(module, IObservable, selectStat);

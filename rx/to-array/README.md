@@ -1,5 +1,5 @@
-# @[kingjs][@kingjs]/[rx][ns0].[first][ns1]
-Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.
+# @[kingjs][@kingjs]/[rx][ns0].[to-array][ns1]
+Returns a promise that resolves with an array containing emitted values before `complete` or rejects on `error`.
 ## Usage
 ```js
 require('@kingjs/shim')
@@ -7,7 +7,7 @@ var assert = require('assert');
 var of = require('@kingjs/rx.of');
 var timer = require('@kingjs/rx.timer');
 var Then = require('@kingjs/rx.then');
-var ToPromise = require('@kingjs/rx.first');
+var ToPromise = require('@kingjs/rx.to-array');
 
 async function run() {
   var value = await timer()
@@ -21,21 +21,19 @@ run();
 
 ## API
 ```ts
-first(this, predicate)
+toArray(this)
 ```
 
 ### Parameters
-- `this`: The source `IObservable` whose emission resolves the promise.
-- `predicate`: Ignore emissions that do no satisfy this predicate.
+- `this`: The source `IObservable` whose emission are captured.
 ### Returns
-Returns a promise that that resolves with the value of the next `next` emission or `complete` and rejects on `error`.
-### Remarks
-The promise will dispose its subscription upon receiving the first `next` emission.
+Returns a promise that that resolves with the value of the `next` emissions before `complete` and rejects on `error`.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.first
+$ npm install @kingjs/rx.to-array
 ```
 ## Dependencies
 |Package|Version|
@@ -43,12 +41,12 @@ $ npm install @kingjs/rx.first
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/first
+https://repository.kingjs.net/rx/to-array
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/first)
+![Analytics](https://analytics.kingjs.net/rx/to-array)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.first
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.to-array

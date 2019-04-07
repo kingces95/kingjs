@@ -71,6 +71,7 @@ $ npm install @kingjs/rx.distinct-until-changed
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`deep-equals`](https://www.npmjs.com/package/deep-equals)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/distinct-until-changed
 ## License

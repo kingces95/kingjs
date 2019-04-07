@@ -1,5 +1,4 @@
 var { 
-  deepEquals,
   ['@kingjs']: {
     rx: { create },
     reflect: { 
@@ -11,40 +10,40 @@ var {
   }
 } = require('./dependencies');
 
+var DefaultEqual = (l, r) => l == r;
 var DefaultKeySelector = o => o;
 
 /**
- * @description Returns an `IObservable` whose each value is
- * distinct from the previously emitted value.
+ * @description Returns an `IObservable` whose each value is distinct.
  * 
  * @param [keySelector] A callback to select the key used to 
  * determine equality between two emitted values.
  * @param [equal] An call back which determines if two keys
  * are equal.
  * 
- * @returns Returns an `IObservable` whose each value is
- * distinct from the previously emitted value.
+ * @returns Returns an `IObservable` whose each value is distinct.
  */
 function distinctUntilChanged(
   keySelector = DefaultKeySelector, 
-  equal = deepEquals) {
+  equal = DefaultEqual) {
 
   var observable = this;
 
   return create(observer => {
-    var hasLastKey;
-    var lastKey;
+    var keys;
 
     return observable[Subscribe](
       o => {
         var key = keySelector(o);
 
-        if (hasLastKey && equal(lastKey, key))
+        if (!keys)
+          keys = { };
+
+        if (key in keys)
           return;
         
         observer[Next](o);
-        lastKey = key;
-        hasLastKey = true;
+        keys[key] = undefined;
       },
       () => observer[Complete](),
       o => observer[Error](o)

@@ -23,7 +23,7 @@ function where(callback) {
   return create(observer => {
     return observable[Subscribe](
       o => {
-        if (!callback(o));
+        if (!callback(o))
           return;
         
         observer[Next](o);

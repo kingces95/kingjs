@@ -1,11 +1,11 @@
-# @[kingjs][@kingjs]/[fs][ns0].[select-dir-entries][ns1]
+# @[kingjs][@kingjs]/[fs][ns0].[select-stat][ns1]
 Returns an `IObservable` that blends this `IObservable` with those passed as arguments.
 ## Usage
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
 var fs = require('fs');
-var SelectDirEntries = require('@kingjs/fs.select-dir-entries');
+var SelectDirEntries = require('@kingjs/fs.select-stat');
 var watch = require('@kingjs/fs.watch');
 var First = require('@kingjs/rx.first');
 var Select = require('@kingjs/rx.select');
@@ -29,7 +29,7 @@ run();
 
 ## API
 ```ts
-selectDirEntries()
+selectStat()
 ```
 
 
@@ -38,7 +38,7 @@ selectDirEntries()
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/fs.select-dir-entries
+$ npm install @kingjs/fs.select-stat
 ```
 ## Dependencies
 |Package|Version|
@@ -49,12 +49,12 @@ $ npm install @kingjs/fs.select-dir-entries
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 ## Source
-https://repository.kingjs.net/fs/select-dir-entries
+https://repository.kingjs.net/fs/select-stat
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/fs/select-dir-entries)
+![Analytics](https://analytics.kingjs.net/fs/select-stat)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/fs
-[ns1]: https://www.npmjs.com/package/@kingjs/fs.select-dir-entries
+[ns1]: https://www.npmjs.com/package/@kingjs/fs.select-stat

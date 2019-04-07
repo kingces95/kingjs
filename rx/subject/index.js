@@ -66,8 +66,14 @@ class Subject extends EventEmitter {
       complete = DefaultComplete;
 
     // subscribe(observer) -> subscribe(next, complete, error)
-    if (is.object(next))
-      return this[Subscribe](next[Next], next[Complete], next[Error])
+    if (is.object(next)) {
+      var observer = next;
+      return this[Subscribe](
+        observer[Next].bind(observer), 
+        observer[Complete].bind(observer), 
+        observer[Error].bind(observer)
+      )
+    }
 
     // epilog
     if (this.disposed) {
@@ -129,15 +135,8 @@ class Subject extends EventEmitter {
       this.error = DisposedError;
     }
 
-    if (this.activate && !this.dispose) {
-
-      // emit
-      this.dispose = this.activate({ 
-        [Next]: x => this[Next](x),
-        [Complete]: () => this[Complete](),
-        [Error]: x => this[Error](x),
-      });
-    }
+    if (this.activate && !this.dispose)
+      this.dispose = this.activate(this);
 
     return unsubscribe;
   }

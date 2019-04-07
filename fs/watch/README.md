@@ -5,15 +5,17 @@ Watches a path until cancelled.
 var assert = require('assert');
 var fs = require('fs');
 var ToPromise = require('@kingjs/rx.to-promise');
-var { Subscribe } = require('@kingjs/i-observable');
 var watch = require('@kingjs/fs.watch');
+
+var fileName = 'temp';
 
 async function run() {
   var observable = watch();
   var promise = observable[ToPromise]();
-  fs.writeFileSync('temp');
+  fs.writeFileSync(fileName);
   var result = await promise;
   assert(result);
+  fs.unlinkSync(fileName);
 }
 run()
 
@@ -41,6 +43,7 @@ $ npm install @kingjs/fs.watch
 |---|---|
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
+|[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source

@@ -8,5 +8,4 @@ exports['@kingjs'] = {
     create: require('@kingjs/rx.create'),
   },
 }
-exports['deepEquals'] = require('deep-equals')
 exports['assert'] = require('assert')
