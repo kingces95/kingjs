@@ -10,7 +10,7 @@ var {
  * adds  a single new member `key`.
  */
 module.exports = createInterface(
-  '@kingjs/IGroupedObservable', {
+  '@kingjs/rx.IGroupedObservable', {
     members: { key: null },
     extends: IObservable
   }

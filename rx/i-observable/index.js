@@ -8,7 +8,7 @@ var {
  * @description `IObservable` has a single member `subscribe`.
  */
 module.exports = createInterface(
-  '@kingjs/IObservable', {
+  '@kingjs/rx.IObservable', {
     members: { subscribe: null },
   }
 );

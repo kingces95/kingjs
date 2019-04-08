@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/rx.set-immediate-scheduler",
+  "version": "1.0.0",
+  "description": "An instance of an `IScheduler` that schedules uses `process.nextTick` and reports time from `Date.now`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/set-immediate-scheduler"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/promise.sleep": "latest",
+    "@kingjs/reflect.implement-interface": "latest",
+    "@kingjs/rx.scheduler": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

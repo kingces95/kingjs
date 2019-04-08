@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/rx.scheduler",
+  "version": "1.0.0",
+  "description": "The base class for Schedulers.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/scheduler"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/promise.sleep": "latest",
+    "@kingjs/reflect.implement-interface": "latest",
+    "@kingjs/rx.i-scheduler": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

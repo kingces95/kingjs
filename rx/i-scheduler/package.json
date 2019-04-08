@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/rx.i-scheduler",
+  "version": "1.0.0",
+  "description": "`IScheduler` has a members `now` and `schedule` which are abstract versions of `Date.now()` and `process.nextTick`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/i-scheduler"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}
