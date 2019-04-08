@@ -1,8 +1,10 @@
 var { 
   assert,
   ['@kingjs']: {
-    rx: { create },
-    IObserver: { Error },
+    rx: { 
+      create,
+      IObserver: { Error },
+    },
   }
 } = require('./dependencies');
 

@@ -2,13 +2,15 @@ var {
   assert, fs, path: Path,
   ['@kingjs']: {
     path: { makeAbsolute },
-    rx: { create },
+    rx: { 
+      create,
+      IObservable,
+      IObservable: { Subscribe },
+      IObserver : { Next, Complete, Error }
+    },
     reflect: { 
       exportExtension
     },
-    IObservable,
-    IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error }
   }
 } = require('./dependencies');
 

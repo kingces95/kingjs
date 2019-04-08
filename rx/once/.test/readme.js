@@ -2,7 +2,7 @@ require('@kingjs/shim')
 var assert = require('assert');
 var Once = require('..');
 var clock = require('@kingjs/rx.clock');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 async function run() {
   var value = 1;

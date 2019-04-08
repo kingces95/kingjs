@@ -3,7 +3,7 @@ var assert = require('assert');
 var DebounceTime = require('..');
 var clock = require('@kingjs/rx.clock');
 var Zip = require('@kingjs/rx.zip');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 var duration = 50;
 

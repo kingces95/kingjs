@@ -7,19 +7,19 @@ var assert = require('assert');
 var timer = require('@kingjs/rx.timer');
 var fail = require('@kingjs/rx.fail');
 var Then = require('@kingjs/rx.then');
+var ToPromise = require('@kingjs/rx.to-promise');
 var Capture = require('@kingjs/rx.capture');
 
 var E = 'E';
 
 async function run() {
 
-  // timer + Then = an asynchronous multicast operator
-  timer()
+  var value = await timer()
     [Then](fail(E))
-    [Capture](e => {
-      assert(e == E);
-      return of(0, 1)
-    });
+    [Capture](e => assert(e == E))
+    [ToPromise]();
+
+  assert(value === undefined);
 }
 run();
 ```
@@ -44,11 +44,11 @@ $ npm install @kingjs/rx.capture
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/capture

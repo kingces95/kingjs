@@ -4,17 +4,19 @@ Returns a promise that resolves with an array containing emitted values before `
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
-var of = require('@kingjs/rx.of');
+var from = require('@kingjs/rx.from');
 var timer = require('@kingjs/rx.timer');
 var Then = require('@kingjs/rx.then');
-var ToPromise = require('@kingjs/rx.to-array');
+var ToArray = require('@kingjs/rx.to-array');
+
+var value = [0, 1, 2];
 
 async function run() {
-  var value = await timer()
-    [Then](of(0))
-    [ToPromise]();
+  var promise = await timer()
+    [Then](from(value))
+    [ToArray]();
 
-  assert(value == 0);
+  assert.deepEqual(value, await promise);
 }
 run();
 ```
@@ -38,8 +40,8 @@ $ npm install @kingjs/rx.to-array
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/to-array
 ## License

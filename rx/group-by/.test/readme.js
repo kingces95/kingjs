@@ -1,7 +1,7 @@
 require('@kingjs/shim')
 var assert = require('assert');
 var GroupBy = require('..');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var { Key } = require('@kingjs/i-grouped-observable');
 var of = require('@kingjs/rx.of');
 

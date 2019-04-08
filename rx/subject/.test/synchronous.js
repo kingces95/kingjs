@@ -1,7 +1,7 @@
 var assert = require('assert');
 var Subject = require('..');
-var { Subscribe } = require('@kingjs/i-observable');
-var { Next, Complete } = require('@kingjs/i-observer');
+var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next, Complete } = require('@kingjs/rx.i-observer');
 
 var i = 0;
 var complete = false;

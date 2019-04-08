@@ -2,7 +2,7 @@ require('@kingjs/shim')
 var assert = require('assert');
 var fromAsync = require('..');
 var sleep = require('@kingjs/promise.sleep');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 var result = [];
 

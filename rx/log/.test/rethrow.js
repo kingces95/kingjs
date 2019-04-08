@@ -1,7 +1,7 @@
 require('@kingjs/shim')
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
-var { Next, Error } = require('@kingjs/i-observer');
+var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next, Error } = require('@kingjs/rx.i-observer');
 var Subject = require('@kingjs/rx.subject');
 var Spy = require('..');
 

@@ -1,7 +1,7 @@
 require('@kingjs/shim')
 var assert = require('assert')
 var Blend = require('..');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var clock = require('@kingjs/rx.clock');
 var Select = require('@kingjs/rx.select');
 var sleep = require('@kingjs/promise.sleep');

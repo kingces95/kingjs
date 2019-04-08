@@ -1,6 +1,6 @@
 require('kingjs')
 var ToObservable = require('..');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 function* throws() { throw 'my error' }
 

@@ -1,12 +1,14 @@
 var { 
   ['@kingjs']: {
-    rx: { create },
+    rx: { 
+      IObservable,
+      IObservable: { Subscribe },
+      IObserver: { Next, Complete, Error },
+      create 
+    },
     reflect: { 
       exportExtension
     },
-    IObservable,
-    IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error }
   }
 } = require('./dependencies');
 

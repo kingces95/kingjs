@@ -1,5 +1,5 @@
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var of = require('..');
 
 var result = [];

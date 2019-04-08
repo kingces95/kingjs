@@ -19,7 +19,6 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/generator": "latest",
-    "@kingjs/i-observer": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [

@@ -1,6 +1,4 @@
 exports['@kingjs'] = {
-  IObservable: require('@kingjs/i-observable'),
-  IObserver: require('@kingjs/i-observer'),
   path: {
     makeAbsolute: require('@kingjs/path.make-absolute'),
   },
@@ -9,6 +7,8 @@ exports['@kingjs'] = {
   },
   rx: {
     create: require('@kingjs/rx.create'),
+    IObservable: require('@kingjs/rx.i-observable'),
+    IObserver: require('@kingjs/rx.i-observer'),
   },
 }
 exports['assert'] = require('assert')

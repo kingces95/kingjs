@@ -1,8 +1,10 @@
 var {
   ['@kingjs']: {
     promise: { sleep },
-    rx: { create },
-    IObserver: { Next, Complete },
+    rx: { 
+      create,
+      IObserver: { Next, Complete },
+    },
   },
 } = require('./dependencies');
 

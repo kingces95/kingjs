@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/i-observer",
+  "name": "@kingjs/rx.i-grouped-observable",
   "version": "1.0.0",
-  "description": "`IObserver` has a members `next`, `complete`, and `error`.",
+  "description": "`IGroupedObservable` extends `IObservable` and  adds  a single new member `key`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,12 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/i-observer"
+    "url": "https://repository.kingjs.net/rx/i-grouped-observable"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.create-interface": "latest"
+    "@kingjs/reflect.create-interface": "latest",
+    "@kingjs/rx.i-observable": "latest"
   },
   "nodeDependencies": [
     "assert"

@@ -4,8 +4,8 @@ The description.
 ```js
 var assert = require('assert');
 var create = require('@kingjs/rx.create');
-var { Subscribe } = require('@kingjs/i-observable');
-var { Next, Complete, Error } = require('@kingjs/i-observer');
+var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next, Complete, Error } = require('@kingjs/rx.i-observer');
 
 class DataSource {
   constructor() {
@@ -67,7 +67,6 @@ $ npm install @kingjs/rx.create
 |Package|Version|
 |---|---|
 |[`@kingjs/generator`](https://www.npmjs.com/package/@kingjs/generator)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/create

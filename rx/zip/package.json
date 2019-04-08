@@ -20,10 +20,10 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/i-observable": "latest",
-    "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"

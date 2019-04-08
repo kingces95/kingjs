@@ -1,7 +1,7 @@
 exports['@kingjs'] = {
-  IObserver: require('@kingjs/i-observer'),
   rx: {
     create: require('@kingjs/rx.create'),
+    IObserver: require('@kingjs/rx.i-observer'),
   },
 }
 exports['assert'] = require('assert')

@@ -3,26 +3,36 @@ Returns an `IObservable` that blends this `IObservable` with those passed as arg
 ## Usage
 ```js
 require('@kingjs/shim')
-var assert = require('assert');
+var assert = require('assert')
 var Blend = require('@kingjs/rx.blend');
 var { Subscribe } = require('@kingjs/i-observable');
 var clock = require('@kingjs/rx.clock');
-var Map = require('@kingjs/rx.map');
+var Select = require('@kingjs/rx.select');
 var sleep = require('@kingjs/promise.sleep');
 
-result = { };
+var result = [];
+var expected = [];
+
+function start(ms, id) {
+  return clock(ms)[Select](t => {
+    var value = { t, id };
+    expected.push(value);
+    return value;
+  })
+}
 
 process.nextTick(async () => {
-  var a = clock(5)[Map](t => ({ t, id: 'a' }));
-  var b = clock(10)[Map](t => ({ t, id: 'b' }));
-  var c = clock(15)[Map](t => ({ t, id: 'c' }));
+  var a = start(5, 'a')
+  var b = start(7, 'b')
+  var c = start(11, 'c')
 
   var abc = a[Blend](b, c);
-  abc[Subscribe](o => { values.push(o) });
-  await sleep(100);
-});
+  var dispose = abc[Subscribe](o => { result.push(o) });
+  await sleep(27);
+  dispose();
 
-console.log(result);
+  assert.deepEqual(expected, result);
+});
 ```
 
 ## API
@@ -45,10 +55,10 @@ $ npm install @kingjs/rx.blend
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/blend
 ## License

@@ -49,7 +49,7 @@ zip(this, value, callback(left, right))
 ### Returns
 An `IObservable` whose emitted values are those returned by `callback`
 ### Remarks
-Once the `IEnumerable` is exhausted the `IObservable` will complete and then dispose itself.
+ - Once the `IEnumerable` is exhausted the `IObservable` will complete and then dispose itself.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -61,10 +61,10 @@ $ npm install @kingjs/rx.zip
 |---|---|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
 |[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/zip
 ## License

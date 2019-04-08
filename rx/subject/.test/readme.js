@@ -1,7 +1,7 @@
 var assert = require('assert');
 var Subject = require('..');
-var { Subscribe } = require('@kingjs/i-observable');
-var { Next, Complete, Error } = require('@kingjs/i-observer');
+var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next, Complete, Error } = require('@kingjs/rx.i-observer');
 
 class DataSource {
   constructor() {

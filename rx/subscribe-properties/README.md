@@ -26,8 +26,8 @@ $ npm install @kingjs/rx.subscribe-properties
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.subscribe-iterator`](https://www.npmjs.com/package/@kingjs/rx.subscribe-iterator)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/subscribe-properties

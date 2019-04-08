@@ -19,9 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/endless": "latest",
-    "@kingjs/i-observer": "latest",
     "@kingjs/promise.sleep": "latest",
-    "@kingjs/rx.create": "latest"
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"

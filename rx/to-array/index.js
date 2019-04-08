@@ -3,8 +3,10 @@ var {
     reflect: { 
       exportExtension
     },
-    IObservable,
-    IObservable: { Subscribe },
+    rx: {
+      IObservable,
+      IObservable: { Subscribe },
+    }
   }
 } = require('./dependencies');
 

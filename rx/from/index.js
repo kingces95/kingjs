@@ -1,11 +1,13 @@
 var { 
   assert,
   ['@kingjs']: {
-    rx: { create },
-    IObserver: { Next, Complete, Error },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    rx: { 
+      create,
+      IObserver: { Next, Complete, Error },
+    },
   }
 } = require('./dependencies');
 

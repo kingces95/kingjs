@@ -5,7 +5,7 @@ Returns an `IObservable` that emits an `IGroupedObservable` for each group ident
 require('@kingjs/shim')
 var assert = require('assert');
 var GroupBy = require('@kingjs/rx.group-by');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var { Key } = require('@kingjs/i-grouped-observable');
 var of = require('@kingjs/rx.of');
 
@@ -47,11 +47,11 @@ $ npm install @kingjs/rx.group-by
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-grouped-observable`](https://www.npmjs.com/package/@kingjs/i-grouped-observable)|`latest`|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/group-by

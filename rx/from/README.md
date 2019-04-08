@@ -5,7 +5,7 @@ Create an `IObservable` from a generator or  implementor of the iterator protoco
 require('@kingjs/shim')
 var assert = require('assert');
 var from = require('@kingjs/rx.from');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 function example(value) {
   var next;
@@ -46,8 +46,8 @@ $ npm install @kingjs/rx.from
 |---|---|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
 |[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/from
 ## License

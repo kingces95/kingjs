@@ -2,8 +2,8 @@ require('@kingjs/shim')
 var { promises: fsp } = require('fs');
 var assert = require('assert');
 var Path = require('path');
-var { Subscribe } = require('@kingjs/i-observable');
-var { Next } = require('@kingjs/i-observer');
+var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next } = require('@kingjs/rx.i-observer');
 
 var watch = require('..');
 var makeAbsolute = require('@kingjs/path.make-absolute');

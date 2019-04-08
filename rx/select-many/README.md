@@ -5,7 +5,7 @@ Returns an `IObservable` emits the elements selected from the many `IObservable`
 require('@kingjs/shim')
 var assert = require('assert');
 var SelectMany = require('@kingjs/rx.select-many');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var of = require('@kingjs/rx.of');
 
 // for each emission select many `IObservable`s
@@ -56,11 +56,11 @@ $ npm install @kingjs/rx.select-many
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.from`](https://www.npmjs.com/package/@kingjs/rx.from)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/select-many
 ## License

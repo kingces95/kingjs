@@ -1,10 +1,12 @@
 var {
   ['@kingjs']: { 
     reflect: { implementInterface },
-    rx: { from },
+    rx: { 
+      from,
+      IObservable,
+      IObservable: { Subscribe }
+    },
     IEnumerable,
-    IObservable,
-    IObservable: { Subscribe }
   },
 } = require('./dependencies');
 

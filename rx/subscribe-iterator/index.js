@@ -3,9 +3,11 @@ var {
     reflect: { 
       exportExtension
     },
-    IObservable,
-    IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error }
+    rx: {
+      IObservable,
+      IObservable: { Subscribe },
+      IObserver: { Next, Complete, Error }
+    }
   }
 } = require('./dependencies');
 

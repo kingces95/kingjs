@@ -1,8 +1,9 @@
 var {
   ['@kingjs']: { 
-    rx: { Subject },
+    rx: { 
+      Subject,
+    },
     Generator,
-    IObserver: { Next, Complete, Error }
   },
 } = require('./dependencies');
 

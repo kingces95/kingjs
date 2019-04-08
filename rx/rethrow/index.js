@@ -1,10 +1,12 @@
 var { 
   ['@kingjs']: {
-    rx: { Spy },
+    rx: { 
+      Spy,
+      IObservable
+    },
     reflect: { 
       exportExtension
     },
-    IObservable
   }
 } = require('./dependencies');
 

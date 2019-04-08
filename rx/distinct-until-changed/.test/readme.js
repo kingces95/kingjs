@@ -1,7 +1,7 @@
 var assert = require('assert');
 var Subject = require('@kingjs/rx.subject');
-var { Subscribe } = require('@kingjs/i-observable');
-var { Next } = require('@kingjs/i-observer');
+var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next } = require('@kingjs/rx.i-observer');
 var Select = require('@kingjs/rx.select');
 var Refine = require('..');
 var clock = require('@kingjs/rx.clock');

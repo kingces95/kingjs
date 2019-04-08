@@ -1,6 +1,6 @@
 var assert = require('assert');
 var clock = require('..');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 async function run() {
   var count = 3;

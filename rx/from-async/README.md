@@ -6,7 +6,6 @@ require('@kingjs/shim')
 var assert = require('assert');
 var fromAsync = require('@kingjs/rx.from-async');
 var sleep = require('@kingjs/promise.sleep');
-var never = require('@kingjs/promise.never');
 var { Subscribe } = require('@kingjs/i-observable');
 
 var result = [];
@@ -15,12 +14,12 @@ process.nextTick(async () => {
   var dispose;
   var promise = new Promise(resolve => {
     dispose = fromAsync(async function *() {
-      yield 1;
-      await sleep(50);
-      yield 2;
+      yield 0;
       resolve();
-      await sleep(150);
-      //await never();
+      await sleep(50);
+      yield 1;
+      await sleep(100);
+      yield 2;
     })[Subscribe](
       o => result.push(o)
     );
@@ -28,8 +27,12 @@ process.nextTick(async () => {
 
   assert(result.length == 0);
   await promise;
-  assert(result.length == 2);
+  assert.deepEqual(result, [0]);
+  await sleep(75);
+  assert.deepEqual(result, [0, 1]);
   dispose();
+  await sleep(100);
+  assert.deepEqual(result, [0, 1]);
 })
 
 ```
@@ -53,8 +56,8 @@ $ npm install @kingjs/rx.from-async
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/from-async
 ## License

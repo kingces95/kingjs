@@ -3,13 +3,15 @@ var {
     reflect: { 
       exportExtension
     },
-    rx: { create },
+    rx: { 
+      IObservable,
+      IObservable: { Subscribe },
+      IObserver: { Next, Complete, Error },
+      create 
+    },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    IObservable,
-    IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
   },
 } = require('./dependencies');
 

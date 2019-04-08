@@ -1,6 +1,6 @@
 var {
   ['@kingjs']: {
-    IObservable,
+    rx: { IObservable },
     reflect: { createInterface }
   }
 } = require('./dependencies');

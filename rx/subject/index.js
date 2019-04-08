@@ -3,8 +3,10 @@ var {
   events: { EventEmitter },
   ['@kingjs']: { 
     reflect: { is },
-    IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error }
+    rx: {
+      IObservable: { Subscribe },
+      IObserver: { Next, Complete, Error }
+    }
   },
 } = require('./dependencies');
 

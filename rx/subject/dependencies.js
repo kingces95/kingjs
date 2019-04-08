@@ -1,8 +1,10 @@
 exports['@kingjs'] = {
-  IObservable: require('@kingjs/i-observable'),
-  IObserver: require('@kingjs/i-observer'),
   reflect: {
     is: require('@kingjs/reflect.is'),
+  },
+  rx: {
+    IObservable: require('@kingjs/rx.i-observable'),
+    IObserver: require('@kingjs/rx.i-observer'),
   },
 }
 exports['assert'] = require('assert')

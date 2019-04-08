@@ -3,8 +3,6 @@ exports['@kingjs'] = {
   IEnumerable: require('@kingjs/i-enumerable'),
   IEnumerator: require('@kingjs/i-enumerator'),
   IIterable: require('@kingjs/i-iterable'),
-  IObservable: require('@kingjs/i-observable'),
-  IObserver: require('@kingjs/i-observer'),
   packageVersion: {
     parse: require('@kingjs/package-version.parse'),
   },
@@ -15,6 +13,8 @@ exports['@kingjs'] = {
   rx: {
     create: require('@kingjs/rx.create'),
     from: require('@kingjs/rx.from'),
+    IObservable: require('@kingjs/rx.i-observable'),
+    IObserver: require('@kingjs/rx.i-observer'),
   },
 }
 exports['events'] = require('events')

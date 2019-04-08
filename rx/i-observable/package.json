@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/i-observable",
+  "name": "@kingjs/rx.i-observable",
   "version": "1.0.0",
   "description": "`IObservable` has a single member `subscribe`.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/i-observable"
+    "url": "https://repository.kingjs.net/rx/i-observable"
   },
   "keywords": [],
   "license": "MIT",

@@ -8,7 +8,7 @@ var {
  * @description `IObserver` has a members `next`, `complete`, and `error`.
  */
 module.exports = createInterface(
-  '@kingjs/IObserver', {
+  '@kingjs/rx.IObserver', {
     members: { 
       next: null,
       complete: null,
