@@ -3,10 +3,10 @@ exports['@kingjs'] = {
   IObserver: require('@kingjs/i-observer'),
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
+    is: require('@kingjs/reflect.is'),
   },
   rx: {
     create: require('@kingjs/rx.create'),
-    from: require('@kingjs/rx.from'),
   },
 }
 exports['assert'] = require('assert')

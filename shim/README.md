@@ -20,11 +20,11 @@ $ npm install @kingjs/shim
 |[`@kingjs/i-iterable`](https://www.npmjs.com/package/@kingjs/i-iterable)|`latest`|
 |[`@kingjs/i-observable`](https://www.npmjs.com/package/@kingjs/i-observable)|`latest`|
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
-|[`@kingjs/linq.to-observable`](https://www.npmjs.com/package/@kingjs/linq.to-observable)|`latest`|
 |[`@kingjs/package-version.parse`](https://www.npmjs.com/package/@kingjs/package-version.parse)|`latest`|
 |[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
 |[`@kingjs/reflect.implement-interface`](https://www.npmjs.com/package/@kingjs/reflect.implement-interface)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.from`](https://www.npmjs.com/package/@kingjs/rx.from)|`latest`|
 ## Source
 https://repository.kingjs.net/shim
 ## License

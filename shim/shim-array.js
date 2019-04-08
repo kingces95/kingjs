@@ -1,7 +1,7 @@
 var {
   ['@kingjs']: { 
     reflect: { implementInterface },
-    linq: { ToObservable },
+    rx: { from },
     IEnumerable,
     IObservable,
     IObservable: { Subscribe }
@@ -18,7 +18,7 @@ implementInterface(Array.prototype, IEnumerable, {
 
 implementInterface(Array.prototype, IObservable, {
   subscribe() {
-    var observable =  [...this][ToObservable]();
+    var observable =  from(this);
     return observable[Subscribe].apply(observable, arguments);
   }
 });

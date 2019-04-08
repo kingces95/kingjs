@@ -6,7 +6,6 @@ exports['@kingjs'] = {
   },
   rx: {
     create: require('@kingjs/rx.create'),
-    SelectMany: require('@kingjs/rx.select-many'),
   },
 }
-exports['fs'] = require('fs')
+exports['assert'] = require('assert')

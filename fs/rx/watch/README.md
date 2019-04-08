@@ -1,11 +1,11 @@
-# @[kingjs][@kingjs]/[fs][ns0].[watch][ns1]
+# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[watch][ns2]
 Watches a path until cancelled.
 ## Usage
 ```js
 var assert = require('assert');
 var fs = require('fs');
 var ToPromise = require('@kingjs/rx.to-promise');
-var watch = require('@kingjs/fs.watch');
+var watch = require('@kingjs/fs.rx.watch');
 
 var fileName = 'temp';
 
@@ -36,7 +36,7 @@ Returns an `IObservable` which emits `next` when a change to the path is observe
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/fs.watch
+$ npm install @kingjs/fs.rx.watch
 ```
 ## Dependencies
 |Package|Version|
@@ -47,12 +47,13 @@ $ npm install @kingjs/fs.watch
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 ## Source
-https://repository.kingjs.net/fs/watch
+https://repository.kingjs.net/fs/rx/watch
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/fs/watch)
+![Analytics](https://analytics.kingjs.net/fs/rx/watch)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/fs
-[ns1]: https://www.npmjs.com/package/@kingjs/fs.watch
+[ns1]: https://www.npmjs.com/package/@kingjs/fs.rx
+[ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.watch

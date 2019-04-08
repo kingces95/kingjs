@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.watch",
+  "name": "@kingjs/rx.log",
   "version": "1.0.0",
-  "description": "Watches a path until cancelled.",
+  "description": "Returns an `IObservable` that logs life-cycle events.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,20 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/watch"
+    "url": "https://repository.kingjs.net/rx/log"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
-    "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/reflect.is": "latest",
     "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
-    "path"
-  ]
+    "assert"
+  ],
+  "capitalize": true
 }

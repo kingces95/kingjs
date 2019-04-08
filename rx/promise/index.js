@@ -13,10 +13,10 @@ var {
 var Options = { withFileTypes: true };
 
 /**
- * @description Returns an `IObservable` that blends this `IObservable`
- * with those passed as arguments.
+ * @description Returns an `IObservable` emits values resolved
+ * via a callback like a promise that returns many values.
  */
-function selectDirEntries() {
+function promise(callback) {
   return this[SelectMany](dir => {
     return create(observer => {
       try {
@@ -37,4 +37,4 @@ function selectDirEntries() {
   })
 }
 
-exportExtension(module, IObservable, selectDirEntries);
+exportExtension(module, IObservable, promise);

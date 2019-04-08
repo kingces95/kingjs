@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.select-many",
+  "name": "@kingjs/rx.select-async",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` emits the elements selected from the many `IObservable`s returned by callback optionally further selecting each resulting element.",
+  "description": "Returns an `IObservable` that maps values emitted from the current `IObservable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/select-many"
+    "url": "https://repository.kingjs.net/rx/select-async"
   },
   "keywords": [],
   "license": "MIT",
@@ -21,8 +21,7 @@
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest",
-    "@kingjs/rx.from": "latest"
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
     "assert"

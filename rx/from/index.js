@@ -23,10 +23,8 @@ var {
 function from(value) {
   return create(function(observer) {
     try {
-      assert(value instanceof IEnumerable);
-      var enumerator = value[GetEnumerator]();
-      while (enumerator[MoveNext]())
-        observer[Next](enumerator[Current]);
+      for (var o of value)
+        observer[Next](o);
         
       observer[Complete]();
     } catch(e) { 

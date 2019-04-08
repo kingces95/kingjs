@@ -1,6 +1,6 @@
 var {
   ['@kingjs']: {
-    rx: { create },
+    rx: { create, from },
     reflect: {
       exportExtension
     },
@@ -10,20 +10,32 @@ var {
   }
 } = require('./dependencies');
 
-var identity = o => o;
+var Identity = o => o;
 
 /**
- * @description Returns an `IObservable` that blends this `IObservable`
- * with those passed as arguments.
+ * @description Returns an `IObservable` emits the elements selected
+ * from the many `IObservable`s returned by callback optionally further
+ * selecting each resulting element.
  * 
- * @this any The `IObservable` whose emissions will be blended.
+ * @this any The source `IObservable` whose each emission will be mapped to
+ * an `IObservable` or iterable.
  * 
- * @param arguments A list of `IObservables` whose emissions will be blended.
+ * @param selector Selects many elements from each emitted element of the
+ * source `IObservable`.
+ * @param [resultSelector] Selects each resultiIdentity.
  * 
- * @returns Returns a new `IObservable` that emits a blend of all emissions
- * of this `IObservable` and all `IObservable`s passed as arguments.
+ * @callback selector
+ * @param value The value from which many values are to be selected.
+ * @returns Returns an `IObservable` or iterable
+ * 
+ * @callback resultSelector
+ * @param value One of the many resulting values to map.
+ * @returns Returns the value emitted. 
+ * 
+ * @returns Returns a new `IObservable` that emits many values for each
+ * value emitted by the source `IObservable`.
  */
-function selectMany(selector = identity) {
+function selectMany(selector = Identity, resultSelector = Identity) {
   var observable = this;
 
   return create(observer => {
@@ -33,17 +45,20 @@ function selectMany(selector = identity) {
 
     var dispose = observable[Subscribe](
       o => { 
+        var many = selector(o);
+
+        if (Symbol.iterable in many)
+          many = from(many);
+
         var manyId = id++;
-
-        var many = manyObservers[manyId] = selector(o);
-
+        manyObservers[manyId] = many;
         manyDisposes[manyId] = many[Subscribe](
-          o => observer[Next](o),
+          x => observer[Next](resultSelector(x)),
           () => {
             delete manyObservers[manyId];
             delete manyDisposes[manyId];
           },
-          o => observer[Error](o)
+          x => observer[Error](x)
         );
       },
       () => {

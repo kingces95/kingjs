@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.select-stat",
+  "name": "@kingjs/fs.rx.watch",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that blends this `IObservable` with those passed as arguments.",
+  "description": "Watches a path until cancelled.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,19 +13,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/select-stat"
+    "url": "https://repository.kingjs.net/fs/rx/watch"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-observable": "latest",
     "@kingjs/i-observer": "latest",
+    "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest",
-    "@kingjs/rx.select-many": "latest"
+    "@kingjs/rx.create": "latest"
   },
   "nodeDependencies": [
-    "fs"
-  ],
-  "capitalize": true
+    "assert",
+    "fs",
+    "path"
+  ]
 }

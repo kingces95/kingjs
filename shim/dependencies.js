@@ -5,9 +5,6 @@ exports['@kingjs'] = {
   IIterable: require('@kingjs/i-iterable'),
   IObservable: require('@kingjs/i-observable'),
   IObserver: require('@kingjs/i-observer'),
-  linq: {
-    ToObservable: require('@kingjs/linq.to-observable'),
-  },
   packageVersion: {
     parse: require('@kingjs/package-version.parse'),
   },
@@ -17,6 +14,7 @@ exports['@kingjs'] = {
   },
   rx: {
     create: require('@kingjs/rx.create'),
+    from: require('@kingjs/rx.from'),
   },
 }
 exports['events'] = require('events')

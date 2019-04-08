@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[rx][ns0].[select-many][ns1]
-Returns an `IObservable` that blends this `IObservable` with those passed as arguments.
+Returns an `IObservable` emits the elements selected from the many `IObservable`s returned by callback optionally further selecting each resulting element.
 ## Usage
 ```js
 require('@kingjs/shim')
@@ -8,25 +8,44 @@ var SelectMany = require('@kingjs/rx.select-many');
 var { Subscribe } = require('@kingjs/i-observable');
 var of = require('@kingjs/rx.of');
 
+// for each emission select many `IObservable`s
 result = [];
-
-of({ x: of(0, 2) }, { x: of(1, 3) })
-  [SelectMany](o => o.x)
+of({ 
+  x: of(0, 2) 
+}, { 
+  x: of(1, 3) 
+})
+  [SelectMany](o => o.x, o => -o)
   [Subscribe](o => result.push(o));
+assert.deepEqual(result, [0, -2, -1, -3])
 
-assert.deepEqual(result, [0, 2, 1, 3])
+// for each emission select many iterables
+result = [];
+of({ 
+  x: [0, 2]
+}, { 
+  x: [1, 3]
+})
+  [SelectMany](o => o.x, o => -o)
+  [Subscribe](o => result.push(o));
+assert.deepEqual(result, [0, -2, -1, -3])
 ```
 
 ## API
 ```ts
-selectMany(this, arguments)
+selectMany(this, selector(value)[, resultSelector(value)])
 ```
 
 ### Parameters
-- `this`: The `IObservable` whose emissions will be blended.
-- `arguments`: A list of `IObservables` whose emissions will be blended.
+- `this`: The source `IObservable` whose each emission will be mapped to an `IObservable` or iterable.
+- `selector`: Selects many elements from each emitted element of the source `IObservable`.
+  - `value`: The value from which many values are to be selected.
+  - Returns an `IObservable` or iterable
+- `resultSelector`: Selects each resultiIdentity.
+  - `value`: One of the many resulting values to map.
+  - Returns the value emitted.
 ### Returns
-Returns a new `IObservable` that emits a blend of all emissions of this `IObservable` and all `IObservable`s passed as arguments.
+Returns a new `IObservable` that emits many values for each value emitted by the source `IObservable`.
 
 
 ## Install
@@ -41,6 +60,7 @@ $ npm install @kingjs/rx.select-many
 |[`@kingjs/i-observer`](https://www.npmjs.com/package/@kingjs/i-observer)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.from`](https://www.npmjs.com/package/@kingjs/rx.from)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/select-many
 ## License
