@@ -7,10 +7,11 @@ function example(value) {
   var next;
   var complete;
   
-  new from(value)[Subscribe](
-    o => next = o, 
-    () => complete = true
-  );
+  new from(value)
+    [Subscribe](
+      o => next = o, 
+      () => complete = true
+    );
   
   assert(next == 1);
   assert(complete);

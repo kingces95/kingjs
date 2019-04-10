@@ -56,7 +56,7 @@ function selectMany(selector = Identity, resultSelector = Identity) {
         var manyId = id++;
         manyObservers[manyId] = many;
         manyDisposes[manyId] = many[Subscribe](
-          x => observer[Next](resultSelector(x)),
+          x => observer[Next](resultSelector(o, x)),
           () => {
             delete manyObservers[manyId];
             delete manyDisposes[manyId];

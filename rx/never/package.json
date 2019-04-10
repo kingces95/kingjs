@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/rx.never",
+  "version": "1.0.0",
+  "description": "Returns an `IObservable` that emits no events yet keeps the process alive until disposed.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/never"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/promise.sleep": "latest",
+    "@kingjs/rx.create": "latest"
+  },
+  "nodeDependencies": [
+    "events"
+  ]
+}

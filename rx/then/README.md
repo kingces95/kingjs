@@ -4,7 +4,7 @@ Returns an `IObservable` that emits values from the source `IObservable` followe
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var timer = require('@kingjs/rx.timer');
 var of = require('@kingjs/rx.of');
 var Then = require('@kingjs/rx.then');

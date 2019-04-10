@@ -1,4 +1,5 @@
 var { 
+  assert,
   ['@kingjs']: {
     rx: { 
       IObservable,
@@ -11,6 +12,8 @@ var {
     },
   }
 } = require('./dependencies');
+
+var syncError = 'Synchronous execution detected. Use `@kingjs/rx.timer`.';
 
 /**
  * @description Returns an `IObservable` that emits values
@@ -37,6 +40,7 @@ function then(nextObservable) {
         o => observer[Next](o),
         () => {
           if (observable == sourceObservable) {
+            assert(dispose, syncError);
             dispose();
             subscribe(nextObservable);
             return;

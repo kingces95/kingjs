@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.select-async",
+  "name": "@kingjs/rx.queue-many",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that maps values emitted from the current `IObservable`.",
+  "description": "Returns an `IObservable` that asynchronously emits elements  selected from the `IObservable`s returned by callback optionally further selecting each resulting element.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,13 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/select-async"
+    "url": "https://repository.kingjs.net/rx/queue-many"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
+    "@kingjs/rx.from": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest"
   },

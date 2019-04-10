@@ -8,11 +8,11 @@ var { Next } = require('@kingjs/rx.i-observer');
 var watch = require('..');
 var makeAbsolute = require('@kingjs/path.make-absolute');
 
-var from = require('@kingjs/rx.from');
 var Subject = require('@kingjs/rx.subject');
+var QueueMany = require('@kingjs/rx.queue-many');
+var Queue = require('@kingjs/rx.queue');
 var Select = require('@kingjs/rx.select');
 var SelectMany = require('@kingjs/rx.select-many');
-var SelectAsync = require('@kingjs/rx.select-async');
 var Distinct = require('@kingjs/rx.distinct');
 var DistinctUntilChanged = require('@kingjs/rx.distinct-until-changed');
 var Pipe = require('@kingjs/rx.pipe');
@@ -22,50 +22,51 @@ var Log = require('@kingjs/rx.log');
 
 async function run() {
 
-  var subject = new Subject();
+  // report activity in directories
+  var directoryMotion = new Subject();
 
-  // emit when any dir activity detected
-  var motion = subject
-    [Select](o => makeAbsolute(o));
-
-  // watch newly discovered dirs
-  motion
+  // if the directory is unknown, 
+  // - start watching it and 
+  // - reporting its contents when it moves
+  var entryMotion = directoryMotion
+    [Select](o => makeAbsolute(o))
     [Distinct]()
     [Log]('WATCH_DIR')
-    [SelectMany](o => watch(o))
-    [Log]('DIR_MOTION')
-    [Pipe](subject);
-  
-  var entries = motion
-    [SelectAsync](async o => 
-      (await fsp.readdir(o, { withFileTypes: true }))
-        .map(x => (x.dir = o, x))
+    [SelectMany](o => watch(o, true))
+    [QueueMany](async o => { 
+        try { return await fsp.readdir(o, { withFileTypes: true }); }
+        catch(e) { /* lost race to readdir before deletion */ }
+      },
+      (o, x) => (x.dir = o, x)
     )
-    [SelectMany](o => from(o))
+    [Where](o => o)
 
-  // walk sub-dirs of newly discovered dirs
-  entries
-    // [GroupBy](o => o.path)
-    // [SelectMany](
-    //   o => o[DistinctUntilChanged]()
-    // )
+  // report sub-directory motion as feedback
+  entryMotion
     [Where](o => o.isDirectory())
+    [Where](o => o.name[0] != '.')
     [Select](o => Path.join(o.dir, o.name))
-    [Pipe](subject);
+    [Pipe](directoryMotion);
 
-  entries
+  // report only those files that have changed since last seen
+  var fileMotion = entryMotion
     [Where](o => o.isFile())
     [Select](o => Path.join(o.dir, o.name))
-    [SelectAsync](async o => 
-      ({ path: o, timestamp: (await fsp.stat(o)).mtimeMs })
-    )
+    [Queue](async o => {
+      try { return ({ path: o, timestamp: (await fsp.stat(o)).mtimeMs }) }
+      catch(e) { /* lost race to get stats before deletion */ }
+    })
+    [Where](o => o)
     [GroupBy](o => o.path)
     [SelectMany](
-      o => o[DistinctUntilChanged]()
-    )
-    [Select](o => o.path)
+      o => o[DistinctUntilChanged](),
+      (o, x) => x.path
+    );
+
+  fileMotion
     [Subscribe](o => console.log('FILE', o));
 
-  subject[Next]('.');
+  //directoryMotion[Next]('../../../..');
+  directoryMotion[Next]('.');
 }
 run();

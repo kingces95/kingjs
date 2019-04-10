@@ -43,14 +43,17 @@ var Sink = {
  * 
  * @remarks - No provision is made for typing the change that happened. 
  **/
-function watch(path = '.') {
+function watch(path = '.', emitFirst) {
   return create(observer => {
     path = makeAbsolute(path);
-    var watcher = fs.watch(path, Options);
 
-    watcher.on(Event.Error, e => observer[Error](e));
-    watcher.on(Event.Close, () => observer[Complete]());
+    if (emitFirst)
+      observer[Next](path);
+
+    var watcher = fs.watch(path, Options);
     watcher.on(Event.Change, () => observer[Next](path));
+    watcher.on(Event.Close, () => observer[Complete]());
+    watcher.on(Event.Error, e => observer[Error](e));
 
     return () => {
       observer = Sink;

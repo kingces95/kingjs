@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.select",
+  "name": "@kingjs/rx.queue",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that maps values emitted from the current `IObservable`.",
+  "description": "Returns an `IObservable` that asynchronously maps  values emitted from the current `IObservable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,17 +13,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/select"
+    "url": "https://repository.kingjs.net/rx/queue"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
-    "@kingjs/rx.default-scheduler": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest",
-    "@kingjs/rx.i-scheduler": "latest"
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"
