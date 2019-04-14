@@ -1,4 +1,18 @@
-require('@kingjs/shim')
+var { 
+  assert, fs, path: Path,
+  ['@kingjs']: {
+    path: { makeAbsolute },
+    rx: { 
+      create,
+      IObservable,
+      IObservable: { Subscribe },
+      IObserver : { Next, Complete, Error }
+    },
+    reflect: { 
+      exportExtension
+    },
+  }
+} = require('./dependencies');
 var deepEqual = require('deep-equal');
 var { promises: fsp } = require('fs');
 var assert = require('assert');
@@ -61,20 +75,36 @@ function diffStat(current, previous) {
   return { entry, name, event };
 }
 
-async function run(dirFilter) {
+/**
+ * @description Watch a for file and directory events in a directory
+ * and all its descendent directories.
+ * 
+ * @param {*} dirFilter A callback to filter whether a subdirectory
+ * should be watched.
+ * 
+ * @callback dirFilter
+ * @param name The name of the sub-directory.
+ * @param dir The directory containing the sub-directory.
+ * 
+ * @returns Returns an `IObservable` that emits events for various
+ * file and directory events.
+ */
+async function watchMany(dirFilter) {
 
-  var directoryMotion = new Subject();
+  var subject = new Subject();
 
-  var entryMotion = directoryMotion
+  var directoryMotion = subject
     [Select](o => makeAbsolute(o))
     [Distinct]()
     [Log]('WATCH_DIR')
-    [SelectMany](o => watch(o, true), o => o)
-    [GroupBy](o => o)    
+    [SelectMany](o => watch(o, true), o => o);
+
+  var entryMotion = directoryMotion
+    [GroupBy](o => o)
     [SelectMany](o => o
       [Queue](() => readDirStat(o.key))
-      [RollingSelect](1, 
-        (c, p) => c[ZipJoin](p, SelectName, SelectName, diffStat)
+      [RollingSelect](
+        o => o[0][ZipJoin](o[1], SelectName, SelectName, diffStat)
       )
       [Where](o => o),
       x => (x.dir = o, x)
@@ -85,12 +115,9 @@ async function run(dirFilter) {
     [Where](o => o.entry.isDirectory())
     [Where](o => dirFilter(o.name, o.dir))
     [Select](o => Path.join(o.dir, o.name))
-    [Pipe](directoryMotion);
+    [Pipe](subject);
 
-  entryMotion
-    [Subscribe](o => console.log('FILE', o));
-
-  //directoryMotion[Next]('../../../..');
-  directoryMotion[Next]('.');
+  subject[Next]('.');
 }
-run(o => o[0] != '.');
+
+module.exports = watchMany;

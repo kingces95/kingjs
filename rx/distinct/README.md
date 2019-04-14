@@ -4,7 +4,7 @@ Returns an `IObservable` whose each value is distinct.
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var Distinct = require('@kingjs/rx.distinct');
 var of = require('@kingjs/rx.of');
 
@@ -19,7 +19,7 @@ of(0, 1, 2, 0, 1, 2)
 
 ## API
 ```ts
-distinctUntilChanged([keySelector[, equal]])
+distinct([keySelector[, equal]])
 ```
 
 ### Parameters

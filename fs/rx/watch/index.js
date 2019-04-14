@@ -45,13 +45,11 @@ var Sink = {
  **/
 function watch(path = '.', emitFirst) {
   return create(observer => {
-    path = makeAbsolute(path);
-
     if (emitFirst)
-      observer[Next](path);
+      observer[Next]();
 
     var watcher = fs.watch(path, Options);
-    watcher.on(Event.Change, () => observer[Next](path));
+    watcher.on(Event.Change, () => observer[Next]());
     watcher.on(Event.Close, () => observer[Complete]());
     watcher.on(Event.Error, e => observer[Error](e));
 

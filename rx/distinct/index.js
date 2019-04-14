@@ -25,7 +25,7 @@ var DefaultKeySelector = o => o;
  * 
  * @returns Returns an `IObservable` whose each value is distinct.
  */
-function distinctUntilChanged(
+function distinct(
   keySelector = DefaultKeySelector, 
   equal = DefaultEqual) {
 
@@ -53,4 +53,4 @@ function distinctUntilChanged(
   })
 }
 
-exportExtension(module, IObservable, distinctUntilChanged);
+exportExtension(module, IObservable, distinct);
