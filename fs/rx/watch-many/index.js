@@ -1,27 +1,17 @@
 var { 
   deepEqual, 
-  fs: { promises: fsp }, path: Path,
+  fs: { promises: fsp }, 
+  path: Path,
   ['@kingjs']: {
     path: { makeAbsolute },
-    fs: { rx: { watch } }
+    fs: { rx: { watch } },
     rx: {
-      Subject,
-      IObserver: { Next }
-      RollingSelect,
-      Queue,
-      Select,
-      SelectMany,
-      Pipe,
-      Where,
-      GroupBy,
-      Log
+      IObserver: { Next },
+      IGroupedObservable: { Key },
+      RollingSelect, Select, SelectMany, Queue,
+      Subject, Pipe, Where, GroupBy, Distinct, Log
     },
-    linq: {
-      ZipJoin
-    },
-    reflect: { 
-      exportExtension
-    },
+    linq: { ZipJoin },
   }
 } = require('./dependencies');
 
@@ -46,7 +36,7 @@ var Change = 'change';
  * @returns Returns an `IObservable` that emits events for various
  * file and directory events.
  */
-async function watchMany(
+function watchMany(
   root = '.', 
   dirFilter) {
 
@@ -59,25 +49,27 @@ async function watchMany(
     [SelectMany](o => watch(o, true), o => o);
 
   var entryMotion = directoryMotion
-    [GroupBy](o => o)
-    [SelectMany](o => o
-      [Queue](() => readDirStat(o.key))
+    [GroupBy]()
+    [SelectMany](g => g
+      [Queue](() => readDirStat(g[Key]))
       [RollingSelect](
-        o => o[0][ZipJoin](o[1], SelectName, SelectName, diffStat)
+        o => o[0][ZipJoin](o[1] || [], SelectName, SelectName, diffStat)
       )
-      [SelectMany](o => o)
-      [Where](o => o),
-      x => (x.dir = o, x)
+      [SelectMany]()
+      [Where](),
+      (g, x) => (x.dir = g[Key], x)
     )
 
   // report sub-directory motion as feedback
   entryMotion
-    [Where](o => o.entry.isDirectory())
+    [Where](o => o.stat.isDirectory())
     [Where](o => dirFilter(o.name, o.dir))
     [Select](o => Path.join(o.dir, o.name))
     [Pipe](subject);
 
   subject[Next](root);
+
+  return entryMotion;
 }
 
 async function readDirStat(dir) {
@@ -88,10 +80,12 @@ async function readDirStat(dir) {
     entries.sort(SelectName);
 
     for (var i = 0; i < entries.length; i++) {
-      var path = Path.join(dir, entries[i].name);
+      var name = entries[i].name;
+      var path = Path.join(dir, name);
 
       try { 
-        stats.push(await fsp.stat(path)); 
+        var stat = await fsp.stat(path);
+        stats.push({ name, stat }); 
       } catch(e) { }
     }
   }
@@ -102,14 +96,13 @@ async function readDirStat(dir) {
 
 function diffStat(current, previous) {
   var entry = current || previous;
-  var name = entry.name;
-  var event = current ? (previous ? Change : Remove) : Add;
+  var event = current ? (previous ? Change : Add) : Remove;
 
   // return null when no changes are detected
   if (event == Change && deepEqual(current, previous))
     return null;
 
-  return { entry, name, event };
+  return { ...entry, event };
 }
 
 module.exports = watchMany;

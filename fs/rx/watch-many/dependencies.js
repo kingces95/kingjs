@@ -10,11 +10,10 @@ exports['@kingjs'] = {
   path: {
     makeAbsolute: require('@kingjs/path.make-absolute'),
   },
-  reflect: {
-    exportExtension: require('@kingjs/reflect.export-extension'),
-  },
   rx: {
+    Distinct: require('@kingjs/rx.distinct'),
     GroupBy: require('@kingjs/rx.group-by'),
+    IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
     Log: require('@kingjs/rx.log'),
     Pipe: require('@kingjs/rx.pipe'),

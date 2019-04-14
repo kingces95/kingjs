@@ -55,7 +55,7 @@ function queueMany(selector = Identity, resultSelector = Identity) {
         process.nextTick(async () => {
           var many = await selector(o);
 
-          if (Symbol.iterable in many)
+          if (Symbol.iterator in many)
             many = from(many);
 
           var manyId = id++;

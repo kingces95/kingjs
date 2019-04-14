@@ -12,6 +12,7 @@ var {
   }
 } = require('./dependencies');
 
+var DefaultPredicate = o => o;
 var DefaultEqual = (l, r) => l == r;
 
 /**
@@ -19,13 +20,16 @@ var DefaultEqual = (l, r) => l == r;
  * a private `IObservable` that is activated and refined by emissions
  * from the source `IObservable`.
  */
-function where(callback) {
+function where(
+  predicate = DefaultPredicate
+) {
+
   var observable = this;
 
   return create(observer => {
     return observable[Subscribe](
       o => {
-        if (!callback(o))
+        if (!predicate(o))
           return;
         
         observer[Next](o);

@@ -25,7 +25,7 @@ assert.deepEqual(result, {
 
 ## API
 ```ts
-groupBy(this, keySelector(value)[, selector])
+groupBy(this[, keySelector(value)[, resultSelector]])
 ```
 
 ### Parameters
@@ -33,7 +33,7 @@ groupBy(this, keySelector(value)[, selector])
 - `keySelector`: A callback that selects a key for each emitted value.
   - `value`: The value emitted by `this`.
   - Returns a primitive key used to group the value.
-- `selector`: A callback that maps each value before being  emitted by its `IGroupedObservable`.
+- `resultSelector`: A callback that maps each value before being  emitted by its `IGroupedObservable`.
 ### Returns
 Returns an `IObservable` that emits `IGroupedObservable`.
 ### Remarks

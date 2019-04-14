@@ -14,7 +14,8 @@ var {
   }
 } = require('./dependencies');
 
-var identity = o => o;
+var DefaultKeySelector = o => o;
+var DefaultResultSelector = o => o;
 
 /**
  * @description Returns an `IObservable` that emits an `IGroupedObservable`
@@ -22,8 +23,8 @@ var identity = o => o;
  * 
  * @this any The `IObservable` to group.
  * 
- * @param keySelector A callback that selects a key for each emitted value.
- * @param [selector] A callback that maps each value before being 
+ * @param [keySelector] A callback that selects a key for each emitted value.
+ * @param [resultSelector] A callback that maps each value before being 
  * emitted by its `IGroupedObservable`.
  * 
  * @callback keySelector
@@ -36,7 +37,10 @@ var identity = o => o;
  * an object which acts as the dictionary of groups. As such, `key` should
  * be primitive.
  */
-function groupBy(keySelector, selector = identity) {
+function groupBy(
+  keySelector = DefaultKeySelector, 
+  resultSelector = DefaultResultSelector) {
+
   var observable = this;
 
   return create(observer => {
@@ -58,7 +62,7 @@ function groupBy(keySelector, selector = identity) {
           observer[Next](group);
         }
 
-        return group[Next](selector(o));
+        return group[Next](resultSelector(o));
       },
       () => {
         for (var key in groups)

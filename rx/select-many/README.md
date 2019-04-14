@@ -15,7 +15,7 @@ of({
 }, { 
   x: of(1, 3) 
 })
-  [SelectMany](o => o.x, o => -o)
+  [SelectMany](o => o.x, (o, x) => -x)
   [Subscribe](o => result.push(o));
 assert.deepEqual(result, [0, -2, -1, -3])
 
@@ -26,14 +26,14 @@ of({
 }, { 
   x: [1, 3]
 })
-  [SelectMany](o => o.x, o => -o)
+  [SelectMany](o => o.x, (o, x) => -x)
   [Subscribe](o => result.push(o));
 assert.deepEqual(result, [0, -2, -1, -3])
 ```
 
 ## API
 ```ts
-selectMany(this, selector(value)[, resultSelector(value)])
+selectMany(this[, selector(value)[, resultSelector(value)]])
 ```
 
 ### Parameters

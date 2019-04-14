@@ -4,10 +4,13 @@ Watch a for file and directory events in a directory and all its descendent dire
 ```js
 require('@kingjs/shim')
 var watchMany = require('@kingjs/fs.rx.watch-many');
+var { Subscribe } = require('@kingjs/rx.i-observable')
 
 var watch = watchMany('.');
 //var watch = watchMany('../../../..');
-watch[Subscribe](o => console.log('FILE', o));
+watch[Subscribe](
+  o => console.log('FILE', o)
+);
 
 ```
 
@@ -21,8 +24,7 @@ watchMany(root, dirFilter(name, dir))
 - `dirFilter`: A callback to filter whether a subdirectory should be watched.
   - `name`: The name of the sub-directory.
   - `dir`: The directory containing the sub-directory.
-  - Returns an `IObservable` that emits events for various
-file and directory events.
+  - Returns an `IObservable` that emits events for variousfile and directory events.
 
 
 
@@ -37,8 +39,9 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
-|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.distinct`](https://www.npmjs.com/package/@kingjs/rx.distinct)|`latest`|
 |[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
+|[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
 |[`@kingjs/rx.pipe`](https://www.npmjs.com/package/@kingjs/rx.pipe)|`latest`|

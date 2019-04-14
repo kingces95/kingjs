@@ -13,7 +13,8 @@ var {
   }
 } = require('./dependencies');
 
-var Identity = o => o;
+var DefaultSelector = o => o;
+var DefaultResultSelector = (o, x) => x;
 
 /**
  * @description Returns an `IObservable` emits the elements selected
@@ -23,7 +24,7 @@ var Identity = o => o;
  * @this any The source `IObservable` whose each emission will be mapped to
  * an `IObservable` or iterable.
  * 
- * @param selector Selects many elements from each emitted element of the
+ * @param [selector] Selects many elements from each emitted element of the
  * source `IObservable`.
  * @param [resultSelector] Selects each resultiIdentity.
  * 
@@ -38,7 +39,10 @@ var Identity = o => o;
  * @returns Returns a new `IObservable` that emits many values for each
  * value emitted by the source `IObservable`.
  */
-function selectMany(selector = Identity, resultSelector = Identity) {
+function selectMany(
+  selector = DefaultSelector, 
+  resultSelector = DefaultResultSelector) {
+
   var observable = this;
 
   return create(observer => {
@@ -50,7 +54,7 @@ function selectMany(selector = Identity, resultSelector = Identity) {
       o => { 
         var many = selector(o);
 
-        if (Symbol.iterable in many)
+        if (Symbol.iterator in many)
           many = from(many);
 
         var manyId = id++;
