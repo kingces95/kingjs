@@ -16,6 +16,9 @@ var {
 } = require('./dependencies');
 
 var SelectName = o => o.name;
+var DefaultDirFilter = () => true;
+var DefaultRoot = '.';
+
 var WithFileTypes = { withFileTypes: true };
 var Remove = 'remove';
 var Add = 'add';
@@ -37,8 +40,8 @@ var Change = 'change';
  * file and directory events.
  */
 function watchMany(
-  root = '.', 
-  dirFilter) {
+  root = DefaultRoot, 
+  dirFilter = DefaultDirFilter) {
 
   var subject = new Subject();
 
@@ -46,7 +49,7 @@ function watchMany(
     [Select](o => makeAbsolute(o))
     [Distinct]()
     [Log]('WATCH_DIR')
-    [SelectMany](o => watch(o, true), o => o);
+    [SelectMany](o => watch(o, true), (o, x) => o);
 
   var entryMotion = directoryMotion
     [GroupBy]()
@@ -57,7 +60,7 @@ function watchMany(
       )
       [SelectMany]()
       [Where](),
-      (g, x) => (x.dir = g[Key], x)
+      (g, o) => (o.dir = g[Key], o)
     )
 
   // report sub-directory motion as feedback
