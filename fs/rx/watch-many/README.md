@@ -5,13 +5,20 @@ Watch a for file and directory events in a directory and all its descendent dire
 require('@kingjs/shim')
 var watchMany = require('@kingjs/fs.rx.watch-many');
 var { Subscribe } = require('@kingjs/rx.i-observable')
+var Log = require('@kingjs/rx.log')
+var Where = require('@kingjs/rx.where')
 
 var watch = watchMany('.');
 //var watch = watchMany('../../../..');
-watch[Subscribe](
-  o => console.log('FILE', o)
-);
+// watch[Subscribe](
+//   o => console.log('FILE', o)
+// );
 
+watch
+  [Log]('CHANGED', '${name}')
+  [Subscribe]();
+
+  
 ```
 
 ## API
@@ -24,7 +31,8 @@ watchMany(root, dirFilter(name, dir))
 - `dirFilter`: A callback to filter whether a subdirectory should be watched.
   - `name`: The name of the sub-directory.
   - `dir`: The directory containing the sub-directory.
-  - Returns an `IObservable` that emits events for variousfile and directory events.
+  - Returns an `IObservable` that emits events for various
+file and directory events.
 
 
 

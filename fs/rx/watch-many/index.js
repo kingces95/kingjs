@@ -48,15 +48,14 @@ function watchMany(
   var directoryMotion = subject
     [Select](o => makeAbsolute(o))
     [Distinct]()
-    [Log]('WATCH_DIR')
-    [SelectMany](o => watch(o, true), (o, x) => o);
+    [SelectMany](o => watch(o, true), (o, x) => o)
 
   var entryMotion = directoryMotion
     [GroupBy]()
     [SelectMany](g => g
       [Queue](() => readDirStat(g[Key]))
       [RollingSelect](
-        o => o[0][ZipJoin](o[1] || [], SelectName, SelectName, diffStat)
+        o => o[0][ZipJoin](o[1], SelectName, SelectName, diffStat)
       )
       [SelectMany]()
       [Where](),
@@ -102,7 +101,8 @@ function diffStat(current, previous) {
   var event = current ? (previous ? Change : Add) : Remove;
 
   // return null when no changes are detected
-  if (event == Change && deepEqual(current, previous))
+  if (event == Change && 
+    current.stat.ctime.getTime() == previous.stat.ctime.getTime())
     return null;
 
   return { ...entry, event };

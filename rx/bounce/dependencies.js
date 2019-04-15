@@ -7,8 +7,5 @@ exports['@kingjs'] = {
     IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
   },
-  stringEx: {
-    Expand: require('@kingjs/string-ex.expand'),
-  },
 }
 exports['assert'] = require('assert')

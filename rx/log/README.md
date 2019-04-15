@@ -4,7 +4,7 @@ Returns an `IObservable` that logs life-cycle events.
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var of = require('@kingjs/rx.of');
 var Spy = require('@kingjs/rx.log');
 
@@ -59,10 +59,10 @@ $ npm install @kingjs/rx.log
 |Package|Version|
 |---|---|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
+|[`@kingjs/string-ex.expand`](https://www.npmjs.com/package/@kingjs/string-ex.expand)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/log
 ## License

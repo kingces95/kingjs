@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.log",
+  "name": "@kingjs/rx.bounce",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that logs life-cycle events.",
+  "description": "Returns an `IObservable` which observes a `spaceAvailable` `IObservable` to maintain a running emission quota. Once the quota is reached, observations are buffered. If the buffer is overrun a callback decides which observation to bounce.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/log"
+    "url": "https://repository.kingjs.net/rx/bounce"
   },
   "keywords": [],
   "license": "MIT",
@@ -21,8 +21,7 @@
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest",
-    "@kingjs/string-ex.expand": "latest"
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"

@@ -6,10 +6,8 @@ var {
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error }
     },
-    reflect: { 
-      is,
-      exportExtension
-    },
+    reflect: { exportExtension },
+    stringEx: { Expand }
   }
 } = require('./dependencies');
 
@@ -23,21 +21,30 @@ var {
  * 
  * @returns Returns a new `IObservable` that behaves like the source `IObservable`.
  */
-function log(label, format) {
+function log(
+  label, 
+  format) {
+
   var observable = this;
+
+  function log(label, msg) {
+    if (format)
+      msg = format[Expand](msg);
+    console.log(label, msg);
+  }
 
   return create(observer => {
     return observable[Subscribe](
       o => {
-        console.log(label, o)
+        log(label, o)
         observer[Next](o)
       },
       () => {
-        console.log(label, 'COMPLETE')
+        log(`${label} COMPLETE`)
         observer[Complete]()
       },
       o => {
-        console.log(label, o)
+        log(`${label} ERROR`, o)
         observer[Error](o)
       }
     );

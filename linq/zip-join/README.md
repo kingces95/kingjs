@@ -62,12 +62,10 @@ $ npm install @kingjs/linq.zip-join
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/dictionary`](https://www.npmjs.com/package/@kingjs/dictionary)|`latest`|
 |[`@kingjs/i-enumerable`](https://www.npmjs.com/package/@kingjs/i-enumerable)|`latest`|
 |[`@kingjs/i-enumerator`](https://www.npmjs.com/package/@kingjs/i-enumerator)|`latest`|
+|[`@kingjs/linq.empty`](https://www.npmjs.com/package/@kingjs/linq.empty)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/reflect.implement-i-enumerable`](https://www.npmjs.com/package/@kingjs/reflect.implement-i-enumerable)|`latest`|
-|[`deep-equals`](https://www.npmjs.com/package/deep-equals)|`latest`|
 ## Source
 https://repository.kingjs.net/linq/zip-join
 ## License

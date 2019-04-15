@@ -1,11 +1,7 @@
 var { 
-  deepEquals,
   ['@kingjs']: {
-    Dictionary,
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    reflect: { exportExtension },
+    linq: { empty },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
@@ -36,7 +32,7 @@ function zipJoin(
   keyLessThan = DefaultLessThan) {
 
   var outerEnumerable = this
-  var innerEnumerable = innerEnumerable;
+  var innerEnumerable = innerEnumerable || empty();
 
   return function* zipJoin() {
     var outerEnumerator = outerEnumerable[GetEnumerator]();

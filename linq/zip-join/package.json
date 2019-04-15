@@ -18,12 +18,10 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/dictionary": "latest",
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/reflect.implement-i-enumerable": "latest",
-    "deep-equals": "latest"
+    "@kingjs/linq.empty": "latest",
+    "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {
     "kingjs": "^1.0.46"
