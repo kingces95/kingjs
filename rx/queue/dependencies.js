@@ -1,4 +1,7 @@
 exports['@kingjs'] = {
+  array: {
+    Remove: require('@kingjs/array.remove'),
+  },
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },

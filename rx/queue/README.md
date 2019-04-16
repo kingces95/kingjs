@@ -45,6 +45,7 @@ $ npm install @kingjs/rx.queue
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/array.remove`](https://www.npmjs.com/package/@kingjs/array.remove)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|

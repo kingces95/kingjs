@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/array.remove-at",
+  "version": "1.0.0",
+  "description": "Removes an array element at a specific index.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/array/remove-at"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

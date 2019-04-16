@@ -18,6 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/array.remove": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
     "@kingjs/rx.i-observable": "latest",
