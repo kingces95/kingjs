@@ -18,7 +18,7 @@ var {
  * remaining elements shifted down.
  */
 function remove(element) {
-  this[RemoveAt](this.indexOf(element));
+  return this[RemoveAt](this.indexOf(element));
 }
 
 exportExtension(module, Array, remove);

@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/task-pool",
+  "version": "1.0.0",
+  "description": "Creates function that will start a finite number of tasks before queuing a finite number pending task until the pending queue overflows and then calls `bounce` to pick a pending task to drop.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/task-pool"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/array.remove": "latest",
+    "@kingjs/array.remove-at": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

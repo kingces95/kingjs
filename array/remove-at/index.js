@@ -16,7 +16,8 @@ var {
  * remaining elements shifted down.
  */
 function removeAt(index) {
-  this.splice(index, index);
+  this.splice(index, 1);
+  return this;
 }
 
 exportExtension(module, Array, removeAt);

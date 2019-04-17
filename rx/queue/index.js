@@ -58,23 +58,4 @@ function selectAsync(callback) {
   });
 }
 
-function taskPool(size, queueSize, bounce) {
-  var queue = [];
-  var running = [];
-
-  return function nextTick(task) {
-    if (running.length == size) {
-      queue.push(task);
-      return;
-    }
-
-    running.push(task.next(o => {
-      running[Remove](task);
-      if (!queue.length)
-        return;
-      nextTick(queue.shift());
-    }))
-  }
-}
-
 exportExtension(module, IObservable, selectAsync);
