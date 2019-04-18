@@ -68,10 +68,8 @@ $ npm install @kingjs/rx.select
 |---|---|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
-|[`@kingjs/rx.default-scheduler`](https://www.npmjs.com/package/@kingjs/rx.default-scheduler)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
-|[`@kingjs/rx.i-scheduler`](https://www.npmjs.com/package/@kingjs/rx.i-scheduler)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/select
 ## License

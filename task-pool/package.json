@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/task-pool",
   "version": "1.0.0",
-  "description": "Creates function that will start a finite number of tasks before queuing a finite number pending task until the pending queue overflows and then calls `bounce` to pick a pending task to drop.",
+  "description": "A pool of running tasks and a queue of pending tasks. Tasks are added by calling `start` and are either executed without delay or put into a pending queue which,  upon overflow, is culled via a callback.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -23,5 +23,6 @@
   },
   "nodeDependencies": [
     "assert"
-  ]
+  ],
+  "capitalize": true
 }

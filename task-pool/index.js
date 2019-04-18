@@ -11,37 +11,44 @@ var {
 var DefaultBounce = o => o[RemoveAt](0); 
 
 /**
- * @description Creates function that will start a finite number
- * of tasks before queuing a finite number pending task until
- * the pending queue overflows and then calls `bounce` to pick a
- * pending task to drop.
+ * @description A pool of running tasks and a queue of pending
+ * tasks. Tasks are added by calling `start` and are either
+ * executed without delay or put into a pending queue which, 
+ * upon overflow, is culled via a callback.
  * 
  * @param maxConcurrent The maximum number of concurrent tasks.
  * The default value is 1.
  * @param maxPending The maximum number of pending tasks. The
  * default value is 1.
- * @param bounce Invoked to pick which pending task to drop. The
- * default will remove the oldest task.
+ * @param bounce Invoked upon pending queue overflow to pick 
+ * which pending task to drop. The default culls the oldest task.
  * 
  * @callback bounce
  * @param queue The pending task queue.
- * @returns Returns the queue with few elements.
- * 
- * @returns Returns a function that will start tasks.
+ * @returns Should return `queue` with fewer elements.
  */
-function taskPool(
-  maxConcurrent = 1, 
-  maxPending = 1, 
-  bounce = DefaultBounce) {
+class TaskPool {
+  constructor(
+    maxConcurrent = 1, 
+    maxPending = 1, 
+    bounce = DefaultBounce) {
 
-  var queue = [];
-  var running = [];
+    this.maxConcurrent = maxConcurrent;
+    this.maxPending = maxPending;
+    this.bounce = DefaultBounce;
 
-  return function nextTick(task) {
+    this.pending = [];
+    this.running = [];
+  }
+
+  start(task) {
+    var { pending, running } = this;
+    var { maxConcurrent, maxPending, bounce } = this;
+
     if (running.length == maxConcurrent) {
-      queue.push(task);
-      if (queue.length > maxPending)
-        queue = bounce(queue);
+      pending.push(task);
+      if (pending.length > maxPending)
+        pending = bounce(pending);
       return;
     }
 
@@ -50,11 +57,11 @@ function taskPool(
     process.nextTick(async () => {
       await task();
       running[Remove](task);
-      if (!queue.length)
+      if (!pending.length)
         return;
-      nextTick(queue.shift());
+      this.start(pending.shift());
     });
   }
 }
 
-module.exports = taskPool;
+module.exports = TaskPool;

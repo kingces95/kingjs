@@ -20,10 +20,8 @@
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
-    "@kingjs/rx.default-scheduler": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest",
-    "@kingjs/rx.i-scheduler": "latest"
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"

@@ -11,6 +11,7 @@ exports['@kingjs'] = {
     makeAbsolute: require('@kingjs/path.make-absolute'),
   },
   rx: {
+    Debounce: require('@kingjs/rx.debounce'),
     Distinct: require('@kingjs/rx.distinct'),
     GroupBy: require('@kingjs/rx.group-by'),
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),

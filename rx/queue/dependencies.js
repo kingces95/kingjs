@@ -10,5 +10,6 @@ exports['@kingjs'] = {
     IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
   },
+  TaskPool: require('@kingjs/task-pool'),
 }
 exports['assert'] = require('assert')

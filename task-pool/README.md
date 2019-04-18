@@ -1,19 +1,19 @@
 # @[kingjs][@kingjs]/[task-pool][ns0]
-Creates function that will start a finite number of tasks before queuing a finite number pending task until the pending queue overflows and then calls `bounce` to pick a pending task to drop.
+A pool of running tasks and a queue of pending tasks. Tasks are added by calling `start` and are either executed without delay or put into a pending queue which,  upon overflow, is culled via a callback.
 ## Usage
 ```js
 var assert = require('assert');
-var taskPool = require('@kingjs/task-pool');
+var TaskPool = require('@kingjs/task-pool');
 
-// pool of size one that buffers latest task 
-// and drops oldest task on buffer overrun.
-var pool = taskPool();
+// pool of size one that buffers latest task and drops
+// oldest task on buffer overrun.
+var pool = new TaskPool();
 
 var result = [];
 var promise = new Promise(resolve => {
-  pool(() => result.push(0));
-  pool(() => result.push(1)); 
-  pool(() => { 
+  pool.start(() => result.push(0));
+  pool.start(() => result.push(1)); 
+  pool.start(() => { 
     result.push(2);
     resolve() 
   });
@@ -25,19 +25,15 @@ promise.then(
 
 ```
 
-## API
-```ts
-taskPool(maxConcurrent, maxPending, bounce(queue))
-```
+
 
 ### Parameters
 - `maxConcurrent`: The maximum number of concurrent tasks. The default value is 1.
 - `maxPending`: The maximum number of pending tasks. The default value is 1.
-- `bounce`: Invoked to pick which pending task to drop. The default will remove the oldest task.
+- `bounce`: Invoked upon pending queue overflow to pick  which pending task to drop. The default culls the oldest task.
   - `queue`: The pending task queue.
-  - Returns the queue with few elements.
-### Returns
-Returns a function that will start tasks.
+  - Should return `queue` with fewer elements.
+
 
 
 ## Install

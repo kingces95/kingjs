@@ -11,7 +11,7 @@ var watch = watchMany('.');
 // );
 
 watch
-  [Log]('MOTION', '${event} ${name}')
+  [Log]('MOTION', '${event} ${name} ${stat.ino}')
   [Subscribe]();
 
-  
+    

@@ -1,13 +1,13 @@
-# @[kingjs][@kingjs]/[rx][ns0].[debounce-time][ns1]
+# @[kingjs][@kingjs]/[rx][ns0].[debounce][ns1]
 Filter values by those followed without emissions for `duration` milliseconds.
 ## Usage
 ```js
 require('@kingjs/shim');
 var assert = require('assert');
-var DebounceTime = require('@kingjs/rx.debounce-time');
+var DebounceTime = require('@kingjs/rx.debounce');
 var clock = require('@kingjs/rx.clock');
 var Zip = require('@kingjs/rx.zip');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 
 var duration = 50;
 
@@ -48,7 +48,7 @@ bounce();
 
 ## API
 ```ts
-debounceTime(this, window)
+debounce(this, window)
 ```
 
 ### Parameters
@@ -61,7 +61,7 @@ Returns an observable whose values are filtered by emissions followed by no emis
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/rx.debounce-time
+$ npm install @kingjs/rx.debounce
 ```
 ## Dependencies
 |Package|Version|
@@ -72,12 +72,12 @@ $ npm install @kingjs/rx.debounce-time
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
-https://repository.kingjs.net/rx/debounce-time
+https://repository.kingjs.net/rx/debounce
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/rx/debounce-time)
+![Analytics](https://analytics.kingjs.net/rx/debounce)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/rx
-[ns1]: https://www.npmjs.com/package/@kingjs/rx.debounce-time
+[ns1]: https://www.npmjs.com/package/@kingjs/rx.debounce

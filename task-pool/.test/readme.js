@@ -1,15 +1,15 @@
 var assert = require('assert');
-var taskPool = require('..');
+var TaskPool = require('..');
 
 // pool of size one that buffers latest task and drops
 // oldest task on buffer overrun.
-var pool = taskPool();
+var pool = new TaskPool();
 
 var result = [];
 var promise = new Promise(resolve => {
-  pool(() => result.push(0));
-  pool(() => result.push(1)); 
-  pool(() => { 
+  pool.start(() => result.push(0));
+  pool.start(() => result.push(1)); 
+  pool.start(() => { 
     result.push(2);
     resolve() 
   });

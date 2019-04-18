@@ -22,7 +22,8 @@
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest"
+    "@kingjs/rx.i-observer": "latest",
+    "@kingjs/task-pool": "latest"
   },
   "nodeDependencies": [
     "assert"

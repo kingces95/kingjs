@@ -5,8 +5,6 @@ var {
       IObservable,
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error },
-      IScheduler: { Schedule },
-      DefaultScheduler
     },
     reflect: { 
       exportExtension

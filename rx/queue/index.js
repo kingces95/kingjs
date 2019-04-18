@@ -1,5 +1,6 @@
 var { 
   ['@kingjs']: {
+    TaskPool,
     array: { Remove },
     rx: { 
       create,
@@ -23,20 +24,23 @@ var {
  * 
  * @returns Returns a new `IObservable` that emits mapped values.
  * 
- * @remarks - `error` and `complete` events are delivered after
- * all `next` events have been drained.
+ * @remarks - `error` and `complete` events are delivered after all `next` events have been drained.
+ * @remarks - Selection tasks are serialized. 
+ * @remarks - One pending selection task is queued.
+ * @remarks - The pending selection task is replaced by more recent observations.
  */
-function selectAsync(callback) {
+function queue(callback) {
   var observable = this;
 
   return create(function(observer) {
+    var pool = new TaskPool();
     var count = 0;
     var resolve;
 
     return observable[Subscribe](
       o => {
         count++;
-        process.nextTick(async () => {
+        pool.start(async () => {
           observer[Next](await callback(o));
           count--
 
@@ -58,4 +62,4 @@ function selectAsync(callback) {
   });
 }
 
-exportExtension(module, IObservable, selectAsync);
+exportExtension(module, IObservable, queue);

@@ -15,10 +15,10 @@ var watch = watchMany('.');
 // );
 
 watch
-  [Log]('CHANGED', '${name}')
+  [Log]('MOTION', '${event} ${name} ${stat.ino}')
   [Subscribe]();
 
-  
+    
 ```
 
 ## API
@@ -47,6 +47,7 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
+|[`@kingjs/rx.debounce`](https://www.npmjs.com/package/@kingjs/rx.debounce)|`latest`|
 |[`@kingjs/rx.distinct`](https://www.npmjs.com/package/@kingjs/rx.distinct)|`latest`|
 |[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|

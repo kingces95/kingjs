@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.debounce-time",
+  "name": "@kingjs/rx.debounce",
   "version": "1.0.0",
   "description": "Filter values by those followed without emissions for `duration` milliseconds.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/debounce-time"
+    "url": "https://repository.kingjs.net/rx/debounce"
   },
   "keywords": [],
   "license": "MIT",

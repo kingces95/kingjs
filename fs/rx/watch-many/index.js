@@ -8,7 +8,7 @@ var {
     rx: {
       IObserver: { Next },
       IGroupedObservable: { Key },
-      RollingSelect, Select, SelectMany, Queue,
+      RollingSelect, Select, SelectMany, Debounce, Queue,
       Subject, Pipe, Where, GroupBy, Distinct, Log
     },
     linq: { ZipJoin },
@@ -18,10 +18,11 @@ var {
 var SelectName = o => o.name;
 var DefaultDirFilter = () => true;
 var DefaultRoot = '.';
+var DebounceMs = 100;
 
 var WithFileTypes = { withFileTypes: true };
-var Remove = 'remove';
-var Add = 'add';
+var Unlink = 'unlink';
+var Link = 'link';
 var Change = 'change';
 
 /**
@@ -53,11 +54,14 @@ function watchMany(
   var entryMotion = directoryMotion
     [GroupBy]()
     [SelectMany](g => g
+      [Debounce](DebounceMs)
       [Queue](() => readDirStat(g[Key]))
       [RollingSelect](
-        o => o[0][ZipJoin](o[1], SelectName, SelectName, diffStat)
+        o => o[0][ZipJoin](o[1], SelectName, SelectName, 
+          (current, previous) => ({ current, previous })
+        )
       )
-      [SelectMany]()
+      [SelectMany](selectManyLinkEvents)
       [Where](),
       (g, o) => (o.dir = g[Key], o)
     )
@@ -96,16 +100,27 @@ async function readDirStat(dir) {
   return stats;
 }
 
-function diffStat(current, previous) {
-  var entry = current || previous;
-  var event = current ? (previous ? Change : Add) : Remove;
-
-  // return null when no changes are detected
-  if (event == Change && 
-    current.stat.ctime.getTime() == previous.stat.ctime.getTime())
-    return null;
-
-  return { ...entry, event };
+function* selectManyLinkEvents(zip) {
+  for (var { current, previous } of zip) {
+    var entry = current || previous;
+    var event = current ? (previous ? Change : Link) : Unlink;
+  
+    // return null when no changes are detected
+    if (event == Change) {
+      var sameCtime = current.stat.ctime.getTime() == previous.stat.ctime.getTime();
+      var sameIno = current.stat.ino == previous.stat.ino;
+    
+      if (sameCtime && sameIno)
+        continue;
+  
+      if (!sameIno) {
+        yield { ...previous, event: Unlink };
+        event = Link;
+      }
+    } 
+  
+    yield { ...entry, event };
+  }
 }
 
 module.exports = watchMany;

@@ -26,7 +26,7 @@ run();
 
 ## API
 ```ts
-selectAsync(this, callback)
+queue(this, callback)
 ```
 
 ### Parameters
@@ -36,6 +36,9 @@ selectAsync(this, callback)
 Returns a new `IObservable` that emits mapped values.
 ### Remarks
  - `error` and `complete` events are delivered after all `next` events have been drained.
+ - Selection tasks are serialized.
+ - One pending selection task is queued.
+ - The pending selection task is replaced by more recent observations.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -50,6 +53,7 @@ $ npm install @kingjs/rx.queue
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
+|[`@kingjs/task-pool`](https://www.npmjs.com/package/@kingjs/task-pool)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/queue
 ## License
