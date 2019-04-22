@@ -25,6 +25,7 @@ exports['@kingjs'] = {
     Subject: require('@kingjs/rx.subject'),
     Where: require('@kingjs/rx.where'),
   },
+  TaskPool: require('@kingjs/task-pool'),
 }
 exports['deepEqual'] = require('deep-equal')
 exports['fs'] = require('fs')

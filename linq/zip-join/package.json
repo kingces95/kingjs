@@ -26,5 +26,8 @@
   "devDependencies": {
     "kingjs": "^1.0.46"
   },
-  "capitalize": true
+  "capitalize": true,
+  "nodeDependencies": [
+    "assert"
+  ]
 }

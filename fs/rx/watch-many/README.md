@@ -60,6 +60,7 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 |[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
+|[`@kingjs/task-pool`](https://www.npmjs.com/package/@kingjs/task-pool)|`latest`|
 |[`deep-equal`](https://www.npmjs.com/package/deep-equal)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/watch-many

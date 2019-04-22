@@ -3,6 +3,7 @@ var {
   fs: { promises: fsp }, 
   path: Path,
   ['@kingjs']: {
+    TaskPool,
     path: { makeAbsolute },
     fs: { rx: { watch } },
     rx: {
@@ -44,6 +45,7 @@ function watchMany(
   root = DefaultRoot, 
   dirFilter = DefaultDirFilter) {
 
+  var statPool = new TaskPool();
   var subject = new Subject();
 
   var directoryMotion = subject
@@ -55,20 +57,40 @@ function watchMany(
     [GroupBy]()
     [SelectMany](g => g
       [Debounce](DebounceMs)
-      [Queue](() => readDirStat(g[Key]))
+      [Pool](async () => 
+        (await fsp.readdir(g[Key], WithFileTypes)))
+          [Select](async o => {
+            var name = o.name;
+            var dir = g[Key];
+            var path = Path.join(name, dir);
+            var { ino, ctime } = await fsp.stat(path);
+            var timestamp = ctime.getTime;
+            return { name, ino, timestamp }
+          })
+          [Pool](statPool)
+          [OrderBy](o => o.name)
+      )
       [RollingSelect](
         o => o[0][ZipJoin](o[1], SelectName, SelectName, 
-          (current, previous) => ({ current, previous })
+          (current, previous, name) => ({ current, previous, name })
         )
       )
-      [SelectMany](selectManyLinkEvents)
-      [Where](),
+      [SelectMany]()
+      [Where](o => 
+        !o.current || // unlink
+        !o.previous || // link
+        o.current.ctime.getTime() != o.previous.ctime.getTime() || // change
+        o.current.ino != o.previous.ino // re-link
+      ),
       (g, o) => (o.dir = g[Key], o)
     )
 
-  // report sub-directory motion as feedback
+  // sub-directory motion is feedback
   entryMotion
-    [Where](o => o.stat.isDirectory())
+    [Where](o => 
+      o.current && o.current.isDirectory() ||
+      o.previous && o.previous.isDirectory()
+    )
     [Where](o => dirFilter(o.name, o.dir))
     [Select](o => Path.join(o.dir, o.name))
     [Pipe](subject);
@@ -91,7 +113,11 @@ async function readDirStat(dir) {
 
       try { 
         var stat = await fsp.stat(path);
-        stats.push({ name, stat }); 
+        stats.push({
+          name,
+          ino: stat.ino,
+          ctime: stat.ctime.getTime()
+        }); 
       } catch(e) { }
     }
   }

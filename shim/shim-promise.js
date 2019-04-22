@@ -1,12 +1,11 @@
 var {
   ['@kingjs']: { 
     reflect: { implementInterface },
-    rx: { 
-      create,
+    promise: { ToObservable },
+    rx: {
       IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-    },
+      IObservable: { Subscribe }
+    }
   },
 } = require('./dependencies');
 
@@ -15,27 +14,12 @@ var Observable = Symbol('@kingjs/shim.promise.observable');
 implementInterface(Promise.prototype, IObservable, {
   subscribe() {
 
+    // wrap the promise in an observable and attach it to the promise
     var observable = this[Observable];
-    if (!observable) {
-      this[Observable] = observable = create(subject => {
-        var canceled;
+    if (!observable)
+      this[Observable] = observable = this[ToObservable]();
 
-        this.then(o => {
-          if (canceled)
-            return;
-          subject[Next](o);
-          subject[Complete]();
-        },
-        o => {
-          if (canceled)
-            return;
-          subject[Error](o);
-        });
-
-        return () => canceled = true;
-      })
-    }
-
+    // thunk calls to subscribe to the observable wrapping this promise
     return observable[Subscribe].apply(observable, arguments);
   }
 });

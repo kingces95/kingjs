@@ -34,6 +34,7 @@
     "@kingjs/rx.select-many": "latest",
     "@kingjs/rx.subject": "latest",
     "@kingjs/rx.where": "latest",
+    "@kingjs/task-pool": "latest",
     "deep-equal": "latest"
   },
   "nodeDependencies": [

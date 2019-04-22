@@ -6,15 +6,16 @@ exports['@kingjs'] = {
   packageVersion: {
     parse: require('@kingjs/package-version.parse'),
   },
+  promise: {
+    ToObservable: require('@kingjs/promise.to-observable'),
+  },
   reflect: {
     implementIEnumerable: require('@kingjs/reflect.implement-i-enumerable'),
     implementInterface: require('@kingjs/reflect.implement-interface'),
   },
   rx: {
-    create: require('@kingjs/rx.create'),
     from: require('@kingjs/rx.from'),
     IObservable: require('@kingjs/rx.i-observable'),
-    IObserver: require('@kingjs/rx.i-observer'),
   },
 }
 exports['events'] = require('events')

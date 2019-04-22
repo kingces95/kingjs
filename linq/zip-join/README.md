@@ -41,15 +41,19 @@ assert.deepEqual(zipJoin, [
 
 ## API
 ```ts
-zipJoin(this, innerEnumerable, outerKeySelector, innerKeySelector, resultSelector[, keyLessThan])
+zipJoin(this, innerEnumerable, outerKeySelector[, innerKeySelector[, resultSelector(outer, inner, key)[, keyLessThan]]])
 ```
 
 ### Parameters
 - `this`: The outer `IEnumerable`.
 - `innerEnumerable`: The inner `IEnumerable`.
 - `outerKeySelector`: Callback to select the key  from a value pulled from the outer `IEnumerable`.
-- `innerKeySelector`: Callback to select the key  from a value pulled from the inner `IEnumerable`.
-- `resultSelector`: Callback to select the result given an outer and inner value sharing a key.
+- `innerKeySelector`: Callback to select the key  from a value pulled from the inner `IEnumerable`. Default uses the `outerKeySelector`.
+- `resultSelector`: Callback to select the result given an outer and inner value sharing a key. Default is produces objects of the form `{ outer, inner }`.
+  - `outer`: An element from the outer `IEnumerable` or null
+  - `inner`: An element from the inner `IEnumerable` or null
+  - `key`: A key common to `outer` and `inner` when neither are null
+  - Returns the "zipped" value.
 - `keyLessThan`: Operator to compare two keys.
 
 

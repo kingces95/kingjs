@@ -1,0 +1,30 @@
+{
+  "name": "@kingjs/promise.to-observable",
+  "version": "1.0.0",
+  "description": "Turns a promise into an IObservable that emits the resolved value followed by `complete` or `error` if the promise throws.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/promise/to-observable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}
