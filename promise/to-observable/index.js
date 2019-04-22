@@ -28,6 +28,9 @@ function toObservable() {
         if (canceled)
           return;
         subject[Next](o);
+        
+        if (canceled)
+          return;
         subject[Complete]();
       },
       o => {

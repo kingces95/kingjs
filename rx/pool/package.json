@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.queue-many",
+  "name": "@kingjs/rx.pool",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that asynchronously emits elements  selected from the `IObservable`s returned by callback optionally further selecting each resulting element.",
+  "description": "Selects an `IObservable` from each observation and uses a `TaskPool` to asynchronously blend the emissions of those `IObservables`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/queue-many"
+    "url": "https://repository.kingjs.net/rx/pool"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
-    "@kingjs/rx.from": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest"
+    "@kingjs/rx.i-observer": "latest",
+    "@kingjs/task-pool": "latest"
   },
   "nodeDependencies": [
     "assert"

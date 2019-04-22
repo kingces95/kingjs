@@ -22,7 +22,7 @@
     "@kingjs/array.remove-at": "latest"
   },
   "nodeDependencies": [
-    "assert"
+    "events"
   ],
   "capitalize": true
 }

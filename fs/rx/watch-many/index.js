@@ -9,8 +9,8 @@ var {
     rx: {
       IObserver: { Next },
       IGroupedObservable: { Key },
-      RollingSelect, Select, SelectMany, Debounce, Queue,
-      Subject, Pipe, Where, GroupBy, Distinct, Log
+      RollingSelect, Select, SelectMany, Debounce, Pool,
+      Subject, Pipe, Where, GroupBy, Distinct, OrderBy, Log
     },
     linq: { ZipJoin },
   }
@@ -58,7 +58,7 @@ function watchMany(
     [SelectMany](g => g
       [Debounce](DebounceMs)
       [Pool](async () => 
-        (await fsp.readdir(g[Key], WithFileTypes)))
+        (await fsp.readdir(g[Key], WithFileTypes))
           [Select](async o => {
             var name = o.name;
             var dir = g[Key];
@@ -98,32 +98,6 @@ function watchMany(
   subject[Next](root);
 
   return entryMotion;
-}
-
-async function readDirStat(dir) {
-  var stats = [];
-
-  try { 
-    var entries = await fsp.readdir(dir, WithFileTypes);
-    entries.sort(SelectName);
-
-    for (var i = 0; i < entries.length; i++) {
-      var name = entries[i].name;
-      var path = Path.join(dir, name);
-
-      try { 
-        var stat = await fsp.stat(path);
-        stats.push({
-          name,
-          ino: stat.ino,
-          ctime: stat.ctime.getTime()
-        }); 
-      } catch(e) { }
-    }
-  }
-  catch(e) { }
-
-  return stats;
 }
 
 function* selectManyLinkEvents(zip) {

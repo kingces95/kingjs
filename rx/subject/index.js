@@ -33,7 +33,9 @@ class Subject extends EventEmitter {
     this.activate = activate;
   }
 
-  assertCanEmit() { assert(!this.disposed) }
+  assertCanEmit() { 
+    assert(!this.disposed, 'cannot emit') 
+  }
 
   on(name, listener) { if (listener) super.on(name, listener); }
   off(name, listener) { if (listener) super.off(name, listener); }

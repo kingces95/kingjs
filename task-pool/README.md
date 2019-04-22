@@ -9,19 +9,33 @@ var TaskPool = require('@kingjs/task-pool');
 // oldest task on buffer overrun.
 var pool = new TaskPool();
 
+var events = [];
+pool.on('start', o => events.push({ start: o.name }))
+pool.on('finish', o => events.push({ finish: o.name }))
+pool.on('block', o => events.push({ block: o.name }))
+pool.on('drop', o => events.push({ drop: o.name }))
+
 var result = [];
 var promise = new Promise(resolve => {
-  pool.start(() => result.push(0));
-  pool.start(() => result.push(1)); 
-  pool.start(() => { 
+  pool.start(function zero() { result.push(0) });
+  pool.start(function one() { result.push(1) });
+  pool.start(function two() { 
     result.push(2);
     resolve() 
   });
 });
 
-promise.then(
-  () => assert.deepEqual(result, [0, 2])
-)
+promise.then(() => {
+  assert.deepEqual(result, [0, 2])
+  assert.deepEqual(events, [
+    { start: 'zero' },
+    { block: 'one' },
+    { block: 'two' },
+    { drop: 'one' },
+    { finish: 'zero' },
+    { start: 'two' },
+  ])
+})
 
 ```
 
@@ -30,11 +44,19 @@ promise.then(
 ### Parameters
 - `maxConcurrent`: The maximum number of concurrent tasks. The default value is 1.
 - `maxPending`: The maximum number of pending tasks. The default value is 1.
-- `bounce`: Invoked upon pending queue overflow to pick  which pending task to drop. The default culls the oldest task.
+- `bounce`: Invoked when the pending queue overflows and returns the index of the task to drop. The default culls the oldest task.
   - `queue`: The pending task queue.
   - Should return `queue` with fewer elements.
 
-
+### Remarks
+ - TaskPool emits the following events with a task
+   - `'start'` when the task is scheduled to run
+   - `'finish'` when the task returns
+   - `'block'` when the task is put onto the pending queue
+   - `'drop'` when the task is dropped from pending queue
+ - Event `'finish'` is proceeded by `'start'`
+ - Event `'drop'` is proceeded by `'block'`
+ - Event `'start'` may be proceeded by `'block'`
 
 ## Install
 With [npm](https://npmjs.org/) installed, run

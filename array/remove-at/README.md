@@ -6,7 +6,7 @@ var assert = require('assert');
 var RemoveAt = require('@kingjs/array.remove-at');
 
 var array = [1, 2, 3];
-array = array[RemoveAt](1);
+assert(2 == array[RemoveAt](1));
 assert.deepEqual(array, [1, 3]);
 ```
 
@@ -19,7 +19,7 @@ removeAt(this, index)
 - `this`: The array from which an element is to be removed.
 - `index`: THe index to remove from the array.
 ### Returns
-Returns the array with an element removed and the remaining elements shifted down.
+Returns the element removed.
 
 
 ## Install

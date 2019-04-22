@@ -4,4 +4,4 @@ exports['@kingjs'] = {
     RemoveAt: require('@kingjs/array.remove-at'),
   },
 }
-exports['assert'] = require('assert')
+exports['events'] = require('events')
