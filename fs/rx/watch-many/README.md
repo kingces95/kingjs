@@ -15,7 +15,7 @@ var watch = watchMany('.');
 // );
 
 watch
-  [Log]('MOTION', '${event} ${name} ${stat.ino}')
+  [Log]('MOTION', '${name} ${current} -> ${previous}')
   [Subscribe]();
 
     
@@ -45,6 +45,7 @@ $ npm install @kingjs/fs.rx.watch-many
 |Package|Version|
 |---|---|
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
+|[`@kingjs/linq.order-by`](https://www.npmjs.com/package/@kingjs/linq.order-by)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/rx.debounce`](https://www.npmjs.com/package/@kingjs/rx.debounce)|`latest`|
@@ -54,11 +55,12 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
 |[`@kingjs/rx.pipe`](https://www.npmjs.com/package/@kingjs/rx.pipe)|`latest`|
-|[`@kingjs/rx.queue`](https://www.npmjs.com/package/@kingjs/rx.queue)|`latest`|
+|[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.rolling-select`](https://www.npmjs.com/package/@kingjs/rx.rolling-select)|`latest`|
 |[`@kingjs/rx.select`](https://www.npmjs.com/package/@kingjs/rx.select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+|[`@kingjs/rx.to-array`](https://www.npmjs.com/package/@kingjs/rx.to-array)|`latest`|
 |[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
 |[`@kingjs/task-pool`](https://www.npmjs.com/package/@kingjs/task-pool)|`latest`|
 |[`deep-equal`](https://www.npmjs.com/package/deep-equal)|`latest`|

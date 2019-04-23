@@ -11,11 +11,10 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var Identity = o => o;
-var DefaultSelector = Identity;
-var DefaultResultSelector = Identity;
+var DefaultSelector = o => o
+var DefaultResultSelector = (o, x) => x
 
 /**
  * @description Selects an `IObservable` from each observation and
@@ -45,7 +44,7 @@ var DefaultResultSelector = Identity;
  * emissions of `IObservables` selected from each emission of the 
  * source `IObservable`.
  */
-function queueMany(
+function pool(
   selector = DefaultSelector,
   resultSelector = DefaultResultSelector,
   taskPool = new TaskPool()) {
@@ -53,7 +52,7 @@ function queueMany(
   var thisObservable = this
 
   return create(observer => {
-    var currentId = 0;
+    var currentId = 0
     var disposers = { }
 
     // last man out turns off the lights
@@ -98,4 +97,4 @@ function queueMany(
   })
 }
 
-exportExtension(module, IObservable, queueMany)
+exportExtension(module, IObservable, pool)

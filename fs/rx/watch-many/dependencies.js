@@ -5,6 +5,7 @@ exports['@kingjs'] = {
     },
   },
   linq: {
+    OrderBy: require('@kingjs/linq.order-by'),
     ZipJoin: require('@kingjs/linq.zip-join'),
   },
   path: {
@@ -18,11 +19,12 @@ exports['@kingjs'] = {
     IObserver: require('@kingjs/rx.i-observer'),
     Log: require('@kingjs/rx.log'),
     Pipe: require('@kingjs/rx.pipe'),
-    Queue: require('@kingjs/rx.queue'),
+    Pool: require('@kingjs/rx.pool'),
     RollingSelect: require('@kingjs/rx.rolling-select'),
     Select: require('@kingjs/rx.select'),
     SelectMany: require('@kingjs/rx.select-many'),
     Subject: require('@kingjs/rx.subject'),
+    ToArray: require('@kingjs/rx.to-array'),
     Where: require('@kingjs/rx.where'),
   },
   TaskPool: require('@kingjs/task-pool'),

@@ -26,7 +26,7 @@ promise.then(() => {
 
 ## API
 ```ts
-queueMany(this[, selector(value)[, resultSelector(value)[, taskPool]]])
+pool(this[, selector(value)[, resultSelector(value)[, taskPool]]])
 ```
 
 ### Parameters

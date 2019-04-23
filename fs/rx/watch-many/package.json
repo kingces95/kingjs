@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.rx.watch": "latest",
+    "@kingjs/linq.order-by": "latest",
     "@kingjs/linq.zip-join": "latest",
     "@kingjs/path.make-absolute": "latest",
     "@kingjs/rx.debounce": "latest",
@@ -28,11 +29,12 @@
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.log": "latest",
     "@kingjs/rx.pipe": "latest",
-    "@kingjs/rx.queue": "latest",
+    "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",
     "@kingjs/rx.select": "latest",
     "@kingjs/rx.select-many": "latest",
     "@kingjs/rx.subject": "latest",
+    "@kingjs/rx.to-array": "latest",
     "@kingjs/rx.where": "latest",
     "@kingjs/task-pool": "latest",
     "deep-equal": "latest"

@@ -10,9 +10,9 @@ var {
       IObserver: { Next },
       IGroupedObservable: { Key },
       RollingSelect, Select, SelectMany, Debounce, Pool,
-      Subject, Pipe, Where, GroupBy, Distinct, OrderBy, Log
+      Subject, Pipe, Where, GroupBy, Distinct, Log, ToArray
     },
-    linq: { ZipJoin },
+    linq: { ZipJoin, OrderBy },
   }
 } = require('./dependencies');
 
@@ -45,8 +45,10 @@ function watchMany(
   root = DefaultRoot, 
   dirFilter = DefaultDirFilter) {
 
-  var statPool = new TaskPool();
   var subject = new Subject();
+
+  var statPool = new TaskPool(2, 1000);
+  statPool.on('drop', o => assert.fail('stat task pending queue overflow'))
 
   var directoryMotion = subject
     [Select](o => makeAbsolute(o))
@@ -57,19 +59,21 @@ function watchMany(
     [GroupBy]()
     [SelectMany](g => g
       [Debounce](DebounceMs)
-      [Pool](async () => 
-        (await fsp.readdir(g[Key], WithFileTypes))
-          [Select](async o => {
-            var name = o.name;
-            var dir = g[Key];
-            var path = Path.join(name, dir);
-            var { ino, ctime } = await fsp.stat(path);
-            var timestamp = ctime.getTime;
-            return { name, ino, timestamp }
-          })
-          [Pool](statPool)
-          [OrderBy](o => o.name)
-      )
+      [Pool](async () => {
+        var result = await fsp.readdir(g[Key], WithFileTypes)
+        result = await result
+          [Pool](async o => {
+            var name = o.name
+            var dir = g[Key]
+            var path = Path.join(dir, name)
+            var stat = await fsp.stat(path)
+            stat.timestamp = stat.ctime.getTime()
+            stat.name = name
+            return stat
+          }, (o, x) => x, statPool)
+          [ToArray]();
+        return result[OrderBy](o => o.name)
+      })
       [RollingSelect](
         o => o[0][ZipJoin](o[1], SelectName, SelectName, 
           (current, previous, name) => ({ current, previous, name })
@@ -79,8 +83,8 @@ function watchMany(
       [Where](o => 
         !o.current || // unlink
         !o.previous || // link
-        o.current.ctime.getTime() != o.previous.ctime.getTime() || // change
-        o.current.ino != o.previous.ino // re-link
+        o.current.ino != o.previous.ino || // re-link
+        o.current.timestamp != o.previous.timestamp // change
       ),
       (g, o) => (o.dir = g[Key], o)
     )
@@ -98,29 +102,6 @@ function watchMany(
   subject[Next](root);
 
   return entryMotion;
-}
-
-function* selectManyLinkEvents(zip) {
-  for (var { current, previous } of zip) {
-    var entry = current || previous;
-    var event = current ? (previous ? Change : Link) : Unlink;
-  
-    // return null when no changes are detected
-    if (event == Change) {
-      var sameCtime = current.stat.ctime.getTime() == previous.stat.ctime.getTime();
-      var sameIno = current.stat.ino == previous.stat.ino;
-    
-      if (sameCtime && sameIno)
-        continue;
-  
-      if (!sameIno) {
-        yield { ...previous, event: Unlink };
-        event = Link;
-      }
-    } 
-  
-    yield { ...entry, event };
-  }
 }
 
 module.exports = watchMany;
