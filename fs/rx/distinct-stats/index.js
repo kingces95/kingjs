@@ -35,7 +35,8 @@ function distinctStats(path) {
   return this
     [InSerial](() => fsp.stat(path))                    // promise -> stats
     [DistinctUntilChanged](o => o.ctime.getTime())      // where a change happened
-    [PartitionBy](() => o.ino)
+    [PartitionBy](o => o.ino)                           // detect re-create
+    [Select](o => (o.path = path, o))                   // tag `IGroupedObservable` with path
 }
 
 exportExtension(module, IObservable, distinctStats);

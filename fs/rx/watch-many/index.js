@@ -5,7 +5,13 @@ var {
   ['@kingjs']: {
     TaskPool,
     path: { makeAbsolute },
-    fs: { rx: { watch } },
+    fs: { 
+      rx: { 
+        watch,
+        DirEntries,
+        DistinctStats,
+      } 
+    },
     rx: {
       IObserver: { Next },
       IGroupedObservable: { Key },
@@ -42,11 +48,24 @@ var Change = 'change';
  * file and directory events.
  */
 function watchMany(
-  root = DefaultRoot, 
+  dir = DefaultRoot, 
   dirFilter = DefaultDirFilter) {
 
-  var subject = new Subject();
+  var dirEntries = watch(dir)
+    [DirEntries](dir)
 
+  var subDirEntries = dirEntries
+    [Where](o => o.isDirectory())
+
+  var stats = dirEntries
+    [Select](o =>
+      o[DistinctStats](Path.join(dir, o[Key]))
+    )
+
+
+
+
+    
   var statPool = new TaskPool(2, 1000);
   statPool.on('drop', o => assert.fail('stat task pending queue overflow'))
 
@@ -54,6 +73,7 @@ function watchMany(
     [Select](o => makeAbsolute(o))
     [Distinct]()
     [SelectMany](o => watch(o, true), (o, x) => o)
+
 
   var entryMotion = directoryMotion
     [GroupBy]()

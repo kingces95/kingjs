@@ -25,5 +25,6 @@
   },
   "nodeDependencies": [
     "fs"
-  ]
+  ],
+  "capitalize": true
 }
