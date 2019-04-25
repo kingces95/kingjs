@@ -1,18 +1,16 @@
 var { 
-  assert, fs, path: Path,
+  fs,
   ['@kingjs']: {
-    path: { makeAbsolute },
+    path: { 
+      makeAbsolute 
+    },
     rx: { 
       create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver : { Next, Complete, Error }
-    },
-    reflect: { 
-      exportExtension
+      IObserver : { Next, Complete, Error },
+      IGroupedObservable: { Key },
     },
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
 var Event = {
   Change: 'change',
@@ -26,38 +24,37 @@ var Options = {
   encoding: 'utf8'
 }
 
-var Sink = {
-  [Next]() { },
-  [Complete]() { },
-  [Error]() { },
-}
-
 /**
- * @description Watches a path until cancelled.
+ * @description Watch a path.
  * 
- * @param [path] The path to watch.
+ * @param [path] The path to watch. Default is the
+ * current working directory.
  * 
- * @returns Returns an `IObservable` which emits `next` when
- * a change to the path is observed and `error` with if the
- * watcher reports an error.
+ * @returns Returns a `Subject` which implements `IGroupedObservable`
+ * whose key is the absolute path being watched and which emits 
+ * when a change to the path is observed. 
  * 
- * @remarks - No provision is made for typing the change that happened. 
+ * @remarks - Calling `Complete` on the subject stops the watcher.
+ * @remarks - The watcher keeps the process alive until completed.
  **/
-function watch(path = '.', emitFirst) {
-  return create(observer => {
-    if (emitFirst)
-      observer[Next]();
+function watch(path = '.') {
 
-    var watcher = fs.watch(path, Options);
-    watcher.on(Event.Change, () => observer[Next]());
-    watcher.on(Event.Close, () => observer[Complete]());
-    watcher.on(Event.Error, e => observer[Error](e));
-
+  path = makeAbsolute(path);
+  
+  var result = create(observer => {
+    var watcher = fs.watch(path, Options)
+    watcher.on(Event.Change, () => observer[Next]())
+    watcher.on(Event.Close, () => observer[Complete]())
+    watcher.on(Event.Error, e => observer[Error](e))
     return () => {
-      observer = Sink;
+      watcher.removeAllListeners();
       watcher.close();
     }
   });
+
+  result[Key] = path;
+
+  return result;
 }
 
-module.exports = watch;
+module.exports = watch
