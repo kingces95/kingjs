@@ -54,9 +54,6 @@ function watchMany(
   var dirEntries = watch(dir)
     [DirEntries](dir)
 
-  var subDirEntries = dirEntries
-    [Where](o => o.isDirectory())
-
   var stats = dirEntries
     [Select](o =>
       o[DistinctStats](Path.join(dir, o[Key]))
@@ -64,8 +61,6 @@ function watchMany(
 
 
 
-
-    
   var statPool = new TaskPool(2, 1000);
   statPool.on('drop', o => assert.fail('stat task pending queue overflow'))
 
