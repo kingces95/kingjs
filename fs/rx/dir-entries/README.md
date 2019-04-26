@@ -1,50 +1,72 @@
 # @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[dir-entries][ns2]
-Watches a path until cancelled.
+For each emission reads a `dirEntry` array for `dir` and emits a `IGroupedObservable` for each named entry found which then emits its `dirEntry` or `complete` if the `dirEntry` unlinks.
 ## Usage
 ```js
+require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
-var ToPromise = require('@kingjs/rx.to-promise')
+var path = require('path')
+var of = require('@kingjs/rx.of')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Complete } = require('@Kingjs/rx.i-observer')
-var watch = require('@kingjs/fs.rx.dir-entries')
+var { Key } = require('@kingjs/rx.i-grouped-observable')
+var Finalize = require('@Kingjs/rx.finalize')
+var Select = require('@Kingjs/rx.select')
+var Spy = require('@Kingjs/rx.spy')
+var Log = require('@Kingjs/rx.log')
+var DirEntry = require('@kingjs/fs.rx.dir-entries')
 
-var fileName = 'temp'
+// create testDir/file.txt
+var TempDirName = 'testDir';
+var TempFileName = 'file.txt';
+var TempFilePath = path.join(TempDirName, TempFileName);
+fs.mkdirSync(TempDirName)
+fs.writeFileSync(TempFilePath)
 
-var subject = watch()
+var result = [];
 
-subject
-  [Subscribe](
-    () => console.log('next'),
-    () => console.log('complete')
+var dirEntries = of(null, null)
+  [DirEntry](TempDirName)
+
+dirEntries
+  [Select](o => 
+    o[Log]('DIR_ENTRY')
+    [Subscribe](
+      x => result.push(x),
+      () => result.push(o[Key])
+    )
   )
+  [Subscribe]()
 
-setTimeout(() => {
-  console.log('add')
-  fs.writeFileSync(fileName)
-
-  setTimeout(() => {
-    console.log('remove')
-    fs.unlinkSync(fileName)
-
-    setTimeout(() => {
-      console.log('stop')
-      subject[Complete]()
-    }, 10)
-  }, 10)
-}, 10)
+dirEntries
+  [Log]('DIR')
+  [Spy](
+    o => result.push(o),
+    o => result.push('.')
+  )
+  [Finalize](o => {
+    fs.unlinkSync(TempFilePath)
+    fs.rmdirSync(TempDirName)
+    assert(result[0][Key] == 'file.txt') // IGroupedObservable Observed
+    assert(result[1].name == 'file.txt') // IGroupedObservable.Next: DirEntry
+    assert(result[2].name == 'file.txt') // IGroupedObservable.Next: DirEntry
+    assert(result[3] == 'file.txt') // IGroupedObservable.Complete
+    assert(result[4] == '.') // Complete
+  })
+  [Subscribe]()
 ```
 
 ## API
 ```ts
-dirEntries([path])
+dirEntries([dir])
 ```
 
 ### Parameters
-- `path`: The path to watch. Default is the current working directory.
+- `dir`: The dir whose `dirEntry`s are grouped and reported for every source emission.
 ### Returns
-Returns a `Subject` which emits `next` when a change to the path is observed and `error` with if the watcher reports an error.
-
+Returns a `IObservable` which emits `IGroupedObservable`s with the entry name for `Key` and which for each source emission report the `dirEntry` or `complete` if the `dirEntry` unlinks.
+### Remarks
+ - If a source emission is observed before the `dirEntry`s for the previous emission has been read and reported, then the emission is queued. Source emissions beyond that are dropped.
+ - Promise will need to be shimmed to implement `IObservable`
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -55,7 +77,11 @@ $ npm install @kingjs/fs.rx.dir-entries
 |Package|Version|
 |---|---|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
+|[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.rolling-select`](https://www.npmjs.com/package/@kingjs/rx.rolling-select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 ## Source

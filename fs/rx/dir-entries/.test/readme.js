@@ -1,31 +1,51 @@
+require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
-var ToPromise = require('@kingjs/rx.to-promise')
+var path = require('path')
+var of = require('@kingjs/rx.of')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Complete } = require('@Kingjs/rx.i-observer')
-var watch = require('..')
+var { Key } = require('@kingjs/rx.i-grouped-observable')
+var Finalize = require('@Kingjs/rx.finalize')
+var Select = require('@Kingjs/rx.select')
+var Spy = require('@Kingjs/rx.spy')
+var Log = require('@Kingjs/rx.log')
+var DirEntry = require('..')
 
-var fileName = 'temp'
+// create testDir/file.txt
+var TempDirName = 'testDir';
+var TempFileName = 'file.txt';
+var TempFilePath = path.join(TempDirName, TempFileName);
+fs.mkdirSync(TempDirName)
+fs.writeFileSync(TempFilePath)
 
-var subject = watch()
+var result = [];
 
-subject
-  [Subscribe](
-    () => console.log('next'),
-    () => console.log('complete')
+var dirEntries = of(null, null)
+  [DirEntry](TempDirName)
+
+dirEntries
+  [Select](o => 
+    o[Log]('DIR_ENTRY')
+    [Subscribe](
+      x => result.push(x),
+      () => result.push(o[Key])
+    )
   )
+  [Subscribe]()
 
-setTimeout(() => {
-  console.log('add')
-  fs.writeFileSync(fileName)
-
-  setTimeout(() => {
-    console.log('remove')
-    fs.unlinkSync(fileName)
-
-    setTimeout(() => {
-      console.log('stop')
-      subject[Complete]()
-    }, 10)
-  }, 10)
-}, 10)
+dirEntries
+  [Log]('DIR')
+  [Spy](
+    o => result.push(o),
+    o => result.push('.')
+  )
+  [Finalize](o => {
+    fs.unlinkSync(TempFilePath)
+    fs.rmdirSync(TempDirName)
+    assert(result[0][Key] == 'file.txt') // IGroupedObservable Observed
+    assert(result[1].name == 'file.txt') // IGroupedObservable.Next: DirEntry
+    assert(result[2].name == 'file.txt') // IGroupedObservable.Next: DirEntry
+    assert(result[3] == 'file.txt') // IGroupedObservable.Complete
+    assert(result[4] == '.') // Complete
+  })
+  [Subscribe]()

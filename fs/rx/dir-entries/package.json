@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.rx.dir-entries",
   "version": "1.0.0",
-  "description": "Watches a path until cancelled.",
+  "description": "For each emission reads a `dirEntry` array for `dir` and emits a `IGroupedObservable` for each named entry found which then emits its `dirEntry` or `complete` if the `dirEntry` unlinks.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -19,7 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/linq.zip-join": "latest",
+    "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.group-by": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",
     "@kingjs/rx.select-many": "latest"
   },

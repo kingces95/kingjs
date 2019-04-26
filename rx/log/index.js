@@ -26,25 +26,22 @@ function log(
   format) {
 
   var observable = this;
-
-  function log(label, msg) {
-    if (format)
-      msg = format[Expand](msg);
-    console.log(label, msg);
-  }
-
   return create(observer => {
     return observable[Subscribe](
       o => {
-        log(label, o)
+        var message = o;
+        if (format)
+          message = format[Expand](o);
+        console.log(label, message);
+
         observer[Next](o)
       },
       () => {
-        log(`${label} COMPLETE`)
+        console.log(label, 'COMPLETE')
         observer[Complete]()
       },
       o => {
-        log(`${label} ERROR`, o)
+        console.log(label, 'ERROR', o)
         observer[Error](o)
       }
     );

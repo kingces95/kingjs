@@ -44,6 +44,8 @@ $ npm install @kingjs/fs.rx.watch-many
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/fs.rx.dir-entries`](https://www.npmjs.com/package/@kingjs/fs.rx.dir-entries)|`latest`|
+|[`@kingjs/fs.rx.distinct-stats`](https://www.npmjs.com/package/@kingjs/fs.rx.distinct-stats)|`latest`|
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
 |[`@kingjs/linq.order-by`](https://www.npmjs.com/package/@kingjs/linq.order-by)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|

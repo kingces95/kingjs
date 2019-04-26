@@ -3,7 +3,7 @@ var {
   ['@kingjs']: {
     path: { makeAbsolute },
     rx: { 
-      InSerial,
+      Pool,
       DistinctUntilChanged,
       PartitionBy,
 
@@ -33,7 +33,7 @@ function distinctStats(path) {
   path = makeAbsolute(path);
   
   return this
-    [InSerial](() => fsp.stat(path))                    // promise -> stats
+    [Pool](() => fsp.stat(path))                        // promise -> stats
     [DistinctUntilChanged](o => o.ctime.getTime())      // where a change happened
     [PartitionBy](o => o.ino)                           // detect re-create
     [Select](o => (o.path = path, o))                   // tag `IGroupedObservable` with path

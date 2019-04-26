@@ -3,10 +3,12 @@ var {
   ['@kingjs']: {
     path: { makeAbsolute },
     rx: { 
-      InSerial,
+      Pool,
       RollingSelect,
       SelectMany,
       GroupBy,
+
+      IObservable,
     },
     linq: { 
       ZipJoin, 
@@ -32,12 +34,16 @@ var WithFileTypes = { withFileTypes: true };
  * @remarks - If a source emission is observed before the `dirEntry`s for
  * the previous emission has been read and reported, then the emission
  * is queued. Source emissions beyond that are dropped. 
+ * 
+ * @remarks - Promise will need to be shimmed to implement `IObservable`
  **/
 function dirEntries(dir) {
   dir = makeAbsolute(dir);
 
   return this
-    [InSerial](() => fsp.readdir(dir, WithFileTypes))   // promise -> dirEntry[]
+    [Pool](                                             // promise -> dirEntry[]
+      () => fsp.readdir(dir, WithFileTypes)             // promise will need to be shimmed
+    )
     [RollingSelect](                                    // dirEntry[] -> {currentDirEntry, name}[]
       o => o[0][ZipJoin](o[1], 
         o => o.name, 
@@ -54,4 +60,4 @@ function dirEntries(dir) {
     )
 }
 
-exportExtension(module, IGroupedObservable, dirEntries);
+exportExtension(module, IObservable, dirEntries);

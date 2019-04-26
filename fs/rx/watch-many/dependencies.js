@@ -1,6 +1,8 @@
 exports['@kingjs'] = {
   fs: {
     rx: {
+      DirEntries: require('@kingjs/fs.rx.dir-entries'),
+      DistinctStats: require('@kingjs/fs.rx.distinct-stats'),
       watch: require('@kingjs/fs.rx.watch'),
     },
   },
