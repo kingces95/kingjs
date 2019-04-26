@@ -1,33 +1,64 @@
 require('@kingjs/shim')
 var assert = require('assert');
 var WindowBy = require('..');
-var { Subscribe } = require('@kingjs/rx.i-observable');
 var { Key } = require('@kingjs/rx.i-grouped-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var Subject = require('@kingjs/rx.subject');
 var of = require('@kingjs/rx.of');
-var Select = require('@kingjs/rx.select');
 var SelectMany = require('@kingjs/rx.select-many');
-var ToArray = require('@kingjs/rx.to-array');
+var Log = require('@kingjs/rx.log');
+var Spy = require('@kingjs/rx.spy');
+var Finalize = require('@kingjs/rx.finalize');
 
 var result = []
-var divisor = 3
+var subjectId = 0;
 
 of(0, 1, 2, 3, 4, 5, 6, 7)
   [WindowBy](
-    o => Math.floor(o / divisor), 
+    o => Math.floor(o / 3) % 2,
     (l, r) => l == r,
     (key, value) => ({ key, value }),
-    key => new Subject()
+    key => {
+      var subject = new Subject()
+      subject.id = subjectId++
+      return subject
+    }
   )
-  [Subscribe](o => o
-    [ToArray]()
-    [Subscribe](
-      x => result.push(x)
+  [Spy](
+    o => assert(o[Key] >= 0 && o [Key] < 3)
+  )
+  [SelectMany](o => o
+    [Log]('WINDOW')
+    [Finalize](
+      () => result.push(o.id)
     )
   )
+  [Subscribe](
+    o => result.push(o),
+    () => assert.deepEqual(result, [ 
+      { key: 0, value: 0 }, // 1
+      { key: 0, value: 1 }, // 2
+      { key: 0, value: 2 }, // 3
+      0,                    // complete window
+      { key: 1, value: 3 }, // 4
+      { key: 1, value: 4 }, // 5
+      { key: 1, value: 5 }, // 6
+      1,                    // complete window
+      { key: 0, value: 6 }, // 7
+      { key: 0, value: 7 }, // 8
+      2,                    // complete window
+    ])
+  )
 
-return
-assert.deepEqual(result, {
-  even: [ 0, -2 ],
-  odd: [ -1, -3 ]
-})
+// Logs:
+// WINDOW { key: 0, value: 0 }
+// WINDOW { key: 0, value: 1 }
+// WINDOW { key: 0, value: 2 }
+// WINDOW COMPLETE
+// WINDOW { key: 1, value: 3 }
+// WINDOW { key: 1, value: 4 }
+// WINDOW { key: 1, value: 5 }
+// WINDOW COMPLETE
+// WINDOW { key: 0, value: 6 }
+// WINDOW { key: 0, value: 7 }
+// WINDOW COMPLETE

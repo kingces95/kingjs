@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.rx.distinct-stats",
   "version": "1.0.0",
-  "description": "Watches a path until cancelled.",
+  "description": "For each emission reads the `fs.stats` for `path` and partitions those stats by `ino` into `IGroupedObservable`s which emit only when the `ctime` changes.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -18,10 +18,13 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/linq.zip-join": "latest",
+    "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.rolling-select": "latest",
-    "@kingjs/rx.select-many": "latest"
+    "@kingjs/rx.distinct-until-changed": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.pool": "latest",
+    "@kingjs/rx.spy": "latest",
+    "@kingjs/rx.window-by": "latest"
   },
   "nodeDependencies": [
     "fs"

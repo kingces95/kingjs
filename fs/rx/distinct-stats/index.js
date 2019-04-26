@@ -5,7 +5,8 @@ var {
     rx: { 
       Pool,
       DistinctUntilChanged,
-      PartitionBy,
+      WindowBy,
+      Spy,
 
       IObservable,
     },
@@ -35,8 +36,8 @@ function distinctStats(path) {
   return this
     [Pool](() => fsp.stat(path))                        // promise -> stats
     [DistinctUntilChanged](o => o.ctime.getTime())      // where a change happened
-    [PartitionBy](o => o.ino)                           // detect re-create
-    [Select](o => (o.path = path, o))                   // tag `IGroupedObservable` with path
+    [WindowBy](o => o.ino)                              // detect re-create
+    [Spy](o => o.path = path)                           // tag `IGroupedObservable` with path
 }
 
 exportExtension(module, IObservable, distinctStats);

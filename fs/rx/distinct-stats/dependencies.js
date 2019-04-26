@@ -1,13 +1,16 @@
 exports['@kingjs'] = {
-  linq: {
-    ZipJoin: require('@kingjs/linq.zip-join'),
+  path: {
+    makeAbsolute: require('@kingjs/path.make-absolute'),
   },
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
   },
   rx: {
-    RollingSelect: require('@kingjs/rx.rolling-select'),
-    SelectMany: require('@kingjs/rx.select-many'),
+    DistinctUntilChanged: require('@kingjs/rx.distinct-until-changed'),
+    IObservable: require('@kingjs/rx.i-observable'),
+    Pool: require('@kingjs/rx.pool'),
+    Spy: require('@kingjs/rx.spy'),
+    WindowBy: require('@kingjs/rx.window-by'),
   },
 }
 exports['fs'] = require('fs')

@@ -20,7 +20,7 @@ var DefaultResultSelector = (k, o) => o;
 var DefaultPartitionActivator = k => new Subject();
 
 /**
- * @description Returns an `IObservable` that emits another IObservable, 
+ * @description Returns an `IObservable` that emits another `IObservable`, 
  * a 'window', that emits values with matching keys. If a new key is 
  * observed, then the window is closed and another activated. 
  * 
@@ -85,7 +85,7 @@ function windowBy(
         }
 
         var result = resultSelector(key, o);
-        return window[Next](result);
+        window[Next](result);
       },
       () => {
         if (window)

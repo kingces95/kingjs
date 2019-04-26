@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.partition-by",
+  "name": "@kingjs/rx.window-by",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that emits an `IGroupedObservable` for each group identified by `keySelector`.",
+  "description": "Returns an `IObservable` that emits another `IObservable`,  a 'window', that emits values with matching keys. If a new key is  observed, then the window is closed and another activated.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/partition-by"
+    "url": "https://repository.kingjs.net/rx/window-by"
   },
   "keywords": [],
   "license": "MIT",

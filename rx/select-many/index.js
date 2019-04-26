@@ -47,7 +47,6 @@ function selectMany(
 
   return create(observer => {
     var id = 0;
-    var manyObservers = { };
     var manyDisposes = { };
 
     var dispose = observable[Subscribe](
@@ -58,26 +57,14 @@ function selectMany(
           many = from(many);
 
         var manyId = id++;
-        manyObservers[manyId] = many;
         manyDisposes[manyId] = many[Subscribe](
           x => observer[Next](resultSelector(o, x)),
-          () => {
-            delete manyObservers[manyId];
-            delete manyDisposes[manyId];
-          },
+          () => delete manyDisposes[manyId],
           x => observer[Error](x)
         );
       },
-      () => {
-        for (var key in manyObservers)
-          manyObservers[key][Complete]();
-        observer[Complete]();
-      },
-      o => {
-        for (var key in manyObservers)
-          manyObservers[key][Error](o);
-        observer[Error](o)
-      }
+      () => observer[Complete](),
+      o => observer[Error](o)
     );
 
     return () => {
