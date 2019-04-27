@@ -2,8 +2,7 @@ var {
   ['@kingjs']: { 
     rx: { 
       Subject,
-    },
-    Generator,
+    }
   },
 } = require('./dependencies');
 

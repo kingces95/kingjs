@@ -5,16 +5,19 @@ Returns an `IObservable` that emits an `IGroupedObservable` for each group ident
 require('@kingjs/shim')
 var assert = require('assert');
 var GroupBy = require('@kingjs/rx.group-by');
+var Subject = require('@kingjs/rx.subject');
 var { Subscribe } = require('@kingjs/rx.i-observable');
-var { Key } = require('@kingjs/i-grouped-observable');
+var { Key } = require('@kingjs/rx.i-grouped-observable');
 var of = require('@kingjs/rx.of');
 
 result = { };
 of(0, 1, 2, 3)
   [GroupBy](
     o => o % 2 ? 'odd' : 'even', 
-    (k, o) => -o
-  ),
+    (k, o) => -o,
+    k => new Subject(),
+
+  )
   [Subscribe](o => {
     var values = result[o[Key]] = [];
     o[Subscribe](x => values.push(x))
@@ -39,17 +42,14 @@ groupBy(this[, keySelector(value)[, resultSelector(key, value)[, groupActivator(
 - `resultSelector`: A callback that maps each value before being  emitted by its `IGroupedObservable`.
   - `key`: The group's key.
   - `value`: The group's next value.
-  - Returns a projection of the value that would otherwise be 
-emitted by a group identified by `key`.
+  - Returns a projection of the value that would otherwise be emitted by a group identified by `key`.
 - `groupActivator`: A callback that activates a subject to act as a new group given the group's key.
   - `key`: The group's key.
-  - Returns a `Subject` to be used to emit values for the group
-identified by `key`.
+  - Returns a `Subject` to be used to emit values for the groupidentified by `key`.
 - `groupCloser`: A callback that, given a group's key and the next emission, returns false if the group should instead be completed.
   - `key`: The group's key.
   - `value`: The group's next value.
-  - Returns `true` to complete the group instead of emitting `value`
-or false to emit the `value`.
+  - Returns `true` to complete the group instead of emitting `value`or false to emit the `value`.
 ### Returns
 Returns an `IObservable` that emits `IGroupedObservable`.
 ### Remarks

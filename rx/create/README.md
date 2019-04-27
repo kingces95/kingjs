@@ -66,7 +66,6 @@ $ npm install @kingjs/rx.create
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/generator`](https://www.npmjs.com/package/@kingjs/generator)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/create

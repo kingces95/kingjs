@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/rx.rolling-select",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` whose each value an array containing the current value followed by previously emitted values.",
+  "description": "Returns an `IObservable` whose each value is an array containing the current value followed by previously emitted values.",
   "main": "index.js",
   "files": [
     "*.js"

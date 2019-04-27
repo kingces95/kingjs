@@ -15,7 +15,7 @@ var {
 var DefaultSelector = o => o;
 
 /**
- * @description Returns an `IObservable` whose each value an array
+ * @description Returns an `IObservable` whose each value is an array
  * containing the current value followed by previously emitted values.
  * 
  * @param selector A callback that selects a value from an array containing

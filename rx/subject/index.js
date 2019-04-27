@@ -61,7 +61,10 @@ class Subject extends EventEmitter {
   }
 
   // IObservable
-  [Subscribe](next = DefaultNext, complete = DefaultComplete, error) {
+  [Subscribe](
+    next = DefaultNext, 
+    complete = DefaultComplete, 
+    error) {
 
     if (!next)
       next = DefaultNext;

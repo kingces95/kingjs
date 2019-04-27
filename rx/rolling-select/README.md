@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[rx][ns0].[rolling-select][ns1]
-Returns an `IObservable` whose each value an array containing the current value followed by previously emitted values.
+Returns an `IObservable` whose each value is an array containing the current value followed by previously emitted values.
 ## Usage
 ```js
 var assert = require('assert');
@@ -14,7 +14,7 @@ var value = [0, 1, 2];
 async function run() {
   var result = await timer()
     [Then](from(value))
-    [RollingSelect](1,
+    [RollingSelect](
       o => o.slice()
     )
     [ToArray]();
@@ -31,12 +31,12 @@ run();
 
 ## API
 ```ts
-rollingSelect(size[, selector])
+rollingSelect(selector[, size])
 ```
 
 ### Parameters
-- `size`: The count of the previous values to include in the window.
 - `selector`: A callback that selects a value from an array containing the current value and a number of previous values.
+- `size`: The count of the previous values to include in the window. The default is `1`.
 ### Returns
 Returns an `IObservable` whose each value is an array containing the current value followed by previously  emitted values or a selection of that array.
 
