@@ -17,7 +17,7 @@ var {
 var DefaultKeySelector = o => o;
 var DefaultKeyEquals = (l, r) => l == r;
 var DefaultResultSelector = (k, o) => o;
-var DefaultPartitionActivator = k => new Subject();
+var DefaultWindowActivator = k => new Subject();
 
 /**
  * @description Returns an `IObservable` that emits another `IObservable`, 
@@ -57,7 +57,8 @@ function windowBy(
   keySelector = DefaultKeySelector, 
   keyEquals = DefaultKeyEquals,
   resultSelector = DefaultResultSelector,
-  windowActivator = DefaultPartitionActivator) {
+  windowActivator = DefaultWindowActivator
+) {
 
   var observable = this;
 
@@ -94,8 +95,8 @@ function windowBy(
       },
       o => {
         if (window)
-          window[key][Error](o);
-        window[Error](o)
+          window[Error](o);
+        observer[Error](o);
       }
     );
   })

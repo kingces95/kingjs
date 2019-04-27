@@ -28,6 +28,7 @@
     "@kingjs/rx.distinct": "latest",
     "@kingjs/rx.group-by": "latest",
     "@kingjs/rx.i-grouped-observable": "latest",
+    "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.log": "latest",
     "@kingjs/rx.pipe": "latest",

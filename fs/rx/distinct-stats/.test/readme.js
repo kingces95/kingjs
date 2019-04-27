@@ -2,6 +2,7 @@ require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
+var is = require('@kingjs/reflect.is')
 var of = require('@kingjs/rx.of')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
@@ -21,12 +22,17 @@ var subject = new Subject();
 var stats = subject
   [DistinctStats](TempFileName)
 
+assert(path.basename(stats[Key]) == TempFileName);
 stats
+  [Spy](
+    // assert Key looks like a stats.ino
+    o => assert(is.number(o[Key]))
+  )
   [Select](o => o
     [Subscribe](
       x => result.push('CHANGE'),
       () => result.push(
-        `UNLINK PATH ${path.basename(o.path)}`
+        `UNLINK PATH`
       )
     )
   )
@@ -35,20 +41,20 @@ stats
 stats
   [Spy](
     o => result.push(
-      `LINK PATH ${path.basename(o.path)}`
+      `LINK PATH`
     ),
     () => result.push('COMPLETE')
   )
   [Finalize](o => {
     fs.unlinkSync(TempFileName)
     assert.deepEqual(result, [ 
-      'LINK PATH file.txt',
+      'LINK PATH',
       'CHANGE',
       'CHANGE',
-      'UNLINK PATH file.txt',
-      'LINK PATH file.txt',
+      'UNLINK PATH',
+      'LINK PATH',
       'CHANGE',
-      'UNLINK PATH file.txt',
+      'UNLINK PATH',
       'COMPLETE' 
     ])
   })

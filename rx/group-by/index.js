@@ -15,7 +15,9 @@ var {
 } = require('./dependencies');
 
 var DefaultKeySelector = o => o;
-var DefaultResultSelector = o => o;
+var DefaultResultSelector = (k, o) => o;
+var DefaultGroupActivator = k => new Subject();
+var DefaultGroupCloser = (k, o) => false;
 
 /**
  * @description Returns an `IObservable` that emits an `IGroupedObservable`
@@ -26,10 +28,31 @@ var DefaultResultSelector = o => o;
  * @param [keySelector] A callback that selects a key for each emitted value.
  * @param [resultSelector] A callback that maps each value before being 
  * emitted by its `IGroupedObservable`.
+ * @param [groupActivator] A callback that activates a subject to act as
+ * a new group given the group's key.
+ * @param [groupCloser] A callback that, given a group's key and the next
+ * emission, returns false if the group should instead be completed. 
  * 
  * @callback keySelector
  * @param value The value emitted by `this`.
  * @returns Returns a primitive key used to group the value.
+ * 
+ * @callback resultSelector
+ * @param key The group's key.
+ * @param value The group's next value.
+ * @returns Returns a projection of the value that would otherwise be 
+ * emitted by a group identified by `key`.
+ * 
+ * @callback groupActivator
+ * @param key The group's key.
+ * @returns Returns a `Subject` to be used to emit values for the group
+ * identified by `key`.
+ * 
+ * @callback groupCloser
+ * @param key The group's key.
+ * @param value The group's next value.
+ * @returns Returns `true` to complete the group instead of emitting `value`
+ * or false to emit the `value`.
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  * 
@@ -39,7 +62,10 @@ var DefaultResultSelector = o => o;
  */
 function groupBy(
   keySelector = DefaultKeySelector, 
-  resultSelector = DefaultResultSelector) {
+  resultSelector = DefaultResultSelector,
+  groupActivator = DefaultGroupActivator,
+  groupCloser = DefaultGroupCloser
+) {
 
   var observable = this;
 
@@ -53,7 +79,7 @@ function groupBy(
         var group = groups[key];
         if (!group) {
           // activate and cache group
-          group = groups[key] = new Subject();
+          group = groups[key] = groupActivator(key);
 
           // implement IGroupedObservable
           group[Key] = key; 
@@ -62,7 +88,13 @@ function groupBy(
           observer[Next](group);
         }
 
-        return group[Next](resultSelector(o));
+        if (groupCloser(key, o)) {
+          group[Complete]();
+          delete groups[key];
+          return;
+        }
+
+        group[Next](resultSelector(key, o));
       },
       () => {
         for (var key in groups)

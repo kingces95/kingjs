@@ -25,7 +25,8 @@
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",
-    "@kingjs/rx.select-many": "latest"
+    "@kingjs/rx.select-many": "latest",
+    "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
     "fs"

@@ -37,7 +37,9 @@ var Options = {
  * @remarks - Calling `Complete` on the subject stops the watcher.
  * @remarks - The watcher keeps the process alive until completed.
  **/
-function watch(path = '.') {
+function watch(
+  path = '.',
+  initialize = false) {
 
   path = makeAbsolute(path);
   

@@ -8,6 +8,7 @@ var {
       SelectMany,
       GroupBy,
 
+      Subject,
       IObservable,
     },
     linq: { 
@@ -55,8 +56,9 @@ function dirEntries(dir) {
     [SelectMany]()                                      // {currentDirEntry, name}[] -> {currentDirEntry, name}
     [GroupBy](                                          // new = link, next = change, complete = unlink
       o => o.name,                                      // {currentDirEntry, name} -> name:dirEntry
-      o => o.current,                                   // {currentDirEntry, name} -> dirEntry
-      o => !o.current                                   // emit `complete` on unlinked
+      (k, o) => o.current,                              // {currentDirEntry, name} -> dirEntry
+      k => new Subject(),                               // activate group
+      (k, o) => !o.current                              // emit `complete` on unlinked
     )
 }
 

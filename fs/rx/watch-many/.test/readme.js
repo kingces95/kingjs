@@ -1,17 +1,32 @@
 require('@kingjs/shim')
-var watchMany = require('..');
+var Path = require('path')
+var watchMany = require('..')
 var { Subscribe } = require('@kingjs/rx.i-observable')
+var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Log = require('@kingjs/rx.log')
-var Where = require('@kingjs/rx.where')
+var Spy = require('@kingjs/rx.spy')
 
 var watch = watchMany('.');
-//var watch = watchMany('../../../..');
-// watch[Subscribe](
-//   o => console.log('FILE', o)
-// );
+var changeId = 0;
 
 watch
-  [Log]('MOTION', '${name} ${current} -> ${previous}')
-  [Subscribe]();
+  [Subscribe](
+    path => { 
+      var name = Path.basename(path[Key]);
+      console.log('OPEN PATH', name)
 
-    
+      path[Subscribe](
+        iNode => {
+          var id = iNode[Key]
+          console.log('LINK', name, id)
+
+          iNode[Subscribe](
+            stats => console.log('CHANGE', changeId++, name, id, stats.ctimeMs),
+            () => console.log('UNLINK', name, id)
+          )
+        }, 
+        () => console.log('CLOSE PATH', name)
+      )
+    },
+    path => console.log('COMPLETE')
+  )

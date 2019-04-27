@@ -14,6 +14,7 @@ exports['@kingjs'] = {
     Pool: require('@kingjs/rx.pool'),
     RollingSelect: require('@kingjs/rx.rolling-select'),
     SelectMany: require('@kingjs/rx.select-many'),
+    Subject: require('@kingjs/rx.subject'),
   },
 }
 exports['fs'] = require('fs')

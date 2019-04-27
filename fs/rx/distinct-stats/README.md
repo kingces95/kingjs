@@ -1,11 +1,12 @@
 # @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[distinct-stats][ns2]
-For each emission reads the `fs.stats` for `path` and partitions those stats by `ino` into `IGroupedObservable`s which emit only when the `ctime` changes.
+Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.
 ## Usage
 ```js
 require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
+var is = require('@kingjs/reflect.is')
 var of = require('@kingjs/rx.of')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
@@ -25,12 +26,17 @@ var subject = new Subject();
 var stats = subject
   [DistinctStats](TempFileName)
 
+assert(path.basename(stats[Key]) == TempFileName);
 stats
+  [Spy](
+    // assert Key looks like a stats.ino
+    o => assert(is.number(o[Key]))
+  )
   [Select](o => o
     [Subscribe](
       x => result.push('CHANGE'),
       () => result.push(
-        `UNLINK PATH ${path.basename(o.path)}`
+        `UNLINK PATH`
       )
     )
   )
@@ -39,20 +45,20 @@ stats
 stats
   [Spy](
     o => result.push(
-      `LINK PATH ${path.basename(o.path)}`
+      `LINK PATH`
     ),
     () => result.push('COMPLETE')
   )
   [Finalize](o => {
     fs.unlinkSync(TempFileName)
     assert.deepEqual(result, [ 
-      'LINK PATH file.txt',
+      'LINK PATH',
       'CHANGE',
       'CHANGE',
-      'UNLINK PATH file.txt',
-      'LINK PATH file.txt',
+      'UNLINK PATH',
+      'LINK PATH',
       'CHANGE',
-      'UNLINK PATH file.txt',
+      'UNLINK PATH',
       'COMPLETE' 
     ])
   })
@@ -106,8 +112,10 @@ $ npm install @kingjs/fs.rx.distinct-stats
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
+|[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
+|[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 |[`@kingjs/rx.spy`](https://www.npmjs.com/package/@kingjs/rx.spy)|`latest`|
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|
 ## Source

@@ -6,18 +6,19 @@ var {
       Pool,
       DistinctUntilChanged,
       WindowBy,
-      Spy,
+      Spy, SelectMany, IObservable: { Subscribe },
 
       IObservable,
+      IGroupedObservable: { Key }
     },
     reflect: { exportExtension },
   }
 } = require('./dependencies')
 
 /**
- * @description For each emission reads the `fs.stats` for `path`
- * and partitions those stats by `ino` into `IGroupedObservable`s
- * which emit only when the `ctime` changes. 
+ * @description Returns a `IGroupedObservable` with `path` for a `Key` 
+ * that emits `IGroupedObservable`s with `stats.ino` for `Key` that each
+ * emit `stats.ino` whenever the `ctime` changes. 
  * 
  * @param [path] The path whose stat `ctime` changes are to be 
  * partitioned by `ino`.
@@ -33,11 +34,13 @@ var {
 function distinctStats(path) {
   path = makeAbsolute(path);
   
-  return this
+  var result = this
     [Pool](() => fsp.stat(path))                        // promise -> stats
     [DistinctUntilChanged](o => o.ctime.getTime())      // where a change happened
     [WindowBy](o => o.ino)                              // detect re-create
-    [Spy](o => o.path = path)                           // tag `IGroupedObservable` with path
+
+  result[Key] = path;                                   // tag `IGroupedObservable` with path
+  return result;
 }
 
 exportExtension(module, IObservable, distinctStats);

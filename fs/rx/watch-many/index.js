@@ -14,6 +14,7 @@ var {
     },
     rx: {
       IObserver: { Next },
+      IObservable: { Subscribe },
       IGroupedObservable: { Key },
       RollingSelect, Select, SelectMany, Debounce, Pool,
       Subject, Pipe, Where, GroupBy, Distinct, Log, ToArray
@@ -51,72 +52,13 @@ function watchMany(
   dir = DefaultRoot, 
   dirFilter = DefaultDirFilter) {
 
-  var dirEntries = watch(dir)
+  var result = watch(dir)
     [DirEntries](dir)
-
-  var stats = dirEntries
-    [Select](o =>
-      o[DistinctStats](Path.join(dir, o[Key]))
+    [Select](o => o
+      [DistinctStats](Path.join(dir, o[Key]))
     )
 
-
-
-  var statPool = new TaskPool(2, 1000);
-  statPool.on('drop', o => assert.fail('stat task pending queue overflow'))
-
-  var directoryMotion = subject
-    [Select](o => makeAbsolute(o))
-    [Distinct]()
-    [SelectMany](o => watch(o, true), (o, x) => o)
-
-
-  var entryMotion = directoryMotion
-    [GroupBy]()
-    [SelectMany](g => g
-      [Debounce](DebounceMs)
-      [Pool](async () => {
-        var result = await fsp.readdir(g[Key], WithFileTypes)
-        result = await result
-          [Pool](async o => {
-            var name = o.name
-            var dir = g[Key]
-            var path = Path.join(dir, name)
-            var stat = await fsp.stat(path)
-            stat.timestamp = stat.ctime.getTime()
-            stat.name = name
-            return stat
-          }, (o, x) => x, statPool)
-          [ToArray]();
-        return result[OrderBy](o => o.name)
-      })
-      [RollingSelect](
-        o => o[0][ZipJoin](o[1], SelectName, SelectName, 
-          (current, previous, name) => ({ current, previous, name })
-        )
-      )
-      [SelectMany]()
-      [Where](o => 
-        !o.current || // unlink
-        !o.previous || // link
-        o.current.ino != o.previous.ino || // re-link
-        o.current.timestamp != o.previous.timestamp // change
-      ),
-      (g, o) => (o.dir = g[Key], o)
-    )
-
-  // sub-directory motion is feedback
-  entryMotion
-    [Where](o => 
-      o.current && o.current.isDirectory() ||
-      o.previous && o.previous.isDirectory()
-    )
-    [Where](o => dirFilter(o.name, o.dir))
-    [Select](o => Path.join(o.dir, o.name))
-    [Pipe](subject);
-
-  subject[Next](root);
-
-  return entryMotion;
+  return result;
 }
 
 module.exports = watchMany;

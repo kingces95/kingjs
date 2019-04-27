@@ -5,20 +5,25 @@ Watch a for file and directory events in a directory and all its descendent dire
 require('@kingjs/shim')
 var watchMany = require('@kingjs/fs.rx.watch-many');
 var { Subscribe } = require('@kingjs/rx.i-observable')
+var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Log = require('@kingjs/rx.log')
-var Where = require('@kingjs/rx.where')
+var Spy = require('@kingjs/rx.spy')
 
 var watch = watchMany('.');
-//var watch = watchMany('../../../..');
-// watch[Subscribe](
-//   o => console.log('FILE', o)
-// );
+var i = 0;
 
 watch
-  [Log]('MOTION', '${name} ${current} -> ${previous}')
-  [Subscribe]();
-
-    
+  [Subscribe](
+    path => { 
+      console.log('PATH', path[Key])
+      path[Subscribe](
+        iNode => {
+          console.log('LINK', path[Key], iNode[Key])
+          iNode[Subscribe](stats => console.log('CHANGE', i++))
+        }, 
+        () => console.log('UNLINK', path[Key])
+      )
+  })
 ```
 
 ## API
@@ -54,6 +59,7 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/rx.distinct`](https://www.npmjs.com/package/@kingjs/rx.distinct)|`latest`|
 |[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
 |[`@kingjs/rx.pipe`](https://www.npmjs.com/package/@kingjs/rx.pipe)|`latest`|

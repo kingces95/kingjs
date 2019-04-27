@@ -18,6 +18,7 @@ exports['@kingjs'] = {
     Distinct: require('@kingjs/rx.distinct'),
     GroupBy: require('@kingjs/rx.group-by'),
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
+    IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
     Log: require('@kingjs/rx.log'),
     Pipe: require('@kingjs/rx.pipe'),
