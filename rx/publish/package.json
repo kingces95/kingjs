@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.window-by",
+  "name": "@kingjs/rx.publish",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that emits another `IObservable`,  a 'window', that emits values with matching keys. If a new key is  observed, then the window is closed and another activated.",
+  "description": "Returns an `IPublishedObservable` that saves its last  observed value and will emit that value to any new subscribers.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,13 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/window-by"
+    "url": "https://repository.kingjs.net/rx/publish"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.i-grouped-observable": "latest",
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.create": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.i-published-observable": "latest",

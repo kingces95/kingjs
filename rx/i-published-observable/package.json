@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/rx.i-published-observable",
+  "version": "1.0.0",
+  "description": "`IPublishedObservable` extends `IObservable` and  adds  a single new member `value`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/i-published-observable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "latest",
+    "@kingjs/rx.i-observable": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

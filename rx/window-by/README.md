@@ -20,7 +20,6 @@ var subjectId = 0;
 of(0, 1, 2, 3, 4, 5, 6, 7)
   [WindowBy](
     o => Math.floor(o / 3) % 2,
-    (l, r) => l == r,
     (key, value) => ({ key, value }),
     key => {
       var subject = new Subject()
@@ -70,7 +69,7 @@ of(0, 1, 2, 3, 4, 5, 6, 7)
 
 ## API
 ```ts
-windowBy(this[, keySelector(value)[, keyEquals(left, right)[, resultSelector(key, value)[, windowActivator(key)]]]])
+windowBy(this[, keySelector(value)[, keyEquals[, resultSelector(key, value)[, windowActivator(key)]]]])
 ```
 
 ### Parameters
@@ -79,9 +78,6 @@ windowBy(this[, keySelector(value)[, keyEquals(left, right)[, resultSelector(key
   - `value`: The value emitted by `this`.
   - Returns a primitive key used to group the value.
 - `keyEquals`: A callback to compare keys.
-  - `left`: The left key.
-  - `right`: The right key.
-  - Returns `true` or `false`.
 - `resultSelector`: A callback that maps each value before being  emitted by its window.
   - `key`: The key.
   - `value`: The value.
@@ -102,10 +98,10 @@ $ npm install @kingjs/rx.window-by
 |Package|Version|
 |---|---|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
-|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
+|[`@kingjs/rx.i-published-observable`](https://www.npmjs.com/package/@kingjs/rx.i-published-observable)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/window-by

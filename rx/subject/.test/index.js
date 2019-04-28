@@ -1,5 +1,5 @@
 require('./readme')
-require('./dispose')
+require('./disposed')
 require('./defaultComplete')
 require('./synchronous')
 //require('./throw')

@@ -3,6 +3,7 @@ var assert = require('assert');
 var WindowBy = require('..');
 var { Key } = require('@kingjs/rx.i-grouped-observable');
 var { Subscribe } = require('@kingjs/rx.i-observable');
+var { Next, Complete } = require('@kingjs/rx.i-observer');
 var Subject = require('@kingjs/rx.subject');
 var of = require('@kingjs/rx.of');
 var SelectMany = require('@kingjs/rx.select-many');
@@ -13,7 +14,8 @@ var Finalize = require('@kingjs/rx.finalize');
 var result = []
 var subjectId = 0;
 
-of(0, 1, 2, 3, 4, 5, 6, 7)
+var subject = new Subject();
+var window = subject
   [WindowBy](
     o => Math.floor(o / 3) % 2,
     (key, value) => ({ key, value }),
@@ -23,6 +25,8 @@ of(0, 1, 2, 3, 4, 5, 6, 7)
       return subject
     }
   )
+
+var test = window
   [Spy](
     o => assert(o[Key] >= 0 && o [Key] < 3)
   )
@@ -48,6 +52,23 @@ of(0, 1, 2, 3, 4, 5, 6, 7)
       2,                    // complete window
     ])
   )
+
+subject[Next](0)
+subject[Next](1)
+subject[Next](2)
+subject[Next](3)
+subject[Next](4)
+subject[Next](5)
+subject[Next](6)
+subject[Next](7)
+
+var lastKey
+var test = window
+  [Subscribe](o => lastKey = o[Key])
+assert(lastKey == 0);
+
+subject[Complete]()
+
 
 // Logs:
 // WINDOW { key: 0, value: 0 }

@@ -38,8 +38,7 @@ var Options = {
  * @remarks - The watcher keeps the process alive until completed.
  **/
 function watch(
-  path = '.',
-  initialize = false) {
+  path = '.') {
 
   path = makeAbsolute(path);
   

@@ -1,23 +1,24 @@
 var { 
+  assert,
   ['@kingjs']: {
     rx: { 
-      create, 
       Subject,
       IObservable,
       IGroupedObservable: { Key },
       IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
+      IObserver: { Next, Complete, Error },
+      IPublishedObservable: { Value },
     },
     reflect: { 
       exportExtension
     },
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var DefaultKeySelector = o => o;
-var DefaultResultSelector = (k, o) => o;
-var DefaultGroupActivator = k => new Subject();
-var DefaultGroupCloser = (k, o) => false;
+var DefaultKeySelector = o => o
+var DefaultResultSelector = (k, o) => o
+var DefaultGroupActivator = k => new Subject()
+var DefaultGroupCloser = (k, o) => false
 
 /**
  * @description Returns an `IObservable` that emits an `IGroupedObservable`
@@ -67,47 +68,61 @@ function groupBy(
   groupCloser = DefaultGroupCloser
 ) {
 
-  var observable = this;
+  var observable = this
 
-  return create(observer => {
-    var groups = { };
+  var result = new Subject(observer => {
+    var groups = result[Value] = { }
 
     return observable[Subscribe](
       o => {
-        var key = keySelector(o);
+        var key = keySelector(o)
 
-        var group = groups[key];
+        var group = groups[key]
         if (!group) {
+
           // activate and cache group
-          group = groups[key] = groupActivator(key);
+          group = groups[key] = groupActivator(key)
 
           // implement IGroupedObservable
-          group[Key] = key; 
+          group[Key] = key 
 
           // emit group
-          observer[Next](group);
+          observer[Next](group)
         }
 
         if (groupCloser(key, o)) {
-          group[Complete]();
-          delete groups[key];
-          return;
+          group[Complete]()
+          delete groups[key]
+          return
         }
 
-        group[Next](resultSelector(key, o));
+        group[Next](resultSelector(key, o))
       },
       () => {
-        for (var key in groups)
-          groups[key][Complete]();
-        observer[Complete]();
+        for (var key in groups) {
+          groups[key][Complete]()
+          delete groups[key]
+        }
+        observer[Complete]()
       },
       o => {
-        for (var key in groups)
-          groups[key][Error](o);
+        for (var key in groups) {
+          groups[key][Error](o)
+          delete groups[key]
+        }
         observer[Error](o)
       }
-    );
+    )
+  },
+  (next, finished) => {
+    var groups = result[Value]
+    assert(!finished || !Object.keys(groups).length)
+
+    for (var key in groups)
+      next(groups[key])
   })
+
+  return result
 }
 
-exportExtension(module, IObservable, groupBy);
+exportExtension(module, IObservable, groupBy)

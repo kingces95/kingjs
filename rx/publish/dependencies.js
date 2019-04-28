@@ -1,9 +1,10 @@
 exports['@kingjs'] = {
   reflect: {
     exportExtension: require('@kingjs/reflect.export-extension'),
+    is: require('@kingjs/reflect.is'),
   },
   rx: {
-    IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
+    create: require('@kingjs/rx.create'),
     IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
     IPublishedObservable: require('@kingjs/rx.i-published-observable'),

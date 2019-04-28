@@ -4,7 +4,7 @@ Returns an `IObservable` that spies on life-cycle events.
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var of = require('@kingjs/rx.of');
 var Spy = require('@kingjs/rx.do');
 
@@ -39,7 +39,7 @@ assert.deepEqual(result, [
 
 ## API
 ```ts
-_do(this, next[, complete[, error]])
+do_(this, next[, complete[, error]])
 ```
 
 ### Parameters

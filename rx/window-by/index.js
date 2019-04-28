@@ -1,12 +1,13 @@
 var { 
+  assert,
   ['@kingjs']: {
     rx: { 
-      create, 
       Subject,
       IObservable,
       IGroupedObservable: { Key },
       IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
+      IObserver: { Next, Complete, Error },
+      IPublishedObservable: { Value },
     },
     reflect: { 
       exportExtension
@@ -36,11 +37,6 @@ var DefaultWindowActivator = k => new Subject();
  * @param value The value emitted by `this`.
  * @returns Returns a primitive key used to group the value.
  * 
- * @callback keyEquals
- * @param left The left key.
- * @param right The right key.
- * @returns Returns `true` or `false`.
- * 
  * @callback resultSelector
  * @param key The key.
  * @param value The value.
@@ -55,28 +51,27 @@ var DefaultWindowActivator = k => new Subject();
  */
 function windowBy(
   keySelector = DefaultKeySelector, 
-  keyEquals = DefaultKeyEquals,
   resultSelector = DefaultResultSelector,
   windowActivator = DefaultWindowActivator
 ) {
 
   var observable = this;
 
-  return create(observer => {
+  var result = new Subject(observer => {
     var window;
 
     return observable[Subscribe](
       o => {
         var key = keySelector(o);
 
-        if (!window || !keyEquals(key, window[Key])) {
+        if (!window || key != window[Key]) {
 
           // complete the previous window!
           if (window)
             window[Complete]();
 
           // activate window
-          window = windowActivator(key);
+          window = result[Value] = windowActivator(key);
 
           // implement IGroupedObservable
           window[Key] = key; 
@@ -85,21 +80,31 @@ function windowBy(
           observer[Next](window);
         }
 
-        var result = resultSelector(key, o);
-        window[Next](result);
+        window[Next](resultSelector(key, o));
       },
       () => {
         if (window)
           window[Complete]();
+        window = null;
         observer[Complete]();
       },
       o => {
         if (window)
           window[Error](o);
+        window = null;
         observer[Error](o);
       }
     );
-  })
+  },
+  (next, finished) => {
+    var window = result[Value];
+    if (!window)
+      return
+    next(window)
+  }
+)
+
+  return result
 }
 
 exportExtension(module, IObservable, windowBy);
