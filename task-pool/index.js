@@ -63,10 +63,12 @@ class TaskPool extends EventEmitter {
     var { pending, running } = this;
     var { maxConcurrent, maxPending, bounce } = this;
 
+    // block?
     if (running.length == maxConcurrent) {
       pending.push(task);
       this.emit(BlockEvent, task);
 
+      // dump?
       if (pending.length > maxPending) {
         task = pending[RemoveAt](bounce(pending));
         this.emit(DropEvent, task);
@@ -74,6 +76,7 @@ class TaskPool extends EventEmitter {
       return;
     }
 
+    // start
     running.push(task);
     this.emit(StartEvent, task);
 

@@ -17,6 +17,8 @@ var {
       IObserver: { Next },
       IObservable: { Subscribe },
       IGroupedObservable: { Key },
+      Pool,
+      Take,
       Publish,
       SelectMany, 
     },
@@ -59,7 +61,9 @@ function watchMany(
     [SelectMany](o => o
       [DistinctStats](Path.join(dir, o[Key]))
       [SelectMany](
-        o => watchMany(o.path, dirFilter),
+        o => o
+          [Take](1)
+          [Pool](() => watchMany(o.path, dirFilter)),
         (o, x) => x,
         o => !o.isDirectory
       )

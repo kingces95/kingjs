@@ -17,8 +17,10 @@ var E = 'E';
 var result = [];
 
 var subject = new Subject()
+
 var behavior = subject[Publish]();
 behavior[Subscribe]();
+assert(behavior[Value] === undefined);
 
 subject[Next](0);
 assert(behavior[Value] == 0);

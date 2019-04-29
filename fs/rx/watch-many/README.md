@@ -8,7 +8,6 @@ var watchMany = require('@kingjs/fs.rx.watch-many')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Log = require('@kingjs/rx.log')
-var Spy = require('@kingjs/rx.spy')
 
 var changeId = 0
 var cwd = process.cwd()
@@ -41,8 +40,7 @@ watchMany(root, dirFilter(name, dir))
 - `dirFilter`: A callback to filter whether a subdirectory should be watched.
   - `name`: The name of the sub-directory.
   - `dir`: The directory containing the sub-directory.
-  - Returns an `IObservable` that emits events for various
-file and directory events.
+  - Returns an `IObservable` that emits events for variousfile and directory events.
 
 
 
@@ -64,8 +62,10 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
+|[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.publish`](https://www.npmjs.com/package/@kingjs/rx.publish)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
+|[`@kingjs/rx.take`](https://www.npmjs.com/package/@kingjs/rx.take)|`latest`|
 |[`@kingjs/task-pool`](https://www.npmjs.com/package/@kingjs/task-pool)|`latest`|
 |[`deep-equal`](https://www.npmjs.com/package/deep-equal)|`latest`|
 ## Source

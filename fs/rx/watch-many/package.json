@@ -28,8 +28,10 @@
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.log": "latest",
+    "@kingjs/rx.pool": "latest",
     "@kingjs/rx.publish": "latest",
     "@kingjs/rx.select-many": "latest",
+    "@kingjs/rx.take": "latest",
     "@kingjs/task-pool": "latest",
     "deep-equal": "latest"
   },

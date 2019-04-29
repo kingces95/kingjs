@@ -18,8 +18,10 @@ exports['@kingjs'] = {
     IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
     Log: require('@kingjs/rx.log'),
+    Pool: require('@kingjs/rx.pool'),
     Publish: require('@kingjs/rx.publish'),
     SelectMany: require('@kingjs/rx.select-many'),
+    Take: require('@kingjs/rx.take'),
   },
   TaskPool: require('@kingjs/task-pool'),
 }

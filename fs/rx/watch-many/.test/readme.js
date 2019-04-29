@@ -4,7 +4,6 @@ var watchMany = require('..')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Log = require('@kingjs/rx.log')
-var Spy = require('@kingjs/rx.spy')
 
 var changeId = 0
 var cwd = process.cwd()
