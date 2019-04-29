@@ -22,11 +22,13 @@ var subject = new Subject();
 var stats = subject
   [DistinctStats](TempFileName)
 
-assert(path.basename(stats[Key]) == TempFileName);
 stats
   [Spy](
     // assert Key looks like a stats.ino
-    o => assert(is.number(o[Key]))
+    o => {
+      assert(is.number(o[Key]))
+      assert(path.basename(o.path) == TempFileName);
+    }
   )
   [Select](o => o
     [Subscribe](

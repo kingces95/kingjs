@@ -15,6 +15,7 @@ var {
 
 var DefaultSelector = o => o;
 var DefaultResultSelector = (o, x) => x;
+var DefaultIsSingleton = o => false;
 
 /**
  * @description Returns an `IObservable` emits the elements selected
@@ -41,7 +42,8 @@ var DefaultResultSelector = (o, x) => x;
  */
 function selectMany(
   selector = DefaultSelector, 
-  resultSelector = DefaultResultSelector) {
+  resultSelector = DefaultResultSelector,
+  isSingleton = DefaultIsSingleton) {
 
   var observable = this;
 
@@ -50,7 +52,14 @@ function selectMany(
     var manyDisposes = { };
 
     var dispose = observable[Subscribe](
-      o => { 
+      o => {
+
+        // optimization; prevents wrapping singletons
+        if (isSingleton(o)) {
+          observer[Next](resultSelector(o, o))
+          return;
+        }
+
         var many = selector(o);
 
         if (Symbol.iterator in many)

@@ -43,8 +43,8 @@ dirEntries
     fs.unlinkSync(TempFilePath)
     fs.rmdirSync(TempDirName)
     assert(result[0][Key] == 'file.txt') // IGroupedObservable Observed
-    assert(result[1].name == 'file.txt') // IGroupedObservable.Next: DirEntry
-    assert(result[2].name == 'file.txt') // IGroupedObservable.Next: DirEntry
+    assert(result[1] === null) // IGroupedObservable.Next: DirEntry
+    assert(result[2] === null) // IGroupedObservable.Next: DirEntry
     assert(result[3] == 'file.txt') // IGroupedObservable.Complete
     assert(result[4] == '.') // Complete
   })

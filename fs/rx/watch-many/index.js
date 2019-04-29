@@ -13,11 +13,12 @@ var {
       } 
     },
     rx: {
+      Log,
       IObserver: { Next },
       IObservable: { Subscribe },
       IGroupedObservable: { Key },
-      RollingSelect, Select, SelectMany, Debounce, Pool,
-      Subject, Pipe, Where, GroupBy, Distinct, Log, ToArray
+      Publish,
+      SelectMany, 
     },
     linq: { ZipJoin, OrderBy },
   }
@@ -53,9 +54,15 @@ function watchMany(
   dirFilter = DefaultDirFilter) {
 
   var result = watch(dir)
+    [Publish](null)
     [DirEntries](dir)
-    [Select](o => o
+    [SelectMany](o => o
       [DistinctStats](Path.join(dir, o[Key]))
+      [SelectMany](
+        o => watchMany(o.path, dirFilter),
+        (o, x) => x,
+        o => !o.isDirectory
+      )
     )
 
   return result;

@@ -47,8 +47,8 @@ dirEntries
     fs.unlinkSync(TempFilePath)
     fs.rmdirSync(TempDirName)
     assert(result[0][Key] == 'file.txt') // IGroupedObservable Observed
-    assert(result[1].name == 'file.txt') // IGroupedObservable.Next: DirEntry
-    assert(result[2].name == 'file.txt') // IGroupedObservable.Next: DirEntry
+    assert(result[1] === null) // IGroupedObservable.Next: DirEntry
+    assert(result[2] === null) // IGroupedObservable.Next: DirEntry
     assert(result[3] == 'file.txt') // IGroupedObservable.Complete
     assert(result[4] == '.') // Complete
   })
@@ -81,6 +81,7 @@ $ npm install @kingjs/fs.rx.dir-entries
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
+|[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.rolling-select`](https://www.npmjs.com/package/@kingjs/rx.rolling-select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|

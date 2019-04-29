@@ -7,10 +7,11 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var DefaultLessThan = (l, r) => l < r;
-var DefaultResultSelector = (outer, inner, key) => ({ outer, inner, key });
+var DefaultLessThan = (l, r) => l < r
+var DefaultKeySelector = o => o
+var DefaultResultSelector = (outer, inner, key) => ({ outer, inner, key })
  
 /**
  * @description Selects pairs of values from two ordered 
@@ -18,11 +19,12 @@ var DefaultResultSelector = (outer, inner, key) => ({ outer, inner, key });
  * 
  * @this any The outer `IEnumerable`.
  * @param innerEnumerable The inner `IEnumerable`.
- * @param outerKeySelector Callback to select the key 
+ * @param [outerKeySelector] Callback to select the key 
  * from a value pulled from the outer `IEnumerable`.
+ * Default is identity.
  * @param [innerKeySelector] Callback to select the key 
- * from a value pulled from the inner `IEnumerable`. Default
- * uses the `outerKeySelector`.
+ * from a value pulled from the inner `IEnumerable`. 
+ * Default is identity.
  * @param [resultSelector] Callback to select the result
  * given an outer and inner value sharing a key. Default
  * is produces objects of the form `{ outer, inner }`.
@@ -36,71 +38,68 @@ var DefaultResultSelector = (outer, inner, key) => ({ outer, inner, key });
  */
 function zipJoin(
   innerEnumerable, 
-  outerKeySelector,
-  innerKeySelector,
+  outerKeySelector = DefaultKeySelector,
+  innerKeySelector = DefaultKeySelector,
   resultSelector = DefaultResultSelector,
   keyLessThan = DefaultLessThan) {
 
-  if (!innerKeySelector)
-    innerKeySelector = outerKeySelector;
-
   var outerEnumerable = this
-  var innerEnumerable = innerEnumerable || empty();
+  var innerEnumerable = innerEnumerable || empty()
 
   return function* zipJoin() {
-    var outerEnumerator = outerEnumerable[GetEnumerator]();
-    var innerEnumerator = innerEnumerable[GetEnumerator]();
+    var outerEnumerator = outerEnumerable[GetEnumerator]()
+    var innerEnumerator = innerEnumerable[GetEnumerator]()
 
     // logic and state to advance outer enumerator
-    var outer, outerKey;
+    var outer, outerKey
     function advanceOuter() {
       if (!outerEnumerator[MoveNext]())
-        return true;
-      outer = outerEnumerator[Current];
-      outerKey = outerKeySelector(outer);
-      return false;
+        return true
+      outer = outerEnumerator[Current]
+      outerKey = outerKeySelector(outer)
+      return false
     }
-    var outerDone = advanceOuter();
+    var outerDone = advanceOuter()
 
     // logic and state to advance inner enumerator
-    var inner, innerKey;
+    var inner, innerKey
     function advanceInner() {
       if (!innerEnumerator[MoveNext]())
-        return true;
-      inner = innerEnumerator[Current];
-      innerKey = innerKeySelector(inner);
-      return false;
+        return true
+      inner = innerEnumerator[Current]
+      innerKey = innerKeySelector(inner)
+      return false
     }
-    var innerDone = advanceInner();
+    var innerDone = advanceInner()
 
     while (true) {
 
       // inner behind outer
       if (!innerDone && (outerDone || keyLessThan(innerKey, outerKey))) {
-        yield resultSelector(null, inner, innerKey);
-        innerDone = advanceInner();
-        continue;
+        yield resultSelector(null, inner, innerKey)
+        innerDone = advanceInner()
+        continue
       }
 
       // outer behind inner
       if (!outerDone && (innerDone || keyLessThan(outerKey, innerKey))) {
-        yield resultSelector(outer, null, outerKey);
-        outerDone = advanceOuter();
-        continue;
+        yield resultSelector(outer, null, outerKey)
+        outerDone = advanceOuter()
+        continue
       }
 
       // outer and inner finished
       if (outerDone && innerDone)
-        break;
+        break
 
       // outer and inner share a common key
-      assert(!keyLessThan(innerKey, outerKey));
-      assert(!keyLessThan(outerKey, innerKey));
-      yield resultSelector(outer, inner, innerKey);
-      innerDone = advanceInner();
-      outerDone = advanceOuter();
+      assert(!keyLessThan(innerKey, outerKey))
+      assert(!keyLessThan(outerKey, innerKey))
+      yield resultSelector(outer, inner, innerKey)
+      innerDone = advanceInner()
+      outerDone = advanceOuter()
     }
   }
-};
+}
 
-exportExtension(module, IEnumerable, zipJoin);
+exportExtension(module, IEnumerable, zipJoin)

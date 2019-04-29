@@ -69,7 +69,7 @@ of(0, 1, 2, 3, 4, 5, 6, 7)
 
 ## API
 ```ts
-windowBy(this[, keySelector(value)[, keyEquals[, resultSelector(key, value)[, windowActivator(key)]]]])
+windowBy(this[, keySelector(value)[, keyEquals[, resultSelector(key, value)[, windowActivator(key, value)]]]])
 ```
 
 ### Parameters
@@ -84,6 +84,7 @@ windowBy(this[, keySelector(value)[, keyEquals[, resultSelector(key, value)[, wi
   - Returns a result emitted by the window.
 - `windowActivator`: A callback to activate a Subject to act as the window.
   - `key`: The key.
+  - `value`: The value.
   - Returns a Subject to act as the window.
 ### Returns
 Returns an `IObservable` that emits `IGroupedObservable` that  then emits source values with equal keys.

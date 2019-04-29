@@ -26,11 +26,13 @@ var subject = new Subject();
 var stats = subject
   [DistinctStats](TempFileName)
 
-assert(path.basename(stats[Key]) == TempFileName);
 stats
   [Spy](
     // assert Key looks like a stats.ino
-    o => assert(is.number(o[Key]))
+    o => {
+      assert(is.number(o[Key]))
+      assert(path.basename(o.path) == TempFileName);
+    }
   )
   [Select](o => o
     [Subscribe](
@@ -100,6 +102,10 @@ distinctStats([path])
 Returns a `IObservable` which emits `IGroupedObservable`s where each completes before the next is emitted and emits whenever the ctime changes between source `IObservable` emissions.
 ### Remarks
  - If a source emission is observed before the stat for the previous emission has been read and reported, then the emission is queued. Source emissions beyond that are dropped.
+ - The emitted `IGroupedObservable`s have properties
+   - `path` - the path.
+   - `ino` - the file system node id.
+   - `isBlockDevice`, `isCharacterDevice`, `isDirectory`,  `isFIFO`, `isFile`, `isSocket`, `isSymbolicLink` - type
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
@@ -115,8 +121,7 @@ $ npm install @kingjs/fs.rx.distinct-stats
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
-|[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
-|[`@kingjs/rx.spy`](https://www.npmjs.com/package/@kingjs/rx.spy)|`latest`|
+|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/distinct-stats

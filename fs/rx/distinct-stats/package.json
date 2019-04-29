@@ -24,8 +24,7 @@
     "@kingjs/rx.i-grouped-observable": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.pool": "latest",
-    "@kingjs/rx.select-many": "latest",
-    "@kingjs/rx.spy": "latest",
+    "@kingjs/rx.subject": "latest",
     "@kingjs/rx.window-by": "latest"
   },
   "nodeDependencies": [

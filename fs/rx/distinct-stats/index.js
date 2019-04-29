@@ -6,7 +6,7 @@ var {
       Pool,
       DistinctUntilChanged,
       WindowBy,
-      Spy, SelectMany, IObservable: { Subscribe },
+      Subject,
 
       IObservable,
       IGroupedObservable: { Key }
@@ -29,7 +29,13 @@ var {
  * 
  * @remarks - If a source emission is observed before the stat for
  * the previous emission has been read and reported, then the emission
- * is queued. Source emissions beyond that are dropped. 
+ * is queued. Source emissions beyond that are dropped.
+ * 
+ * @remarks - The emitted `IGroupedObservable`s have properties
+ * @remarks -- `path` - the path.
+ * @remarks -- `ino` - the file system node id.
+ * @remarks -- `isBlockDevice`, `isCharacterDevice`, `isDirectory`, 
+ * `isFIFO`, `isFile`, `isSocket`, `isSymbolicLink` - type
  **/
 function distinctStats(path) {
   path = makeAbsolute(path);
@@ -37,10 +43,32 @@ function distinctStats(path) {
   var result = this
     [Pool](() => fsp.stat(path))                        // promise -> stats
     [DistinctUntilChanged](o => o.ctime.getTime())      // where a change happened
-    [WindowBy](o => o.ino)                              // detect re-create
+    [WindowBy](
+      o => o.ino,                                       // detects re-create and/or type change
+      (k, o) => o,
+      (k, o) => new StatSubject(path, o)
+    )                                                   
 
-  result[Key] = path;                                   // tag `IGroupedObservable` with path
   return result;
+}
+
+class StatSubject extends Subject {
+  constructor(path, stats) {
+    super()
+
+    // id
+    this.path = path
+    this.ino = stats.id;
+
+    // type
+    this.isBlockDevice = stats.isBlockDevice()
+    this.isCharacterDevice = stats.isCharacterDevice()
+    this.isDirectory = stats.isDirectory()
+    this.isFIFO = stats.isFIFO()
+    this.isFile = stats.isFile()
+    this.isSocket = stats.isSocket()
+    this.isSymbolicLink = stats.isSymbolicLink()
+  }
 }
 
 exportExtension(module, IObservable, distinctStats);

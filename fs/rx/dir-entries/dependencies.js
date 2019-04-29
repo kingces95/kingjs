@@ -11,6 +11,7 @@ exports['@kingjs'] = {
   rx: {
     GroupBy: require('@kingjs/rx.group-by'),
     IObservable: require('@kingjs/rx.i-observable'),
+    Log: require('@kingjs/rx.log'),
     Pool: require('@kingjs/rx.pool'),
     RollingSelect: require('@kingjs/rx.rolling-select'),
     SelectMany: require('@kingjs/rx.select-many'),

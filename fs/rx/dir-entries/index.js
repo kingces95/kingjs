@@ -3,6 +3,7 @@ var {
   ['@kingjs']: {
     path: { makeAbsolute },
     rx: { 
+      Log,
       Pool,
       RollingSelect,
       SelectMany,
@@ -18,7 +19,9 @@ var {
   }
 } = require('./dependencies')
 
-var WithFileTypes = { withFileTypes: true };
+var WithFileTypes = { 
+  //encoding: 'buffer'
+};
 
 /**
  * @description For each emission reads a `dirEntry` array for `dir`
@@ -42,23 +45,15 @@ function dirEntries(dir) {
   dir = makeAbsolute(dir);
 
   return this
-    [Pool](                                             // promise -> dirEntry[]
-      () => fsp.readdir(dir, WithFileTypes)             // promise will need to be shimmed
-    )
-    [RollingSelect](                                    // dirEntry[] -> {currentDirEntry, name}[]
-      o => o[0][ZipJoin](o[1], 
-        o => o.name, 
-        o => o.name, 
-        (current, previous, name) =>                    // !current => unlinked
-          ({ current, name })                           // embed name because current is undefined on unlink
-      )
-    )
+    [Pool](() => fsp.readdir(dir, WithFileTypes))       // promise -> dirEntry[]
+    [RollingSelect](o => o[0][ZipJoin](o[1]))           // dirEntry[] -> {currentDirEntry, name}[]
     [SelectMany]()                                      // {currentDirEntry, name}[] -> {currentDirEntry, name}
-    [GroupBy](                                          // new = link, next = change, complete = unlink
-      o => o.name,                                      // {currentDirEntry, name} -> name:dirEntry
-      (k, o) => o.current,                              // {currentDirEntry, name} -> dirEntry
+    [Log](dir)
+    [GroupBy](                                          // new = link, next = any, complete = unlink
+      o => o.key,                                       // group by name; name is the key
+      (k, o) => null,                                   // simply raise event without any event data
       k => new Subject(),                               // activate group
-      (k, o) => !o.current                              // emit `complete` on unlinked
+      (k, o) => !o.outer                                // emit `complete` on unlinked
     )
 }
 

@@ -44,6 +44,7 @@ var DefaultWindowActivator = k => new Subject();
  * 
  * @callback windowActivator
  * @param key The key.
+ * @param value The value.
  * @returns Returns a Subject to act as the window.
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable` that 
@@ -71,7 +72,7 @@ function windowBy(
             window[Complete]();
 
           // activate window
-          window = result[Value] = windowActivator(key);
+          window = result[Value] = windowActivator(key, o);
 
           // implement IGroupedObservable
           window[Key] = key; 

@@ -5,7 +5,7 @@ var {
       makeAbsolute 
     },
     rx: { 
-      create,
+      Subject,
       IObserver : { Next, Complete, Error },
       IGroupedObservable: { Key },
     },
@@ -42,7 +42,7 @@ function watch(
 
   path = makeAbsolute(path);
   
-  var result = create(observer => {
+  var result = new Subject(observer => {
     var watcher = fs.watch(path, Options)
     watcher.on(Event.Change, () => observer[Next]())
     watcher.on(Event.Close, () => observer[Complete]())
