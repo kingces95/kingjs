@@ -1,6 +1,7 @@
 require('@kingjs/shim')
 var Path = require('path')
 var watchMany = require('..')
+var { Complete, Next } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Log = require('@kingjs/rx.log')
@@ -8,7 +9,9 @@ var Log = require('@kingjs/rx.log')
 var changeId = 0
 var cwd = process.cwd()
 
-watchMany('.')
+var subject = watchMany('.')
+
+subject
   [Subscribe](
     iNode => {
       var path = iNode.path
@@ -23,3 +26,7 @@ watchMany('.')
     }, 
     () => console.log('CLOSE')
   )
+
+setTimeout(() => {
+  subject[Complete]()
+}, 500);

@@ -11,11 +11,11 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var DefaultSelector = o => o;
-var DefaultResultSelector = (o, x) => x;
-var DefaultIsSingleton = o => false;
+var DefaultSelector = o => o
+var DefaultResultSelector = (o, x) => x
+var DefaultIsSingleton = o => false
 
 /**
  * @description Returns an `IObservable` emits the elements selected
@@ -45,43 +45,63 @@ function selectMany(
   resultSelector = DefaultResultSelector,
   isSingleton = DefaultIsSingleton) {
 
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var id = 0;
-    var manyDisposes = { };
+    var id = 0
+    var count = 1
+    var manyObservers = { }
+    var manyDisposes = { }
 
     var dispose = observable[Subscribe](
       o => {
 
-        // optimization; prevents wrapping singletons
+        // optimization prevents wrapping singletons
         if (isSingleton(o)) {
           observer[Next](resultSelector(o, o))
-          return;
+          return
         }
 
-        var many = selector(o);
+        var many = selector(o)
 
         if (Symbol.iterator in many)
-          many = from(many);
+          many = from(many)
 
-        var manyId = id++;
+        count++
+        var manyId = id++
+        manyObservers[manyId] = many
         manyDisposes[manyId] = many[Subscribe](
           x => observer[Next](resultSelector(o, x)),
-          () => delete manyDisposes[manyId],
+          () => {
+            delete manyObservers[manyId]
+            delete manyDisposes[manyId]
+            count--;
+            if (count)
+              return;
+            observer[Complete]()
+          },
           x => observer[Error](x)
-        );
+        )
       },
-      () => observer[Complete](),
-      o => observer[Error](o)
-    );
+      () => {
+        count--;
+        if (count)
+          return
+        observer[Complete]()
+      },
+      o => {
+        for (var key in manyObservers)
+          manyObservers[key][Error](o)
+        observer[Error](o)
+      }
+    )
 
     return () => {
       for (var key in manyDisposes)
-        manyDisposes[key]();
+        manyDisposes[key]()
       dispose()
     }
   })
 }
 
-exportExtension(module, IObservable, selectMany);
+exportExtension(module, IObservable, selectMany)

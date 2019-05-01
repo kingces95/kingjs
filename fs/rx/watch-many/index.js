@@ -14,13 +14,15 @@ var {
     },
     rx: {
       Log,
-      IObserver: { Next },
-      IObservable: { Subscribe },
-      IGroupedObservable: { Key },
-      Pool,
+      Pipe,
       Take,
       Publish,
+      Finalize, 
       SelectMany, 
+      IObserver: { Next },
+      IObservable: { Subscribe },
+      IObserver: { Next, Complete, Error },
+      IGroupedObservable: { Key },
     },
     linq: { ZipJoin, OrderBy },
   }
@@ -55,21 +57,29 @@ function watchMany(
   dir = DefaultRoot, 
   dirFilter = DefaultDirFilter) {
 
-  var result = watch(dir)
+  var watcher = watch(dir)
+  var stats = watcher
     [Publish](null)
     [DirEntries](dir)
     [SelectMany](o => o
       [DistinctStats](Path.join(dir, o[Key]))
       [SelectMany](
         o => o
-          [Take](1)
-          [Pool](() => watchMany(o.path, dirFilter)),
+          [Take](0)
+          [Pipe](watchMany(o.path, dirFilter)),
         (o, x) => x,
         o => !o.isDirectory
       )
     )
 
-  return result;
+  return {
+    dir,
+    [Next]: o => watcher[Next](o),
+    [Complete]: () => watcher[Complete](dir),
+    [Error]: e => watcher[Error](e),
+
+    [Subscribe]: o => stats[Subscribe](o),
+  }
 }
 
 module.exports = watchMany;

@@ -48,7 +48,7 @@ function dirEntries(dir) {
     [Pool](() => fsp.readdir(dir, WithFileTypes))       // promise -> dirEntry[]
     [RollingSelect](o => o[0][ZipJoin](o[1]))           // dirEntry[] -> {currentDirEntry, name}[]
     [SelectMany]()                                      // {currentDirEntry, name}[] -> {currentDirEntry, name}
-    [Log](dir)
+    //[Log](dir)
     [GroupBy](                                          // new = link, next = any, complete = unlink
       o => o.key,                                       // group by name; name is the key
       (k, o) => null,                                   // simply raise event without any event data

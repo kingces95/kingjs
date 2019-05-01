@@ -4,7 +4,7 @@ Returns an `IObservable` that spies on the `complete` and `error` events.
 ```js
 require('@kingjs/shim')
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/i-observable');
+var { Subscribe } = require('@kingjs/rx.i-observable');
 var of = require('@kingjs/rx.of');
 var fail = require('@kingjs/rx.fail');
 var Finalize = require('@kingjs/rx.finalize');

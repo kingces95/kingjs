@@ -40,20 +40,17 @@ var Options = {
 function watch(
   path = '.') {
 
-  path = makeAbsolute(path);
+  path = makeAbsolute(path)
   
   var result = new Subject(observer => {
     var watcher = fs.watch(path, Options)
     watcher.on(Event.Change, () => observer[Next]())
-    watcher.on(Event.Close, () => observer[Complete]())
+    watcher.on(Event.Close, () => watcher.removeAllListeners())
     watcher.on(Event.Error, e => observer[Error](e))
-    return () => {
-      watcher.removeAllListeners();
-      watcher.close();
-    }
-  });
+    return () => watcher.close()
+  })
 
-  result[Key] = path;
+  result[Key] = path
 
   return result;
 }

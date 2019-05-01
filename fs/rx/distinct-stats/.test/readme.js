@@ -14,11 +14,11 @@ var Log = require('@Kingjs/rx.log')
 var Subject = require('@Kingjs/rx.subject')
 var DistinctStats = require('..')
 
-var TempFileName = 'file.txt';
+var TempFileName = 'file.txt'
 
-var result = [];
+var result = []
 
-var subject = new Subject();
+var subject = new Subject()
 var stats = subject
   [DistinctStats](TempFileName)
 
@@ -27,7 +27,7 @@ stats
     // assert Key looks like a stats.ino
     o => {
       assert(is.number(o[Key]))
-      assert(path.basename(o.path) == TempFileName);
+      assert(path.basename(o.path) == TempFileName)
     }
   )
   [Select](o => o
@@ -62,26 +62,26 @@ stats
   })
   [Subscribe]()
 
-var t = 0;
-var dt = 10;
+var t = 0
+var dt = 10
 
 setTimeout(() => {
   fs.writeFileSync(TempFileName)
   subject[Next]()
-}, t += dt);
+}, t += dt)
 
 setTimeout(() => {
   fs.writeFileSync(TempFileName)
   subject[Next]()
   subject[Next]()
-}, t += dt);
+}, t += dt)
 
 setTimeout(() => {
   fs.unlinkSync(TempFileName)
   fs.writeFileSync(TempFileName)
   subject[Next]()
-}, t += dt);
+}, t += dt)
 
 setTimeout(() => {
   subject[Complete]()
-}, t += dt);
+}, t += dt)

@@ -16,7 +16,7 @@ watchMany('.')
   [Subscribe](
     iNode => {
       var path = iNode.path
-      var name = Path.relative(cwd, path)
+      var name = path ? Path.relative(cwd, path) : '?'
       var id = iNode[Key]
       console.log('LINK', name, id)
 
@@ -40,7 +40,8 @@ watchMany(root, dirFilter(name, dir))
 - `dirFilter`: A callback to filter whether a subdirectory should be watched.
   - `name`: The name of the sub-directory.
   - `dir`: The directory containing the sub-directory.
-  - Returns an `IObservable` that emits events for variousfile and directory events.
+  - Returns an `IObservable` that emits events for various
+file and directory events.
 
 
 
@@ -58,11 +59,12 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/linq.order-by`](https://www.npmjs.com/package/@kingjs/linq.order-by)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
+|[`@kingjs/rx.finalize`](https://www.npmjs.com/package/@kingjs/rx.finalize)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
-|[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
+|[`@kingjs/rx.pipe`](https://www.npmjs.com/package/@kingjs/rx.pipe)|`latest`|
 |[`@kingjs/rx.publish`](https://www.npmjs.com/package/@kingjs/rx.publish)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 |[`@kingjs/rx.take`](https://www.npmjs.com/package/@kingjs/rx.take)|`latest`|

@@ -14,11 +14,12 @@ exports['@kingjs'] = {
     makeAbsolute: require('@kingjs/path.make-absolute'),
   },
   rx: {
+    Finalize: require('@kingjs/rx.finalize'),
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
     IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
     Log: require('@kingjs/rx.log'),
-    Pool: require('@kingjs/rx.pool'),
+    Pipe: require('@kingjs/rx.pipe'),
     Publish: require('@kingjs/rx.publish'),
     SelectMany: require('@kingjs/rx.select-many'),
     Take: require('@kingjs/rx.take'),
