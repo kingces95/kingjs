@@ -6,26 +6,14 @@ exports['@kingjs'] = {
       watch: require('@kingjs/fs.rx.watch'),
     },
   },
-  linq: {
-    OrderBy: require('@kingjs/linq.order-by'),
-    ZipJoin: require('@kingjs/linq.zip-join'),
-  },
-  path: {
-    makeAbsolute: require('@kingjs/path.make-absolute'),
-  },
   rx: {
     Finalize: require('@kingjs/rx.finalize'),
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
     IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
     Log: require('@kingjs/rx.log'),
-    Pipe: require('@kingjs/rx.pipe'),
     Publish: require('@kingjs/rx.publish'),
     SelectMany: require('@kingjs/rx.select-many'),
-    Take: require('@kingjs/rx.take'),
   },
-  TaskPool: require('@kingjs/task-pool'),
 }
-exports['deepEqual'] = require('deep-equal')
-exports['fs'] = require('fs')
 exports['path'] = require('path')

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.rx.watch-many",
   "version": "1.0.0",
-  "description": "Watch a for file and directory events in a directory and all its descendent directories.",
+  "description": "Watches for changes is a directory and its subdirectory.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -21,23 +21,15 @@
     "@kingjs/fs.rx.dir-entries": "latest",
     "@kingjs/fs.rx.distinct-stats": "latest",
     "@kingjs/fs.rx.watch": "latest",
-    "@kingjs/linq.order-by": "latest",
-    "@kingjs/linq.zip-join": "latest",
-    "@kingjs/path.make-absolute": "latest",
     "@kingjs/rx.finalize": "latest",
     "@kingjs/rx.i-grouped-observable": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.log": "latest",
-    "@kingjs/rx.pipe": "latest",
     "@kingjs/rx.publish": "latest",
-    "@kingjs/rx.select-many": "latest",
-    "@kingjs/rx.take": "latest",
-    "@kingjs/task-pool": "latest",
-    "deep-equal": "latest"
+    "@kingjs/rx.select-many": "latest"
   },
   "nodeDependencies": [
-    "fs",
     "path"
   ]
 }

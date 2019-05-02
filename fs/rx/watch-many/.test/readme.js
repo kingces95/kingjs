@@ -8,7 +8,7 @@ var Log = require('@kingjs/rx.log')
 var changeId = 0
 var cwd = process.cwd()
 
-watchMany('.')
+watchMany()
   [Subscribe](
     iNode => {
       var path = iNode.path

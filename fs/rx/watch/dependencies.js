@@ -3,9 +3,9 @@ exports['@kingjs'] = {
     makeAbsolute: require('@kingjs/path.make-absolute'),
   },
   rx: {
-    IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
+    create: require('@kingjs/rx.create'),
+    IObservable: require('@kingjs/rx.i-observable'),
     IObserver: require('@kingjs/rx.i-observer'),
-    Subject: require('@kingjs/rx.subject'),
   },
 }
 exports['fs'] = require('fs')

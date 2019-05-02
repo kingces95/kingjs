@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[watch-many][ns2]
-Watch a for file and directory events in a directory and all its descendent directories.
+Watches for changes is a directory and its subdirectory.
 ## Usage
 ```js
 require('@kingjs/shim')
@@ -12,7 +12,7 @@ var Log = require('@kingjs/rx.log')
 var changeId = 0
 var cwd = process.cwd()
 
-watchMany('.')
+watchMany()
   [Subscribe](
     iNode => {
       var path = iNode.path
@@ -32,16 +32,14 @@ watchMany('.')
 
 ## API
 ```ts
-watchMany(root, dirFilter(name, dir))
+watchMany([selector[, dir[, observer[, options]]]])
 ```
 
 ### Parameters
-- `root`: The root directory to start watching
-- `dirFilter`: A callback to filter whether a subdirectory should be watched.
-  - `name`: The name of the sub-directory.
-  - `dir`: The directory containing the sub-directory.
-  - Returns an `IObservable` that emits events for various
-file and directory events.
+- `selector`: Returns an `IObservable` whose emissions result in reporting any changes to directory content.
+- `dir`: The directory to watch. Defaults to current directory.
+- `observer`: An `IObservable` whose completion signals the directory should no longer be observed.
+- `options`: Options for filtering which directories .
 
 
 
@@ -56,20 +54,13 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/fs.rx.dir-entries`](https://www.npmjs.com/package/@kingjs/fs.rx.dir-entries)|`latest`|
 |[`@kingjs/fs.rx.distinct-stats`](https://www.npmjs.com/package/@kingjs/fs.rx.distinct-stats)|`latest`|
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
-|[`@kingjs/linq.order-by`](https://www.npmjs.com/package/@kingjs/linq.order-by)|`latest`|
-|[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
-|[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/rx.finalize`](https://www.npmjs.com/package/@kingjs/rx.finalize)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
-|[`@kingjs/rx.pipe`](https://www.npmjs.com/package/@kingjs/rx.pipe)|`latest`|
 |[`@kingjs/rx.publish`](https://www.npmjs.com/package/@kingjs/rx.publish)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
-|[`@kingjs/rx.take`](https://www.npmjs.com/package/@kingjs/rx.take)|`latest`|
-|[`@kingjs/task-pool`](https://www.npmjs.com/package/@kingjs/task-pool)|`latest`|
-|[`deep-equal`](https://www.npmjs.com/package/deep-equal)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/watch-many
 ## License

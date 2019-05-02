@@ -5,47 +5,54 @@ Watch a path.
 var assert = require('assert')
 var fs = require('fs')
 var ToPromise = require('@kingjs/rx.to-promise')
+var Subject = require('@kingjs/rx.subject')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Complete } = require('@Kingjs/rx.i-observer')
 var watch = require('@kingjs/fs.rx.watch')
 
 var fileName = 'temp'
 
-var subject = watch()
+var subject = new Subject()
 
-subject
+var result = [];
+watch('.', subject)
   [Subscribe](
-    () => console.log('next'),
-    () => console.log('complete')
+    () => result.push('next'),
+    () => result.push('complete')
   )
 
 setTimeout(() => {
-  console.log('add')
+  result.push('add')
   fs.writeFileSync(fileName)
 
   setTimeout(() => {
-    console.log('remove')
+    result.push('remove')
     fs.unlinkSync(fileName)
 
     setTimeout(() => {
-      console.log('stop')
+      result.push('stop')
       subject[Complete]()
-    }, 10)
-  }, 10)
-}, 10)
+
+      setTimeout(() => {
+        assert.deepEqual(result, [
+          'add', 'next', 'remove', 'next', 'stop', 'complete'
+        ])   })
+    }, 100)
+  }, 100)
+}, 100)
 ```
 
 ## API
 ```ts
-watch([path])
+watch([path[, observable]])
 ```
 
 ### Parameters
 - `path`: The path to watch. Default is the current working directory.
+- `observable`: An observable whose completion signals stop watching.
 ### Returns
-Returns a `Subject` which implements `IGroupedObservable` whose key is the absolute path being watched and which emits  when a change to the path is observed.
+Returns an `IObservable` that emits `null` whenever the content of the path changes.
 ### Remarks
- - Calling `Complete` on the subject stops the watcher.
  - The watcher keeps the process alive until completed.
 
 ## Install
@@ -57,9 +64,9 @@ $ npm install @kingjs/fs.rx.watch
 |Package|Version|
 |---|---|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
-|[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
+|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
+|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/watch
 ## License

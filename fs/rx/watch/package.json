@@ -19,9 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/path.make-absolute": "latest",
-    "@kingjs/rx.i-grouped-observable": "latest",
-    "@kingjs/rx.i-observer": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "fs"

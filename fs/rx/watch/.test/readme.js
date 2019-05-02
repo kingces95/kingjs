@@ -1,31 +1,38 @@
 var assert = require('assert')
 var fs = require('fs')
 var ToPromise = require('@kingjs/rx.to-promise')
+var Subject = require('@kingjs/rx.subject')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Complete } = require('@Kingjs/rx.i-observer')
 var watch = require('..')
 
 var fileName = 'temp'
 
-var subject = watch()
+var subject = new Subject()
 
-subject
+var result = [];
+watch('.', subject)
   [Subscribe](
-    () => console.log('next'),
-    () => console.log('complete')
+    () => result.push('next'),
+    () => result.push('complete')
   )
 
 setTimeout(() => {
-  console.log('add')
+  result.push('add')
   fs.writeFileSync(fileName)
 
   setTimeout(() => {
-    console.log('remove')
+    result.push('remove')
     fs.unlinkSync(fileName)
 
     setTimeout(() => {
-      console.log('stop')
+      result.push('stop')
       subject[Complete]()
-    }, 10)
-  }, 10)
-}, 10)
+
+      setTimeout(() => {
+        assert.deepEqual(result, [
+          'add', 'next', 'remove', 'next', 'stop', 'complete'
+        ])   })
+    }, 100)
+  }, 100)
+}, 100)

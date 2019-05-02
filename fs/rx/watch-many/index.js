@@ -1,10 +1,6 @@
 var { 
-  deepEqual, 
-  fs: { promises: fsp }, 
   path: Path,
   ['@kingjs']: {
-    TaskPool,
-    path: { makeAbsolute },
     fs: { 
       rx: { 
         watch,
@@ -14,37 +10,39 @@ var {
     },
     rx: {
       Log,
-      Pipe,
-      Take,
       Publish,
       Finalize, 
       SelectMany, 
-      IObserver: { Next },
-      IObservable: { Subscribe },
+      IObservable,
       IObserver: { Next, Complete, Error },
-      IGroupedObservable: { Key },
+      IObservable: { Subscribe },
+      IGroupedObservable: { Key }
     },
-    linq: { ZipJoin, OrderBy },
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var SelectName = o => o.name;
-var DefaultDirFilter = () => true;
-var DefaultRoot = '.';
-var DebounceMs = 100;
+var SelectName = o => o.name
+var DefaultDirFilter = () => true
+var DefaultRoot = '.'
+var DebounceMs = 100
 
-var WithFileTypes = { withFileTypes: true };
-var Unlink = 'unlink';
-var Link = 'link';
-var Change = 'change';
+var WithFileTypes = { withFileTypes: true }
+var Unlink = 'unlink'
+var Link = 'link'
+var Change = 'change'
+
+var DefaultSelector = watch
+var DefaultDir = '.'
 
 /**
- * @description Watch a for file and directory events in a directory
- * and all its descendent directories.
+ * @description Watches for changes is a directory and its subdirectory.
  * 
- * @param root The root directory to start watching
- * @param {*} dirFilter A callback to filter whether a subdirectory
- * should be watched.
+ * @param [selector] Returns an `IObservable` whose emissions result in
+ * reporting any changes to directory content.
+ * @param [dir] The directory to watch. Defaults to current directory.
+ * @param [observer] An `IObservable` whose completion signals the directory
+ * should no longer be observed. 
+ * @param [options] Options for filtering which directories .
  * 
  * @callback dirFilter
  * @param name The name of the sub-directory.
@@ -54,32 +52,21 @@ var Change = 'change';
  * file and directory events.
  */
 function watchMany(
-  dir = DefaultRoot, 
-  dirFilter = DefaultDirFilter) {
+  selector = DefaultSelector,
+  dir = DefaultDir, 
+  observer) {
 
-  var watcher = watch(dir)
-  var stats = watcher
+  return selector(dir, observer)
     [Publish](null)
     [DirEntries](dir)
     [SelectMany](o => o
       [DistinctStats](Path.join(dir, o[Key]))
       [SelectMany](
-        o => o
-          [Take](0)
-          [Pipe](watchMany(o.path, dirFilter)),
+        x => watchMany(selector, x.path, x),
         (o, x) => x,
         o => !o.isDirectory
       )
     )
-
-  return {
-    dir,
-    [Next]: o => watcher[Next](o),
-    [Complete]: () => watcher[Complete](dir),
-    [Error]: e => watcher[Error](e),
-
-    [Subscribe]: o => stats[Subscribe](o),
-  }
 }
 
 module.exports = watchMany;
