@@ -3,7 +3,7 @@ var fs = require('fs')
 var ToPromise = require('@kingjs/rx.to-promise')
 var Subject = require('@kingjs/rx.subject')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Complete } = require('@Kingjs/rx.i-observer')
+var { Complete } = require('@kingjs/rx.i-observer')
 var watch = require('..')
 
 var fileName = 'temp'

@@ -50,12 +50,16 @@ function watch(
     observable[Subscribe](null, dispose, dispose)
 
   return create(observer => {
-    watcher.on(Event.Change, () => observer[Next]())
+    watcher.on(Event.Change, 
+      () => observer[Next]()
+    )
     watcher.on(Event.Close, () => {
       watcher.removeAllListeners();
       observer[Complete]()
     })
-    watcher.on(Event.Error, e => observer[Error](e))
+    watcher.on(Event.Error, 
+      e => observer[Error](e)
+    )
   })
 }
 
