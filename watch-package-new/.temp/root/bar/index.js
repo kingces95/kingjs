@@ -4,5 +4,4 @@
  * @param arg1 Arg1 is very nice, too.
  */
 function foo(arg0, arg1) {
-
 }

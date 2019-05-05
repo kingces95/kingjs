@@ -36,7 +36,7 @@ watchMany([selector[, dir[, observer[, options]]]])
 ```
 
 ### Parameters
-- `selector`: Returns an `IObservable` whose emissions result in reporting any changes to directory content.
+- `selector`: Returns an `IObservable` whose emissions trigger the reporting changes to the content of `dir`.
 - `dir`: The directory to watch. Defaults to current directory.
 - `observer`: An `IObservable` whose completion signals the directory should no longer be observed.
 - `options`: Options for filtering which directories .

@@ -37,8 +37,8 @@ var DefaultDir = '.'
 /**
  * @description Watches for changes is a directory and its subdirectory.
  * 
- * @param [selector] Returns an `IObservable` whose emissions result in
- * reporting any changes to directory content.
+ * @param [selector] Returns an `IObservable` whose emissions trigger the
+ * reporting changes to the content of `dir`.
  * @param [dir] The directory to watch. Defaults to current directory.
  * @param [observer] An `IObservable` whose completion signals the directory
  * should no longer be observed. 
@@ -64,7 +64,7 @@ function watchMany(
       [SelectMany](
         x => watchMany(selector, x.path, x),
         (o, x) => x,
-        o => !o.isDirectory
+        x => !x.isDirectory
       )
     )
 }

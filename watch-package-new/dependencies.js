@@ -10,8 +10,11 @@ exports['@kingjs'] = {
   },
   rx: {
     Debounce: require('@kingjs/rx.debounce'),
+    DistinctUntilChanged: require('@kingjs/rx.distinct-until-changed'),
+    Do: require('@kingjs/rx.do'),
     GroupBy: require('@kingjs/rx.group-by'),
     IObservable: require('@kingjs/rx.i-observable'),
+    Pool: require('@kingjs/rx.pool'),
     Select: require('@kingjs/rx.select'),
     SelectMany: require('@kingjs/rx.select-many'),
     Spy: require('@kingjs/rx.spy'),

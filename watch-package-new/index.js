@@ -1,6 +1,7 @@
 var {
   assert,
   fs,
+  fs: { promises: fsp }, 
   path: Path,
   ['@kingjs']: {
     shim,
@@ -12,6 +13,9 @@ var {
     },
     rx: {
       Spy,
+      Pool,
+      Do,
+      DistinctUntilChanged,
       Select,
       SelectMany,
       Where,
@@ -52,6 +56,8 @@ var DotDirGlob = [
   /(^|[\/\\])\../
 ];
 
+process.chdir('.temp/root');
+
 var cwd = process.cwd();
 console.log('watching:', cwd)
 
@@ -82,32 +88,70 @@ console.log('watching:', cwd)
  * are watched for that package. 
  **/
 var watcher = watchMany()
+  [Do](o => {
+    o.dir = Path.dirname(o.path)
+    o.relPath = Path.relative(cwd, o.path)
+    o.basename = Path.basename(o.path)
+  })
 
 watcher
-  [Where](
-    o => Path.basename(o.path) == 'package.json'
-  )
-  [Subscribe](o => {
-    var path = Path.relative(cwd, o.path)
-    var dir = Path.dirname(o.path)
-
-    o => console.log('watching', path)
-
-    o[Subscribe](
-      x => {
-        var { 
-          files: files, 
-          scripts: { [Task]: task } 
-        } = parsePackage(o.path)
-
-        var files = npmPacklist.sync({ path: dir })
-
-        console.log('  ', path, '=>', task)
-        console.log('  ', path, '=>', `{ files: [${files}] }`)
-      },
-      () => console.log('  ', path, '=>')
+  [Where](o => o.basename == 'package.json')
+  [Do](o => console.log('+', o.relPath))
+  [Subscribe](o => o
+    [Pool](() => refresh(o))
+    [DistinctUntilChanged](() => ({ 
+      files: o.files, 
+      task: o.task 
+    }))
+    [Do](
+      () => console.log('Δ', o.relPath, '=>', o.task),
+      () => console.log('-', o.relPath)
     )
-  })
+    [Subscribe](() => watchMany()
+      [Do](o => {
+        o.dir = Path.dirname(o.path)
+        o.relPath = Path.relative(cwd, o.path)
+        o.basename = Path.basename(o.path)
+      })
+      [Where](
+        x => x.dir.startsWith(o.dir)
+      )
+      [SelectMany](
+        x => x, 
+        (x, y) => x.relPath
+      )
+      [Subscribe](x => console.log('Δ', x))
+    )
+  )
+
+/**
+ * @description Update `files` and `task` properties on the `IObservable`
+ * watching for changes to the `project.json` file.
+ * 
+ * @param o The `IObservable` reporting changes to project files.
+ */
+async function refresh(o) {
+  try {
+    o.files = null
+    o.task = null
+
+    // refresh `files` and `task` in parallel
+    await Promise.all([
+      fsp.readFile(o.path).then(x => {
+        var json = JSON.parse((x))
+        o.task = json.scripts ? json.scripts[Task] : null
+      }),
+      npmPacklist({ path: o.dir }).then(
+        x => o.files = x
+      )
+    ])
+  } 
+  catch(e) {
+    console.log('!', o.relPath, { error: e })
+  }
+
+  return o;
+}
 
 return
 
@@ -197,32 +241,6 @@ packages.subscribe(o => {
   }, DebounceMs);
   ;
 });
-
-function parsePackage(path) {
-  try {
-    var json = JSON.parse(fs.readFileSync(path));
-
-    if (!json)
-      return EmptyPackage;
-
-    if (!is.array(json.files))
-      return EmptyPackage;
-
-    if (!json.scripts)
-      return EmptyPackage;
-
-    return json;
-  } catch (e) {
-    return EmptyPackage
-  }
-}
-
-function log(level) {
-  if (level > LogLevel)
-    return;
-  level = ''.padStart(level * 2, ' ');
-  console.log.apply(this, arguments);
-}
 
 function exec(dir, cmd) {
   try {
