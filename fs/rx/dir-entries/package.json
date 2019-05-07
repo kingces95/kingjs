@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.rx.dir-entries",
   "version": "1.0.0",
-  "description": "For each emission reads a `dirEntry` array for `dir` and emits a `IGroupedObservable` for each named entry found which then emits its `dirEntry` or `complete` if the `dirEntry` unlinks.",
+  "description": "For each observation, emits many `IGroupObservable`s, one for each directory entry with `Key` equal to the entry name and which itself emits once per observation and completes when the entry is unlinked.",
   "main": "index.js",
   "files": [
     "*.js"

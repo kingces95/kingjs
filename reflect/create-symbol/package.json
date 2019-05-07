@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/reflect.export-extension",
+  "name": "@kingjs/reflect.create-symbol",
   "version": "1.0.3",
-  "description": "Extend a type with a property and return a symbol whose debug name is derived from the module hosting the extension.",
+  "description": "Creates a symbol with a debug string derived from the module name.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -12,15 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/reflect/export-extension"
+    "url": "https://repository.kingjs.net/reflect/create-symbol"
   },
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "@kingjs/reflect.create-symbol": "latest",
-    "@kingjs/reflect.define-property": "latest"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@kingjs/assert-shimmed": "^1.0.1",
     "@kingjs/i-enumerable": "^1.0.6",

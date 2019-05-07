@@ -54,11 +54,9 @@ $ npm install @kingjs/fs.rx.watch-many
 |[`@kingjs/fs.rx.dir-entries`](https://www.npmjs.com/package/@kingjs/fs.rx.dir-entries)|`latest`|
 |[`@kingjs/fs.rx.distinct-stats`](https://www.npmjs.com/package/@kingjs/fs.rx.distinct-stats)|`latest`|
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
-|[`@kingjs/rx.finalize`](https://www.npmjs.com/package/@kingjs/rx.finalize)|`latest`|
+|[`@kingjs/reflect.create-symbol`](https://www.npmjs.com/package/@kingjs/reflect.create-symbol)|`latest`|
+|[`@kingjs/rx.do`](https://www.npmjs.com/package/@kingjs/rx.do)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
-|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
-|[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
-|[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
 |[`@kingjs/rx.publish`](https://www.npmjs.com/package/@kingjs/rx.publish)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 ## Source

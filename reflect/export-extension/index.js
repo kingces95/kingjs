@@ -1,11 +1,13 @@
 var {
   ['@kingjs']: {
-    reflect: { defineProperty }
+    reflect: { 
+      defineProperty,
+      createSymbol
+    }
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var PackageJson = './package.json';
-var Exports = 'exports';
+var Exports = 'exports'
 
 /**
  * @description Extend a type with a property and return a symbol
@@ -25,15 +27,14 @@ var Exports = 'exports';
  * `@kingjs/reflect.define-property`
  */
 function exportExtension(module, type, descriptor) {
-  var { name, version } = module.require(PackageJson);
-  var symbol = Symbol(`${name}, ${version}`);
+  var symbol = createSymbol(module)
 
-  var { descriptor } = defineProperty(null, symbol, descriptor);
-  descriptor.extends = () => type;
-  defineProperty(Object.prototype, symbol, descriptor);
+  var { descriptor } = defineProperty(null, symbol, descriptor)
+  descriptor.extends = () => type
+  defineProperty(Object.prototype, symbol, descriptor)
 
-  defineProperty(module, Exports, symbol);
-  return symbol;
+  defineProperty(module, Exports, symbol)
+  return symbol
 }
 
-module.exports = exportExtension;
+module.exports = exportExtension

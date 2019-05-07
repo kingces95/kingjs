@@ -6,12 +6,12 @@ exports['@kingjs'] = {
       watch: require('@kingjs/fs.rx.watch'),
     },
   },
+  reflect: {
+    createSymbol: require('@kingjs/reflect.create-symbol'),
+  },
   rx: {
-    Finalize: require('@kingjs/rx.finalize'),
+    Do: require('@kingjs/rx.do'),
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
-    IObservable: require('@kingjs/rx.i-observable'),
-    IObserver: require('@kingjs/rx.i-observer'),
-    Log: require('@kingjs/rx.log'),
     Publish: require('@kingjs/rx.publish'),
     SelectMany: require('@kingjs/rx.select-many'),
   },

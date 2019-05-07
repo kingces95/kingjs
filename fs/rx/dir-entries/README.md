@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[dir-entries][ns2]
-For each emission reads a `dirEntry` array for `dir` and emits a `IGroupedObservable` for each named entry found which then emits its `dirEntry` or `complete` if the `dirEntry` unlinks.
+For each observation, emits many `IGroupObservable`s, one for each directory entry with `Key` equal to the entry name and which itself emits once per observation and completes when the entry is unlinked.
 ## Usage
 ```js
 require('@kingjs/shim')
@@ -63,7 +63,7 @@ dirEntries([dir])
 ### Parameters
 - `dir`: The dir whose `dirEntry`s are grouped and reported for every source emission.
 ### Returns
-Returns a `IObservable` which emits `IGroupedObservable`s with the entry name for `Key` and which for each source emission report the `dirEntry` or `complete` if the `dirEntry` unlinks.
+Returns a `IObservable` which emits `IGroupedObservable`s with the entry name for `Key` and which for each source emission emits `null` or `complete` if the `dirEntry` unlinks.
 ### Remarks
  - If a source emission is observed before the `dirEntry`s for the previous emission has been read and reported, then the emission is queued. Source emissions beyond that are dropped.
  - Promise will need to be shimmed to implement `IObservable`

@@ -1,9 +1,9 @@
-var assert = require('assert');
-var exportExtension = require('..');
-var IIterable = require('@kingjs/i-iterable');
+var assert = require('assert')
+var exportExtension = require('..')
+var IIterable = require('@kingjs/i-iterable')
 
 // Assume the package is `@kingjs/ex` with version `1.0.0`.
-var name = 'Symbol(@kingjs/ex, 1.0.0)';
+var name = 'Symbol(@kingjs/ex, 1.0.0)'
 
 /**
  * Export an extension `Rename` on Function that renames the
@@ -18,13 +18,13 @@ var Rename = exportExtension(
     )
   }
 )
-assert(module.exports == Rename);
-assert(Rename.toString() == name);
-//assert(Function.prototype[Rename].name == name);
+assert(module.exports == Rename)
+assert(Rename.toString() == name)
+//assert(Function.prototype[Rename].name == name)
 
 function foo() { }
-foo[Rename]('bar');
-assert(foo.name == 'bar');
+foo[Rename]('bar')
+assert(foo.name == 'bar')
 
 /**
  * Export an extension `Rename` on Function that renames the
@@ -42,8 +42,8 @@ var Rename = exportExtension(
   }
 )
 function foo() { }
-foo[Rename] = 'bar';
-assert(foo.name == 'bar');
+foo[Rename] = 'bar'
+assert(foo.name == 'bar')
 
 /**
  * Export an extension on Any() IIterable which is an Interface
@@ -53,9 +53,9 @@ var Any = exportExtension(
   module,
   IIterable,
   function() {
-    var iterator = this[Symbol.iterator]();
-    iterator = iterator.next();
-    return !iterator.done;
+    var iterator = this[Symbol.iterator]()
+    iterator = iterator.next()
+    return !iterator.done
   }
 )
 
@@ -72,19 +72,19 @@ assert([ 0 ][Any]() == true)
  * also implement IEnumerable which allows for extending
  * IEnumerable to implement `None` like this:
  */
-var IEnumerable = require('@kingjs/i-enumerable');
-var IEnumerator = require('@kingjs/i-enumerator');
+var IEnumerable = require('@kingjs/i-enumerable')
+var IEnumerator = require('@kingjs/i-enumerator')
 var None = exportExtension(
   module,
   IEnumerable,
   function() {
-    var enumerator = this[IEnumerable.getEnumerator]();
-    return !enumerator[IEnumerator.moveNext]();
+    var enumerator = this[IEnumerable.getEnumerator]()
+    return !enumerator[IEnumerator.moveNext]()
   }
 )
 
-require('kingjs');
-require('@kingjs/assert-shimmed');
+require('@kingjs/shim')
+require('@kingjs/assert-shimmed')
 
 // string implements IEnumerable when shimmed
 assert(''[None]() == true)

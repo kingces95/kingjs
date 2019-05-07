@@ -123,8 +123,8 @@ $ npm install @kingjs/reflect.export-extension
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/i-interface`](https://www.npmjs.com/package/@kingjs/i-interface)|`^1.0.3`|
-|[`@kingjs/reflect.define-property`](https://www.npmjs.com/package/@kingjs/reflect.define-property)|`^1.0.0`|
+|[`@kingjs/reflect.create-symbol`](https://www.npmjs.com/package/@kingjs/reflect.create-symbol)|`latest`|
+|[`@kingjs/reflect.define-property`](https://www.npmjs.com/package/@kingjs/reflect.define-property)|`latest`|
 ## Source
 https://repository.kingjs.net/reflect/export-extension
 ## License

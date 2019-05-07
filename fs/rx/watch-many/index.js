@@ -9,30 +9,18 @@ var {
       } 
     },
     rx: {
-      Log,
+      Do,
       Publish,
-      Finalize, 
       SelectMany, 
-      IObservable,
-      IObserver: { Next, Complete, Error },
-      IObservable: { Subscribe },
       IGroupedObservable: { Key }
     },
+    reflect: { createSymbol }
   }
 } = require('./dependencies')
 
-var SelectName = o => o.name
-var DefaultDirFilter = () => true
-var DefaultRoot = '.'
-var DebounceMs = 100
-
-var WithFileTypes = { withFileTypes: true }
-var Unlink = 'unlink'
-var Link = 'link'
-var Change = 'change'
-
 var DefaultSelector = watch
 var DefaultDir = '.'
+var Dir = createSymbol(module, 'dir')
 
 /**
  * @description Watches for changes is a directory and its subdirectory.
@@ -56,17 +44,28 @@ function watchMany(
   dir = DefaultDir, 
   observer) {
 
-  return selector(dir, observer)
+  var result = selector(dir, observer)
     [Publish](null)
     [DirEntries](dir)
-    [SelectMany](o => o
-      [DistinctStats](Path.join(dir, o[Key]))
-      [SelectMany](
-        x => watchMany(selector, x.path, x),
-        (o, x) => x,
-        x => !x.isDirectory
+    [SelectMany](entry => entry
+      [DistinctStats](Path.join(dir, entry[Key]))
+      [PublishTree](
+        o => !o.isDirectory, 
+        o => watchMany(selector, o.path, o)
       )
+      // [SelectMany](
+      //   x => watchMany(selector, x.path, x),
+      //   (o, x) => {
+      //     if (!x.dir)
+      //       x.dir = result
+      //     return x
+      //   },
+      //   x => !x.isDirectory
+      // )
+      //[Do](o => o.dir = result)
     )
+
+  return result
 }
 
-module.exports = watchMany;
+module.exports = watchMany
