@@ -12,22 +12,17 @@ var {
       }
     },
     rx: {
-      Spy,
       Pool,
       Do,
       DistinctUntilChanged,
-      Select,
       SelectMany,
       Where,
-      GroupBy,
       SelectMany,
-      Debounce,
       IObservable: { Subscribe }
     },
     reflect: { is } 
   },
-  npmPacklist,
-  deepEquals,
+  minimatch,
   shelljs,
   rxjs: { Observable, Subject, merge }
 } = require('./dependencies');
@@ -87,40 +82,40 @@ console.log('watching:', cwd)
  * in the `package.json`. If `files` is not specified, then no files 
  * are watched for that package. 
  **/
-var watcher = watchMany()
+watchMany()
   [Do](o => {
     o.dir = Path.dirname(o.path)
     o.relPath = Path.relative(cwd, o.path)
     o.basename = Path.basename(o.path)
-  })
-
-watcher
+  })  
   [Where](o => o.basename == 'package.json')
   [Do](o => console.log('+', o.relPath))
-  [Subscribe](o => o
-    [Pool](() => refresh(o))
-    [DistinctUntilChanged](() => ({ 
-      files: o.files, 
-      task: o.task 
+  [Subscribe](p => p
+    [Pool](() => parsePackage(p))
+    [DistinctUntilChanged](() => ({
+      task: p.task,
+      files: p.files
     }))
     [Do](
-      () => console.log('Δ', o.relPath, '=>', o.task),
-      () => console.log('-', o.relPath)
+      o => {
+        console.log('Δ', p.relPath, '=>', p.task)
+        o.fileRegex = o.files.map(x => minimatch.makeRe(x))
+      },
+      () => console.log('-', p.relPath)
     )
-    [Subscribe](() => watchMany()
+    [Subscribe](() => watchMany(p.dir)
       [Do](o => {
         o.dir = Path.dirname(o.path)
         o.relPath = Path.relative(cwd, o.path)
+        o.projectPath = Path.relative(p.dir, o.path)
         o.basename = Path.basename(o.path)
       })
       [Where](
-        x => x.dir.startsWith(o.dir)
+        o => p.fileRegex.some(x => x.test(o.projectPath))
       )
-      [SelectMany](
-        x => x, 
-        (x, y) => x.relPath
+      [Subscribe](
+        o => console.log('', '+', o.relPath, `(${o.projectPath})`)
       )
-      [Subscribe](x => console.log('Δ', x))
     )
   )
 
@@ -130,21 +125,12 @@ watcher
  * 
  * @param o The `IObservable` reporting changes to project files.
  */
-async function refresh(o) {
+async function parsePackage(o) {
   try {
-    o.files = null
     o.task = null
-
-    // refresh `files` and `task` in parallel
-    await Promise.all([
-      fsp.readFile(o.path).then(x => {
-        var json = JSON.parse((x))
-        o.task = json.scripts ? json.scripts[Task] : null
-      }),
-      npmPacklist({ path: o.dir }).then(
-        x => o.files = x
-      )
-    ])
+    var json = JSON.parse(await fsp.readFile(o.path))
+    o.task = json.scripts ? json.scripts[Task] : null
+    o.files = json.files
   } 
   catch(e) {
     console.log('!', o.relPath, { error: e })

@@ -40,8 +40,8 @@ var Dir = createSymbol(module, 'dir')
  * file and directory events.
  */
 function watchMany(
-  selector = DefaultSelector,
   dir = DefaultDir, 
+  selector = DefaultSelector,
   observer) {
 
   var result = selector(dir, observer)
@@ -49,20 +49,11 @@ function watchMany(
     [DirEntries](dir)
     [SelectMany](entry => entry
       [DistinctStats](Path.join(dir, entry[Key]))
-      [PublishTree](
-        o => !o.isDirectory, 
-        o => watchMany(selector, o.path, o)
+      [SelectMany](
+        x => watchMany(x.path, selector, x),
+        (o, x) => x,
+        x => !x.isDirectory
       )
-      // [SelectMany](
-      //   x => watchMany(selector, x.path, x),
-      //   (o, x) => {
-      //     if (!x.dir)
-      //       x.dir = result
-      //     return x
-      //   },
-      //   x => !x.isDirectory
-      // )
-      //[Do](o => o.dir = result)
     )
 
   return result

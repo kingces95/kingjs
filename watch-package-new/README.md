@@ -22,19 +22,14 @@ $ npm install @kingjs/watch-package-new
 |[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
 |[`@kingjs/fs.rx.watch-many`](https://www.npmjs.com/package/@kingjs/fs.rx.watch-many)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
-|[`@kingjs/rx.debounce`](https://www.npmjs.com/package/@kingjs/rx.debounce)|`latest`|
 |[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
 |[`@kingjs/rx.do`](https://www.npmjs.com/package/@kingjs/rx.do)|`latest`|
-|[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
-|[`@kingjs/rx.select`](https://www.npmjs.com/package/@kingjs/rx.select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
-|[`@kingjs/rx.spy`](https://www.npmjs.com/package/@kingjs/rx.spy)|`latest`|
 |[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
 |[`@kingjs/shim`](https://www.npmjs.com/package/@kingjs/shim)|`latest`|
-|[`deep-equals`](https://www.npmjs.com/package/deep-equals)|`latest`|
-|[`npm-packlist`](https://www.npmjs.com/package/npm-packlist)|`latest`|
+|[`minimatch`](https://www.npmjs.com/package/minimatch)|`latest`|
 |[`rxjs`](https://www.npmjs.com/package/rxjs)|`latest`|
 |[`shelljs`](https://www.npmjs.com/package/shelljs)|`latest`|
 ## Source

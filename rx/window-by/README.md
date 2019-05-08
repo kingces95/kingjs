@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[rx][ns0].[window-by][ns1]
-Returns an `IObservable` that emits another `IObservable`,  a 'window', that emits values with matching keys. If a new key is  observed, then the window is closed and another activated.
+Returns an `IObservable` that groups observations  with matching keys into 'windows' represented by an `IObservable`.  If a new key is observed, then any existing window is closed and  another activated.
 ## Usage
 ```js
 require('@kingjs/shim')

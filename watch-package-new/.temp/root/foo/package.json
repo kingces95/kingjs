@@ -4,8 +4,7 @@
   "description": "This becomes my package description when I save.",
   "main": "index.js",
   "files": [
-    "**/*.js",
-    "*.txt"
+    "**/*.js"
   ],
   "scripts": {
     "build": "cpk"

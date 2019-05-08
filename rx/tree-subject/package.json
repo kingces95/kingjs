@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/rx.window-by",
+  "name": "@kingjs/rx.tree-subject",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` that groups observations  with matching keys into 'windows' represented by an `IObservable`.  If a new key is observed, then any existing window is closed and  another activated.",
+  "description": "The Tree Subject.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,20 +13,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/window-by"
+    "url": "https://repository.kingjs.net/rx/tree-subject"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.i-grouped-observable": "latest",
+    "@kingjs/reflect.create-symbol": "latest",
+    "@kingjs/reflect.is": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.i-published-observable": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
-    "assert"
+    "assert",
+    "events"
   ],
   "capitalize": true
 }

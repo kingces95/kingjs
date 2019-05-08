@@ -75,16 +75,16 @@ function selectMany(
           () => {
             delete manyObservers[manyId]
             delete manyDisposes[manyId]
-            count--;
+            count--
             if (count)
-              return;
+              return
             observer[Complete]()
           },
           x => observer[Error](x)
         )
       },
       () => {
-        count--;
+        count--
         if (count)
           return
         observer[Complete]()

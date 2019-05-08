@@ -21,9 +21,10 @@ var DefaultResultSelector = (k, o) => o;
 var DefaultWindowActivator = k => new Subject();
 
 /**
- * @description Returns an `IObservable` that emits another `IObservable`, 
- * a 'window', that emits values with matching keys. If a new key is 
- * observed, then the window is closed and another activated. 
+ * @description Returns an `IObservable` that groups observations 
+ * with matching keys into 'windows' represented by an `IObservable`. 
+ * If a new key is observed, then any existing window is closed and 
+ * another activated. 
  * 
  * @this any The source `IObservable`.
  * 
