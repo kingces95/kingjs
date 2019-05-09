@@ -1,7 +1,7 @@
 var { 
   ['@kingjs']: {
     rx: { 
-      Spy,
+      Do,
       IObservable
     },
     reflect: { 
@@ -21,7 +21,7 @@ var {
  * `IObservable` modulo any side effects introduced by `callback`.
  */
 function finalize(callback) {
-  return this[Spy](null, callback, callback);
+  return this[Do](null, callback, callback);
 }
 
 exportExtension(module, IObservable, finalize);

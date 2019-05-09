@@ -11,7 +11,7 @@ var Subject = require('@kingjs/rx.subject');
 var of = require('@kingjs/rx.of');
 var SelectMany = require('@kingjs/rx.select-many');
 var Log = require('@kingjs/rx.log');
-var Spy = require('@kingjs/rx.spy');
+var Do = require('@kingjs/rx.do');
 var Finalize = require('@kingjs/rx.finalize');
 
 var result = []
@@ -20,14 +20,14 @@ var subjectId = 0;
 of(0, 1, 2, 3, 4, 5, 6, 7)
   [WindowBy](
     o => Math.floor(o / 3) % 2,
-    (key, value) => ({ key, value }),
-    key => {
+    (value, key) => ({ key, value }),
+    (value, key) => {
       var subject = new Subject()
       subject.id = subjectId++
       return subject
     }
   )
-  [Spy](
+  [Do](
     o => assert(o[Key] >= 0 && o [Key] < 3)
   )
   [SelectMany](o => o
@@ -104,6 +104,7 @@ $ npm install @kingjs/rx.window-by
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 |[`@kingjs/rx.i-published-observable`](https://www.npmjs.com/package/@kingjs/rx.i-published-observable)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+|[`deep-equals`](https://www.npmjs.com/package/deep-equals)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/window-by
 ## License

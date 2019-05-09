@@ -8,7 +8,7 @@ var Subject = require('@kingjs/rx.subject');
 var of = require('@kingjs/rx.of');
 var SelectMany = require('@kingjs/rx.select-many');
 var Log = require('@kingjs/rx.log');
-var Spy = require('@kingjs/rx.spy');
+var Do = require('@kingjs/rx.do');
 var Finalize = require('@kingjs/rx.finalize');
 
 var result = []
@@ -18,8 +18,8 @@ var subject = new Subject();
 var window = subject
   [WindowBy](
     o => Math.floor(o / 3) % 2,
-    (key, value) => ({ key, value }),
-    key => {
+    (value, key) => ({ key, value }),
+    (value, key) => {
       var subject = new Subject()
       subject.id = subjectId++
       return subject

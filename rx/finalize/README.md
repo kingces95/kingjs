@@ -68,8 +68,8 @@ $ npm install @kingjs/rx.finalize
 |Package|Version|
 |---|---|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.do`](https://www.npmjs.com/package/@kingjs/rx.do)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
-|[`@kingjs/rx.spy`](https://www.npmjs.com/package/@kingjs/rx.spy)|`latest`|
 ## Source
 https://repository.kingjs.net/rx/finalize
 ## License

@@ -2,7 +2,10 @@ var {
   assert,
   events: { EventEmitter },
   ['@kingjs']: { 
-    reflect: { is },
+    reflect: { 
+      is,
+      createSymbol
+    },
     rx: {
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error }
@@ -14,12 +17,18 @@ var NextEvent = 'next'
 var CompleteEvent = 'complete'
 var ErrorEvent = 'error'
 var SubscribeEvent = 'subscribe'
-var DisposedError = 'This subject has been disposed.'
+var DisposedException = 'This subject has been disposed.'
 
 var DefaultNext = x => undefined
 var DefaultComplete = () => undefined
 var DefaultOnSubscribe = x => undefined
 var throwNextTick = x => process.nextTick(() => { throw x })
+
+var Activate = createSymbol(module, 'activate')
+var Disposed = createSymbol(module, 'disposed')
+var Dispose = createSymbol(module, 'dispose')
+var Epitaph = createSymbol(module, 'epitaph')
+var Exception = createSymbol(module, 'exception')
 
 /**
  * @description The Subject.
@@ -35,12 +44,12 @@ class Subject extends EventEmitter {
     onSubscribe) {
 
     super()
-    this.activate = activate
+    this[Activate] = activate
     this.on(SubscribeEvent, onSubscribe)
   }
 
   assertCanEmit() { 
-    assert(!this.disposed, 'cannot emit') 
+    assert(!this[Disposed], 'cannot emit') 
   }
 
   on(name, listener) { if (listener) super.on(name, listener) }
@@ -54,15 +63,15 @@ class Subject extends EventEmitter {
   [Complete]() { 
     this.assertCanEmit() 
     super.emit(CompleteEvent) 
-    this.epitaph = Complete
-    this.disposed = true
+    this[Epitaph] = Complete
+    this[Disposed] = true
   }
   [Error](x) { 
     this.assertCanEmit() 
     super.emit(ErrorEvent, x) 
-    this.epitaph = Error
-    this.error = x
-    this.disposed = true
+    this[Epitaph] = Error
+    this[Exception] = x
+    this[Disposed] = true
   }
 
   // IObservable
@@ -112,7 +121,7 @@ class Subject extends EventEmitter {
     var unsubscribe = () => {
 
       // bail; never subscribed; epilog emission threw an exception
-      if (this.disposed)
+      if (this[Disposed])
         return
 
       this.off(NextEvent, tryNext)
@@ -123,28 +132,28 @@ class Subject extends EventEmitter {
         return
 
       // dispose
-      if (this.dispose)
-        this.dispose()
-      this.disposed = true
+      if (this[Dispose])
+        this[Dispose]()
+      this[Disposed] = true
 
-      if (this.epitaph)
+      if (this[Epitaph])
         return
 
       // ungraceful shutdown
-      this.epitaph = Error
-      this.error = DisposedError
+      this[Epitaph] = Error
+      this[Exception] = DisposedException
     }
 
-    if (this.disposed) {
+    if (this[Disposed]) {
       
       // error epilog
-      if (this.epitaph == Error) {
-        (error || throwNextTick)(this.error)
+      if (this[Epitaph] == Error) {
+        (error || throwNextTick)(this[Exception])
         return
       }
 
       // async epilog
-      assert(this.epitaph == Complete)
+      assert(this[Epitaph] == Complete)
       super.emit(SubscribeEvent, tryNext, true) 
       tryComplete()
       return
@@ -156,8 +165,8 @@ class Subject extends EventEmitter {
     this.on(ErrorEvent, tryError)
     super.emit(SubscribeEvent, tryNext, false)
 
-    if (this.activate && !this.dispose)
-      this.dispose = this.activate(this)
+    if (this[Activate] && !this[Dispose])
+      this[Dispose] = this[Activate](this)
 
     return unsubscribe
   }

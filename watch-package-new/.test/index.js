@@ -1,5 +1,7 @@
-var assert = require('assert')
 var minimatch = require('minimatch')
 
-var regex = minimatch.makeRe('**/*.js')
-assert(regex.test('bar.js'))
+var string = 'bar.js'
+var pattern = '**/*.js'
+
+console.log(minimatch.makeRe(pattern).test(string))
+console.log(minimatch(string, pattern))

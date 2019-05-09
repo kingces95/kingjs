@@ -1,5 +1,6 @@
 exports['@kingjs'] = {
   reflect: {
+    createSymbol: require('@kingjs/reflect.create-symbol'),
     is: require('@kingjs/reflect.is'),
   },
   rx: {

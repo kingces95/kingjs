@@ -45,8 +45,8 @@ function distinctStats(path) {
     [DistinctUntilChanged](o => o.ctime.getTime())      // where a change happened
     [WindowBy](
       o => o.ino,                                       // detects re-create and/or type change
-      (k, o) => o,
-      (k, o) => new StatSubject(path, o)
+      (o, k) => o,
+      (o, k) => new StatSubject(path, o)
     )                                                   
 
   return result;

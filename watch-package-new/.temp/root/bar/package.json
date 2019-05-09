@@ -1,18 +1,18 @@
 {
-  "name": "@kingjs/watch-package..temp.root.bar",
+  "name": "@kingjs/watch-package-new..temp.root.bar",
   "version": "1.0.0",
-  "description": "This becomes my package description when I save.",
+  "description": "This becomes my package description when I save?",
   "main": "index.js",
   "files": [
     "**/*.js",
     "*.txt"
   ],
   "scripts": {
-    "build": "cpk & cdj & crm"
+    "build": "cpk && cdj && crm"
   },
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/watch-package/.temp/root/bar"
+    "url": "https://repository.kingjs.net/watch-package-new/.temp/root/bar"
   }
 }

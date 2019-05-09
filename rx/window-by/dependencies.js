@@ -10,4 +10,5 @@ exports['@kingjs'] = {
     Subject: require('@kingjs/rx.subject'),
   },
 }
+exports['deepEquals'] = require('deep-equals')
 exports['assert'] = require('assert')

@@ -1,5 +1,6 @@
 var { 
   assert,
+  deepEquals,
   ['@kingjs']: {
     rx: { 
       Subject,
@@ -66,14 +67,14 @@ function windowBy(
       o => {
         var key = keySelector(o);
 
-        if (!window || key != window[Key]) {
+        if (!window || !deepEquals(key, window[Key])) {
 
           // complete the previous window!
           if (window)
             window[Complete]();
 
           // activate window
-          window = result[Value] = windowActivator(key, o);
+          window = result[Value] = windowActivator(o, key);
 
           // implement IGroupedObservable
           window[Key] = key; 
@@ -82,7 +83,7 @@ function windowBy(
           observer[Next](window);
         }
 
-        window[Next](resultSelector(key, o));
+        window[Next](resultSelector(o, key));
       },
       () => {
         if (window)

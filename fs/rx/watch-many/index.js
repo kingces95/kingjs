@@ -20,16 +20,16 @@ var {
 
 var DefaultSelector = watch
 var DefaultDir = '.'
-var Dir = createSymbol(module, 'dir')
+var DefaultObserver = null
 
 /**
  * @description Watches for changes is a directory and its subdirectory.
  * 
- * @param [selector] Returns an `IObservable` whose emissions trigger the
- * reporting changes to the content of `dir`.
  * @param [dir] The directory to watch. Defaults to current directory.
  * @param [observer] An `IObservable` whose completion signals the directory
  * should no longer be observed. 
+ * @param [selector] Returns an `IObservable` whose emissions trigger the
+ * reporting changes to the content of `dir`.
  * @param [options] Options for filtering which directories .
  * 
  * @callback dirFilter
@@ -40,17 +40,17 @@ var Dir = createSymbol(module, 'dir')
  * file and directory events.
  */
 function watchMany(
-  dir = DefaultDir, 
-  selector = DefaultSelector,
-  observer) {
+  dir = DefaultDir,
+  observable,
+  selector = DefaultSelector) {
 
-  var result = selector(dir, observer)
+  var result = selector(dir, observable)
     [Publish](null)
     [DirEntries](dir)
     [SelectMany](entry => entry
       [DistinctStats](Path.join(dir, entry[Key]))
       [SelectMany](
-        x => watchMany(x.path, selector, x),
+        x => watchMany(x.path, x, selector),
         (o, x) => x,
         x => !x.isDirectory
       )

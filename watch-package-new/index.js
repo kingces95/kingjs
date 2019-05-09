@@ -12,23 +12,28 @@ var {
       }
     },
     rx: {
-      Pool,
       Do,
-      DistinctUntilChanged,
-      SelectMany,
+      Pool,
+      Skip,
       Where,
+      Select,
+      Subject,
+      WindowBy,
+      Debounce,
       SelectMany,
-      IObservable: { Subscribe }
+      SelectMany,
+      DistinctUntilChanged,
+      IObservable: { Subscribe },
+      IGroupedObservable: { Key }
     },
     reflect: { is } 
   },
   minimatch,
   shelljs,
-  rxjs: { Observable, Subject, merge }
 } = require('./dependencies');
 
 var LogLevel = 2;
-var DebounceMs = 250;
+var DebounceMs = 150;
 var All = 'all';
 var Unlink = 'unlink';
 var UnlinkDir = 'unlinkDir';
@@ -86,38 +91,48 @@ watchMany()
   [Do](o => {
     o.dir = Path.dirname(o.path)
     o.relPath = Path.relative(cwd, o.path)
+    o.relDir = Path.relative(cwd, o.dir)
     o.basename = Path.basename(o.path)
-  })  
+  })
   [Where](o => o.basename == 'package.json')
   [Do](o => console.log('+', o.relPath))
-  [Subscribe](p => p
-    [Pool](() => parsePackage(p))
-    [DistinctUntilChanged](() => ({
-      task: p.task,
-      files: p.files
-    }))
+  [SelectMany](pkg => pkg
+    [Pool](o => getPackageInfo(pkg))
+    [WindowBy]()
     [Do](
-      o => {
-        console.log('Δ', p.relPath, '=>', p.task)
-        o.fileRegex = o.files.map(x => minimatch.makeRe(x))
-      },
-      () => console.log('-', p.relPath)
+      o => console.log('Δ', pkg.relPath, '=>', {
+        task: o[Key].task, 
+        files: o[Key].files
+      }),
+      () => console.log('-', pkg.relPath)
     )
-    [Subscribe](() => watchMany(p.dir)
+    [SelectMany](info => watchMany(pkg.dir, info)
       [Do](o => {
         o.dir = Path.dirname(o.path)
         o.relPath = Path.relative(cwd, o.path)
-        o.projectPath = Path.relative(p.dir, o.path)
+        o.projectPath = Path.relative(pkg.dir, o.path)
         o.basename = Path.basename(o.path)
       })
-      [Where](
-        o => p.fileRegex.some(x => x.test(o.projectPath))
-      )
-      [Subscribe](
-        o => console.log('', '+', o.relPath, `(${o.projectPath})`)
+      [Where](o => info[Key].files.some(x => minimatch(o.projectPath, x)))      
+      [Do](o => console.log('', '+', o.relPath))
+      [SelectMany](o => o
+        [Skip](1)
+        [Do](
+          () => console.log('', 'Δ', o.relPath),
+          () => console.log('', '-', o.relPath)
+        )
+        [Debounce](DebounceMs)
+        [Select](() => ({
+          dir: pkg.relDir,
+          task: info[Key].task
+        }))
       )
     )
+    [Do](o => console.log(`> ${o.dir}$ ${o.task}`))
+    [Pool](async o => ({ ...o, ...(await execAsync(o.dir, o.task)) }))
+    [Do](o => console.log(`< ${o.dir}$ ${o.task}`))
   )
+  [Subscribe]()
 
 /**
  * @description Update `files` and `task` properties on the `IObservable`
@@ -125,119 +140,56 @@ watchMany()
  * 
  * @param o The `IObservable` reporting changes to project files.
  */
-async function parsePackage(o) {
+async function getPackageInfo(o) {
+  var json = EmptyObject
+
   try {
-    o.task = null
     var json = JSON.parse(await fsp.readFile(o.path))
-    o.task = json.scripts ? json.scripts[Task] : null
-    o.files = json.files
   } 
   catch(e) {
     console.log('!', o.relPath, { error: e })
   }
 
-  return o;
+  return { 
+    task: json.scripts ? json.scripts[Task] : null,
+    files: json.files || EmptyArray
+  };
 }
 
-return
-
-var packages = merge(watchFiles(PackagesGlob), control).pipe(
-  groupBy(x => {
-    console.log('watching: ', x.path)
-    return x.path;
-  }),
-  mergeMap(package => {
-    var key = package.key
-    var dir = Path.dirname(key);
-    var subject = new Subject();
-    var files = [ ];
-    var subscription;
-    var task;
-    var isPaused;
-
-    package.subscribe(p => {
-      assert(p.path == key);
-      var isPause = p.event == Pause;
-      var isResume = p.event == Resume;
-      var isUnlink = p.event == Unlink || p.event == UnlinkDir;
-
-      isPaused = isResume ? false : isPause ? true : isPaused;
-      if (isPaused)
-        return;
-
-      var { 
-        files: newFiles, 
-        scripts: { [Task]: newTask } 
-      } = isUnlink ? EmptyPackage : parsePackage(key);
-
-      // no command => don't watch any files
-      if (!newTask)
-        newFiles = EmptyArray;
-      else if (task != newTask)
-        log(1, key, '=>', `{ scripts: { ${Task}: ${newTask} } }`);
-
-      // update task
-      task = newTask;
-
-      // bail if file glob did not change
-      if (deepEquals(files, newFiles))
-        return;
-      files = newFiles;
-      log(1, key, '=>', `{ files: [${files}] }`);
-
-      // file glob changed!
-      if (subscription) {
-
-        // stop watching previous file glob
-        subscription.unsubscribe();
-        subscription = null;
-      }
-
-      // optimization; don't spin up a watcher if empty file glob
-      if (!files || files.length == 0) {
-        assert(!subscription);
-        return;
-      }
-
-      // watch files specified by the new file glob
-      subscription = watchFiles(
-        files, { 
-          cwd: dir, 
-          ignoreInitial: true 
-        }
-      ).subscribe(f => {
-        if (isPaused)
-          return;
-
-        log(2, f.event, Path.join(dir, f.path));
-        subject.next({ path: key, dir, task }); 
-      });
-    });
-
-    return subject.pipe(debounceTime(DebounceMs));
+function execAsync(dir, cmd) {
+  return new Promise((resolve, reject) => {
+    var cwd = process.cwd()
+    var exception
+    
+    try {
+      process.chdir(dir);
+      shelljs.exec(cmd, (code, stdout, stderr) => {
+        resolve({ code, stdout, stderr })
+      })
+    } 
+    catch(e) { 
+      exception = e
+    } 
+    finally {
+      process.chdir(cwd)
+      if (exception)
+        reject(exception)
+    }
   })
-)
-packages.subscribe(o => {
-  var { dir, path, task } = o;
-
-  control.next({ event: Pause, path });
-  exec(dir, task);
-  setTimeout(function() {
-    control.next({ event: Resume, path })
-  }, DebounceMs);
-  ;
-});
+}
 
 function exec(dir, cmd) {
   try {
     process.chdir(dir);
-    console.log(`${dir}$ ${cmd}`);
+    console.log(`> ${process.cwd()}$ ${cmd}`);
     var result = shelljs.exec(cmd, { silent:true });
 
     if (result.stdout)
       console.log(result.stdout.trim());
     if (result.code != 0 || result.stderr)
       console.log(result.stderr.trim());
+
+    console.log(`< ${dir}$ ${cmd}`);
 
   } catch(e) {
     console.log('exec exception:', e);

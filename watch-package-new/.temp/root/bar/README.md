@@ -1,5 +1,5 @@
-# @[kingjs][@kingjs]/[watch-package][ns0].[][ns1].[temp][ns2].[root][ns3].[bar][ns4]
-This becomes my package description when I save.
+# @[kingjs][@kingjs]/[watch-package-new][ns0].[][ns1].[temp][ns2].[root][ns3].[bar][ns4]
+This becomes my package description when I save?
 
 ## API
 ```ts
@@ -15,19 +15,19 @@ foo(arg0, arg1)
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/watch-package..temp.root.bar
+$ npm install @kingjs/watch-package-new..temp.root.bar
 ```
 
 ## Source
-https://repository.kingjs.net/watch-package/.temp/root/bar
+https://repository.kingjs.net/watch-package-new/.temp/root/bar
 ## License
 undefined
 
-![Analytics](https://analytics.kingjs.net/watch-package//temp/root/bar)
+![Analytics](https://analytics.kingjs.net/watch-package-new//temp/root/bar)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
-[ns0]: https://www.npmjs.com/package/@kingjs/watch-package
-[ns1]: https://www.npmjs.com/package/@kingjs/watch-package.
-[ns2]: https://www.npmjs.com/package/@kingjs/watch-package..temp
-[ns3]: https://www.npmjs.com/package/@kingjs/watch-package..temp.root
-[ns4]: https://www.npmjs.com/package/@kingjs/watch-package..temp.root.bar
+[ns0]: https://www.npmjs.com/package/@kingjs/watch-package-new
+[ns1]: https://www.npmjs.com/package/@kingjs/watch-package-new.
+[ns2]: https://www.npmjs.com/package/@kingjs/watch-package-new..temp
+[ns3]: https://www.npmjs.com/package/@kingjs/watch-package-new..temp.root
+[ns4]: https://www.npmjs.com/package/@kingjs/watch-package-new..temp.root.bar

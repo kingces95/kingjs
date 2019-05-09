@@ -32,13 +32,13 @@ watchMany()
 
 ## API
 ```ts
-watchMany([selector[, dir[, observer[, options]]]])
+watchMany([dir[, observer[, selector[, options]]]])
 ```
 
 ### Parameters
-- `selector`: Returns an `IObservable` whose emissions trigger the reporting changes to the content of `dir`.
 - `dir`: The directory to watch. Defaults to current directory.
 - `observer`: An `IObservable` whose completion signals the directory should no longer be observed.
+- `selector`: Returns an `IObservable` whose emissions trigger the reporting changes to the content of `dir`.
 - `options`: Options for filtering which directories .
 
 
