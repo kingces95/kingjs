@@ -1,15 +1,10 @@
 var {
-  assert,
-  fs,
   fs: { promises: fsp }, 
   path: Path,
   ['@kingjs']: {
     shim,
     fs: {
-      rx: { 
-        watch,
-        watchMany 
-      }
+      rx: { watchMany }
     },
     rx: {
       Do,
@@ -17,49 +12,32 @@ var {
       Skip,
       Where,
       Select,
-      Subject,
       WindowBy,
       Debounce,
       SelectMany,
-      SelectMany,
-      DistinctUntilChanged,
       IObservable: { Subscribe },
       IGroupedObservable: { Key }
     },
-    reflect: { is } 
   },
   minimatch,
   shelljs,
-} = require('./dependencies');
+} = require('./dependencies')
 
-var LogLevel = 2;
-var DebounceMs = 150;
-var All = 'all';
-var Unlink = 'unlink';
-var UnlinkDir = 'unlinkDir';
-var Pause = 'pause';
-var Resume = 'resume';
-var Task = 'build';
-var EmptyArray = [ ];
-var EmptyObject = { };
-var UsePolling = true;
+var DebounceMs = 350
+var Task = 'build'
+var EmptyArray = [ ]
+var EmptyObject = { }
 
-var EmptyPackage = { 
-  files: EmptyArray,
-  scripts: EmptyObject
-};
-var PackagesGlob = [ 
-  '**/package.json' 
-];
 var DotDirGlob = [
   '**/node_modules/**',
   /(^|[\/\\])\../
-];
+]
 
-process.chdir('.temp/root');
+process.chdir('.temp/root')
 
-var cwd = process.cwd();
+var cwd = process.cwd()
 console.log('watching:', cwd)
+var taskId = 0
 
 /**
  * @description A tool which, for each `package.json` found
@@ -113,7 +91,7 @@ watchMany()
         o.projectPath = Path.relative(pkg.dir, o.path)
         o.basename = Path.basename(o.path)
       })
-      [Where](o => info[Key].files.some(x => minimatch(o.projectPath, x)))      
+      [Where](o => info[Key].files.some(x => minimatch(o.projectPath, x)))
       [Do](o => console.log('', '+', o.relPath))
       [SelectMany](o => o
         [Skip](1)
@@ -124,13 +102,17 @@ watchMany()
         [Debounce](DebounceMs)
         [Select](() => ({
           dir: pkg.relDir,
-          task: info[Key].task
+          task: info[Key].task,
+          id: taskId++
         }))
       )
     )
-    [Do](o => console.log(`> ${o.dir}$ ${o.task}`))
-    [Pool](async o => ({ ...o, ...(await execAsync(o.dir, o.task)) }))
-    [Do](o => console.log(`< ${o.dir}$ ${o.task}`))
+    [Do](o => console.log(`>${o.id} ${o.dir}$ ${o.task}`))
+    [Pool](async o => ({ 
+      ...o, 
+      ...(await execAsync(o.dir, o.task)) 
+    }))
+    [Do](o => console.log(`<${o.id} ${o.dir}$ ${o.task}`))
   )
   [Subscribe]()
 
@@ -153,7 +135,7 @@ async function getPackageInfo(o) {
   return { 
     task: json.scripts ? json.scripts[Task] : null,
     files: json.files || EmptyArray
-  };
+  }
 }
 
 function execAsync(dir, cmd) {
@@ -162,7 +144,7 @@ function execAsync(dir, cmd) {
     var exception
     
     try {
-      process.chdir(dir);
+      process.chdir(dir)
       shelljs.exec(cmd, (code, stdout, stderr) => {
         resolve({ code, stdout, stderr })
       })
@@ -176,24 +158,4 @@ function execAsync(dir, cmd) {
         reject(exception)
     }
   })
-}
-
-function exec(dir, cmd) {
-  try {
-    process.chdir(dir);
-    console.log(`> ${process.cwd()}$ ${cmd}`);
-    var result = shelljs.exec(cmd, { silent:true });
-
-    if (result.stdout)
-      console.log(result.stdout.trim());
-    if (result.code != 0 || result.stderr)
-      console.log(result.stderr.trim());
-
-    console.log(`< ${dir}$ ${cmd}`);
-
-  } catch(e) {
-    console.log('exec exception:', e);
-  } finally {
-    process.chdir(cwd);
-  }
 }

@@ -17,7 +17,10 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/watch-package-new..temp.root.bar
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/rx.do`](https://www.npmjs.com/package/@kingjs/rx.do)|`latest`|
 ## Source
 https://repository.kingjs.net/watch-package-new/.temp/root/bar
 ## License

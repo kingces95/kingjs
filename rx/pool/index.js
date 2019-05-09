@@ -56,7 +56,7 @@ function pool(
     var disposers = { }
 
     // last man out turns off the lights
-    var resolve
+    var complete
     var count = 0
     taskPool.on('drop', () => count--)
 
@@ -64,32 +64,38 @@ function pool(
       o => { 
         count++
 
-        taskPool.start(task = () => {
+        taskPool.start(async () => {
           var id = currentId++
-          disposers[id] = selector(o)[Subscribe](
-            x => {
-              observer[Next](resultSelector(o, x))
-            },
-            () => {
-              delete disposers[id];
-              count--
-              if (resolve && !count)
+          await new Promise((resolve) => {
+            disposers[id] = selector(o)[Subscribe](
+              x => {
+                observer[Next](resultSelector(o, x))
+              },
+              () => {
+                delete disposers[id]
+                count--
+                if (complete && !count)
+                  complete()
                 resolve()
-            },
-            x => observer[Error](x)
-          );
+              },
+              x => {
+                observer[Error](x)
+                resolve()
+              }
+            )
+          })
         })
       },
       () => {
-        resolve = () => observer[Complete]()
+        complete = () => observer[Complete]()
         if (!count)
-          resolve()
+          complete()
       },
       o => observer[Error](o)
-    );
+    )
 
     return () => {
-      taskPool.dispose();
+      taskPool.dispose()
       for (var key in disposers)
         disposers[key]()
       dispose()

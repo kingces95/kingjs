@@ -10,7 +10,9 @@
   "scripts": {
     "build": "cpk && cdj && crm"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/rx.do": "latest"
+  },
   "repository": {
     "type": "git",
     "url": "https://repository.kingjs.net/watch-package-new/.temp/root/bar"

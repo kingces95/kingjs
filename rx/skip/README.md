@@ -3,8 +3,6 @@ Returns an `IObservable` which skips the first n observations.
 ## Usage
 ```js
 var assert = require('assert');
-var { Subscribe } = require('@kingjs/rx.i-observable');
-var { Next } = require('@kingjs/rx.i-observer');
 var of = require('@kingjs/rx.of');
 var Skip = require('@kingjs/rx.skip');
 var ToArray = require('@kingjs/rx.to-array')

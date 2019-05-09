@@ -19,11 +19,8 @@ $ npm install @kingjs/watch-package-new
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/fs.rx.watch`](https://www.npmjs.com/package/@kingjs/fs.rx.watch)|`latest`|
 |[`@kingjs/fs.rx.watch-many`](https://www.npmjs.com/package/@kingjs/fs.rx.watch-many)|`latest`|
-|[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.debounce`](https://www.npmjs.com/package/@kingjs/rx.debounce)|`latest`|
-|[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
 |[`@kingjs/rx.do`](https://www.npmjs.com/package/@kingjs/rx.do)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
@@ -31,7 +28,6 @@ $ npm install @kingjs/watch-package-new
 |[`@kingjs/rx.select`](https://www.npmjs.com/package/@kingjs/rx.select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 |[`@kingjs/rx.skip`](https://www.npmjs.com/package/@kingjs/rx.skip)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 |[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|
 |[`@kingjs/shim`](https://www.npmjs.com/package/@kingjs/shim)|`latest`|

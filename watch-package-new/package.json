@@ -21,11 +21,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.rx.watch": "latest",
     "@kingjs/fs.rx.watch-many": "latest",
-    "@kingjs/reflect.is": "latest",
     "@kingjs/rx.debounce": "latest",
-    "@kingjs/rx.distinct-until-changed": "latest",
     "@kingjs/rx.do": "latest",
     "@kingjs/rx.i-grouped-observable": "latest",
     "@kingjs/rx.i-observable": "latest",
@@ -33,7 +30,6 @@
     "@kingjs/rx.select": "latest",
     "@kingjs/rx.select-many": "latest",
     "@kingjs/rx.skip": "latest",
-    "@kingjs/rx.subject": "latest",
     "@kingjs/rx.where": "latest",
     "@kingjs/rx.window-by": "latest",
     "@kingjs/shim": "latest",
@@ -41,7 +37,6 @@
     "shelljs": "latest"
   },
   "nodeDependencies": [
-    "assert",
     "fs",
     "path"
   ]
