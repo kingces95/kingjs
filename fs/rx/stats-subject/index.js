@@ -7,11 +7,10 @@ var {
 } = require('./dependencies')
 
 class StatSubject extends Subject {
-  constructor(path, stats) {
+  constructor(stats) {
     super()
 
     // id
-    this.path = path
     this.ino = stats.id;
 
     // type

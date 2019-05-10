@@ -1,7 +1,9 @@
 var { 
+  path: Path,
   fs: { promises: fsp }, 
   ['@kingjs']: {
     path: { makeAbsolute },
+    fs: { rx: { PathSubject } },
     rx: { 
       Log,
       Pool,
@@ -41,19 +43,17 @@ var WithFileTypes = {
  * 
  * @remarks - Promise will need to be shimmed to implement `IObservable`
  **/
-function dirEntries(dir) {
-  dir = makeAbsolute(dir);
-
+function dirEntries() {
   return this
-    [Pool](() => fsp.readdir(dir, WithFileTypes))       // promise -> dirEntry[]
-    [RollingSelect](o => o[0][ZipJoin](o[1]))           // dirEntry[] -> {outer, inner, key}[]
-    [SelectMany]()                                      // {outer, inner, key}[] -> {outer, inner, key}
-    //[Log](dir)                                          // inner = previous, outer = current
-    [GroupBy](                                          // new = link, next = any, complete = unlink
-      o => o.key,                                       // group by entry name
-      (k, o) => null,                                   // simply raise event without any event data
-      k => new Subject(),                               // activate group for entry
-      (k, o) => !o.outer                                // emit `complete` on unlinked
+    [Pool](() => fsp.readdir(this.path, WithFileTypes))     // promise -> dirEntry[]
+    [RollingSelect](o => o[0][ZipJoin](o[1]))               // dirEntry[] -> {outer, inner, key}[]
+    [SelectMany]()                                          // {outer, inner, key}[] -> {outer, inner, key}
+    //[Log](dir)                                            // inner = previous, outer = current
+    [GroupBy](                                              // new = link, next = any, complete = unlink
+      o => o.key,                                           // group by entry name
+      (k, o) => null,                                       // simply raise event without any event data
+      k => new PathSubject(Path.join(this.path, k), this),  // activate group for entry
+      (k, o) => !o.outer                                    // emit `complete` on unlinked
     )
 }
 

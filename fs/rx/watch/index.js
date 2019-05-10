@@ -1,13 +1,13 @@
 var { 
   fs,
   ['@kingjs']: {
-    path: { makeAbsolute },
+    fs: { rx: { PathSubject } },
     rx: {
       create,
-      IObservable,
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error },
-    }
+    },
+    reflect: { exportExtension },
   }
 } = require('./dependencies')
 
@@ -23,8 +23,6 @@ var Options = {
   encoding: 'utf8'
 }
 
-var DefaultPath = '.'
-
 /**
  * @description Watch a path.
  * 
@@ -36,20 +34,11 @@ var DefaultPath = '.'
  * 
  * @remarks - The watcher keeps the process alive until completed.
  **/
-function watch(
-  path = DefaultPath,
-  observable = null
-) {
-
-  path = makeAbsolute(path)
-
-  var watcher = fs.watch(path, Options)
-
-  var dispose = () => watcher.close()
-  if (observable)
-    observable[Subscribe](null, dispose, dispose)
+function watch() {
 
   return create(observer => {
+    var watcher = fs.watch(this.path, Options)
+
     watcher.on(Event.Change, 
       () => observer[Next]()
     )
@@ -60,7 +49,22 @@ function watch(
     watcher.on(Event.Error, 
       e => observer[Error](e)
     )
+
+    var close = () => watcher.close();
+    var dispose = this[Subscribe](
+      o => observer[Next](o),
+      () => {
+        close()
+        observer[Complete]()
+      },
+      e => observer[Error](e)
+    )
+
+    return () => {
+      close()
+      dispose()
+    }
   })
 }
 
-module.exports = watch
+exportExtension(module, PathSubject, watch);

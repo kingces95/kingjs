@@ -4,18 +4,17 @@ Watch a path.
 ```js
 var assert = require('assert')
 var fs = require('fs')
-var ToPromise = require('@kingjs/rx.to-promise')
-var Subject = require('@kingjs/rx.subject')
+var PathSubject = require('@kingjs/fs.rx.path-subject')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Complete } = require('@Kingjs/rx.i-observer')
-var watch = require('@kingjs/fs.rx.watch')
+var { Complete } = require('@kingjs/rx.i-observer')
+var Watch = require('@kingjs/fs.rx.watch')
 
 var fileName = 'temp'
 
-var subject = new Subject()
-
 var result = [];
-watch('.', subject)
+
+var subject = new PathSubject()
+subject[Watch]('.', subject)
   [Subscribe](
     () => result.push('next'),
     () => result.push('complete')
@@ -63,7 +62,8 @@ $ npm install @kingjs/fs.rx.watch
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
+|[`@kingjs/fs.rx.path-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.path-subject)|`latest`|
+|[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|

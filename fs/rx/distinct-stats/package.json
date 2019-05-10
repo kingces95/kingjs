@@ -18,9 +18,11 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/fs.rx.path-subject": "latest",
     "@kingjs/fs.rx.stats-subject": "latest",
     "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.create": "latest",
     "@kingjs/rx.distinct-until-changed": "latest",
     "@kingjs/rx.i-grouped-observable": "latest",
     "@kingjs/rx.i-observable": "latest",

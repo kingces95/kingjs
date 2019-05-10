@@ -7,48 +7,38 @@ var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
 var is = require('@kingjs/reflect.is')
-var of = require('@kingjs/rx.of')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Finalize = require('@Kingjs/rx.finalize')
-var Select = require('@Kingjs/rx.select')
-var Do = require('@Kingjs/rx.do')
-var Log = require('@Kingjs/rx.log')
-var Subject = require('@Kingjs/rx.subject')
+var Finalize = require('@kingjs/rx.finalize')
+var SelectMany = require('@kingjs/rx.select-many')
+var Do = require('@kingjs/rx.do')
+var Log = require('@kingjs/rx.log')
+var PathSubject = require('@kingjs/fs.rx.path-subject')
 var DistinctStats = require('@kingjs/fs.rx.distinct-stats')
 
 var TempFileName = 'file.txt'
 
 var result = []
 
-var subject = new Subject()
+var subject = new PathSubject(TempFileName)
 var stats = subject
-  [DistinctStats](TempFileName)
+  [DistinctStats]()
 
 stats
-  [Do](
-    // assert Key looks like a stats.ino
-    o => {
-      assert(is.number(o[Key]))
-      assert(path.basename(o.path) == TempFileName)
-    }
-  )
-  [Select](o => o
-    [Subscribe](
-      x => result.push('CHANGE'),
-      () => result.push(
-        `UNLINK PATH`
-      )
+  [Do](o => assert(is.number(o[Key])))
+  [Do](o => assert(path.basename(o.path) == TempFileName))
+  [SelectMany](o => o
+    [Do](
+      () => result.push('CHANGE'),
+      () => result.push('UNLINK PATH')
     )
   )
   [Subscribe]()
 
 stats
   [Do](
-    o => result.push(
-      `LINK PATH`
-    ),
+    () => result.push('LINK PATH'),
     () => result.push('COMPLETE')
   )
   [Finalize](o => {
@@ -67,7 +57,7 @@ stats
   [Subscribe]()
 
 var t = 0
-var dt = 10
+var dt = 100
 
 setTimeout(() => {
   fs.writeFileSync(TempFileName)
@@ -115,9 +105,11 @@ $ npm install @kingjs/fs.rx.distinct-stats
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/fs.rx.path-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.path-subject)|`latest`|
 |[`@kingjs/fs.rx.stats-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.stats-subject)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
+|[`@kingjs/rx.create`](https://www.npmjs.com/package/@kingjs/rx.create)|`latest`|
 |[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|

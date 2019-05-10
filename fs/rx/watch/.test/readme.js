@@ -1,17 +1,16 @@
 var assert = require('assert')
 var fs = require('fs')
-var ToPromise = require('@kingjs/rx.to-promise')
-var Subject = require('@kingjs/rx.subject')
+var PathSubject = require('@kingjs/fs.rx.path-subject')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Complete } = require('@kingjs/rx.i-observer')
-var watch = require('..')
+var Watch = require('..')
 
 var fileName = 'temp'
 
-var subject = new Subject()
-
 var result = [];
-watch('.', subject)
+
+var subject = new PathSubject()
+subject[Watch]('.', subject)
   [Subscribe](
     () => result.push('next'),
     () => result.push('complete')

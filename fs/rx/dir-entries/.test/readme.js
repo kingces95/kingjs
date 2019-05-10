@@ -2,13 +2,14 @@ require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
-var of = require('@kingjs/rx.of')
+var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Finalize = require('@Kingjs/rx.finalize')
-var Select = require('@Kingjs/rx.select')
-var Spy = require('@Kingjs/rx.spy')
-var Log = require('@Kingjs/rx.log')
+var Finalize = require('@kingjs/rx.finalize')
+var Select = require('@kingjs/rx.select')
+var Do = require('@kingjs/rx.do')
+var Log = require('@kingjs/rx.log')
+var PathSubject = require('@kingjs/fs.rx.path-subject')
 var DirEntry = require('..')
 
 // create testDir/file.txt
@@ -20,7 +21,8 @@ fs.writeFileSync(TempFilePath)
 
 var result = [];
 
-var dirEntries = of(null, null)
+var subject = new PathSubject(TempDirName)
+var dirEntries = subject
   [DirEntry](TempDirName)
 
 dirEntries
@@ -35,7 +37,7 @@ dirEntries
 
 dirEntries
   [Log]('DIR')
-  [Spy](
+  [Do](
     o => result.push(o),
     o => result.push('.')
   )
@@ -49,3 +51,7 @@ dirEntries
     assert(result[4] == '.') // Complete
   })
   [Subscribe]()
+
+subject[Next](null)
+subject[Next](null)
+subject[Complete]()

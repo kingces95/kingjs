@@ -3,37 +3,48 @@ var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
 var is = require('@kingjs/reflect.is')
+var of = require('@kingjs/rx.of')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Finalize = require('@kingjs/rx.finalize')
-var SelectMany = require('@kingjs/rx.select-many')
-var Do = require('@kingjs/rx.do')
-var Log = require('@kingjs/rx.log')
-var PathSubject = require('@kingjs/fs.rx.path-subject')
+var Finalize = require('@Kingjs/rx.finalize')
+var Select = require('@Kingjs/rx.select')
+var Spy = require('@Kingjs/rx.spy')
+var Log = require('@Kingjs/rx.log')
+var Subject = require('@Kingjs/rx.subject')
 var DistinctStats = require('..')
 
 var TempFileName = 'file.txt'
 
 var result = []
 
-var subject = new PathSubject(TempFileName)
+var subject = new Subject()
 var stats = subject
-  [DistinctStats]()
+  [DistinctStats](TempFileName)
 
 stats
-  [Do](o => assert(is.number(o[Key])))
-  [SelectMany](o => o
-    [Do](
-      () => result.push('CHANGE'),
-      () => result.push('UNLINK PATH')
+  [Spy](
+    // assert Key looks like a stats.ino
+    o => {
+      assert(is.number(o[Key]))
+      assert(path.basename(o.path) == TempFileName)
+    }
+  )
+  [Select](o => o
+    [Subscribe](
+      x => result.push('CHANGE'),
+      () => result.push(
+        `UNLINK PATH`
+      )
     )
   )
   [Subscribe]()
 
 stats
-  [Do](
-    () => result.push('LINK PATH'),
+  [Spy](
+    o => result.push(
+      `LINK PATH`
+    ),
     () => result.push('COMPLETE')
   )
   [Finalize](o => {
@@ -52,7 +63,7 @@ stats
   [Subscribe]()
 
 var t = 0
-var dt = 100
+var dt = 10
 
 setTimeout(() => {
   fs.writeFileSync(TempFileName)

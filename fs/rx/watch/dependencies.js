@@ -1,6 +1,11 @@
 exports['@kingjs'] = {
-  path: {
-    makeAbsolute: require('@kingjs/path.make-absolute'),
+  fs: {
+    rx: {
+      PathSubject: require('@kingjs/fs.rx.path-subject'),
+    },
+  },
+  reflect: {
+    exportExtension: require('@kingjs/reflect.export-extension'),
   },
   rx: {
     create: require('@kingjs/rx.create'),

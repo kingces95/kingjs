@@ -6,13 +6,14 @@ require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
 var path = require('path')
-var of = require('@kingjs/rx.of')
+var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Finalize = require('@Kingjs/rx.finalize')
-var Select = require('@Kingjs/rx.select')
-var Spy = require('@Kingjs/rx.spy')
-var Log = require('@Kingjs/rx.log')
+var Finalize = require('@kingjs/rx.finalize')
+var Select = require('@kingjs/rx.select')
+var Do = require('@kingjs/rx.do')
+var Log = require('@kingjs/rx.log')
+var PathSubject = require('@kingjs/fs.rx.path-subject')
 var DirEntry = require('@kingjs/fs.rx.dir-entries')
 
 // create testDir/file.txt
@@ -24,7 +25,8 @@ fs.writeFileSync(TempFilePath)
 
 var result = [];
 
-var dirEntries = of(null, null)
+var subject = new PathSubject(TempDirName)
+var dirEntries = subject
   [DirEntry](TempDirName)
 
 dirEntries
@@ -39,7 +41,7 @@ dirEntries
 
 dirEntries
   [Log]('DIR')
-  [Spy](
+  [Do](
     o => result.push(o),
     o => result.push('.')
   )
@@ -53,6 +55,10 @@ dirEntries
     assert(result[4] == '.') // Complete
   })
   [Subscribe]()
+
+subject[Next](null)
+subject[Next](null)
+subject[Complete]()
 ```
 
 ## API
@@ -76,6 +82,7 @@ $ npm install @kingjs/fs.rx.dir-entries
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/fs.rx.path-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.path-subject)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|

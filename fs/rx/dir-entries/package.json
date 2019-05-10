@@ -18,6 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/fs.rx.path-subject": "latest",
     "@kingjs/linq.zip-join": "latest",
     "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
@@ -30,7 +31,8 @@
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
-    "fs"
+    "fs",
+    "path"
   ],
   "capitalize": true
 }
