@@ -19,7 +19,9 @@ $ npm install @kingjs/watch-package-new
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/exec`](https://www.npmjs.com/package/@kingjs/exec)|`latest`|
 |[`@kingjs/fs.rx.watch-many`](https://www.npmjs.com/package/@kingjs/fs.rx.watch-many)|`latest`|
+|[`@kingjs/path.test`](https://www.npmjs.com/package/@kingjs/path.test)|`latest`|
 |[`@kingjs/rx.debounce`](https://www.npmjs.com/package/@kingjs/rx.debounce)|`latest`|
 |[`@kingjs/rx.do`](https://www.npmjs.com/package/@kingjs/rx.do)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
@@ -32,7 +34,6 @@ $ npm install @kingjs/watch-package-new
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|
 |[`@kingjs/shim`](https://www.npmjs.com/package/@kingjs/shim)|`latest`|
 |[`minimatch`](https://www.npmjs.com/package/minimatch)|`latest`|
-|[`shelljs`](https://www.npmjs.com/package/shelljs)|`latest`|
 ## Source
 https://repository.kingjs.net/watch-package-new
 ## License

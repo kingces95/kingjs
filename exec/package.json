@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/exec",
+  "version": "1.0.0",
+  "description": "Asynchronously executes a shell command and returns `{ code, stdout, stderr }`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/exec"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "shelljs": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

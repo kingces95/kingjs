@@ -1,8 +1,12 @@
 exports['@kingjs'] = {
+  exec: require('@kingjs/exec'),
   fs: {
     rx: {
       watchMany: require('@kingjs/fs.rx.watch-many'),
     },
+  },
+  path: {
+    test: require('@kingjs/path.test'),
   },
   rx: {
     Debounce: require('@kingjs/rx.debounce'),
@@ -19,6 +23,5 @@ exports['@kingjs'] = {
   shim: require('@kingjs/shim'),
 }
 exports['minimatch'] = require('minimatch')
-exports['shelljs'] = require('shelljs')
 exports['fs'] = require('fs')
 exports['path'] = require('path')

@@ -1,43 +1,44 @@
 var {
   fs: { promises: fsp }, 
   path: Path,
+  minimatch,
   ['@kingjs']: {
     shim,
-    fs: {
-      rx: { watchMany }
-    },
+    exec,
+    path: { test: testPath },
+    fs: { rx: { watchMany } },
     rx: {
+      Debounce,
       Do,
       Pool,
+      Select,
+      SelectMany,
       Skip,
       Where,
-      Select,
       WindowBy,
-      Debounce,
-      SelectMany,
+
       IObservable: { Subscribe },
       IGroupedObservable: { Key }
     },
   },
-  minimatch,
-  shelljs,
 } = require('./dependencies')
+
+process.chdir('.temp/root')
 
 var DebounceMs = 350
 var Task = 'build'
 var EmptyArray = [ ]
 var EmptyObject = { }
+var EmptyProjectJson = "{ }"
+
+var cwd = process.cwd()
+console.log('watching:', cwd)
+var taskId = 0
 
 var DotDirGlob = [
   '**/node_modules/**',
   /(^|[\/\\])\../
 ]
-
-process.chdir('.temp/root')
-
-var cwd = process.cwd()
-console.log('watching:', cwd)
-var taskId = 0
 
 /**
  * @description A tool which, for each `package.json` found
@@ -75,7 +76,19 @@ watchMany()
   [Where](o => o.basename == 'package.json')
   [Do](o => console.log('+', o.relPath))
   [SelectMany](pkg => pkg
-    [Pool](o => getPackageInfo(pkg))
+    [Pool](async () => {
+      try { 
+        return JSON.parse(await fsp.readFile(pkg.path)) 
+      } 
+      catch(e) {
+        console.log('!', pkg.relPath, { error: e })
+        return EmptyObject
+      }
+    })
+    [Select](o => ({ 
+      task: o.scripts ? o.scripts[Task] : null,
+      files: o.files || EmptyArray
+    }))
     [WindowBy]()
     [Do](
       o => console.log('Δ', pkg.relPath, '=>', {
@@ -91,7 +104,7 @@ watchMany()
         o.projectPath = Path.relative(pkg.dir, o.path)
         o.basename = Path.basename(o.path)
       })
-      [Where](o => info[Key].files.some(x => minimatch(o.projectPath, x)))
+      [Where](o => testPath(o.projectPath, info[Key].files))
       [Do](o => console.log('', '+', o.relPath))
       [SelectMany](o => o
         [Skip](1)
@@ -100,62 +113,37 @@ watchMany()
           () => console.log('', '-', o.relPath)
         )
         [Debounce](DebounceMs)
-        [Select](() => ({
+        [Select](x => ({
           dir: pkg.relDir,
           task: info[Key].task,
-          id: taskId++
+          ctimeMs: x.ctimeMs
         }))
       )
     )
-    [Do](o => console.log(`>${o.id} ${o.dir}$ ${o.task}`))
-    [Pool](async o => ({ 
-      ...o, 
-      ...(await execAsync(o.dir, o.task)) 
-    }))
-    [Do](o => console.log(`<${o.id} ${o.dir}$ ${o.task}`))
+    [Pool](async o => {
+      if (pkg.lastTaskMs && o.ctimeMs < pkg.lastTaskMs)
+        return
+
+      var id = taskId++
+      var { dir, task } = o
+
+      try {
+        console.log(`>${id} ${dir}$`, { task: task })
+        var { stdout, stderr, code } = await exec(dir, task)
+
+        if (stdout) 
+          console.log(`√${id} ${dir}$ `, { stdout: stdout.trim() })
+
+        if (stderr && !code) 
+          console.log(`!${id} ${dir}$ `, { code, stderr: stderr.trim() })
+      }
+      catch (e) {
+        console.log(`!${id} ${dir}$`, { exception: e })
+      }
+      finally {
+        pkg.lastTaskMs = Date.now()
+        console.log(`<${id} ${dir}$`, { task: task})
+      }
+    })
   )
   [Subscribe]()
-
-/**
- * @description Update `files` and `task` properties on the `IObservable`
- * watching for changes to the `project.json` file.
- * 
- * @param o The `IObservable` reporting changes to project files.
- */
-async function getPackageInfo(o) {
-  var json = EmptyObject
-
-  try {
-    var json = JSON.parse(await fsp.readFile(o.path))
-  } 
-  catch(e) {
-    console.log('!', o.relPath, { error: e })
-  }
-
-  return { 
-    task: json.scripts ? json.scripts[Task] : null,
-    files: json.files || EmptyArray
-  }
-}
-
-function execAsync(dir, cmd) {
-  return new Promise((resolve, reject) => {
-    var cwd = process.cwd()
-    var exception
-    
-    try {
-      process.chdir(dir)
-      shelljs.exec(cmd, (code, stdout, stderr) => {
-        resolve({ code, stdout, stderr })
-      })
-    } 
-    catch(e) { 
-      exception = e
-    } 
-    finally {
-      process.chdir(cwd)
-      if (exception)
-        reject(exception)
-    }
-  })
-}

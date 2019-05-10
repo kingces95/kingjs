@@ -18,9 +18,9 @@ var {
   }
 } = require('./dependencies')
 
-var DefaultSelector = watch
 var DefaultDir = '.'
 var DefaultObserver = null
+var DefaultWatcher = watch
 
 /**
  * @description Watches for changes is a directory and its subdirectory.
@@ -28,7 +28,7 @@ var DefaultObserver = null
  * @param [dir] The directory to watch. Defaults to current directory.
  * @param [observer] An `IObservable` whose completion signals the directory
  * should no longer be observed. 
- * @param [selector] Returns an `IObservable` whose emissions trigger the
+ * @param [watcher] Returns an `IObservable` whose emissions trigger the
  * reporting changes to the content of `dir`.
  * @param [options] Options for filtering which directories .
  * 
@@ -42,15 +42,15 @@ var DefaultObserver = null
 function watchMany(
   dir = DefaultDir,
   observable,
-  selector = DefaultSelector) {
+  watcher = DefaultWatcher) {
 
-  var result = selector(dir, observable)
+  var result = watcher(dir, observable)
     [Publish](null)
     [DirEntries](dir)
     [SelectMany](entry => entry
       [DistinctStats](Path.join(dir, entry[Key]))
       [SelectMany](
-        x => watchMany(x.path, x, selector),
+        x => watchMany(x.path, x, watcher),
         (o, x) => x,
         x => !x.isDirectory
       )

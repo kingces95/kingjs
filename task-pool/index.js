@@ -6,13 +6,16 @@ var {
       RemoveAt
     }
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var DefaultBounce = o => 0; 
-var DropEvent = 'drop';
-var StartEvent = 'start';
-var FinishEvent = 'finish';
-var BlockEvent = 'block';
+var DropEvent = 'drop'
+var StartEvent = 'start'
+var FinishEvent = 'finish'
+var BlockEvent = 'block'
+
+var DefaultBounce = o => 0
+var DefaultMaxConcurrent = 1
+var DefaultMaxPending = 1
 
 /**
  * @description A pool of running tasks and a queue of pending
@@ -42,55 +45,55 @@ var BlockEvent = 'block';
  */
 class TaskPool extends EventEmitter {
   constructor(
-    maxConcurrent = 1, 
-    maxPending = 1, 
+    maxConcurrent = DefaultMaxConcurrent, 
+    maxPending = DefaultMaxPending, 
     bounce = DefaultBounce) {
-    super();
+    super()
 
-    this.maxConcurrent = maxConcurrent;
-    this.maxPending = maxPending;
-    this.bounce = DefaultBounce;
+    this.maxConcurrent = maxConcurrent
+    this.maxPending = maxPending
+    this.bounce = DefaultBounce
 
-    this.pending = [];
-    this.running = [];
+    this.pending = []
+    this.running = []
   }
 
   dispose() {
-    this.pending.length = 0;
+    this.pending.length = 0
   }
 
   start(task) {
-    var { pending, running } = this;
-    var { maxConcurrent, maxPending, bounce } = this;
+    var { pending, running } = this
+    var { maxConcurrent, maxPending, bounce } = this
 
     // block?
     if (running.length == maxConcurrent) {
-      pending.push(task);
-      this.emit(BlockEvent, task);
+      pending.push(task)
+      this.emit(BlockEvent, task)
 
       // dump?
       if (pending.length > maxPending) {
-        task = pending[RemoveAt](bounce(pending));
-        this.emit(DropEvent, task);
+        task = pending[RemoveAt](bounce(pending))
+        this.emit(DropEvent, task)
       }
-      return;
+      return
     }
 
     // start
-    running.push(task);
-    this.emit(StartEvent, task);
+    running.push(task)
+    this.emit(StartEvent, task)
 
     process.nextTick(async () => {
-      await task();
+      await task()
 
-      running[Remove](task);
-      this.emit(FinishEvent, task);
+      running[Remove](task)
+      this.emit(FinishEvent, task)
       
       if (!pending.length)
-        return;
-      this.start(pending.shift());
-    });
+        return
+      this.start(pending.shift())
+    })
   }
 }
 
-module.exports = TaskPool;
+module.exports = TaskPool
