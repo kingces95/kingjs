@@ -1,4 +1,9 @@
 exports['@kingjs'] = {
+  fs: {
+    rx: {
+      StatsSubject: require('@kingjs/fs.rx.stats-subject'),
+    },
+  },
   path: {
     makeAbsolute: require('@kingjs/path.make-absolute'),
   },
@@ -10,7 +15,6 @@ exports['@kingjs'] = {
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
     IObservable: require('@kingjs/rx.i-observable'),
     Pool: require('@kingjs/rx.pool'),
-    Subject: require('@kingjs/rx.subject'),
     WindowBy: require('@kingjs/rx.window-by'),
   },
 }

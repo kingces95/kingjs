@@ -13,7 +13,7 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Finalize = require('@Kingjs/rx.finalize')
 var Select = require('@Kingjs/rx.select')
-var Spy = require('@Kingjs/rx.spy')
+var Do = require('@Kingjs/rx.do')
 var Log = require('@Kingjs/rx.log')
 var Subject = require('@Kingjs/rx.subject')
 var DistinctStats = require('@kingjs/fs.rx.distinct-stats')
@@ -27,7 +27,7 @@ var stats = subject
   [DistinctStats](TempFileName)
 
 stats
-  [Spy](
+  [Do](
     // assert Key looks like a stats.ino
     o => {
       assert(is.number(o[Key]))
@@ -45,7 +45,7 @@ stats
   [Subscribe]()
 
 stats
-  [Spy](
+  [Do](
     o => result.push(
       `LINK PATH`
     ),
@@ -115,13 +115,13 @@ $ npm install @kingjs/fs.rx.distinct-stats
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/fs.rx.stats-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.stats-subject)|`latest`|
 |[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
 |[`@kingjs/rx.i-grouped-observable`](https://www.npmjs.com/package/@kingjs/rx.i-grouped-observable)|`latest`|
 |[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/distinct-stats

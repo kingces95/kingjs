@@ -17,5 +17,8 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/async-generator": "latest",
+    "@kingjs/generator": "latest"
+  }
 }

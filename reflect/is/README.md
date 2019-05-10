@@ -4,7 +4,6 @@
 
 
 
-### Remarks
 
 
 ## Install
@@ -12,7 +11,11 @@ With [npm](https://npmjs.org/) installed, run
 ```
 $ npm install @kingjs/reflect.is
 ```
-
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/async-generator`](https://www.npmjs.com/package/@kingjs/async-generator)|`latest`|
+|[`@kingjs/generator`](https://www.npmjs.com/package/@kingjs/generator)|`latest`|
 ## Source
 https://repository.kingjs.net/reflect/is
 ## License

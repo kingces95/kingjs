@@ -17,7 +17,8 @@ function exec(dir, cmd) {
     var exception
     
     try {
-      process.chdir(dir)
+      if (dir)
+        process.chdir(dir)
       shelljs.exec(cmd, (code, stdout, stderr) => {
         resolve({ code, stdout, stderr })
       })

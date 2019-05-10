@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.distinct-stats",
+  "name": "@kingjs/fs.rx.stats-subject",
   "version": "1.0.0",
   "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
   "main": "index.js",
@@ -13,19 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/distinct-stats"
+    "url": "https://repository.kingjs.net/fs/rx/stats-subject"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.rx.stats-subject": "latest",
-    "@kingjs/path.make-absolute": "latest",
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.distinct-until-changed": "latest",
-    "@kingjs/rx.i-grouped-observable": "latest",
-    "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.pool": "latest",
-    "@kingjs/rx.window-by": "latest"
+    "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
     "fs"

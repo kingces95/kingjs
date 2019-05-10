@@ -1,3 +1,7 @@
+# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[stats-subject][ns2]
+Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.
+## Usage
+```js
 require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
@@ -9,11 +13,10 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Finalize = require('@Kingjs/rx.finalize')
 var Select = require('@Kingjs/rx.select')
-var SelectMany = require('@Kingjs/rx.select-many')
-var Do = require('@Kingjs/rx.do')
+var Spy = require('@Kingjs/rx.spy')
 var Log = require('@Kingjs/rx.log')
 var Subject = require('@Kingjs/rx.subject')
-var DistinctStats = require('..')
+var DistinctStats = require('@kingjs/fs.rx.stats-subject')
 
 var TempFileName = 'file.txt'
 
@@ -24,19 +27,28 @@ var stats = subject
   [DistinctStats](TempFileName)
 
 stats
-  [Do](o => assert(is.number(o[Key])))
-  [Do](o => assert(path.basename(o.path) == TempFileName))
-  [SelectMany](o => o
-    [Do](
-      () => result.push('CHANGE'),
-      () => result.push('UNLINK PATH')
+  [Spy](
+    // assert Key looks like a stats.ino
+    o => {
+      assert(is.number(o[Key]))
+      assert(path.basename(o.path) == TempFileName)
+    }
+  )
+  [Select](o => o
+    [Subscribe](
+      x => result.push('CHANGE'),
+      () => result.push(
+        `UNLINK PATH`
+      )
     )
   )
   [Subscribe]()
 
 stats
-  [Do](
-    () => result.push('LINK PATH'),
+  [Spy](
+    o => result.push(
+      `LINK PATH`
+    ),
     () => result.push('COMPLETE')
   )
   [Finalize](o => {
@@ -55,7 +67,7 @@ stats
   [Subscribe]()
 
 var t = 0
-var dt = 100
+var dt = 10
 
 setTimeout(() => {
   fs.writeFileSync(TempFileName)
@@ -77,3 +89,30 @@ setTimeout(() => {
 setTimeout(() => {
   subject[Complete]()
 }, t += dt)
+```
+
+
+
+
+
+
+## Install
+With [npm](https://npmjs.org/) installed, run
+```
+$ npm install @kingjs/fs.rx.stats-subject
+```
+## Dependencies
+|Package|Version|
+|---|---|
+|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+## Source
+https://repository.kingjs.net/fs/rx/stats-subject
+## License
+MIT
+
+![Analytics](https://analytics.kingjs.net/fs/rx/stats-subject)
+
+[@kingjs]: https://www.npmjs.com/package/kingjs
+[ns0]: https://www.npmjs.com/package/@kingjs/fs
+[ns1]: https://www.npmjs.com/package/@kingjs/fs.rx
+[ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.stats-subject

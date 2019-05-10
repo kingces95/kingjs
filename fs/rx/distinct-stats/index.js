@@ -2,11 +2,11 @@ var {
   fs: { promises: fsp }, 
   ['@kingjs']: {
     path: { makeAbsolute },
+    fs: { rx: { StatsSubject } },
     rx: { 
       Pool,
       DistinctUntilChanged,
       WindowBy,
-      Subject,
 
       IObservable,
       IGroupedObservable: { Key }
@@ -38,7 +38,7 @@ var {
  * `isFIFO`, `isFile`, `isSocket`, `isSymbolicLink` - type
  **/
 function distinctStats(path) {
-  path = makeAbsolute(path);
+  path = makeAbsolute(path)
   
   var result = this
     [Pool](() => fsp.stat(path))                        // promise -> stats
@@ -46,29 +46,10 @@ function distinctStats(path) {
     [WindowBy](
       o => o.ino,                                       // detects re-create and/or type change
       (o, k) => o,
-      (o, k) => new StatSubject(path, o)
+      (o, k) => new StatsSubject(path, o)
     )                                                   
 
   return result;
-}
-
-class StatSubject extends Subject {
-  constructor(path, stats) {
-    super()
-
-    // id
-    this.path = path
-    this.ino = stats.id;
-
-    // type
-    this.isBlockDevice = stats.isBlockDevice()
-    this.isCharacterDevice = stats.isCharacterDevice()
-    this.isDirectory = stats.isDirectory()
-    this.isFIFO = stats.isFIFO()
-    this.isFile = stats.isFile()
-    this.isSocket = stats.isSocket()
-    this.isSymbolicLink = stats.isSymbolicLink()
-  }
 }
 
 exportExtension(module, IObservable, distinctStats);
