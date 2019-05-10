@@ -8,6 +8,7 @@ var {
 } = require('./dependencies');
 
 var EmptyArray = []
+var MinimatchOptions = { dot: true }
 
 /**
  * @description Joins a relative path to an absolute path or, if the
@@ -29,7 +30,7 @@ function test(
       return test.test(path)
 
     assert(is.string(test))
-    return minimatch(path, test)
+    return minimatch(path, test, MinimatchOptions)
   })
 };
 

@@ -1,6 +1,9 @@
 var { 
   path: Path,
   ['@kingjs']: {
+    path: {
+      test: testPath
+    },
     fs: { 
       rx: { 
         watch,
@@ -11,7 +14,8 @@ var {
     rx: {
       Do,
       Publish,
-      SelectMany, 
+      SelectMany,
+      Where,
       IGroupedObservable: { Key }
     },
     reflect: { createSymbol }
@@ -19,8 +23,8 @@ var {
 } = require('./dependencies')
 
 var DefaultDir = '.'
-var DefaultObserver = null
-var DefaultWatcher = watch
+var DefaultObservable = null
+var EmptyArray = []
 
 /**
  * @description Watches for changes is a directory and its subdirectory.
@@ -41,16 +45,19 @@ var DefaultWatcher = watch
  */
 function watchMany(
   dir = DefaultDir,
-  observable,
-  watcher = DefaultWatcher) {
+  observable = DefaultObservable,
+  { watcher = watch, prune = null } = { }) {
 
   var result = watcher(dir, observable)
     [Publish](null)
     [DirEntries](dir)
     [SelectMany](entry => entry
       [DistinctStats](Path.join(dir, entry[Key]))
+      [Where](
+        o => !prune || !o.isDirectory || !testPath(o.path, prune)
+      )
       [SelectMany](
-        x => watchMany(x.path, x, watcher),
+        x => watchMany(x.path, x, { watcher, prune }),
         (o, x) => x,
         x => !x.isDirectory
       )

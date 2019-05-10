@@ -23,7 +23,6 @@ var {
   },
 } = require('./dependencies')
 
-process.chdir('.temp/root')
 
 var DebounceMs = 350
 var Task = 'build'
@@ -31,14 +30,15 @@ var EmptyArray = [ ]
 var EmptyObject = { }
 var EmptyProjectJson = "{ }"
 
-var cwd = process.cwd()
-console.log('watching:', cwd)
-var taskId = 0
-
 var DotDirGlob = [
-  '**/node_modules/**',
-  /(^|[\/\\])\../
+  '**/node_modules',
+  /(^|[\/\\])\../     // comment out when testing!
 ]
+//process.chdir('.temp/root')
+
+var cwd = process.cwd()
+console.log('watching', cwd)
+var taskId = 0
 
 /**
  * @description A tool which, for each `package.json` found
@@ -66,7 +66,7 @@ var DotDirGlob = [
  * in the `package.json`. If `files` is not specified, then no files 
  * are watched for that package. 
  **/
-watchMany()
+watchMany(cwd, null, { prune: DotDirGlob })
   [Do](o => {
     o.dir = Path.dirname(o.path)
     o.relPath = Path.relative(cwd, o.path)
@@ -97,7 +97,7 @@ watchMany()
       }),
       () => console.log('-', pkg.relPath)
     )
-    [SelectMany](info => watchMany(pkg.dir, info)
+    [SelectMany](info => watchMany(pkg.dir, info, { prune: DotDirGlob })
       [Do](o => {
         o.dir = Path.dirname(o.path)
         o.relPath = Path.relative(cwd, o.path)

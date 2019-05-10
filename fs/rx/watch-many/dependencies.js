@@ -6,6 +6,9 @@ exports['@kingjs'] = {
       watch: require('@kingjs/fs.rx.watch'),
     },
   },
+  path: {
+    test: require('@kingjs/path.test'),
+  },
   reflect: {
     createSymbol: require('@kingjs/reflect.create-symbol'),
   },
@@ -14,6 +17,7 @@ exports['@kingjs'] = {
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
     Publish: require('@kingjs/rx.publish'),
     SelectMany: require('@kingjs/rx.select-many'),
+    Where: require('@kingjs/rx.where'),
   },
 }
 exports['path'] = require('path')

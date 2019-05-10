@@ -9,3 +9,5 @@ var DotDirGlob = [
 assert(test('.foo', DotDirGlob))
 assert(test('foo/node_modules/bar', DotDirGlob))
 assert(!test('foo', DotDirGlob))
+
+assert(test('.temp/root/foo', ['**/foo']))

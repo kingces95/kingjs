@@ -10,9 +10,11 @@ var DotDirGlob = [
   /(^|[\/\\])\../
 ]
 
-assert(test('/.foo', DotDirGlob))
-assert(test('/foo/node_modules/bar', DotDirGlob))
-assert(!test('/foo', DotDirGlob))
+assert(test('.foo', DotDirGlob))
+assert(test('foo/node_modules/bar', DotDirGlob))
+assert(!test('foo', DotDirGlob))
+
+assert(test('Users/chris/git/kingjs/watch-package-new/.temp/root/foo', ['**/foo']))
 
 ```
 
