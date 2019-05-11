@@ -9,7 +9,7 @@ var {
     reflect: { exportExtension },
     stringEx: { Expand }
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
 /**
  * @description Returns an `IObservable` that logs life-cycle events.
@@ -25,14 +25,14 @@ function log(
   label, 
   format) {
 
-  var observable = this;
+  var observable = this
   return create(observer => {
     return observable[Subscribe](
       o => {
-        var message = o;
+        var message = o
         if (format)
-          message = format[Expand](o);
-        console.log(label, message);
+          message = format[Expand](o)
+        console.log(label, message)
 
         observer[Next](o)
       },
@@ -44,8 +44,8 @@ function log(
         console.log(label, 'ERROR', o)
         observer[Error](o)
       }
-    );
+    )
   })
 }
 
-exportExtension(module, IObservable, log);
+exportExtension(module, IObservable, log)

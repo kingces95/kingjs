@@ -5,12 +5,13 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Complete } = require('@kingjs/rx.i-observer')
 var Watch = require('..')
 
-var fileName = 'temp'
+var FileName = 'temp'
+var Dir = '.'
 
 var result = [];
 
-var subject = new PathSubject()
-subject[Watch]('.', subject)
+var subject = new PathSubject(Dir)
+subject[Watch]()
   [Subscribe](
     () => result.push('next'),
     () => result.push('complete')
@@ -18,11 +19,11 @@ subject[Watch]('.', subject)
 
 setTimeout(() => {
   result.push('add')
-  fs.writeFileSync(fileName)
+  fs.writeFileSync(FileName)
 
   setTimeout(() => {
     result.push('remove')
-    fs.unlinkSync(fileName)
+    fs.unlinkSync(FileName)
 
     setTimeout(() => {
       result.push('stop')
@@ -30,8 +31,14 @@ setTimeout(() => {
 
       setTimeout(() => {
         assert.deepEqual(result, [
-          'add', 'next', 'remove', 'next', 'stop', 'complete'
-        ])   })
+          'add', 
+          'next', 
+          'remove', 
+          'next', 
+          'stop', 
+          'complete'
+        ])   
+      })
     }, 100)
   }, 100)
 }, 100)

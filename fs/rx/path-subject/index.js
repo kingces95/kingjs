@@ -14,7 +14,6 @@ class PathSubject extends Subject {
   constructor(
     path = DefaultPath, 
     parent = DefaultParent) {
-
     super()
 
     this.path = path

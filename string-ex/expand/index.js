@@ -3,9 +3,10 @@ var {
     defineExtension,
     stringEx: { replaceAll }
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
-var { name, version } = require('./package.json');
+var { name, version } = require('./package.json')
+var EmptyObject = { }
 
 /**
  * @description Given a string with the format of a template literal, 
@@ -20,20 +21,17 @@ var { name, version } = require('./package.json');
  * @returns A string whose placeholder have been replaced with the 
  * values of the corresponding descriptor keys.
  */
-function expand(descriptor) {
-
-  if (!descriptor)
-    return this;
+function expand(descriptor = EmptyObject) {
 
   // escape back-ticks
-  var result = this[replaceAll]('`', '\\`');
+  var result = this[replaceAll]('`', '\\`')
 
   // create and invoke function to expand template literal
-  var keys = Object.keys(descriptor);
-  var values = keys.map(x => descriptor[x]);
-  return Function(...keys, `return \`${result}\`;`)(...values);
+  var keys = Object.keys(descriptor)
+  var values = keys.map(x => descriptor[x])
+  return Function(...keys, `return \`${result}\``)(...values)
 }
 
 module.exports = defineExtension(
   String.prototype, name, version, expand
-);
+)

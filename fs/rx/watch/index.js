@@ -42,28 +42,21 @@ function watch() {
     watcher.on(Event.Change, 
       () => observer[Next]()
     )
-    watcher.on(Event.Close, () => {
-      watcher.removeAllListeners();
-      observer[Complete]()
-    })
+    watcher.on(Event.Close,
+      () => watcher.removeAllListeners()
+    )
     watcher.on(Event.Error, 
       e => observer[Error](e)
     )
 
-    var close = () => watcher.close();
-    var dispose = this[Subscribe](
+    return this[Subscribe](
       o => observer[Next](o),
       () => {
-        close()
+        watcher.close()
         observer[Complete]()
       },
       e => observer[Error](e)
     )
-
-    return () => {
-      close()
-      dispose()
-    }
   })
 }
 

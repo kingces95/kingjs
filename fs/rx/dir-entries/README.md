@@ -4,59 +4,44 @@ For each observation, emits many `IGroupObservable`s, one for each directory ent
 ```js
 require('@kingjs/shim')
 var assert = require('assert')
-var fs = require('fs')
-var path = require('path')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Finalize = require('@kingjs/rx.finalize')
-var Select = require('@kingjs/rx.select')
+var SelectMany = require('@kingjs/rx.select-many')
 var Do = require('@kingjs/rx.do')
 var Log = require('@kingjs/rx.log')
 var PathSubject = require('@kingjs/fs.rx.path-subject')
-var DirEntry = require('@kingjs/fs.rx.dir-entries')
+var DirEntries = require('@kingjs/fs.rx.dir-entries')
 
-// create testDir/file.txt
-var TempDirName = 'testDir';
-var TempFileName = 'file.txt';
-var TempFilePath = path.join(TempDirName, TempFileName);
-fs.mkdirSync(TempDirName)
-fs.writeFileSync(TempFilePath)
+//create testDir/file.txt
+var TempDirName = 'testDir'
+var TempFileName = 'file.txt'
 
-var result = [];
-
+var result = []
 var subject = new PathSubject(TempDirName)
-var dirEntries = subject
-  [DirEntry](TempDirName)
 
-dirEntries
-  [Select](o => 
-    o[Log]('DIR_ENTRY')
-    [Subscribe](
-      x => result.push(x),
-      () => result.push(o[Key])
+subject
+  [DirEntries]()
+  [Log]('DIR', '${path}')
+  [Do](o => result.push(o))
+  [SelectMany](entry => entry
+    [Do](
+      o => result.push(o),
+      o => result.push('COMPLETE FILE'),
     )
   )
-  [Subscribe]()
+  [Subscribe](
+    null,
+    () => {
+      result.push('COMPLETE DIR')
 
-dirEntries
-  [Log]('DIR')
-  [Do](
-    o => result.push(o),
-    o => result.push('.')
+      var i = 0
+      assert(result[i++].basename == TempFileName) // PathSubject
+      assert(result[i++] === null)
+      assert(result[i++] == 'COMPLETE FILE')
+      assert(result[i++] == 'COMPLETE DIR')
+      }
   )
-  [Finalize](o => {
-    fs.unlinkSync(TempFilePath)
-    fs.rmdirSync(TempDirName)
-    assert(result[0][Key] == 'file.txt') // IGroupedObservable Observed
-    assert(result[1] === null) // IGroupedObservable.Next: DirEntry
-    assert(result[2] === null) // IGroupedObservable.Next: DirEntry
-    assert(result[3] == 'file.txt') // IGroupedObservable.Complete
-    assert(result[4] == '.') // Complete
-  })
-  [Subscribe]()
 
-subject[Next](null)
 subject[Next](null)
 subject[Complete]()
 ```
@@ -84,15 +69,12 @@ $ npm install @kingjs/fs.rx.dir-entries
 |---|---|
 |[`@kingjs/fs.rx.path-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.path-subject)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
-|[`@kingjs/path.make-absolute`](https://www.npmjs.com/package/@kingjs/path.make-absolute)|`latest`|
 |[`@kingjs/reflect.export-extension`](https://www.npmjs.com/package/@kingjs/reflect.export-extension)|`latest`|
 |[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
-|[`@kingjs/rx.i-observable`](https://www.npmjs.com/package/@kingjs/rx.i-observable)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.rolling-select`](https://www.npmjs.com/package/@kingjs/rx.rolling-select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/dir-entries
 ## License

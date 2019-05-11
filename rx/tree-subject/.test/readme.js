@@ -1,7 +1,6 @@
 var assert = require('assert')
 var TreeSubject = require('..')
 var of = require('@kingjs/rx.of')
-var Pipe = require('@kingjs/rx.pipe')
 var IObservable = require('@kingjs/rx.i-observable')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Next, Complete, Error } = require('@kingjs/rx.i-observer')

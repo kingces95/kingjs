@@ -6,15 +6,17 @@ var {
     },
     fs: { 
       rx: { 
-        watch,
+        Watch,
         DirEntries,
         DistinctStats,
+        PathSubject,
       } 
     },
     rx: {
       Do,
       Publish,
       SelectMany,
+      GroupBy,
       Where,
       IGroupedObservable: { Key }
     },
@@ -22,9 +24,8 @@ var {
   }
 } = require('./dependencies')
 
-var DefaultDir = '.'
-var DefaultObservable = null
-var EmptyArray = []
+var DefaultPrune = null
+var DefaultWatcher = o => o[Watch]()
 
 /**
  * @description Watches for changes is a directory and its subdirectory.
@@ -43,27 +44,33 @@ var EmptyArray = []
  * @returns Returns an `IObservable` that emits events for various
  * file and directory events.
  */
-function watchMany(
-  dir = DefaultDir,
-  observable = DefaultObservable,
-  { watcher = watch, prune = null } = { }) {
+function watchMany({ 
+    watcher = DefaultWatcher, 
+    prune = DefaultPrune 
+  } = { }) {
 
-  var result = watcher(dir, observable)
-    [Publish](null)
-    [DirEntries](dir)
+  return watcher(this)
+    [DirEntries]()
     [SelectMany](entry => entry
-      [DistinctStats](Path.join(dir, entry[Key]))
-      [Where](
-        o => !prune || !o.isDirectory || !testPath(o.path, prune)
+      [DistinctStats]()
+      [Where](o => 
+        !prune || 
+        !o.isDirectory || 
+        !testPath(entry.path, prune)
       )
       [SelectMany](
-        x => watchMany(x.path, x, { watcher, prune }),
-        (o, x) => x,
-        x => !x.isDirectory
+        o => entry[WatchMany]({ watcher, prune }),
+        (x, o) => o,
+        o => !o.isDirectory
+      )
+      [GroupBy](
+        o => entry.path,
+        (k, o) => o,
+        k => new PathSubject(k)
       )
     )
+  }
 
-  return result
-}
 
-module.exports = watchMany
+
+var WatchMany = exportExtension(module, PathSubject, watchMany);

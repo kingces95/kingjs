@@ -3,7 +3,8 @@ exports['@kingjs'] = {
     rx: {
       DirEntries: require('@kingjs/fs.rx.dir-entries'),
       DistinctStats: require('@kingjs/fs.rx.distinct-stats'),
-      watch: require('@kingjs/fs.rx.watch'),
+      PathSubject: require('@kingjs/fs.rx.path-subject'),
+      Watch: require('@kingjs/fs.rx.watch'),
     },
   },
   path: {
@@ -14,6 +15,7 @@ exports['@kingjs'] = {
   },
   rx: {
     Do: require('@kingjs/rx.do'),
+    GroupBy: require('@kingjs/rx.group-by'),
     IGroupedObservable: require('@kingjs/rx.i-grouped-observable'),
     Publish: require('@kingjs/rx.publish'),
     SelectMany: require('@kingjs/rx.select-many'),

@@ -20,15 +20,12 @@
   "dependencies": {
     "@kingjs/fs.rx.path-subject": "latest",
     "@kingjs/linq.zip-join": "latest",
-    "@kingjs/path.make-absolute": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.group-by": "latest",
-    "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.log": "latest",
     "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",
-    "@kingjs/rx.select-many": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.select-many": "latest"
   },
   "nodeDependencies": [
     "fs",

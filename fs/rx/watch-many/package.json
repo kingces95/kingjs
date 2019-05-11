@@ -20,10 +20,12 @@
   "dependencies": {
     "@kingjs/fs.rx.dir-entries": "latest",
     "@kingjs/fs.rx.distinct-stats": "latest",
+    "@kingjs/fs.rx.path-subject": "latest",
     "@kingjs/fs.rx.watch": "latest",
     "@kingjs/path.test": "latest",
     "@kingjs/reflect.create-symbol": "latest",
     "@kingjs/rx.do": "latest",
+    "@kingjs/rx.group-by": "latest",
     "@kingjs/rx.i-grouped-observable": "latest",
     "@kingjs/rx.publish": "latest",
     "@kingjs/rx.select-many": "latest",

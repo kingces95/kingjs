@@ -2,7 +2,6 @@ var {
   path: Path,
   fs: { promises: fsp }, 
   ['@kingjs']: {
-    path: { makeAbsolute },
     fs: { rx: { PathSubject } },
     rx: { 
       Log,
@@ -10,9 +9,6 @@ var {
       RollingSelect,
       SelectMany,
       GroupBy,
-
-      Subject,
-      IObservable,
     },
     linq: { 
       ZipJoin, 
@@ -23,7 +19,7 @@ var {
 
 var WithFileTypes = { 
   //encoding: 'buffer'
-};
+}
 
 /**
  * @description For each observation, emits many `IGroupObservable`s, one
@@ -48,7 +44,7 @@ function dirEntries() {
     [Pool](() => fsp.readdir(this.path, WithFileTypes))     // promise -> dirEntry[]
     [RollingSelect](o => o[0][ZipJoin](o[1]))               // dirEntry[] -> {outer, inner, key}[]
     [SelectMany]()                                          // {outer, inner, key}[] -> {outer, inner, key}
-    //[Log](dir)                                            // inner = previous, outer = current
+    [Log]()                                            // inner = previous, outer = current
     [GroupBy](                                              // new = link, next = any, complete = unlink
       o => o.key,                                           // group by entry name
       (k, o) => null,                                       // simply raise event without any event data
@@ -57,4 +53,4 @@ function dirEntries() {
     )
 }
 
-exportExtension(module, IObservable, dirEntries);
+exportExtension(module, PathSubject, dirEntries)
