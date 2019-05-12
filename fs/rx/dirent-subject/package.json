@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.dir-entries",
+  "name": "@kingjs/fs.rx.dirent-subject",
   "version": "1.0.0",
   "description": "Given a directory returns the directories entries.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/dir-entries"
+    "url": "https://repository.kingjs.net/fs/rx/dirent-subject"
   },
   "keywords": [],
   "license": "MIT",

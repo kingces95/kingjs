@@ -41,31 +41,26 @@ var WithFileTypes = {
  * @remarks - A path unlinked between source `PathSubject` emissions results
  * in completion of the previously emitted `PathSubject` for the unlinked path.
  **/
-function dirEntries() {
-  return this
-    [Pool](() => fsp.readdir(this.path, WithFileTypes))     // promise -> dirEntry[]
-    [RollingSelect](o => o[0]                               // dirEntry[] -> {outer, inner, key}[]
-      [ZipJoin](o[1],
-        o => o.name,
-        o => o.name
-      )
-    )              
-    [SelectMany]()                                          // {outer, inner, key}[] -> {outer, inner, key}
-    [Log]()                                                 // inner = previous, outer = current
-    [GroupBy](                                              // new = link, next = any, complete = unlink
-      o => o.key,                                           // group by entry name
-      name => new PathSubject(name, this),                  // activate group for entry
-      o => o.outer,                                         // select the current dirEnt
-      o => !o.outer                                         // emit `complete` on unlinked
-    )
-}
-
-class DirSubject extends PathSubject {
+class DirentSubject extends PathSubject {
   constructor(dir, parent) {
-    super(dir, parent, observer => {
-      
-    })
+    super(dir, parent, () => this
+      [Pool](() => fsp.readdir(dir, WithFileTypes)) // promise -> dirEntry[]
+      [RollingSelect](o => o[0]                     // dirEntry[] -> {outer, inner, key}[]
+        [ZipJoin](o[1],
+          o => o.name,
+          o => o.name
+        )
+      )              
+      [SelectMany]()                                // {outer, inner, key}[] -> {outer, inner, key}
+      [Log]()                                       // inner = previous, outer = current
+      [GroupBy](                                    // new = link, next = any, complete = unlink
+        o => o.key,                                 // group by entry name
+        name => new DirentSubject(name, this),      // activate group for entry
+        o => o.outer,                               // select the current dirEnt
+        o => !o.outer                               // emit `complete` on unlinked
+      )
+    )
   }
 }
 
-exportExtension(module, PathSubject, dirEntries)
+module.exports = DirentSubject

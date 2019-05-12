@@ -10,7 +10,6 @@ var subject = new Subject();
 var grouping = subject
   [GroupBy](
     o => o % 2 ? 'odd' : 'even', 
-    (k, o) => -o,
     k => new Subject(),
   )
 
@@ -27,8 +26,8 @@ subject[Next](2)
 subject[Next](3)
 
 assert.deepEqual(result, {
-  even: [ 0, -2 ],
-  odd: [ -1, -3 ]
+  even: [ 0, 2 ],
+  odd: [ 1, 3 ]
 })
 
 result = [ ];

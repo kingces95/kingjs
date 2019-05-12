@@ -23,16 +23,13 @@ var {
 } = require('./dependencies')
 
 /**
- * @description Returns a `IGroupedObservable` with `path` for a `Key` 
- * that emits `IGroupedObservable`s with `stats.ino` for `Key` that each
- * emit `stats.ino` whenever the `ctime` changes. 
+ * @description Returns the stats for a path that have a different 
+ * `ctime` than the last observed stats for the path.
  * 
- * @param [path] The path whose stat `ctime` changes are to be 
- * partitioned by `ino`.
+ * @this any The `PathSubject` whose stats will be observed.
  * 
- * @returns Returns a `IObservable` which emits `IGroupedObservable`s
- * where each completes before the next is emitted and emits whenever
- * the ctime changes between source `IObservable` emissions.
+ * @returns Returns a `PathSubject` which emits `StatsSubjects` which
+ * in turn emits `Stats` of the path.
  * 
  * @remarks - If a source emission is observed before the stat for
  * the previous emission has been read and reported, then the emission

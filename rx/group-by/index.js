@@ -16,9 +16,9 @@ var {
 } = require('./dependencies')
 
 var DefaultKeySelector = o => o
-var DefaultResultSelector = (k, o) => o
-var DefaultGroupActivator = k => new Subject()
-var DefaultGroupCloser = (k, o) => false
+var DefaultGroupActivator = (o, k) => new Subject()
+var DefaultResultSelector = (o, k) => o
+var DefaultGroupCloser = (o, k) => false
 
 /**
  * @description Returns an `IObservable` that emits an `IGroupedObservable`
@@ -38,17 +38,17 @@ var DefaultGroupCloser = (k, o) => false
  * @param value The value emitted by `this`.
  * @returns Returns a primitive key used to group the value.
  * 
+ * @callback groupActivator
+ * @param key The group's key.
+ * @returns Returns a `Subject` to be used to emit values for the group
+ * identified by `key`.
+  * 
  * @callback resultSelector
  * @param key The group's key.
  * @param value The group's next value.
  * @returns Returns a projection of the value that would otherwise be 
  * emitted by a group identified by `key`.
- * 
- * @callback groupActivator
- * @param key The group's key.
- * @returns Returns a `Subject` to be used to emit values for the group
- * identified by `key`.
- * 
+* 
  * @callback groupCloser
  * @param key The group's key.
  * @param value The group's next value.
@@ -63,8 +63,8 @@ var DefaultGroupCloser = (k, o) => false
  */
 function groupBy(
   keySelector = DefaultKeySelector, 
-  resultSelector = DefaultResultSelector,
   groupActivator = DefaultGroupActivator,
+  resultSelector = DefaultResultSelector,
   groupCloser = DefaultGroupCloser
 ) {
 
@@ -90,13 +90,13 @@ function groupBy(
           observer[Next](group)
         }
 
-        if (groupCloser(key, o)) {
+        if (groupCloser(o, key)) {
           group[Complete]()
           delete groups[key]
           return
         }
 
-        group[Next](resultSelector(key, o))
+        group[Next](resultSelector(o, key))
       },
       () => {
         for (var key in groups) {

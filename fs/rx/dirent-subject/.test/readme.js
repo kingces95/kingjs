@@ -5,18 +5,16 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var SelectMany = require('@kingjs/rx.select-many')
 var Do = require('@kingjs/rx.do')
 var Log = require('@kingjs/rx.log')
-var PathSubject = require('@kingjs/fs.rx.path-subject')
-var DirEntries = require('..')
+var DirentSubject = require('..')
 
 //create testDir/file.txt
 var TempDirName = 'testDir'
 var TempFileName = 'file.txt'
 
 var result = []
-var subject = new PathSubject(TempDirName)
+var subject = new DirentSubject(TempDirName)
 
 subject
-  [DirEntries]()
   [Log]('DIR', '${path}')
   [Do](o => assert(o.parent == subject))
   [Do](o => result.push(o))
@@ -32,7 +30,7 @@ subject
       result.push('COMPLETE DIR')
 
       var i = 0
-      assert(result[i] instanceof PathSubject)
+      assert(result[i] instanceof DirentSubject)
       assert(result[i++].basename == TempFileName)
 
       assert(result[i].constructor.name == 'Dirent')
@@ -40,8 +38,8 @@ subject
       
       assert(result[i++] == 'COMPLETE FILE')
       assert(result[i++] == 'COMPLETE DIR')
-      }
+    }
   )
 
 subject[Next](null)
-subject[Complete]()
+//subject[Complete]()

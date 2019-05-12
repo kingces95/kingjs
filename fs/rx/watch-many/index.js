@@ -65,12 +65,9 @@ function watchMany({
       )
       [GroupBy](
         o => entry.path,
-        (k, o) => o,
         k => new PathSubject(k)
       )
     )
   }
-
-
 
 var WatchMany = exportExtension(module, PathSubject, watchMany);

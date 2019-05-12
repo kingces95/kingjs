@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.rx.path-subject",
+  "name": "@kingjs/rx.proxy-subject",
   "version": "1.0.0",
-  "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
+  "description": "A class that that proxies events to a private `IObserver` and subscribes clients to a  private `IObservable`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,18 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/path-subject"
+    "url": "https://repository.kingjs.net/rx/proxy-subject"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/buffer.append": "latest",
+    "@kingjs/reflect.create-symbol": "latest",
     "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "path"
+    "assert"
   ],
   "capitalize": true
 }

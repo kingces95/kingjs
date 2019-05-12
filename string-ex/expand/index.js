@@ -27,7 +27,9 @@ function expand(descriptor = EmptyObject) {
   var result = this[replaceAll]('`', '\\`')
 
   // create and invoke function to expand template literal
-  var keys = Object.keys(descriptor)
+  var keys = []
+  for (var o in descriptor)
+    keys.push(o)
   var values = keys.map(x => descriptor[x])
   return Function(...keys, `return \`${result}\``)(...values)
 }

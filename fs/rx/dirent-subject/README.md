@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[dir-entries][ns2]
+# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[dirent-subject][ns2]
 Given a directory returns the directories entries.
 ## Usage
 ```js
@@ -9,18 +9,16 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var SelectMany = require('@kingjs/rx.select-many')
 var Do = require('@kingjs/rx.do')
 var Log = require('@kingjs/rx.log')
-var PathSubject = require('@kingjs/fs.rx.path-subject')
-var DirEntries = require('@kingjs/fs.rx.dir-entries')
+var DirentSubject = require('@kingjs/fs.rx.dirent-subject')
 
 //create testDir/file.txt
 var TempDirName = 'testDir'
 var TempFileName = 'file.txt'
 
 var result = []
-var subject = new PathSubject(TempDirName)
+var subject = new DirentSubject(TempDirName)
 
 subject
-  [DirEntries]()
   [Log]('DIR', '${path}')
   [Do](o => assert(o.parent == subject))
   [Do](o => result.push(o))
@@ -36,7 +34,7 @@ subject
       result.push('COMPLETE DIR')
 
       var i = 0
-      assert(result[i] instanceof PathSubject)
+      assert(result[i] instanceof DirentSubject)
       assert(result[i++].basename == TempFileName)
 
       assert(result[i].constructor.name == 'Dirent')
@@ -44,17 +42,14 @@ subject
       
       assert(result[i++] == 'COMPLETE FILE')
       assert(result[i++] == 'COMPLETE DIR')
-      }
+    }
   )
 
 subject[Next](null)
-subject[Complete]()
+//subject[Complete]()
 ```
 
-## API
-```ts
-dirEntries(this)
-```
+
 
 ### Parameters
 - `this`: A directory represented by a `PathSubject` whose contents are to be emitted.
@@ -68,7 +63,7 @@ Returns an `IObservable` that emits a `PathSubject` for each directory entry eac
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/fs.rx.dir-entries
+$ npm install @kingjs/fs.rx.dirent-subject
 ```
 ## Dependencies
 |Package|Version|
@@ -82,13 +77,13 @@ $ npm install @kingjs/fs.rx.dir-entries
 |[`@kingjs/rx.rolling-select`](https://www.npmjs.com/package/@kingjs/rx.rolling-select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
 ## Source
-https://repository.kingjs.net/fs/rx/dir-entries
+https://repository.kingjs.net/fs/rx/dirent-subject
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/fs/rx/dir-entries)
+![Analytics](https://analytics.kingjs.net/fs/rx/dirent-subject)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/fs
 [ns1]: https://www.npmjs.com/package/@kingjs/fs.rx
-[ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.dir-entries
+[ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.dirent-subject

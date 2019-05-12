@@ -15,7 +15,9 @@ var is = {
   string: o => typeof o == 'string' || o instanceof String,
   symbol: o => typeof o == 'symbol',
   stringOrSymbol: o => is.string(o) || is.symbol(o),
+  
   regex: o => o instanceof RegExp,
+  buffer: o => o instanceof Buffer,
   
   nonEmptyString: o => is.string(o) && o.length > 0,
 
