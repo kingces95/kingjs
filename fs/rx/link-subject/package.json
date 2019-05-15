@@ -25,7 +25,8 @@
     "@kingjs/rx.window-by": "latest"
   },
   "nodeDependencies": [
-    "fs"
+    "fs",
+    "path"
   ],
   "capitalize": true
 }

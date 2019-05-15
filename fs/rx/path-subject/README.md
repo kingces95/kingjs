@@ -5,6 +5,7 @@ Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObse
 var assert = require('assert')
 var Path = require('path')
 var Select = require('@kingjs/rx.select')
+var Subject = require('@kingjs/rx.subject')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathSubject = require('@kingjs/fs.rx.path-subject')
@@ -69,6 +70,7 @@ var result = []
 var zero = new PathSubject(
   '.', 
   null, 
+  () => new Subject(),
   o => o[Select](x => x + 1)
 )
 
@@ -93,6 +95,7 @@ $ npm install @kingjs/fs.rx.path-subject
 |Package|Version|
 |---|---|
 |[`@kingjs/buffer.append`](https://www.npmjs.com/package/@kingjs/buffer.append)|`latest`|
+|[`@kingjs/reflect.create-symbol`](https://www.npmjs.com/package/@kingjs/reflect.create-symbol)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
 ## Source

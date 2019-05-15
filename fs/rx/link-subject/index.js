@@ -1,4 +1,5 @@
 var { 
+  path: Path,
   fs: { promises: fsp }, 
   ['@kingjs']: {
     reflect: { createSymbol },
@@ -19,8 +20,17 @@ var DefaultSubjectFactory = o => new BehaviorSubject(null)
 var SubjectFactory = createSymbol(module, 'subject-factory')
 
 class LinkSubject extends PathSubject {
+
   static create(subjectFactory) {
     return new LinkSubject({ subjectFactory })
+  }
+
+  static watch(path) {
+    var { name, dir } = Path.parse(path)
+    if (!dir || dir == RootDir)
+    return LinkSubject.create(
+      o => new WatchSubject(path)
+    )
   }
 
   constructor({ name, parent, subjectFactory = DefaultSubjectFactory }) {

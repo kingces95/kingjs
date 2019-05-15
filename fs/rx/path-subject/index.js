@@ -2,13 +2,18 @@ var {
   assert,
   path: Path,
   ['@kingjs']: {
-    reflect: { is },
+    reflect: { 
+      is,
+      createSymbol 
+    },
     buffer: { Append },
     rx: { 
       ProxySubject,
     },
   }
 } = require('./dependencies')
+
+var { Activate, CreateSubject } = ProxySubject;
 
 var CurrentDir = '.'
 var CurrentDirBuffer = Buffer.from(CurrentDir)
@@ -17,6 +22,7 @@ var Sep = Buffer.from(Path.sep)
 var RootPath
 
 class PathSubject extends ProxySubject {
+
   static get Root() {
     if (!RootPath)
       RootPath = new PathSubject()
@@ -57,13 +63,24 @@ class PathSubject extends ProxySubject {
     this.buffer = buffer
   }
 
+  create(name) {
+    return new this.constructor(
+      name, 
+      this, 
+      this[CreateSubject], 
+      this[Activate]
+    )
+  }
+
   get path() {
     return this.buffer.toString()
   }
+  
   get dir() {
     assert(!this.isRoot)
     return this.parent.path
   }
+
   toString() {
     return this.path
   }

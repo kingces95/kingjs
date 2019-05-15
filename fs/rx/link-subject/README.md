@@ -4,12 +4,15 @@ Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObse
 ```js
 require('@kingjs/shim')
 var assert = require('assert')
+var Path = require('path')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var SelectMany = require('@kingjs/rx.select-many')
 var Do = require('@kingjs/rx.do')
 var Log = require('@kingjs/rx.log')
 var WatchSubject = require('@kingjs/fs.rx.watch-subject')
 var LinkSubject = require('@kingjs/fs.rx.link-subject')
+
+var parse = Path.parse('/foo/bar')
 
 process.chdir('test')
 

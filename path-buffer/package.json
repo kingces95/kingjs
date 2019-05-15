@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.path-subject",
+  "name": "@kingjs/path-buffer",
   "version": "1.0.0",
   "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
   "main": "index.js",
@@ -13,15 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/path-subject"
+    "url": "https://repository.kingjs.net/path-buffer"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/buffer.append": "latest",
-    "@kingjs/reflect.create-symbol": "latest",
-    "@kingjs/reflect.is": "latest",
-    "@kingjs/rx.proxy-subject": "latest"
+    "@kingjs/reflect.is": "latest"
   },
   "nodeDependencies": [
     "assert",
