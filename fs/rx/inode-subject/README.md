@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[stats-subject][ns2]
+# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[inode-subject][ns2]
 Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.
 ## Usage
 ```js
@@ -16,7 +16,7 @@ var Select = require('@Kingjs/rx.select')
 var Spy = require('@Kingjs/rx.spy')
 var Log = require('@Kingjs/rx.log')
 var Subject = require('@Kingjs/rx.subject')
-var DistinctStats = require('@kingjs/fs.rx.stats-subject')
+var DistinctStats = require('@kingjs/fs.rx.inode-subject')
 
 var TempFileName = 'file.txt'
 
@@ -99,20 +99,21 @@ setTimeout(() => {
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/fs.rx.stats-subject
+$ npm install @kingjs/fs.rx.inode-subject
 ```
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
-https://repository.kingjs.net/fs/rx/stats-subject
+https://repository.kingjs.net/fs/rx/inode-subject
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/fs/rx/stats-subject)
+![Analytics](https://analytics.kingjs.net/fs/rx/inode-subject)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/fs
 [ns1]: https://www.npmjs.com/package/@kingjs/fs.rx
-[ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.stats-subject
+[ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.inode-subject

@@ -15,8 +15,10 @@ var {
 
 var RealObserver = createSymbol(module, 'real-observer')
 var RealObservable = createSymbol(module, 'real-observable')
+var Initialize = createSymbol(module, 'initialize')
 
 var DefaultCreateObservable = o => o
+var DefaultCreateSubject = o => new Subject()
 
 /**
  * @description A class that that proxies events to
@@ -30,25 +32,37 @@ var DefaultCreateObservable = o => o
 class ProxySubject {
 
   constructor(
-    createObservable = DefaultCreateObservable,
-    observer = new Subject()) {
+    createSubject = DefaultCreateSubject,
+    createObservable = DefaultCreateObservable) {
 
-    assert(observer)
-    this[RealObserver] = observer
+    this[Initialize] = () => {
 
-    var observable = createObservable(observer)
-    assert(observer)
-    this[RealObservable] = observable
+      var subject = createSubject(this)
+      assert(subject)
+      this[RealObserver] = subject
+  
+      var observable = createObservable(subject)
+      assert(observable)
+      this[RealObservable] = observable
+
+      return observable
+    }
   }
 
   // IObserver
   [Next](o) {
+    if (!this[RealObserver])
+      return
     this[RealObserver][Next](o)
   }
   [Complete]() { 
+    if (!this[RealObserver])
+      this[Initialize]()
     this[RealObserver][Complete]()
   }
   [Error](e) { 
+    if (!this[RealObserver])
+      this[Initialize]()
     this[RealObserver][Error](e)
   }
 
@@ -59,6 +73,9 @@ class ProxySubject {
     error) {
 
     var observable = this[RealObservable]
+    if (!observable)
+      observable = this[Initialize]()
+
     return observable[Subscribe].apply(observable, arguments)
   }
 }

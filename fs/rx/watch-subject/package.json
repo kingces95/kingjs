@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.rx.stats-subject",
+  "name": "@kingjs/fs.rx.watch-subject",
   "version": "1.0.0",
-  "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
+  "description": "Watch a path.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,12 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/stats-subject"
+    "url": "https://repository.kingjs.net/fs/rx/watch-subject"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.behavior-subject": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "fs"

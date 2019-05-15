@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.path-subject",
+  "name": "@kingjs/fs.rx.dir-subject",
   "version": "1.0.0",
   "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
   "main": "index.js",
@@ -13,18 +13,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/path-subject"
+    "url": "https://repository.kingjs.net/fs/rx/dir-subject"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/buffer.append": "latest",
-    "@kingjs/reflect.is": "latest",
-    "@kingjs/rx.proxy-subject": "latest"
+    "@kingjs/fs.rx.inode-subject": "latest",
+    "@kingjs/fs.rx.link-subject": "latest",
+    "@kingjs/linq.zip-join": "latest",
+    "@kingjs/rx.group-by": "latest",
+    "@kingjs/rx.log": "latest",
+    "@kingjs/rx.pool": "latest",
+    "@kingjs/rx.rolling-select": "latest",
+    "@kingjs/rx.select-many": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "path"
+    "fs"
   ],
   "capitalize": true
 }

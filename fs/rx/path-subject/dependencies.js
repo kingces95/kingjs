@@ -6,7 +6,7 @@ exports['@kingjs'] = {
     is: require('@kingjs/reflect.is'),
   },
   rx: {
-    Subject: require('@kingjs/rx.subject'),
+    ProxySubject: require('@kingjs/rx.proxy-subject'),
   },
 }
 exports['assert'] = require('assert')

@@ -18,12 +18,12 @@ subject
   [Log]('DIR', '${path}')
   [Do](o => assert(o.parent == subject))
   [Do](o => result.push(o))
-  [SelectMany](entry => entry
-    [Do](
-      o => result.push(o),
-      () => result.push('COMPLETE FILE'),
-    )
-  )
+  // [SelectMany](entry => entry
+  //   [Do](
+  //     o => result.push(o),
+  //     () => result.push('COMPLETE FILE'),
+  //   )
+  // )
   [Subscribe](
     null,
     () => {
@@ -42,4 +42,4 @@ subject
   )
 
 subject[Next](null)
-//subject[Complete]()
+subject[Complete]()

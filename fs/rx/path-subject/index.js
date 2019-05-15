@@ -5,7 +5,7 @@ var {
     reflect: { is },
     buffer: { Append },
     rx: { 
-      Subject,
+      ProxySubject,
     },
   }
 } = require('./dependencies')
@@ -16,7 +16,7 @@ var CurrentDirBuffer = Buffer.from(CurrentDir)
 var Sep = Buffer.from(Path.sep)
 var RootPath
 
-class PathSubject extends Subject {
+class PathSubject extends ProxySubject {
   static get Root() {
     if (!RootPath)
       RootPath = new PathSubject()
@@ -25,8 +25,11 @@ class PathSubject extends Subject {
 
   constructor(
     basename = CurrentDir,
-    parent) {
-    super()
+    parent,
+    createSubject,
+    activate) {
+    super(createSubject, activate)
+
     assert(is.string(basename))
 
     basename = Path.normalize(basename)

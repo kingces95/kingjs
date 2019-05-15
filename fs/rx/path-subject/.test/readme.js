@@ -1,6 +1,7 @@
 var assert = require('assert')
 var Path = require('path')
 var Select = require('@kingjs/rx.select')
+var Subject = require('@kingjs/rx.subject')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathSubject = require('..')
@@ -61,9 +62,15 @@ root[Subscribe](o => result.push(o))
 root[Complete]()
 assert.deepEqual(result, [ ])
 
-// var result = []
-// var zero = new PathSubject('.', null, o => o[Select](x => x + 1))
-// zero[Subscribe](o => result.push(o))
-// zero[Next](0)
-// zero[Complete]()
-// assert.deepEqual(result, [ 1 ])
+var result = []
+var zero = new PathSubject(
+  '.', 
+  null, 
+  () => new Subject(),
+  o => o[Select](x => x + 1)
+)
+
+zero[Subscribe](o => result.push(o))
+zero[Next](0)
+zero[Complete]()
+assert.deepEqual(result, [ 1 ])

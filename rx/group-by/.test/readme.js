@@ -30,6 +30,7 @@ assert.deepEqual(result, {
   odd: [ 1, 3 ]
 })
 
+// replay groups for subsequent subscriptions
 result = [ ];
 grouping[Subscribe](
   o => result.push(o[Key])

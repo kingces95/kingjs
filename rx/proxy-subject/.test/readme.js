@@ -1,11 +1,13 @@
 var assert = require('assert')
 var ProxySubject = require('..')
+var Subject = require('@kingjs/rx.subject')
 var Select = require('@kingjs/rx.select')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Next, Complete, Error } = require('@kingjs/rx.i-observer')
 
 // select
 var proxy = new ProxySubject(
+  () => new Subject(),
   o => o[Select](x => x + 1)
 )
 

@@ -70,57 +70,59 @@ function groupBy(
 
   var observable = this
 
-  var result = new Subject(observer => {
-    var groups = result[Value] = { }
+  var result = new Subject(
+    observer => {
+      var groups = result[Value] = { }
 
-    return observable[Subscribe](
-      o => {
-        var key = keySelector(o)
+      return observable[Subscribe](
+        o => {
+          var key = keySelector(o)
 
-        var group = groups[key]
-        if (!group) {
+          var group = groups[key]
+          if (!group) {
 
-          // activate and cache group
-          group = groups[key] = groupActivator(key)
+            // activate and cache group
+            group = groups[key] = groupActivator(key)
 
-          // implement IGroupedObservable
-          group[Key] = key 
+            // implement IGroupedObservable
+            group[Key] = key 
 
-          // emit group
-          observer[Next](group)
+            // emit group
+            observer[Next](group)
+          }
+
+          if (groupCloser(o, key)) {
+            group[Complete]()
+            delete groups[key]
+            return
+          }
+
+          group[Next](resultSelector(o, key))
+        },
+        () => {
+          for (var key in groups) {
+            groups[key][Complete]()
+            delete groups[key]
+          }
+          observer[Complete]()
+        },
+        o => {
+          for (var key in groups) {
+            groups[key][Error](o)
+            delete groups[key]
+          }
+          observer[Error](o)
         }
+      )
+    },
+    (next, finished) => {
+      var groups = result[Value]
+      assert(!finished || !Object.keys(groups).length)
 
-        if (groupCloser(o, key)) {
-          group[Complete]()
-          delete groups[key]
-          return
-        }
-
-        group[Next](resultSelector(o, key))
-      },
-      () => {
-        for (var key in groups) {
-          groups[key][Complete]()
-          delete groups[key]
-        }
-        observer[Complete]()
-      },
-      o => {
-        for (var key in groups) {
-          groups[key][Error](o)
-          delete groups[key]
-        }
-        observer[Error](o)
-      }
-    )
-  },
-  (next, finished) => {
-    var groups = result[Value]
-    assert(!finished || !Object.keys(groups).length)
-
-    for (var key in groups)
-      next(groups[key])
-  })
+      for (var key in groups)
+        next(groups[key])
+    }
+  )
 
   return result
 }

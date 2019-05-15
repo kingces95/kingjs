@@ -18,15 +18,15 @@ var Value = 'value'
  */
 class BehaviorSubject extends Subject {
 
-  constructor(value) {
-    super(null, function onSubscribe(next, disposed) {
+  constructor(value, activate) {
+    super(activate, function onSubscribe(next, disposed) {
       if (disposed)
         return
 
       if (Value in this == false)
         return
 
-      this[Next](this[Value])
+      next(this[Value])
     })
 
     if (arguments.length)

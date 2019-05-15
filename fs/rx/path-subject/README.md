@@ -65,12 +65,17 @@ root[Subscribe](o => result.push(o))
 root[Complete]()
 assert.deepEqual(result, [ ])
 
-// var result = []
-// var zero = new PathSubject('.', null, o => o[Select](x => x + 1))
-// zero[Subscribe](o => result.push(o))
-// zero[Next](0)
-// zero[Complete]()
-// assert.deepEqual(result, [ 1 ])
+var result = []
+var zero = new PathSubject(
+  '.', 
+  null, 
+  o => o[Select](x => x + 1)
+)
+
+zero[Subscribe](o => result.push(o))
+zero[Next](0)
+zero[Complete]()
+assert.deepEqual(result, [ 1 ])
 
 ```
 
@@ -89,7 +94,7 @@ $ npm install @kingjs/fs.rx.path-subject
 |---|---|
 |[`@kingjs/buffer.append`](https://www.npmjs.com/package/@kingjs/buffer.append)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+|[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/path-subject
 ## License
