@@ -1,76 +1,35 @@
+require('@kingjs/shim')
 var assert = require('assert')
 var Path = require('path')
 var Select = require('@kingjs/rx.select')
-var Subject = require('@kingjs/rx.subject')
+var SelectMany = require('@kingjs/rx.select-many')
+var Log = require('@kingjs/rx.log')
+var WatchSubject = require('@kingjs/fs.rx.watch-subject')
+
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathSubject = require('..')
 
-var Dot = '.'
-var root = PathSubject.Root
-assert(root.isRoot)
-assert(root.parent === null)
-assert(root.basename === Dot)
-assert(root.toString() == root.path)
-assert(root.buffer.toString() === root.path)
-assert(root.buffer.toString() === Dot)
+// relative
+var relative = PathSubject.create(null, null)
+assert(!relative.isAbsolute)
 
-assert(new PathSubject('foo').root = root)
-
-var root = new PathSubject()
-assert(root.isRoot)
-assert(root.parent === null)
-assert(root.basename === Dot)
-assert(root.toString() == root.path)
-assert(root.buffer.toString() === root.path)
-assert(root.buffer.toString() === Dot)
-
-var Foo = 'foo'
-var foo = new PathSubject(Foo, root)
-assert(!foo.isRoot)
-assert(foo.parent == root)
-assert(foo.dir === Dot)
-assert(foo.basename === Foo)
-assert(foo.toString() == foo.path)
-assert(foo.buffer.toString() === foo.path)
-assert(foo.buffer.toString() === Foo)
-
-var keys = []
-for (var o in foo)
-  keys.push(o)
-
-var Bar = 'bar'
-var bar = new PathSubject(Bar, foo)
-assert(!bar.isRoot)
+// compose path foo/bar
+var foo = relative.joinWith('foo')
+var bar = foo.joinWith('bar')
+assert(bar.path == 'foo/bar')
 assert(bar.parent == foo)
-assert(bar.dir === foo.path)
-assert(bar.basename === Bar)
-assert(bar.buffer.toString() === bar.path)
-assert(bar.buffer.toString() === Path.join(foo.path, bar.basename))
 
-var Baz = 'baz'
-var baz = new PathSubject(Baz, bar)
-assert(!baz.isRoot)
-assert(baz.parent == bar)
-assert(baz.dir === bar.path)
-assert(baz.basename === Baz)
-assert(baz.buffer.toString() === baz.path)
-assert(baz.buffer.toString() === Path.join(bar.path, baz.basename))
+// absolute
+var absolute = PathSubject.createAbsolute(null, null)
+assert(absolute.isAbsolute)
 
-var result = []
-root[Subscribe](o => result.push(o))
-root[Complete]()
-assert.deepEqual(result, [ ])
-
-var result = []
-var zero = new PathSubject(
-  '.', 
-  null, 
-  () => new Subject(),
-  o => o[Select](x => x + 1)
+process.chdir('test')
+var pwd = PathSubject.create(
+  o => new WatchSubject(o.buffer)
 )
-
-zero[Subscribe](o => result.push(o))
-zero[Next](0)
-zero[Complete]()
-assert.deepEqual(result, [ 1 ])
+pwd
+  [Log]('FOO')
+  [SelectMany]()
+  [Log]('STATS')
+  [Subscribe]()

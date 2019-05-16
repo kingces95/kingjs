@@ -40,13 +40,6 @@ var WithFileTypes = {
  * 
  * @remarks - A path unlinked between source `PathSubject` emissions results
  * in completion of the previously emitted `PathSubject` for the unlinked path.
- * 
- * linkSubject(name, parent) extends pathSubject : null -> stats -> inoSubject
- * dirSubject(ino) extends inoSubject : linkSubject -> names -> linkSubjects if new paths
- * fileSubject(ino) extends inoSubject : linkSubject -> ctime -> null if newer
- * inoSubject(ino) extends pathSubject
- * pathSubject(name, parent) extends proxySubject
- * proxySubject implements IObservable, IObserver
  **/
 function dirEntries() {
   return this

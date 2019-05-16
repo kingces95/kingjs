@@ -1,30 +1,58 @@
 # @[kingjs][@kingjs]/[path-buffer][ns0]
-Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.
+An working set efficient representation of paths.
 ## Usage
 ```js
 var assert = require('assert')
 var Path = require('path')
-var Select = require('@kingjs/rx.select')
-var Subject = require('@kingjs/rx.subject')
-var { Next, Complete } = require('@kingjs/rx.i-observer')
-var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathBuffer = require('@kingjs/path-buffer')
 
 var Sep = Path.sep
 
+var parseAbsolute = Path.parse('/')
+var parseRelative = Path.parse('.')
+
+var root = PathBuffer.create()
+var foo = root.joinWith('foo')
+var bar = foo.joinWith('bar')
+assert(bar.path == `foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`.${Sep}foo${Sep}bar`)
+assert(pathBuffer.path == `foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`foo${Sep}bar`)
+assert(pathBuffer.path == `foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`${Sep}foo${Sep}bar`)
+assert(pathBuffer.path == `${Sep}foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`${Sep}foo${Sep}..`)
+assert(pathBuffer.pathAsDir == `${Sep}`)
+
+var pathBuffer = PathBuffer.create(`${Sep}`)
+assert(pathBuffer.dir === undefined)
+assert(pathBuffer.name == ``)
+assert(pathBuffer.path == `${Sep}`)
+assert(pathBuffer.pathAsDir == `${Sep}`)
+
+var pathBuffer = PathBuffer.create(``)
+assert(pathBuffer.dir == undefined)
+assert(pathBuffer.name == `.`)
+assert(pathBuffer.path == `.`)
+assert(pathBuffer.pathAsDir == ``)
+
 function test(pathBuffer, isRelative) {
-  assert(pathBuffer.isRelative == isRelative)
-  assert(pathBuffer.isAbsolute != pathBuffer.isRelative)
-  assert(!pathBuffer.parent || pathBuffer.parent.path == pathBuffer.dir)
-  assert(!pathBuffer.parent == pathBuffer.isRoot)
-  assert(pathBuffer.buffer.toString() == pathBuffer.toString())
-  assert(pathBuffer.buffer.toString() == pathBuffer.path)
+  assert(pathBuffer.isAbsolute != isRelative)
+  assert(pathBuffer.bufferAsDir.toString() == pathBuffer.pathAsDir)
 }
 
 function testRoot(pathBuffer, name, isRelative) {
   assert(pathBuffer.isRoot)
-  assert(pathBuffer.name === isRelative ? '' : Sep)
-  assert(pathBuffer.dir == undefined)
+  assert(pathBuffer.name === undefined)
+  assert(pathBuffer.buffer === undefined)
+  assert(pathBuffer.path === undefined)
+
+  assert(pathBuffer.pathAsDir === isRelative ? '' : Sep)
+  assert(pathBuffer.bufferAsDir.toString() == pathBuffer.pathAsDir)
 
   test(pathBuffer, isRelative)
 }
@@ -32,7 +60,14 @@ function testRoot(pathBuffer, name, isRelative) {
 function testComposite(pathBuffer, root, name, isRelative) {
   assert(pathBuffer.name === name)
   assert(!pathBuffer.isRoot)
-  assert(pathBuffer.dir == isRelative ? '' : Sep)
+  var dir = isRelative ? '' : Sep
+  assert(pathBuffer.dir == dir)
+  assert(pathBuffer.path == `${dir}${name}`)
+  assert(pathBuffer.parent)
+  assert(pathBuffer.parent.pathAsDir == pathBuffer.dir)
+  assert(!pathBuffer.isRoot)
+  assert(pathBuffer.buffer.toString() == pathBuffer.toString())
+  assert(pathBuffer.buffer.toString() == pathBuffer.path)
 
   testRoot(pathBuffer.parent, root, isRelative)
   test(pathBuffer, isRelative)
@@ -46,16 +81,26 @@ testComposite(PathBuffer.create('.' + Sep + 'foo'), '', 'foo', true)
 testComposite(PathBuffer.create('foo'), '', 'foo', true)
 testComposite(PathBuffer.create(Sep + 'foo'), Sep, 'foo', false)
 
-var root = PathBuffer.create()
-var foo = root.create('foo')
-var bar = foo.create('bar')
-assert(bar.path == `foo${sep}bar`)
 ```
 
 
 
 
-
+### Remarks
+ - `PathBuffer.create([path])`: Activate a new `PathBuffer`
+   - Uses `path.normalize` to normalize the path
+ - `PathBuffer` supports the following methods and properties
+   - `joinWith(name)`: Takes a string and returns a `PathBuffer`
+   - `buffer`: The path as a buffer
+   - `bufferAsDir`: The path as a directory (with trailing sep) as a buffer
+   - `name` : The name of the file or directory
+   - `path` : The path as a string
+   - `pathAsDir` : The path as a directory (with trailing sep) as a string
+   - `dir` : The directory of the `PathBuffer` as a string
+   - `parent` : The parent `PathBuffer`
+   - `root` : The ultimate ancestor
+   - `isRoot` : `true` if there is no `parent`
+   - `isAbsolute` : `true` if the `root` `bufferAsDir` is a separator
 
 ## Install
 With [npm](https://npmjs.org/) installed, run

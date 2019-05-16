@@ -4,16 +4,26 @@ A class that that proxies events to a private `IObserver` and subscribes clients
 ```js
 var assert = require('assert')
 var ProxySubject = require('@kingjs/rx.proxy-subject')
+var is = require('@kingjs/reflect.is')
 var Subject = require('@kingjs/rx.subject')
 var Select = require('@kingjs/rx.select')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Next, Complete, Error } = require('@kingjs/rx.i-observer')
 
+// symbols
+var { Activate, CreateSubject } = ProxySubject;
+assert(is.symbol(Activate))
+assert(is.symbol(CreateSubject))
+
 // select
-var proxy = new ProxySubject(
-  () => new Subject(),
-  o => o[Select](x => x + 1)
-)
+var activate = o => o[Select](x => x + 1)
+var createSubject = o => {
+  assert(o instanceof ProxySubject)
+  return new Subject()
+}
+var proxy = new ProxySubject(createSubject, activate)
+assert(proxy[Activate] == activate)
+assert(proxy[CreateSubject] == createSubject)
 
 // subscribe
 var result = []

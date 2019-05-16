@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[link-subject][ns2]
-Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.
+Represents the link between a path and an inode.
 ## Usage
 ```js
 require('@kingjs/shim')
@@ -32,7 +32,8 @@ testFile
 
 
 
-
+### Remarks
+For each observation, the link is checked and if its  changed then the previously emitted InodeSubject, if any, is closed and a new derivation InodeSubject is emitted.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run

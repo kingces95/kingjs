@@ -1,28 +1,46 @@
 var assert = require('assert')
 var Path = require('path')
-var Select = require('@kingjs/rx.select')
-var Subject = require('@kingjs/rx.subject')
-var { Next, Complete } = require('@kingjs/rx.i-observer')
-var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathBuffer = require('..')
 
 var Sep = Path.sep
 
+var parseAbsolute = Path.parse('/')
+var parseRelative = Path.parse('.')
+
+var root = PathBuffer.create()
+var foo = root.joinWith('foo')
+var bar = foo.joinWith('bar')
+assert(bar.path == `foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`.${Sep}foo${Sep}bar`)
+assert(pathBuffer.path == `foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`foo${Sep}bar`)
+assert(pathBuffer.path == `foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`${Sep}foo${Sep}bar`)
+assert(pathBuffer.path == `${Sep}foo${Sep}bar`)
+
+var pathBuffer = PathBuffer.create(`${Sep}foo${Sep}..`)
+assert(pathBuffer.pathAsDir == `${Sep}`)
+
+var pathBuffer = PathBuffer.create(`${Sep}`)
+assert(pathBuffer.dir === undefined)
+assert(pathBuffer.name == ``)
+assert(pathBuffer.path == `${Sep}`)
+assert(pathBuffer.pathAsDir == `${Sep}`)
+
+var pathBuffer = PathBuffer.create(``)
+assert(pathBuffer.dir == undefined)
+assert(pathBuffer.name == `.`)
+assert(pathBuffer.path == `.`)
+assert(pathBuffer.pathAsDir == ``)
+
 function test(pathBuffer, isRelative) {
-  assert(pathBuffer.isRelative == isRelative)
-  assert(pathBuffer.isAbsolute != pathBuffer.isRelative)
-  assert(!pathBuffer.parent || pathBuffer.parent.path == pathBuffer.dir)
-  assert(!pathBuffer.parent == pathBuffer.isRoot)
   assert(pathBuffer.buffer.toString() == pathBuffer.toString())
   assert(pathBuffer.buffer.toString() == pathBuffer.path)
-}
-
-function testRoot(pathBuffer, name, isRelative) {
-  assert(pathBuffer.isRoot)
-  assert(pathBuffer.name === isRelative ? '' : Sep)
-  assert(pathBuffer.dir == undefined)
-
-  test(pathBuffer, isRelative)
+  assert(pathBuffer.isAbsolute != isRelative)
+  assert(pathBuffer.bufferAsDir.toString() == pathBuffer.pathAsDir)
 }
 
 function testComposite(pathBuffer, root, name, isRelative) {
@@ -31,20 +49,17 @@ function testComposite(pathBuffer, root, name, isRelative) {
   var dir = isRelative ? '' : Sep
   assert(pathBuffer.dir == dir)
   assert(pathBuffer.path == `${dir}${name}`)
+  assert(pathBuffer.parent)
+  assert(pathBuffer.parent.pathAsDir == pathBuffer.dir)
+  assert(!pathBuffer.isRoot)
 
-  testRoot(pathBuffer.parent, root, isRelative)
   test(pathBuffer, isRelative)
 }
 
-testRoot(PathBuffer.create('.'), '', true)
-testRoot(PathBuffer.create(''), '', true)
-testRoot(PathBuffer.create(Sep), Sep, false)
+test(PathBuffer.create('.'), true)
+test(PathBuffer.create(''), true)
+test(PathBuffer.create(Sep), false)
 
 testComposite(PathBuffer.create('.' + Sep + 'foo'), '', 'foo', true)
 testComposite(PathBuffer.create('foo'), '', 'foo', true)
 testComposite(PathBuffer.create(Sep + 'foo'), Sep, 'foo', false)
-
-var root = PathBuffer.create()
-var foo = root.create('foo')
-var bar = foo.create('bar')
-assert(bar.path == `foo${sep}bar`)

@@ -5,4 +5,5 @@ exports['@kingjs'] = {
     IObserver: require('@kingjs/rx.i-observer'),
   },
 }
+exports['assert'] = require('assert')
 exports['fs'] = require('fs')

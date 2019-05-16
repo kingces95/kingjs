@@ -13,7 +13,8 @@ var Dir = '.'
 
 var result = [];
 
-new WatchSubject(Dir)
+var subject = new WatchSubject(Dir)
+subject
   [Subscribe](
     () => result.push('next'),
     () => result.push('complete')
@@ -33,6 +34,7 @@ setTimeout(() => {
 
       setTimeout(() => {
         assert.deepEqual(result, [
+          'next', 
           'add', 
           'next', 
           'remove', 

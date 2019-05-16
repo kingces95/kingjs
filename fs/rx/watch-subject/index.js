@@ -1,4 +1,5 @@
-var { 
+var {
+  assert, 
   fs,
   ['@kingjs']: {
     rx: {
@@ -34,6 +35,8 @@ var Options = {
  **/
 class WatchSubject extends BehaviorSubject {
   constructor(path) {
+    assert(path)
+
     super(null, observer => {
       var watcher = fs.watch(path, Options)
   

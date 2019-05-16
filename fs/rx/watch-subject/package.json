@@ -23,6 +23,7 @@
     "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
+    "assert",
     "fs"
   ],
   "capitalize": true

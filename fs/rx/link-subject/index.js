@@ -19,6 +19,13 @@ var {
 var DefaultSubjectFactory = o => new BehaviorSubject(null)
 var SubjectFactory = createSymbol(module, 'subject-factory')
 
+/**
+ * @description Represents the link between a path and an inode.
+ * 
+ * @remarks For each observation, the link is checked and if its 
+ * changed then the previously emitted InodeSubject, if any, is
+ * closed and a new derivation InodeSubject is emitted.
+ */
 class LinkSubject extends PathSubject {
 
   static create(subjectFactory) {
@@ -33,7 +40,11 @@ class LinkSubject extends PathSubject {
     )
   }
 
-  constructor({ name, parent, subjectFactory = DefaultSubjectFactory }) {
+  constructor({ 
+    name, 
+    parent, 
+    subjectFactory = DefaultSubjectFactory }) {
+
     super(name, parent, 
       subjectFactory,
       o => o
@@ -51,7 +62,7 @@ class LinkSubject extends PathSubject {
     this[SubjectFactory] = subjectFactory
   }
 
-  create(name) {
+  joinWith(name) {
     return new LinkSubject({ 
       name, 
       parent: this,

@@ -105,7 +105,7 @@ $ npm install @kingjs/fs.rx.dir-subject
 |Package|Version|
 |---|---|
 |[`@kingjs/fs.rx.inode-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.inode-subject)|`latest`|
-|[`@kingjs/fs.rx.link-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.link-subject)|`latest`|
+|[`@kingjs/fs.rx.path-subject`](https://www.npmjs.com/package/@kingjs/fs.rx.path-subject)|`latest`|
 |[`@kingjs/linq.zip-join`](https://www.npmjs.com/package/@kingjs/linq.zip-join)|`latest`|
 |[`@kingjs/rx.group-by`](https://www.npmjs.com/package/@kingjs/rx.group-by)|`latest`|
 |[`@kingjs/rx.log`](https://www.npmjs.com/package/@kingjs/rx.log)|`latest`|

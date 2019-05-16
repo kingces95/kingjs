@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/path-buffer",
   "version": "1.0.0",
-  "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
+  "description": "An working set efficient representation of paths.",
   "main": "index.js",
   "files": [
     "*.js"

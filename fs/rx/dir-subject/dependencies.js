@@ -2,7 +2,7 @@ exports['@kingjs'] = {
   fs: {
     rx: {
       InodeSubject: require('@kingjs/fs.rx.inode-subject'),
-      LinkSubject: require('@kingjs/fs.rx.link-subject'),
+      PathSubject: require('@kingjs/fs.rx.path-subject'),
     },
   },
   linq: {

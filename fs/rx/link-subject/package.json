@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.rx.link-subject",
   "version": "1.0.0",
-  "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
+  "description": "Represents the link between a path and an inode.",
   "main": "index.js",
   "files": [
     "*.js"
