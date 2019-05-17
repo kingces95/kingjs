@@ -39,6 +39,10 @@ class PathBuffer {
     path = Path.normalize(path)
     var { base: name, dir } = Path.parse(path)
 
+    // bug on windows
+    if (name == EmptyString)
+      name = Dot
+
     if (name == Dot || (!name && dir == Sep))
       return new PathBuffer(dir === Sep)
 
