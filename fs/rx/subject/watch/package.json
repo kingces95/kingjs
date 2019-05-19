@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/fs.rx.subject.motion-detector",
+  "version": "1.0.0",
+  "description": "Watch a path.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/rx/subject/motion-detector"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/rx.behavior-subject": "latest",
+    "@kingjs/rx.i-observer": "latest"
+  },
+  "nodeDependencies": [
+    "assert",
+    "fs"
+  ],
+  "capitalize": true
+}

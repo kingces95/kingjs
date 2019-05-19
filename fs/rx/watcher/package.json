@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/fs.rx.watcher",
+  "version": "1.0.0",
+  "description": "Given a directory returns the directories entries.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/rx/watcher"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/fs.rx.inode-heap": "latest",
+    "@kingjs/fs.rx.path-subject": "latest",
+    "@kingjs/path-buffer": "latest"
+  },
+  "nodeDependencies": [
+    "path"
+  ],
+  "capitalize": true
+}

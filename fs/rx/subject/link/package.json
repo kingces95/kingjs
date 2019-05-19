@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/fs.rx.subject.link",
+  "version": "1.0.0",
+  "description": "Represents the link between a path and an inode.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/rx/subject/link"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/rx.subject": "latest"
+  },
+  "nodeDependencies": [
+    "fs",
+    "path"
+  ],
+  "capitalize": true
+}

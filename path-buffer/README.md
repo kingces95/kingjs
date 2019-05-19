@@ -41,20 +41,10 @@ assert(pathBuffer.path == `.`)
 assert(pathBuffer.pathAsDir == ``)
 
 function test(pathBuffer, isRelative) {
+  assert(pathBuffer.buffer.toString() == pathBuffer.toString())
+  assert(pathBuffer.buffer.toString() == pathBuffer.path)
   assert(pathBuffer.isAbsolute != isRelative)
   assert(pathBuffer.bufferAsDir.toString() == pathBuffer.pathAsDir)
-}
-
-function testRoot(pathBuffer, name, isRelative) {
-  assert(pathBuffer.isRoot)
-  assert(pathBuffer.name === undefined)
-  assert(pathBuffer.buffer === undefined)
-  assert(pathBuffer.path === undefined)
-
-  assert(pathBuffer.pathAsDir === isRelative ? '' : Sep)
-  assert(pathBuffer.bufferAsDir.toString() == pathBuffer.pathAsDir)
-
-  test(pathBuffer, isRelative)
 }
 
 function testComposite(pathBuffer, root, name, isRelative) {
@@ -66,16 +56,13 @@ function testComposite(pathBuffer, root, name, isRelative) {
   assert(pathBuffer.parent)
   assert(pathBuffer.parent.pathAsDir == pathBuffer.dir)
   assert(!pathBuffer.isRoot)
-  assert(pathBuffer.buffer.toString() == pathBuffer.toString())
-  assert(pathBuffer.buffer.toString() == pathBuffer.path)
 
-  testRoot(pathBuffer.parent, root, isRelative)
   test(pathBuffer, isRelative)
 }
 
-testRoot(PathBuffer.create('.'), '', true)
-testRoot(PathBuffer.create(''), '', true)
-testRoot(PathBuffer.create(Sep), Sep, false)
+test(PathBuffer.create('.'), true)
+test(PathBuffer.create(''), true)
+test(PathBuffer.create(Sep), false)
 
 testComposite(PathBuffer.create('.' + Sep + 'foo'), '', 'foo', true)
 testComposite(PathBuffer.create('foo'), '', 'foo', true)

@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/fs.rx.subject.dir",
+  "version": "1.0.0",
+  "description": "Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObservable`s with `stats.ino` for `Key` that each emit `stats.ino` whenever the `ctime` changes.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/rx/subject/dir"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/fs.rx.subject.dirent": "latest",
+    "@kingjs/fs.rx.subject.inode": "latest",
+    "@kingjs/linq.zip-join": "latest",
+    "@kingjs/rx.group-by": "latest",
+    "@kingjs/rx.rolling-select": "latest",
+    "@kingjs/rx.select-many": "latest"
+  },
+  "nodeDependencies": [
+    "fs"
+  ],
+  "capitalize": true
+}
