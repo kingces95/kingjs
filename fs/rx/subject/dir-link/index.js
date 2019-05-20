@@ -11,6 +11,8 @@ var {
   }
 } = require('./dependencies')
 
+var Directory = 'directory'
+
 /**
  * @description Represents a directory link between a path and an inode.
  */
@@ -21,6 +23,8 @@ class DirLink extends LinkSubject {
     inode) {
     super(path, inode)
   }
+
+  get type() { return Directory }
 }
 
 module.exports = DirLink

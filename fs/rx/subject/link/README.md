@@ -43,7 +43,7 @@ $ npm install @kingjs/fs.rx.subject.link
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+|[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/subject/link
 ## License

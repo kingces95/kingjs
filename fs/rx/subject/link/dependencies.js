@@ -1,6 +1,6 @@
 exports['@kingjs'] = {
   rx: {
-    Subject: require('@kingjs/rx.subject'),
+    ProxySubject: require('@kingjs/rx.proxy-subject'),
   },
 }
 exports['fs'] = require('fs')

@@ -25,6 +25,9 @@ var {
   }
 } = require('./dependencies')
 
+var File = 'file'
+var Directory = 'directory'
+
 var { CreateSubject } = ProxySubject
 var DefaultCreateSubject = o => new Watch(o.buffer)
 
@@ -54,27 +57,29 @@ var DefaultCreateSubject = o => new Watch(o.buffer)
 class PathSubject extends ProxySubject {
 
   constructor(
-    name,
-    parent,
+    pathBuffer,
     createSubject,
-    select) {
+    parent) {
 
-    super(createSubject, select)
-
-    var pathBuffer = parent ?
-      parent.pathBuffer.joinWith(name) :
-      PathBuffer.create(name)
-
+    super(createSubject, o => o
+      [Pool](() => fsp.stat(this.buffer))
+      [WindowBy](
+        stats => stats.ino,
+        (stats, ino) => stats,
+        (stats, ino) => {
+          var type = getStatsType(stats)
+          return LinkSubject.create(this, type, ino)
+        }
+      )
+    )
+  
     this.pathBuffer = pathBuffer
     this.parent = parent
   }
 
-  joinWith(name) { assert.fail() }
-
-  get root() { return this.isRoot ? this : this.parent.root }
+  get root() { return this.root = this.parent.root }
 
   // compose PathBuffer
-  get isRoot() { return this.pathBuffer.isRoot }
   get buffer() { return this.pathBuffer.buffer }
   get name() { return this.pathBuffer.name }
   get path() { return this.pathBuffer.path }
@@ -84,6 +89,16 @@ class PathSubject extends ProxySubject {
   get isAbsolute() { return this.pathBuffer.isAbsolute }
 
   toString() { return this.pathBuffer.toString() }
+}
+
+function getStatsType(stats) {
+  if (stats.isFile())
+    return File
+  
+  if (stats.isDirectory())
+    return Directory
+
+  assert.fail()
 }
 
 module.exports = PathSubject

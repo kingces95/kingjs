@@ -9,18 +9,19 @@ var {
 } = require('./dependencies')
 
 class InodeSubject extends ProxySubject {
-  static create(stats) {
-    if (stats.isFile())
-      return new FileSubject(stats)
+  static create(ino, type) {
+    if (type == 'file')
+      return new FileSubject(ino)
 
-    if (stats.isDirectory())
-      return new DirSubject(stats)
+    if (type == 'directory')
+      return new DirSubject(ino)
 
     assert.fail()
   }
 
   constructor(ino, select) {
-    super(() => new Subject(), select)
+    super(null, select)
+
     this.ino = ino
   }
 }

@@ -18,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.proxy-subject": "latest"
   },
   "nodeDependencies": [
     "fs",
