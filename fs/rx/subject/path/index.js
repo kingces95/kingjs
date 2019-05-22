@@ -68,7 +68,7 @@ class PathSubject extends ProxySubject {
           var stats = await fsp.stat(this.buffer)
           var result = { stats }
           if (stats.isDirectory())
-            result.dirent = await fsp.readdir(this.buffer)
+            result.dirent = fsp.readdir(this.buffer)
           return result
         } catch(e) { } // ignore; assume race lost with deletion 
       })
