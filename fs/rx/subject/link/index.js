@@ -3,13 +3,13 @@ var {
     fs: {
       rx: {
         IObservable: { Subscribe },
-        IObserver: { Next },
+        IObserver: { Next, Complete, Error },
         subject: {
           File,
           Directory
         }
       }
-    }
+    },
     rx: {
       Subject,
       ProxySubject,
@@ -19,6 +19,7 @@ var {
 
 var File = 'file'
 var Directory = 'directory'
+var throwNextTick = x => process.nextTick(() => { throw x })
 
 /**
  * @description Represents the link between a path and an inode.
@@ -39,27 +40,36 @@ class LinkSubject {
     assert.fail()
   }
 
-  constructor(path, ino, select) {
-    var subject
-
+  constructor(path, ino) {
     super(
-      () => {
-        subject = new Subject()
-        subject[Subscribe](
-          stats => this.inode[Next](stats),
-          () => this.inodeHeap.free(inode)
-        )
+      () => this.inode, 
+      inode => {
+        var subject = new Subject()
+        var unsubscribe = inode[Subscribe](subject)
+
+        this.dispose = () => {
+          unsubscribe()
+          this.inodeHeap.free(inode)
+          subject[Complete]()
+        }
 
         return subject
-      }, 
-      () => {
-        select(this.inode)
       }
     )
 
     this.ino = ino
     this.path = path
     this.inode = inode
+  }
+
+  [Complete]() {
+    if (!this.dispose)
+      return
+    dispose()
+  }
+
+  [Error](e) {
+    throwNextTick(e)
   }
 
   // discriminator (abstract)

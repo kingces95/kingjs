@@ -20,6 +20,7 @@ var {
     rx: {
       Pool,
       WindowBy,
+      Where,
       ProxySubject,
     },
   }
@@ -62,12 +63,21 @@ class PathSubject extends ProxySubject {
     parent) {
 
     super(createSubject, o => o
-      [Pool](() => fsp.stat(this.buffer))
+      [Pool](() => {
+        try {
+          var stats = await fsp.stat(this.buffer)
+          var result = { stats }
+          if (stats.isDirectory())
+            result.dirent = await fsp.readdir(this.buffer)
+          return result
+        } catch(e) { } // ignore; assume race lost with deletion 
+      })
+      [Where]()
       [WindowBy](
-        stats => stats.ino,
-        (stats, ino) => stats,
-        (stats, ino) => {
-          var type = getStatsType(stats)
+        o => o.stats.ino,
+        (o, ino) => o.dirent || o.stats,
+        (o, ino) => {
+          var type = getStatsType(o.stats)
           return LinkSubject.create(this, type, ino)
         }
       )

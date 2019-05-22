@@ -17,11 +17,8 @@ var File = 'file'
  * @description Represents a file link between a path and an inode.
  */
 class FileLink extends LinkSubject {
-
-  constructor(
-    path, 
-    inode) {
-    super(path, inode)
+  constructor(path, ino) {
+    super(path, ino)
   }
 
   get type() { return File }
