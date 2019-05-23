@@ -1,7 +1,6 @@
 exports['@kingjs'] = {
   rx: {
-    ProxySubject: require('@kingjs/rx.proxy-subject'),
-    Subject: require('@kingjs/rx.subject'),
+    BehaviorSubject: require('@kingjs/rx.behavior-subject'),
   },
 }
 exports['assert'] = require('assert')

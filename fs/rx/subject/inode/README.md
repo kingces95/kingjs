@@ -104,8 +104,7 @@ $ npm install @kingjs/fs.rx.subject.inode
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
-|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+|[`@kingjs/rx.behavior-subject`](https://www.npmjs.com/package/@kingjs/rx.behavior-subject)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/subject/inode
 ## License

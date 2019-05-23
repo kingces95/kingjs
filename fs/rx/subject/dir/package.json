@@ -18,10 +18,10 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.rx.subject.dirent": "latest",
     "@kingjs/fs.rx.subject.inode": "latest",
     "@kingjs/linq.zip-join": "latest",
     "@kingjs/rx.group-by": "latest",
+    "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",
     "@kingjs/rx.select-many": "latest"
   },

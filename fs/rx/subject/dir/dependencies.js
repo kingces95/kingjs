@@ -2,7 +2,6 @@ exports['@kingjs'] = {
   fs: {
     rx: {
       subject: {
-        Dirent: require('@kingjs/fs.rx.subject.dirent'),
         Inode: require('@kingjs/fs.rx.subject.inode'),
       },
     },
@@ -12,6 +11,7 @@ exports['@kingjs'] = {
   },
   rx: {
     GroupBy: require('@kingjs/rx.group-by'),
+    Pool: require('@kingjs/rx.pool'),
     RollingSelect: require('@kingjs/rx.rolling-select'),
     SelectMany: require('@kingjs/rx.select-many'),
   },

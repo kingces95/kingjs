@@ -1,38 +1,38 @@
 require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
+var fsp = require('fs').promises
 var Path = require('path')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Do = require('@kingjs/rx.do')
-var InodeSubject = require('@kingjs/fs.rx.subject.inode')
-var DirentSubject = require('@kingjs/fs.rx.subject.dirent')
+var sleep = require('@kingjs/promise.sleep')
 var DirSubject = require('..')
 
 var DirName = 'test'
 var FileName = 'test.txt'
 var FilePath = Path.join(DirName, FileName)
 
+// clean out test file and dir
 if (fs.existsSync(FilePath))
   fs.unlinkSync(FilePath)
-
 if (fs.existsSync(DirName))
   fs.rmdirSync(DirName)
 
+  // create test dir
 fs.mkdirSync(DirName)
-var stats = fs.statSync(DirName)
 
-var dir = InodeSubject.create(stats)
+// create DirSubject
+var stats = fs.statSync(DirName)
+var dir = new DirSubject(stats)
 assert(dir instanceof DirSubject)
 assert(dir.isDirectory)
 assert(dir.ino = stats.ino)
 
+// trap for various events
 var result = 0
 dir
-  [Do](o => assert(o instanceof DirentSubject))
-  [Do](o => assert(o.dir == dir))
-  [Do](o => assert(o.name == FileName))
   [Do](o => assert(o[Key] == FileName))
   [Subscribe](
     o => o[Subscribe](
@@ -45,21 +45,41 @@ dir
     () => result = -2
   )
 
-var dirent = fs.readdirSync(DirName)
-dir[Next](dirent)
-assert(result == 0)
+// trigger events
+var ms = 100
+async function test() {
 
-fs.writeFileSync(FilePath)
-var dirent = fs.readdirSync(DirName)
-dir[Next](dirent)
-dir[Next](dirent)
-assert(result == 2)
+  // no file
+  var dirent = fsp.readdir(DirName)
+  dir[Next](dirent)
+  assert(result == 0)
+  await sleep(ms)
 
-fs.unlinkSync(FilePath)
-var dirent = fs.readdirSync(DirName)
-dir[Next](dirent)
-assert(result == -1)
+  // new file
+  fs.writeFileSync(FilePath)
+  var dirent = fsp.readdir(DirName)
+  dir[Next](dirent)
+  await sleep(ms)
+  assert(result == 1)
 
-fs.rmdirSync(DirName)
-dir[Complete]()
-assert(result == -2)
+  // same file
+  var dirent = fsp.readdir(DirName)
+  dir[Next](dirent)
+  await sleep(ms)
+  assert(result == 2)
+  
+  // remove file
+  fs.unlinkSync(FilePath)
+  var dirent = fsp.readdir(DirName)
+  dir[Next](dirent)
+  await sleep(ms)
+  assert(result == -1)
+  
+  // remove dir + complete
+  fs.rmdirSync(DirName)
+  dir[Complete]()
+  await sleep(ms)
+  assert(result == -2)
+}
+
+test()
