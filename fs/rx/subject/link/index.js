@@ -59,7 +59,6 @@ class LinkSubject {
 
     this.ino = ino
     this.path = path
-    this.inode = inode
   }
 
   [Complete]() {
@@ -73,13 +72,9 @@ class LinkSubject {
   }
 
   // discriminator (abstract)
-  get type() { assert.fail() }
 
   // compose inode
-  get inode() {
-    var { type, ino, inodeHeap } = this
-    return this.inode = inodeHeap.allocate(type, ino)
-  }
+  get inode() { assert.fail() } // abstract
   get isFile() { return this.inode.isFile }
   get isDirectory() { return this.inode.isDirectory }
 

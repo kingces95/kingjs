@@ -8,6 +8,7 @@ exports['@kingjs'] = {
   },
   rx: {
     DistinctUntilChanged: require('@kingjs/rx.distinct-until-changed'),
+    Publish: require('@kingjs/rx.publish'),
   },
 }
 exports['assert'] = require('assert')

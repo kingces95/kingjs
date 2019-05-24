@@ -2,14 +2,14 @@ var {
   assert,
   ['@kingjs']: {
     rx: {
-      BehaviorSubject,
+      ProxySubject,
     },
   }
 } = require('./dependencies')
 
-class InodeSubject extends BehaviorSubject {
+class InodeSubject extends ProxySubject {
   constructor(ino, activate) {
-    super(activate)
+    super(undefined, activate)
 
     this.ino = ino
   }

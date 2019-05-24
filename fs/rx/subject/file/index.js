@@ -1,14 +1,14 @@
 var { 
-  assert,
   ['@kingjs']: {
     fs: {
-      rx: { 
+      rx: {
         subject: { 
           Inode: InodeSubject 
         } 
       }
     },
     rx: {
+      Publish,
       DistinctUntilChanged,
     },
   }
@@ -18,6 +18,7 @@ class FileSubject extends InodeSubject {
   constructor(ino) {
     super(ino, o => o
       [DistinctUntilChanged](o => o.ctime.getTime())
+      [Publish]()
     )
   }
 

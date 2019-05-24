@@ -68,6 +68,11 @@ async function test() {
   await sleep(ms)
   assert(result == 2)
   
+  // ensure published; replay existing dirs
+  var replay
+  dir[Subscribe](o => replay = o)
+  replay[Key] == DirName
+
   // remove file
   fs.unlinkSync(FilePath)
   var dirent = fsp.readdir(DirName)

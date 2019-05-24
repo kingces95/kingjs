@@ -11,8 +11,6 @@ var {
   }
 } = require('./dependencies')
 
-var File = 'file'
-
 /**
  * @description Represents a file link between a path and an inode.
  */
@@ -21,7 +19,10 @@ class FileLink extends LinkSubject {
     super(path, ino)
   }
 
-  get type() { return File }
+  get inode() {
+    var { ino, inodeHeap } = this
+    return this.inode = inodeHeap.allocateFile(ino)
+  }
 }
 
 module.exports = FileLink

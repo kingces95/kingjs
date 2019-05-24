@@ -18,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/rx.behavior-subject": "latest"
+    "@kingjs/rx.proxy-subject": "latest"
   },
   "nodeDependencies": [
     "assert"

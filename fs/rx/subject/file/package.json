@@ -19,7 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.rx.subject.inode": "latest",
-    "@kingjs/rx.distinct-until-changed": "latest"
+    "@kingjs/rx.distinct-until-changed": "latest",
+    "@kingjs/rx.publish": "latest"
   },
   "nodeDependencies": [
     "assert"

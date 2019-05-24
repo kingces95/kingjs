@@ -5,85 +5,53 @@ Returns a `IGroupedObservable` with `path` for a `Key`  that emits `IGroupedObse
 require('@kingjs/shim')
 var assert = require('assert')
 var fs = require('fs')
-var path = require('path')
-var is = require('@kingjs/reflect.is')
+var Do = require('@kingjs/rx.do')
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Finalize = require('@Kingjs/rx.finalize')
-var Select = require('@Kingjs/rx.select')
-var Do = require('@Kingjs/rx.spy')
 var FileSubject = require('@kingjs/fs.rx.subject.file')
 
 var FileName = 'test.txt'
 
-var result = []
+// get stats
+var stats = fs.statSync(FileName)
+var { ino } = stats
 
-var file = new FileSubject()
+// create subject
+var file = new FileSubject(ino)
+assert(file.isFile)
+assert(file.ino == ino)
 
+// wait for timestamp changes 
+var result
+file[Subscribe](
+  o => result = o,
+  () => result = undefined
+)
+
+// push first stat through
+file[Next](stats)
+assert(result == stats)
+
+// no change so no event
+result = null
+file[Next](stats)
+assert(result == null)
+
+// ensure replay of last stat
+var behavior
 file
-  [Do](
-    // assert Key looks like a stats.ino
-    o => {
-      assert(is.number(o[Key]))
-      assert(path.basename(o.path) == TempFileName)
-    }
-  )
-  [Select](o => o
-    [Subscribe](
-      x => result.push('CHANGE'),
-      () => result.push(
-        `UNLINK PATH`
-      )
-    )
-  )
+  [Do](o => behavior = o)
   [Subscribe]()
+assert(behavior.ino == ino)
 
-file
-  [Do](
-    o => result.push(
-      `LINK PATH`
-    ),
-    () => result.push('COMPLETE')
-  )
-  [Finalize](o => {
-    fs.unlinkSync(TempFileName)
-    assert.deepEqual(result, [ 
-      'LINK PATH',
-      'CHANGE',
-      'CHANGE',
-      'UNLINK PATH',
-      'LINK PATH',
-      'CHANGE',
-      'UNLINK PATH',
-      'COMPLETE' 
-    ])
-  })
-  [Subscribe]()
+// update file
+fs.writeFileSync(FileName)
+var stats = fs.statSync(FileName)
+file[Next](stats)
+assert(result == stats)
 
-var t = 0
-var dt = 10
-
-setTimeout(() => {
-  var stats = fs.statSync('.')
-  subject[Next](stats)
-}, t += dt)
-
-setTimeout(() => {
-  fs.writeFileSync(TempFileName)
-  subject[Next]()
-  subject[Next]()
-}, t += dt)
-
-setTimeout(() => {
-  fs.unlinkSync(TempFileName)
-  fs.writeFileSync(TempFileName)
-  subject[Next]()
-}, t += dt)
-
-setTimeout(() => {
-  subject[Complete]()
-}, t += dt)
+file[Complete]()
+assert(result === undefined)
 ```
 
 
@@ -101,6 +69,7 @@ $ npm install @kingjs/fs.rx.subject.file
 |---|---|
 |[`@kingjs/fs.rx.subject.inode`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.inode)|`latest`|
 |[`@kingjs/rx.distinct-until-changed`](https://www.npmjs.com/package/@kingjs/rx.distinct-until-changed)|`latest`|
+|[`@kingjs/rx.publish`](https://www.npmjs.com/package/@kingjs/rx.publish)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/subject/file
 ## License

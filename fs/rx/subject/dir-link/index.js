@@ -24,7 +24,10 @@ class DirLink extends LinkSubject {
     super(path, inode)
   }
 
-  get type() { return Directory }
+  get inode() {
+    var { ino, inodeHeap } = this
+    return this.inode = inodeHeap.allocateDir(ino)
+  }
 }
 
 module.exports = DirLink

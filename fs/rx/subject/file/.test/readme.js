@@ -40,6 +40,7 @@ file
   [Subscribe]()
 assert(behavior.ino == ino)
 
+// update file
 fs.writeFileSync(FileName)
 var stats = fs.statSync(FileName)
 file[Next](stats)
