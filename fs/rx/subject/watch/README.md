@@ -1,4 +1,4 @@
-# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[subject][ns2].[motion-detector][ns3]
+# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[subject][ns2].[watch][ns3]
 Watch a path.
 ## Usage
 ```js
@@ -6,7 +6,7 @@ var assert = require('assert')
 var fs = require('fs')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Complete } = require('@kingjs/rx.i-observer')
-var WatchSubject = require('@kingjs/fs.rx.subject.motion-detector')
+var WatchSubject = require('@kingjs/fs.rx.subject.watch')
 
 var FileName = 'temp'
 var Dir = '.'
@@ -61,7 +61,7 @@ Returns an `IObservable` that emits `null` whenever the content of the path chan
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/fs.rx.subject.motion-detector
+$ npm install @kingjs/fs.rx.subject.watch
 ```
 ## Dependencies
 |Package|Version|
@@ -69,14 +69,14 @@ $ npm install @kingjs/fs.rx.subject.motion-detector
 |[`@kingjs/rx.behavior-subject`](https://www.npmjs.com/package/@kingjs/rx.behavior-subject)|`latest`|
 |[`@kingjs/rx.i-observer`](https://www.npmjs.com/package/@kingjs/rx.i-observer)|`latest`|
 ## Source
-https://repository.kingjs.net/fs/rx/subject/motion-detector
+https://repository.kingjs.net/fs/rx/subject/watch
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/fs/rx/subject/motion-detector)
+![Analytics](https://analytics.kingjs.net/fs/rx/subject/watch)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/fs
 [ns1]: https://www.npmjs.com/package/@kingjs/fs.rx
 [ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.subject
-[ns3]: https://www.npmjs.com/package/@kingjs/fs.rx.subject.motion-detector
+[ns3]: https://www.npmjs.com/package/@kingjs/fs.rx.subject.watch

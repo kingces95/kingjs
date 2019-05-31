@@ -18,14 +18,17 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/buffer.append": "latest",
-    "@kingjs/fs.rx.inode-heap": "latest",
-    "@kingjs/fs.rx.subject.link": "latest",
-    "@kingjs/path-buffer": "latest",
+    "@kingjs/fs.rx.subject.dir": "latest",
+    "@kingjs/fs.rx.subject.dir-link": "latest",
+    "@kingjs/fs.rx.subject.file": "latest",
+    "@kingjs/fs.rx.subject.file-link": "latest",
+    "@kingjs/fs.rx.subject.path": "latest",
     "@kingjs/reflect.create-symbol": "latest",
     "@kingjs/reflect.is": "latest",
     "@kingjs/rx.pool": "latest",
     "@kingjs/rx.proxy-subject": "latest",
+    "@kingjs/rx.singletons": "latest",
+    "@kingjs/rx.where": "latest",
     "@kingjs/rx.window-by": "latest"
   },
   "nodeDependencies": [

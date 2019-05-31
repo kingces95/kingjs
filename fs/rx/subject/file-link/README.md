@@ -1,5 +1,5 @@
-# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[subject][ns2].[link][ns3]
-Represents the link between a path and an inode.
+# @[kingjs][@kingjs]/[fs][ns0].[rx][ns1].[subject][ns2].[file-link][ns3]
+Represents a file link between a path and an inode.
 ## Usage
 ```js
 require('@kingjs/shim')
@@ -10,7 +10,7 @@ var SelectMany = require('@kingjs/rx.select-many')
 var Do = require('@kingjs/rx.do')
 var Log = require('@kingjs/rx.log')
 var WatchSubject = require('@kingjs/fs.rx.watch-subject')
-var LinkSubject = require('@kingjs/fs.rx.subject.link')
+var LinkSubject = require('@kingjs/fs.rx.subject.file-link')
 
 var parse = Path.parse('/foo/bar')
 
@@ -32,27 +32,28 @@ testFile
 
 
 
-### Remarks
-For each observation, the link is checked and if its  changed then the previously emitted InodeSubject, if any, is closed and a new derivation InodeSubject is emitted.
+
 
 ## Install
 With [npm](https://npmjs.org/) installed, run
 ```
-$ npm install @kingjs/fs.rx.subject.link
+$ npm install @kingjs/fs.rx.subject.file-link
 ```
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/fs.rx.subject.file`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.file)|`latest`|
+|[`@kingjs/fs.rx.subject.link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.link)|`latest`|
 |[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
 ## Source
-https://repository.kingjs.net/fs/rx/subject/link
+https://repository.kingjs.net/fs/rx/subject/file-link
 ## License
 MIT
 
-![Analytics](https://analytics.kingjs.net/fs/rx/subject/link)
+![Analytics](https://analytics.kingjs.net/fs/rx/subject/file-link)
 
 [@kingjs]: https://www.npmjs.com/package/kingjs
 [ns0]: https://www.npmjs.com/package/@kingjs/fs
 [ns1]: https://www.npmjs.com/package/@kingjs/fs.rx
 [ns2]: https://www.npmjs.com/package/@kingjs/fs.rx.subject
-[ns3]: https://www.npmjs.com/package/@kingjs/fs.rx.subject.link
+[ns3]: https://www.npmjs.com/package/@kingjs/fs.rx.subject.file-link

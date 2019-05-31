@@ -10,7 +10,7 @@ var Select = require('@kingjs/rx.select')
 var SelectMany = require('@kingjs/rx.select-many')
 var Log = require('@kingjs/rx.log')
 var Do = require('@kingjs/rx.do')
-var WatchSubject = require('@kingjs/fs.rx.watch-subject')
+var WatchSubject = require('@kingjs/fs.rx.subject.watch')
 
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
@@ -74,14 +74,17 @@ $ npm install @kingjs/fs.rx.subject.path
 ## Dependencies
 |Package|Version|
 |---|---|
-|[`@kingjs/buffer.append`](https://www.npmjs.com/package/@kingjs/buffer.append)|`latest`|
-|[`@kingjs/fs.rx.inode-heap`](https://www.npmjs.com/package/@kingjs/fs.rx.inode-heap)|`latest`|
-|[`@kingjs/fs.rx.subject.link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.link)|`latest`|
-|[`@kingjs/path-buffer`](https://www.npmjs.com/package/@kingjs/path-buffer)|`latest`|
+|[`@kingjs/fs.rx.subject.dir`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.dir)|`latest`|
+|[`@kingjs/fs.rx.subject.dir-link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.dir-link)|`latest`|
+|[`@kingjs/fs.rx.subject.file`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.file)|`latest`|
+|[`@kingjs/fs.rx.subject.file-link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.file-link)|`latest`|
+|[`@kingjs/fs.rx.subject.path`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.path)|`latest`|
 |[`@kingjs/reflect.create-symbol`](https://www.npmjs.com/package/@kingjs/reflect.create-symbol)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
+|[`@kingjs/rx.singletons`](https://www.npmjs.com/package/@kingjs/rx.singletons)|`latest`|
+|[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/subject/path

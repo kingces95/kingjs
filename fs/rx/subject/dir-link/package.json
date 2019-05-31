@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.rx.subject.link",
+  "name": "@kingjs/fs.rx.subject.dir-link",
   "version": "1.0.0",
-  "description": "Represents the link between a path and an inode.",
+  "description": "Represents a directory link between a path and an inode.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,11 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/subject/link"
+    "url": "https://repository.kingjs.net/fs/rx/subject/dir-link"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/fs.rx.subject.link": "latest",
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [

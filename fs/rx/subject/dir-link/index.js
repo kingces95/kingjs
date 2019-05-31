@@ -2,7 +2,9 @@ var {
   ['@kingjs']: {
     fs: {
       rx: {
-        subject: { LinkSubject }
+        subject: {
+          Link
+        }
       }
     },
     rx: { 
@@ -11,22 +13,12 @@ var {
   }
 } = require('./dependencies')
 
-var Directory = 'directory'
-
 /**
  * @description Represents a directory link between a path and an inode.
  */
-class DirLink extends LinkSubject {
-
-  constructor(
-    path, 
-    inode) {
-    super(path, inode)
-  }
-
-  get inode() {
-    var { ino, inodeHeap } = this
-    return this.inode = inodeHeap.allocateDir(ino)
+class DirLink extends Link {
+  constructor(path, ino, link, unlink) {
+    super(path, ino, link, unlink)
   }
 }
 

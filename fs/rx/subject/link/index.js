@@ -2,24 +2,23 @@ var {
   ['@kingjs']: {
     fs: {
       rx: {
-        IObservable: { Subscribe },
-        IObserver: { Next, Complete, Error },
         subject: {
           File,
-          Directory
+          Dir
         }
       }
     },
     rx: {
+      IObservable: { Subscribe },
+      IObserver: { Next, Complete, Error },
       Subject,
       ProxySubject,
     },
   }
 } = require('./dependencies')
 
-var File = 'file'
-var Directory = 'directory'
 var throwNextTick = x => process.nextTick(() => { throw x })
+var Noop = () => undefined
 
 /**
  * @description Represents the link between a path and an inode.
@@ -28,28 +27,18 @@ var throwNextTick = x => process.nextTick(() => { throw x })
  * changed then the previously emitted InodeSubject, if any, is
  * closed and a new derivation InodeSubject is emitted.
  */
-class LinkSubject {
+class LinkSubject extends ProxySubject {
 
-  async static create(path, type, ino) {
-    if (type == File)
-      return new FileSubject(path, ino)
-
-    if (type == Directory)
-      return new DirectorySubject(path, ino)
-
-    assert.fail()
-  }
-
-  constructor(path, ino) {
+  constructor(path, ino, link, unlink) {
     super(
-      () => this.inode, 
+      () => link(ino), 
       inode => {
         var subject = new Subject()
         var unsubscribe = inode[Subscribe](subject)
 
         this.dispose = () => {
           unsubscribe()
-          this.inodeHeap.free(inode)
+          unlink(inode)
           subject[Complete]()
         }
 
@@ -57,29 +46,15 @@ class LinkSubject {
       }
     )
 
+    this.dispose = Noop
     this.ino = ino
     this.path = path
   }
 
-  [Complete]() {
-    if (!this.dispose)
-      return
-    dispose()
-  }
-
-  [Error](e) {
-    throwNextTick(e)
-  }
-
-  // discriminator (abstract)
-
-  // compose inode
-  get inode() { assert.fail() } // abstract
-  get isFile() { return this.inode.isFile }
-  get isDirectory() { return this.inode.isDirectory }
+  [Complete]() { this.dispose() }
+  [Error](e) { throwNextTick(e) }
 
   // compose path
-  get inodeHeap() { return this.path.root.inodeHeap }
   get buffer() { return this.path.buffer }
   get name() { return this.path.name }
   get path() { return this.path.path }

@@ -3,17 +3,18 @@ var {
   path: Path,
   fs: { promises: fsp }, 
   ['@kingjs']: {
-    PathBuffer,
     reflect: { 
       is,
       createSymbol 
     },
-    buffer: { Append },
     fs: { 
       rx: { 
-        InodeHeap,
         subject: { 
-          Link
+          Path,
+          File,
+          Dir,
+          FileLink,
+          DirLink
         }
       }
     },
@@ -22,14 +23,12 @@ var {
       WindowBy,
       Where,
       ProxySubject,
+      Singletons
     },
   }
 } = require('./dependencies')
 
-var File = 'file'
-var Directory = 'directory'
-
-var { CreateSubject } = ProxySubject
+var Dot = '.'
 var DefaultCreateSubject = o => new Watch(o.buffer)
 
 /**
@@ -56,30 +55,57 @@ var DefaultCreateSubject = o => new Watch(o.buffer)
  * PathSubject(name, parent) extends ProxySubject : null -> stats -> InodeSubject
  */
 class PathSubject extends ProxySubject {
+  
+  static create(
+    pathBuffer = Dot, 
+    createSubject = DefaultCreateSubject) {
+    
+    var cluster = new Singletons()
+  
+    var getOrCreate = {
+      file: ino => cluster.getOrCreate(ino, ino => new File(ino)),
+      dir: ino => cluster.getOrCreate(ino, ino => new Dir(ino))
+    }
+  
+    var unlink = inode => cluster.release(inode)
+    var link = function link(path, stats) {
+      var { ino } = stats
+  
+      if (stats.isFile()) 
+        return new FileLink(path, ino, getOrCreate.file, unlink)
+  
+      if (stats.isDirectory())
+        return new DirLink(path, ino, getOrCreate.dir, unlink)
+  
+      assert.fail()
+    }
+  
+    return new Path(pathBuffer, link, createSubject)
+  }
 
   constructor(
     pathBuffer,
+    createLink,
     createSubject,
     parent) {
 
     super(createSubject, o => o
-      [Pool](() => {
+      [Pool](async () => {
         try {
           var stats = await fsp.stat(this.buffer)
           var result = { stats }
+          
           if (stats.isDirectory())
             result.dirent = fsp.readdir(this.buffer)
+          
           return result
         } catch(e) { } // ignore; assume race lost with deletion 
       })
       [Where]()
       [WindowBy](
         o => o.stats.ino,
-        (o, ino) => o.dirent || o.stats,
-        (o, ino) => {
-          var type = getStatsType(o.stats)
-          return LinkSubject.create(this, type, ino)
-        }
+        o => o.dirent || o.stats,
+        o => createLink.call(this, o.stats)
       )
     )
   
@@ -99,16 +125,6 @@ class PathSubject extends ProxySubject {
   get isAbsolute() { return this.pathBuffer.isAbsolute }
 
   toString() { return this.pathBuffer.toString() }
-}
-
-function getStatsType(stats) {
-  if (stats.isFile())
-    return File
-  
-  if (stats.isDirectory())
-    return Directory
-
-  assert.fail()
 }
 
 module.exports = PathSubject

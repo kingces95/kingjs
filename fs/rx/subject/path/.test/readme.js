@@ -6,7 +6,7 @@ var Select = require('@kingjs/rx.select')
 var SelectMany = require('@kingjs/rx.select-many')
 var Log = require('@kingjs/rx.log')
 var Do = require('@kingjs/rx.do')
-var WatchSubject = require('@kingjs/fs.rx.watch-subject')
+var WatchSubject = require('@kingjs/fs.rx.subject.watch')
 
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.subject.motion-detector",
+  "name": "@kingjs/fs.rx.subject.watch",
   "version": "1.0.0",
   "description": "Watch a path.",
   "main": "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/subject/motion-detector"
+    "url": "https://repository.kingjs.net/fs/rx/subject/watch"
   },
   "keywords": [],
   "license": "MIT",

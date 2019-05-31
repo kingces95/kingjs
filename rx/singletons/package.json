@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/fs.rx.subject.link",
+  "name": "@kingjs/rx.singletons",
   "version": "1.0.0",
-  "description": "Represents the link between a path and an inode.",
+  "description": "A subject which is also a  factory to create, store, and track references to singleton subjects. Any observation will trigger `Complete` on unreferenced subjects and emission of an object containing reclaimed subjects  stored by id.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,21 +13,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/subject/link"
+    "url": "https://repository.kingjs.net/rx/singletons"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.rx.subject.dir": "latest",
-    "@kingjs/fs.rx.subject.file": "latest",
+    "@kingjs/reflect.create-symbol": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.proxy-subject": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.select": "latest",
+    "@kingjs/rx.where": "latest"
   },
   "nodeDependencies": [
-    "fs",
-    "path"
+    "assert"
   ],
   "capitalize": true
 }
