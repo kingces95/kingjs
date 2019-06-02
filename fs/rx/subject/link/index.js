@@ -1,24 +1,10 @@
 var { 
   ['@kingjs']: {
-    fs: {
-      rx: {
-        subject: {
-          File,
-          Dir
-        }
-      }
-    },
     rx: {
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-      Subject,
-      ProxySubject,
+      ConferenceSubject,
     },
   }
 } = require('./dependencies')
-
-var throwNextTick = x => process.nextTick(() => { throw x })
-var Noop = () => undefined
 
 /**
  * @description Represents the link between a path and an inode.
@@ -27,43 +13,28 @@ var Noop = () => undefined
  * changed then the previously emitted InodeSubject, if any, is
  * closed and a new derivation InodeSubject is emitted.
  */
-class LinkSubject extends ProxySubject {
+class LinkSubject extends ConferenceSubject {
 
-  constructor(path, ino, link, unlink) {
-    super(
-      () => link(ino), 
-      inode => {
-        var subject = new Subject()
-        var unsubscribe = inode[Subscribe](subject)
+  constructor(pathSubject, ino, link, unlink, activate) {
+    super(ino, link, unlink, activate)
 
-        this.dispose = () => {
-          unsubscribe()
-          unlink(inode)
-          subject[Complete]()
-        }
-
-        return subject
-      }
-    )
-
-    this.dispose = Noop
     this.ino = ino
-    this.path = path
+    this.pathSubject = pathSubject
   }
 
-  [Complete]() { this.dispose() }
-  [Error](e) { throwNextTick(e) }
+  get isDirectory() { return false }
+  get isFile() { return false }
 
   // compose path
-  get buffer() { return this.path.buffer }
-  get name() { return this.path.name }
-  get path() { return this.path.path }
-  get pathAsDir() { return this.path.pathAsDir }
-  get dir() { return this.path.dir }
-  get bufferAsDir() { return this.path.bufferAsDir }
-  get isAbsolute() { return this.path.isAbsolute }
+  get buffer() { return this.pathSubject.buffer }
+  get name() { return this.pathSubject.name }
+  get path() { return this.pathSubject.path }
+  get pathAsDir() { return this.pathSubject.pathAsDir }
+  get dir() { return this.pathSubject.dir }
+  get bufferAsDir() { return this.pathSubject.bufferAsDir }
+  get isAbsolute() { return this.pathSubject.isAbsolute }
 
-  toString() { return this.path.toString() }
+  toString() { return this.pathSubject.toString() }
 }
 
 module.exports = LinkSubject

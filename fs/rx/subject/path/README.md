@@ -11,29 +11,13 @@ var SelectMany = require('@kingjs/rx.select-many')
 var Log = require('@kingjs/rx.log')
 var Do = require('@kingjs/rx.do')
 var WatchSubject = require('@kingjs/fs.rx.subject.watch')
+var LinkSubject = require('@kingjs/fs.rx.subject.link')
+var DirLinkSubject = require('@kingjs/fs.rx.subject.dir-link')
+var FileLinkSubject = require('@kingjs/fs.rx.subject.file-link')
 
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathSubject = require('@kingjs/fs.rx.subject.path')
-
-var Sep = Path.sep
-var Dot = '.'
-
-// relative
-var relativePath = PathBuffer.create(Dot)
-var relative = PathSubject.create(relativePath)
-assert(!relative.isAbsolute)
-
-// compose path foo/bar
-var foo = relative.joinWith('foo')
-var bar = foo.joinWith('bar')
-assert(bar.path == `foo${Sep}bar`)
-assert(bar.parent == foo)
-
-// absolute
-var absolutePath = PathBuffer.create(Sep)
-var absolute = PathSubject.create(absolutePath)
-assert(absolute.isAbsolute)
 
 process.chdir('test')
 var pwdBuffer = PathBuffer.create()
@@ -43,14 +27,12 @@ var pwd = PathSubject.create(
 )
 
 pwd
-  [Log]('DIR', 'isDir: ${isDirectory}, ino: ${ino}')
-  [SelectMany](
-    o => o
-  )
+  [Do](o => console.log('DIR', o.ino))
+  [Do](o => assert(o instanceof DirLinkSubject))
+  [SelectMany](o => o)
   [Do](
-    o => o.constructor.name
+    o => console.log('PATHS', o.path)
   )
-  [Log]('PATHS')
   [Subscribe]()
 ```
 

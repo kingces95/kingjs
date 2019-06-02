@@ -4,7 +4,6 @@ var {
       rx: {
         subject: {
           Link,
-          File
         }
       }
     },
@@ -18,9 +17,11 @@ var {
  * @description Represents a file link between a path and an inode.
  */
 class FileLink extends Link {
-  constructor(path, ino, link, unlink) {
-    super(path, ino, link, unlink)
+  constructor(path, ino, link, unlink, activate) {
+    super(path, ino, link, unlink, activate)
   }
+
+  get isFile() { return true }
 }
 
 module.exports = FileLink

@@ -11,7 +11,7 @@ var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Do = require('@kingjs/rx.do')
-var InodeSubject = require('@kingjs/fs.rx.subject.inode')
+var sleep = require('@kingjs/promise.sleep')
 var DirSubject = require('@kingjs/fs.rx.subject.dir')
 
 var DirName = 'test'
@@ -29,14 +29,14 @@ fs.mkdirSync(DirName)
 
 // create DirSubject
 var stats = fs.statSync(DirName)
-var dir = InodeSubject.create(stats, 'directory')
+var dir = new DirSubject(stats)
 assert(dir instanceof DirSubject)
 assert(dir.isDirectory)
 assert(dir.ino = stats.ino)
 
+// trap for various events
 var result = 0
 dir
-  [Do](o => assert(o instanceof DirentSubject))
   [Do](o => assert(o[Key] == FileName))
   [Subscribe](
     o => o[Subscribe](
@@ -49,27 +49,46 @@ dir
     () => result = -2
   )
 
+// trigger events
+var ms = 100
 async function test() {
+
+  // no file
   var dirent = fsp.readdir(DirName)
   dir[Next](dirent)
   assert(result == 0)
-  
+  await sleep(ms)
+
+  // new file
   fs.writeFileSync(FilePath)
   var dirent = fsp.readdir(DirName)
   dir[Next](dirent)
+  await sleep(ms)
+  assert(result == 1)
 
-  // var dirent = fsp.readdir(DirName)
-  // dir[Next](dirent)
-  // assert(result == 2)
+  // same file
+  var dirent = fsp.readdir(DirName)
+  dir[Next](dirent)
+  await sleep(ms)
+  assert(result == 2)
   
-  // fs.unlinkSync(FilePath)
-  // var dirent = fsp.readdir(DirName)
-  // dir[Next](dirent)
-  // assert(result == -1)
+  // ensure published; replay existing dirs
+  var replay
+  dir[Subscribe](o => replay = o)
+  replay[Key] == DirName
+
+  // remove file
+  fs.unlinkSync(FilePath)
+  var dirent = fsp.readdir(DirName)
+  dir[Next](dirent)
+  await sleep(ms)
+  assert(result == -1)
   
-  // fs.rmdirSync(DirName)
-  // dir[Complete]()
-  // assert(result == -2)
+  // remove dir + complete
+  fs.rmdirSync(DirName)
+  dir[Complete]()
+  await sleep(ms)
+  assert(result == -2)
 }
 
 test()
@@ -94,6 +113,8 @@ $ npm install @kingjs/fs.rx.subject.dir
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.rolling-select`](https://www.npmjs.com/package/@kingjs/rx.rolling-select)|`latest`|
 |[`@kingjs/rx.select-many`](https://www.npmjs.com/package/@kingjs/rx.select-many)|`latest`|
+|[`@kingjs/rx.subject`](https://www.npmjs.com/package/@kingjs/rx.subject)|`latest`|
+|[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/subject/dir
 ## License

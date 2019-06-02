@@ -17,9 +17,11 @@ var {
  * @description Represents a directory link between a path and an inode.
  */
 class DirLink extends Link {
-  constructor(path, ino, link, unlink) {
-    super(path, ino, link, unlink)
+  constructor(path, ino, link, unlink, activate) {
+    super(path, ino, link, unlink, activate)
   }
+
+  get isDirectory() { return true }
 }
 
 module.exports = DirLink

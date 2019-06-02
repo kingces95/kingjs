@@ -8,9 +8,11 @@ var {
       }
     },
     rx: {
+      Subject,
       RollingSelect,
       SelectMany,
       GroupBy,
+      Where,
       Pool
     },
     linq: { 
@@ -19,16 +21,26 @@ var {
   }
 } = require('./dependencies')
 
+class DirEntry extends Subject {
+  constructor(name) {
+    super()
+
+    this.name = name
+  }
+}
+
 class DirSubject extends InodeSubject {
   constructor(ino) {
     super(ino, names => names
       [Pool](o => o)                              // Serialize the fetching of directory entries
       [RollingSelect](
-        o => o[0][ZipJoin](o[1]))                 // dirEntry[] -> {outer, inner, key}[]
+        o => o[0][ZipJoin](o[1])                  // dirEntry[] -> {outer, inner, key}[]
+      )                 
       [SelectMany]()                              // {outer, inner, key}[] -> {outer, inner, key}
+      [Where](o => o.inner != o.outer)
       [GroupBy](                                  // new = link, next = any, complete = unlink
         o => o.key,                               // group by entry name
-        undefined,                                // Use default Subject for the group
+        o => new DirEntry(o),                     // Use default Subject for the group
         o => null,                                // select null
         o => !o.outer                             // emit `complete` on unlinked
       )

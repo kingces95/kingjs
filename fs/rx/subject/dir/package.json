@@ -23,7 +23,9 @@
     "@kingjs/rx.group-by": "latest",
     "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",
-    "@kingjs/rx.select-many": "latest"
+    "@kingjs/rx.select-many": "latest",
+    "@kingjs/rx.subject": "latest",
+    "@kingjs/rx.where": "latest"
   },
   "nodeDependencies": [
     "fs"

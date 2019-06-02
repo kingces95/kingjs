@@ -59,28 +59,27 @@ class PathSubject extends ProxySubject {
   static create(
     pathBuffer = Dot, 
     createSubject = DefaultCreateSubject) {
-    
+  
     var cluster = new Singletons()
-  
-    var getOrCreate = {
-      file: ino => cluster.getOrCreate(ino, ino => new File(ino)),
-      dir: ino => cluster.getOrCreate(ino, ino => new Dir(ino))
-    }
-  
+    
     var unlink = inode => cluster.release(inode)
     var link = function link(path, stats) {
       var { ino } = stats
   
       if (stats.isFile()) 
-        return new FileLink(path, ino, getOrCreate.file, unlink)
+        return new FileLink(path, ino, 
+          ino => cluster.getOrCreate(ino, ino => new File(ino)), 
+          unlink)
   
       if (stats.isDirectory())
-        return new DirLink(path, ino, getOrCreate.dir, unlink)
+        return new DirLink(path, ino, 
+          ino => cluster.getOrCreate(ino, ino => new Dir(ino)), 
+          unlink)
   
       assert.fail()
     }
   
-    return new Path(pathBuffer, link, createSubject)
+    return new PathSubject(pathBuffer, link, createSubject)
   }
 
   constructor(
@@ -105,7 +104,7 @@ class PathSubject extends ProxySubject {
       [WindowBy](
         o => o.stats.ino,
         o => o.dirent || o.stats,
-        o => createLink.call(this, o.stats)
+        o => createLink(this, o.stats)
       )
     )
   
