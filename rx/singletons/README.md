@@ -1,5 +1,5 @@
 # @[kingjs][@kingjs]/[rx][ns0].[singletons][ns1]
-A subject which is also a  factory to create, store, and track references to singleton subjects. Any observation will trigger `Complete` on unreferenced subjects and emission of an object containing reclaimed subjects  stored by id.
+A subject factory which is also a subject.
 ## Usage
 ```js
 var assert = require('assert')
@@ -22,11 +22,13 @@ var singletons = new Singletons()
 var collected
 singletons[Subscribe](o => collected = o)
 
-var a = singletons.getOrCreate(A, id => new MySubject(id))
+var a = singletons.getOrCreate(
+  A, id => new MySubject(id)) // ref 0 -> 1
 assert(a instanceof MySubject)
 assert(a.id == A)
 
-var aAlso = singletons.getOrCreate(A, id => new MySubject(id))
+var aAlso = singletons.getOrCreate(
+  A, id => new MySubject(id)) // ref 1 -> 2
 assert(aAlso == a)
 
 var aComplete = false
@@ -41,7 +43,8 @@ assert(!aComplete)
 singletons.release(a) // ref 1 -> 0
 assert(!aComplete)
 
-var aAgain = singletons.getOrCreate(A, id => new MySubject(id))
+var aAgain = singletons.getOrCreate(
+  A, id => new MySubject(id)) // ref 0 -> 1
 assert(aAgain == a)
 
 singletons.release(a) // ref 1 -> 0
@@ -58,7 +61,11 @@ singletons[Complete]()
 
 
 
-
+### Remarks
+ - Manufactured subjects are immediately subscribed, ref-counted, and indexed by id.
+ - Subsequent activations increment the ref-count while releases reduce the ref-count.
+ - When the ref-count is zero then the subject is eligible for collection.
+ - Collection occurs when the factory observes any event. At that point all manufactured subjects with no references are completed, unsubscribed and released for collection by  javascript garbage collector.
 
 ## Install
 With [npm](https://npmjs.org/) installed, run

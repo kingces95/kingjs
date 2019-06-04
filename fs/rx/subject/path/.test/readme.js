@@ -39,5 +39,6 @@ pwd
       x => console.log(i++, '.', o.name)
     )
   )
+  [Do](o => assert(o.constructor.name == 'Stats'))
   [Subscribe]()
   

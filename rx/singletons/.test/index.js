@@ -1,1 +1,2 @@
-require('./readme');
+require('./readme')
+require('./lifetime')

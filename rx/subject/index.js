@@ -23,6 +23,7 @@ var DefaultNext = x => undefined
 var DefaultComplete = () => undefined
 var DefaultOnSubscribe = x => undefined
 var throwNextTick = x => process.nextTick(() => { throw x })
+var Noop = () => undefined
 
 var Activate = createSymbol(module, 'activate')
 var Disposed = createSymbol(module, 'disposed')
@@ -149,14 +150,14 @@ class Subject extends EventEmitter {
       // error epilog
       if (this[Epitaph] == Error) {
         (error || throwNextTick)(this[Exception])
-        return
+        return Noop
       }
 
       // async epilog
       assert(this[Epitaph] == Complete)
       super.emit(SubscribeEvent, tryNext, true) 
       tryComplete()
-      return
+      return Noop
     }
 
     // subscribe

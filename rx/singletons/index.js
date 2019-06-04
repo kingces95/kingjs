@@ -18,12 +18,14 @@ var Count = createSymbol(module, 'count')
 var Id = createSymbol(module, 'id')
 
 /**
- * @description A subject which is also a 
- * factory to create, store, and track
- * references to singleton subjects. Any observation
- * will trigger `Complete` on unreferenced subjects and
- * emission of an object containing reclaimed subjects 
- * stored by id.
+ * @description A subject factory which is also a subject.
+ * 
+ * @remarks - Manufactured subjects are immediately subscribed, ref-counted, and indexed by id. 
+ * @remarks - Subsequent activations increment the ref-count while releases reduce the ref-count. 
+ * @remarks - When the ref-count is zero then the subject is eligible for collection. 
+ * @remarks - Collection occurs when the factory observes any event. At that point all manufactured
+ * subjects with no references are completed, unsubscribed and released for collection by 
+ * javascript garbage collector. 
  **/
 class Singletons extends ProxySubject {
   constructor() {
@@ -36,6 +38,7 @@ class Singletons extends ProxySubject {
 
     this.referenced = { }
     this.unreferenced = { }
+    this.unsubscribe = { }
 
     this[Subscribe](null, () => {
       assert(!Object.keys(this.referenced).length)
@@ -48,8 +51,11 @@ class Singletons extends ProxySubject {
     if (!Reflect.ownKeys(unreferenced).length)
       return
     
-    for (var id in unreferenced)
+    for (var id in unreferenced) {
       unreferenced[id][Complete]()
+      this.unsubscribe[id]()
+      delete this.unsubscribe[id]
+    }
 
     this.unreferenced = { }
     return unreferenced
@@ -69,6 +75,7 @@ class Singletons extends ProxySubject {
       this.referenced[id] = subject = factory(id)
       subject[Count] = 0
       subject[Id] = id
+      this.unsubscribe[id] = subject[Subscribe]()
     }
     
     // update reference count
