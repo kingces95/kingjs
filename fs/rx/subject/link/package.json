@@ -18,6 +18,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/fs.rx.subject.dir": "latest",
+    "@kingjs/fs.rx.subject.file": "latest",
     "@kingjs/rx.conference-subject": "latest"
   },
   "nodeDependencies": [

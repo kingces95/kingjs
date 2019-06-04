@@ -1,6 +1,4 @@
 var { 
-  assert,
-  path: Path,
   fs: { promises: fsp }, 
   ['@kingjs']: {
     reflect: { 
@@ -10,11 +8,9 @@ var {
     fs: { 
       rx: { 
         subject: { 
-          Path,
+          Link,
           File,
           Dir,
-          FileLink,
-          DirLink
         }
       }
     },
@@ -22,6 +18,8 @@ var {
       Pool,
       WindowBy,
       Where,
+      Pipe,
+      Select,
       ProxySubject,
       Singletons
     },
@@ -61,22 +59,29 @@ class PathSubject extends ProxySubject {
     createSubject = DefaultCreateSubject) {
   
     var cluster = new Singletons()
-    
-    var unlink = inode => cluster.release(inode)
+
     var link = function link(path, stats) {
-      var { ino } = stats
-  
-      if (stats.isFile()) 
-        return new FileLink(path, ino, 
-          ino => cluster.getOrCreate(ino, ino => new File(ino)), 
-          unlink)
-  
-      if (stats.isDirectory())
-        return new DirLink(path, ino, 
-          ino => cluster.getOrCreate(ino, ino => new Dir(ino)), 
-          unlink)
-  
-      assert.fail()
+
+      var ino = stats.ino
+      var type = stats.isFile() ? File : Dir
+      var getOrCreate = ino => cluster.getOrCreate(ino, ino => new type(ino))
+      var release = inode => cluster.release(inode)
+      var activate = undefined
+
+      if (stats.isDirectory()) {
+        activate = o => o[Select](
+          dirEnt => dirEnt[Pipe](
+            new PathSubject(
+              path.pathBuffer.joinWith(dirEnt.name),
+              link,
+              createSubject,
+              path
+            )
+          )
+        )
+      }
+
+      return new Link(path, type, ino, getOrCreate, release, activate)
     }
   
     return new PathSubject(pathBuffer, link, createSubject)

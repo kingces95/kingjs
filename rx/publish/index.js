@@ -15,6 +15,8 @@ var {
   }
 } = require('./dependencies')
 
+class PublishSubject extends Subject { }
+
 /**
  * @description Returns an `IPublishedObservable` that saves its last 
  * observed value and will emit that value to any new subscribers.
@@ -33,7 +35,7 @@ var {
 function publish(initialValue) {
   var observable = this
 
-  var result = new Subject(
+  var result = new PublishSubject(
     observer => observable[Subscribe](
       o => { 
         result[Value] = o

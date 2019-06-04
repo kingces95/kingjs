@@ -8,15 +8,19 @@ var {
       }
     },
     rx: {
+      Subject,
       Publish,
       DistinctUntilChanged,
     },
   }
 } = require('./dependencies')
 
+class RealFileSubject extends Subject { }
+var createSubject = () => new RealFileSubject()
+
 class FileSubject extends InodeSubject {
   constructor(ino) {
-    super(ino, o => o
+    super(ino, createSubject, o => o
       [DistinctUntilChanged](o => o.ctime.getTime())
       [Publish]()
     )

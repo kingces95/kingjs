@@ -43,6 +43,8 @@ $ npm install @kingjs/fs.rx.subject.link
 ## Dependencies
 |Package|Version|
 |---|---|
+|[`@kingjs/fs.rx.subject.dir`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.dir)|`latest`|
+|[`@kingjs/fs.rx.subject.file`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.file)|`latest`|
 |[`@kingjs/rx.conference-subject`](https://www.npmjs.com/package/@kingjs/rx.conference-subject)|`latest`|
 ## Source
 https://repository.kingjs.net/fs/rx/subject/link

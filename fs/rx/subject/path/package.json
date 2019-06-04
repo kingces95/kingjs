@@ -19,22 +19,20 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.rx.subject.dir": "latest",
-    "@kingjs/fs.rx.subject.dir-link": "latest",
     "@kingjs/fs.rx.subject.file": "latest",
-    "@kingjs/fs.rx.subject.file-link": "latest",
-    "@kingjs/fs.rx.subject.path": "latest",
+    "@kingjs/fs.rx.subject.link": "latest",
     "@kingjs/reflect.create-symbol": "latest",
     "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.pipe": "latest",
     "@kingjs/rx.pool": "latest",
     "@kingjs/rx.proxy-subject": "latest",
+    "@kingjs/rx.select": "latest",
     "@kingjs/rx.singletons": "latest",
     "@kingjs/rx.where": "latest",
     "@kingjs/rx.window-by": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
-    "path"
+    "fs"
   ],
   "capitalize": true
 }

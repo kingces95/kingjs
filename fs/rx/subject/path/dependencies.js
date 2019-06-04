@@ -3,10 +3,8 @@ exports['@kingjs'] = {
     rx: {
       subject: {
         Dir: require('@kingjs/fs.rx.subject.dir'),
-        DirLink: require('@kingjs/fs.rx.subject.dir-link'),
         File: require('@kingjs/fs.rx.subject.file'),
-        FileLink: require('@kingjs/fs.rx.subject.file-link'),
-        Path: require('@kingjs/fs.rx.subject.path'),
+        Link: require('@kingjs/fs.rx.subject.link'),
       },
     },
   },
@@ -15,13 +13,13 @@ exports['@kingjs'] = {
     is: require('@kingjs/reflect.is'),
   },
   rx: {
+    Pipe: require('@kingjs/rx.pipe'),
     Pool: require('@kingjs/rx.pool'),
     ProxySubject: require('@kingjs/rx.proxy-subject'),
+    Select: require('@kingjs/rx.select'),
     Singletons: require('@kingjs/rx.singletons'),
     Where: require('@kingjs/rx.where'),
     WindowBy: require('@kingjs/rx.window-by'),
   },
 }
-exports['assert'] = require('assert')
 exports['fs'] = require('fs')
-exports['path'] = require('path')

@@ -6,8 +6,7 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Do = require('@kingjs/rx.do')
 var WatchSubject = require('@kingjs/fs.rx.subject.watch')
-var DirLinkSubject = require('@kingjs/fs.rx.subject.dir-link')
-var FileLinkSubject = require('@kingjs/fs.rx.subject.file-link')
+var LinkSubject = require('@kingjs/fs.rx.subject.link')
 
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
@@ -24,11 +23,21 @@ var i = 0;
 
 pwd
   [Do](o => console.log(i++, 'DIR', o.ino))
-  [Do](o => assert(o instanceof DirLinkSubject))
-  [SelectMany](o => o) // DirLink -> DirEntry
+  [Do](o => assert(o instanceof LinkSubject))
+  [Do](o => assert(o.isDirectory))
+  [SelectMany](o => o) // Link (dir) -> DirEntry -> Path
+  [Do](o => assert(o instanceof PathSubject))
   [Do](o => console.log(i++, '+', o.name))
   [Do](o => o[Subscribe](
-    x => console.log(i++, '^', o.name),
+    null,
     () => console.log(i++, '-', o.name)
   ))
+  [SelectMany](o => o) // Path -> Link (file)
+  [Do](o => assert(o instanceof LinkSubject))
+  [SelectMany](
+    o => o[Do](
+      x => console.log(i++, '.', o.name)
+    )
+  )
   [Subscribe]()
+  

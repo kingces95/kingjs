@@ -4,16 +4,13 @@ A `ProxySubject` which composes a `PathBuffer`.
 ```js
 require('@kingjs/shim')
 var assert = require('assert')
-var Path = require('path')
 var PathBuffer = require('@kingjs/path-buffer')
-var Select = require('@kingjs/rx.select')
 var SelectMany = require('@kingjs/rx.select-many')
-var Log = require('@kingjs/rx.log')
+var { Subscribe } = require('@kingjs/rx.i-observable')
+var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Do = require('@kingjs/rx.do')
 var WatchSubject = require('@kingjs/fs.rx.subject.watch')
 var LinkSubject = require('@kingjs/fs.rx.subject.link')
-var DirLinkSubject = require('@kingjs/fs.rx.subject.dir-link')
-var FileLinkSubject = require('@kingjs/fs.rx.subject.file-link')
 
 var { Next, Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
@@ -26,13 +23,19 @@ var pwd = PathSubject.create(
   o => new WatchSubject(o.buffer)
 )
 
+var i = 0;
+
 pwd
-  [Do](o => console.log('DIR', o.ino))
-  [Do](o => assert(o instanceof DirLinkSubject))
-  [SelectMany](o => o)
-  [Do](
-    o => console.log('PATHS', o.path)
-  )
+  [Do](o => console.log(i++, 'DIR', o.ino))
+  [Do](o => assert(o instanceof LinkSubject))
+  [Do](o => assert(o.isDirectory))
+  [SelectMany](o => o) // Link (dir) -> DirEntry -> Path
+  [Do](o => assert(o instanceof PathSubject))
+  [Do](o => console.log(i++, '+', o.name))
+  [Do](o => o[Subscribe](
+    x => console.log(i++, '^', o.name),
+    () => console.log(i++, '-', o.name)
+  ))
   [Subscribe]()
 ```
 
@@ -57,14 +60,14 @@ $ npm install @kingjs/fs.rx.subject.path
 |Package|Version|
 |---|---|
 |[`@kingjs/fs.rx.subject.dir`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.dir)|`latest`|
-|[`@kingjs/fs.rx.subject.dir-link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.dir-link)|`latest`|
 |[`@kingjs/fs.rx.subject.file`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.file)|`latest`|
-|[`@kingjs/fs.rx.subject.file-link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.file-link)|`latest`|
-|[`@kingjs/fs.rx.subject.path`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.path)|`latest`|
+|[`@kingjs/fs.rx.subject.link`](https://www.npmjs.com/package/@kingjs/fs.rx.subject.link)|`latest`|
 |[`@kingjs/reflect.create-symbol`](https://www.npmjs.com/package/@kingjs/reflect.create-symbol)|`latest`|
 |[`@kingjs/reflect.is`](https://www.npmjs.com/package/@kingjs/reflect.is)|`latest`|
+|[`@kingjs/rx.pipe`](https://www.npmjs.com/package/@kingjs/rx.pipe)|`latest`|
 |[`@kingjs/rx.pool`](https://www.npmjs.com/package/@kingjs/rx.pool)|`latest`|
 |[`@kingjs/rx.proxy-subject`](https://www.npmjs.com/package/@kingjs/rx.proxy-subject)|`latest`|
+|[`@kingjs/rx.select`](https://www.npmjs.com/package/@kingjs/rx.select)|`latest`|
 |[`@kingjs/rx.singletons`](https://www.npmjs.com/package/@kingjs/rx.singletons)|`latest`|
 |[`@kingjs/rx.where`](https://www.npmjs.com/package/@kingjs/rx.where)|`latest`|
 |[`@kingjs/rx.window-by`](https://www.npmjs.com/package/@kingjs/rx.window-by)|`latest`|

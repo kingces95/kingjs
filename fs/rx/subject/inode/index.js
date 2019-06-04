@@ -8,8 +8,8 @@ var {
 } = require('./dependencies')
 
 class InodeSubject extends ProxySubject {
-  constructor(ino, activate) {
-    super(undefined, activate)
+  constructor(ino, createSubject, activate) {
+    super(createSubject, activate)
 
     this.ino = ino
   }

@@ -20,6 +20,8 @@ var {
 var throwNextTick = x => process.nextTick(() => { throw x })
 var DefaultActivate = o => o
 
+class SpeakerSubject extends Subject { }
+
 /**
  * @description A proxy subject that lazily gets its real
  * subject and unsubscribes from its real proxy on complete.
@@ -36,7 +38,7 @@ class ConferenceSubject extends ProxySubject {
     super(
       () => join(id), 
       conference => {
-        var subject = new Subject()
+        var subject = new SpeakerSubject()
         var unsubscribe = conference[Subscribe](subject)
 
         this[Complete] = () => {

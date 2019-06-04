@@ -1,5 +1,12 @@
 var { 
   ['@kingjs']: {
+    fs: {
+      rx: { 
+        subject: {
+          Dir, File
+        }
+      }
+    },
     rx: {
       ConferenceSubject,
     },
@@ -15,15 +22,16 @@ var {
  */
 class LinkSubject extends ConferenceSubject {
 
-  constructor(pathSubject, ino, link, unlink, activate) {
+  constructor(pathSubject, inodeType, ino, link, unlink, activate) {
     super(ino, link, unlink, activate)
 
+    this.inodeType = inodeType
     this.ino = ino
     this.pathSubject = pathSubject
   }
 
-  get isDirectory() { return false }
-  get isFile() { return false }
+  get isDirectory() { return this.inodeType == Dir }
+  get isFile() { return this.inodeType == File }
 
   // compose path
   get buffer() { return this.pathSubject.buffer }

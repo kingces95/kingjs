@@ -5,6 +5,7 @@ Returns an `IPublishedObservable` that saves its last  observed value and will e
 require('@kingjs/shim')
 var assert = require('assert');
 var Subject = require('@kingjs/rx.subject');
+var Select = require('@kingjs/rx.select');
 var Publish = require('@kingjs/rx.publish');
 var { Subscribe } = require('@kingjs/rx.i-observable');
 var { Next, Complete } = require('@kingjs/rx.i-observer')
@@ -17,13 +18,14 @@ var E = 'E';
 var result = [];
 
 var subject = new Subject()
+var addOne = subject[Select](o => o + 1)
 
-var behavior = subject[Publish]();
+var behavior = addOne[Publish]();
 behavior[Subscribe]();
 assert(behavior[Value] === undefined);
 
 subject[Next](0);
-assert(behavior[Value] == 0);
+assert(behavior[Value] == 1);
 
 behavior
   [Subscribe](
@@ -32,9 +34,9 @@ behavior
     o => result.push(E, o),
   );
 
-behavior[Complete]();
+subject[Complete]();
 assert.deepEqual(result, [
-  N, 0, C
+  N, 1, C
 ]);
 ```
 

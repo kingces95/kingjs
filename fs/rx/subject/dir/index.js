@@ -21,6 +21,9 @@ var {
   }
 } = require('./dependencies')
 
+class RealDirSubject extends Subject { }
+var createSubject = () => new RealDirSubject()
+
 class DirEntry extends Subject {
   constructor(name) {
     super()
@@ -31,7 +34,7 @@ class DirEntry extends Subject {
 
 class DirSubject extends InodeSubject {
   constructor(ino) {
-    super(ino, names => names
+    super(ino, createSubject, names => names
       [Pool](o => o)                              // Serialize the fetching of directory entries
       [RollingSelect](
         o => o[0][ZipJoin](o[1])                  // dirEntry[] -> {outer, inner, key}[]
