@@ -21,24 +21,52 @@ var pwd = PathSubject.create(
 
 var i = 0;
 
-pwd
-  [Do](o => console.log(i++, 'DIR', o.ino))
-  [Do](o => assert(o instanceof LinkSubject))
-  [Do](o => assert(o.isDirectory))
-  [SelectMany](o => o) // Link (dir) -> DirEntry -> Path
-  [Do](o => assert(o instanceof PathSubject))
-  [Do](o => console.log(i++, '+', o.name))
-  [Do](o => o[Subscribe](
-    null,
-    () => console.log(i++, '-', o.name)
-  ))
-  [SelectMany](o => o) // Path -> Link (file)
-  [Do](o => assert(o instanceof LinkSubject))
-  [SelectMany](
-    o => o[Do](
-      x => console.log(i++, '.', o.name)
+function watch(pathSubject) {
+  assert(pathSubject instanceof PathSubject)
+
+  return pathSubject
+    [SelectMany](
+      o => {
+        assert(o instanceof LinkSubject)
+        assert(o.isDirectory || o.isFile)
+
+        var path = o.toString() // o.isFile ? o.path : o.pathAsDir
+        console.log(i++, '+', path)
+        var link = o[Do](
+          null,
+          () => console.log(i++, '-', path)
+        )
+
+        if (o.isFile)
+          return link[Do](o => console.log(i++, 'Δ', path))
+
+        return link[SelectMany](
+          x => watch(x)
+        )
+      }
     )
-  )
-  [Do](o => assert(o.constructor.name == 'Stats'))
-  [Subscribe]()
+}
+
+watch(pwd)[Subscribe]()
+
+// pwd
+//   [Do](o => console.log(i++, 'DIR', o.ino))
+//   [Do](o => assert(o instanceof LinkSubject))
+//   [Do](o => assert(o.isDirectory))
+//   [SelectMany](o => o) // Link (dir) -> DirEntry -> Path
+//   [Do](o => assert(o instanceof PathSubject))
+//   [Do](o => console.log(i++, '+', o.name))
+//   [Do](o => o[Subscribe](
+//     null,
+//     () => console.log(i++, '-', o.name)
+//   ))
+//   [SelectMany](o => o) // Path -> Link (file)
+//   [Do](o => assert(o instanceof LinkSubject))
+//   [SelectMany](
+//     o => o[Do](
+//       x => console.log(i++, '.', o.name)
+//     )
+//   )
+//   [Do](o => assert(o.constructor.name == 'Stats'))
+//   [Subscribe]()
   

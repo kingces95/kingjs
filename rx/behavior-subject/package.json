@@ -22,8 +22,7 @@
     "@kingjs/rx.subject": "latest"
   },
   "nodeDependencies": [
-    "assert",
-    "events"
+    "assert"
   ],
   "capitalize": true
 }

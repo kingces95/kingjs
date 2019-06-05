@@ -4,7 +4,8 @@ var {
       IObservable,
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error },
-      create, 
+      IPublishedObservable: { Value },
+      Subject, 
       from,
     },
     reflect: {
@@ -16,6 +17,19 @@ var {
 var DefaultSelector = o => o
 var DefaultResultSelector = (o, x) => x
 var DefaultIsSingleton = o => false
+
+class SelectManySubject extends Subject {
+  constructor(
+    activate,
+    onSubscribe) {
+
+    super(activate, onSubscribe)
+
+    this[Value] = { }
+  }
+
+  get values() { return this[Value] }
+}
 
 /**
  * @description Returns an `IObservable` emits the elements selected
@@ -47,61 +61,72 @@ function selectMany(
 
   var observable = this
 
-  return create(observer => {
-    var id = 0
-    var count = 1
-    var manyObservers = { }
-    var manyDisposes = { }
+  return new SelectManySubject(
+    observer => {
+      var id = 0
+      var count = 1
+      var manyDisposes = { }
 
-    var dispose = observable[Subscribe](
-      o => {
+      var manyObservers = observer.values
 
-        // optimization prevents wrapping singletons
-        if (isSingleton(o)) {
-          observer[Next](resultSelector(o, o))
-          return
+      var dispose = observable[Subscribe](
+        o => {
+
+          // optimization prevents wrapping singletons
+          if (isSingleton(o)) {
+            observer[Next](resultSelector(o, o))
+            return
+          }
+
+          var many = selector(o)
+
+          if (Symbol.iterator in many)
+            many = from(many)
+
+          count++
+          var manyId = id++
+          manyObservers[manyId] = many
+          manyDisposes[manyId] = many[Subscribe](
+            x => observer[Next](resultSelector(o, x)),
+            () => {
+              delete manyObservers[manyId]
+              delete manyDisposes[manyId]
+              count--
+              if (count)
+                return
+              observer[Complete]()
+            },
+            x => observer[Error](x)
+          )
+        },
+        () => {
+          count--
+          if (count)
+            return
+          observer[Complete]()
+        },
+        o => {
+          for (var key in manyObservers)
+            manyObservers[key][Error](o)
+          observer[Error](o)
         }
+      )
 
-        var many = selector(o)
-
-        if (Symbol.iterator in many)
-          many = from(many)
-
-        count++
-        var manyId = id++
-        manyObservers[manyId] = many
-        manyDisposes[manyId] = many[Subscribe](
-          x => observer[Next](resultSelector(o, x)),
-          () => {
-            delete manyObservers[manyId]
-            delete manyDisposes[manyId]
-            count--
-            if (count)
-              return
-            observer[Complete]()
-          },
-          x => observer[Error](x)
-        )
-      },
-      () => {
-        count--
-        if (count)
-          return
-        observer[Complete]()
-      },
-      o => {
-        for (var key in manyObservers)
-          manyObservers[key][Error](o)
-        observer[Error](o)
+      return () => {
+        for (var key in manyDisposes)
+          manyDisposes[key]()
+        dispose()
       }
-    )
+    },
+    (self, next, finished) => {
+      if (finished)
+        return
 
-    return () => {
-      for (var key in manyDisposes)
-        manyDisposes[key]()
-      dispose()
+      var manyObservers = self.values
+      for (var key in manyObservers)
+        next(manyObservers[key])
     }
-  })
+  )
 }
 
 exportExtension(module, IObservable, selectMany)

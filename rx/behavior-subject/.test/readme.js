@@ -10,7 +10,7 @@ subject[Next](0)
 subject[Subscribe](o => result.push(o))
 subject[Complete]()
 subject[Subscribe](o => result.push(o))
-assert.deepEqual(result, [0, 0, 0])
+assert.deepEqual(result, [0, 0])
 
 var result = []
 var subject = new BehaviorSubject(1)

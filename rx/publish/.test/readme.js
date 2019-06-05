@@ -22,6 +22,7 @@ assert(behavior[Value] === undefined);
 
 subject[Next](0);
 assert(behavior[Value] == 1);
+assert(behavior.value == 1);
 
 behavior
   [Subscribe](

@@ -155,7 +155,7 @@ class Subject extends EventEmitter {
 
       // async epilog
       assert(this[Epitaph] == Complete)
-      super.emit(SubscribeEvent, tryNext, true) 
+      super.emit(SubscribeEvent, this, tryNext, true) 
       tryComplete()
       return Noop
     }
@@ -164,7 +164,7 @@ class Subject extends EventEmitter {
     this.on(NextEvent, tryNext)
     this.on(CompleteEvent, tryComplete)
     this.on(ErrorEvent, tryError)
-    super.emit(SubscribeEvent, tryNext, false)
+    super.emit(SubscribeEvent, this, tryNext, false)
 
     if (this[Activate] && !this[Dispose])
       this[Dispose] = this[Activate](this)

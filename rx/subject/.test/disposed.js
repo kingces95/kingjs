@@ -29,7 +29,7 @@ assert(result == E)
 
 var result = []
 var subject = new Subject(null, 
-  (next, disposed) => next(disposed ? 'ASYNC' : 'INIT')
+  (self, next, disposed) => next(disposed ? 'ASYNC' : 'INIT')
 )
 subject[Subscribe](
   o => result.push(o),
@@ -44,7 +44,7 @@ assert.deepEqual(result, [
 
 var result = []
 var subject = new Subject(null, 
-  (next, disposed) => next(disposed ? 'ASYNC' : 'INIT')
+  (self, next, disposed) => next(disposed ? 'ASYNC' : 'INIT')
 )
 subject[Complete]()
 subject[Subscribe](

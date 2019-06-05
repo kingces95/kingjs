@@ -1,7 +1,6 @@
 var { 
   ['@kingjs']: {
     rx: { 
-      create,
       Subject,
       IObservable,
       IObservable: { Subscribe },
@@ -15,7 +14,19 @@ var {
   }
 } = require('./dependencies')
 
-class PublishSubject extends Subject { }
+class PublishSubject extends Subject {
+  constructor(
+    value,
+    activate,
+    onSubscribe) {
+
+    super(activate, onSubscribe)
+
+    this[Value] = value
+  }
+
+  get value() { return this[Value] }
+}
 
 /**
  * @description Returns an `IPublishedObservable` that saves its last 
@@ -35,26 +46,23 @@ class PublishSubject extends Subject { }
 function publish(initialValue) {
   var observable = this
 
-  var result = new PublishSubject(
+  return new PublishSubject(
+    initialValue,
     observer => observable[Subscribe](
       o => { 
-        result[Value] = o
+        observer[Value] = o
         observer[Next](o)
       },
       () => observer[Complete](),
       e => observer[Error](e)
     ),
-    (next, completed) => {
-      if (completed || is.undefined(result[Value]))
+    (self, next, completed) => {
+      var value = self.value
+      if (completed || is.undefined(value))
         return;
-      next(result[Value])
+      next(value)
     }
   )
-
-  // initialize value
-  result[Value] = initialValue
-
-  return result
 }
 
 exportExtension(module, IObservable, publish)

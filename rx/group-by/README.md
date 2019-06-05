@@ -33,6 +33,8 @@ assert.deepEqual(result, {
   even: [ 0, 2 ],
   odd: [ 1, 3 ]
 })
+assert(grouping.groups.even instanceof Subject)
+assert(grouping.groups.odd instanceof Subject)
 
 // replay groups for subsequent subscriptions
 result = [ ];

@@ -20,7 +20,6 @@
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/reflect.is": "latest",
-    "@kingjs/rx.create": "latest",
     "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
     "@kingjs/rx.i-published-observable": "latest",

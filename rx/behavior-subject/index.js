@@ -1,4 +1,5 @@
 var {
+  assert,
   ['@kingjs']: { 
     rx: {
       Subject,
@@ -19,7 +20,9 @@ var Value = 'value'
 class BehaviorSubject extends Subject {
 
   constructor(value, activate) {
-    super(activate, function onSubscribe(next, disposed) {
+    super(activate, function onSubscribe(self, next, disposed) {
+      assert(self == this)
+
       if (disposed)
         return
 

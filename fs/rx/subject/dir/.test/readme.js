@@ -66,7 +66,7 @@ async function test() {
   var dirent = fsp.readdir(DirName)
   dir[Next](dirent)
   await sleep(ms)
-  assert(result == 2)
+  assert(result == 1)
   
   // ensure published; replay existing dirs
   var replay

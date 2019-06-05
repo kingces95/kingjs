@@ -20,6 +20,19 @@ var DefaultGroupActivator = (o, k) => new Subject()
 var DefaultResultSelector = (o, k) => o
 var DefaultGroupCloser = (o, k) => false
 
+class GroupBySubject extends Subject {
+  constructor(
+    activate,
+    onSubscribe) {
+
+    super(activate, onSubscribe)
+
+    this[Value] = { }
+  }
+
+  get groups() { return this[Value] }
+}
+
 /**
  * @description Returns an `IObservable` that emits an `IGroupedObservable`
  * for each group identified by `keySelector`.
@@ -70,9 +83,9 @@ function groupBy(
 
   var observable = this
 
-  var result = new Subject(
+  return new GroupBySubject(
     observer => {
-      var groups = result[Value] = { }
+      var groups = observer.groups
 
       return observable[Subscribe](
         o => {
@@ -115,16 +128,15 @@ function groupBy(
         }
       )
     },
-    (next, finished) => {
-      var groups = result[Value]
-      assert(!finished || !Object.keys(groups).length)
-
+    (self, next, finished) => {
+      if (finished)
+        return
+        
+      var groups = self.groups
       for (var key in groups)
         next(groups[key])
     }
   )
-
-  return result
 }
 
 exportExtension(module, IObservable, groupBy)
