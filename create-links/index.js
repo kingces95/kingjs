@@ -1,10 +1,7 @@
-var assert = require('assert');
-var path = require('path');
-var fs = require('fs');
-
-var { 
+var {
+  path, fs,
   ['@kingjs']: {
-    git: { getDir },
+    git: { getDir, getFiles },
     packageName: { parse }
   },
   shelljs
@@ -12,17 +9,26 @@ var {
 
 var DotNpm = '.npm';
 var KingJs = 'kingjs';
-var Shim = '@kingjs/shim';
 var PackageJson = 'package.json';
 var NodeModules = 'node_modules';
-var RootDir = getDir();
 var DotDir = /(^|\/)\.\w/;
-var Line = /\r?\n/;
-var EmptyString = '';
 
 /**
- * @description Recursively creates npm links for all 
+ * @description Recursively creates npm links for all
  * dependent packages.
+ * 
+ * @remarks - Creates a `node_modules` directory at the git enlistment root
+ * that contains symbolic links to 
+ * @remarks -- directories and sub-directories of the current directory which contain 
+ * a `package.json` file and 
+ * @remarks -- symbolic links into sub-directories of a `.npm` directory at the enlistment root 
+ * which contains packages for all external node modules discovered in all
+ * packages found by enumerating directories starting at the git enlistment root.
+ * @remarks - Directories starting with `.` are ignored.
+ * @remarks - Directories are enumerated using git and respecting files added and removed
+ * from the git index.
+ * @remarks - This directory arrangement allows changes in one package to be reflected
+ * in all referring packages without having to publish and sync the referenced package.
  */
 function createLinks() {
 
@@ -47,35 +53,23 @@ function createLinks() {
     var { name } = json
 
     var fromDir = getModuleDir(gitDir, name);
-    if (!fs.existsSync(fromDir)) {
-      var scopeDir = path.dirname(fromDir)
+    if (fs.existsSync(fromDir)) 
+      continue;
+      
+    var scopeDir = path.dirname(fromDir)
 
-      if (!fs.existsSync(scopeDir))
-        fs.mkdirSync(scopeDir, { recursive: true })
-  
-      console.log(`${fromDir} -> ${toDir}`)
-      fs.symlinkSync(toDir, fromDir, 'dir')
-    }
+    if (!fs.existsSync(scopeDir))
+      fs.mkdirSync(scopeDir, { recursive: true })
+
+    console.log(`${fromDir} -> ${toDir}`)
+    fs.symlinkSync(toDir, fromDir, 'dir')
   }
-}
-
-function getFiles(options = '') {
-  return shelljs.exec(
-    `git ls-files ${options}`, 
-    { silent:true }
-  ).stdout.trim().split(Line);
 }
 
 function getLocalPackages() {
 
-  var trackedFiles = getFiles();
-  var deletedFiles = getFiles('-d');
-  var addedFiles = getFiles('--others --exclude-standard');
-
   // dump files
-  var files = trackedFiles
-    .filter(o => deletedFiles.indexOf(o) == -1)
-    .concat(addedFiles);
+  var files = getFiles()
 
   // select package.json in paths where no directory is prefixed with dot
   var dirs = files

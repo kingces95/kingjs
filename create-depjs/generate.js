@@ -39,7 +39,7 @@ function generate(dependencies) {
     var node = tree;
 
     // split module name into its parts
-    var ast = parse(dependency);
+    var ast = parse(dependency, isBuiltinModule(dependency) ? '_' : '-');
 
     // add scope
     var scope = ast.scope;

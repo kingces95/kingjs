@@ -41,9 +41,6 @@ var leafs = {
  * @description Expresses a TypeScript AST as an object literal.
  * 
  * @param path Path to file to a file to parse. 
- * @param options Options to add type, and positioning information to AST.
- * @param options.type If true, type information is added to the AST as
- * `.` properties so it'll appear if the AST is serialized to JSON.
  * 
  * @returns Each node of the Typescript AST is stripped down to just
  * those properties that return nodes or are terminal literals. 
@@ -154,7 +151,7 @@ for (var name in types)
   parse[name] = types[name];
 
 return;
-var ast = parse('.test/sample.js', { debug: 1 });
+var ast = parse('.test/sample.js', { debug: 0 });
 fs.writeFileSync('.test/.ast.json', 
   JSON.stringify(ast, null, 2)
 )

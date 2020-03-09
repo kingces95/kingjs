@@ -1,6 +1,6 @@
 var { 
   assert
-} = require('./dependencies');
+} = require('./dependencies')
 
 /**
  * @description The description.
@@ -14,4 +14,4 @@ var {
 function xxx(foo) {
 }
 
-module.exports = xxx;
+module.exports = xxx

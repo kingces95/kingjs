@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/git.get-files",
+  "version": "1.0.0",
+  "description": "Returns the files tracked by git in the current directory  and sub-directories including the index (added and deleted files).",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/git/get-files"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "shelljs": "latest"
+  },
+  "nodeDependencies": [
+    "path"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/create-links",
   "version": "1.0.0",
-  "description": "Recursively creates npm links for all  dependent packages.",
+  "description": "Recursively creates npm links for all dependent packages.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -22,8 +22,13 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/git.get-dir": "^1.0.0",
-    "@kingjs/package-name.parse": "^1.0.1",
-    "shelljs": "^0.8.3"
-  }
+    "@kingjs/git.get-dir": "latest",
+    "@kingjs/git.get-files": "latest",
+    "@kingjs/package-name.parse": "latest",
+    "shelljs": "latest"
+  },
+  "nodeDependencies": [
+    "fs",
+    "path"
+  ]
 }

@@ -1,18 +1,13 @@
 require('@kingjs/shim')
 var assert = require('assert')
 var PathBuffer = require('@kingjs/path-buffer')
-var SelectMany = require('@kingjs/rx.select-many')
+var { Complete } = require('@kingjs/rx.i-observer')
 var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Key } = require('@kingjs/rx.i-grouped-observable')
-var Do = require('@kingjs/rx.do')
 var WatchSubject = require('@kingjs/fs.rx.subject.watch')
 var LinkSubject = require('@kingjs/fs.rx.subject.link')
-
-var { Next, Complete } = require('@kingjs/rx.i-observer')
-var { Subscribe } = require('@kingjs/rx.i-observable')
 var PathSubject = require('..')
 
-process.chdir('test')
+process.chdir('../../../../..')
 var pwdBuffer = PathBuffer.create()
 var pwd = PathSubject.create(
   pwdBuffer,
@@ -24,49 +19,52 @@ var i = 0;
 function watch(pathSubject) {
   assert(pathSubject instanceof PathSubject)
 
-  return pathSubject
-    [SelectMany](
+  var children = { }
+
+  pathSubject
+    [Subscribe](
       o => {
         assert(o instanceof LinkSubject)
         assert(o.isDirectory || o.isFile)
 
-        var path = o.toString() // o.isFile ? o.path : o.pathAsDir
-        console.log(i++, '+', path)
-        var link = o[Do](
-          null,
-          () => console.log(i++, '-', path)
-        )
+        var path = o.isFile ? o.path : o.pathAsDir
+        //console.log(i++, '+', path, o.ino)
+        
+        var { name } = o
 
-        if (o.isFile)
-          return link[Do](o => console.log(i++, 'Δ', path))
+        if (o.isFile) {
 
-        return link[SelectMany](
-          x => watch(x)
+          if (name != 'package.json')
+            return
+
+          o[Subscribe](
+            x => console.log(i++, 'Δ', path),
+            () => console.log(i++, '-', path)
+          )
+          return
+        }
+
+        if (name.length > 1 && name[0] == '.')
+          return
+
+        if (name == 'node_modules')
+          return
+
+        o[Subscribe](
+          x => {
+            children[x.name] = x
+            x[Subscribe](null, () => delete children[x.name])
+            watch(x)
+          },
+          () => {
+            for (var name in children)
+              children[name][Complete]()
+            //console.log(i++, '-', path)
+          }
         )
       }
     )
 }
 
-watch(pwd)[Subscribe]()
-
-// pwd
-//   [Do](o => console.log(i++, 'DIR', o.ino))
-//   [Do](o => assert(o instanceof LinkSubject))
-//   [Do](o => assert(o.isDirectory))
-//   [SelectMany](o => o) // Link (dir) -> DirEntry -> Path
-//   [Do](o => assert(o instanceof PathSubject))
-//   [Do](o => console.log(i++, '+', o.name))
-//   [Do](o => o[Subscribe](
-//     null,
-//     () => console.log(i++, '-', o.name)
-//   ))
-//   [SelectMany](o => o) // Path -> Link (file)
-//   [Do](o => assert(o instanceof LinkSubject))
-//   [SelectMany](
-//     o => o[Do](
-//       x => console.log(i++, '.', o.name)
-//     )
-//   )
-//   [Do](o => assert(o.constructor.name == 'Stats'))
-//   [Subscribe]()
-  
+watch(pwd)
+return

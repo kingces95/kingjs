@@ -1,5 +1,7 @@
 var { 
-  assert, path,
+  assert, 
+  path,
+  isBuiltinModule,
   ['@kingjs']: { 
     camelCase: { split },
     packageName: { construct },
@@ -12,6 +14,7 @@ var KingJs = 'kingjs';
 var AtKingJs = '@' + KingJs;
 var Require = 'require';
 var Dependencies = 'dependencies';
+var Underscore = '_';
 
 var {
   ObjectBindingPattern,
@@ -79,7 +82,13 @@ function getPackageNames(literal) {
         stack.push(split(name));
 
         if (stack.length == 1 && name != AtKingJs) {
-          packages.push(construct(null, stack))
+
+          // eg. so builtin package childProcess -> child_process instead of child-process
+          var packageName = construct(null, stack, Underscore)
+          if (!isBuiltinModule(packageName))
+            packageName = construct(null, stack)
+
+          packages.push(packageName)
           continue
         }
 

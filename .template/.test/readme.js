@@ -1,2 +1,2 @@
-var assert = require('assert');
-var xxx = require('..');
+var assert = require('assert')
+var xxx = require('..')

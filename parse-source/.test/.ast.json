@@ -1,69 +1,31 @@
 {
-  ".": "SourceFile",
-  ".position": 0,
-  ".line": "1:23",
-  ".character": "1:2",
-  "text": "var a, b, c;\r\nvar ok = { foo: 1 + 1 }, ok2 = { yo: ok };\r\n\r\n/**\r\n * @description Hello world!\r\n */\r\nvar {\r\n  ['@kingjs']: { \r\n    git: { getDir },\r\n    stringEx: { \r\n      capitalize,\r\n      ReplaceAll: replace \r\n    }\r\n  },\r\n  ['foo/bar']: { baz, moo }\r\n} = require('../dependencies');\r\n\r\nvar foo = {\r\n  a: 'a',\r\n  b: 0,\r\n  c: true,\r\n  d: null\r\n}",
+  "text": "var a, b, c;\nvar ok = { foo: 1 + 1 }, ok2 = { yo: ok };\n\n/**\n * @description Hello world!\n */\nvar {\n  ['@kingjs']: { \n    git: { getDir },\n    stringEx: { \n      capitalize,\n      ReplaceAll: replace \n    }\n  },\n  ['foo/bar']: { baz, moo }\n} = require('../dependencies');\n\nvar foo = {\n  a: 'a',\n  b: 0,\n  c: true,\n  d: null\n}",
   "fileName": ".test/sample.js",
+  "isDeclarationFile": false,
+  "hasNoDefaultLib": false,
   "statements": [
     {
-      ".": "VariableStatement",
-      ".position": 0,
-      ".line": "1:1",
-      ".character": "1:13",
       "declarationList": [
         {
-          ".": "VariableDeclaration",
-          ".position": 4,
-          ".line": "1:1",
-          ".character": "5:6",
           "name": "a"
         },
         {
-          ".": "VariableDeclaration",
-          ".position": 7,
-          ".line": "1:1",
-          ".character": "8:9",
           "name": "b"
         },
         {
-          ".": "VariableDeclaration",
-          ".position": 10,
-          ".line": "1:1",
-          ".character": "11:12",
           "name": "c"
         }
       ]
     },
     {
-      ".": "VariableStatement",
-      ".position": 14,
-      ".line": "2:2",
-      ".character": "1:43",
       "declarationList": [
         {
-          ".": "VariableDeclaration",
-          ".position": 18,
-          ".line": "2:2",
-          ".character": "5:24",
           "name": "ok",
           "initializer": {
-            ".": "ObjectLiteralExpression",
-            ".position": 23,
-            ".line": "2:2",
-            ".character": "10:24",
             "properties": [
               {
-                ".": "PropertyAssignment",
-                ".position": 25,
-                ".line": "2:2",
-                ".character": "12:22",
                 "name": "foo",
                 "initializer": {
-                  ".": "BinaryExpression",
-                  ".position": 30,
-                  ".line": "2:2",
-                  ".character": "17:22",
                   "left": "1",
                   "operatorToken": "+",
                   "right": "1"
@@ -73,22 +35,10 @@
           }
         },
         {
-          ".": "VariableDeclaration",
-          ".position": 39,
-          ".line": "2:2",
-          ".character": "26:42",
           "name": "ok2",
           "initializer": {
-            ".": "ObjectLiteralExpression",
-            ".position": 45,
-            ".line": "2:2",
-            ".character": "32:42",
             "properties": [
               {
-                ".": "PropertyAssignment",
-                ".position": 47,
-                ".line": "2:2",
-                ".character": "34:40",
                 "name": "yo",
                 "initializer": "ok"
               }
@@ -98,22 +48,10 @@
       ]
     },
     {
-      ".": "VariableStatement",
-      ".position": 100,
-      ".line": "7:16",
-      ".character": "1:32",
       "jsDoc": [
         {
-          ".": "JSDocComment",
-          ".position": 60,
-          ".line": "4:6",
-          ".character": "1:4",
           "tags": [
             {
-              ".": "FirstJSDocTagNode",
-              ".position": 68,
-              ".line": "5:5",
-              ".character": "4:17",
               "tagName": "description",
               "comment": "Hello world!"
             }
@@ -122,74 +60,30 @@
       ],
       "declarationList": [
         {
-          ".": "VariableDeclaration",
-          ".position": 104,
-          ".line": "7:16",
-          ".character": "5:31",
           "name": {
-            ".": "ObjectBindingPattern",
-            ".position": 104,
-            ".line": "7:16",
-            ".character": "5:2",
             "elements": [
               {
-                ".": "BindingElement",
-                ".position": 109,
-                ".line": "8:14",
-                ".character": "3:4",
                 "propertyName": "@kingjs",
                 "name": {
-                  ".": "ObjectBindingPattern",
-                  ".position": 122,
-                  ".line": "8:14",
-                  ".character": "16:4",
                   "elements": [
                     {
-                      ".": "BindingElement",
-                      ".position": 130,
-                      ".line": "9:9",
-                      ".character": "5:20",
                       "propertyName": "git",
                       "name": {
-                        ".": "ObjectBindingPattern",
-                        ".position": 135,
-                        ".line": "9:9",
-                        ".character": "10:20",
                         "elements": [
                           {
-                            ".": "BindingElement",
-                            ".position": 137,
-                            ".line": "9:9",
-                            ".character": "12:18",
                             "name": "getDir"
                           }
                         ]
                       }
                     },
                     {
-                      ".": "BindingElement",
-                      ".position": 152,
-                      ".line": "10:13",
-                      ".character": "5:6",
                       "propertyName": "stringEx",
                       "name": {
-                        ".": "ObjectBindingPattern",
-                        ".position": 162,
-                        ".line": "10:13",
-                        ".character": "15:6",
                         "elements": [
                           {
-                            ".": "BindingElement",
-                            ".position": 172,
-                            ".line": "11:11",
-                            ".character": "7:17",
                             "name": "capitalize"
                           },
                           {
-                            ".": "BindingElement",
-                            ".position": 191,
-                            ".line": "12:12",
-                            ".character": "7:26",
                             "propertyName": "ReplaceAll",
                             "name": "replace"
                           }
@@ -200,29 +94,13 @@
                 }
               },
               {
-                ".": "BindingElement",
-                ".position": 228,
-                ".line": "15:15",
-                ".character": "3:28",
                 "propertyName": "foo/bar",
                 "name": {
-                  ".": "ObjectBindingPattern",
-                  ".position": 241,
-                  ".line": "15:15",
-                  ".character": "16:28",
                   "elements": [
                     {
-                      ".": "BindingElement",
-                      ".position": 243,
-                      ".line": "15:15",
-                      ".character": "18:21",
                       "name": "baz"
                     },
                     {
-                      ".": "BindingElement",
-                      ".position": 248,
-                      ".line": "15:15",
-                      ".character": "23:26",
                       "name": "moo"
                     }
                   ]
@@ -231,10 +109,6 @@
             ]
           },
           "initializer": {
-            ".": "CallExpression",
-            ".position": 259,
-            ".line": "16:16",
-            ".character": "5:31",
             "expression": "require",
             "arguments": [
               "../dependencies"
@@ -244,52 +118,25 @@
       ]
     },
     {
-      ".": "VariableStatement",
-      ".position": 290,
-      ".line": "18:23",
-      ".character": "1:2",
       "declarationList": [
         {
-          ".": "VariableDeclaration",
-          ".position": 294,
-          ".line": "18:23",
-          ".character": "5:2",
           "name": "foo",
           "initializer": {
-            ".": "ObjectLiteralExpression",
-            ".position": 300,
-            ".line": "18:23",
-            ".character": "11:2",
+            "multiLine": true,
             "properties": [
               {
-                ".": "PropertyAssignment",
-                ".position": 305,
-                ".line": "19:19",
-                ".character": "3:9",
                 "name": "a",
                 "initializer": "a"
               },
               {
-                ".": "PropertyAssignment",
-                ".position": 316,
-                ".line": "20:20",
-                ".character": "3:7",
                 "name": "b",
                 "initializer": "0"
               },
               {
-                ".": "PropertyAssignment",
-                ".position": 325,
-                ".line": "21:21",
-                ".character": "3:10",
                 "name": "c",
                 "initializer": true
               },
               {
-                ".": "PropertyAssignment",
-                ".position": 337,
-                ".line": "22:22",
-                ".character": "3:10",
                 "name": "d",
                 "initializer": null
               }
