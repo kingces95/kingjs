@@ -4,5 +4,6 @@ exports['@kingjs'] = {
     Subject: require('@kingjs/rx.subject'),
   },
 }
+exports['which'] = require('which')
 exports['childProcess'] = require('child_process')
 exports['stringDecoder'] = require('string_decoder')

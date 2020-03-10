@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/shell",
+  "name": "@kingjs/spawn",
   "version": "1.0.0",
   "description": "Asynchronously spawns a shell, executes a command, streams stdio, and, if stderr is written, buffers and throws that text.",
   "main": "index.js",
@@ -13,13 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/shell"
+    "url": "https://repository.kingjs.net/spawn"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/rx.i-observer": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.subject": "latest",
+    "which": "latest"
   },
   "nodeDependencies": [
     "child_process",
