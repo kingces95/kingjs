@@ -5,8 +5,6 @@ var {
       IObserver: { Next, Complete, Error }
     }
   },
-  assert,
-  which,
   childProcess: { spawn },
   stringDecoder: { StringDecoder }
 } = require('./dependencies')
@@ -26,21 +24,20 @@ var SpawnOptions = {
 function shell(exe, args) {
   return new Subject(observer => {
 
-    which(exe, (error, path) => {
+    var decoder = new StringDecoder()
+    var decoded = []
 
-      if (error) {
-        observer[Error](error.message)
-        return
-      }
+    var process = spawn(exe, args, SpawnOptions)
 
-      var decoder = new StringDecoder()
-      var decoded = []
+    process.stdout
+      .on('data', (data) => observer[Next](data))  
 
-      var process = spawn(path, args, SpawnOptions)
-      process.stdout.on('data', (data) => observer[Next](data))  
-      process.stderr.on('data', (data) => decoded.push(decoder.write(data)))
-      process.on('error', (data) => observer[Error](data))
-      process.on('close', (code) => {
+    process.stderr
+      .on('data', (data) => decoded.push(decoder.write(data)))
+
+    process
+      .on('error', (data) => observer[Error](data))
+      .on('close', (code) => {
         if (decoded.length) {
           observer[Error](decoded.join(''))
           return
@@ -53,7 +50,6 @@ function shell(exe, args) {
 
         observer[Complete]()
       })
-    })
   })
 }
 

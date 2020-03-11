@@ -1,7 +1,7 @@
 var { 
   ['@kingjs']: {
     rx: { 
-      create 
+      create,
       IObserver: { Next, Complete, Error }
     },
     reflect: { 
@@ -15,8 +15,8 @@ var {
  * 
  * @this any The `stream` to be exposed as an `IObservable`.
  * 
- * @param {*} [backPressure] An array into subscribers may push promises
- * to cause the observable to emit empty buffers until those promises
+ * @param {*} [backPressure] An array into which subscribers may push promises
+ * which will cause the observable to emit empty buffers until those promises
  * are fulfilled.
  * 
  * @remarks - Originally designed for streaming zip decompression, the observer would 
@@ -40,26 +40,34 @@ function subscribe(backPressure) {
 
         // emit buffer
         observer[Next](data);
-        if (backPressure.length == 0)
-          return;
 
-        // pump empty buffers to flush back pressure
-        stream.pause();
-        process.nextTick(async () => {
-          while (backPressure.length) {
-            var promise = Promise.all(backPressure);
-            backPressure.length = 0;
-            await promise;
-
-            // iterators reporting back pressure may safely ignore
-            // the next buffer yielded to them. This provides iterators
-            // a way to 'await' promises (e.g. directory creation)
-            observer.next(EmptyBuffer);
-          }
-          stream.resume();
-        })
+        // throttle stream
+        throttle(backPressure, observer)
       })
   });
+}
+
+function throttle(backPressure, observer) {
+  var stream = this
+
+  if (backPressure.length == 0)
+    return;
+
+  // pump empty buffers to flush back pressure
+  stream.pause();
+  process.nextTick(async () => {
+    while (backPressure.length) {
+      var promise = Promise.all(backPressure);
+      backPressure.length = 0;
+      await promise;
+
+      // iterators reporting back pressure may safely ignore
+      // the next buffer yielded to them. This provides iterators
+      // a way to 'await' promises (e.g. directory creation)
+      observer.next(EmptyBuffer);
+    }
+    stream.resume();
+  })
 }
 
 exportExtension(module, Stream, subscribe);

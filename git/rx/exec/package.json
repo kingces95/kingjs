@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/spawn",
+  "name": "@kingjs/git.rx.exec",
   "version": "1.0.0",
-  "description": "Asynchronously spawns a shell, executes a command, streams stdio, and, if stderr is written, buffers and throws that text.",
+  "description": "Executes a git command using the git executable found on the path.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/spawn"
+    "url": "https://repository.kingjs.net/git/rx/exec"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/rx.i-observable": "latest",
     "@kingjs/rx.i-observer": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.subject": "latest",
+    "@kingjs/spawn": "latest",
+    "which": "latest"
   },
   "nodeDependencies": [
-    "child_process",
+    "assert",
     "string_decoder"
   ]
 }
