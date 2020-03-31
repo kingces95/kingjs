@@ -1,0 +1,14 @@
+{
+  "name": "@acme/a",
+  "main": "index.js",
+  "description": "A description of the package A.",
+  "repository": {
+    "type": "git",
+    "url": "https://repository.acme.net/a"
+  },
+  "nodeDependencies": [
+    "fs",
+    "path"
+  ],
+  "dependencies": {}
+}

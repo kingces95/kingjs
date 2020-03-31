@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/source.generate",
+  "version": "1.0.0",
+  "description": "Classes used to generate javascript using TypeScript engine.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/parse-source"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.is": "file:../../reflect/is",
+    "js-beautify": "file:../../.npm/node_modules/js-beautify",
+    "typescript": "file:../../.npm/node_modules/typescript"
+  },
+  "devDependencies": {
+    "@kingjs/source.parse": "file:../parse"
+  }
+}

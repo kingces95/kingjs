@@ -10,8 +10,7 @@ var Space = ' ';
 var NewLineRx = /\r\n|\r|\n/g;
 var Description = 'description';
 
-function parse(path) {
-  var ast = parseSource(path);
+function parse(ast) {
   var description = walk(ast);
   if (!description)
     return;

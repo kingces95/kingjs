@@ -21,7 +21,7 @@
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
     "@kingjs/i-iterable": "latest",
-    "@kingjs/package-version.parse": "latest",
+    "@kingjs/package.version.parse": "latest",
     "@kingjs/promise.to-observable": "latest",
     "@kingjs/reflect.implement-i-enumerable": "latest",
     "@kingjs/reflect.implement-interface": "latest",

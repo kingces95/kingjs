@@ -1,154 +1,154 @@
-var {
-  path, fs,
-  ['@kingjs']: {
-    git: { getDir, getFiles },
-    packageName: { parse }
-  },
-  shelljs
-} = require('./dependencies');
+const assert = require('assert')
+const fs = require('fs')
+const Path = require('path')
+const Process = require('process')
+const ChildProcess = require('child_process')
 
-var DotNpm = '.npm';
-var KingJs = 'kingjs';
-var PackageJson = 'package.json';
-var NodeModules = 'node_modules';
-var DotDir = /(^|\/)\.\w/;
+const run = require('@kingjs/run')
+const mklink = require('@kingjs/make-link')
+const parse = require('@kingjs/package-name.parse')
+const construct = require('@kingjs/package-name.construct')
 
-/**
- * @description Recursively creates npm links for all
- * dependent packages.
- * 
- * @remarks - Creates a `node_modules` directory at the git enlistment root
- * that contains symbolic links to 
- * @remarks -- directories and sub-directories of the current directory which contain 
- * a `package.json` file and 
- * @remarks -- symbolic links into sub-directories of a `.npm` directory at the enlistment root 
- * which contains packages for all external node modules discovered in all
- * packages found by enumerating directories starting at the git enlistment root.
- * @remarks - Directories starting with `.` are ignored.
- * @remarks - Directories are enumerated using git and respecting files added and removed
- * from the git index.
- * @remarks - This directory arrangement allows changes in one package to be reflected
- * in all referring packages without having to publish and sync the referenced package.
- */
-function createLinks() {
+const Period = '.'
+const NodeModules = 'node_modules'
+const PackageJson = 'package.json'
+const DotExternal = '.npm'
+const Latest = 'latest'
+const Slash = '/'
+const UTF8 = 'utf8'
 
-  var cwd = process.cwd();
-  var localDirs = getLocalPackages().map(o => path.join(cwd, o));
-
-  var gitDir = getDir();
-  process.chdir(gitDir);
-  cwd = process.cwd();
-
-  var npmDirs = getNpmPackages(localDirs).map(o => path.join(cwd, o));
-  var dirs = localDirs.concat(npmDirs);
-
-  // create links
-  for (var toDir of dirs) {
-
-    if (fs.existsSync(path.join(toDir, NodeModules)))
-      continue;
-    
-    var jsonPath = require.resolve(PackageJson, { paths: [ toDir ] })
-    var json = require(jsonPath)
-    var { name } = json
-
-    var fromDir = getModuleDir(gitDir, name);
-    if (fs.existsSync(fromDir)) 
-      continue;
-      
-    var scopeDir = path.dirname(fromDir)
-
-    if (!fs.existsSync(scopeDir))
-      fs.mkdirSync(scopeDir, { recursive: true })
-
-    console.log(`${fromDir} -> ${toDir}`)
-    fs.symlinkSync(toDir, fromDir, 'dir')
-  }
+function pathExists(path) {
+  return new Promise(resolve => fs.exists(path, o => resolve(o)))
 }
 
-function getLocalPackages() {
-
-  // dump files
-  var files = getFiles()
-
-  // select package.json in paths where no directory is prefixed with dot
-  var dirs = files
-    .filter(x => path.basename(x) == PackageJson && !DotDir.test(x))
-    .map(x => path.dirname(x));
-
-  return dirs;
+function orderKeys(source) {
+  var target = { }
+  for (var key of Object.keys(source).sort())
+    target[key] = source[key]
+  return target
 }
 
-function readJsonFile(path) {
-  if (!fs.existsSync(path))
-    return { };
-
-  return JSON.parse(
-    fs.readFileSync(path)
-  )
+function stringify(object) {
+  return JSON.stringify(object, null, 2)
 }
 
-function getNpmPackages(dirs) {
-  
-  // reduce all non-kingjs dependencies into a single set
-  var set = new Set();
-  for (var packageDir of dirs) {
-    var { dependencies = { } } = readJsonFile(path.join(packageDir, PackageJson))
-    for (var dependency of Object.keys(dependencies)) {
-      var parts = parse(dependency);
-      if (parts.scope == KingJs)
-        continue;
-      set.add(dependency)
+var root = Process.cwd()
+
+async function* makeLink(toDir, fromDir) {
+  await mklink(toDir, fromDir)
+  console.log(`${fromDir} -> ${toDir}`)
+}
+
+async function* findPackages(action, path = Period) {
+  assert(path)
+
+  // enumerate the directory entries
+  const dir = await fs.promises.readdir(path, { withFileTypes: true })
+
+  for (const dirent of dir) {
+    const { name } = dirent
+
+    // process any discovered packages
+    if (name == PackageJson) {
+      yield action(path)
+      continue
     }
+
+    // skip non-directories
+    if (!dirent.isDirectory())
+      continue
+
+    // skip node_modules directory and directories whose name starts with period
+    if (name[0] == Period || name == NodeModules)
+      continue
+
+    // scan the sub-directory in parallel
+    yield findPackages(action, Path.join(path, name))
+  }
+}
+
+async function createLinks() {
+
+  // find root of git enlistment
+  while (!await pathExists('.git')) {
+    if (root == Slash)
+      throw 'Failed to find root of git enlistment.'
+    Process.chdir('..')
+    root = Process.cwd()
   }
 
-  // create ~/.npm
-  var npmDir = DotNpm;
-  if (!fs.existsSync(npmDir))
-    fs.mkdirSync(npmDir);
+  // build known paths
+  const externalDir = Path.join(root, DotExternal)
+  const packageJsonPath = Path.join(externalDir, PackageJson)
+  
+  // scan root sub-directories in parallel for packages
+  // link from root node_modules to each package and
+  // gather external dependencies
+  const externalDependencies = { }
+  await run(findPackages(scanPackage))
 
-  // load ~/.npm/packages.json
-  var npmPackagesJson = path.join(npmDir, PackageJson);
-  var { dependencies = { } } = readJsonFile(npmPackagesJson)
+  // mkdir .npm
+  await fs.promises.mkdir(externalDir, { recursive: true })
 
-  // bail if all dependencies loaded
-  var npmPackages = path.join(npmDir, NodeModules);
-  var packages = Object.keys(dependencies)
-  if (!fs.existsSync(npmPackages) || !Array.from(set).every(o => packages.includes(o))) {
+  // generate package.json
+  var packageJson = stringify({ 
+    description: 'External dependencies of this repository.',
+    repository: 'n/a',
+    license: 'MIT',
+    dependencies: orderKeys(externalDependencies) 
+  })
 
-    // refresh ~/.npm/packages.json
-    for (var o of set)
-      dependencies[o] = 'latest';
-    fs.writeFileSync(npmPackagesJson, JSON.stringify({ dependencies }, null, 2));
+  // diff existing .npm/packages.json with new package.json
+  if (await pathExists(packageJsonPath)) {
+    var existingPackageJson = await fs.promises.readFile(packageJsonPath, UTF8)
+    if (existingPackageJson.trim() == packageJson.trim())
+      return
+  } 
+  else if (Object.keys(externalDependencies).length == 0)
+    return
 
-    // install non-kingjs dependencies
-    exec(npmDir, `npm i`);
-  }
+  // create or update .npm/packages.json
+  await fs.promises.writeFile(packageJsonPath, packageJson)
 
-  return Array.from(set).map(o => path.join(npmPackages, o));
+  // .npm/packages.json$ npm i, log any errors
+  console.log('~/.npm$ npm i')
+  var npm = ChildProcess.spawn('npm', ['i'], { cwd: externalDir })
+  npm.stderr.setEncoding(UTF8)
+  npm.stderr.on('data', o => Process.stderr.write(o))
+
+  async function* scanPackage(path) {
+    assert(path)
+  
+    // parse package.json
+    var jsonPath = require.resolve(PackageJson, { paths: [ path ] })
+    var json = JSON.parse(await fs.promises.readFile(jsonPath))
+    var { name, dependencies } = json
+    var { scope } = parse(name)
+  
+    // install module in root node_modules
+    yield makeLink(path, Path.join(NodeModules, name))
+  
+    // scan for new external dependencies, record and link them
+    for (dependency in dependencies) {
+  
+      var { scope: dependencyScope } = parse(dependency)
+      if (dependencyScope == scope)
+        continue
+  
+      if (dependencies[dependency] != Latest)
+        console.warn(`Expected package '${path}' dependency '${dependency}' to be '${Latest}'`)
+  
+      // skip previously found external dependencies
+      if (dependency in externalDependencies)
+        continue
+  
+      // record external module
+      externalDependencies[dependency] = Latest
+  
+      // install external module in root node_modules
+      yield makeLink(Path.join(DotExternal, NodeModules, dependency), Path.join(NodeModules, dependency))
+    }
+  }  
 }
 
-function getModuleDir(dir, name) {
-  dir = path.join(dir, NodeModules)
-
-  var parts = parse(name)
-  var fullName = parts.fullName
-
-  if (parts.scope)
-    dir = path.join(dir, `@${parts.scope}`)
-
-  dir = path.join(dir, fullName)
-  return dir;
-}
-
-function exec(dir, cmd) {
-  console.log(`${dir}$ ${cmd}`);
-
-  process.chdir(dir);
-  var result = shelljs.exec(cmd, { silent:true });
-
-  if (result.code != 0)
-    throw result.stderr.trim();
-}
-
-module.exports = createLinks;
+module.exports = createLinks

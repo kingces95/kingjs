@@ -1,0 +1,30 @@
+{
+  "name": "@kingjs/source.info.function-info",
+  "version": "1.0.0",
+  "description": "Returns a higher order abstraction of a function AST node.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/parse-source"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "nodeDependencies": [
+    "assert"
+  ],
+  "devDependencies": {
+    "@kingjs/source.ast.parse": "file:../../parse"
+  },
+  "dependencies": {
+    "@kingjs/source.ast.types": "file:../../types",
+    "@kingjs/string-ex.join-lines": "file:../../../string-ex/join-lines"
+  }
+}

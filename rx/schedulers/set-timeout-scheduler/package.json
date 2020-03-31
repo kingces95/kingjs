@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.set-timeout-scheduler",
+  "name": "@kingjs/rx.schedulers.set-timeout-scheduler",
   "version": "1.0.0",
   "description": "An instance of an `IScheduler` that schedules uses `process.nextTick` and reports time from `Date.now`.",
   "main": "index.js",

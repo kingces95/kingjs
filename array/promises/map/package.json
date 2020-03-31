@@ -1,0 +1,31 @@
+{
+  "name": "@kingjs/array.promises.map",
+  "version": "1.0.0",
+  "description": "Asynchronously map promises in an array.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/array/remove"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-extension": "file:../../../define-extension",
+    "@kingjs/run": "file:../../../run"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true,
+  "devDependencies": {
+    "@kingjs/promise.sleep": "file:../../../promise/sleep"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "kingjs",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "repository": {
+    "url": "https://repository.kingjs.net/",
+    "type": "git"
+  },
+  "license": "MIT"
+}

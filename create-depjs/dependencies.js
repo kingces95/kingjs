@@ -2,9 +2,11 @@ exports['@kingjs'] = {
   camelCase: {
     join: require('@kingjs/camel-case.join'),
   },
-  packageName: {
-    parse: require('@kingjs/package-name.parse'),
-  },
+  package: {
+    name: {
+      parse: require('@kingjs/package.name.parse'),
+    },
+  }
 }
 exports['isBuiltinModule'] = require('is-builtin-module')
 exports['fs'] = require('fs')

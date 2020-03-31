@@ -34,7 +34,7 @@ var DotDirGlob = [
   '**/node_modules',
   /(^|[\/\\])\../     // comment out when testing!
 ]
-//process.chdir('.temp/root')
+process.chdir('.temp/root')
 
 var cwd = process.cwd()
 console.log('watching', cwd)

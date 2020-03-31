@@ -2,7 +2,7 @@ var assert = require('assert');
 
 var { 
   ['@kingjs']: {
-    packageName: { parse },
+    package: { name: { parse } },
     camelCase: { join }
   }
 } = require('./dependencies');

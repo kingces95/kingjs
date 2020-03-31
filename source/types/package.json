@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/source.types",
+  "version": "1.0.0",
+  "description": "Classes named for each TypeScript `SyntaxKind`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/parse-source"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/extend-class": "file:../../extend-class",
+    "@kingjs/source.syntax-kind": "file:../syntax-kind",
+    "typescript": "file:../../.npm/node_modules/typescript"
+  },
+  "devDependencies": {
+    "@kingjs/source.parse": "file:../parse"
+  }
+}

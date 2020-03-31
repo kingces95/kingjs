@@ -1,9 +1,8 @@
-var assert = require('assert');
 var { 
   ['@kingjs']: { 
     defineExtension
   }
-} = require('./dependencies');
+} = require('./dependencies')
 
 var { name, version } = require('./package.json');
 var Space = ' ';

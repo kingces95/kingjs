@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/git.get-files",
+  "name": "@kingjs/git.init",
   "version": "1.0.0",
   "description": "Returns the files tracked by git in the current directory  and sub-directories including the index (added and deleted files).",
   "main": "index.js",

@@ -4,7 +4,9 @@ var {
   isBuiltinModule,
   ['@kingjs']: { 
     camelCase: { split },
-    packageName: { construct },
+    package: {
+      name: { construct },
+    },
     reflect: { is }, 
     parseSource,
   },
@@ -20,8 +22,8 @@ var {
   ObjectBindingPattern,
 } = parseSource;
 
-function parse(file) {
-  var obp = matchDependencies(file);
+function parse(ast) {
+  var obp = matchDependencies(ast);
   if (!obp)
     return [ ];
 
@@ -34,7 +36,7 @@ function parse(file) {
   return packages;
 }
 
-function matchDependencies(file) {
+function matchDependencies(ast) {
   try {
 
     // deconstruct the AST
@@ -44,9 +46,9 @@ function matchDependencies(file) {
           declarationList: {
             [0]: {
               initializer: {
-                expression,
+                expression,     // require('./../dependencies.js')
                 arguments: {
-                  [0]: argument
+                  [0]: argument // './../dependencies.js'
                 }
               },
               name: obp
@@ -54,13 +56,13 @@ function matchDependencies(file) {
           }
         }
       }
-    } = parseSource(file);
+    } = ast;
 
     // call is 'require'
     if (expression != Require)
       return;
 
-    // argument like './.../dependencies.js'
+    // argument like './../dependencies.js'
     if (path.basename(argument) != Dependencies)
       return;
 
@@ -140,4 +142,4 @@ function evaluate(obp) {
 
 module.exports = parse;
 
-//console.log(JSON.stringify(parse('.test/sample.js'), null, 2));
+console.log(JSON.stringify(parse('.test/sample.js'), null, 2));

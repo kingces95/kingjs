@@ -28,6 +28,6 @@
     "@kingjs/string-ex.expand": "^1.0.0",
     "@kingjs/string-ex.join-lines": "^1.0.0",
     "@kingjs/parse-source": "latest",
-    "typescript": "^3.2.2"
+    "typescript": "latest"
   }
 }

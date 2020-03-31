@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.i-scheduler",
+  "name": "@kingjs/rx.schedulers.i-scheduler",
   "version": "1.0.0",
   "description": "`IScheduler` has a members `now` and `schedule` which are abstract versions of `Date.now()` and `process.nextTick`.",
   "main": "index.js",

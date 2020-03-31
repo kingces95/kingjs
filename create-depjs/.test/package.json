@@ -4,7 +4,7 @@
   "dependencies": {
     "@kingjs/camel-case.join": "^1.0.0",
     "@kingjs/generator": "^1.0.1",
-    "@kingjs/package-name.parse": "^1.0.1"
+    "@kingjs/package.name.parse": "^1.0.1"
   },
   "devDependencies": {
     "@kingjs/reflect.is": "^1.0.0"

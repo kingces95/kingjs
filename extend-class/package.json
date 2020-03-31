@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs/extend-class",
+  "version": "1.0.1",
+  "description": "Create a class that extends another class and invokes an optional body function in the constructor.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/create-constructor"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+  }
+}

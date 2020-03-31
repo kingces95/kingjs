@@ -1,6 +1,6 @@
 {
-  "text": "var a, b, c;\nvar ok = { foo: 1 + 1 }, ok2 = { yo: ok };\n\n/**\n * @description Hello world!\n */\nvar {\n  ['@kingjs']: { \n    git: { getDir },\n    stringEx: { \n      capitalize,\n      ReplaceAll: replace \n    }\n  },\n  ['foo/bar']: { baz, moo }\n} = require('../dependencies');\n\nvar foo = {\n  a: 'a',\n  b: 0,\n  c: true,\n  d: null\n}",
-  "fileName": ".test/sample.js",
+  "text": "var a, b, c;\nvar ok = { foo: 1 + 1 }, ok2 = { yo: ok };\n\n/**\n * @description Hello world!\n */\nvar {\n  ['@kingjs']: { \n    git: { getDir },\n    stringEx: { \n      capitalize,\n      ReplaceAll: replace \n    }\n  },\n  ['foo/bar']: { baz, moo }\n} = require('../dependencies');\n\nvar foo = {\n  a: 'a',\n  b: 0,\n  c: true,\n  d: null,\n  e: undefined\n}",
+  "fileName": "sample.js",
   "isDeclarationFile": false,
   "hasNoDefaultLib": false,
   "statements": [
@@ -139,6 +139,10 @@
               {
                 "name": "d",
                 "initializer": null
+              },
+              {
+                "name": "e",
+                "initializer": "undefined"
               }
             ]
           }

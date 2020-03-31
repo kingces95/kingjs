@@ -1,39 +1,39 @@
 var { 
   fs, 
   path
-} = require('./dependencies');
+} = require('./dependencies')
 
-var generate = require('./generate');
-var PackageJson = './package.json';
-var DependenciesJs = './dependencies.js';
-var DevDependenciesJs = '.test/dependencies.js';
+var generate = require('./generate')
+var PackageJson = './package.json'
+var DependenciesJs = './dependencies.js'
+var DevDependenciesJs = '.test/dependencies.js'
 
 // extract dependencies from package.json
-var cwd = process.cwd();
+var cwd = process.cwd()
 
-var packageJsonPath = path.join(cwd, PackageJson);
+var packageJsonPath = path.join(cwd, PackageJson)
 var { 
   dependencies, 
   devDependencies, 
   nodeDependencies = [] 
-} = require(packageJsonPath);
+} = require(packageJsonPath)
 
 if (fs.existsSync('.test') && false) {
   // write .test/dependencies.js
   var result = generate(Object.keys({ 
     ...dependencies, ...devDependencies 
-  }).concat(nodeDependencies));
+  }).concat(nodeDependencies))
 
-  var devDependenciesJsPath = path.join(cwd, DevDependenciesJs);
+  var devDependenciesJsPath = path.join(cwd, DevDependenciesJs)
   if (result)
-    fs.writeFileSync(devDependenciesJsPath, result);
+    fs.writeFileSync(devDependenciesJsPath, result)
 }
 
 // write ./dependencies.js
 var result = generate(Object.keys({
   ...dependencies
-}).concat(nodeDependencies));
+}).concat(nodeDependencies))
 
-var dependenciesJsPath = path.join(cwd, DependenciesJs);
+var dependenciesJsPath = path.join(cwd, DependenciesJs)
 if (result)
-  fs.writeFileSync(dependenciesJsPath, result);
+  fs.writeFileSync(dependenciesJsPath, result)

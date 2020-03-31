@@ -21,8 +21,8 @@
     "assert"
   ],
   "dependencies": {
-    "@kingjs/create-constructor": "latest",
-    "@kingjs/reflect.is": "latest",
-    "typescript": "latest"
+    "@kingjs/create-constructor": "file:../create-constructor",
+    "@kingjs/reflect.is": "file:../reflect/is",
+    "typescript": "file:../.npm/node_modules/typescript"
   }
 }

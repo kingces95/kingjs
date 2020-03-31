@@ -18,7 +18,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/async-generator": "latest",
-    "@kingjs/generator": "latest"
+    "@kingjs/async-generator": "file:../../async-generator",
+    "@kingjs/generator": "file:../../generator"
   }
 }

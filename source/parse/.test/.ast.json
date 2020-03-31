@@ -1,0 +1,336 @@
+{
+  "text": "/**\n * @description My description.\n */\nvar assert = require('assert')\nvar fs = require('fs')\nvar parse = require('..')\nvar types = require('@kingjs/source.types')\n\nvar { \n  SourceFile,\n  VariableStatement,\n  VariableDeclaration,\n  CallExpression,\n  Node\n} = types\n\nparse(__filename).then(ast => {\n\n  assert(ast instanceof SourceFile)\n  \n  var statement = ast.statements[0]\n  assert(statement instanceof VariableStatement)\n  \n  var declaration = statement.declarationList[0]\n  assert(declaration instanceof VariableDeclaration)\n  assert(declaration.name == 'assert')\n  \n  var callExpression = declaration.initializer\n  assert(callExpression instanceof CallExpression)\n  assert(callExpression.expression == 'require')\n  assert(callExpression.arguments[0] == 'assert')\n  \n  function walk(node) {\n    for (var child of node) {\n      assert(node instanceof Node)\n      walk(child)\n    }\n  }\n  walk(ast)\n\n  fs.writeFileSync('.ast.json', \n    JSON.stringify(ast, null, 2)\n  )\n})",
+  "fileName": "/Users/Setup/git/kingjs/source/parse/.test/readme.js",
+  "isDeclarationFile": false,
+  "hasNoDefaultLib": false,
+  "statements": [
+    {
+      "jsDoc": [
+        {
+          "tags": [
+            {
+              "tagName": "description",
+              "comment": "My description."
+            }
+          ]
+        }
+      ],
+      "declarationList": [
+        {
+          "name": "assert",
+          "initializer": {
+            "expression": "require",
+            "arguments": [
+              "assert"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "declarationList": [
+        {
+          "name": "fs",
+          "initializer": {
+            "expression": "require",
+            "arguments": [
+              "fs"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "declarationList": [
+        {
+          "name": "parse",
+          "initializer": {
+            "expression": "require",
+            "arguments": [
+              ".."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "declarationList": [
+        {
+          "name": "types",
+          "initializer": {
+            "expression": "require",
+            "arguments": [
+              "@kingjs/source.types"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "declarationList": [
+        {
+          "name": {
+            "elements": [
+              {
+                "name": "SourceFile"
+              },
+              {
+                "name": "VariableStatement"
+              },
+              {
+                "name": "VariableDeclaration"
+              },
+              {
+                "name": "CallExpression"
+              },
+              {
+                "name": "Node"
+              }
+            ]
+          },
+          "initializer": "types"
+        }
+      ]
+    },
+    {
+      "expression": {
+        "expression": {
+          "expression": {
+            "expression": "parse",
+            "arguments": [
+              "__filename"
+            ]
+          },
+          "name": "then"
+        },
+        "arguments": [
+          {
+            "parameters": [
+              {
+                "name": "ast"
+              }
+            ],
+            "equalsGreaterThanToken": "=>",
+            "body": {
+              "multiLine": true,
+              "statements": [
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": "ast",
+                        "operatorToken": "instanceof",
+                        "right": "SourceFile"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "declarationList": [
+                    {
+                      "name": "statement",
+                      "initializer": {
+                        "expression": {
+                          "expression": "ast",
+                          "name": "statements"
+                        },
+                        "argumentExpression": "0"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": "statement",
+                        "operatorToken": "instanceof",
+                        "right": "VariableStatement"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "declarationList": [
+                    {
+                      "name": "declaration",
+                      "initializer": {
+                        "expression": {
+                          "expression": "statement",
+                          "name": "declarationList"
+                        },
+                        "argumentExpression": "0"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": "declaration",
+                        "operatorToken": "instanceof",
+                        "right": "VariableDeclaration"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": {
+                          "expression": "declaration",
+                          "name": "name"
+                        },
+                        "operatorToken": "==",
+                        "right": "assert"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "declarationList": [
+                    {
+                      "name": "callExpression",
+                      "initializer": {
+                        "expression": "declaration",
+                        "name": "initializer"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": "callExpression",
+                        "operatorToken": "instanceof",
+                        "right": "CallExpression"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": {
+                          "expression": "callExpression",
+                          "name": "expression"
+                        },
+                        "operatorToken": "==",
+                        "right": "require"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "expression": "assert",
+                    "arguments": [
+                      {
+                        "left": {
+                          "expression": {
+                            "expression": "callExpression",
+                            "name": "arguments"
+                          },
+                          "argumentExpression": "0"
+                        },
+                        "operatorToken": "==",
+                        "right": "assert"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "walk",
+                  "parameters": [
+                    {
+                      "name": "node"
+                    }
+                  ],
+                  "body": {
+                    "multiLine": true,
+                    "statements": [
+                      {
+                        "initializer": [
+                          {
+                            "name": "child"
+                          }
+                        ],
+                        "expression": "node",
+                        "statement": {
+                          "multiLine": true,
+                          "statements": [
+                            {
+                              "expression": {
+                                "expression": "assert",
+                                "arguments": [
+                                  {
+                                    "left": "node",
+                                    "operatorToken": "instanceof",
+                                    "right": "Node"
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "expression": {
+                                "expression": "walk",
+                                "arguments": [
+                                  "child"
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "expression": "walk",
+                    "arguments": [
+                      "ast"
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "expression": {
+                      "expression": "fs",
+                      "name": "writeFileSync"
+                    },
+                    "arguments": [
+                      ".ast.json",
+                      {
+                        "expression": {
+                          "expression": "JSON",
+                          "name": "stringify"
+                        },
+                        "arguments": [
+                          "ast",
+                          null,
+                          "2"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "endOfFileToken": ""
+}

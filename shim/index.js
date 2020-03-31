@@ -1,6 +1,6 @@
 var {
   ['@kingjs']: {
-    packageVersion: { parse }
+    package: { version: { parse } }
   }
 } = require('./dependencies');
 

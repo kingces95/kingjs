@@ -7,13 +7,9 @@ var {
 
 var fs = require("fs");
 var types = require('./define-types');
+var rx = require('./rx');
 
 var EmptyObject = { };
-var AnyListRx = /List$/;
-var AnyTokenRx = /Token$/;
-var AnyLiteralRx = /Literal$/;
-var AnyKeywordRx = /Keyword$/;
-
 var Parent = 'parent';
 var Continue = 'continue';
 var Return = 'return';
@@ -42,116 +38,115 @@ var leafs = {
  * 
  * @param path Path to file to a file to parse. 
  * 
- * @returns Each node of the Typescript AST is stripped down to just
- * those properties that return nodes or are terminal literals. 
+ * @returns Each node of the Typescript AST is copied but only 
+ * those properties that return nodes. Terminal literals are replaced
+ * with their deserialized values. 
  */
-function parse(path, options = EmptyObject) {
-  var sourceFile = createSourceFile(path, options.languageVersion);
-  return walk(sourceFile);
-
-  function walk(node) {
-    var kind = ts.SyntaxKind[node.kind];
-
-    // explicit leaf
-    if (kind in leafs)
-      return leafs[kind](node);
-
-    // implicit leaf
-    var isToken = kind.match(AnyTokenRx);
-    var isLiteral = kind.match(AnyLiteralRx);
-    var isKeyword = kind.match(AnyKeywordRx);
-
-    if (isToken || isLiteral || isKeyword)
-      return node.getText();
-
-    // activate typed result
-    var result = new types[kind]();
-
-    if (options.debug)
-      addDebugAnnotations();
-
-    var order = { };
-    for (var name in node) {
-      if (name == Parent)
-        continue;
-
-      var value = node[name];
-
-      if (is.string(value) || is.boolean(value)) {
-        result[name] = value;
-        continue;
-      }
-
-      if (value instanceof Array && isNode(value[0])) {
-        result[name] = value.map(o => walk(o));
-        order[value[0].getStart()] = name;
-
-        if (kind.match(AnyListRx)) 
-          return result[name];
-
-        continue;
-      }
-
-      if (!isNode(value))
-        continue;
-
-      result[name] = walk(value);
-      order[value.getStart()] = name;
-    }
-
-    // Enumerate children in document order;
-    // Js enumerates properties in the order they're set
-    var positions = Object.keys(order).map(o => Number(o)).sort();
-    for (var position of positions) {
-      var name = order[position];
-      result[name] = result[name];
-    }
-        
-    Object.freeze(result);
-    return result;
-
-    function addDebugAnnotations() {
-      result['.'] = kind;
-    
-      if (!node.getStart)
-        return;
-      
-      let start = sourceFile.getLineAndCharacterOfPosition(node.getStart());
-      let end = sourceFile.getLineAndCharacterOfPosition(node.getEnd());
-      result['.position'] = node.getStart();
-      result['.line'] = `${start.line + 1}:${end.line + 1}`;
-      result['.character'] = `${start.character + 1}:${end.character + 1}`;
-    }
-  }
-}
-
-
-function createSourceFile(
-  path, 
-  languageVersion = ts.ScriptTarget.Latest) {
+function parseJavascript(path, options = EmptyObject) {
 
   var buffer = fs.readFileSync(path);
   var text = buffer.toString();
   var setParentNodes = true; // else `.getText()` fails
+  var { languageVersion = ts.ScriptTarget.Latest } = options
 
-  return ts.createSourceFile(
+  var ast = ts.createSourceFile(
     path, 
     text,
     languageVersion, 
     setParentNodes
   )
+
+  return map(ast, options);
 }
 
 function isNode(value) {
- return is.object(value) && 'kind' in value;
+  return is.object(value) && 'kind' in value;
 }
 
-module.exports = parse;
-for (var name in types)
-  parse[name] = types[name];
+function map(node, options) {
+  var kind = ts.SyntaxKind[node.kind];
 
-return;
-var ast = parse('.test/sample.js', { debug: 0 });
-fs.writeFileSync('.test/.ast.json', 
-  JSON.stringify(ast, null, 2)
-)
+  // deserialize explicit leaf
+  if (kind in leafs)
+    return leafs[kind](node);
+
+  // deserialize implicit leaf
+  var isToken = kind.match(rx.AnyToken);
+  var isLiteral = kind.match(rx.AnyLiteral);
+  var isKeyword = kind.match(rx.AnyKeyword);
+  if (isToken || isLiteral || isKeyword)
+    return node.getText();
+
+  // activate typed result!
+  var result = new types[kind]();
+
+  // add properties '.', '.position', '.line', and '.character' to more easily
+  // identify the node type and where in the source file the production is found.
+  if (options.debug) {
+    result['.'] = kind;
+  
+    if (node.getStart) {
+      let start = ast.getLineAndCharacterOfPosition(node.getStart());
+      let end = ast.getLineAndCharacterOfPosition(node.getEnd());
+      result['.position'] = node.getStart();
+      result['.line'] = `${start.line + 1}:${end.line + 1}`;
+      result['.character'] = `${start.character + 1}:${end.character + 1}`;
+    }
+  }
+
+  var order = { };
+
+  // copy the node properties
+  for (var name in node) {
+
+    // skip the parent node
+    if (name == Parent)
+      continue;
+
+    var value = node[name];
+
+    // strings and booleans are copied directly
+    if (is.string(value) || is.boolean(value)) {
+      result[name] = value;
+      continue;
+    }
+
+    // copy arrays of nodes
+    if (value instanceof Array && isNode(value[0])) {
+      result[name] = value.map(o => map(o, options));
+      order[value[0].getStart()] = name;
+
+      // unwrap productions that simply wrap lists
+      // e.g. DeclarationList > VariableDeclarationList > [ ...nodes ] 
+      //        => DeclarationList > [ ...nodes ]
+      if (kind.match(rx.AnyList)) {
+        var result = result[name]
+        Object.freeze(result)
+        return result
+      }
+
+      continue;
+    }
+
+    // copy sub-trees
+    if (isNode(value)) {
+      result[name] = map(value, options);
+      order[value.getStart()] = name;
+    }
+  }
+
+  // reset properties in document order
+  // (javascript enumerates properties in the order they're set)
+  var positions = Object.keys(order).map(o => Number(o)).sort();
+  for (var position of positions) {
+    var name = order[position];
+    result[name] = result[name];
+  }
+      
+  Object.freeze(result);
+  return result;
+}
+
+module.exports = parseJavascript;
+for (var name in types)
+  parseJavascript[name] = types[name];

@@ -1,11 +1,10 @@
 var { 
-  assert,
   typescript: ts,
   ['@kingjs']: { createConstructor }
 } = require('./dependencies');
 
-var AnyTokenRx = /Token$/;
-var AnyKeywordRx = /Keyword$/;
+var rx = require('./rx');
+var kind = ts.SyntaxKind
 
 function Node() { }
 
@@ -41,12 +40,12 @@ Object.defineProperties(
 
 exports['Node'] = Node;
 
-for (var i = 0; i < ts.SyntaxKind.Count; i++) {
-  var name = ts.SyntaxKind[i];
-  if (name.match(AnyTokenRx))
+for (var name in Object.keys(kind).sort()) {
+
+  if (name.match(rx.AnyToken))
     continue;
 
-  if (name.match(AnyKeywordRx))
+  if (name.match(rx.AnyKeyword))
     continue;
 
   exports[name] = createConstructor(name, Node)

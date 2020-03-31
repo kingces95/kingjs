@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/source.get-info",
+  "version": "1.0.0",
+  "description": "Extension which returns higher order abstraction of an AST node.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/source.ast.syntax-kind"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@kingjs/source.parse": "file:../parse"
+  },
+  "dependencies": {
+    "@kingjs/define-extension": "file:../../define-extension",
+    "@kingjs/source.types": "file:../types",
+    "@kingjs/source.info.function-info": "file:../info/function-info"
+  },
+  "capitalize": true
+}

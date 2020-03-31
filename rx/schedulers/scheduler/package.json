@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.scheduler",
+  "name": "@kingjs/rx.schedulers.scheduler",
   "version": "1.0.0",
   "description": "The base class for Schedulers.",
   "main": "index.js",

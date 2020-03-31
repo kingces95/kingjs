@@ -21,6 +21,6 @@
     "assert"
   ],
   "dependencies": {
-    "@kingjs/reflect.is": "latest"
+    "@kingjs/reflect.is": "file:../reflect/is"
   }
 }

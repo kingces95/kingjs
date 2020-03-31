@@ -1,0 +1,43 @@
+{
+  "name": "@kingjs/package.harvest.dependencies",
+  "version": "1.0.1",
+  "description": "Creates or updates fields of `package.json` that can be inferred from the surrounding environment.",
+  "main": "index.js",
+  "files": [
+    "*.js",
+    "package.t.json"
+  ],
+  "bin": {
+    "harvest-dependencies": "./exe.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package/create"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/array.promises.map": "file:../../../array/promises/map",
+    "@kingjs/camel-case.split": "file:../../../camel-case/split",
+    "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
+    "@kingjs/git.get-dir": "file:../../../git/get-dir",
+    "@kingjs/package.find-npm-scope": "file:../../find-npm-scope",
+    "@kingjs/package.name.construct": "file:../../name/construct",
+    "@kingjs/package.name.parse": "file:../../name/parse",
+    "@kingjs/package.source.object-binding-pattern.to-package-names": "file:../../source/object-binding-pattern/to-package-names",
+    "@kingjs/package.source.source-file.get-dependencies": "file:../../source/source-file/get-dependencies",
+    "@kingjs/package.source.source-file.get-first-documented": "file:../../source/source-file/get-first-documented",
+    "@kingjs/reflect.is": "file:../../../reflect/is",
+    "@kingjs/source.get-info": "file:../../../source/get-info",
+    "@kingjs/source.parse": "file:../../../source/parse",
+    "@kingjs/string-ex.replace-all": "file:../../../string-ex/replace-all",
+    "is-builtin-module": "file:../../../.npm/node_modules/is-builtin-module",
+    "npm-packlist": "file:../../../.npm/node_modules/npm-packlist"
+  },
+  "nodeDependencies": [
+    "assert",
+    "fs",
+    "path"
+  ]
+}

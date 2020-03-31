@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/package.source.object-binding-pattern.from-package-names",
+  "version": "1.0.0",
+  "description": "Extension which returns package names given an ObjectBindingPattern.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@kingjs/source.parse": "file:../../../../source/parse",
+    "@kingjs/source.get-dependencies": "file:../../source-file/get-dependencies"
+  },
+  "dependencies": {
+    "is-builtin-module": "file:../../../../.npm/node_modules/is-builtin-module",
+    "@kingjs/camel-case.split": "file:../../../../camel-case/split",
+    "@kingjs/package.name.construct": "file:../../../name/construct",
+    "@kingjs/reflect.is": "file:../../../../reflect/is",
+    "@kingjs/define-extension": "file:../../../../define-extension",
+    "@kingjs/source.types": "file:../../../../source/types"
+  },
+  "capitalize": true
+}

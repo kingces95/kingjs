@@ -23,5 +23,4 @@ function defineExtension(target, package, version, descriptor) {
   return symbol;
 }
 
-//throw 'hi'
 module.exports = defineExtension;

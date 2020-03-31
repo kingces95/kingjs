@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/package.source.source-file.get-dependencies",
+  "version": "1.0.0",
+  "description": "Extension which returns ObjectBindingPattern for conventionally expressed dependencies.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/source.ast.syntax-kind"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@kingjs/source.parse": "file:../../../../source/parse"
+  },
+  "dependencies": {
+    "@kingjs/define-extension": "file:../../../../define-extension",
+    "@kingjs/source.types": "file:../../../../source/types"
+  },
+  "capitalize": true
+}

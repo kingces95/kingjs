@@ -3,8 +3,10 @@ exports['@kingjs'] = {
   IEnumerable: require('@kingjs/i-enumerable'),
   IEnumerator: require('@kingjs/i-enumerator'),
   IIterable: require('@kingjs/i-iterable'),
-  packageVersion: {
-    parse: require('@kingjs/package-version.parse'),
+  package: {
+    version: {
+      parse: require('@kingjs/package.version.parse'),
+    },
   },
   reflect: {
     implementIEnumerable: require('@kingjs/reflect.implement-i-enumerable'),

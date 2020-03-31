@@ -1,0 +1,23 @@
+{
+  "name": "@kingjs/package.generate.dependencies",
+  "version": "1.0.1",
+  "description": "Creates or updates fields of `package.json` that can be inferred from the surrounding environment.",
+  "main": "index.js",
+  "files": [
+    "*.js",
+    "package.t.json"
+  ],
+  "bin": {
+    "harvest-dependencies": "./exe.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package/create"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/source.generate": "file:../../../source/generate"
+  }
+}

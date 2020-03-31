@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.default-scheduler",
+  "name": "@kingjs/rx.schedulers.default-scheduler",
   "version": "1.0.0",
   "description": "An instance of an `IScheduler` that calls the function  to schedule synchronously and reports time from `Date.now`.",
   "main": "index.js",

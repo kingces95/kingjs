@@ -1,0 +1,49 @@
+{
+  "text": "exports['@kingjs'] = {\n  extendClass: require('@kingjs/extend-class'),\n  source: {\n    syntaxKind: require('@kingjs/source.syntax-kind')\n  },\n}",
+  "fileName": "dependencies.js",
+  "isDeclarationFile": false,
+  "hasNoDefaultLib": false,
+  "statements": [
+    {
+      "expression": {
+        "left": {
+          "expression": "exports",
+          "argumentExpression": "@kingjs"
+        },
+        "operatorToken": "=",
+        "right": {
+          "multiLine": true,
+          "properties": [
+            {
+              "name": "extendClass",
+              "initializer": {
+                "expression": "require",
+                "arguments": [
+                  "@kingjs/extend-class"
+                ]
+              }
+            },
+            {
+              "name": "source",
+              "initializer": {
+                "multiLine": true,
+                "properties": [
+                  {
+                    "name": "syntaxKind",
+                    "initializer": {
+                      "expression": "require",
+                      "arguments": [
+                        "@kingjs/source.syntax-kind"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "endOfFileToken": ""
+}

@@ -1,0 +1,82 @@
+{
+  "syntaxKind": "SourceFile",
+  "text": "exports['@kingjs'] = {\n  extendClass: require('@kingjs/extend-class'),\n  source: {\n    syntaxKind: require('@kingjs/source.syntax-kind'),\n    run: require('@kingjs/run'),\n    foo: require('@kingjs/run'),\n  },\n}",
+  "fileName": "dependencies.js",
+  "isDeclarationFile": false,
+  "hasNoDefaultLib": false,
+  "statements": [
+    {
+      "syntaxKind": "ExpressionStatement",
+      "expression": {
+        "syntaxKind": "BinaryExpression",
+        "left": {
+          "syntaxKind": "ElementAccessExpression",
+          "expression": "exports",
+          "argumentExpression": "@kingjs"
+        },
+        "operatorToken": "=",
+        "right": {
+          "syntaxKind": "ObjectLiteralExpression",
+          "multiLine": true,
+          "properties": [
+            {
+              "syntaxKind": "PropertyAssignment",
+              "name": "extendClass",
+              "initializer": {
+                "syntaxKind": "CallExpression",
+                "expression": "require",
+                "arguments": [
+                  "@kingjs/extend-class"
+                ]
+              }
+            },
+            {
+              "syntaxKind": "PropertyAssignment",
+              "name": "source",
+              "initializer": {
+                "syntaxKind": "ObjectLiteralExpression",
+                "multiLine": true,
+                "properties": [
+                  {
+                    "syntaxKind": "PropertyAssignment",
+                    "name": "syntaxKind",
+                    "initializer": {
+                      "syntaxKind": "CallExpression",
+                      "expression": "require",
+                      "arguments": [
+                        "@kingjs/source.syntax-kind"
+                      ]
+                    }
+                  },
+                  {
+                    "syntaxKind": "PropertyAssignment",
+                    "name": "run",
+                    "initializer": {
+                      "syntaxKind": "CallExpression",
+                      "expression": "require",
+                      "arguments": [
+                        "@kingjs/run"
+                      ]
+                    }
+                  },
+                  {
+                    "syntaxKind": "PropertyAssignment",
+                    "name": "foo",
+                    "initializer": {
+                      "syntaxKind": "CallExpression",
+                      "expression": "require",
+                      "arguments": [
+                        "@kingjs/run"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "endOfFileToken": ""
+}

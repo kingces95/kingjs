@@ -1,3 +1,3 @@
-#!/usr/bin/env node
-var createLinks = require('./index');
-createLinks();
+#!/usr/bin/env node --no-warnings
+var createLinks = require('./index')
+createLinks()

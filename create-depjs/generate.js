@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: {
-    packageName: { parse },
+    package: { name: { parse } },
     camelCase: { join }
   },
   isBuiltinModule

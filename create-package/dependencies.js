@@ -1,13 +1,20 @@
 exports['@kingjs'] = {
+  array: {
+    promises: {
+      map: require('@kingjs/array.promises.map')
+    }
+  },
   camelCase: {
     split: require('@kingjs/camel-case.split'),
   },
   git: {
     getDir: require('@kingjs/git.get-dir'),
   },
-  packageName: {
-    parse: require('@kingjs/package-name.parse'),
-    construct: require('@kingjs/package-name.construct'),
+  package: { 
+    name: {
+      parse: require('@kingjs/package.name.parse'),
+      construct: require('@kingjs/package.name.construct'),
+    },
   },
   parseSource: require('@kingjs/parse-source'),
   reflect: {

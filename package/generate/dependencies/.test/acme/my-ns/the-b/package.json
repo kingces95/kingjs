@@ -1,0 +1,14 @@
+{
+  "name": "@acme/my-ns.the-b",
+  "main": "index.js",
+  "description": "A description of the package B.",
+  "repository": {
+    "type": "git",
+    "url": "https://repository.acme.net/my-ns/the-b"
+  },
+  "dependencies": {
+    "@acme/my-ns.the-a": "file:../the-a"
+  },
+  "nodeDependencies": [],
+  "license": "MIT"
+}

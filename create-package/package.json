@@ -19,10 +19,11 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/array.promises.map": "file:../array/promises/map",
     "@kingjs/camel-case.split": "latest",
     "@kingjs/git.get-dir": "latest",
-    "@kingjs/package-name.construct": "latest",
-    "@kingjs/package-name.parse": "latest",
+    "@kingjs/package.name.construct": "latest",
+    "@kingjs/package.name.parse": "latest",
     "@kingjs/parse-source": "latest",
     "@kingjs/reflect.is": "latest",
     "@kingjs/string-ex.replace-all": "latest",

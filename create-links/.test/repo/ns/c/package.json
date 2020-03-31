@@ -1,0 +1,5 @@
+{
+  "name": "@foo/ns.c",
+  "version": "1.0.0",
+  "description": "c depends on b"
+}
