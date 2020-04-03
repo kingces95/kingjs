@@ -17,7 +17,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-extension": "^1.0.0"
+    "@kingjs/define-extension": "file:../../define-extension"
   },
   "capitalize": true
 }
