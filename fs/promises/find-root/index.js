@@ -31,6 +31,4 @@ async function findRoot(dir, file) {
   }
 }
 
-findRoot(process.cwd(), 'npm-scope2.json')
-
 module.exports = findRoot

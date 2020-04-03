@@ -20,7 +20,7 @@ function parse(name, delimiter = Dash) {
   var names = fullName.split(Period)
   var parts = names.map(x => x.split(delimiter))
 
-  return { scope, fullName, names, parts }
+  return { name, scope, fullName, names, parts }
 }
 
 module.exports = parse

@@ -1,4 +1,5 @@
 var fs = require('fs')
+var ts = require('typescript')
 var parse = require('@kingjs/source.parse')
 var types = require('..')
 var {
@@ -7,6 +8,7 @@ var {
   ObjectLiteral,
   Call,
   PropertyAssignment,
+  PropertyAccess,
   File
 } = types
 
@@ -16,6 +18,12 @@ parse(`${Source}.js`).then(ast => {
     JSON.stringify(ast, null, 2)
   )
 })
+
+console.log(
+  new PropertyAccess('foo', 
+    new PropertyAccess('bar', 'baz')
+  ).toString()
+)
 
 var js = new File(
   new Assignment(

@@ -102,6 +102,12 @@ class Statement extends Node {
   }
 }
 
+class PropertyAccess extends Node {
+  constructor(instance, property) {
+    super(ts.createPropertyAccess(toAst(instance), toAst(property)))
+  }
+}
+
 class File extends Node {
   constructor() {
     super([...arguments])
@@ -123,7 +129,8 @@ module.exports = {
   Identifier, 
   Call, 
   Assignment, 
-  PropertyAssignment, 
+  PropertyAssignment,
+  PropertyAccess,
   ElementAccess,
   ObjectLiteral, 
   ObjectBindingPattern, 

@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/package.source.generate.dependencies",
+  "version": "1.0.1",
+  "description": "Creates or updates fields of `package.json` that can be inferred from the surrounding environment.",
+  "main": "index.js",
+  "files": [
+    "*.js",
+    "package.t.json"
+  ],
+  "bin": {
+    "generate-dependencies": "./exe.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package/create"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/array.group-by": "file:../../../../array/group-by",
+    "@kingjs/array.partition": "file:../../../../array/partition",
+    "@kingjs/camel-case.join": "file:../../../../camel-case/join",
+    "@kingjs/package.harvest.dependencies": "file:../../../harvest/dependencies",
+    "@kingjs/package.name.construct": "file:../../../name/construct",
+    "@kingjs/package.name.parse": "file:../../../name/parse",
+    "@kingjs/source.generate": "file:../../../../source/generate"
+  }
+}

@@ -3,6 +3,7 @@ var {
   Path, assert,
   ['@kingjs']: { 
     stringEx: { ReplaceAll },
+    json: { file: { read: readJsonFile } },
     package: {
       findNpmScope,
       name: { 
@@ -26,8 +27,6 @@ var {
   },
 } = require('./dependencies')
 
-var readJsonFile = require('./json-file-read')
-
 var Period = '.'
 var ForwardSlash = '/'
 var At = '@'
@@ -42,7 +41,7 @@ var At = '@'
  * @remarks - `repository.url`: `https://repository.kingjs.net/` plus a
  * join with forward slash of the relative paths in the repository.
  */
-async function harvestMetadata(packageDir = process.cwd(), npmScopePath) {
+async function harvestMetadata(packageDir, npmScopePath) {
   var npmScopePath = npmScopePath || await findNpmScope(packageDir)
   var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
   var { 

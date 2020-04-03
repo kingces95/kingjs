@@ -12,18 +12,22 @@ var Dash = '-';
  */
 function construct(scope, parts, delimiter = Dash) {
 
-  var result = parts.map(x => {
+  if (scope)
+    scope = AtSymbol + scope.toLowerCase()
+  
+  if (!parts || !parts.length)
+    return scope
+  
+  parts = parts.map(x => {
     if (x instanceof Array)
       return x.join(delimiter).toLowerCase();
     return x
   }).join(Period);
 
-  if (scope) {
-    scope = scope.toLowerCase();
-    result = `${AtSymbol}${scope}${ForwardSlash}${result}`;
-  }
+  if (!scope)
+    return parts
 
-  return result;
+  return [scope, parts].join(ForwardSlash)
 }
 
 module.exports = construct;

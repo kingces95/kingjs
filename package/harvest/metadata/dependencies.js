@@ -7,6 +7,11 @@ exports['@kingjs'] = {
   camelCase: {
     split: require('@kingjs/camel-case.split'),
   },
+  json: {
+    file: { 
+      read: require('@kingjs/json.file.read'),
+    }
+  },
   git: {
     getDir: require('@kingjs/git.get-dir'),
   },

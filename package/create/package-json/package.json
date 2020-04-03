@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/package.create.package-json",
+  "version": "1.0.1",
+  "description": "Creates or updates fields of `package.json` that can be inferred from the surrounding environment.",
+  "main": "index.js",
+  "files": [
+    "*.js",
+    "package.t.json"
+  ],
+  "bin": {
+    "cpk": "./exe.js",
+    "create-package": "./exe.js"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package/create"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/json.file.update": "file:../../../json/file/update",
+    "@kingjs/package.find-npm-scope": "file:../../find-npm-scope",
+    "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
+    "@kingjs/package.harvest.metadata": "file:../../harvest/metadata"
+  },
+  "nodeDependencies": [
+    "assert",
+    "fs",
+    "path"
+  ]
+}

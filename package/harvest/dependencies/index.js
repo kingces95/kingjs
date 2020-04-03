@@ -1,6 +1,7 @@
 var {
   Path, assert,
   ['@kingjs']: { 
+    fs: { promises: { exists} },
     array: { promises: { AsyncMap } },
     stringEx: { ReplaceAll },
     package: {
@@ -27,6 +28,7 @@ var {
 
 var Period = '.'
 var DotJs = '.js'
+var PackageJson = 'package.json'
 
 /**
  * @description Creates or updates fields of `package.json`
@@ -38,13 +40,17 @@ var DotJs = '.js'
  * @remarks - `repository.url`: `https://repository.kingjs.net/` plus a
  * join with forward slash of the relative paths in the repository.
  */
-async function harvestDependencies(packageDir = process.cwd(), npmScopePath) {
-  var npmScopePath = npmScopePath || await findNpmScope(packageDir)
-  var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
+async function harvestDependencies(packageDir, packageRelDir) {
+  if (!packageRelDir) {
+    var npmScopePath = npmScopePath || await findNpmScope(packageDir)
+    packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
+  }
 
   // get .js files in package
-  var files = await npmPacklist({ path: packageDir })
-
+  var files = [ ]
+  if (await exists(Path.join(packageDir, PackageJson)))
+    files = await npmPacklist({ path: packageDir })
+ 
   // harvest file dependencies in parallel
   var fileDependencies = await files
     .filter(o => Path.extname(o) == DotJs)
@@ -55,7 +61,7 @@ async function harvestDependencies(packageDir = process.cwd(), npmScopePath) {
   // remove duplicates
   var dependencies = [...new Set(fileDependencies.flat().sort())]
 
-  return {
+  var result = {
     dependencies: dependencies
       .filter(o => !isBuiltinModule(o))
       .reduce((a, o) => { 
@@ -68,6 +74,8 @@ async function harvestDependencies(packageDir = process.cwd(), npmScopePath) {
     nodeDependencies: dependencies
       .filter(o => isBuiltinModule(o))
   }
+
+  return result
 }
 
 function getPathFromFullName(fullName) {
