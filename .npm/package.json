@@ -1,0 +1,20 @@
+{
+  "description": "External dependencies of this repository.",
+  "repository": "n/a",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "latest",
+    "deep-equals": "latest",
+    "is-builtin-module": "latest",
+    "js-beautify": "^1.10.3",
+    "minimatch": "latest",
+    "npm-api": "latest",
+    "npm-packlist": "latest",
+    "os-utils": "latest",
+    "rxjs": "latest",
+    "shelljs": "latest",
+    "typescript": "latest",
+    "uuid": "latest",
+    "which": "latest"
+  }
+}
