@@ -1,0 +1,12 @@
+{
+  "name": "acme",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "repository": {
+    "url": "https://repository.acme.net/",
+    "type": "git"
+  },
+  "license": "MIT"
+}

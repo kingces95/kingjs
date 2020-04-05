@@ -36,7 +36,7 @@ async function createPackage(packageDir) {
     ...await harvestDependencies(packageDir, packageRelDir)
   }
 
-  updateJsonFile(Path.join(packageDir, PackageJson), package)
+  await updateJsonFile(Path.join(packageDir, PackageJson), package)
 }
 
 module.exports = createPackage

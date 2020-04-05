@@ -1,6 +1,6 @@
 module.exports = {
   fs: require("fs"),
-  path: require("path"),
+  Path: require("path"),
   "@kingjs": {
     json: {
       file: {

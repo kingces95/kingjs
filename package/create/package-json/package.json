@@ -28,5 +28,8 @@
     "assert",
     "fs",
     "path"
-  ]
+  ],
+  "devDependencies": {
+    "shelljs": "file:../../../.npm/node_modules/shelljs"
+  }
 }

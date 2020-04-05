@@ -1,7 +1,4 @@
 exports['@kingjs'] = {
-  reflect: {
-    is: require('@kingjs/reflect.is')
-  },
   source: {
     types: require('@kingjs/source.types')
   },

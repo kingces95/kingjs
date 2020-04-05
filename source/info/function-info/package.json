@@ -21,10 +21,10 @@
     "assert"
   ],
   "devDependencies": {
-    "@kingjs/source.ast.parse": "file:../../parse"
+    "@kingjs/source.parse": "file:../../parse"
   },
   "dependencies": {
-    "@kingjs/source.ast.types": "file:../../types",
+    "@kingjs/source.types": "file:../../types",
     "@kingjs/string-ex.join-lines": "file:../../../string-ex/join-lines"
   }
 }
