@@ -38,6 +38,10 @@ export KJS_ARCH_DIR="$KJS_OS_DIR/$PLATFORM"
 export KJS_NVM_DIR="$KJS_ARCH_DIR/nvm"
 export KJS_NODE_DIR="$KJS_NVM_DIR/versions/node/$NODE_VERSION/bin"
 
+# Export nvm/nodejs known dirs
+export NODE_DIR=$KJS_NODE_DIR
+export NVM_DIR=$KJS_NVM_DIR
+
 # Export known files
 export KJS_PROFILE="$KJS_DIR/.profile"
 
