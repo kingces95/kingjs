@@ -28,7 +28,7 @@ esac
 echo "KingJS, $OS ($PLATFORM)"
 
 # Set nodejs version
-export KJS_NODE_VERSION=v12.16.1 
+export NODE_VERSION=v12.16.1 
 
 # Export known directories
 export KJS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -36,23 +36,24 @@ export KJS_ENV_DIR="$KJS_DIR/.env"
 export KJS_OS_DIR="$KJS_ENV_DIR/$OS"
 export KJS_ARCH_DIR="$KJS_OS_DIR/$PLATFORM"
 export KJS_NVM_DIR="$KJS_ARCH_DIR/nvm"
-export KJS_NODE_DIR="$KJS_NVM_DIR/versions/node/$KJS_NODE_VERSION/bin"
+export KJS_NODE_DIR="$KJS_NVM_DIR/versions/node/$NODE_VERSION/bin"
 
 # Export known files
 export KJS_PROFILE="$KJS_DIR/.profile"
 
 # Define prompt
-export PS1='\e[0;32m$(pwd)/$ \e[m'
+export PS1='\e[0;32m$(pwd)/ $ \e[m'
 
 # Define functions
 pd() { pushd $1 > /dev/null; }
-pod() { popd > /dev/null; }
+rpod() { popd > /dev/null; }
 
 # Define aliases
+unalias -a
 alias e="env | sort"
 alias re=". $KJS_PROFILE"
 alias pd="pd"
-alias kjs="pd $KJS_DIR"
+alias r="pd $KJS_DIR"
 alias cdos="pd $KJS_OS_DIR"
 alias cdnvm="pd $KJS_NVM_DIR"
 alias cdarch="pd $KJS_ARCH_DIR"
@@ -61,7 +62,10 @@ alias p="pod"
 alias pp="pod && p"
 alias ppp="pod && pp"
 alias pppp="pod && ppp"
-alias .="cd .."
+alias u="cd .."
+alias uu="u && cd .."
+alias uuu="uu && cd .."
+alias uuuu="uuu && cd .."
 
 # Strip path
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$KJS_NODE_DIR
