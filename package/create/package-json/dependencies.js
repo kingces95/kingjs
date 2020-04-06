@@ -1,10 +1,13 @@
 module.exports = {
+  assert: require("assert"),
   fs: require("fs"),
   Path: require("path"),
   "@kingjs": {
     json: {
       file: {
-        update: require('@kingjs/json.file.update')
+        update: require('@kingjs/json.file.update'),
+        read: require('@kingjs/json.file.read'),
+        write: require('@kingjs/json.file.write')
       }
     },
     package: {

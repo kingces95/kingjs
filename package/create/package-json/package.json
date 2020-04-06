@@ -14,22 +14,23 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/create"
+    "url": "https://repository.kingjs.net/package/create/package-json"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/json.file.update": "file:../../../json/file/update",
+    "@kingjs/json.file.write": "file:../../../json/file/write",
     "@kingjs/package.find-npm-scope": "file:../../find-npm-scope",
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
     "path"
   ],
   "devDependencies": {
-    "shelljs": "file:../../../.npm/node_modules/shelljs"
+    "@kingjs/fs.promises.read-files": "file:../../../fs/promises/read-files",
+    "@kingjs/fs.promises.write-files": "file:../../../fs/promises/write-files"
   }
 }

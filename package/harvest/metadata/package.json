@@ -21,7 +21,6 @@
     "@kingjs/array.promises.map": "file:../../../array/promises/map",
     "@kingjs/camel-case.split": "file:../../../camel-case/split",
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
-    "@kingjs/git.get-dir": "file:../../../git/get-dir",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/package.find-npm-scope": "file:../../find-npm-scope",
     "@kingjs/package.name.construct": "file:../../name/construct",

@@ -4,20 +4,18 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
       {
         "type": "node",
-        "request": "launch",
-        "runtimeVersion": "11.11.0",
-        "name": "Launch Program",
-        "program": "${file}",
-        "cwd": "${fileDirname}",
-        "console": "integratedTerminal",
+        "request": "attach",
+        "name": "Attach",
+        "port": 36688
       },
       {
         "type": "node",
         "request": "launch",
-        "runtimeExecutable": "C:\\git\\node\\Release\\node",
-        "name": "Launch Program (pri)",
+        "runtimeVersion": "12.16.1",
+        "name": "Launch",
         "program": "${file}",
         "cwd": "${fileDirname}",
         "console": "integratedTerminal",

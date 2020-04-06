@@ -1,9 +1,11 @@
 var {
-  Path,
+  assert, Path,
   ['@kingjs']: { 
     json: {
       file: {
-        update: updateJsonFile
+        update: updateJsonFile,
+        read: readJsonFile,
+        write: writeJsonFile
       }
     },
     package: {
@@ -30,13 +32,27 @@ var PackageJson = 'package.json'
  */
 async function createPackage(packageDir) {
   var npmScopePath = await findNpmScope(packageDir)
+  assert(npmScopePath, 'Failed to find npm-scope.json.')
+
   var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
+  var packageJsonPath = Path.join(packageDir, PackageJson)
+
+  // computing dependencies requires knowing the files
+  var { files } = await readJsonFile(npmScopePath)
+
+  // set package default values
   var package = { 
+    files,
+    ...await readJsonFile(packageJsonPath)
+  }
+  await writeJsonFile(packageJsonPath, package)
+
+  // update/create metadata and dependencies
+  package = { 
     ...await harvestMetadata(packageDir, npmScopePath, packageRelDir),
     ...await harvestDependencies(packageDir, packageRelDir)
   }
-
-  await updateJsonFile(Path.join(packageDir, PackageJson), package)
+  await updateJsonFile(packageJsonPath, package)
 }
 
 module.exports = createPackage

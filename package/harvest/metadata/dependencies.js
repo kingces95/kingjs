@@ -12,9 +12,6 @@ exports['@kingjs'] = {
       read: require('@kingjs/json.file.read'),
     }
   },
-  git: {
-    getDir: require('@kingjs/git.get-dir'),
-  },
   package: { 
     findNpmScope: require('@kingjs/package.find-npm-scope'),
     name: {

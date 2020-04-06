@@ -7,9 +7,6 @@ exports['@kingjs'] = {
   camelCase: {
     split: require('@kingjs/camel-case.split'),
   },
-  git: {
-    getDir: require('@kingjs/git.get-dir'),
-  },
   package: { 
     findNpmScope: require('@kingjs/package.find-npm-scope'),
     name: {

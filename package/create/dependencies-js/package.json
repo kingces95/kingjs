@@ -1,0 +1,35 @@
+{
+  "name": "@kingjs/package.create.dependencies-js",
+  "version": "1.0.0",
+  "description": "The description.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "cdj": "./exe.js",
+    "create-dependencies": "./exe.js"
+  },
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package/create/dependencies-js"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/json.file.read": "file:../../../json/file/read",
+    "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies"
+  },
+  "nodeDependencies": [
+    "fs"
+  ],
+  "devDependencies": {
+    "@kingjs/fs.promises.read-files": "file:../../../fs/promises/read-files",
+    "@kingjs/fs.promises.write-files": "file:../../../fs/promises/write-files"
+  }
+}
