@@ -18,6 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/reflect.is": "file:../../../reflect/is",
     "@kingjs/json.stringify": "file:../../../json/stringify"
   },
   "nodeDependencies": [

@@ -95,21 +95,19 @@ function createPackage() {
 }
 
 function trimDependencies(dependency, dir) {
-  var parts = parse(dependency)
+  var { scope, segments } = parse(dependency)
 
-  var scope = parts.scope
   if (!scope || scope != KingJs)
     return dependency
 
-  var names = parts.names
   var options = { paths: [ dir ] }
-  while (names.length) {
-    var result = construct(scope, names)
+  while (segments.length) {
+    var result = construct(scope, segments)
     try { 
       require.resolve(result, options)
       return result
     } catch(e) { }
-    names.pop()
+    segments.pop()
   }
 
   throw 'Failed to resolve: ' + dependency

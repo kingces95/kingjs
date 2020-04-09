@@ -1,0 +1,131 @@
+{
+  "name": "example",
+  "parameters": {
+    "this": {
+      "comment": "This comment",
+      "name": "this"
+    },
+    "callback": {
+      "comment": "Callback comment.",
+      "name": "callback",
+      "hasCallback": true,
+      "callback": {
+        "parameters": {
+          "pop": {
+            "comment": "Default callback.",
+            "name": "pop"
+          }
+        },
+        "name": "callback",
+        "returns": {
+          "comment": "callback return comment."
+        }
+      }
+    },
+    "foo": {
+      "comment": "Foo comment is `42`.",
+      "name": "foo",
+      "hasCallback": true,
+      "callback": {
+        "name": "foo",
+        "parameters": {
+          "moo": {
+            "comment": "Moo comment.",
+            "name": "moo"
+          },
+          "boo": {
+            "comment": "Boo comment",
+            "name": "boo",
+            "isOptional": true
+          }
+        }
+      }
+    },
+    "bar": {
+      "comment": "Bar comment.",
+      "name": "bar",
+      "isOptional": true
+    },
+    "baz": {
+      "comment": "Baz comment.",
+      "name": "baz",
+      "isOptional": true
+    }
+  },
+  "remarks": "Remarks comment that spans lines.\n - Remarks comment on new line.\n   - Remarks comment on indented new line.\n     - Remarks comment on indented x 2 new line.\n       - Remarks comment on indented x 3 new line.",
+  "see": [
+    {
+      "packageName": "foo-fah.bar",
+      "className": "Baz.Moo"
+    },
+    {
+      "packageName": "package"
+    },
+    {
+      "className": "Class"
+    },
+    {
+      "packageName": "package",
+      "className": "Class",
+      "fieldName": "field"
+    },
+    {
+      "packageName": "package",
+      "className": "Class",
+      "methodName": "method",
+      "signature": []
+    },
+    {
+      "packageName": "package",
+      "className": "Class",
+      "methodName": "method",
+      "signature": [
+        {
+          "type": "Type",
+          "name": "argument0"
+        },
+        {
+          "type": "Type",
+          "name": "argument1"
+        }
+      ]
+    },
+    {
+      "packageName": "package",
+      "className": "Class",
+      "methodName": "constructor",
+      "signature": [
+        {
+          "type": "Type"
+        },
+        {
+          "type": "Type"
+        }
+      ]
+    },
+    {
+      "packageName": "package",
+      "className": "Class",
+      "methodName": "constructor",
+      "signature": [
+        {
+          "type": "Type",
+          "name": "argument0"
+        },
+        {
+          "type": "Type",
+          "name": "argument2"
+        }
+      ]
+    },
+    {
+      "packageName": "package",
+      "className": "Class.NestedClass"
+    }
+  ],
+  "description": "This is the description that spans a line.",
+  "returns": {
+    "comment": "The return comment. Return comment that spans a line."
+  },
+  "api": "example(this, callback(pop), foo(moo[, boo])[, bar[, baz]])"
+}

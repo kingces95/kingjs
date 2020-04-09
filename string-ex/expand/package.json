@@ -17,8 +17,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-extension": "^1.0.0",
-    "@kingjs/string-ex.replace-all": "^1.0.0"
+    "@kingjs/define-extension": "file:../../define-extension",
+    "@kingjs/string-ex.replace-all": "file:../replace-all"
   },
   "capitalize": true
 }

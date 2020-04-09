@@ -21,7 +21,7 @@
     "@kingjs/array.promises.map": "file:../../../array/promises/map",
     "@kingjs/camel-case.split": "file:../../../camel-case/split",
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
-    "@kingjs/package.find-npm-scope": "file:../../find-npm-scope",
+    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
     "@kingjs/package.name.construct": "file:../../name/construct",
     "@kingjs/package.name.parse": "file:../../name/parse",
     "@kingjs/package.source.object-binding-pattern.to-package-names": "file:../../source/parse/object-binding-pattern/to-package-names",

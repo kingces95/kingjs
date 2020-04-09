@@ -11,7 +11,9 @@ module.exports = {
       }
     },
     package: {
-      findNpmScope: require("@kingjs/package.find-npm-scope"),
+      resolve: {
+        npmScope: require("@kingjs/package.resolve.npm-scope"),
+      },
       harvest: {
         dependencies: require("@kingjs/package.harvest.dependencies"),
         metadata: require("@kingjs/package.harvest.metadata")

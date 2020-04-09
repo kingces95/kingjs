@@ -6,21 +6,30 @@ var Period = '.'
 var Dash = '-'
 
 /**
- * @param name The package name to parse.
+ * @param fqn The fully qualified name of the package to parse.
  * @param delimiter The parts delimiter (either `-` or `_`)
  * @returns Returns an AST of literals comprising the package name.
  */
-function parse(name, delimiter = Dash) {
-  var result = name.match(packageNameRx)
+function parse(fqn, delimiter = Dash) {
+  var result = fqn.match(packageNameRx)
   if (!result)
     return
 
   var scope = result[scopeCaptureGroup]
   var fullName = result[nameCaptureGroup]
-  var names = fullName.split(Period)
-  var parts = names.map(x => x.split(delimiter))
+  var segments = fullName.split(Period)
+  var parts = segments.map(x => x.split(delimiter))
 
-  return { name, scope, fullName, names, parts }
+  var namespaces = [];
+  var i = [];
+  for (var segment of segments) {
+    i.push(segment);
+    namespaces.push(i.join(Period));
+  }
+
+  var namespace = namespaces[namespaces.length - 1];
+
+  return { fqn, scope, fullName, segments, parts, namespace, namespaces }
 }
 
 module.exports = parse

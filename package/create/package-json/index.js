@@ -9,7 +9,9 @@ var {
       }
     },
     package: {
-      findNpmScope,
+      resolve: {
+        npmScope: resolveNpmScope
+      },
       harvest: {
         dependencies: harvestDependencies,
         metadata: harvestMetadata
@@ -31,7 +33,7 @@ var PackageJson = 'package.json'
  * join with forward slash of the relative paths in the repository.
  */
 async function createPackage(packageDir) {
-  var npmScopePath = await findNpmScope(packageDir)
+  var npmScopePath = await resolveNpmScope(packageDir)
   assert(npmScopePath, 'Failed to find npm-scope.json.')
 
   var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
@@ -41,10 +43,9 @@ async function createPackage(packageDir) {
   var { files } = await readJsonFile(npmScopePath)
 
   // set package default values
-  var package = { 
-    files,
-    ...await readJsonFile(packageJsonPath)
-  }
+  var package = await readJsonFile(packageJsonPath)
+  if (!package.files)
+    package.files = files
   await writeJsonFile(packageJsonPath, package)
 
   // update/create metadata and dependencies

@@ -1,6 +1,10 @@
 var { 
-  fs, Path,
+  fs, Path, assert,
   '@kingjs': {
+    pojo: {
+      Map,
+      promises: { Map: AsyncMap }
+    },
     json: {
       file: { read }
     },
@@ -16,6 +20,8 @@ var {
 
 var PackageJson = 'package.json'
 var DependenciesJs = 'dependencies.js'
+var EmptyArray = []
+var FileRegex = /file:(.*)/
 
 /**
  * @description The description.
@@ -29,12 +35,23 @@ async function createDependencies(packageDir) {
 
   // read package.json
   var packageJsonPath = Path.join(packageDir, PackageJson)
-  var package = await read(packageJsonPath)
-  if (!package)
-    return
+  var package = {
+    dependencies: { },
+    devDependencies: { },
+    ...(await read(packageJsonPath) || { })
+  }
 
+  var capitalize =
+    await package.dependencies
+    [Map]((o, k) => {
+      assert(FileRegex.test(o), `Dependency versions '${k}: ${o}' not a path.`)
+      return read(Path.join(packageDir, FileRegex.exec(o)[1], PackageJson))
+    })
+    [AsyncMap](o =>
+       o.capitalize)
+    
   // generate dependencies.js
-  var dependencies = generateDependencies(package)
+  var dependencies = generateDependencies(package, { capitalize })
 
   // write dependencies.js
   var dependenciesJs = Path.join(packageDir, DependenciesJs)

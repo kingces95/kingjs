@@ -8,7 +8,9 @@ exports['@kingjs'] = {
     split: require('@kingjs/camel-case.split'),
   },
   package: { 
-    findNpmScope: require('@kingjs/package.find-npm-scope'),
+    resolve: {
+      npmScope: require('@kingjs/package.resolve.npm-scope'),
+    },
     name: {
       parse: require('@kingjs/package.name.parse'),
       construct: require('@kingjs/package.name.construct'),

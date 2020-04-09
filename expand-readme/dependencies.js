@@ -3,7 +3,22 @@ exports['@kingjs'] = {
     Expand: require('@kingjs/string-ex.expand'),
     JoinLines: require('@kingjs/string-ex.join-lines'),
   },
-  parseSource: require('@kingjs/parse-source'),
+  source: {
+    parse: require('@kingjs/source.parse'),
+    GetInfo: require('@kingjs/source.get-info')
+  },
+  package: {
+    source: {
+      parse: {
+        sourceFile: {
+          GetFirstDocumented: require('@kingjs/package.source.parse.source-file.get-first-documented')
+        }
+      }
+    },
+    name: {
+      parse: require('@kingjs/package.name.parse')
+    }
+  }
 }
 exports['typescript'] = require('typescript')
 exports['fs'] = require('fs')

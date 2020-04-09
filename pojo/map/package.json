@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/pojo.map",
+  "version": "1.0.0",
+  "description": "Asynchronously map promises in an array.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/array/remove"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-extension": "file:../../define-extension"
+  },
+  
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

@@ -22,7 +22,7 @@
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/json.file.update": "file:../../../json/file/update",
     "@kingjs/json.file.write": "file:../../../json/file/write",
-    "@kingjs/package.find-npm-scope": "file:../../find-npm-scope",
+    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata"
   },

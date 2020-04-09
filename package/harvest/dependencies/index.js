@@ -5,7 +5,9 @@ var {
     array: { promises: { AsyncMap } },
     stringEx: { ReplaceAll },
     package: {
-      findNpmScope,
+      resolve: {
+        npmScope: resolveNpmScope
+      },
       name: { 
         parse, 
       },
@@ -42,7 +44,7 @@ var PackageJson = 'package.json'
  */
 async function harvestDependencies(packageDir, packageRelDir) {
   if (!packageRelDir) {
-    var npmScopePath = npmScopePath || await findNpmScope(packageDir)
+    var npmScopePath = npmScopePath || await resolveNpmScope(packageDir)
     packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
   }
 

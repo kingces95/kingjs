@@ -23,10 +23,13 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/json.file.read": "file:../../../json/file/read",
-    "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies"
+    "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
+    "@kingjs/pojo.map": "file:../../../pojo/map",
+    "@kingjs/pojo.promises.map": "file:../../../pojo/promises/map"
   },
   "nodeDependencies": [
-    "fs"
+    "fs",
+    "path"
   ],
   "devDependencies": {
     "@kingjs/fs.promises.read-files": "file:../../../fs/promises/read-files",

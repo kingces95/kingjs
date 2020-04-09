@@ -7,8 +7,8 @@
     "*.js"
   ],
   "bin": {
-    "erm": "./erm.js",
-    "expand-readme": "./erm.js"
+    "erm": "./exe.js",
+    "expand-readme": "./exe.js"
   },
   "scripts": {
     "test": "node test"
@@ -25,9 +25,12 @@
     "assert"
   ],
   "dependencies": {
-    "@kingjs/string-ex.expand": "^1.0.0",
-    "@kingjs/string-ex.join-lines": "^1.0.0",
-    "@kingjs/parse-source": "latest",
-    "typescript": "latest"
+    "@kingjs/package.name.parse": "file:../package/name/parse",
+    "@kingjs/package.source.parse.source-file.get-first-documented": "file:../package/source/parse/source-file/get-first-documented",
+    "@kingjs/source.get-info": "file:../source/get-info",
+    "@kingjs/source.parse": "file:../source/parse",
+    "@kingjs/string-ex.expand": "file:../string-ex/expand",
+    "@kingjs/string-ex.join-lines": "file:../string-ex/join-lines",
+    "typescript": "file:../.npm/node_modules/typescript"
   }
 }

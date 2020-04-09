@@ -27,13 +27,14 @@
  * @param moo Moo comment.
  * @param [boo] Boo comment
  * 
- * @see package.Class#field
- * @see package.Class#method(Type, Type,...)
- * @see package.Class#method(Type argument0, Type argument1,...)
- * @see package.Class#constructor(Type, Type,...)
- * @see package.Class#constructor(Type argument0, Type argument2,...)
- * @see package.Class.NestedClass
- * @see package.Class
+ * @see foo-fah.bar.Baz.Moo
  * @see package
+ * @see Class
+ * @see package.Class#field
+ * @see package.Class#method()
+ * @see package.Class#method(Type argument0, Type argument1)
+ * @see package.Class#constructor(Type, Type)
+ * @see package.Class#constructor(Type argument0, Type argument2)
+ * @see package.Class.NestedClass
  */
 function example(callback, foo, bar, baz) { }

@@ -16,46 +16,42 @@ var {
 } = require('./dependencies')
 
 var NewLine = '\n'
-var EmptyString = ''
 var Callback = 'callback'
 var This = 'this'
-var Return = 'return'
-var Returns = 'returns'
 var Remarks = 'remarks'
-var Param = 'param'
 var See = 'see'
 var Description = 'description'
 
 class SignatureInfo {
-  static create(tag, parent) {
+  static create(tag) {
     if (!tag)
       return
 
     if (tag instanceof JSDocParameterTag)
-      return new FormalParameterInfo(tag, parent)
+      return new FormalParameterInfo(tag)
 
     if (tag instanceof JSDocReturnTag)
-      return new ReturnParameterInfo(tag, parent)
+      return new ReturnParameterInfo(tag)
 
     if (tag instanceof JSDocThisTag)
-      return new ThisParameterInfo(tag, parent)
+      return new ThisParameterInfo(tag)
 
     if (tag instanceof JSDocCallbackTag)
-      return new CallbackInfo(tag, parent)
+      return new CallbackInfo(tag)
 
     if (tag.tagName == Remarks)
-      return new RemarksInfo(tag, parent)
+      return new RemarksInfo(tag)
 
     if (tag.tagName == Description)
-      return new DescriptionInfo(tag, parent)
+      return new DescriptionInfo(tag)
 
     if (tag.tagName == See)
-      return new SeeInfo(tag, parent)
+      return new SeeInfo(tag)
   }
 
-  constructor(tag, parent) {
-    this.parent = parent
-    this.comment = tag.comment ? tag.comment[JoinLines]() : EmptyString
+  constructor(tag) {
+    if (tag.comment)
+      this.comment = tag.comment[JoinLines]()
 
     // hack fullName support to enable documenting descriptor properties
     // e.g. `descriptor.callback`
@@ -69,24 +65,57 @@ class SignatureInfo {
   toString() { return this.comment }
 }
 
-class SeeInfo extends SignatureInfo {
-  constructor(tag, parent) {
+class SeeInfo {
+  constructor(tag) {
     assert(tag.tagName == See)
-    super(tag, parent)
+    var [ packageClass = "", fieldMethod = "" ] = tag.comment.split('#')
+
+    // everything before the first capitalized name is the package
+    // everything after the first capitalized name is the class
+    // both the package and class are optional
+    var { index = packageClass.length + 1 } = /[A-Z]/g.exec(packageClass) || { }
+    this.packageName = packageClass.substring(0, index - 1)
+    if (!this.packageName)
+      delete this.packageName;
+
+    this.className = packageClass.substring(index)
+    if (!this.className)
+      delete this.className
+
+    if (fieldMethod) {
+      var { index } = /[(]/g.exec(fieldMethod) || { }
+
+      if (index) {
+        this.methodName = fieldMethod.substring(0, index)
+        this.signature = fieldMethod.substring(index + 1, fieldMethod.length - 1)
+          .split(/\s*[,]\s*/)
+          .map(o => o.split(/\s+/))
+          .filter(o => o[0])
+          .map(x => { 
+            var param = { type: x[0] }
+            if (x[1])
+              param.name = x[1]
+            return param
+          })
+      }
+      else {
+        this.fieldName = fieldMethod
+      }
+    }
   }
 }
 
 class DescriptionInfo extends SignatureInfo {
-  constructor(tag, parent) {
+  constructor(tag) {
     assert(tag.tagName == Description)
-    super(tag, parent)
+    super(tag)
   }
 }
 
 class RemarksInfo extends SignatureInfo {
-  constructor(tag, parent) {
+  constructor(tag) {
     assert(tag.tagName == Remarks)
-    super(tag, parent)
+    super(tag)
 
     var comment = tag.comment
     comment = comment.replace(/^(?!---$)[-]+/, 
@@ -98,47 +127,48 @@ class RemarksInfo extends SignatureInfo {
 }
 
 class ParameterInfo extends SignatureInfo {
-  constructor(tag, parent) {
-    super(tag, parent)
-    this.isOptional = false
+  constructor(tag) {
+    super(tag)
   }
 
   toString() { return this.name }
 }
 
 class FormalParameterInfo extends ParameterInfo {
-  constructor(tag, parent) {
+  constructor(tag) {
     assert(tag instanceof JSDocParameterTag)
-    super(tag, parent)
+    super(tag)
 
-    this.isFormal = true
-    this.isOptional = tag.isBracketed
+    if (tag.isBracketed)
+      this.isOptional = true
   }
+
+  get isFormal() { return true }
 }
 
 class ThisParameterInfo extends ParameterInfo {
-  constructor(tag, parent) {
+  constructor(tag) {
     assert(tag instanceof JSDocThisTag)
-    super(tag, parent)
+    super(tag)
 
     this.name = This
-    this.isThis = true
   }
+
+  get isThis() { return true }
 }
 
 class ReturnParameterInfo extends ParameterInfo {
-  constructor(tag, parent) {
+  constructor(tag) {
     assert(tag instanceof JSDocReturnTag)
-    super(tag, parent)
-
-    this.isReturn = true
+    super(tag)
   }
+
+  get isReturn() { return true }
 }
 
 class FunctionInfo extends SignatureInfo {
-  constructor(tag, parent) {
-    super(tag, parent)
-    this.returns = null
+  constructor(tag) {
+    super(tag)
     this.parameters = { }
   }
 
@@ -146,9 +176,13 @@ class FunctionInfo extends SignatureInfo {
 }
 
 class CallbackInfo extends FunctionInfo {
-  constructor(tag, parent) {
+  constructor(tag) {
     assert(tag instanceof JSDocCallbackTag)
-    super(tag, parent)
+    super(tag)
+
+    // set default name
+    if (!this.name)
+      this.name = Callback
 
     var { type, parameters = [] } = tag.typeExpression
 
@@ -161,28 +195,19 @@ class CallbackInfo extends FunctionInfo {
       var parameterInfo = ParameterInfo.create(parameter)
       this.parameters[parameterInfo.name] = parameterInfo
     }
-
-    // join callbacks to their parameters
-    this.parameter = this.parent[this.name]
-    if (parameter instanceof FormalParameterInfo) {
-      parameter.hasCallback = true
-      parameter.callback = this
-    }
   }
 }
 
 class DeclaredFunctionInfo extends FunctionInfo {
 
-  constructor(functionDeclaration, parent) {
+  constructor(functionDeclaration) {
     assert(functionDeclaration instanceof FunctionDeclaration)
-    super(functionDeclaration, parent)
+    super(functionDeclaration)
 
-    this.description = EmptyString
     this.remarks = [ ]
-    this.signature = null
-    this.callbacks = { }
-    this.callback = { }
     this.see = [ ]
+
+    var callbacks = { }
 
     // harvest JSDoc, assume a single JSDoc block
     var { jsDoc: [ { tags = [] } ] } = functionDeclaration
@@ -193,7 +218,7 @@ class DeclaredFunctionInfo extends FunctionInfo {
       else if (info instanceof ParameterInfo)
         this.parameters[info.name] = info
       else if (info instanceof CallbackInfo)
-        this.callbacks[info.name] = info
+        callbacks[info.name] = info
       else if (info instanceof RemarksInfo)
         this.remarks.push(info)
       else if (info instanceof DescriptionInfo)
@@ -202,15 +227,25 @@ class DeclaredFunctionInfo extends FunctionInfo {
         this.see.push(info)
     }
 
+    // join callbacks to their parameters
+    for (var name in callbacks) {
+      var callback = callbacks[name]
+      var parameter = this.parameters[name]
+
+      assert(parameter instanceof FormalParameterInfo)
+      parameter.hasCallback = true
+      parameter.callback = callback
+    }
+
     // join remarks
     this.remarks = this.remarks.join(NewLine)
 
     // create documentation signature
-    this.signature = createSignature(this.parameters, this.name)
+    this.api = createSignature(this.parameters, this.name)
   }
 
   toString() { 
-    return this.signature 
+    return this.api 
   }
 }
 

@@ -6,6 +6,8 @@ var Acme = 'acme'
 var FooJs = 'foo.js'
 var BarJs = 'bar.js'
 var PackageJson = 'package.json'
+var NodeModules = 'node_modules'
+var IndexJs = 'index.js'
 var Utf8 = 'utf8'
 
 async function run() {
@@ -15,6 +17,11 @@ async function run() {
       [BarJs]: "var path = require('path')",
       [PackageJson]: {
         name: 'bar'
+      },
+      [NodeModules]: {
+        'bar.baz': {
+          [PackageJson]: { name: 'bar.baz' }
+        }
       }
     }
   }
@@ -27,7 +34,12 @@ async function run() {
       [BarJs]: await fs.readFile('acme/bar/bar.js', Utf8),
       [PackageJson]: JSON.parse(
         await fs.readFile('acme/bar/package.json')
-      )
+      ),
+      [NodeModules]: {
+        'bar.baz': {
+          [PackageJson]: { name: 'bar.baz' }
+        }
+      }
     }
   }, files)
 

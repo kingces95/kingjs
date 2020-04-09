@@ -5,15 +5,8 @@ var {
     stringEx: { ReplaceAll },
     json: { file: { read: readJsonFile } },
     package: {
-      findNpmScope,
-      name: { 
-        parse, 
-        construct,
-      },
+      npmScope: resolveNpmScope,
       source: {
-        objectBindingPattern: { 
-          ToPackageNames 
-        },
         sourceFile: {
           GetFirstDocumented
         }
@@ -42,7 +35,7 @@ var At = '@'
  * join with forward slash of the relative paths in the repository.
  */
 async function harvestMetadata(packageDir, npmScopePath) {
-  var npmScopePath = npmScopePath || await findNpmScope(packageDir)
+  var npmScopePath = npmScopePath || await resolveNpmScope(packageDir)
   var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
   var { 
     name,

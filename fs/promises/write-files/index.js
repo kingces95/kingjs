@@ -2,6 +2,9 @@ var {
   fs: { promises: fs },
   path: Path,
   '@kingjs': {
+    reflect: {
+      is
+    },
     json: { 
       stringify 
     }
@@ -26,10 +29,10 @@ async function writeFiles(path = process.cwd(), pojo) {
     var value = pojo[name]
 
     var ext = Path.extname(name)
-    if (ext) {
-      if (ext == DotJson)
-        value = stringify(value)
+    if (ext == DotJson)
+      value = stringify(value)
 
+    if (is.string(value)) {
       await fs.writeFile(Path.join(path, name), value)
       continue
     }

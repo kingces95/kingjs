@@ -13,15 +13,10 @@ exports['@kingjs'] = {
     }
   },
   package: { 
-    findNpmScope: require('@kingjs/package.find-npm-scope'),
-    name: {
-      parse: require('@kingjs/package.name.parse'),
-      construct: require('@kingjs/package.name.construct'),
+    resolve: {
+      npmScope: require('@kingjs/package.resolve.npm-scope'),
     },
     source: {
-      objectBindingPattern: {
-        ToPackageNames: require('@kingjs/package.source.object-binding-pattern.to-package-names')
-      },
       sourceFile: {
         GetDependencies: require('@kingjs/package.source.source-file.get-dependencies'),
         GetFirstDocumented: require('@kingjs/package.source.source-file.get-first-documented')

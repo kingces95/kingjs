@@ -11,26 +11,30 @@ var Bar = 'bar'
 var PackageJson = 'package.json'
 var IndexJs = 'index.js'
 var DependenciesJs = 'dependencies.js'
+var NodeModules = 'node_modules'
 
 var expected = `module.exports = {
   assert: require("assert"),
   "@acme": {
-    myNs: {
-      foo: require("@acme/my-ns.foo")
-    }
+    Foo: require("@acme/foo")
   }
 }`
 
 async function run() {
   await writeFiles(Acme, {
-    [MyNs]: {
-      [Foo]: {
-        [IndexJs]: `module.exports = 42`,
+    [Foo]: {
+      [PackageJson]: {
+        capitalize: true
       },
+      [IndexJs]: `module.exports = 42`,
+    },
+    [MyNs]: {
       [Bar]: {
+        [IndexJs]: `var { '@acme': { Foo } } = require('dependencies.js')`,
         [PackageJson]: {
+          capitalize: true, 
           dependencies: {
-            "@acme/my-ns.foo": "file:../foo"
+            "@acme/foo": "file:../../foo"
           },
           nodeDependencies: [
             "assert"
