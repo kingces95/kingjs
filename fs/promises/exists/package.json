@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.promises.exists",
   "version": "1.0.0",
-  "description": "Asynchronously test if a path exists.",
+  "description": "Partition an array into arrays that are assigned to properties of an object.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,13 +13,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/.template"
+    "url": "https://repository.kingjs.net/array/remove"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/define-extension": "file:../../../define-extension"
+  },
   "nodeDependencies": [
     "assert",
     "fs"
-  ]
+  ],
+  "capitalize": true,
+  "devDependencies": {
+    "@kingjs/fs.promises.read-file": "file:../read-file",
+    "@kingjs/fs.promises.unlink": "file:../unlink",
+    "@kingjs/fs.promises.write-file": "file:../write-file"
+  }
 }

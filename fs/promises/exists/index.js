@@ -1,16 +1,26 @@
 var { 
-  fs
+  fs,
+  ['@kingjs']: { 
+    path: {
+      Builder: Path
+    },
+    defineExtension,
+  }
 } = require('./dependencies')
 
+var { name, version } = require('./package.json');
+
 /**
- * @description Asynchronously test if a path exists.
+ * @description Test if a path exists.
  * 
- * @param path That path whose existence is to be tested.
- * 
- * @returns Returns `true` if the path exists, otherwise `false`.
+ * @this PathBuilder The path to check.
  */
-function pathExists(path) {
-  return new Promise(resolve => fs.exists(path, o => resolve(o)))
+function exists() {
+  return new Promise(resolve => fs.exists(this.buffer,
+    o => resolve(o)
+  ))
 }
 
-module.exports = pathExists
+module.exports = defineExtension(
+  Path.prototype, name, version, exists
+);

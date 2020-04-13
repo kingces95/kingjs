@@ -8,5 +8,6 @@
     "url": "https://repository.kingjs.net/",
     "type": "git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "template": ".template" 
 }

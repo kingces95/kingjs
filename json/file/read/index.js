@@ -1,7 +1,9 @@
 var {
   fs,
   ['@kingjs']: { 
-    fs: { promises: { exists } },
+    fs: { 
+      promises: { exists } 
+    },
   },
 } = require('./dependencies')
 

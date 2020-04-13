@@ -18,8 +18,12 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.is": "file:../../../reflect/is",
-    "@kingjs/json.stringify": "file:../../../json/stringify"
+    "@kingjs/define-extension": "file:../../../define-extension",
+    "@kingjs/fs.promises.make-dir": "file:../make-dir",
+    "@kingjs/fs.promises.write-file": "file:../write-file",
+    "@kingjs/json.stringify": "file:../../../json/stringify",
+    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/reflect.is": "file:../../../reflect/is"
   },
   "nodeDependencies": [
     "assert",

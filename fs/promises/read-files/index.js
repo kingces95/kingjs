@@ -1,7 +1,19 @@
 var { 
-  fs: { promises: fs },
-  path: Path
+  '@kingjs': {
+    fs: {
+      promises: {
+        ReadFile,
+        List
+      }
+    },
+    path: {
+      Builder: Path
+    },
+    defineExtension
+  }  
 } = require('./dependencies')
+
+var { name, version } = require('./package.json');
 
 var Utf8 = 'utf8'
 var DotJson = '.json'
@@ -13,26 +25,28 @@ var DotJson = '.json'
  * 
  * @returns Returns a pojo representing directories and files.
  */
-async function readFiles(path = process.cwd()) {
+async function readFiles() {
   var pojo = { }
 
-  for (var name of await fs.readdir(path)) {
+  for (var entry of await this[List]()) {
+    var { name, ext } = entry
 
-    var ext = Path.extname(name)
     if (ext) {
-      var value = await fs.readFile(Path.join(path, name), Utf8)
+      var value = await this.to(name)[ReadFile](Utf8)
 
       if (ext == DotJson)
         value = JSON.parse(value)
-      
+
       pojo[name] = value
       continue
     }
 
-    pojo[name] = await readFiles(Path.join(path, name))
+    pojo[name] = await readFiles.call(this.to(name))
   }
 
   return pojo
 }
 
-module.exports = readFiles
+module.exports = defineExtension(
+  Path.prototype, name, version, readFiles
+)

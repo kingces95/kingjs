@@ -83,9 +83,13 @@ restore() {
   echo
   echo - Restore external node packages
   pd $KJS_EXT_DIR && npm i && pod
+
+  echo
+  echo - Install profiler c8
+  npm i -g c8
 }
 dbg() {
-  node --inspect-brk=$KJS_DEBUG_PORT $1
+  node --inspect-brk=$KJS_DEBUG_PORT "$@"
 }
 
 # Define aliases
@@ -108,6 +112,7 @@ alias u="cd .."
 alias uu="u && cd .."
 alias uuu="uu && cd .."
 alias uuuu="uuu && cd .."
+alias cov="c8 -o .coverage node .test/index.js && c8 report -o .coverage -r lcov"
 
 # Strip path
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$KJS_NODE_DIR

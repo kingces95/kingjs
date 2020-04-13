@@ -1,17 +1,22 @@
 var { 
-  fs: { promises: fs },
-  path: Path,
   '@kingjs': {
-    reflect: {
-      is
+    path: {
+      Builder: Path
     },
-    json: { 
-      stringify 
-    }
+    fs: {
+      promises: {
+        MakeDir,
+        WriteFile
+      }
+    },
+    reflect: { is },
+    json: { stringify },
+    defineExtension
   }
 } = require('./dependencies')
 
-var Recursive = { recursive: true }
+var { name, version } = require('./package.json');
+
 var DotJson = '.json'
 
 /**
@@ -22,23 +27,26 @@ var DotJson = '.json'
  * 
  * @returns Returns comment.
  */
-async function writeFiles(path = process.cwd(), pojo) {
-  await fs.mkdir(path, Recursive)
+async function writeFiles(pojo) {
+  await this[MakeDir]()
 
   for (var name in pojo) {
+    var path = this.to(name)
     var value = pojo[name]
 
-    var ext = Path.extname(name)
+    var ext = Path.create(name).ext
     if (ext == DotJson)
       value = stringify(value)
 
     if (is.string(value)) {
-      await fs.writeFile(Path.join(path, name), value)
+      await path[WriteFile](value)
       continue
     }
       
-    await writeFiles(Path.join(path, name), value)
+    await writeFiles.call(path, value)
   }
 }
 
-module.exports = writeFiles
+module.exports = defineExtension(
+  Path.prototype, name, version, writeFiles
+)

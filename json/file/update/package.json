@@ -18,8 +18,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/json.file.read": "file:../read",
-    "@kingjs/json.file.write": "file:../write"
+    "@kingjs/json.file.read": "file:../read-file",
+    "@kingjs/json.file.write": "file:../write-file"
   },
   "nodeDependencies": [
     "assert"

@@ -8,6 +8,7 @@ function blink() {
 
 async function run(asyncGeneratorGenerator) {
   var count = 0
+  var exceptions = []
 
   push(asyncGeneratorGenerator)
 
@@ -26,10 +27,17 @@ async function run(asyncGeneratorGenerator) {
           push(asyncGenerator)
       }
       catch (error) { 
-        console.warn(error) 
+        exceptions.push(error)
       }
       finally { count-- }
     })
+  }
+
+  if (exceptions.length) {
+    throw { 
+      message: 'Exceptions captured during parallel execution.', 
+      exceptions 
+    }
   }
 }
 

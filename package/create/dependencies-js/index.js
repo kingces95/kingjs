@@ -1,6 +1,11 @@
 var { 
   fs, Path, assert,
   '@kingjs': {
+    fs: {
+      promises: {
+        exists
+      }
+    },
     pojo: {
       Map,
       promises: { Map: AsyncMap }
@@ -43,12 +48,17 @@ async function createDependencies(packageDir) {
 
   var capitalize =
     await package.dependencies
-    [Map]((o, k) => {
-      assert(FileRegex.test(o), `Dependency versions '${k}: ${o}' not a path.`)
-      return read(Path.join(packageDir, FileRegex.exec(o)[1], PackageJson))
+    [Map](async (o, k) => {
+      if (!FileRegex.test(o))
+        throw `Dependency '${k}: ${o}' version not of the form: 'file:...'.`
+
+      var path = Path.join(packageDir, FileRegex.exec(o)[1], PackageJson)
+      if (!await exists(path))
+        throw `Dependency '${k}: ${o}' does not exists.`
+
+      return await read(path)
     })
-    [AsyncMap](o =>
-       o.capitalize)
+    [AsyncMap](o => o.capitalize)
     
   // generate dependencies.js
   var dependencies = generateDependencies(package, { capitalize })

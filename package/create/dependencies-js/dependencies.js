@@ -3,6 +3,11 @@ module.exports = {
   Path: require("path"),
   assert: require("assert"),
   "@kingjs": {
+    fs: {
+      promises: {
+        exists: require('@kingjs/fs.promises.exists')
+      }
+    },
     pojo: {
       Map: require('@kingjs/pojo.map'),
       promises: {

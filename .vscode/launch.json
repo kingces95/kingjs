@@ -4,18 +4,18 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-      
+
       {
-        "type": "node",
-        "request": "attach",
         "name": "Attach",
-        "port": 36688
-      },
-      {
+        "request": "attach",
         "type": "node",
-        "request": "launch",
-        "runtimeVersion": "12.16.1",
+        "port": 36688,
+      },
+
+      {
         "name": "Launch",
+        "request": "launch",
+        "type": "node",
         "program": "${file}",
         "cwd": "${fileDirname}",
         "console": "integratedTerminal",

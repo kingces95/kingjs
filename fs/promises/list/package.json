@@ -1,0 +1,35 @@
+{
+  "name": "@kingjs/fs.promises.list",
+  "version": "1.0.0",
+  "description": "Partition an array into arrays that are assigned to properties of an object.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/array/remove"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/array.partition": "file:../../../array/partition",
+    "@kingjs/define-extension": "file:../../../define-extension",
+    "@kingjs/path.builder": "file:../../../path/builder"
+  },
+  "nodeDependencies": [
+    "assert",
+    "fs"
+  ],
+  "capitalize": true,
+  "devDependencies": {
+    "@kingjs/fs.promises.make-dir": "file:../make-dir",
+    "@kingjs/fs.promises.remove-dir": "file:../remove-dir",
+    "@kingjs/fs.promises.write-file": "file:../write-file"
+  }
+}

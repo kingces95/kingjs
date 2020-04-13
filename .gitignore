@@ -3,4 +3,5 @@
 **/.compressed
 **/.decompressed
 **/.downloads
+**/.coverage
 **/acme

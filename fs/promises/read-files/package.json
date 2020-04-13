@@ -17,7 +17,13 @@
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/define-extension": "file:../../../define-extension",
+    "@kingjs/fs.promises.list": "file:../list",
+    "@kingjs/fs.promises.read-file": "file:../read-file",
+    "@kingjs/fs.promises.remove-dir": "file:../remove-dir",
+    "@kingjs/path.builder": "file:../../../path/builder"
+  },
   "nodeDependencies": [
     "fs",
     "path"

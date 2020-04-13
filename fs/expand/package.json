@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/fs.expand",
+  "version": "1.0.9",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "erm": "./exe.js",
+    "expand-readme": "./exe.js"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/expand"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "nodeDependencies": [
+    "assert",
+    "fs",
+    "path"
+  ],
+  "dependencies": {
+    "@kingjs/fs.dir": "file:../dir"
+  },
+  "devDependencies": {
+    "@kingjs/fs.promises.write-files": "file:../promises/write-files"
+  }
+}

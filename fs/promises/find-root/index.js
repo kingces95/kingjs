@@ -19,6 +19,8 @@ var {
  * @returns Returns the nearest path that contains the file.
  */
 async function findRoot(dir, file) {
+  dir = makeAbsolute(dir)
+  
   while (true) {
     var path = Path.join(dir, file)
     if (await exists(path))
@@ -29,6 +31,12 @@ async function findRoot(dir, file) {
       break
     dir = parent
   }
+}
+
+function makeAbsolute(path) {
+  if (Path.isAbsolute(path))
+    return path
+  return Path.join(process.cwd(), path)
 }
 
 module.exports = findRoot

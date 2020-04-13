@@ -22,6 +22,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
+    "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
     "@kingjs/pojo.map": "file:../../../pojo/map",

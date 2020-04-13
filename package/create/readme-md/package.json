@@ -1,7 +1,6 @@
 {
-  "name": "@kingjs/create-readme",
+  "name": "@kingjs/package.create.readme-md",
   "version": "1.0.7",
-  "description": "The master readme template for the `kingjs` scope.",
   "main": "index.js",
   "files": [
     "*.js",
@@ -14,10 +13,18 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/readme-template"
+    "url": "https://repository.kingjs.net/package/create/readme-md"
   },
   "license": "MIT",
   "dependencies": {
-    "@kingjs/expand-readme": "^1.0.9"
-  }
+    "@kingjs/package.name.parse": "file:../../name/parse",
+    "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",
+    "@kingjs/source.get-info": "file:../../../source/get-info",
+    "@kingjs/source.parse": "file:../../../source/parse",
+    "@kingjs/string-ex.expand": "file:../../../string-ex/expand"
+  },
+  "nodeDependencies": [
+    "fs",
+    "path"
+  ]
 }

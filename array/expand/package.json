@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/array.expand",
+  "version": "1.0.0",
+  "description": "Joins the expansions of `template` for each key/value pair of `source` with optional `separator`, `prefix`, and `suffix` while also introducing loop iteration variable `i`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/expand-for-each"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/define-extension": "file:../../define-extension",
+    "@kingjs/string-ex.expand": "file:../../string-ex/expand"
+  },
+  "capitalize": true,
+  "nodeDependencies": []
+}

@@ -1,6 +1,7 @@
 var assert = require('assert')
 var { promises: fs } = require('fs')
-var writeFiles = require('..')
+var Path = require('@kingjs/path.builder')
+var WriteFiles = require('..')
 
 var Acme = 'acme'
 var FooJs = 'foo.js'
@@ -26,7 +27,7 @@ async function run() {
     }
   }
 
-  await writeFiles(Acme, files)
+  await Path.Cwd.to(Acme)[WriteFiles](files)
 
   assert.deepEqual({
     [FooJs]: await fs.readFile('acme/foo.js', Utf8),

@@ -3,6 +3,11 @@ module.exports = {
   fs: require("fs"),
   Path: require("path"),
   "@kingjs": {
+    fs: {
+      promises: {
+        exists: require('@kingjs/fs.promises.exists')
+      }
+    },
     json: {
       file: {
         update: require('@kingjs/json.file.update'),

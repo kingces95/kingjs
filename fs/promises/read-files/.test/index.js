@@ -1,7 +1,8 @@
 var assert = require('assert')
-var { promises: fs } = require('fs')
-var writeFiles = require('@kingjs/fs.promises.write-files')
-var readFiles = require('..')
+var Path = require('@kingjs/path.builder')
+var RemoveDir = require('@kingjs/fs.promises.remove-dir')
+var WriteFiles = require('@kingjs/fs.promises.write-files')
+var ReadFiles = require('..')
 
 var Acme = 'acme'
 var FooJs = 'foo.js'
@@ -19,11 +20,12 @@ async function run() {
     }
   }
 
-  await writeFiles(Acme, expected)
+  var acme = Path.Cwd.to(Acme)
+  await acme[WriteFiles](expected)
 
-  var actual = await readFiles(Acme)
+  var actual = await acme[ReadFiles]()
   assert.deepEqual(expected, actual)
 
-  await fs.rmdir(Acme, { recursive: true })
+  await acme[RemoveDir]()
 }
 run().catch(o => console.log(o))
