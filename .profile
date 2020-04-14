@@ -3,35 +3,22 @@
 # https://www.tutorialspoint.com/nodejs/nodejs_environment_setup.htm
 # https://github.com/nvm-sh/nvm
 
-# Get the Kernel Name
-export OS=$(uname -s)
-case "$OS" in
-  Linux) OS="linux" ;;
-  Darwin) OS="mac" ;;
-  FreeBSD) OS="freebsd" ;;
-* ) echo "Your Operating System `$OS` is not supported" ;;
-esac
+# Define prompt
+export PS1='\e[0;32m$(pwd)/ $ \e[m'
 
-# Get the machine Architecture
-export PLATFORM=$(uname -m)
-case "$PLATFORM" in
-  x86) PLATFORM="x86" ;;
-  ia64) PLATFORM="ia64" ;;
-  i?86) PLATFORM="x86" ;;
-  amd64) PLATFORM="amd64" ;;
-  x86_64) PLATFORM="x64" ;;
-  sparc64) PLATFORM="sparc64" ;;
-* ) echo "Your Architecture '$PLATFORM' is not supported." ;;
-esac
+. .env/export-os.sh
+echo export OS=$OS
 
-# Echo header
-echo "KingJS, $OS ($PLATFORM)"
+. .env/export-platform.sh
+echo export PLATFORM=$PLATFORM
 
 # Set nodejs version
 export NODE_VERSION=v12.16.1
+echo export NODE_VERSION=$NODE_VERSION
 
 # Configure debugging port
-export KJS_DEBUG_PORT=36688
+export NODE_DEBUG_PORT=36688
+echo export NODE_DEBUG_PORT=$NODE_DEBUG_PORT
 
 # Export known directories
 export KJS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -43,20 +30,22 @@ export KJS_NODE_DIR="$KJS_NVM_DIR/versions/node/$NODE_VERSION/bin"
 export KJS_NODE_EXT_DIR="$KJS_DIR/.npm"
 export KJS_EXT_DIR="$KJS_DIR/.npm"
 
-# Export nvm/nodejs known dirs
-export NODE_DIR=$KJS_NODE_DIR
-export NVM_DIR=$KJS_NVM_DIR
-export NVM_EXT_DIR=~/.nvm
-
 # Export known files
 export KJS_PROFILE="$KJS_DIR/.profile"
 
-# Define prompt
-export PS1='\e[0;32m$(pwd)/ $ \e[m'
+# Clean aliases
+unalias -a
+
+# Define KJS aliases
+alias re=". $KJS_PROFILE"
+alias r="pd $KJS_DIR"
+alias cdos="pd $KJS_OS_DIR"
+alias cdnvm="pd $KJS_NVM_DIR"
+alias cdarch="pd $KJS_ARCH_DIR"
+alias cdnode="pd $KJS_NODE_DIR"
+alias cdext="pd $KJS_NODE_EXT_DIR"
 
 # Define functions
-pd() { pushd $1 > /dev/null; }
-pod() { popd > /dev/null; }
 link_packages() {
   pd $KJS_DIR
   link_package "package/create/package-json"
@@ -89,35 +78,23 @@ restore() {
   npm i -g c8
 }
 dbg() {
-  node --inspect-brk=$KJS_DEBUG_PORT "$@"
+  node --inspect-brk=$NODE_DEBUG_PORT "$@"
 }
 
-# Define aliases
-unalias -a
-alias clean="git clean . -fxd"
-alias e="env | sort"
-alias re=". $KJS_PROFILE"
-alias pd="pd"
-alias r="pd $KJS_DIR"
-alias cdos="pd $KJS_OS_DIR"
-alias cdnvm="pd $KJS_NVM_DIR"
-alias cdarch="pd $KJS_ARCH_DIR"
-alias cdnode="pd $KJS_NODE_DIR"
-alias cdext="pd $KJS_NODE_EXT_DIR"
-alias p="pod"
-alias pp="pod && p"
-alias ppp="pod && pp"
-alias pppp="pod && ppp"
-alias u="cd .."
-alias uu="u && cd .."
-alias uuu="uu && cd .."
-alias uuuu="uuu && cd .."
-alias cov="c8 -o .coverage node .test/index.js && c8 report -o .coverage -r lcov"
+# Export node directory
+export NODE_DIR=$KJS_NODE_DIR
+echo export NODE_DIR=$KJS_NODE_DIR
+
+# Export nvm directory
+export NVM_DIR=$KJS_NVM_DIR
+echo export NVM_DIR=$KJS_NVM_DIR
+
+export NVM_EXT_DIR=~/.nvm
+echo export NVM_EXT_DIR=$KJS_NVM_DIR
 
 # Strip path
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$KJS_NODE_DIR
+echo export PATH=$PATH
 
-# Load NVM
-export NVM_DIR=$KJS_NVM_DIR
-[ -s "$KJS_NVM_DIR/nvm.sh" ] && \. "$KJS_NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$KJS_NVM_DIR/bash_completion" ] && \. "$KJS_NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$KJS_ENV_DIR/aliases.sh"
+. "$KJS_ENV_DIR/load-nvm.sh"

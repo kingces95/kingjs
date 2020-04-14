@@ -139,10 +139,11 @@ class PathBuilder {
     if (this == other)
       return true
 
-    if (this.isRoot || other.isRoot)
+    if (this.name != other.name)
       return false
 
-    if (this.name != other.name)
+    // '..' != '../..'; for this reason, _parent should be exposed
+    if (!this._parent || !other._parent)
       return false
 
     return this._parent.equals(other._parent)
@@ -181,7 +182,8 @@ class SegmentPathBuilder extends PathBuilder {
 
 class ParentPathBuilder extends PathBuilder {
   constructor(parent) {
-    super(parent, DotDot, parent ? parent.buffer[Append](DotDotBuffer) : DotDotBuffer)
+    assert(!parent || parent instanceof ParentPathBuilder)
+    super(parent, DotDot, parent ? parent.buffer[Append](SepBuffer, DotDotBuffer) : DotDotBuffer)
   }
 
   _to(name) {
@@ -192,11 +194,11 @@ class ParentPathBuilder extends PathBuilder {
     return new ParentPathBuilder(this)
   }
 
-  get isRelativeParent() {
+  get isRelative() {
     return true
   }
 
-  get isRelative() {
+  get isRelativeParent() {
     return true
   }
 }

@@ -71,6 +71,9 @@ assert.equal(Back.ext, '')
 var backFoo = Back.to('foo')
 assert.isSegment(backFoo, 'foo', `..${Sep}foo`, Back)
 
+var backBack = Cwd.to(`..${Sep}..`)
+assert.isConsistent(backBack, '..', `..${Sep}..`, Back)
+
 var relFoo = Cwd.to('foo')
 assert.isSegment(relFoo, 'foo', 'foo', Cwd)
 
