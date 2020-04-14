@@ -1,19 +1,30 @@
 var {
   fs,
   ['@kingjs']: { 
+    module: {
+      ExportExtension,
+    },
+    path: {
+      Builder: Path,
+    },
     fs: { 
-      promises: { exists } 
+      promises: { 
+        Exists,
+        file: { 
+          Read: ReadFile 
+        }
+      },
     },
   },
 } = require('./dependencies')
 
-async function readJsonFile(path) {
-  if (await exists(path) == false)
+async function readJsonFile() {
+  if (await this[Exists]() == false)
     return
 
-  var json = await fs.promises.readFile(path)
+  var json = await this[ReadFile]()
   var pojo = JSON.parse(json)
   return pojo
 }
 
-module.exports = readJsonFile
+module[ExportExtension](Path, readJsonFile)

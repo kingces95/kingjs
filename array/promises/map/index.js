@@ -1,11 +1,9 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     run
   }
 } = require('./dependencies')
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Removes an element from an array and
@@ -32,6 +30,4 @@ async function map(callback = o => o) {
   return result;
 }
 
-module.exports = defineExtension(
-  Array.prototype, name, version, map
-);
+module[ExportExtension](Array, map)

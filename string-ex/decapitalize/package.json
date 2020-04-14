@@ -17,8 +17,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/define-extension": "^1.0.0",
-    "@kingjs/string-ex.is-capitalized": "^1.0.0"
+    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs/string-ex.is-capitalized": "file:../is-capitalized"
   },
   "capitalize": true
 }

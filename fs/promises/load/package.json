@@ -1,0 +1,35 @@
+{
+  "name": "@kingjs/fs.promises.load",
+  "version": "1.0.0",
+  "description": "Build a pojo of simple directory names and text files.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/promises/read-files"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/fs.promises.dir.list": "file:../dir/list",
+    "@kingjs/fs.promises.file.read": "file:../file/read",
+    "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
+    "@kingjs/path.builder": "file:../../../path/builder"
+  },
+  "nodeDependencies": [
+    "fs",
+    "path"
+  ],
+  "devDependencies": {
+    "@kingjs/fs.promises.load": "file:../load",
+    "@kingjs/fs.promises.save": "file:../save"
+  }
+}

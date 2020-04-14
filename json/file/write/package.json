@@ -18,7 +18,9 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/json.stringify": "file:../../stringify"
+    "@kingjs/json.stringify": "file:../../stringify",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/path.builder": "file:../../../path/builder"
   },
   "nodeDependencies": [
     "assert"

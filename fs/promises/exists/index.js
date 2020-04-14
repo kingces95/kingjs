@@ -4,11 +4,11 @@ var {
     path: {
       Builder: Path
     },
-    defineExtension,
+    module: {
+      ExportExtension
+    },
   }
 } = require('./dependencies')
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Test if a path exists.
@@ -21,6 +21,4 @@ function exists() {
   ))
 }
 
-module.exports = defineExtension(
-  Path.prototype, name, version, exists
-);
+module[ExportExtension](Path, exists)

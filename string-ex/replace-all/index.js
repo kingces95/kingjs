@@ -1,11 +1,9 @@
 var assert = require('assert');
 var { 
   ['@kingjs']: { 
-    defineExtension
+    module: { ExportExtension }
   }
 } = require('./dependencies');
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Returns a new string in which all occurrences of a 
@@ -28,6 +26,4 @@ function escapeRegExp(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, replaceAll
-);
+module[ExportExtension](String, replaceAll)

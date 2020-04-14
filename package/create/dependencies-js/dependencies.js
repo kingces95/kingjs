@@ -3,9 +3,13 @@ module.exports = {
   Path: require("path"),
   assert: require("assert"),
   "@kingjs": {
+    path: {
+      Builder: require('@kingjs/path.builder')
+    },
     fs: {
       promises: {
-        exists: require('@kingjs/fs.promises.exists')
+        Exists: require('@kingjs/fs.promises.exists'),
+        WriteFile: require('@kingjs/fs.promises.file.write'),
       }
     },
     pojo: {
@@ -16,7 +20,7 @@ module.exports = {
     },
     json: {
       file: {
-        read: require("@kingjs/json.file.read")
+        Read: require("@kingjs/json.file.read")
       }
     },
     package: {

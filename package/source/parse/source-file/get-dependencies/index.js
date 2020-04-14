@@ -2,7 +2,7 @@ var {
   Path,
   assert,
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     source: { types }
   }
 } = require('./dependencies')

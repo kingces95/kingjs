@@ -25,13 +25,14 @@
     "@kingjs/json.file.write": "file:../../../json/file/write",
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata",
-    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope"
+    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
+    "@kingjs/path.builder": "file:../../../path/builder"
   },
   "nodeDependencies": [
     "path"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.read-files": "file:../../../fs/promises/read-files",
-    "@kingjs/fs.promises.write-files": "file:../../../fs/promises/write-files"
+    "@kingjs/fs.promises.load": "file:../../../fs/promises/load",
+    "@kingjs/fs.promises.save": "file:../../../fs/promises/save"
   }
 }

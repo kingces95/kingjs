@@ -1,11 +1,9 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     run
   }
 } = require('./dependencies')
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Maps each promise of a pojo in parallel.
@@ -36,6 +34,4 @@ async function map(callback = o => o) {
   return result;
 }
 
-module.exports = defineExtension(
-  Object.prototype, name, version, map
-);
+module[ExportExtension](Object, map)

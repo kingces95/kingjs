@@ -1,9 +1,9 @@
 var assert = require('assert')
 var Path = require('@kingjs/path.builder')
 var Exists = require('..')
-var Unlink = require('@kingjs/fs.promises.unlink')
-var ReadFile = require('@kingjs/fs.promises.read-file')
-var WriteFile = require('@kingjs/fs.promises.write-file')
+var Unlink = require('@kingjs/fs.promises.file.unlink')
+var ReadFile = require('@kingjs/fs.promises.file.read')
+var WriteFile = require('@kingjs/fs.promises.file.write')
 
 async function test() {
   var path = Path.Cwd.to('acme.txt')

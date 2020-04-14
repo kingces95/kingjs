@@ -1,6 +1,6 @@
 var assert = require('assert')
 var { promises: fs } = require('fs')
-var writeFiles = require('@kingjs/fs.promises.write-files')
+var writeFiles = require('@kingjs/fs.promises.file.write')
 var Dir = require('..')
 
 async function run() {

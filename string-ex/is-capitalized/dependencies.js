@@ -1,5 +1,5 @@
 exports['@kingjs'] = {
-  defineExtension: require('@kingjs/define-extension'),
+  module: { ExportExtension: require('@kingjs/module.export-extension') },
   stringEx: {
     isUpperCaseAt: require('@kingjs/string-ex.is-upper-case-at'),
   },

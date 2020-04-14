@@ -1,7 +1,7 @@
 var { 
   assert,
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     source: { 
       types,
       info: { FunctionInfo }
@@ -10,13 +10,10 @@ var {
 } = require('./dependencies')
 
 var { Node, FunctionDeclaration } = types
-var { name, version } = require('./package.json');
 
 function getInfo() {
   if (this instanceof FunctionDeclaration)
     return new FunctionInfo(this)
 }
 
-module.exports = defineExtension(
-  Node.prototype, name, version, getInfo
-);
+module[ExportExtension](Node, getInfo)

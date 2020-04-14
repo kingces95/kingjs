@@ -1,7 +1,8 @@
 var assert = require('assert')
-var { promises: fs } = require('fs')
-var writeFiles = require('@kingjs/fs.promises.write-files')
-var readFiles = require('@kingjs/fs.promises.read-files')
+var Path = require('@kingjs/path.builder')
+var Save = require('@kingjs/fs.promises.save')
+var Load = require('@kingjs/fs.promises.load')
+var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 var createDependencies = require('..')
 
 var Acme = 'acme'
@@ -11,7 +12,6 @@ var Bar = 'bar'
 var PackageJson = 'package.json'
 var IndexJs = 'index.js'
 var DependenciesJs = 'dependencies.js'
-var NodeModules = 'node_modules'
 
 var expected = `module.exports = {
   assert: require("assert"),
@@ -21,7 +21,8 @@ var expected = `module.exports = {
 }`
 
 async function run() {
-  await writeFiles(Acme, {
+  var acme = Path.Cwd.to(Acme)
+  await acme[Save]({
     [Foo]: {
       [PackageJson]: {
         capitalize: true
@@ -44,15 +45,17 @@ async function run() {
     }
   })
 
-  await createDependencies('acme/my-ns/bar')
+  await createDependencies(acme.to(MyNs).to(Bar))
   var { 
     [MyNs]: { 
-      [Bar]: { [DependenciesJs]: dependenciesJs } 
+      [Bar]: { 
+        [DependenciesJs]: dependenciesJs 
+      } 
     } 
-  } = await readFiles(Acme);
+  } = await acme[Load]()
   
   assert.equal(dependenciesJs, expected)
 
-  await fs.rmdir(Acme, { recursive: true })
+  await acme[RemoveDir]()
 }
 run().catch(e => console.log(e))

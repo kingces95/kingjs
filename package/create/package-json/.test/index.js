@@ -1,7 +1,7 @@
 var assert = require('assert')
 var { promises: fs } = require('fs')
-var writeFiles = require('@kingjs/fs.promises.write-files')
-var readFiles = require('@kingjs/fs.promises.read-files')
+var writeFiles = require('@kingjs/fs.promises.file.write')
+var readFiles = require('@kingjs/fs.promises.file.read')
 var createPackageJson = require('..')
 
 var Acme = 'acme'

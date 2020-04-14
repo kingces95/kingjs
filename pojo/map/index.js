@@ -1,10 +1,8 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
   }
 } = require('./dependencies')
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Maps each value of a pojo.
@@ -29,6 +27,4 @@ function map(callback = o => o) {
   return result;
 }
 
-module.exports = defineExtension(
-  Object.prototype, name, version, map
-);
+module[ExportExtension](Object, map)

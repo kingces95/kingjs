@@ -1,11 +1,9 @@
 var { 
   ['@kingjs']: { 
     array: { Partition },
-    defineExtension,
+    module: { ExportExtension },
   }
 } = require('./dependencies')
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Partition an array into groups { key, value } where value is an array.
@@ -22,6 +20,4 @@ function groupBy(selectKey, selectValue = o => o) {
     .map(key => ({ key, group: result[key] }))
 }
 
-module.exports = defineExtension(
-  Array.prototype, name, version, groupBy
-);
+module[ExportExtension](Array, groupBy)

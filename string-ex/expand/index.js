@@ -1,11 +1,10 @@
 var {
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     stringEx: { replaceAll }
   }
 } = require('./dependencies')
 
-var { name, version } = require('./package.json')
 var EmptyObject = { }
 
 /**
@@ -32,6 +31,4 @@ function expand(pojo = EmptyObject) {
   return Function(...keys, `return \`${result}\``)(...values)
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, expand
-)
+module[ExportExtension](String, expand)

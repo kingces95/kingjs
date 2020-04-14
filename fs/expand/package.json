@@ -27,6 +27,6 @@
     "@kingjs/fs.dir": "file:../dir"
   },
   "devDependencies": {
-    "@kingjs/fs.promises.write-files": "file:../promises/write-files"
+    "@kingjs/fs.promises.save": "file:../promises/write-files"
   }
 }

@@ -1,15 +1,28 @@
 var {
   fs,
   '@kingjs': {
+    module: {
+      ExportExtension
+    },
+    path: {
+      Builder: Path
+    },
+    fs: {
+      promises: {
+        file: { 
+          Write: WriteFile 
+        }
+      }
+    },
     json: {
       stringify
     }
   }
 } = require('./dependencies')
 
-async function writeJsonFile(path, pojo) {
+async function writeJsonFile(pojo) {
   var json = stringify(pojo)
-  await fs.promises.writeFile(path, json)
+  await this[WriteFile](json)
 }
 
-module.exports = writeJsonFile
+module[ExportExtension](Path, writeJsonFile)

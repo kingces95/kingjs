@@ -1,11 +1,9 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     stringEx: { isUpperCaseAt: IsUpperCaseAt }
   }
 } = require('./dependencies');
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Test if a string is capitalized.
@@ -18,6 +16,4 @@ function isCapitalized() {
   return this[IsUpperCaseAt](0);
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, isCapitalized
-);
+module[ExportExtension](String, isCapitalized)

@@ -1,5 +1,5 @@
 exports['@kingjs'] = {
   run: require('@kingjs/run'),
-  defineExtension: require('@kingjs/define-extension')
+  module: { ExportExtension: require('@kingjs/module.export-extension') }
 }
 exports['assert'] = require('assert')

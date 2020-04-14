@@ -1,18 +1,24 @@
 var {
   '@kingjs': {
+    module: {
+      ExportExtension,
+    },
+    path: {
+      Builder: Path,
+    },
     json: {
       file: {
-        read: readJsonFile,
-        write: writeJsonFile,
+        read: ReadJsonFile,
+        write: WriteJsonFile,
       }
     }
   }
 } = require('./dependencies')
 
-async function updateJsonFile(path, pojo) {
-  var json = await readJsonFile(path) || { }
+async function updateJsonFile(pojo) {
+  var json = await this[ReadJsonFile]() || { }
   var newJson = { ...json, ...pojo }
-  await writeJsonFile(path, newJson)
+  await this[WriteJsonFile](newJson)
 }
 
-module.exports = updateJsonFile
+module[ExportExtension](Path, updateJsonFile)

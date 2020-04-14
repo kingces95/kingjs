@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/path.builder": "file:../../../path/builder",
-    "@kingjs/define-extension": "file:../../../define-extension"
+    "@kingjs/module.export-extension": "file:../../../module/export-extension"
   },
   "nodeDependencies": [
     "assert",
@@ -27,8 +27,8 @@
   ],
   "capitalize": true,
   "devDependencies": {
-    "@kingjs/fs.promises.read-file": "file:../read-file",
-    "@kingjs/fs.promises.unlink": "file:../unlink",
-    "@kingjs/fs.promises.write-file": "file:../write-file"
+    "@kingjs/fs.promises.file.read": "file:../file/read",
+    "@kingjs/fs.promises.file.unlink": "file:../file/unlink",
+    "@kingjs/fs.promises.file.write": "file:../file/write"
   }
 }

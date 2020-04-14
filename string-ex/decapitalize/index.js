@@ -1,11 +1,9 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     stringEx: { isCapitalized: IsCapitalized }
   }
 } = require('./dependencies');
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Decapitalize a string.
@@ -21,6 +19,4 @@ function decapitalize() {
   return this.charAt(0).toLowerCase() + this.substring(1, this.length);
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, decapitalize
-);
+module[ExportExtension](String, decapitalize)

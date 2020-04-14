@@ -18,7 +18,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.promises.find-root": "file:../../../fs/promises/find-root"
+    "@kingjs/fs.promises.dir.find-root": "file:../../../fs/promises/dir/find-root"
   },
   "nodeDependencies": [
     "assert"

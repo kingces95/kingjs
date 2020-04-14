@@ -21,7 +21,7 @@
     "@kingjs/source.parse": "file:../parse"
   },
   "dependencies": {
-    "@kingjs/define-extension": "file:../../define-extension",
+    "@kingjs/module.export-extension": "file:../../module/export-extension",
     "@kingjs/source.types": "file:../types",
     "@kingjs/source.info.function-info": "file:../info/function-info"
   },

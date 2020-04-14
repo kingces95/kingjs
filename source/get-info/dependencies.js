@@ -5,6 +5,6 @@ exports['@kingjs'] = {
       FunctionInfo: require('@kingjs/source.info.function-info')
     }
   },
-  defineExtension: require('@kingjs/define-extension'),
+  module: { ExportExtension: require('@kingjs/module.export-extension') },
 }
 exports.assert = require('assert')

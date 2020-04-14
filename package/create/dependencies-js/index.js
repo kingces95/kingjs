@@ -1,9 +1,13 @@
 var { 
-  fs, Path, assert,
+  fs, assert,
   '@kingjs': {
+    path: {
+      Builder: Path
+    },
     fs: {
       promises: {
-        exists
+        Exists,
+        WriteFile
       }
     },
     pojo: {
@@ -11,7 +15,7 @@ var {
       promises: { Map: AsyncMap }
     },
     json: {
-      file: { read }
+      file: { Read: ReadJsonFile }
     },
     package: {
       source: {
@@ -36,36 +40,39 @@ var FileRegex = /file:(.*)/
  * 
  * @remarks Does nothing if `package.json` is not found.
  */
-async function createDependencies(packageDir) {
+async function createDependencies(packageDir = Path.Cwd) {
 
   // read package.json
-  var packageJsonPath = Path.join(packageDir, PackageJson)
+  var packageJsonPath = packageDir.to(PackageJson)
   var package = {
     dependencies: { },
     devDependencies: { },
-    ...(await read(packageJsonPath) || { })
+    ...(await packageJsonPath[ReadJsonFile]() || { })
   }
 
-  var capitalize =
-    await package.dependencies
+  // harvest `{ capitalize }` from dependent package.json in parallel 
+  var capitalize = await package.dependencies
     [Map](async (o, k) => {
       if (!FileRegex.test(o))
         throw `Dependency '${k}: ${o}' version not of the form: 'file:...'.`
 
-      var path = Path.join(packageDir, FileRegex.exec(o)[1], PackageJson)
-      if (!await exists(path))
+      var dependentPackageJsonPath = packageDir
+        .to(FileRegex.exec(o)[1])
+        .to(PackageJson)
+
+      if (!await dependentPackageJsonPath[Exists]())
         throw `Dependency '${k}: ${o}' does not exists.`
 
-      return await read(path)
+      return await dependentPackageJsonPath[ReadJsonFile]()
     })
     [AsyncMap](o => o.capitalize)
     
-  // generate dependencies.js
+  // codeGen; generate dependencies.js
   var dependencies = generateDependencies(package, { capitalize })
 
   // write dependencies.js
-  var dependenciesJs = Path.join(packageDir, DependenciesJs)
-  await fs.promises.writeFile(dependenciesJs, dependencies)
+  var dependenciesJs = packageDir.to(DependenciesJs)
+  await dependenciesJs[WriteFile](dependencies)
 }
 
 module.exports = createDependencies

@@ -23,8 +23,10 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
+    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
+    "@kingjs/path.builder": "file:../../../path/builder",
     "@kingjs/pojo.map": "file:../../../pojo/map",
     "@kingjs/pojo.promises.map": "file:../../../pojo/promises/map"
   },
@@ -33,7 +35,8 @@
     "path"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.read-files": "file:../../../fs/promises/read-files",
-    "@kingjs/fs.promises.write-files": "file:../../../fs/promises/write-files"
+    "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",
+    "@kingjs/fs.promises.load": "file:../../../fs/promises/load",
+    "@kingjs/fs.promises.save": "file:../../../fs/promises/save"
   }
 }

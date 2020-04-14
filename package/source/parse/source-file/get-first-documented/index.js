@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     source: { types }
   }
 } = require('./dependencies')

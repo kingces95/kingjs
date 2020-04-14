@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
     stringEx: { isCapitalized: IsCapitalized }
   }
 } = require('./dependencies');
@@ -21,6 +21,4 @@ function capitalize() {
   return this.charAt(0).toUpperCase() + this.substring(1, this.length);
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, capitalize
-);
+module[ExportExtension](String, capitalize)

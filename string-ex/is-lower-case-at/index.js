@@ -1,10 +1,8 @@
 var { 
   ['@kingjs']: { 
-    defineExtension
+    module: { ExportExtension }
   }
 } = require('./dependencies');
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Test if a character at an index in a string is lower case.
@@ -21,6 +19,4 @@ function isLowerCaseAt(index) {
   return this.charAt(index).toLowerCase() == this[index];
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, isLowerCaseAt
-);
+module[ExportExtension](String, isLowerCaseAt)

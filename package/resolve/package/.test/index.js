@@ -1,5 +1,5 @@
 var assert = require('assert')
-var writeFiles = require('@kingjs/fs.promises.write-files')
+var writeFiles = require('@kingjs/fs.promises.file.write')
 var resolvePackage = require('..')
 
 var Acme = 'acme'

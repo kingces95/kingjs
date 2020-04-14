@@ -1,10 +1,8 @@
 var { 
   ['@kingjs']: { 
-    defineExtension,
+    module: { ExportExtension },
   }
 } = require('./dependencies')
-
-var { name, version } = require('./package.json');
 
 /**
  * @description Partition an array into arrays that are assigned to properties of an object.
@@ -33,6 +31,4 @@ function partition(selectKey, selectValue = o => o) {
   return result
 }
 
-module.exports = defineExtension(
-  Array.prototype, name, version, partition
-);
+module[ExportExtension](Array, partition)

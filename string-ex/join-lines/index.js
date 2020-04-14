@@ -1,10 +1,9 @@
 var { 
   ['@kingjs']: { 
-    defineExtension
+    module: { ExportExtension }
   }
 } = require('./dependencies')
 
-var { name, version } = require('./package.json');
 var Space = ' ';
 var Regex = /[\r\n\x0B\x0C\u0085\u2028\u2029]+/g;
 
@@ -27,6 +26,4 @@ function joinLines(separator) {
   return result;
 }
 
-module.exports = defineExtension(
-  String.prototype, name, version, joinLines
-);
+module[ExportExtension](String, joinLines)
