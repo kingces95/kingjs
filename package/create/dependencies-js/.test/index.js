@@ -3,7 +3,7 @@ var Path = require('@kingjs/path.builder')
 var Save = require('@kingjs/fs.promises.save')
 var Load = require('@kingjs/fs.promises.load')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')
-var createDependencies = require('..')
+var CreateDependencies = require('..')
 
 var Acme = 'acme'
 var MyNs = 'my-ns'
@@ -45,7 +45,8 @@ async function run() {
     }
   })
 
-  await createDependencies(acme.to(MyNs).to(Bar))
+  await acme.to(MyNs).to(Bar)[CreateDependencies]()
+
   var { 
     [MyNs]: { 
       [Bar]: { 

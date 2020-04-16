@@ -65,6 +65,20 @@ class PathBuilder {
     return Root  
   }
 
+  static launch(symbol) {
+    try {
+      var args = process.argv.slice()
+      var node = args.shift()
+      var file = args.shift()
+      var path = PathBuilder.create(args.shift() || process.cwd())
+      path[symbol](...args)
+    }
+    catch(e) {
+      console.log(e)
+      process.exit(1)
+    }
+  }
+
   static create(path) {
     if (path instanceof PathBuilder)
       return path

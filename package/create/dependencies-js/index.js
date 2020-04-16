@@ -1,9 +1,8 @@
 var { 
   fs, assert,
   '@kingjs': {
-    path: {
-      Builder: Path
-    },
+    module: { ExportExtension },
+    path: { Builder: Path },
     fs: {
       promises: {
         Exists,
@@ -14,9 +13,7 @@ var {
       Map,
       promises: { Map: AsyncMap }
     },
-    json: {
-      file: { Read: ReadJsonFile }
-    },
+    json: { file: { Read: ReadJsonFile } },
     package: {
       source: {
         generate: {
@@ -40,7 +37,8 @@ var FileRegex = /file:(.*)/
  * 
  * @remarks Does nothing if `package.json` is not found.
  */
-async function createDependencies(packageDir = Path.Relative) {
+async function createDependencies() {
+  var packageDir = this
 
   // read package.json
   var packageJsonPath = packageDir.to(PackageJson)
@@ -75,4 +73,4 @@ async function createDependencies(packageDir = Path.Relative) {
   await dependenciesJs[WriteFile](dependencies)
 }
 
-module.exports = createDependencies
+module[ExportExtension](Path, createDependencies)

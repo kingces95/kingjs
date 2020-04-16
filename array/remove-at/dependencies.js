@@ -1,6 +1,8 @@
-exports['@kingjs'] = {
-  reflect: {
-    exportExtension: require('@kingjs/reflect.export-extension'),
-  },
+module.exports = {
+  assert: require("assert"),
+  "@kingjs": {
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
+    }
+  }
 }
-exports['assert'] = require('assert')

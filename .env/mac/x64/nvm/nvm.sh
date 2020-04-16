@@ -1929,9 +1929,7 @@ nvm_download_artifact() {
   fi
 
   if [ -r "${TARBALL}" ]; then
-    nvm_err "Local cache found: $(nvm_sanitize_path "${TARBALL}")"
     if nvm_compare_checksum "${TARBALL}" "${CHECKSUM}" >/dev/null 2>&1; then
-      nvm_err "Checksums match! Using existing downloaded archive $(nvm_sanitize_path "${TARBALL}")"
       nvm_echo "${TARBALL}"
       return 0
     fi

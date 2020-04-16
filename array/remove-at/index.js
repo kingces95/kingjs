@@ -15,9 +15,9 @@ var {
  * @returns Returns the element removed.
  */
 function removeAt(index) {
-  var result = this[index];
-  this.splice(index, 1);
-  return result;
+  var result = this[index]
+  this.splice(index, 1)
+  return result
 }
 
-exportExtension(module, Array, removeAt);
+module[ExportExtension](Array, removeAt)

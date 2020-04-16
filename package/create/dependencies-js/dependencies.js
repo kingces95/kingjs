@@ -3,6 +3,9 @@ module.exports = {
   Path: require("path"),
   assert: require("assert"),
   "@kingjs": {
+    module: {
+      ExportExtension: require('@kingjs/module.export-extension')
+    },
     path: {
       Builder: require('@kingjs/path.builder')
     },

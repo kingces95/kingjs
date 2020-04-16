@@ -25,6 +25,7 @@
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
     "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
     "@kingjs/path.builder": "file:../../../path/builder",
     "@kingjs/pojo.map": "file:../../../pojo/map",

@@ -14,24 +14,26 @@ var Dependencies = 'dependencies';
 
 function getDependencies() {
 
-  // deconstruct the AST
-  var {
-    statements: {
-      [0]: {
-        declarationList: {
-          [0]: {
-            initializer: {
-              expression,     // require('./../dependencies.js')
-              arguments: {
-                [0]: argument // './../dependencies.js'
-              }
-            },
-            name: obp
-          }
-        }
-      }
+  var { statements } = this
+  if (!statements)
+    return
+
+  var { declarationList } = statements[0]
+  if (!declarationList)
+    return
+
+  var { name: obp, initializer } = declarationList[0]
+  if (!obp || !initializer)
+    return
+
+  var { 
+    // require('./../dependencies.js')
+    expression, 
+    arguments: {
+      // './../dependencies.js'
+      [0]: argument
     }
-  } = this;
+  } = initializer
 
   // call is 'require'
   if (expression != Require)
