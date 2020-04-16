@@ -16,5 +16,8 @@
     "typescript": "latest",
     "uuid": "latest",
     "which": "latest"
+  },
+  "devDependencies": {
+    "c8": "^7.1.0"
   }
 }
