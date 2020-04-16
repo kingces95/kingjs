@@ -1,7 +1,9 @@
 var assert = require('assert')
 var { promises: fs } = require('fs')
-var writeFiles = require('@kingjs/fs.promises.file.write')
-var readFiles = require('@kingjs/fs.promises.file.read')
+var Path = require('@kingjs/path.builder')
+var Save = require('@kingjs/fs.promises.save')
+var Load = require('@kingjs/fs.promises.load')
+var Remove = require('@kingjs/fs.promises.dir.remove')
 var createPackageJson = require('..')
 
 var Acme = 'acme'
@@ -31,7 +33,8 @@ function b() {
 module.exports = b`
 
 async function run() {
-  await writeFiles(Acme, {
+  var acme = Path.Cwd.to(Acme)
+  await acme[Save]({
     [MyNs]: {
       [Foo]: {
         [IndexJs]: `module.exports = 42`,
@@ -60,7 +63,7 @@ async function run() {
         [PackageJson]: packageJson
       }
     }
-  } = await readFiles(Acme)
+  } = await acme[Load]()
 
   assert.deepEqual({
     name: "@acme/my-ns.bar",
@@ -80,6 +83,6 @@ async function run() {
     ]
   }, packageJson)
 
-  await fs.rmdir(Acme, { recursive: true })
+  await acme[Remove]()
 }
 run().catch(e => console.log(e))

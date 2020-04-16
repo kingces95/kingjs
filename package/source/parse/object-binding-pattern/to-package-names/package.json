@@ -18,12 +18,13 @@
     "@kingjs/source.get-dependencies": "file:../../source-file/get-dependencies"
   },
   "dependencies": {
-    "is-builtin-module": "file:../../../../../.npm/node_modules/is-builtin-module",
     "@kingjs/camel-case.split": "file:../../../../../camel-case/split",
+    "@kingjs/define-extension": "file:../../../../../define-extension",
+    "@kingjs/module.export-extension": "file:../../../../../module/export-extension",
     "@kingjs/package.name.construct": "file:../../../../name/construct",
     "@kingjs/reflect.is": "file:../../../../../reflect/is",
-    "@kingjs/define-extension": "file:../../../../../define-extension",
-    "@kingjs/source.types": "file:../../../../../source/types"
+    "@kingjs/source.types": "file:../../../../../source/types",
+    "is-builtin-module": "file:../../../../../.npm/node_modules/is-builtin-module"
   },
   "capitalize": true
 }

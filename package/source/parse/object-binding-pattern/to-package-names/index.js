@@ -10,7 +10,6 @@ var {
   },
 } = require('./dependencies')
 
-var { name, version } = require('./package.json')
 var { ObjectBindingPattern } = types
 
 var At = '@'
@@ -57,6 +56,4 @@ function getPackageNames() {
   }
 }
 
-module.exports = defineExtension(
-  ObjectBindingPattern.prototype, name, version, getPackageNames
-)
+module[ExportExtension](ObjectBindingPattern, getPackageNames)

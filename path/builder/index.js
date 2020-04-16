@@ -101,6 +101,47 @@ class PathBuilder {
     return Path.basename(this.name, this.ext)
   }
 
+  toRelative(target) {
+    var source = this
+    assert.ok(source.isAbsolute)
+
+    target = PathBuilder.create(target)
+    assert.ok(target.isAbsolute)
+
+    // keep it simple...
+    source = source[ToArray](o => o.dir).reverse()
+    target = target[ToArray](o => o.dir).reverse()
+
+    var result = PathBuilder.Cwd
+    for (var i = 0; i < source.length && i < target.length; i++) {
+
+      // find common ancestor
+      if (source[i].name == target[i].name)
+        continue
+
+      // back out of source to common ancestor
+      for (var j = i; j < source.length; j++)
+        result = result.dir
+
+      // advance from common ancestor to target
+      for (var j = i; j < target.length; j++)
+        result = result.to(target[j].name)
+
+      break
+    }
+
+    return result
+  }
+
+  toAbsolute(cwd = Process.cwd()) {
+    if (this.isAbsolute)
+      return this
+
+    var path = PathBuilder.create(cwd).to(this)
+    assert.ok(path.isAbsolute)
+    return path
+  }
+
   to(path) {
 
     if (is.string(path)) {
@@ -213,7 +254,7 @@ class RootPathBuilder extends PathBuilder {
   }
 
   get dir() {
-    throw "Cannot navigate from '/' to '..'."
+    return undefined
   }
 
   get isRoot() {

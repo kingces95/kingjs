@@ -101,4 +101,4 @@ for (var i = 0; i < paths.length; i++) {
   }
 }
 
-assert.throws(() => Abs.to('..'), null, "Cannot navigate from '/' to '..'.")
+assert(Abs.to('..') === undefined)

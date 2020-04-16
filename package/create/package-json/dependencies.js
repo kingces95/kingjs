@@ -1,28 +1,32 @@
 module.exports = {
-  assert: require("assert"),
-  fs: require("fs"),
   Path: require("path"),
   "@kingjs": {
     fs: {
       promises: {
-        exists: require('@kingjs/fs.promises.exists')
+        Exists: require("@kingjs/fs.promises.exists")
       }
     },
     json: {
       file: {
-        update: require('@kingjs/json.file.update'),
-        read: require('@kingjs/json.file.read'),
-        write: require('@kingjs/json.file.write')
+        read: require("@kingjs/json.file.read"),
+        update: require("@kingjs/json.file.update"),
+        write: require("@kingjs/json.file.write")
       }
     },
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
+    },
     package: {
-      resolve: {
-        npmScope: require("@kingjs/package.resolve.npm-scope"),
-      },
       harvest: {
         dependencies: require("@kingjs/package.harvest.dependencies"),
         metadata: require("@kingjs/package.harvest.metadata")
+      },
+      resolve: {
+        npmScope: require("@kingjs/package.resolve.npm-scope")
       }
+    },
+    path: {
+      Builder: require("@kingjs/path.builder")
     }
   }
 }

@@ -1,7 +1,8 @@
 var { 
-  fs,
   Path,
   ['@kingjs']: {
+    module: { ExportExtension },
+    path: { Builder: Path },
     fs: {
       promises: {
         exists 
@@ -39,4 +40,4 @@ function makeAbsolute(path) {
   return Path.join(process.cwd(), path)
 }
 
-module.exports = findRoot
+module[ExportExtension](Path, findRoot)

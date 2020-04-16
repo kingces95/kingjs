@@ -5,7 +5,6 @@ var {
   }
 } = require('./dependencies')
 
-var { name, version } = require('./package.json');
 var { SourceFile, FunctionDeclaration } = types
 
 function getFirstDocumented() {
@@ -19,6 +18,4 @@ function getFirstDocumented() {
   }
 }
 
-module.exports = defineExtension(
-  SourceFile.prototype, name, version, getFirstDocumented
-)
+module[ExportExtension](SourceFile, getFirstDocumented)

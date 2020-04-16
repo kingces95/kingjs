@@ -1,8 +1,10 @@
-exports['@kingjs'] = {
-  source: {
-    types: require('@kingjs/source.types')
-  },
-  module: { ExportExtension: require('@kingjs/module.export-extension') },
+module.exports = {
+  "@kingjs": {
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
+    },
+    source: {
+      types: require("@kingjs/source.types")
+    }
+  }
 }
-exports.Path = require('path')
-exports.assert = require('assert')

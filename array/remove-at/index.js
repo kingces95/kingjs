@@ -1,7 +1,7 @@
 var { 
   ['@kingjs']: {
-    reflect: { 
-      exportExtension
+    module: { 
+      ExportExtension
     },
   }
 } = require('./dependencies');

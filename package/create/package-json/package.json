@@ -23,6 +23,7 @@
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/json.file.update": "file:../../../json/file/update",
     "@kingjs/json.file.write": "file:../../../json/file/write",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata",
     "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
@@ -32,6 +33,7 @@
     "path"
   ],
   "devDependencies": {
+    "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",
     "@kingjs/fs.promises.load": "file:../../../fs/promises/load",
     "@kingjs/fs.promises.save": "file:../../../fs/promises/save"
   }

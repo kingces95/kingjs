@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/.template-ex",
+  "version": "1.0.0",
+  "description": "The description.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/.template"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/module.export-extension": "file:../module/export-extension"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

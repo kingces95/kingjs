@@ -17,11 +17,15 @@
   },
   "keywords": [],
   "license": "MIT",
+  "nodeDependencies": [
+    "assert",
+    "path"
+  ],
   "devDependencies": {
     "@kingjs/source.parse": "file:../../../../../source/parse"
   },
   "dependencies": {
-    "@kingjs/define-extension": "file:../../../../../define-extension",
+    "@kingjs/module.export-extension": "file:../../../../../module/export-extension",
     "@kingjs/source.types": "file:../../../../../source/types"
   },
   "capitalize": true

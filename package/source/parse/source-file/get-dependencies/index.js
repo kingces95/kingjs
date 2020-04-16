@@ -7,13 +7,12 @@ var {
   }
 } = require('./dependencies')
 
-var { name, version } = require('./package.json');
 var { ObjectBindingPattern, SourceFile } = types
 
 var Require = 'require';
 var Dependencies = 'dependencies';
 
-function getDependencies(ast) {
+function getDependencies() {
 
   // deconstruct the AST
   var {
@@ -32,7 +31,7 @@ function getDependencies(ast) {
         }
       }
     }
-  } = ast;
+  } = this;
 
   // call is 'require'
   if (expression != Require)
@@ -47,10 +46,4 @@ function getDependencies(ast) {
   return obp;
 }
 
-module.exports = defineExtension(
-  SourceFile.prototype, name, version, function match() {
-    try { 
-      return getDependencies(this) 
-    } catch(e) { }
-  }
-);
+module[ExportExtension](SourceFile, getDependencies)

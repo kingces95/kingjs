@@ -1,8 +1,8 @@
 var { 
   ['@kingjs']: {
     array: { RemoveAt },
-    reflect: { 
-      exportExtension
+    module: { 
+      ExportExtension
     },
   }
 } = require('./dependencies');
@@ -22,4 +22,4 @@ function remove(element) {
   return this;
 }
 
-exportExtension(module, Array, remove);
+module[ExportExtension](Array, remove);

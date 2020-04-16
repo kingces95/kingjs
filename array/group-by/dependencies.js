@@ -1,7 +1,11 @@
-exports['@kingjs'] = {
-  module: { ExportExtension: require('@kingjs/module.export-extension') },
-  array: {
-    Partition: require('@kingjs/array.partition')
+module.exports = {
+  assert: require("assert"),
+  "@kingjs": {
+    array: {
+      Partition: require("@kingjs/array.partition")
+    },
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
+    }
   }
 }
-exports['assert'] = require('assert')
