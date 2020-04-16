@@ -17,6 +17,7 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": true,
   "dependencies": {
     "@kingjs/array.partition": "file:../../../../array/partition",
     "@kingjs/module.export-extension": "file:../../../../module/export-extension",
@@ -26,7 +27,6 @@
     "assert",
     "fs"
   ],
-  "capitalize": true,
   "devDependencies": {
     "@kingjs/fs.promises.dir.make": "file:../make",
     "@kingjs/fs.promises.dir.remove": "file:../remove",

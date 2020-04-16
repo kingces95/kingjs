@@ -1,8 +1,8 @@
 var assert = require('assert')
 var Path = require('@kingjs/path.builder')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')
-var WriteFiles = require('@kingjs/fs.promises.file.write')
-var ReadFiles = require('@kingjs/fs.promises.file.read')
+var Save = require('@kingjs/fs.promises.save')
+var Load = require('@kingjs/fs.promises.load')
 var CopyDir = require('..')
 
 var Acme = 'acme'
@@ -12,8 +12,8 @@ var BarJs = 'bar.js'
 
 async function run() {
 
-  var acme = Path.Cwd.to(Acme)
-  var ecma = Path.Cwd.to(Ecma)
+  var acme = Path.Relative.to(Acme)
+  var ecma = Path.Relative.to(Ecma)
   await acme[RemoveDir]()
   await ecma[RemoveDir]()
 
@@ -24,30 +24,30 @@ async function run() {
     }
   }
 
-  await acme[WriteFiles](acmeFiles)
+  await acme[Save](acmeFiles)
 
   // basic
   await acme[CopyDir](ecma)
-  var ecmaFiles = await ecma[ReadFiles]() 
+  var ecmaFiles = await ecma[Load]() 
   assert.deepEqual(ecmaFiles, acmeFiles)
 
   // idempotent
   await acme[CopyDir](ecma)
-  var ecmaFiles = await ecma[ReadFiles]() 
+  var ecmaFiles = await ecma[Load]() 
   assert.deepEqual(ecmaFiles, acmeFiles)
 
   // map
   await ecma[RemoveDir]()
   await acme[CopyDir](ecma, o => {
     var { text, name, path } = o
-    name = path.basename + '_' + path.ext
     if (o.isDirectory) 
-      return { name }
+      return { name: name + '_' }
 
+    name = path.basename + '_' + path.ext
     text = text.toUpperCase()
     return { text, name, path }
   })
-  var ecmaFiles = await ecma[ReadFiles]() 
+  var ecmaFiles = await ecma[Load]() 
   assert.deepEqual(ecmaFiles, {
     'foo_.js': '// THIS IS FOO.JS',
     'bar_': {

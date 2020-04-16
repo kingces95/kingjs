@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/buffer.append": "file:../../buffer/append",
+    "@kingjs/pojo.to-array": "file:../../pojo/to-array",
     "@kingjs/reflect.is": "file:../../reflect/is"
   },
   "nodeDependencies": [

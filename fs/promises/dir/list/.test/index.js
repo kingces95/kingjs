@@ -8,8 +8,8 @@ var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 var WithFileTypes = { withFileTypes: true }
 
 async function test() {
-  var { Cwd } = Path
-  var acme = Cwd.to('acme')
+  var { Relative } = Path
+  var acme = Relative.to('acme')
   var foo = acme.to('foo.txt')
   var bar = acme.to('bar')
 

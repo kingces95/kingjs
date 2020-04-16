@@ -17,6 +17,7 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": true,
   "dependencies": {
     "@kingjs/fs.promises.exists": "file:../../exists",
     "@kingjs/module.export-extension": "file:../../../../module/export-extension",

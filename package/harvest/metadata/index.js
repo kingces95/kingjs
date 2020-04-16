@@ -1,28 +1,29 @@
 #!/usr/bin/env node --no-warnings
 var {
-  Path, assert,
+  Path, 
+  assert,
   ['@kingjs']: { 
+    path: { Builder: Path },
+    module: { ExportExtension },
     stringEx: { ReplaceAll },
-    json: { file: { read: readJsonFile } },
+    json: { file: { Read: ReadJsonFile } },
     package: {
-      npmScope: resolveNpmScope,
-      source: {
-        sourceFile: {
-          GetFirstDocumented
-        }
-      }
+      resolve: { NpmScope: ResolveNpmScope },
+      source: { sourceFile: { GetFirstDocumented } }
     },
-    fs: { promises: { exists } },
+    fs: { promises: { Exists } },
     source: {
-      parse: parseSource,
+      Parse: ParseSource,
       GetInfo
     }
   },
 } = require('./dependencies')
 
+var EmptyString = ''
 var Period = '.'
 var ForwardSlash = '/'
 var At = '@'
+var ZeroVersion = '0.0.0'
 
 /**
  * @description Creates or updates fields of `package.json`
@@ -34,23 +35,29 @@ var At = '@'
  * @remarks - `repository.url`: `https://repository.kingjs.net/` plus a
  * join with forward slash of the relative paths in the repository.
  */
-async function harvestMetadata(packageDir, npmScopePath) {
-  var npmScopePath = npmScopePath || await resolveNpmScope(packageDir)
-  var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
+async function harvestMetadata(npmScopePath) {
+  var packageDir = this
+  var npmScopePath = npmScopePath || await packageDir[ResolveNpmScope]()
+  var packageRelDir = npmScopePath.dir.toRelative(packageDir)
+
   var { 
-    name,
-    main,
-    license,
+    name: scope,
     repository: { 
       url, 
       type 
     },
-  } = await readJsonFile(npmScopePath)
+    packageDefaults: {
+      version = ZeroVersion,
+      main,
+      license,
+    }
+  } = await npmScopePath[ReadJsonFile]()
 
   return {
-    name: getNameFromPath(packageRelDir, name),
+    name: getNameFromPath(packageRelDir, scope),
+    version,
     main,
-    description: await getDescription(Path.join(packageDir, main)),
+    description: await getDescription(packageDir.to(main)),
     license,
     repository: {
       type,
@@ -60,29 +67,31 @@ async function harvestMetadata(packageDir, npmScopePath) {
 }
 
 async function getDescription(mainPath) {
-  if (await exists(mainPath) == false) 
-    return
+  if (await mainPath[Exists]() == false) 
+    return EmptyString
 
-  var ast = await parseSource(mainPath)
+  var ast = await mainPath[ParseSource]()
   assert(ast)
 
   var firstDocumented = ast[GetFirstDocumented]()
   if (!firstDocumented)
-    return
+    return EmptyString
 
   var functionDeclaration = firstDocumented[GetInfo]()
   if (!functionDeclaration)
-    return
+    return EmptyString
 
   return functionDeclaration.description
 }
 
 function getNameFromPath(packageRelDir, scope) {
+  packageRelDir = packageRelDir.toString()
   return `${At}${scope}/${packageRelDir[ReplaceAll](Path.sep, Period)}`
 }
 
 function getRepositoryFromPath(packageRelDir, url) {
+  packageRelDir = packageRelDir.toString()
   return `${url}${packageRelDir[ReplaceAll](Path.sep, ForwardSlash)}`
 }
 
-module.exports = harvestMetadata
+module[ExportExtension](Path, harvestMetadata)

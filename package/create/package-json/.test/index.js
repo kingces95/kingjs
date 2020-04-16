@@ -1,15 +1,18 @@
 var assert = require('assert')
-var { promises: fs } = require('fs')
 var Path = require('@kingjs/path.builder')
 var Save = require('@kingjs/fs.promises.save')
 var Load = require('@kingjs/fs.promises.load')
 var Remove = require('@kingjs/fs.promises.dir.remove')
-var createPackageJson = require('..')
+var CreatePackageJson = require('..')
 
 var Acme = 'acme'
 var MyNs = 'my-ns'
 var Foo = 'foo'
 var Bar = 'bar'
+var Baz = 'baz'
+var Moo = 'moo'
+var DotTemplate = '.template'
+var DotTest = '.test'
 var PackageJson = 'package.json'
 var NpmScopeJson = 'npm-scope.json'
 var IndexJs = 'index.js'
@@ -31,57 +34,117 @@ function b() {
 }
 
 module.exports = b`
+var npmScopeJson = {
+  "name": "acme",
+  "repository": {
+    "url": "https://repository.acme.net/",
+    "type": "git"
+  },
+  "packageDefaults": {
+    "main": "index.js",
+    "files": [ "*.js" ],
+    "license": "MIT"
+  },
+  "template": ".template"
+}
 
 async function run() {
-  var acme = Path.Cwd.to(Acme)
+  var acme = Path.create(Acme)
+  await acme[Remove]()
+
   await acme[Save]({
     [MyNs]: {
-      [Foo]: {
-        [IndexJs]: `module.exports = 42`,
-      },
-      [Bar]: {
-        [IndexJs]: indexJs
-      }
+      [Foo]: { [IndexJs]: `module.exports = 42`, },
+      [Bar]: { [IndexJs]: indexJs }
     },
-    [NpmScopeJson]: {
-      "name": "acme",
-      "main": "index.js",
-      "files": [ "*.js" ],
-      "repository": {
-        "url": "https://repository.kingjs.net/",
-        "type": "git"
-      },
-      "license": "MIT"
-    }
+    [NpmScopeJson]: npmScopeJson
   })
 
-  await createPackageJson('acme/my-ns/bar')
+  var myNs = acme.to(MyNs)
+  await myNs.to(Bar)[CreatePackageJson]()
+  await myNs.to(Baz)[CreatePackageJson]()
 
   var {
     [MyNs]: {
-      [Bar]: {
-        [PackageJson]: packageJson
-      }
+      [Bar]: { [PackageJson]: barPackageJson },
+      [Baz]: { [PackageJson]: bazPackageJson },
     }
   } = await acme[Load]()
 
-  assert.deepEqual({
-    name: "@acme/my-ns.bar",
+  var defaultPackage = {
+    version: "0.0.0",
     main: "index.js",
     files: ['*.js'],
-    description: "A description of the package B.",
+    description: "",
     license: "MIT",
+    dependencies: { },
+    nodeDependencies: [ ]
+  }
+
+  assert.deepEqual({
+    ...defaultPackage,
+    name: "@acme/my-ns.bar",
+    description: "A description of the package B.",
     repository: {
       type: "git",
-      url: "https://repository.kingjs.net/my-ns/bar"
+      url: "https://repository.acme.net/my-ns/bar"
     },
-    dependencies: {
-      "@acme/my-ns.foo": "file:../foo"
+    dependencies: { "@acme/my-ns.foo": "file:../foo" },
+    nodeDependencies: [ "assert" ]
+  }, barPackageJson)
+  
+  assert.deepEqual({
+    ...defaultPackage,
+    name: "@acme/my-ns.baz",
+    repository: {
+      type: "git",
+      url: "https://repository.acme.net/my-ns/baz"
     },
-    nodeDependencies: [
-      "assert"
-    ]
-  }, packageJson)
+    dependencies: { },
+    nodeDependencies: [ ]
+  }, bazPackageJson)
+
+  await acme[Save]({
+    [DotTemplate]: {
+      [IndexJs]: "var assert = require('assert')",
+      [PackageJson]: {
+        name: null,
+        version: null,
+        description: null,
+        specialSauce: 'hot',
+        files: [ '*.js' ]
+      },
+      [DotTest]: {
+        [IndexJs]: "var me = require('..')"
+      } 
+    },
+    [NpmScopeJson]: npmScopeJson
+  })
+
+  await myNs.to(Moo)[CreatePackageJson]()
+  var { 
+    [MyNs]: { 
+      [Moo]: { 
+        [PackageJson]: mooPackageJson,
+        [IndexJs]: mainText,
+        [DotTest]: { [IndexJs]: testText }
+      } 
+    } 
+  } = await acme[Load]()
+
+  assert.equal(mainText, "var assert = require('assert')")
+  assert.equal(testText, "var me = require('..')")
+  assert.deepEqual({
+    ...defaultPackage,
+    name: "@acme/my-ns.moo",
+    repository: {
+      type: "git",
+      url: "https://repository.acme.net/my-ns/moo"
+    },
+    specialSauce: 'hot',
+    dependencies: { },
+    nodeDependencies: [ ]
+  }, mooPackageJson)
 
   await acme[Remove]()
 }

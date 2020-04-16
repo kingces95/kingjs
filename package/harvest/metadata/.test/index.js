@@ -1,5 +1,4 @@
-var harvestMetadata = require('..')
-
-harvestMetadata('acme/my-ns/the-b').then(
-  o => console.log(o)
-)
+var Path = require('@kingjs/path.builder')
+var HarvestMetadata = require('..')
+Path.Cwd.to('acme/my-ns/the-b')[HarvestMetadata]()
+  .then(o => console.log(o))

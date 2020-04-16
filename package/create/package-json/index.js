@@ -1,29 +1,37 @@
 var {
-  assert, Path,
+  assert,
   ['@kingjs']: {
+    module: { ExportExtension },
+    path: { Builder: Path },
     fs: {
-      promises: { exists }
+      promises: { 
+        Exists,
+        dir: { 
+          Copy: CopyDir,
+          Make: MakeDir
+        }
+      }
     },
     json: {
       file: {
-        update: updateJsonFile,
-        read: readJsonFile,
-        write: writeJsonFile
+        Update: UpdateJsonFile,
+        Read: ReadJsonFile,
       }
     },
     package: {
-      resolve: {
-        npmScope: resolveNpmScope
-      },
+      resolve: { NpmScope: ResolveNpmScope },
       harvest: {
-        dependencies: harvestDependencies,
-        metadata: harvestMetadata
+        Dependencies: HarvestDependencies,
+        Metadata: HarvestMetadata
       },
     },
   },
 } = require('./dependencies')
 
 var PackageJson = 'package.json'
+var EmptyPackageJson = {
+  name: '', version: '', description: '', main: ''
+}
 
 /**
  * @description Creates or updates fields of `package.json`
@@ -35,32 +43,41 @@ var PackageJson = 'package.json'
  * @remarks - `repository.url`: `https://repository.kingjs.net/` plus a
  * join with forward slash of the relative paths in the repository.
  */
-async function createPackage(packageDir) {
-  var npmScopePath = await resolveNpmScope(packageDir)
+async function createPackage() {
+  var packageDir = this
+  var npmScopePath = await packageDir[ResolveNpmScope]()
   assert(npmScopePath, `Failed to find npm-scope.json starting from '${packageDir}'.`)
+  var packageJsonPath = packageDir.to(PackageJson)
+  var packageRelDir = npmScopePath.dir.toRelative(packageDir)
 
   // computing dependencies requires knowing the files
-  var { files } = await readJsonFile(npmScopePath)
+  var { 
+    packageDefaults, 
+    template 
+  } = await npmScopePath[ReadJsonFile]()
 
-  // expand template if 
-  if (!await exists(packageDir)) {
-    
-  }
+  // make package directory
+  if (!await packageDir[Exists]()) {
+    packageDir[MakeDir]()
+
+    // expand template
+    var templatePath = npmScopePath.dir.to(template)
+    if (template && await templatePath[Exists]())
+      templatePath[CopyDir](packageDir)
+  } 
 
   // set package default values
-  var packageJsonPath = Path.join(packageDir, PackageJson)
-  var package = await readJsonFile(packageJsonPath)
-  if (!package.files)
-    package.files = files
-  await writeJsonFile(packageJsonPath, package)
+  await packageJsonPath[UpdateJsonFile]({
+    ...EmptyPackageJson, // establish field order
+    ...packageDefaults
+  })
 
   // update/create metadata and dependencies
-  var packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
   package = { 
-    ...await harvestMetadata(packageDir, npmScopePath, packageRelDir),
-    ...await harvestDependencies(packageDir, packageRelDir)
+    ...await packageDir[HarvestMetadata](npmScopePath, packageRelDir),
+    ...await packageDir[HarvestDependencies](packageRelDir)
   }
-  await updateJsonFile(packageJsonPath, package)
+  await packageJsonPath[UpdateJsonFile](package)
 }
 
-module.exports = createPackage
+module[ExportExtension](Path, createPackage)

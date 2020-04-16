@@ -3,8 +3,9 @@
  */
 var assert = require('assert')
 var fs = require('fs')
-var parse = require('..')
+var Parse = require('..')
 var types = require('@kingjs/source.types')
+var Path = require('@kingjs/path.builder')
 
 var { 
   SourceFile,
@@ -14,7 +15,9 @@ var {
   Node
 } = types
 
-parse(__filename).then(ast => {
+async function run() {
+  var thisFile = Path.create(__filename)
+  var ast = await thisFile[Parse]()
 
   assert(ast instanceof SourceFile)
   
@@ -41,4 +44,5 @@ parse(__filename).then(ast => {
   fs.writeFileSync('.ast.json', 
     JSON.stringify(ast, null, 2)
   )
-})
+}
+run()

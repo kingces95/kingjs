@@ -1,16 +1,21 @@
 module.exports = {
   Path: require("path"),
+  assert: require("assert"),
   "@kingjs": {
     fs: {
       promises: {
-        Exists: require("@kingjs/fs.promises.exists")
+        Exists: require("@kingjs/fs.promises.exists"),
+        dir: {
+          Copy: require("@kingjs/fs.promises.dir.copy"),
+          Make: require("@kingjs/fs.promises.dir.make")
+        }
       }
     },
     json: {
       file: {
-        read: require("@kingjs/json.file.read"),
-        update: require("@kingjs/json.file.update"),
-        write: require("@kingjs/json.file.write")
+        Read: require("@kingjs/json.file.read"),
+        Update: require("@kingjs/json.file.update"),
+        Write: require("@kingjs/json.file.write")
       }
     },
     module: {
@@ -18,11 +23,11 @@ module.exports = {
     },
     package: {
       harvest: {
-        dependencies: require("@kingjs/package.harvest.dependencies"),
-        metadata: require("@kingjs/package.harvest.metadata")
+        Dependencies: require("@kingjs/package.harvest.dependencies"),
+        Metadata: require("@kingjs/package.harvest.metadata")
       },
       resolve: {
-        npmScope: require("@kingjs/package.resolve.npm-scope")
+        NpmScope: require("@kingjs/package.resolve.npm-scope")
       }
     },
     path: {

@@ -17,6 +17,7 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": "true",
   "dependencies": {
     "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
     "@kingjs/json.stringify": "file:../../stringify",

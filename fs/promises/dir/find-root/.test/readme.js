@@ -1,16 +1,16 @@
 var assert = require('assert')
-var findRoot = require('..')
-var Path = require('path')
+var Path = require('@kingjs/path.builder')
+var FindRoot = require('..')
 
 async function test() {
-  var cwd = process.cwd()
-  var { base } = Path.parse(__filename)
-  var nestedPath = Path.join(Path.dirname(__filename), 'foo', base)
-  var rootPath = await findRoot(nestedPath, __filename)
-  assert(rootPath == __filename)
+  var thisFile = Path.create(__filename)
+  var thisDir = thisFile.dir
+  var targetFileName = thisFile.name
+  var nestedPath = thisDir.to('foo').to('bar')
+  var rootPath = await nestedPath[FindRoot](targetFileName)
+  assert(rootPath.equals(thisFile))
 
-  var cwd = process.cwd()
-  assert(await findRoot(cwd, 'no.such.file') === undefined)
+  assert(await nestedPath[FindRoot]('no.such.file') === undefined)
 } 
 
 test()

@@ -2,6 +2,7 @@ var {
   assert,
   Path,
   ['@kingjs']: {
+    pojo: { ToArray },
     reflect: { is },
     buffer: { Append },
   }
@@ -16,7 +17,7 @@ var SepBuffer = Buffer.from(Sep)
 var DotBuffer = Buffer.from(Dot)
 var DotDotBuffer = Buffer.from(DotDot)
 
-var Cwd
+var Relative
 var Root
 var Parent
 
@@ -38,10 +39,18 @@ var Parent
  */
 class PathBuilder {
 
+  static get sep() {
+    return Path.sep
+  }
+
   static get Cwd() {
-    if (!Cwd) 
-      Cwd = new CwdPathBuilder() 
-    return Cwd
+    return PathBuilder.create(process.cwd())
+  }
+
+  static get Relative() {
+    if (!Relative) 
+      Relative = new CwdPathBuilder() 
+    return Relative
   }
 
   static get Parent() {
@@ -61,7 +70,7 @@ class PathBuilder {
       return path
 
     if (path == EmptyString || path == Dot)
-      return this.Cwd
+      return this.Relative
 
     if (path == Sep)
       return this.Root
@@ -80,7 +89,7 @@ class PathBuilder {
   }
 
   constructor(parent, name, buffer) {
-    this._parent = parent
+    this.parent = parent
     this.name = name
     this.buffer = buffer
   }
@@ -103,50 +112,48 @@ class PathBuilder {
 
   toRelative(target) {
     var source = this
-    assert.ok(source.isAbsolute)
-
     target = PathBuilder.create(target)
-    assert.ok(target.isAbsolute)
 
-    // keep it simple...
-    source = source[ToArray](o => o.dir).reverse()
-    target = target[ToArray](o => o.dir).reverse()
-
-    var result = PathBuilder.Cwd
-    for (var i = 0; i < source.length && i < target.length; i++) {
-
-      // find common ancestor
-      if (source[i].name == target[i].name)
-        continue
-
-      // back out of source to common ancestor
-      for (var j = i; j < source.length; j++)
-        result = result.dir
-
-      // advance from common ancestor to target
-      for (var j = i; j < target.length; j++)
-        result = result.to(target[j].name)
-
-      break
+    // if one path is absolute, make the other absolute
+    if (source.isRelative != target.isRelative) {
+      if (source.isRelative)
+        source = PathBuilder.Cwd.to(source)
+      else
+        target = PathBuilder.Cwd.to(target)
     }
 
+    // keep it simple...
+    var sourceParts = source[ToArray](o => o.parent).reverse()
+    var targetParts = target[ToArray](o => o.parent).reverse()
+
+    var result = PathBuilder.Relative
+    for (var i = 0; i < sourceParts.length && i < targetParts.length; i++) {
+
+      // find common ancestor
+      if (sourceParts[i].name != targetParts[i].name)
+        break
+    }
+
+    // fail if source has more `..` than target
+    if (i < sourceParts.length && sourceParts[i].isRelativeParent)
+      return undefined
+
+    // back out of source to common ancestor
+    for (var j = i; j < sourceParts.length; j++)
+      result = result.dir
+
+    // advance from common ancestor to target
+    for (var j = i; j < targetParts.length; j++)
+      result = result.to(targetParts[j].name)
+
     return result
-  }
-
-  toAbsolute(cwd = Process.cwd()) {
-    if (this.isAbsolute)
-      return this
-
-    var path = PathBuilder.create(cwd).to(this)
-    assert.ok(path.isAbsolute)
-    return path
   }
 
   to(path) {
 
     if (is.string(path)) {
 
-      if (path == Dot)
+      if (path == EmptyString || path == Dot)
         return this
 
       if (path == DotDot)
@@ -158,6 +165,9 @@ class PathBuilder {
       return this.to(PathBuilder.create(path))
     }
   
+    if (!path)
+      return this;
+
     assert(path instanceof PathBuilder)
 
     if (path.isAbsolute)
@@ -167,8 +177,8 @@ class PathBuilder {
       return this
 
     var result = this
-    if (path._parent)
-      result = result.to(path._parent)
+    if (path.parent)
+      result = result.to(path.parent)
 
     if (path.isRelativeParent)
       return result.dir
@@ -183,11 +193,10 @@ class PathBuilder {
     if (this.name != other.name)
       return false
 
-    // '..' != '../..'; for this reason, _parent should be exposed
-    if (!this._parent || !other._parent)
+    if (!this.parent || !other.parent)
       return false
 
-    return this._parent.equals(other._parent)
+    return this.parent.equals(other.parent)
   }
 
   toString() {
@@ -205,7 +214,7 @@ class SegmentPathBuilder extends PathBuilder {
   }
 
   get dir() {
-    return this._parent;
+    return this.parent;
   }
 
   get isSegment() {
@@ -213,11 +222,11 @@ class SegmentPathBuilder extends PathBuilder {
   }
 
   get isAbsolute() {
-    return this._parent.isAbsolute
+    return this.parent.isAbsolute
   }
 
   get isRelative() {
-    return this._parent.isRelative
+    return this.parent.isRelative
   }
 }
 

@@ -5,7 +5,7 @@ var {
     path: { Builder: Path },
     fs: {
       promises: {
-        exists 
+        Exists 
       }
     }
   }
@@ -19,25 +19,16 @@ var {
  * 
  * @returns Returns the nearest path that contains the file.
  */
-async function findRoot(dir, file) {
-  dir = makeAbsolute(dir)
+async function findRoot(file) {
+  var dir = Path.Cwd.to(this)
   
-  while (true) {
-    var path = Path.join(dir, file)
-    if (await exists(path))
+  while (dir) {
+    var path = dir.to(file)
+    if (await path[Exists]())
       return path
 
-    var parent = Path.dirname(dir)
-    if (parent == dir)
-      break
-    dir = parent
+    var dir = dir.dir
   }
-}
-
-function makeAbsolute(path) {
-  if (Path.isAbsolute(path))
-    return path
-  return Path.join(process.cwd(), path)
 }
 
 module[ExportExtension](Path, findRoot)

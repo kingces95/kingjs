@@ -17,6 +17,7 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": "true",
   "dependencies": {
     "@kingjs/json.file.read": "file:../read",
     "@kingjs/json.file.write": "file:../write",

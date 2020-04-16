@@ -40,7 +40,7 @@ var FileRegex = /file:(.*)/
  * 
  * @remarks Does nothing if `package.json` is not found.
  */
-async function createDependencies(packageDir = Path.Cwd) {
+async function createDependencies(packageDir = Path.Relative) {
 
   // read package.json
   var packageJsonPath = packageDir.to(PackageJson)

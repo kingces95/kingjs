@@ -21,7 +21,7 @@ var expected = `module.exports = {
 }`
 
 async function run() {
-  var acme = Path.Cwd.to(Acme)
+  var acme = Path.Relative.to(Acme)
   await acme[Save]({
     [Foo]: {
       [PackageJson]: {

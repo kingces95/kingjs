@@ -18,7 +18,10 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": true,
   "dependencies": {
+    "@kingjs/fs.promises.dir.copy": "file:../../../fs/promises/dir/copy",
+    "@kingjs/fs.promises.dir.make": "file:../../../fs/promises/dir/make",
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/json.file.update": "file:../../../json/file/update",
@@ -30,7 +33,8 @@
     "@kingjs/path.builder": "file:../../../path/builder"
   },
   "nodeDependencies": [
-    "path"
+    "path",
+    "assert"
   ],
   "devDependencies": {
     "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",

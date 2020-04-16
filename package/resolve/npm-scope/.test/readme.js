@@ -1,9 +1,10 @@
 var assert = require('assert')
-var resolveNpmScope = require('..')
+var ResolveNpmScope = require('..')
+var Path = require('@kingjs/path.builder')
 
 async function test() {
-  var npmScope = require(await resolveNpmScope())
+  var path = await Path.Cwd[ResolveNpmScope]()
+  var npmScope = require(path.toString())
   assert(npmScope.name == 'kingjs')
 }
-
 test()

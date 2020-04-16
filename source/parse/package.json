@@ -17,10 +17,14 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": true,
   "nodeDependencies": [
     "assert"
   ],
   "dependencies": {
+    "@kingjs/fs.promises.file.read": "file:../../fs/promises/file/read",
+    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs/path.builder": "file:../../path/builder",
     "@kingjs/reflect.is": "file:../../reflect/is",
     "@kingjs/source.syntax-kind": "file:../syntax-kind",
     "@kingjs/source.types": "file:../types",

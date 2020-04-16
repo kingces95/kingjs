@@ -1,28 +1,20 @@
 var {
   Path, assert,
   ['@kingjs']: { 
-    fs: { promises: { exists} },
-    array: { promises: { AsyncMap } },
+    fs: { promises: { Exists } },
+    path: { Builder: Path },
+    module: { ExportExtension }, 
+    array: { promises: { Map: AsyncMap } },
     stringEx: { ReplaceAll },
     package: {
-      resolve: {
-        npmScope: resolveNpmScope
-      },
-      name: { 
-        parse, 
-      },
+      resolve: { NpmScope: ResolveNpmScope },
+      name: { parse },
       source: {
-        objectBindingPattern: { 
-          ToPackageNames 
-        },
-        sourceFile: {
-          GetDependencies,
-        }
+        objectBindingPattern: { ToPackageNames },
+        sourceFile: { GetDependencies }
       }
     },
-    source: {
-      parse: parseSource,
-    }
+    source: { parse: ParseSource }
   },
   npmPacklist,
   isBuiltinModule,
@@ -33,30 +25,31 @@ var DotJs = '.js'
 var PackageJson = 'package.json'
 
 /**
- * @description Creates or updates fields of `package.json`
- * that can be inferred from the surrounding environment.
+ * @description Harvest dependencies from js files.
  * 
- * @remarks The following are harvested from environment:
- * @remarks - `description`: The first JsDoc `description` found in the `main` js file.
- * @remarks - `name`: A join with period of the relative path of this package in the repository.
- * @remarks - `repository.url`: `https://repository.kingjs.net/` plus a
- * join with forward slash of the relative paths in the repository.
+ * @this Path The package dir.
+ * 
+ * @param [packageRelDir] The relative path from `npm-scope.json` to the `packageDir`.
  */
-async function harvestDependencies(packageDir, packageRelDir) {
+async function harvestDependencies(packageRelDir) {
+  var packageDir = Path.Cwd.to(this)
+
   if (!packageRelDir) {
-    var npmScopePath = npmScopePath || await resolveNpmScope(packageDir)
-    packageRelDir = Path.relative(Path.dirname(npmScopePath), packageDir)
+    var npmScopePath = npmScopePath || await packageDir[ResolveNpmScope]()
+    packageRelDir = npmScopePath.dir.toRelative(packageDir)
   }
 
   // get .js files in package
   var files = [ ]
-  if (await exists(Path.join(packageDir, PackageJson)))
-    files = await npmPacklist({ path: packageDir })
+  if (await packageDir.to(PackageJson)[Exists]()) {
+    var packList = await npmPacklist({ path: packageDir.toString() })
+    files = packList.map(o => Path.create(o))
+  }
  
   // harvest file dependencies in parallel
   var fileDependencies = await files
-    .filter(o => Path.extname(o) == DotJs)
-    .map(o => Path.join(packageDir, o))
+    .filter(o => o.ext == DotJs)
+    .map(o => packageDir.to(o))
     .map(getFileDependencies)
     [AsyncMap]()
 
@@ -68,7 +61,7 @@ async function harvestDependencies(packageDir, packageRelDir) {
       .filter(o => !isBuiltinModule(o))
       .reduce((a, o) => { 
         var { fullName } = parse(o)
-        var file = Path.relative(packageRelDir, getPathFromFullName(fullName))
+        var file = packageRelDir.toRelative(getPathFromFullName(fullName))
         a[o] = `file:${file}` 
         return a 
       }, { }),
@@ -85,7 +78,7 @@ function getPathFromFullName(fullName) {
 }
 
 async function getFileDependencies(path) {
-  var ast = await parseSource(path)
+  var ast = await path[ParseSource]()
   assert(ast)
 
   var objectBindingPattern = ast[GetDependencies]()
@@ -95,4 +88,4 @@ async function getFileDependencies(path) {
   return objectBindingPattern[ToPackageNames]()
 }
 
-module.exports = harvestDependencies
+module[ExportExtension](Path, harvestDependencies)

@@ -22,26 +22,16 @@ var WithFileTypes = { withFileTypes: true }
 var EmptyArray = []
 
 /**
- * @description The description.
+ * @description Copies a directory's files and sub-directories.
  * 
- * @this any `this` comment.
+ * @this any The source directory path.
  * 
- * @param foo `foo` comment.
+ * @param target The target directory path.
+ * @param [map] Optional mapping function for mapping names and file text.
  * 
- * @returns Returns comment.
+ * @remarks The target directory is created if it does not exist.
  */
 async function* copyDirGenerator(target, map) {
-
-  // map target directory name
-  if (map) {
-    var { name } = map({ 
-      path: this, 
-      name: target.name, 
-      isDirectory: true 
-    })
-
-    target = target.dir.to(name)
-  }
 
   // make directory
   await target[MakeDir]()
@@ -52,14 +42,27 @@ async function* copyDirGenerator(target, map) {
     directories = EmptyArray
   } = await this[List](WithFileTypes)
 
-  // copy sub-directories in parallel
-  for (var dir of directories)
-    yield copyDirGenerator.call(dir, target.to(dir.name), map)
+  // process directories
+  for (var dir of directories) {
+    var { name } = dir
 
-  // copy files
+    // map target directory name
+    if (map) {
+      var { name } = map({ 
+        path: this, 
+        name: dir.name, 
+        isDirectory: true 
+      })
+    }
+
+    // copy sub-directories in parallel
+    yield copyDirGenerator.call(dir, target.to(name), map)
+  }
+
+  // process files
   for (var file of files) {
 
-    // map source file name and text
+    // map source file
     if (map) {
       var text = await file[ReadFile](UTF8)
       var { text, name } = map({ 
@@ -68,6 +71,8 @@ async function* copyDirGenerator(target, map) {
         text, 
         isFile: true 
       })
+
+      // write mapped file
       await target.to(name)[WriteFile](text)
       continue
     }

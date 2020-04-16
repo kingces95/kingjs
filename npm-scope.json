@@ -1,13 +1,13 @@
 {
   "name": "kingjs",
-  "main": "index.js",
-  "files": [
-    "*.js"
-  ],
+  "template": ".template",
   "repository": {
     "url": "https://repository.kingjs.net/",
     "type": "git"
   },
-  "license": "MIT",
-  "template": ".template" 
+  "packageDefaults": {
+    "main": "index.js",
+    "files": [ "*.js" ],
+    "license": "MIT"
+  }
 }

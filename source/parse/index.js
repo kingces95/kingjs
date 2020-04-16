@@ -2,6 +2,9 @@ var {
   fs,
   typescript: ts,
   ['@kingjs']: {
+    path: { Builder: Path },
+    fs: { promises: { file: { Read: ReadFile } } },
+    module: { ExportExtension },
     reflect: { is },
     source: {
       types,
@@ -45,15 +48,15 @@ function log(message) {
  * those properties that return nodes. Terminal literals are replaced
  * with their deserialized values. 
  */
-async function parse(path, options = EmptyObject) {
-
-  var buffer = await fs.promises.readFile(path);
-  var text = buffer.toString();
+async function parse(options = EmptyObject) {
+  var path = this
+  var buffer = await path[ReadFile]()
+  var text = buffer.toString()
   var setParentNodes = true; // else `.getText()` fails
   var { languageVersion = ts.ScriptTarget.Latest } = options
 
   var ast = ts.createSourceFile(
-    path, 
+    path.toString(), 
     text,
     languageVersion, 
     setParentNodes
@@ -152,4 +155,4 @@ function map(node, options, depth = 0) {
   return result;
 }
 
-module.exports = parse;
+module[ExportExtension](Path, parse)

@@ -7,7 +7,7 @@ var WriteFile = require('@kingjs/fs.promises.file.write')
 var ReadFile = require('@kingjs/fs.promises.file.read')
 
 async function test() {
-  var cwd = Path.Cwd
+  var cwd = Path.Relative
   var acme = cwd.to('acme.txt')
   var ecma = cwd.to('ecma.txt')
 

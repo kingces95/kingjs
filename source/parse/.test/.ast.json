@@ -1,14 +1,18 @@
 {
-  "text": "/**\n * @description My description.\n */\nvar assert = require('assert')\nvar fs = require('fs')\nvar parse = require('..')\nvar types = require('@kingjs/source.types')\n\nvar { \n  SourceFile,\n  VariableStatement,\n  VariableDeclaration,\n  CallExpression,\n  Node\n} = types\n\nparse(__filename).then(ast => {\n\n  assert(ast instanceof SourceFile)\n  \n  var statement = ast.statements[0]\n  assert(statement instanceof VariableStatement)\n  \n  var declaration = statement.declarationList[0]\n  assert(declaration instanceof VariableDeclaration)\n  assert(declaration.name == 'assert')\n  \n  var callExpression = declaration.initializer\n  assert(callExpression instanceof CallExpression)\n  assert(callExpression.expression == 'require')\n  assert(callExpression.arguments[0] == 'assert')\n  \n  function walk(node) {\n    for (var child of node) {\n      assert(node instanceof Node)\n      walk(child)\n    }\n  }\n  walk(ast)\n\n  fs.writeFileSync('.ast.json', \n    JSON.stringify(ast, null, 2)\n  )\n})",
+  "syntaxKind": "SourceFile",
+  "text": "/**\n * @description My description.\n */\nvar assert = require('assert')\nvar fs = require('fs')\nvar Parse = require('..')\nvar types = require('@kingjs/source.types')\nvar Path = require('@kingjs/path.builder')\n\nvar { \n  SourceFile,\n  VariableStatement,\n  VariableDeclaration,\n  CallExpression,\n  Node\n} = types\n\nasync function run() {\n  var thisFile = Path.create(__filename)\n  var ast = await thisFile[Parse]()\n\n  assert(ast instanceof SourceFile)\n  \n  var statement = ast.statements[0]\n  assert(statement instanceof VariableStatement)\n  \n  var declaration = statement.declarationList[0]\n  assert(declaration instanceof VariableDeclaration)\n  assert(declaration.name == 'assert')\n  \n  var callExpression = declaration.initializer\n  assert(callExpression instanceof CallExpression)\n  assert(callExpression.expression == 'require')\n  assert(callExpression.arguments[0] == 'assert')\n  \n  function walk(node) {\n    for (var child of node) {\n      assert(node instanceof Node)\n      walk(child)\n    }\n  }\n  walk(ast)\n\n  fs.writeFileSync('.ast.json', \n    JSON.stringify(ast, null, 2)\n  )\n}\nrun()",
   "fileName": "/Users/Setup/git/kingjs/source/parse/.test/readme.js",
   "isDeclarationFile": false,
   "hasNoDefaultLib": false,
   "statements": [
     {
+      "syntaxKind": "VariableStatement",
       "jsDoc": [
         {
+          "syntaxKind": "JSDocComment",
           "tags": [
             {
+              "syntaxKind": "JSDocTag",
               "tagName": "description",
               "comment": "My description."
             }
@@ -17,8 +21,10 @@
       ],
       "declarationList": [
         {
+          "syntaxKind": "VariableDeclaration",
           "name": "assert",
           "initializer": {
+            "syntaxKind": "CallExpression",
             "expression": "require",
             "arguments": [
               "assert"
@@ -28,10 +34,13 @@
       ]
     },
     {
+      "syntaxKind": "VariableStatement",
       "declarationList": [
         {
+          "syntaxKind": "VariableDeclaration",
           "name": "fs",
           "initializer": {
+            "syntaxKind": "CallExpression",
             "expression": "require",
             "arguments": [
               "fs"
@@ -41,10 +50,13 @@
       ]
     },
     {
+      "syntaxKind": "VariableStatement",
       "declarationList": [
         {
-          "name": "parse",
+          "syntaxKind": "VariableDeclaration",
+          "name": "Parse",
           "initializer": {
+            "syntaxKind": "CallExpression",
             "expression": "require",
             "arguments": [
               ".."
@@ -54,10 +66,13 @@
       ]
     },
     {
+      "syntaxKind": "VariableStatement",
       "declarationList": [
         {
+          "syntaxKind": "VariableDeclaration",
           "name": "types",
           "initializer": {
+            "syntaxKind": "CallExpression",
             "expression": "require",
             "arguments": [
               "@kingjs/source.types"
@@ -67,23 +82,47 @@
       ]
     },
     {
+      "syntaxKind": "VariableStatement",
       "declarationList": [
         {
+          "syntaxKind": "VariableDeclaration",
+          "name": "Path",
+          "initializer": {
+            "syntaxKind": "CallExpression",
+            "expression": "require",
+            "arguments": [
+              "@kingjs/path.builder"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "syntaxKind": "VariableStatement",
+      "declarationList": [
+        {
+          "syntaxKind": "VariableDeclaration",
           "name": {
+            "syntaxKind": "ObjectBindingPattern",
             "elements": [
               {
+                "syntaxKind": "BindingElement",
                 "name": "SourceFile"
               },
               {
+                "syntaxKind": "BindingElement",
                 "name": "VariableStatement"
               },
               {
+                "syntaxKind": "BindingElement",
                 "name": "VariableDeclaration"
               },
               {
+                "syntaxKind": "BindingElement",
                 "name": "CallExpression"
               },
               {
+                "syntaxKind": "BindingElement",
                 "name": "Node"
               }
             ]
@@ -93,242 +132,328 @@
       ]
     },
     {
-      "expression": {
-        "expression": {
-          "expression": {
-            "expression": "parse",
-            "arguments": [
-              "__filename"
+      "syntaxKind": "FunctionDeclaration",
+      "modifiers": [
+        "async"
+      ],
+      "name": "run",
+      "body": {
+        "syntaxKind": "Block",
+        "multiLine": true,
+        "statements": [
+          {
+            "syntaxKind": "VariableStatement",
+            "declarationList": [
+              {
+                "syntaxKind": "VariableDeclaration",
+                "name": "thisFile",
+                "initializer": {
+                  "syntaxKind": "CallExpression",
+                  "expression": {
+                    "syntaxKind": "PropertyAccessExpression",
+                    "expression": "Path",
+                    "name": "create"
+                  },
+                  "arguments": [
+                    "__filename"
+                  ]
+                }
+              }
             ]
           },
-          "name": "then"
-        },
-        "arguments": [
           {
+            "syntaxKind": "VariableStatement",
+            "declarationList": [
+              {
+                "syntaxKind": "VariableDeclaration",
+                "name": "ast",
+                "initializer": {
+                  "syntaxKind": "AwaitExpression",
+                  "expression": {
+                    "syntaxKind": "CallExpression",
+                    "expression": {
+                      "syntaxKind": "ElementAccessExpression",
+                      "expression": "thisFile",
+                      "argumentExpression": "Parse"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": "ast",
+                  "operatorToken": "instanceof",
+                  "right": "SourceFile"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "VariableStatement",
+            "declarationList": [
+              {
+                "syntaxKind": "VariableDeclaration",
+                "name": "statement",
+                "initializer": {
+                  "syntaxKind": "ElementAccessExpression",
+                  "expression": {
+                    "syntaxKind": "PropertyAccessExpression",
+                    "expression": "ast",
+                    "name": "statements"
+                  },
+                  "argumentExpression": "0"
+                }
+              }
+            ]
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": "statement",
+                  "operatorToken": "instanceof",
+                  "right": "VariableStatement"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "VariableStatement",
+            "declarationList": [
+              {
+                "syntaxKind": "VariableDeclaration",
+                "name": "declaration",
+                "initializer": {
+                  "syntaxKind": "ElementAccessExpression",
+                  "expression": {
+                    "syntaxKind": "PropertyAccessExpression",
+                    "expression": "statement",
+                    "name": "declarationList"
+                  },
+                  "argumentExpression": "0"
+                }
+              }
+            ]
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": "declaration",
+                  "operatorToken": "instanceof",
+                  "right": "VariableDeclaration"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": {
+                    "syntaxKind": "PropertyAccessExpression",
+                    "expression": "declaration",
+                    "name": "name"
+                  },
+                  "operatorToken": "==",
+                  "right": "assert"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "VariableStatement",
+            "declarationList": [
+              {
+                "syntaxKind": "VariableDeclaration",
+                "name": "callExpression",
+                "initializer": {
+                  "syntaxKind": "PropertyAccessExpression",
+                  "expression": "declaration",
+                  "name": "initializer"
+                }
+              }
+            ]
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": "callExpression",
+                  "operatorToken": "instanceof",
+                  "right": "CallExpression"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": {
+                    "syntaxKind": "PropertyAccessExpression",
+                    "expression": "callExpression",
+                    "name": "expression"
+                  },
+                  "operatorToken": "==",
+                  "right": "require"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "assert",
+              "arguments": [
+                {
+                  "syntaxKind": "BinaryExpression",
+                  "left": {
+                    "syntaxKind": "ElementAccessExpression",
+                    "expression": {
+                      "syntaxKind": "PropertyAccessExpression",
+                      "expression": "callExpression",
+                      "name": "arguments"
+                    },
+                    "argumentExpression": "0"
+                  },
+                  "operatorToken": "==",
+                  "right": "assert"
+                }
+              ]
+            }
+          },
+          {
+            "syntaxKind": "FunctionDeclaration",
+            "name": "walk",
             "parameters": [
               {
-                "name": "ast"
+                "syntaxKind": "Parameter",
+                "name": "node"
               }
             ],
-            "equalsGreaterThanToken": "=>",
             "body": {
+              "syntaxKind": "Block",
               "multiLine": true,
               "statements": [
                 {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": "ast",
-                        "operatorToken": "instanceof",
-                        "right": "SourceFile"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "declarationList": [
+                  "syntaxKind": "ForOfStatement",
+                  "initializer": [
                     {
-                      "name": "statement",
-                      "initializer": {
-                        "expression": {
-                          "expression": "ast",
-                          "name": "statements"
-                        },
-                        "argumentExpression": "0"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": "statement",
-                        "operatorToken": "instanceof",
-                        "right": "VariableStatement"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "declarationList": [
-                    {
-                      "name": "declaration",
-                      "initializer": {
-                        "expression": {
-                          "expression": "statement",
-                          "name": "declarationList"
-                        },
-                        "argumentExpression": "0"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": "declaration",
-                        "operatorToken": "instanceof",
-                        "right": "VariableDeclaration"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": {
-                          "expression": "declaration",
-                          "name": "name"
-                        },
-                        "operatorToken": "==",
-                        "right": "assert"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "declarationList": [
-                    {
-                      "name": "callExpression",
-                      "initializer": {
-                        "expression": "declaration",
-                        "name": "initializer"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": "callExpression",
-                        "operatorToken": "instanceof",
-                        "right": "CallExpression"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": {
-                          "expression": "callExpression",
-                          "name": "expression"
-                        },
-                        "operatorToken": "==",
-                        "right": "require"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "expression": {
-                    "expression": "assert",
-                    "arguments": [
-                      {
-                        "left": {
-                          "expression": {
-                            "expression": "callExpression",
-                            "name": "arguments"
-                          },
-                          "argumentExpression": "0"
-                        },
-                        "operatorToken": "==",
-                        "right": "assert"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "name": "walk",
-                  "parameters": [
-                    {
-                      "name": "node"
+                      "syntaxKind": "VariableDeclaration",
+                      "name": "child"
                     }
                   ],
-                  "body": {
+                  "expression": "node",
+                  "statement": {
+                    "syntaxKind": "Block",
                     "multiLine": true,
                     "statements": [
                       {
-                        "initializer": [
-                          {
-                            "name": "child"
-                          }
-                        ],
-                        "expression": "node",
-                        "statement": {
-                          "multiLine": true,
-                          "statements": [
+                        "syntaxKind": "ExpressionStatement",
+                        "expression": {
+                          "syntaxKind": "CallExpression",
+                          "expression": "assert",
+                          "arguments": [
                             {
-                              "expression": {
-                                "expression": "assert",
-                                "arguments": [
-                                  {
-                                    "left": "node",
-                                    "operatorToken": "instanceof",
-                                    "right": "Node"
-                                  }
-                                ]
-                              }
-                            },
-                            {
-                              "expression": {
-                                "expression": "walk",
-                                "arguments": [
-                                  "child"
-                                ]
-                              }
+                              "syntaxKind": "BinaryExpression",
+                              "left": "node",
+                              "operatorToken": "instanceof",
+                              "right": "Node"
                             }
                           ]
                         }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "expression": {
-                    "expression": "walk",
-                    "arguments": [
-                      "ast"
-                    ]
-                  }
-                },
-                {
-                  "expression": {
-                    "expression": {
-                      "expression": "fs",
-                      "name": "writeFileSync"
-                    },
-                    "arguments": [
-                      ".ast.json",
+                      },
                       {
+                        "syntaxKind": "ExpressionStatement",
                         "expression": {
-                          "expression": "JSON",
-                          "name": "stringify"
-                        },
-                        "arguments": [
-                          "ast",
-                          null,
-                          "2"
-                        ]
+                          "syntaxKind": "CallExpression",
+                          "expression": "walk",
+                          "arguments": [
+                            "child"
+                          ]
+                        }
                       }
                     ]
                   }
                 }
               ]
             }
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": "walk",
+              "arguments": [
+                "ast"
+              ]
+            }
+          },
+          {
+            "syntaxKind": "ExpressionStatement",
+            "expression": {
+              "syntaxKind": "CallExpression",
+              "expression": {
+                "syntaxKind": "PropertyAccessExpression",
+                "expression": "fs",
+                "name": "writeFileSync"
+              },
+              "arguments": [
+                ".ast.json",
+                {
+                  "syntaxKind": "CallExpression",
+                  "expression": {
+                    "syntaxKind": "PropertyAccessExpression",
+                    "expression": "JSON",
+                    "name": "stringify"
+                  },
+                  "arguments": [
+                    "ast",
+                    null,
+                    "2"
+                  ]
+                }
+              ]
+            }
           }
         ]
+      }
+    },
+    {
+      "syntaxKind": "ExpressionStatement",
+      "expression": {
+        "syntaxKind": "CallExpression",
+        "expression": "run"
       }
     }
   ],
