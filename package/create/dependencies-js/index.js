@@ -49,7 +49,7 @@ async function createDependencies() {
   }
 
   // harvest `{ capitalize }` from dependent package.json in parallel 
-  var capitalize = await package.dependencies
+  var capitalize = await (package.dependencies
     [Map](async (o, k) => {
       if (!FileRegex.test(o))
         throw `Dependency '${k}: ${o}' version not of the form: 'file:...'.`
@@ -63,7 +63,7 @@ async function createDependencies() {
 
       return await dependentPackageJsonPath[ReadJsonFile]()
     })
-    [AsyncMap](o => o.capitalize)
+    [AsyncMap](o => o.capitalize))
     
   // codeGen; generate dependencies.js
   var dependencies = generateDependencies(package, { capitalize })

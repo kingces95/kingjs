@@ -1,10 +1,9 @@
 {
   "name": "@kingjs/package.create.readme-md",
-  "version": "1.0.7",
+  "version": "0.0.0",
   "main": "index.js",
   "files": [
-    "*.js",
-    "md/*.t.md"
+    "*.js"
   ],
   "bin": {
     "create-readme": "index.js",
@@ -17,14 +16,26 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@kingjs/array.expand": "file:../../../array/expand",
+    "@kingjs/fs.file.expand": "file:../../../fs/file/expand",
+    "@kingjs/fs.file.read": "file:../../../fs/file/read",
+    "@kingjs/fs.probe": "file:../../../fs/probe",
+    "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
+    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
+    "@kingjs/json.file.read": "file:../../../json/file/read",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.parse": "file:../../name/parse",
     "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",
+    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/pojo.to-pairs": "file:../../../pojo/to-pairs",
     "@kingjs/source.get-info": "file:../../../source/get-info",
-    "@kingjs/source.parse": "file:../../../source/parse",
-    "@kingjs/string-ex.expand": "file:../../../string-ex/expand"
+    "@kingjs/source.parse": "file:../../../source/parse"
   },
-  "nodeDependencies": [
-    "fs",
-    "path"
-  ]
+  "nodeDependencies": [],
+  "description": "",
+  "devDependencies": {
+    "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",
+    "@kingjs/fs.promises.file.read": "file:../../../fs/promises/file/read",
+    "@kingjs/fs.promises.save": "file:../../../fs/promises/save"
+  }
 }

@@ -8,9 +8,7 @@ var {
     },
     fs: { 
       promises: { 
-        dir: {
-          FindRoot 
-        }
+        Probe 
       } 
     } 
   }
@@ -26,7 +24,7 @@ var npmScopeJson = 'npm-scope.json'
  * @returns Returns the path to `npm-scope.json`.
  */
 async function resolveNpmScope() {
-  return this[FindRoot](npmScopeJson)
+  return this[Probe](npmScopeJson)
 }
 
 module[ExportExtension](Path, resolveNpmScope)

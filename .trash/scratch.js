@@ -1,4 +1,10 @@
 var source = [1,2,3]
+console.log(source
+  .map(o => '..')
+  .map((o, i, a) => a.slice(i).join('/'))
+  .reverse()
+)
+
 var Map = Symbol()
 Array.prototype[Map] = Array.prototype.map
 var i = source[Map](x => x + 1)

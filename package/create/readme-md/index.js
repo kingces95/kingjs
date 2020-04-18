@@ -1,60 +1,71 @@
 var {
-  fs, path,
   '@kingjs': { 
-    fs: { expand },
+    path: { Builder: Path },
+    module: { ExportExtension },
+    fs: { 
+      Probe,
+      file: { Expand, Read },
+      promises: {
+        Exists,
+        file: {
+          Write: WriteFile 
+        }
+      } 
+    },
+    pojo: { Expand },
+    json: { file: { Read: ReadJsonFile } },
     source: { 
-      parse: parseSource,
+      Parse,
       GetInfo
     },
     package: {
-      source: {
-        parse: {
-          sourceFile: { GetFirstDocumented }
-        }
-      },
-      name: {
-        parse
-      }
+      resolve: { NpmScope: ResolveNpmScope },
+      source: { parse: { sourceFile: { GetFirstDocumented } } },
+      name: { parse }
     }
   }
 } = require('./dependencies')
 
-var NpmPackageUrl = 'https://www.npmjs.com/package/'
 var TemplateDir = '.md'
-var TemplateName = './README.t.md'
-var ReadmeName = 'README.md'
+var TemplateName = 'readme.t.md'
+var ReadmeName = 'readme.md'
 var PackageJson = 'package.json'
 
-async function createReadme(packageDir) {
+async function createReadme() {
+  var packageDir = this
 
-  // parse package.json
-  var packageJson = require(joinPath(packageDir, PackageJson))
+  // are we in a package dir? if not, bail
+  var packagePath = packageDir.to(PackageJson)
+  if (!await packagePath[Exists]())
+    return
 
-  // parse package name
-  var { namespaces, segments } = parse(packageJson.name)
+  // get package scope
+  var scopePath = await packageDir[ResolveNpmScope]()
+  if (scopePath)
+    var scope = await npmScopePath[ReadJsonFile]()
+  
+  // parse 'package.json'
+  var package = await packagePath[ReadJsonFile]()
+  var name = parse(package.name)
+
+  // get jsdoc documentation
+  var ast = await packageDir.to(package.main)[Parse]()
+  var astFunction = ast[GetFirstDocumented]()
+  var info = astFunction[GetInfo]()
 
   // gather substitutions
   var substitutions = {
-    npmjs: NpmPackageUrl, 
+    join: (source, template, separator) 
+      => source[Expand](template, expansions, separator),
 
-    // parse index.js
-    info: (await parseSource(main))
-      [GetFirstDocumented]()
-      [GetInfo](),
-
-    // package.json
-    pkg: packageJson,
-
-    namespaces, segments,
+    name,
+    info,
+    package,
+    scope,
   }
 
-  // find template
-  var templatePath = 'nyi'
-
-  // expand
-  var result = expand(templatePath, substitutions)
-  var readmePath = joinPath(packageDir, ReadmeName)
-  fs.writeFileSync(readmePath, result)
+  // expand!
+  template[Expand](ReadmeName, TemplateName, TemplateDir, substitutions)
 }
 
-module.exports = createReadme
+module[ExportExtension](Path, createReadme)

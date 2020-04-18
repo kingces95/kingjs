@@ -3,9 +3,7 @@ module.exports = {
   "@kingjs": {
     fs: {
       promises: {
-        dir: {
-          FindRoot: require("@kingjs/fs.promises.dir.find-root")
-        }
+        Probe: require("@kingjs/fs.promises.probe")
       }
     },
     module: {

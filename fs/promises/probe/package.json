@@ -1,0 +1,35 @@
+{
+  "name": "@kingjs/fs.promises.probe",
+  "version": "0.0.0",
+  "description": "Searches parent directories for a path.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/promises/probe"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/fs.promises.exists": "file:../exists",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/path.builder": "file:../../../path/builder"
+  },
+  "nodeDependencies": [
+    "path"
+  ],
+  "devDependencies": {
+    "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
+    "@kingjs/fs.promises.file.read": "file:../file/read",
+    "@kingjs/fs.promises.save": "file:../save",
+    "@kingjs/json.file.read": "file:../../../json/file/read"
+  }
+}

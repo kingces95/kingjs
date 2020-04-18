@@ -12,8 +12,12 @@ async function run(asyncGeneratorGenerator) {
 
   push(asyncGeneratorGenerator)
 
-  while (count)
-    await blink()  
+  try {
+    while (count)
+      await blink()
+  } catch(e) {
+    throw e
+  }
 
   function push(asyncGeneratorGenerator) {
     count++

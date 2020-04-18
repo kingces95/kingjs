@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/pojo.to-pairs",
+  "version": "0.0.0",
+  "description": "Returns an array of objects with key and value properties for the name and value of each property of the source object.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/pojo/to-pairs"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": "true",
+  "dependencies": {
+    "@kingjs/module.export-extension": "file:../../module/export-extension"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

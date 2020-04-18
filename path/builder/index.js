@@ -65,13 +65,13 @@ class PathBuilder {
     return Root  
   }
 
-  static launch(symbol) {
+  static async launch(symbol) {
     try {
       var args = process.argv.slice()
       var node = args.shift()
       var file = args.shift()
       var path = PathBuilder.create(args.shift() || process.cwd())
-      path[symbol](...args)
+      await path[symbol](...args)
     }
     catch(e) {
       console.log(e)

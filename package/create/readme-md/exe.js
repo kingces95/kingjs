@@ -1,4 +1,4 @@
-#!/usr/bin/env node
-var expand = require('./index')
-process.chdir('.test')
-expand().catch(e => console.log(e))
+#!/usr/bin/env node --no-warnings
+var CreateReadme = require('./index')
+var Path = require('@kingjs/path.builder')
+Path.launch(CreateReadme)

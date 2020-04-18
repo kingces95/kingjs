@@ -20,16 +20,7 @@ function parse(fqn, delimiter = Dash) {
   var segments = fullName.split(Period)
   var parts = segments.map(x => x.split(delimiter))
 
-  var namespaces = [];
-  var i = [];
-  for (var segment of segments) {
-    i.push(segment);
-    namespaces.push(i.join(Period));
-  }
-
-  var namespace = namespaces[namespaces.length - 1];
-
-  return { fqn, scope, fullName, segments, parts, namespace, namespaces }
+  return { fqn, scope, fullName, segments, parts }
 }
 
 module.exports = parse

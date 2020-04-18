@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/pojo.expand",
+  "version": "0.0.0",
+  "description": "Returns an array of objects with key and value properties for the name and value of each property of the source object.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/pojo/expand"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": "true",
+  "dependencies": {
+    "@kingjs/array.expand": "file:../../array/expand",
+    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs/pojo.to-pairs": "file:../to-pairs"
+  },
+  "nodeDependencies": []
+}

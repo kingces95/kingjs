@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/fs.promises.dir.find-root": "file:../../../fs/promises/dir/find-root",
+    "@kingjs/fs.promises.probe": "file:../../../fs/promises/probe",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/path.builder": "file:../../../path/builder"
   },

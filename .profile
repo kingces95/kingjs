@@ -104,6 +104,7 @@ alias cdnvm="pd $NVM_DIR"
 echo installing nodejs $NODE_VERSION
 nvm i $NODE_VERSION | sed 's/^/-  /'
 echo
+export NO_UPDATE_NOTIFIER=1
 
 # nodejs
 export NODE_DIR="$NVM_DIR/versions/node/$NODE_VERSION/bin"
@@ -138,12 +139,12 @@ export KJS_DOGFOOD=$KJS_DIR
 
 # cdj
 export CDJ_REL_PATH="/package/create/dependencies-js/exe.js"
-alias cdj="node ${KJS_DOGFOOD_STABLE}${CDJ_REL_PATH} $*"
-alias cdj_="node ${KJS_DOGFOOD}${CDJ_REL_PATH} $*"
+alias cdj_="node ${KJS_DOGFOOD_STABLE}${CDJ_REL_PATH} $*"
+alias cdj="node ${KJS_DOGFOOD}${CDJ_REL_PATH} $*"
 alias cdjd="dbg ${KJS_DOGFOOD}${CDJ_REL_PATH}"
 
 # cpk
 export CPK_REL_PATH="/package/create/package-json/exe.js"
-alias cpk="node ${KJS_DOGFOOD_STABLE}${CPK_REL_PATH} $*"
-alias cpk_="node ${KJS_DOGFOOD}${CPK_REL_PATH} $*"
+alias cpk_="node ${KJS_DOGFOOD_STABLE}${CPK_REL_PATH} $*"
+alias cpk="node ${KJS_DOGFOOD}${CPK_REL_PATH} $*"
 alias cpkd="dbg ${KJS_DOGFOOD}${CPK_REL_PATH}"
