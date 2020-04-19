@@ -42,6 +42,8 @@ set_default_aliases() {
 
   pd() { pushd $1 > /dev/null; }
   pod() { popd > /dev/null; }
+
+  alias ports="lsof -i -P -n | grep LISTEN"
 }
 
 load_nvm() {

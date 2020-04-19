@@ -26,7 +26,7 @@ var Parent
  * 
  * @remarks - `PathBuilder.Pwd`: A `PathBuilder` representing a relative path
  * @remarks - `PathBuilder.Root`: A `PathBuilder` representing an absolute path
- * @remarks - `PathBuilder.create(path)`: Activate a new `PathBuilder`
+ * @remarks - `PathBuilder.parse(path)`: Activate a new `PathBuilder`
  * @remarks - `PathBuilder` supports the following methods and properties
  * @remarks -- `buffer`: Returns a `Buffer` representation of the path
  * @remarks -- `to(name)`: Returns a new `PathBuilder` with joined with `name`
@@ -44,7 +44,7 @@ class PathBuilder {
   }
 
   static get Cwd() {
-    return PathBuilder.create(process.cwd())
+    return PathBuilder.parse(process.cwd())
   }
 
   static get Relative() {
@@ -70,7 +70,7 @@ class PathBuilder {
       var args = process.argv.slice()
       var node = args.shift()
       var file = args.shift()
-      var path = PathBuilder.create(args.shift() || process.cwd())
+      var path = PathBuilder.parse(args.shift() || process.cwd())
       await path[symbol](...args)
     }
     catch(e) {
@@ -79,7 +79,7 @@ class PathBuilder {
     }
   }
 
-  static create(path) {
+  static parse(path) {
     if (path instanceof PathBuilder)
       return path
 
@@ -90,7 +90,7 @@ class PathBuilder {
       return this.Root
 
     var dir = Path.dirname(path)
-    var result = this.create(dir)
+    var result = this.parse(dir)
 
     var name = Path.basename(path)
     if (name == Dot)
@@ -126,7 +126,7 @@ class PathBuilder {
 
   toRelative(target) {
     var source = this
-    target = PathBuilder.create(target)
+    target = PathBuilder.parse(target)
 
     // if one path is absolute, make the other absolute
     if (source.isRelative != target.isRelative) {
@@ -176,7 +176,7 @@ class PathBuilder {
       if (path.indexOf(Sep) == -1)
         return this._to(path)
 
-      return this.to(PathBuilder.create(path))
+      return this.to(PathBuilder.parse(path))
     }
   
     if (!path)

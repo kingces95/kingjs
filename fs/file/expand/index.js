@@ -26,7 +26,7 @@ var UTF8 = 'utf8'
 function expand(targetRelPath, templateRelPath, probeRelDir, substitutions) {
   var dir = this
 
-  probeRelDir = Path.create(probeRelDir)
+  probeRelDir = Path.parse(probeRelDir)
 
   substitutions = { 
     ...substitutions, 

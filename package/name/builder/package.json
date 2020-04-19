@@ -1,0 +1,34 @@
+{
+  "name": "@kingjs/package.name.builder",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/package/name/builder"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/buffer.append": "file:../../../buffer/append",
+    "@kingjs/package.name.construct": "file:../construct",
+    "@kingjs/package.name.parse": "file:../parse",
+    "@kingjs/path.builder": "file:../../../path/builder",
+    "is-builtin-module": "file:../../../.npm/node_modules/is-builtin-module"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "devDependencies": {
+    "@kingjs/string-ex.replace-all": "file:../../../string-ex/replace-all"
+  }
+}

@@ -1,7 +1,6 @@
 var { 
   fs: { promises: fsp }, 
   ['@kingjs']: {
-    path: { makeAbsolute },
     fs: { 
       rx: {
         PathSubject,

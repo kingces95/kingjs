@@ -32,7 +32,7 @@ async function save(pojo) {
     var path = this.to(name)
     var value = pojo[name]
 
-    var ext = Path.create(name).ext
+    var ext = Path.parse(name).ext
     if (ext == DotJson)
       value = stringify(value)
 

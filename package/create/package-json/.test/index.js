@@ -49,7 +49,7 @@ var npmScopeJson = {
 }
 
 async function run() {
-  var acme = Path.create(Acme)
+  var acme = Path.parse(Acme)
   await acme[Remove]()
 
   await acme[Save]({

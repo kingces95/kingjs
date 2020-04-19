@@ -16,7 +16,7 @@ var {
 } = types
 
 async function run() {
-  var thisFile = Path.create(__filename)
+  var thisFile = Path.parse(__filename)
   var ast = await thisFile[Parse]()
 
   assert(ast instanceof SourceFile)

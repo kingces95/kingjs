@@ -11,7 +11,7 @@ assert.isConsistent = function(path, name, toString) {
   assert.equal(path.to(undefined), path)
   assert.equal(path.to(null), path)
   assert.equal(path.to(''), path)
-  assert.equal(Path.create(path), path)
+  assert.equal(Path.parse(path), path)
   assert.equal(path.toString(), toString)
   assert.equal(path.name, name)
   assert.ok(path.equals(path))
@@ -24,7 +24,7 @@ assert.isConsistent = function(path, name, toString) {
   assert.equal(path.to('./foo/./../.'), path)
   assert.equal(path.toRelative(path), Relative)
   assert.equal(path.toRelative(path), Relative)
-  assert.ok(path.equals(Path.create(path.toString())))
+  assert.ok(path.equals(Path.parse(path.toString())))
   assert.equal(path.to('baz.js').name, 'baz.js')
 
   // cover debug functions
@@ -64,7 +64,7 @@ assert.equal(Root.ext, '')
 assert.isRoot(Relative, '.', '.')
 assert.ok(Relative.isCwd)
 assert.ok(Relative.isRelative)
-assert.ok(Relative.equals(Path.create('')))
+assert.ok(Relative.equals(Path.parse('')))
 assert.equal(Relative.basename, '.')
 assert.equal(Relative.ext, '')
 
@@ -92,7 +92,7 @@ var fooBar = foo.to('bar')
 assert.isMultiSegment(fooBar, 'bar', `${Sep}foo${Sep}bar`, foo, Root)
 assert.ok(fooBar.equals(Root.to('foo/bar')))
 
-var relFooBar = Path.create(`.${Sep}foo${Sep}bar`)
+var relFooBar = Path.parse(`.${Sep}foo${Sep}bar`)
 assert.isMultiSegment(relFooBar, 'bar', `foo${Sep}bar`, relFoo, Relative)
 
 var relFooJs = Relative.to('foo.js')

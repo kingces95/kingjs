@@ -9,7 +9,7 @@ var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 var Probe = require('@kingjs/fs.probe')
 
 async function run() {
-  var acme = Path.create('acme')
+  var acme = Path.parse('acme')
   await acme[RemoveDir]()
 
   await acme[Save]({

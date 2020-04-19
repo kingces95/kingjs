@@ -9,8 +9,8 @@ var {
 
 var { ObjectBindingPattern, SourceFile } = types
 
-var Require = 'require';
-var Dependencies = 'dependencies';
+var Require = 'require'
+var Dependencies = 'dependencies'
 
 function getDependencies() {
 
@@ -37,15 +37,16 @@ function getDependencies() {
 
   // call is 'require'
   if (expression != Require)
-    return;
+    return
 
   // argument like './../dependencies.js'
   if (Path.basename(argument) != Dependencies)
-    return;
+    return
 
-  assert(obp instanceof ObjectBindingPattern)
+  if (obp instanceof ObjectBindingPattern == false)
+    return
 
-  return obp;
+  return obp
 }
 
 module[ExportExtension](SourceFile, getDependencies)

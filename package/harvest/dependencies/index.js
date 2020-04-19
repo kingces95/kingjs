@@ -1,6 +1,8 @@
 var {
-  Path, assert,
+  Path, 
+  assert,
   ['@kingjs']: { 
+    json: { file: { Read: ReadJsonFile } },
     fs: { promises: { Exists } },
     path: { Builder: Path },
     module: { ExportExtension }, 
@@ -10,11 +12,13 @@ var {
       resolve: { NpmScope: ResolveNpmScope },
       name: { parse },
       source: {
-        objectBindingPattern: { ToPackageNames },
-        sourceFile: { GetDependencies }
+        parse: {
+          objectBindingPattern: { ToPackageNames },
+          sourceFile: { GetDependencies }
+        }
       }
     },
-    source: { parse: ParseSource }
+    source: { Parse: ParseSource }
   },
   npmPacklist,
   isBuiltinModule,
@@ -23,6 +27,7 @@ var {
 var Period = '.'
 var DotJs = '.js'
 var PackageJson = 'package.json'
+var NodeModules = 'node_modules'
 
 /**
  * @description Harvest dependencies from js files.
@@ -31,19 +36,21 @@ var PackageJson = 'package.json'
  * 
  * @param [packageRelDir] The relative path from `npm-scope.json` to the `packageDir`.
  */
-async function harvestDependencies(packageRelDir) {
+async function harvestDependencies(npmScopePath) {
   var packageDir = Path.Cwd.to(this)
+  var npmScopePath = npmScopePath || await packageDir[ResolveNpmScope]()
+  var npmScopeDir = npmScopePath.dir
+  packageRelDir = npmScopeDir.toRelative(packageDir)
 
-  if (!packageRelDir) {
-    var npmScopePath = npmScopePath || await packageDir[ResolveNpmScope]()
-    packageRelDir = npmScopePath.dir.toRelative(packageDir)
-  }
+  // discover path to external modules
+  var { npmDir, name: thisScope } = await npmScopePath[ReadJsonFile]()
+  npmModuleDir = Path.parse(npmDir).to(NodeModules)
 
   // get .js files in package
   var files = [ ]
   if (await packageDir.to(PackageJson)[Exists]()) {
     var packList = await npmPacklist({ path: packageDir.toString() })
-    files = packList.map(o => Path.create(o))
+    files = packList.map(o => Path.parse(o))
   }
  
   // harvest file dependencies in parallel
@@ -60,8 +67,13 @@ async function harvestDependencies(packageRelDir) {
     dependencies: dependencies
       .filter(o => !isBuiltinModule(o))
       .reduce((a, o) => { 
-        var { fullName } = parse(o)
-        var file = packageRelDir.toRelative(getPathFromFullName(fullName))
+        var { scope, name, fullName } = parse(o)
+        assert(!scope || scope == thisScope, "Packages with external scopes NYI")
+
+        var file = scope ?
+          packageRelDir.toRelative(getPathFromFullName(fullName)) :
+          packageRelDir.toRelative('.').to(npmDir).to(NodeModules).to(fullName)
+
         a[o] = `file:${file}` 
         return a 
       }, { }),

@@ -5,12 +5,12 @@ exports['@kingjs'] = {
   git: {
     getDir: require('@kingjs/git.get-dir'),
   },
-  package: 
+  package: {
     name: {
       parse: require('@kingjs/package.name.parse'),
       construct: require('@kingjs/package.name.construct'),
     },
-  }
+  },
   parseSource: require('@kingjs/parse-source'),
   reflect: {
     is: require('@kingjs/reflect.is'),

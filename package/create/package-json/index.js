@@ -74,8 +74,8 @@ async function createPackage() {
 
   // update/create metadata and dependencies
   package = { 
-    ...await packageDir[HarvestMetadata](npmScopePath, packageRelDir),
-    ...await packageDir[HarvestDependencies](packageRelDir)
+    ...await packageDir[HarvestMetadata](npmScopePath),
+    ...await packageDir[HarvestDependencies](npmScopePath)
   }
   await packageJsonPath[UpdateJsonFile](package)
 }

@@ -14,7 +14,7 @@ var {
  * @this PathBuilder The path to check.
  */
 function copyFile(target) {
-  return fs.copyFile(this.buffer, Path.create(target).buffer)
+  return fs.copyFile(this.buffer, Path.parse(target).buffer)
 }
 
 module[ExportExtension](Path, copyFile)

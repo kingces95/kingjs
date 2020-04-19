@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/package.create.dependencies-js",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "The description.",
   "main": "index.js",
   "files": [
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
-    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
+    "@kingjs/fs.promises.write-file": "file:../../../fs/promises/write-file",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
@@ -32,8 +32,8 @@
     "@kingjs/pojo.promises.map": "file:../../../pojo/promises/map"
   },
   "nodeDependencies": [
-    "fs",
-    "path"
+    "assert",
+    "fs"
   ],
   "devDependencies": {
     "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",

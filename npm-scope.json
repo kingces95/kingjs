@@ -1,6 +1,7 @@
 {
   "name": "kingjs",
   "template": ".template",
+  "npmDir": ".npm",
   "repository": {
     "url": "https://repository.kingjs.net/",
     "type": "git"
