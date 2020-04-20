@@ -1,5 +1,7 @@
 var {
   assert,
+  childProcess,
+  isBuiltinModule,
   ['@acme']: {
     myNs: {
       theA: a

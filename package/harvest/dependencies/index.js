@@ -37,14 +37,13 @@ var NodeModules = 'node_modules'
  * @param [packageRelDir] The relative path from `npm-scope.json` to the `packageDir`.
  */
 async function harvestDependencies(npmScopePath) {
-  var packageDir = Path.Cwd.to(this)
+  var packageDir = Path.cwd.to(this)
   var npmScopePath = npmScopePath || await packageDir[ResolveNpmScope]()
   var npmScopeDir = npmScopePath.dir
   packageRelDir = npmScopeDir.toRelative(packageDir)
 
   // discover path to external modules
   var { npmDir, name: thisScope } = await npmScopePath[ReadJsonFile]()
-  npmModuleDir = Path.parse(npmDir).to(NodeModules)
 
   // get .js files in package
   var files = [ ]

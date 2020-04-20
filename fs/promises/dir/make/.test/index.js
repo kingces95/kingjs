@@ -6,7 +6,7 @@ var WriteFile = require('@kingjs/fs.promises.file.write')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 
 async function test() {
-  var cwd = Path.Relative
+  var cwd = Path.dot
   var acme = cwd.to('acme')
   var foo = acme.to('foo')
   var txt = foo.to('bar.txt')

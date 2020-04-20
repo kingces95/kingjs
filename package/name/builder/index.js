@@ -57,12 +57,25 @@ class NameBuilder {
     return result
   }
 
+  static fromPath(path, scope) {
+    assert(path.isNamed)
+
+    if (path.parent && path.parent.isNamed)
+      return NameBuilder.fromPath(path.parent, scope).to(path.name)
+
+    return NameBuilder.create(path.name, scope)
+  }
+
   constructor(parent, name, buffer) {
     this.parent = parent
     this.name = name
     this.buffer = buffer
   }
 
+  get __toString() { 
+    return this.toString() 
+  }
+  
   get scope() {
     if (this.parent)
       return this.parent[Scope]
@@ -90,7 +103,7 @@ class NameBuilder {
     return isBuiltinModule(this.name)
   }
 
-  toPath(path = Path.Relative) {
+  toPath(path = Path.dot) {
     path = Path.parse(path)
 
     if (this.parent)

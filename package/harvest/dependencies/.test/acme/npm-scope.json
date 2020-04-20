@@ -8,5 +8,6 @@
     "url": "https://repository.acme.net/",
     "type": "git"
   },
+  "npmDir": ".npm",
   "license": "MIT"
 }

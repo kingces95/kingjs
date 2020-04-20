@@ -6,7 +6,7 @@ var Exists = require('@kingjs/fs.exists')
 var WriteFile = require('@kingjs/fs.file.write')
 
 function test() {
-  var path = Path.Relative.to('acme.txt')
+  var path = Path.dot.to('acme.txt')
 
   path[WriteFile]('Hello World!')
   assert.ok(path[Exists]())

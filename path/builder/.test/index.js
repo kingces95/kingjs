@@ -2,109 +2,104 @@ var assert = require('assert')
 var { sep: Sep } = require('path')
 var Path = require('..')
 
-var { Relative, Root, Parent, Cwd } = Path
+var { dot, sep, dotDot, cwd } = Path
 
 var paths = []
 
-assert.isConsistent = function(path, name, toString) {
+assert.isConsistent = function(path, toString) {
   paths.push(path)
   assert.equal(path.to(undefined), path)
   assert.equal(path.to(null), path)
   assert.equal(path.to(''), path)
   assert.equal(Path.parse(path), path)
   assert.equal(path.toString(), toString)
-  assert.equal(path.name, name)
   assert.ok(path.equals(path))
   assert.ok(path.isAbsolute || path.isRelative)
   assert.notEqual(path.isAbsolute, path.isRelative)
   assert.equal(path.toString(), path.buffer.toString())
   assert.equal(path.to('.'), path)
-  assert.equal(path.to('/'), Root)
+  assert.equal(path.to('/'), sep)
   assert.equal(path.to('foo/..'), path)
   assert.equal(path.to('./foo/./../.'), path)
-  assert.equal(path.toRelative(path), Relative)
-  assert.equal(path.toRelative(path), Relative)
+  assert.equal(path.toRelative(path), dot)
+  assert.equal(path.toRelative(path), dot)
   assert.ok(path.equals(Path.parse(path.toString())))
   assert.equal(path.to('baz.js').name, 'baz.js')
 
   // cover debug functions
-  assert.equal(path.toString(), path.__path)
+  assert.equal(path.toString(), path.__toString)
 }
 
-assert.isSegment = function(path, name, toString, parent) {
-  assert.isConsistent(path, name, toString)
-  assert.ok(path.isSegment)
+assert.isNamed = function(path, name, toString, parent) {
+  assert.isConsistent(path, toString)
+  assert.equal(path.name, name)
+  assert.ok(path.isNamed)
   assert.ok(path.dir.equals(parent))
   assert.ok(path.to('..').equals(parent))
   assert.ok(path.to('./../.').equals(parent))
   assert.equal(path.isRelative, parent.isRelative)
   assert.equal(path.isAbsolute, parent.isAbsolute)
-  assert.ok(path.toRelative(path.dir).equals(Parent))
-  assert.ok(path.toRelative(path.dir.to('moo')).equals(Parent.to('moo')))
+  assert.ok(path.toRelative(path.dir).equals(dotDot))
+  assert.ok(path.toRelative(path.dir.to('moo')).equals(dotDot.to('moo')))
 }
 
 assert.isMultiSegment = function(path, name, toString, parent, grandParent) {
-  assert.isSegment(path, name, toString, parent)
+  assert.isNamed(path, name, toString, parent)
   assert.ok(path.dir.dir.equals(grandParent))
   assert.ok(path.to('../..').equals(grandParent))
   assert.ok(path.to('./.././../.').equals(grandParent))
 }
 
-assert.isRoot = function(path, name, toString) {
-  assert.isConsistent(path, name, toString)
-}
+assert.isConsistent(sep, '/')
+assert.ok(sep.isSep)
+assert.ok(sep.isAbsolute)
+assert.equal(sep.basename, undefined)
+assert.equal(sep.ext, undefined)
 
-assert.isRoot(Root, '/', '/')
-assert.ok(Root.isRoot)
-assert.ok(Root.isRoot)
-assert.ok(Root.isAbsolute)
-assert.equal(Root.basename, '')
-assert.equal(Root.ext, '')
+assert.isConsistent(dot, '.', '.')
+assert.ok(dot.isDot)
+assert.ok(dot.isRelative)
+assert.ok(dot.equals(Path.parse('')))
+assert.equal(dot.basename, undefined)
+assert.equal(dot.ext, undefined)
 
-assert.isRoot(Relative, '.', '.')
-assert.ok(Relative.isCwd)
-assert.ok(Relative.isRelative)
-assert.ok(Relative.equals(Path.parse('')))
-assert.equal(Relative.basename, '.')
-assert.equal(Relative.ext, '')
+var dotDot = Path.dotDot
+assert.isConsistent(dotDot, '..', '..')
+assert.ok(dotDot.isRelative)
+assert.ok(dotDot.isDotDot)
+assert.equal(dotDot.basename, undefined)
+assert.equal(dotDot.ext, undefined)
+//assert.ok(dotDot.toRelative('foo') === undefined)
 
-var Back = Path.Parent
-assert.isConsistent(Back, '..', '..')
-assert.ok(Back.isRelative)
-assert.ok(Back.isRelativeParent)
-assert.equal(Back.basename, '..')
-assert.equal(Back.ext, '')
-assert.ok(Back.toRelative('foo') === undefined)
+var backFoo = dotDot.to('foo')
+assert.isNamed(backFoo, 'foo', `..${Sep}foo`, dotDot)
 
-var backFoo = Back.to('foo')
-assert.isSegment(backFoo, 'foo', `..${Sep}foo`, Back)
+var backBack = dot.to(`..${Sep}..`)
+assert.isConsistent(backBack, `..${Sep}..`, dotDot)
 
-var backBack = Relative.to(`..${Sep}..`)
-assert.isConsistent(backBack, '..', `..${Sep}..`, Back)
+var relFoo = dot.to('foo')
+assert.isNamed(relFoo, 'foo', 'foo', dot)
 
-var relFoo = Relative.to('foo')
-assert.isSegment(relFoo, 'foo', 'foo', Relative)
-
-var foo = Root.to('foo')
-assert.isSegment(foo, 'foo', `${Sep}foo`, Root)
+var foo = sep.to('foo')
+assert.isNamed(foo, 'foo', `${Sep}foo`, sep)
 
 var fooBar = foo.to('bar')
-assert.isMultiSegment(fooBar, 'bar', `${Sep}foo${Sep}bar`, foo, Root)
-assert.ok(fooBar.equals(Root.to('foo/bar')))
+assert.isMultiSegment(fooBar, 'bar', `${Sep}foo${Sep}bar`, foo, sep)
+assert.ok(fooBar.equals(sep.to('foo/bar')))
 
 var relFooBar = Path.parse(`.${Sep}foo${Sep}bar`)
-assert.isMultiSegment(relFooBar, 'bar', `foo${Sep}bar`, relFoo, Relative)
+assert.isMultiSegment(relFooBar, 'bar', `foo${Sep}bar`, relFoo, dot)
 
-var relFooJs = Relative.to('foo.js')
-assert.isSegment(relFooJs, 'foo.js', 'foo.js', Relative)
+var relFooJs = dot.to('foo.js')
+assert.isNamed(relFooJs, 'foo.js', 'foo.js', dot)
 assert.equal(relFooJs.basename, 'foo')
 assert.equal(relFooJs.ext, '.js')
 
-var rootToCwd = Root.toRelative(Cwd)
+var rootToCwd = sep.toRelative(cwd)
 assert.ok(rootToCwd.isRelative)
-assert.ok(Root.to(rootToCwd).equals(Cwd))
+assert.ok(sep.to(rootToCwd).equals(cwd))
 
-var cwdToRelFoo = Cwd.toRelative(relFoo)
+var cwdToRelFoo = cwd.toRelative(relFoo)
 assert.ok(rootToCwd.isRelative)
 assert.ok(cwdToRelFoo.equals(relFoo))
 
@@ -117,5 +112,5 @@ for (var i = 0; i < paths.length; i++) {
   }
 }
 
-assert(Root.to('..') === undefined)
-assert.equal(Path.Cwd.toString(), process.cwd())
+assert(sep.to('..') === undefined)
+assert.equal(Path.cwd.toString(), process.cwd())

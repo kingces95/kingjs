@@ -6,7 +6,7 @@ var ReadFile = require('@kingjs/fs.promises.file.read')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 
 async function run() {
-  var acme = Path.Cwd.to('acme')
+  var acme = Path.cwd.to('acme')
   var foo = acme.to('ns0').to('ns1').to('foo')
 
   await acme[Save]({

@@ -17,52 +17,48 @@ var SepBuffer = Buffer.from(Sep)
 var DotBuffer = Buffer.from(Dot)
 var DotDotBuffer = Buffer.from(DotDot)
 
-var Relative
-var Root
-var Parent
+var DotPath
+var SepPath
+var DotDotPath
 
 /**
  * @description An working set efficient representation of paths. 
  * 
- * @remarks - `PathBuilder.Pwd`: A `PathBuilder` representing a relative path
- * @remarks - `PathBuilder.Root`: A `PathBuilder` representing an absolute path
+ * @remarks - `PathBuilder.pwd`: A `PathBuilder` representing a relative path
+ * @remarks - `PathBuilder.sep`: A `PathBuilder` representing an absolute path
  * @remarks - `PathBuilder.parse(path)`: Activate a new `PathBuilder`
  * @remarks - `PathBuilder` supports the following methods and properties
  * @remarks -- `buffer`: Returns a `Buffer` representation of the path
- * @remarks -- `to(name)`: Returns a new `PathBuilder` with joined with `name`
+ * @remarks -- `sep(name)`: Returns a new `PathBuilder` with joined with `name`
  * @remarks -- `name` : Returns the last segment of the `PathBuilder`
  * @remarks -- `path` : The path as a string
- * @remarks -- `isRoot` : `true` if path is `/`
- * @remarks -- 'isCwd' : `true` if path is `.`
+ * @remarks -- `isSep` : `true` if path is `/`
+ * @remarks -- 'isDot' : `true` if path is `.`
  * @remarks -- `isAbsolute` : `true` if the path is absolute
  * @remarks -- `isRelative` : `true` if the path is relative
  */
 class PathBuilder {
 
-  static get sep() {
-    return Path.sep
-  }
-
-  static get Cwd() {
+  static get cwd() {
     return PathBuilder.parse(process.cwd())
   }
 
-  static get Relative() {
-    if (!Relative) 
-      Relative = new CwdPathBuilder() 
-    return Relative
+  static get dot() {
+    if (!DotPath) 
+      DotPath = new DotPathBuilder() 
+    return DotPath
   }
 
-  static get Parent() {
-    if (!Parent) 
-      Parent = new ParentPathBuilder() 
-    return Parent
+  static get dotDot() {
+    if (!DotDotPath) 
+      DotDotPath = new DotDotPathBuilder() 
+    return DotDotPath
   }
 
-  static get Root() { 
-    if (!Root) 
-      Root = new RootPathBuilder() 
-    return Root  
+  static get sep() { 
+    if (!SepPath) 
+      SepPath = new SepPathBuilder() 
+    return SepPath  
   }
 
   static async launch(symbol) {
@@ -84,10 +80,10 @@ class PathBuilder {
       return path
 
     if (path == EmptyString || path == Dot)
-      return this.Relative
+      return this.dot
 
     if (path == Sep)
-      return this.Root
+      return this.sep
 
     var dir = Path.dirname(path)
     var result = this.parse(dir)
@@ -102,26 +98,18 @@ class PathBuilder {
     return result._to(name)
   }
 
-  constructor(parent, name, buffer) {
+  constructor(parent, buffer) {
     this.parent = parent
-    this.name = name
     this.buffer = buffer
   }
 
-  get __path() { 
+  get __toString() { 
     return this.toString() 
   }
 
   _to(name) {
-    return new SegmentPathBuilder(this, name, this.buffer[Append](SepBuffer, name))
-  }
-
-  get ext() {
-    return Path.extname(this.name)
-  }
-
-  get basename() {
-    return Path.basename(this.name, this.ext)
+    return new NamedPathBuilder(
+      this, this.buffer[Append](SepBuffer, name), name)
   }
 
   toRelative(target) {
@@ -131,16 +119,16 @@ class PathBuilder {
     // if one path is absolute, make the other absolute
     if (source.isRelative != target.isRelative) {
       if (source.isRelative)
-        source = PathBuilder.Cwd.to(source)
+        source = PathBuilder.cwd.to(source)
       else
-        target = PathBuilder.Cwd.to(target)
+        target = PathBuilder.cwd.to(target)
     }
 
     // keep it simple...
     var sourceParts = source[ToArray](o => o.parent).reverse()
     var targetParts = target[ToArray](o => o.parent).reverse()
 
-    var result = PathBuilder.Relative
+    var result = PathBuilder.dot
     for (var i = 0; i < sourceParts.length && i < targetParts.length; i++) {
 
       // find common ancestor
@@ -149,7 +137,7 @@ class PathBuilder {
     }
 
     // fail if source has more `..` than target
-    if (i < sourceParts.length && sourceParts[i].isRelativeParent)
+    if (i < sourceParts.length && sourceParts[i].isDotDot)
       return undefined
 
     // back out of source to common ancestor
@@ -187,14 +175,14 @@ class PathBuilder {
     if (path.isAbsolute)
       return path
     
-    if (path.isCwd)
+    if (path.isDot)
       return this
 
     var result = this
     if (path.parent)
       result = result.to(path.parent)
 
-    if (path.isRelativeParent)
+    if (path.isDotDot)
       return result.dir
 
     return result._to(path.name)
@@ -204,13 +192,28 @@ class PathBuilder {
     if (this == other)
       return true
 
-    if (this.name != other.name)
+    if (!other)
       return false
 
-    if (!this.parent || !other.parent)
+    if ((other instanceof PathBuilder) == false)
       return false
 
-    return this.parent.equals(other.parent)
+    if (!!this.parent != !!other.parent)
+      return false
+
+    if (this.parent && !this.parent.equals(other.parent))
+      return false
+
+    if (this.isDot != other.isDot)
+      return false
+
+    if (this.isDotDot != other.isDotDot)
+      return false
+
+    if (this.isSep != other.isSep)
+      return false
+
+    return this.name == other.name
   }
 
   toString() {
@@ -218,9 +221,11 @@ class PathBuilder {
   }
 }
 
-class SegmentPathBuilder extends PathBuilder {
-  constructor(parent, name, buffer) {
-    super(parent, name, buffer)
+class NamedPathBuilder extends PathBuilder {
+  constructor(parent, buffer, name) {
+    super(parent, buffer)
+
+    this.name = name
   }
 
   _to(name) {
@@ -231,7 +236,7 @@ class SegmentPathBuilder extends PathBuilder {
     return this.parent;
   }
 
-  get isSegment() {
+  get isNamed() {
     return true
   }
 
@@ -242,12 +247,21 @@ class SegmentPathBuilder extends PathBuilder {
   get isRelative() {
     return this.parent.isRelative
   }
+
+  get ext() {
+    return Path.extname(this.name)
+  }
+
+  get basename() {
+    return Path.basename(this.name, this.ext)
+  }
 }
 
-class ParentPathBuilder extends PathBuilder {
+class DotDotPathBuilder extends PathBuilder {
   constructor(parent) {
-    assert(!parent || parent instanceof ParentPathBuilder)
-    super(parent, DotDot, parent ? parent.buffer[Append](SepBuffer, DotDotBuffer) : DotDotBuffer)
+    assert(!parent || parent instanceof DotDotPathBuilder)
+    super(parent, parent ? 
+      parent.buffer[Append](SepBuffer, DotDotBuffer) : DotDotBuffer)
   }
 
   _to(name) {
@@ -255,32 +269,32 @@ class ParentPathBuilder extends PathBuilder {
   }
   
   get dir() {
-    return new ParentPathBuilder(this)
+    return new DotDotPathBuilder(this)
   }
 
   get isRelative() {
     return true
   }
 
-  get isRelativeParent() {
+  get isDotDot() {
     return true
   }
 }
 
-class RootPathBuilder extends PathBuilder {
+class SepPathBuilder extends PathBuilder {
   constructor() {
-    super(null, Sep, SepBuffer)
+    super(null, SepBuffer)
   }
 
   _to(name) {
-    return new SegmentPathBuilder(this, name, this.buffer[Append](name))
+    return new NamedPathBuilder(this, this.buffer[Append](name), name)
   }
 
   get dir() {
     return undefined
   }
 
-  get isRoot() {
+  get isSep() {
     return true
   }
 
@@ -289,20 +303,20 @@ class RootPathBuilder extends PathBuilder {
   }
 }
 
-class CwdPathBuilder extends PathBuilder {
+class DotPathBuilder extends PathBuilder {
   constructor() {
-    super(null, Dot, DotBuffer)
+    super(null, DotBuffer)
   }
 
   _to(name) {
-    return new SegmentPathBuilder(this, name, Buffer.from(name))
+    return new NamedPathBuilder(this, Buffer.from(name), name)
   }
 
   get dir() {
-    return PathBuilder.Parent;
+    return PathBuilder.dotDot;
   }
 
-  get isCwd() {
+  get isDot() {
     return true
   }
 

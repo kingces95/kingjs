@@ -9,7 +9,8 @@ var {
     json: { file: { Read: ReadJsonFile } },
     package: {
       resolve: { NpmScope: ResolveNpmScope },
-      source: { sourceFile: { GetFirstDocumented } }
+      source: { parse: { sourceFile: { GetFirstDocumented } } },
+      name: { Builder: PackageName }
     },
     fs: { promises: { Exists } },
     source: {
@@ -54,7 +55,7 @@ async function harvestMetadata(npmScopePath) {
   } = await npmScopePath[ReadJsonFile]()
 
   return {
-    name: getNameFromPath(packageRelDir, scope),
+    name: PackageName.fromPath(packageRelDir, scope).toString(),
     version,
     main,
     description: await getDescription(packageDir.to(main)),
@@ -84,14 +85,10 @@ async function getDescription(mainPath) {
   return functionDeclaration.description
 }
 
-function getNameFromPath(packageRelDir, scope) {
-  packageRelDir = packageRelDir.toString()
-  return `${At}${scope}/${packageRelDir[ReplaceAll](Path.sep, Period)}`
-}
-
 function getRepositoryFromPath(packageRelDir, url) {
   packageRelDir = packageRelDir.toString()
-  return `${url}${packageRelDir[ReplaceAll](Path.sep, ForwardSlash)}`
+  //return `${url}${packageRelDir[ReplaceAll](Path.sep, ForwardSlash)}`
+  return ''
 }
 
 module[ExportExtension](Path, harvestMetadata)

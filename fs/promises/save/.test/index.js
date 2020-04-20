@@ -27,7 +27,7 @@ async function run() {
     }
   }
 
-  await Path.Relative.to(Acme)[Save](files)
+  await Path.dot.to(Acme)[Save](files)
 
   assert.deepEqual({
     [FooJs]: await fs.readFile('acme/foo.js', Utf8),

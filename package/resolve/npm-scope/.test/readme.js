@@ -3,7 +3,7 @@ var ResolveNpmScope = require('..')
 var Path = require('@kingjs/path.builder')
 
 async function test() {
-  var path = await Path.Cwd[ResolveNpmScope]()
+  var path = await Path.cwd[ResolveNpmScope]()
   var npmScope = require(path.toString())
   assert(npmScope.name == 'kingjs')
 }

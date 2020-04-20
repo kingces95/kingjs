@@ -8,5 +8,8 @@
     "url": "https://repository.acme.net/",
     "type": "git"
   },
-  "license": "MIT"
+  "packageDefaults": {
+    "main": "index.js",
+    "license": "MIT"
+  }
 }

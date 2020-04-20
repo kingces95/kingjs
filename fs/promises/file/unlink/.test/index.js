@@ -6,7 +6,7 @@ var Exists = require('@kingjs/fs.promises.exists')
 var WriteFile = require('@kingjs/fs.promises.file.write')
 
 async function test() {
-  var path = Path.Relative.to('acme.txt')
+  var path = Path.dot.to('acme.txt')
 
   await path[WriteFile]('Hello World!')
   assert.ok(await path[Exists]())

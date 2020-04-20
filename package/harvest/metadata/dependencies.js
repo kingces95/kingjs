@@ -2,17 +2,7 @@ module.exports = {
   assert: require("assert"),
   fs: require("fs"),
   Path: require("path"),
-  isBuiltinModule: require("is-builtin-module"),
-  npmPacklist: require("npm-packlist"),
   "@kingjs": {
-    array: {
-      promises: {
-        Map: require("@kingjs/array.promises.map")
-      }
-    },
-    camelCase: {
-      split: require("@kingjs/camel-case.split")
-    },
     fs: {
       promises: {
         Exists: require("@kingjs/fs.promises.exists")
@@ -27,21 +17,22 @@ module.exports = {
       ExportExtension: require("@kingjs/module.export-extension")
     },
     package: {
+      name: {
+        Builder: require("@kingjs/package.name.builder")
+      },
       resolve: {
         NpmScope: require("@kingjs/package.resolve.npm-scope")
       },
       source: {
-        sourceFile: {
-          GetDependencies: require("@kingjs/package.source.source-file.get-dependencies"),
-          GetFirstDocumented: require("@kingjs/package.source.source-file.get-first-documented")
+        parse: {
+          sourceFile: {
+            GetFirstDocumented: require("@kingjs/package.source.parse.source-file.get-first-documented")
+          }
         }
       }
     },
     path: {
       Builder: require("@kingjs/path.builder")
-    },
-    reflect: {
-      is: require("@kingjs/reflect.is")
     },
     source: {
       GetInfo: require("@kingjs/source.get-info"),

@@ -12,8 +12,8 @@ var BarJs = 'bar.js'
 
 async function run() {
 
-  var acme = Path.Relative.to(Acme)
-  var ecma = Path.Relative.to(Ecma)
+  var acme = Path.dot.to(Acme)
+  var ecma = Path.dot.to(Ecma)
   await acme[RemoveDir]()
   await ecma[RemoveDir]()
 

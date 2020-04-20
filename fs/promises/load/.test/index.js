@@ -20,7 +20,7 @@ async function run() {
     }
   }
 
-  var acme = Path.Relative.to(Acme)
+  var acme = Path.dot.to(Acme)
   await acme[Save](expected)
 
   var actual = await acme[Load]()

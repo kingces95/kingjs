@@ -18,7 +18,7 @@ var {
  * @returns Returns the first absolute path found by the probe.
  */
 function probe(path) {
-  var dir = Path.Cwd.to(this)
+  var dir = Path.cwd.to(this)
   
   while (dir) {
     var result = dir.to(path)

@@ -19,6 +19,10 @@ assert.isConsistent = function(builder, name, fqn) {
   assert.ok(builder.toString().endsWith(builder.namespace))
   assert.equal(builder.toPath().toString(), builder.namespace[ReplaceAll]('.', Path.sep))
   assert.equal(builder.toPath('/').toString(), '/' + builder.namespace[ReplaceAll]('.', Path.sep))
+
+  var toPath = builder.toPath()
+  var fromPath = NameBuilder.fromPath(toPath, builder.scope)
+  assert.ok(builder.equals(fromPath))
 }
 
 assert.isSegment = function(builder, name, fqn) {
