@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/path.builder",
-  "version": "1.0.0",
-  "description": "An working set efficient representation of paths.",
+  "name": "@kingjs/path-builder",
+  "version": "0.0.0",
+  "description": "",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,14 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/path-builder"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/buffer.append": "file:../../buffer/append",
-    "@kingjs/pojo.to-array": "file:../../pojo/to-array",
-    "@kingjs/reflect.is": "file:../../reflect/is"
+    "@kingjs/buffer.append": "file:../buffer/append",
+    "@kingjs/exception": "file:../exception",
+    "@kingjs/pojo.to-array": "file:../pojo/to-array",
+    "@kingjs/reflect.is": "file:../reflect/is",
+    "@kingjs/string-ex.builder": "file:../string-ex/builder"
   },
   "nodeDependencies": [
     "assert",

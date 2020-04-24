@@ -87,7 +87,7 @@ async function getDescription(mainPath) {
 
 function getRepositoryFromPath(packageRelDir, url) {
   packageRelDir = packageRelDir.toString()
-  //return `${url}${packageRelDir[ReplaceAll](Path.sep, ForwardSlash)}`
+  //return `${url}${packageRelDir[ReplaceAll](Path.root, ForwardSlash)}`
   return ''
 }
 

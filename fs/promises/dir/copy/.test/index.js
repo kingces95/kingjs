@@ -12,8 +12,8 @@ var BarJs = 'bar.js'
 
 async function run() {
 
-  var acme = Path.dot.to(Acme)
-  var ecma = Path.dot.to(Ecma)
+  var acme = Path.parse(Acme)
+  var ecma = Path.parse(Ecma)
   await acme[RemoveDir]()
   await ecma[RemoveDir]()
 

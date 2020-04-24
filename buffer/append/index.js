@@ -15,11 +15,14 @@ var EmptyString = ''
  * @returns Returns a buffer.
  */
 function append() {
-  return Buffer.concat([this, ...arguments].map(o => {
-    if (is.string(o))
-      return Buffer.from(o)
-    return o
-  }))
+  return Buffer.concat([this, ...arguments]
+    .filter(o => o)
+    .map(o => {
+      if (is.string(o))
+        return Buffer.from(o)
+      return o
+    })
+  )
 }
 
 exportExtension(module, Buffer, append)

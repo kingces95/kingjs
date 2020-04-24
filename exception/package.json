@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/exception",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "capitalize": true,
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/string-ex.expand": "file:../string-ex/expand"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

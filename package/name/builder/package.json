@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/name/builder"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
@@ -23,6 +23,7 @@
     "@kingjs/package.name.construct": "file:../construct",
     "@kingjs/package.name.parse": "file:../parse",
     "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/string-ex.builder": "file:../../../string-ex/builder",
     "is-builtin-module": "file:../../../.npm/node_modules/is-builtin-module"
   },
   "nodeDependencies": [

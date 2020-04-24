@@ -13,6 +13,9 @@ module.exports = {
     },
     path: {
       Builder: require("@kingjs/path.builder")
+    },
+    stringEx: {
+      Builder: require("@kingjs/string-ex.builder")
     }
   }
 }

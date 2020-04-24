@@ -21,7 +21,7 @@ var expected = `module.exports = {
 }`
 
 async function run() {
-  var acme = Path.dot.to(Acme)
+  var acme = Path.parse(Acme)
   await acme[Save]({
     [Foo]: {
       [PackageJson]: {

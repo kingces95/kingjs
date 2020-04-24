@@ -17,8 +17,8 @@ assert.isConsistent = function(builder, name, fqn) {
   assert.deepEqual(builder.parts, builder.name.split(builder.isBuiltinModule ? '_' : '-'))
   
   assert.ok(builder.toString().endsWith(builder.namespace))
-  assert.equal(builder.toPath().toString(), builder.namespace[ReplaceAll]('.', Path.sep))
-  assert.equal(builder.toPath('/').toString(), '/' + builder.namespace[ReplaceAll]('.', Path.sep))
+  assert.equal(builder.toPath().toString(), builder.namespace[ReplaceAll]('.', Path.root))
+  assert.equal(builder.toPath('/').toString(), '/' + builder.namespace[ReplaceAll]('.', Path.root))
 
   var toPath = builder.toPath()
   var fromPath = NameBuilder.fromPath(toPath, builder.scope)

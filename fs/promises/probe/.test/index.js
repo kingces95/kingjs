@@ -7,7 +7,7 @@ var ReadJsonFile = require('@kingjs/json.file.read')
 var ReadFile = require('@kingjs/fs.promises.file.read')
 
 async function test() {
-  var acme = Path.dot.to('acme')
+  var acme = Path.parse('acme')
   await acme[Save]({
     myNs: {
       myPkg: {
@@ -30,7 +30,7 @@ async function test() {
   var { name } = await npmScopePath[ReadJsonFile]()
   assert.equal(name, 'acme')
 
-  var readmeTemplate = Path.dot.to('.md').to('readme.t.md')
+  var readmeTemplate = Path.parse('.md').to('readme.t.md')
   var templatePath = await myPkg[Probe](readmeTemplate)
   var text = await templatePath[ReadFile]('utf8')
   assert.equal(text, "#name ${pkg.name}")

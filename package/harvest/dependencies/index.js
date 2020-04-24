@@ -85,7 +85,7 @@ async function harvestDependencies(npmScopePath) {
 }
 
 function getPathFromFullName(fullName) {
-  return fullName[ReplaceAll](Period, Path.sep)
+  return fullName[ReplaceAll](Period, Path.root)
 }
 
 async function getFileDependencies(path) {

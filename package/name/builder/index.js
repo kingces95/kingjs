@@ -2,6 +2,7 @@ var {
   assert,
   isBuiltinModule,
   '@kingjs': {
+    stringEx: { Builder: StringBuilder },
     path: { Builder: Path },
     buffer: { Append },
     package: {
@@ -27,7 +28,7 @@ function delimiter() {
   return Dash
 }
 
-class NameBuilder {
+class NameBuilder extends StringBuilder {
   static parse(name) {
     assert(name)
 
@@ -49,7 +50,7 @@ class NameBuilder {
       buffer = buffer[Append](At, scope, ForwardSlash)
     buffer = buffer[Append](name)
 
-    var result = new NameBuilder(null, name, buffer)
+    var result = new NameBuilder(buffer, name)
 
     if (scope)
       result[Scope] = scope
@@ -66,16 +67,13 @@ class NameBuilder {
     return NameBuilder.create(path.name, scope)
   }
 
-  constructor(parent, name, buffer) {
+  constructor(buffer, name, parent) {
+    super(buffer)
+
     this.parent = parent
     this.name = name
-    this.buffer = buffer
   }
 
-  get __toString() { 
-    return this.toString() 
-  }
-  
   get scope() {
     if (this.parent)
       return this.parent[Scope]
@@ -114,7 +112,7 @@ class NameBuilder {
 
   to(name) {
     assert(name)
-    return new NameBuilder(this, name, this.buffer[Append](Dot, name))
+    return new NameBuilder(this.buffer[Append](Dot, name), name, this)
   }
 
   equals(other) {
@@ -134,10 +132,6 @@ class NameBuilder {
       return false
 
     return this.name == other.name
-  }
-
-  toString() {
-    return this.buffer.toString()
   }
 }
 

@@ -1,5 +1,7 @@
 var { 
-  assert
+  assert,
+  '@kingjs': {
+  }
 } = require('./dependencies')
 
 /**

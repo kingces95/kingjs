@@ -5,7 +5,7 @@ var {
   ['@kingjs']: {
     shim,
     exec,
-    path: { test: testPath },
+    pathTest: testPath,
     fs: { rx: { watchMany } },
     rx: {
       Debounce,

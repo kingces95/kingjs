@@ -6,7 +6,7 @@ var ReadFile = require('@kingjs/fs.file.read')
 var WriteFile = require('@kingjs/fs.file.write')
 
 function test() {
-  var path = Path.dot.to('acme.txt')
+  var path = Path.parse('acme.txt')
 
   path[WriteFile]('Hello World!')
   assert.ok(path[Exists]())
