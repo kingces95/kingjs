@@ -3,7 +3,7 @@ var {
   isBuiltinModule,
   '@kingjs': {
     stringEx: { Builder: StringBuilder },
-    path: { Builder: Path },
+    Path,
     buffer: { Append },
     package: {
       name: {

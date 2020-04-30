@@ -5,12 +5,12 @@ var {
         file: {
           Read: ReadFile
         },
-        List
+        dir: {
+          List
+        }
       }
     },
-    path: {
-      Builder: Path
-    },
+    Path,
     module: { ExportExtension }
   }  
 } = require('./dependencies')
@@ -47,4 +47,4 @@ async function load() {
   return pojo
 }
 
-module[ExportExtension](Path, load)
+module[ExportExtension](Path.Builder, load)

@@ -2,9 +2,7 @@ exports['@kingjs'] = {
   module: {
     ExportExtension: require('@kingjs/module.export-extension')
   },
-  path: {
-    Builder: require('@kingjs/path.builder')
-  },
+  Path: require('@kingjs/path'),
   json: {
     file: {
       read: require('@kingjs/json.file.read'),

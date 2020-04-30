@@ -137,16 +137,19 @@ alias cov="c8 -o .coverage node .test/index.js && c8 report -o .coverage -r lcov
 
 # dogfood
 export KJS_DOGFOOD_STABLE="$KJS_ENV_DIR/kingjs"
-export KJS_DOGFOOD=$KJS_DIR
 
 # cdj
 export CDJ_REL_PATH="/package/create/dependencies-js/exe.js"
 alias cdj_="node ${KJS_DOGFOOD_STABLE}${CDJ_REL_PATH} $*"
-alias cdj="node ${KJS_DOGFOOD}${CDJ_REL_PATH} $*"
-alias cdjd="dbg ${KJS_DOGFOOD}${CDJ_REL_PATH}"
+alias cdj="node ${KJS_DIR}${CDJ_REL_PATH} $*"
+alias cdjd="dbg ${KJS_DIR}${CDJ_REL_PATH}"
 
 # cpk
 export CPK_REL_PATH="/package/create/package-json/exe.js"
 alias cpk_="node ${KJS_DOGFOOD_STABLE}${CPK_REL_PATH} $*"
-alias cpk="node ${KJS_DOGFOOD}${CPK_REL_PATH} $*"
-alias cpkd="dbg ${KJS_DOGFOOD}${CPK_REL_PATH}"
+alias cpk="node ${KJS_DIR}${CPK_REL_PATH} $*"
+alias cpkd="dbg ${KJS_DIR}${CPK_REL_PATH}"
+
+#fpk
+export FPK_REL_PATH="/package/find/exe.js"
+alias fpk="node ${KJS_DIR}${FPK_REL_PATH} $*"

@@ -1,0 +1,34 @@
+{
+  "name": "@kingjs/package.find",
+  "version": "1.0.0",
+  "description": "The description.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/.template"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/fs.promises.dir.list": "file:../../fs/promises/dir/list",
+    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs/path": "file:../../path",
+    "@kingjs/run": "file:../../run"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "devDependencies": {
+    "@kingjs/fs.promises.dir.remove": "file:../../fs/promises/dir/remove",
+    "@kingjs/fs.promises.save": "file:../../fs/promises/save"
+  }
+}

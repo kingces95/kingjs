@@ -1,6 +1,6 @@
 var assert = require('assert')
 var Expand = require('..')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var Save = require('@kingjs/fs.promises.save')
 var Read = require('@kingjs/fs.file.read')
 var ExpandArray = require('@kingjs/array.expand')

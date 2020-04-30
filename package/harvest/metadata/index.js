@@ -3,7 +3,7 @@ var {
   Path, 
   assert,
   ['@kingjs']: { 
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension },
     stringEx: { ReplaceAll },
     json: { file: { Read: ReadJsonFile } },
@@ -91,4 +91,4 @@ function getRepositoryFromPath(packageRelDir, url) {
   return ''
 }
 
-module[ExportExtension](Path, harvestMetadata)
+module[ExportExtension](Path.Builder, harvestMetadata)

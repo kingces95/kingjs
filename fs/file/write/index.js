@@ -2,7 +2,7 @@ var {
   fs,
   ['@kingjs']: { 
     module: { ExportExtension },
-    path: { Builder: Path },
+    Path,
   }
 } = require('./dependencies')
 
@@ -17,4 +17,4 @@ async function writeFile(data) {
   return fs.writeFileSync(this.buffer, data)
 }
 
-module[ExportExtension](Path, writeFile)
+module[ExportExtension](Path.Builder, writeFile)

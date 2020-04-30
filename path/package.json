@@ -11,6 +11,7 @@
     "type": "git",
     "url": ""
   },
+  "capitalize": true,
   "dependencies": {
     "@kingjs/path-builder": "file:../path-builder"
   },

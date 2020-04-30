@@ -1,7 +1,7 @@
 var { 
   fs,
   ['@kingjs']: { 
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -15,4 +15,4 @@ async function unlink() {
   return fs.unlinkSync(this.buffer)
 }
 
-module[ExportExtension](Path, unlink)
+module[ExportExtension](Path.Builder, unlink)

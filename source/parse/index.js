@@ -2,7 +2,7 @@ var {
   fs,
   typescript: ts,
   ['@kingjs']: {
-    path: { Builder: Path },
+    Path,
     fs: { promises: { file: { Read: ReadFile } } },
     module: { ExportExtension },
     reflect: { is },
@@ -155,4 +155,4 @@ function map(node, options, depth = 0) {
   return result;
 }
 
-module[ExportExtension](Path, parse)
+module[ExportExtension](Path.Builder, parse)

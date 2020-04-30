@@ -1,8 +1,6 @@
 var { 
   ['@kingjs']: {
-    path: {
-      Builder: Path
-    },
+    Path,
     module: {
       ExportExtension
     },
@@ -27,4 +25,4 @@ async function resolveNpmScope() {
   return this[Probe](npmScopeJson)
 }
 
-module[ExportExtension](Path, resolveNpmScope)
+module[ExportExtension](Path.Builder, resolveNpmScope)

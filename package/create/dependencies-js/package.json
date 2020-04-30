@@ -27,7 +27,7 @@
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
-    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/path": "file:../../../path",
     "@kingjs/pojo.map": "file:../../../pojo/map",
     "@kingjs/pojo.promises.map": "file:../../../pojo/promises/map"
   },

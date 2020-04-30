@@ -26,7 +26,7 @@
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.parse": "file:../../name/parse",
     "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",
-    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/path": "file:../../../path",
     "@kingjs/pojo.to-pairs": "file:../../../pojo/to-pairs",
     "@kingjs/source.get-info": "file:../../../source/get-info",
     "@kingjs/source.parse": "file:../../../source/parse"

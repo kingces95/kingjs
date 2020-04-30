@@ -5,7 +5,7 @@ var assert = require('assert')
 var fs = require('fs')
 var Parse = require('..')
 var types = require('@kingjs/source.types')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 
 var { 
   SourceFile,

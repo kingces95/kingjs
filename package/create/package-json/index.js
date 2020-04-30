@@ -2,7 +2,7 @@ var {
   assert,
   ['@kingjs']: {
     module: { ExportExtension },
-    path: { Builder: Path },
+    Path,
     fs: {
       promises: { 
         Exists,
@@ -80,4 +80,4 @@ async function createPackage() {
   await packageJsonPath[UpdateJsonFile](package)
 }
 
-module[ExportExtension](Path, createPackage)
+module[ExportExtension](Path.Builder, createPackage)

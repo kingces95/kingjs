@@ -6,7 +6,7 @@
         //"**/.npmignore": true,
         //"**/jsconfig.json": true,
         "**/.coverage": true,
-        "node_modules": true,
+        //"**/node_modules": true,
         "**/package-lock.json": true,
         //"**/package.json": true,
         //"**/LICENSE": true,

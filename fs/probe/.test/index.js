@@ -1,6 +1,6 @@
 var assert = require('assert')
 var Probe = require('..')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var Save = require('@kingjs/fs.promises.save')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 var ReadJsonFile = require('@kingjs/json.file.read')

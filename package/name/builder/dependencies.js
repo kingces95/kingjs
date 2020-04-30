@@ -11,9 +11,7 @@ module.exports = {
         parse: require("@kingjs/package.name.parse")
       }
     },
-    path: {
-      Builder: require("@kingjs/path.builder")
-    },
+    Path: require("@kingjs/path"),
     stringEx: {
       Builder: require("@kingjs/string-ex.builder")
     }

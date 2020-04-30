@@ -1,19 +1,14 @@
 var assert = require('assert')
-var ToArray = require('..')
+var ToPairs = require('..')
 
-var list = {
-  value: 0,
-  next: {
-    value: 1,
-    next: {
-      value: 2
-    }
-  }
+var pojo = {
+  foo: 0,
+  bar: 1
 }
 
-var actual = list[ToArray](o => o.next, o => o.value)
-assert.deepEqual(actual, [ 0, 1, 2 ])
+var actual = pojo[ToPairs]()
 
-var actual = list[ToArray](o => o.next)
-actual = actual.map(o => o.value)
-assert.deepEqual(actual, [ 0, 1, 2 ])
+assert.deepEqual(actual, [
+  { key: 'foo', value: 0 },
+  { key: 'bar', value: 1 },
+])

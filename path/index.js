@@ -34,6 +34,10 @@ var posix
  */
 class Path {
 
+  static get Builder() {
+    return PathBuilder
+  }
+
   static get posix() {
     if (!posix)
       posix = new Path(NodePath.posix)
@@ -73,11 +77,14 @@ class Path {
   }
 
   static async launch(symbol) {
+    var cwd = Path.parse(process.cwd())
+
     var args = process.argv.slice()
     var node = args.shift()
     var file = args.shift()
-    var path = Path.parse(args.shift() || process.cwd())
-    await path[symbol](...args)
+    var path = cwd.to(Path.parse(args.shift() || '.'))
+    var relPath = cwd.toRelative(path)
+    return await relPath[symbol](...args)
   }
 
   constructor(platform) {

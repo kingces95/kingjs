@@ -1,23 +1,27 @@
 module.exports = {
   assert: require("assert"),
   fs: require("fs"),
-  path: require("path"),
-  '@kingjs': {
-    module: { ExportExtension: require('@kingjs/module.export-extension') },
-    path: {
-      Builder: require("@kingjs/path.builder"),
-    },
-    reflect: {
-      is: require('@kingjs/reflect.is')
-    },
-    json: { 
-      stringify: require('@kingjs/json.stringify')
-    },
+  Path: require("path"),
+  "@kingjs": {
+    Path: require("@kingjs/path"),
     fs: {
       promises: {
-        WriteFile: require("@kingjs/fs.promises.file.write"),
-        MakeDir: require("@kingjs/fs.promises.dir.make"),
+        dir: {
+          Make: require("@kingjs/fs.promises.dir.make")
+        },
+        file: {
+          Write: require("@kingjs/fs.promises.file.write")
+        }
       }
+    },
+    json: {
+      stringify: require("@kingjs/json.stringify")
+    },
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
+    },
+    reflect: {
+      is: require("@kingjs/reflect.is")
     }
   }
 }

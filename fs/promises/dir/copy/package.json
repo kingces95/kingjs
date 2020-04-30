@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/fs.promises.dir.copy",
-  "version": "1.0.0",
-  "description": "The description.",
+  "version": "0.0.0",
+  "description": "Copies a directory's files and sub-directories in parallel.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,24 +13,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/.template"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/module.export-extension": "file:../../../../module/export-extension",
-    "@kingjs/fs.promises.file.copy": "file:../../file/copy",
+    "@kingjs/array.partition": "file:../../../../array/partition",
     "@kingjs/fs.promises.dir.list": "file:../list",
     "@kingjs/fs.promises.dir.make": "file:../make",
+    "@kingjs/fs.promises.file.copy": "file:../../file/copy",
     "@kingjs/fs.promises.file.read": "file:../../file/read",
     "@kingjs/fs.promises.file.write": "file:../../file/write",
-    "@kingjs/path.builder": "file:../../../../path/builder",
+    "@kingjs/module.export-extension": "file:../../../../module/export-extension",
+    "@kingjs/path": "file:../../../../path",
     "@kingjs/run": "file:../../../../run"
   },
-  "nodeDependencies": [
-    "fs"
-  ],
+  "nodeDependencies": [],
   "devDependencies": {
     "@kingjs/fs.promises.load": "file:../../load",
     "@kingjs/fs.promises.dir.remove": "file:../../dir/remove",

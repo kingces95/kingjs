@@ -1,5 +1,3 @@
-'use strict';
-
 var testTheory = require('..');
 var assert = require('assert');
 

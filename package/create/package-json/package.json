@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "@kingjs/package.create.package-json",
   "version": "",
   "description": "",
   "main": "index.js",
@@ -29,7 +29,7 @@
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata",
     "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
-    "@kingjs/path.builder": "file:../../../path/builder"
+    "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [
     "path",

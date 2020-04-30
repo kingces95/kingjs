@@ -1,19 +1,25 @@
 module.exports = {
-  fs: require("fs"),
   "@kingjs": {
-    module: { ExportExtension: require('@kingjs/module.export-extension') },
-    path: {
-      Builder: require("@kingjs/path.builder"),
-    },
+    Path: require("@kingjs/path"),
     run: require("@kingjs/run"),
+    array: {
+      Partition: require("@kingjs/array.partition")
+    },
     fs: {
       promises: {
-        ReadFile: require("@kingjs/fs.promises.file.read"),
-        WriteFile: require("@kingjs/fs.promises.file.write"),
-        CopyFile: require("@kingjs/fs.promises.file.copy"),
-        MakeDir: require("@kingjs/fs.promises.dir.make"),
-        List: require("@kingjs/fs.promises.dir.list")
+        dir: {
+          List: require("@kingjs/fs.promises.dir.list"),
+          Make: require("@kingjs/fs.promises.dir.make")
+        },
+        file: {
+          Copy: require("@kingjs/fs.promises.file.copy"),
+          Read: require("@kingjs/fs.promises.file.read"),
+          Write: require("@kingjs/fs.promises.file.write")
+        }
       }
+    },
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
     }
   }
 }

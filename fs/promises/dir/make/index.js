@@ -1,9 +1,7 @@
 var { 
   fs: { promises: fs },
   ['@kingjs']: { 
-    path: {
-      Builder: Path
-    },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -19,4 +17,4 @@ function makeDir() {
   return fs.mkdir(this.buffer, Recursive)
 }
 
-module[ExportExtension](Path, makeDir)
+module[ExportExtension](Path.Builder, makeDir)

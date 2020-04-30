@@ -1,5 +1,6 @@
 module.exports = {
   "@kingjs": {
+    Path: require("@kingjs/path"),
     fs: {
       Exists: require("@kingjs/fs.exists"),
       Probe: require("@kingjs/fs.probe"),
@@ -10,9 +11,6 @@ module.exports = {
     },
     module: {
       ExportExtension: require("@kingjs/module.export-extension")
-    },
-    path: {
-      Builder: require("@kingjs/path.builder")
     },
     stringEx: {
       Expand: require("@kingjs/string-ex.expand")

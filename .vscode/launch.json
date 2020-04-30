@@ -6,6 +6,15 @@
     "configurations": [
 
       {
+        "name": "Launch",
+        "request": "launch",
+        "type": "node",
+        "program": "${file}",
+        "cwd": "${fileDirname}",
+        "console": "integratedTerminal",
+      },
+
+      {
         "name": "Attach",
         "request": "attach",
         "type": "node",
@@ -13,11 +22,20 @@
       },
 
       {
-        "name": "Launch",
+        "name": "Test",
         "request": "launch",
         "type": "node",
-        "program": "${file}",
-        "cwd": "${fileDirname}",
+        "program": "${fileDirname}/.test/index.js",
+        "cwd": "${fileDirname}/.test",
+        "console": "integratedTerminal",
+      },
+
+      {
+        "name": "Exe",
+        "request": "launch",
+        "type": "node",
+        "program": "${fileDirname}/exe.js",
+        "cwd": "${workspaceFolder}/path",
         "console": "integratedTerminal",
       }
     ]

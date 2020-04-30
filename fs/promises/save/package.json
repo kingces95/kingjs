@@ -23,7 +23,7 @@
     "@kingjs/fs.promises.dir.make": "file:../dir/make",
     "@kingjs/fs.promises.file.write": "file:../file/write",
     "@kingjs/json.stringify": "file:../../../json/stringify",
-    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/path": "file:../../../path",
     "@kingjs/reflect.is": "file:../../../reflect/is"
   },
   "nodeDependencies": [

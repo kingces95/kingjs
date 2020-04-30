@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/graph.poset.to-tree",
+  "version": "0.0.0",
+  "description": "Strips edegs from a poset to form a tree whose traversal is a total order of the poset.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "capitalize": true,
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/array.peek": "file:../../../array/peek",
+    "@kingjs/graph.poset.reduce": "file:../reduce",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/pojo.reduce": "file:../../../pojo/reduce"
+  },
+  "nodeDependencies": []
+}

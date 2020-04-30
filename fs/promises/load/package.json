@@ -23,7 +23,7 @@
     "@kingjs/fs.promises.dir.list": "file:../dir/list",
     "@kingjs/fs.promises.file.read": "file:../file/read",
     "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
-    "@kingjs/path.builder": "file:../../../path/builder"
+    "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [
     "fs",

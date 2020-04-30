@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/path.builder": "file:../../../../path/builder",
+    "@kingjs/path": "file:../../../../path",
     "@kingjs/module.export-extension": "file:../../../../module/export-extension"
   },
   "nodeDependencies": [

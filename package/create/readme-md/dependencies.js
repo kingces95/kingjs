@@ -36,9 +36,7 @@ module.exports = {
         }
       }
     },
-    path: {
-      Builder: require("@kingjs/path.builder")
-    },
+    Path: require("@kingjs/path"),
     pojo: {
       ToPairs: require("@kingjs/pojo.to-pairs")
     },

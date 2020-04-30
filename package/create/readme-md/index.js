@@ -1,6 +1,6 @@
 var {
   '@kingjs': { 
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension },
     fs: { 
       Probe,
@@ -68,4 +68,4 @@ async function createReadme() {
   template[Expand](ReadmeName, TemplateName, TemplateDir, substitutions)
 }
 
-module[ExportExtension](Path, createReadme)
+module[ExportExtension](Path.Builder, createReadme)

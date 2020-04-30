@@ -1,6 +1,6 @@
 var {
   '@kingjs': {
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension },
     stringEx: { Expand },
     fs: { file: { Read, Write }, Probe, Exists }
@@ -57,4 +57,4 @@ function expand(targetRelPath, templateRelPath, probeRelDir, substitutions) {
   }
 }
 
-module[ExportExtension](Path, expand)
+module[ExportExtension](Path.Builder, expand)

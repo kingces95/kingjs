@@ -1,9 +1,7 @@
 var { 
   fs: { promises: fs },
   ['@kingjs']: { 
-    path: {
-      Builder: Path
-    },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -14,7 +12,7 @@ var {
  * @this PathBuilder The path to check.
  */
 function copyFile(target) {
-  return fs.copyFile(this.buffer, Path.parse(target).buffer)
+  return fs.copyFile(this.buffer, target.buffer)
 }
 
-module[ExportExtension](Path, copyFile)
+module[ExportExtension](Path.Builder, copyFile)

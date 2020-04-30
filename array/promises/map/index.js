@@ -22,7 +22,7 @@ async function map(callback = o => o) {
   await run(async function*() {
     for (var i = 0; i < array.length; i++) {
       yield (async function*(j) {
-        result[j] = callback(await array[j])
+        result[j] = await callback(array[j])
       })(i)
     }
   })

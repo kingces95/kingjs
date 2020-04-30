@@ -17,6 +17,8 @@
   "keywords": [],
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@kingjs/from-each": "file:../from-each"
+  },
   "devDependencies": {}
 }

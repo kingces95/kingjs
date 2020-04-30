@@ -1,20 +1,21 @@
 module.exports = {
-  assert: require("assert"),
   fs: require("fs"),
-  path: require("path"),
-  '@kingjs': {
-    module: { ExportExtension: require('@kingjs/module.export-extension') },
+  Path: require("path"),
+  "@kingjs": {
+    Path: require("@kingjs/path"),
     fs: {
       promises: {
-        file: {
-          Read: require("@kingjs/fs.promises.file.read"),
+        dir: {
+          List: require("@kingjs/fs.promises.dir.list"),
+          Remove: require("@kingjs/fs.promises.dir.remove")
         },
-        Load: require("@kingjs/fs.promises.load"),
-        List: require("@kingjs/fs.promises.dir.list")
+        file: {
+          Read: require("@kingjs/fs.promises.file.read")
+        }
       }
     },
-    path: {
-      Builder: require("@kingjs/path.builder"),
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
     }
   }
 }

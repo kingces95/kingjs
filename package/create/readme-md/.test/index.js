@@ -1,6 +1,6 @@
 var assert = require('assert')
 var CreateReadme = require('..')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var Save = require('@kingjs/fs.promises.save')
 var ReadFile = require('@kingjs/fs.promises.file.read')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')

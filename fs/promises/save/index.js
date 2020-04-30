@@ -1,12 +1,10 @@
 var { 
   '@kingjs': {
-    path: {
-      Builder: Path
-    },
+    Path,
     fs: {
       promises: {
-        MakeDir,
-        WriteFile
+        dir: { Make: MakeDir },
+        file: { Write: WriteFile}
       }
     },
     reflect: { is },
@@ -45,4 +43,4 @@ async function save(pojo) {
   }
 }
 
-module[ExportExtension](Path, save)
+module[ExportExtension](Path.Builder, save)

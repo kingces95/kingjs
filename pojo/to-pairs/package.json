@@ -13,13 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/pojo/to-pairs"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
   "capitalize": "true",
   "dependencies": {
-    "@kingjs/module.export-extension": "file:../../module/export-extension"
+    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs/pojo.reduce": "file:../reduce"
   },
   "nodeDependencies": [
     "assert"

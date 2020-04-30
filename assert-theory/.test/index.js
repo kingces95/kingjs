@@ -1,6 +1,3 @@
-'use strict';
-
-require('./readme');
 var testTheory = require('..');
 var assert = require('assert');
 

@@ -3,6 +3,9 @@ module.exports = {
   "@kingjs": {
     module: {
       ExportExtension: require("@kingjs/module.export-extension")
+    },
+    pojo: {
+      Reduce: require("@kingjs/pojo.reduce")
     }
   }
 }

@@ -4,9 +4,7 @@ var {
     array: {
       Partition
     },
-    path: {
-      Builder: Path
-    },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -43,8 +41,8 @@ async function list(options = EmptyObject) {
   }
 
   return listing
-    .map(o => this.to(o))
     .sort()
+    .map(o => this.to(o))
 }
 
-module[ExportExtension](Path, list)
+module[ExportExtension](Path.Builder, list)

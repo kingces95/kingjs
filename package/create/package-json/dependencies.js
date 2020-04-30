@@ -30,8 +30,6 @@ module.exports = {
         NpmScope: require("@kingjs/package.resolve.npm-scope")
       }
     },
-    path: {
-      Builder: require("@kingjs/path.builder")
-    }
+    Path: require("@kingjs/path")
   }
 }

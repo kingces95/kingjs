@@ -22,7 +22,7 @@
     "@kingjs/buffer.append": "file:../../../buffer/append",
     "@kingjs/package.name.construct": "file:../construct",
     "@kingjs/package.name.parse": "file:../parse",
-    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/path": "file:../../../path",
     "@kingjs/string-ex.builder": "file:../../../string-ex/builder",
     "is-builtin-module": "file:../../../.npm/node_modules/is-builtin-module"
   },

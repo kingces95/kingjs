@@ -1,9 +1,7 @@
 var { 
   fs: { promises: fs },
   ['@kingjs']: { 
-    path: {
-      Builder: Path
-    },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -20,4 +18,4 @@ async function readFile(options) {
   return fs.readFile(this.buffer, options)
 }
 
-module[ExportExtension](Path, readFile)
+module[ExportExtension](Path.Builder, readFile)

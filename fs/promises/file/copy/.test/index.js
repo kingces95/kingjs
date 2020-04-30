@@ -1,6 +1,6 @@
 var assert = require('assert')
 var CopyFile = require('..')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var Exists = require('@kingjs/fs.promises.exists')
 var Unlink = require('@kingjs/fs.promises.file.unlink')
 var WriteFile = require('@kingjs/fs.promises.file.write')

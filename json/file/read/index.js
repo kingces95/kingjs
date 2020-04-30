@@ -4,9 +4,7 @@ var {
     module: {
       ExportExtension,
     },
-    path: {
-      Builder: Path,
-    },
+    Path,
     fs: { 
       promises: { 
         Exists,
@@ -27,4 +25,4 @@ async function readJsonFile() {
   return pojo
 }
 
-module[ExportExtension](Path, readJsonFile)
+module[ExportExtension](Path.Builder, readJsonFile)

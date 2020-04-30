@@ -26,7 +26,7 @@
     "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
     "@kingjs/package.source.parse.object-binding-pattern.to-package-names": "file:../../source/parse/object-binding-pattern/to-package-names",
     "@kingjs/package.source.parse.source-file.get-dependencies": "file:../../source/parse/source-file/get-dependencies",
-    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/path": "file:../../../path",
     "@kingjs/source.parse": "file:../../../source/parse",
     "@kingjs/string-ex.replace-all": "file:../../../string-ex/replace-all",
     "is-builtin-module": "file:../../../.npm/node_modules/is-builtin-module",

@@ -1,16 +1,18 @@
 var { 
   '@kingjs': {
-    path: {
-      Builder: Path
-    },
+    Path,
     run,
     fs: {
       promises: {
-        ReadFile, 
-        WriteFile, 
-        List, 
-        MakeDir, 
-        CopyFile
+        file: { 
+          Read: ReadFile,
+          Write: WriteFile,
+          Copy: CopyFile
+        },
+        dir: {
+          Make: MakeDir,
+          List
+        },
       }
     },
     module: { ExportExtension }
@@ -22,7 +24,7 @@ var WithFileTypes = { withFileTypes: true }
 var EmptyArray = []
 
 /**
- * @description Copies a directory's files and sub-directories.
+ * @description Copies a directory's files and sub-directories in parallel.
  * 
  * @this any The source directory path.
  * 
@@ -82,6 +84,6 @@ async function* copyDirGenerator(target, map) {
   }
 }
 
-module[ExportExtension](Path, function copyDir(target, map) {
+module[ExportExtension](Path.Builder, function copyDir(target, map) {
   return run(copyDirGenerator.call(this, target, map))
 })

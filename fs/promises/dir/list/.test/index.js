@@ -1,5 +1,5 @@
 var assert = require('assert')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var List = require('..')
 var WriteFile = require('@kingjs/fs.promises.file.write')
 var MakeDir = require('@kingjs/fs.promises.dir.make')
@@ -8,8 +8,8 @@ var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 var WithFileTypes = { withFileTypes: true }
 
 async function test() {
-  var { Relative } = Path
-  var acme = Relative.to('acme')
+  var { dot } = Path
+  var acme = dot.to('acme')
   var foo = acme.to('foo.txt')
   var bar = acme.to('bar')
 

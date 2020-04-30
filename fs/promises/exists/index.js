@@ -1,9 +1,7 @@
 var { 
   fs,
   ['@kingjs']: { 
-    path: {
-      Builder: Path
-    },
+    Path,
     module: {
       ExportExtension
     },
@@ -21,4 +19,4 @@ function exists() {
   ))
 }
 
-module[ExportExtension](Path, exists)
+module[ExportExtension](Path.Builder, exists)

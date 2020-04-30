@@ -1,9 +1,7 @@
 var { 
   fs: { promises: fs },
   ['@kingjs']: { 
-    path: {
-      Builder: Path
-    },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -19,4 +17,4 @@ function removeDir() {
   return fs.rmdir(this.buffer, Recursive)
 }
 
-module[ExportExtension](Path, removeDir)
+module[ExportExtension](Path.Builder, removeDir)

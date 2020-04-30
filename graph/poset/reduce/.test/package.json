@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@kingjs/graph.tree.print": "file:../../../tree/print",
+    "@kingjs/graph.poset.reduce": "file:.."
+  }
+}

@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/module.export-extension": "file:../../../../module/export-extension",
-    "@kingjs/path.builder": "file:../../../../path/builder"
+    "@kingjs/path": "file:../../../../path"
   },
   "nodeDependencies": [
     "fs"

@@ -2,7 +2,7 @@ var {
   fs, assert,
   '@kingjs': {
     module: { ExportExtension },
-    path: { Builder: Path },
+    Path,
     fs: {
       promises: {
         Exists,
@@ -73,4 +73,4 @@ async function createDependencies() {
   await dependenciesJs[WriteFile](dependencies)
 }
 
-module[ExportExtension](Path, createDependencies)
+module[ExportExtension](Path.Builder, createDependencies)

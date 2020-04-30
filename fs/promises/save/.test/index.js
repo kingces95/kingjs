@@ -1,6 +1,6 @@
 var assert = require('assert')
 var { promises: fs } = require('fs')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var Save = require('..')
 
 var Acme = 'acme'

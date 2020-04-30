@@ -1,7 +1,7 @@
 var { 
   fs,
   ['@kingjs']: { 
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -15,4 +15,4 @@ function exists() {
   return fs.existsSync(this.buffer)
 }
 
-module[ExportExtension](Path, exists)
+module[ExportExtension](Path.Builder, exists)

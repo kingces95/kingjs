@@ -24,7 +24,7 @@
     "@kingjs/package.name.builder": "file:../../name/builder",
     "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
     "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",
-    "@kingjs/path.builder": "file:../../../path/builder",
+    "@kingjs/path": "file:../../../path",
     "@kingjs/source.get-info": "file:../../../source/get-info",
     "@kingjs/source.parse": "file:../../../source/parse",
     "@kingjs/string-ex.replace-all": "file:../../../string-ex/replace-all"

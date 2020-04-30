@@ -2,7 +2,7 @@ var {
   Path,
   ['@kingjs']: {
     module: { ExportExtension },
-    path: { Builder: Path },
+    Path,
     fs: {
       promises: {
         Exists 
@@ -31,4 +31,4 @@ async function probe(path) {
   }
 }
 
-module[ExportExtension](Path, probe)
+module[ExportExtension](Path.Builder, probe)

@@ -1,7 +1,7 @@
 var { 
   fs,
   ['@kingjs']: { 
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -18,4 +18,4 @@ function readFile(options) {
   return fs.readFileSync(this.buffer, options)
 }
 
-module[ExportExtension](Path, readFile)
+module[ExportExtension](Path.Builder, readFile)

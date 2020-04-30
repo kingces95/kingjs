@@ -40,9 +40,7 @@ module.exports = {
         }
       }
     },
-    path: {
-      Builder: require("@kingjs/path.builder")
-    },
+    Path: require("@kingjs/path"),
     source: {
       Parse: require("@kingjs/source.parse")
     },

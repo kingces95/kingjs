@@ -2,7 +2,7 @@ var assert = require('assert')
 var NameBuilder = require('..')
 var isBuiltinModule = require('is-builtin-module')
 var ReplaceAll = require('@kingjs/string-ex.replace-all')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 
 var builders = []
 

@@ -1,5 +1,6 @@
 var { 
   ['@kingjs']: { 
+    pojo: { Reduce },
     module: { ExportExtension },
   }
 } = require('./dependencies')
@@ -18,13 +19,7 @@ var {
  * @returns Returns a new pojo with mapped values.
  */
 function map(callback = o => o) {
-  var pojo = this
-  var result = { }
-
-  for (var key in pojo) 
-    result[key] = callback(pojo[key], key)
-
-  return result;
+  return this[Reduce]((a, k, v) => { a[k] = callback(v, k) }, { })
 }
 
 module[ExportExtension](Object, map)

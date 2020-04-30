@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs/fs.promises.find",
+  "version": "0.0.0",
+  "description": "Searches parent directories for a path.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "@kingjs/fs.promises.dir.list": "file:../dir/list",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/path": "file:../../../path"
+  },
+  "nodeDependencies": [
+    "path"
+  ],
+  "devDependencies": {
+    "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
+    "@kingjs/fs.promises.save": "file:../save"
+  }
+}

@@ -3,9 +3,7 @@ var {
     module: {
       ExportExtension,
     },
-    path: {
-      Builder: Path,
-    },
+    Path,
     json: {
       file: {
         read: ReadJsonFile,
@@ -21,4 +19,4 @@ async function updateJsonFile(pojo) {
   await this[WriteJsonFile](newJson)
 }
 
-module[ExportExtension](Path, updateJsonFile)
+module[ExportExtension](Path.Builder, updateJsonFile)

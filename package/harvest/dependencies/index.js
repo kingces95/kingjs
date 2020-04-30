@@ -4,7 +4,7 @@ var {
   ['@kingjs']: { 
     json: { file: { Read: ReadJsonFile } },
     fs: { promises: { Exists } },
-    path: { Builder: Path },
+    Path,
     module: { ExportExtension }, 
     array: { promises: { Map: AsyncMap } },
     stringEx: { ReplaceAll },
@@ -56,8 +56,7 @@ async function harvestDependencies(npmScopePath) {
   var fileDependencies = await files
     .filter(o => o.ext == DotJs)
     .map(o => packageDir.to(o))
-    .map(getFileDependencies)
-    [AsyncMap]()
+    [AsyncMap](getFileDependencies)
 
   // remove duplicates
   var dependencies = [...new Set(fileDependencies.flat().sort())]
@@ -99,4 +98,4 @@ async function getFileDependencies(path) {
   return objectBindingPattern[ToPackageNames]()
 }
 
-module[ExportExtension](Path, harvestDependencies)
+module[ExportExtension](Path.Builder, harvestDependencies)

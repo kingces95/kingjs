@@ -4,9 +4,7 @@ var {
     module: {
       ExportExtension
     },
-    path: {
-      Builder: Path
-    },
+    Path,
     fs: {
       promises: {
         file: { 
@@ -25,4 +23,4 @@ async function writeJsonFile(pojo) {
   await this[WriteFile](json)
 }
 
-module[ExportExtension](Path, writeJsonFile)
+module[ExportExtension](Path.Builder, writeJsonFile)

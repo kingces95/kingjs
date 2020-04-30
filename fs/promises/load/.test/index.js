@@ -1,5 +1,5 @@
 var assert = require('assert')
-var Path = require('@kingjs/path.builder')
+var Path = require('@kingjs/path')
 var RemoveDir = require('@kingjs/fs.promises.dir.remove')
 var Save = require('@kingjs/fs.promises.save')
 var Load = require('..')

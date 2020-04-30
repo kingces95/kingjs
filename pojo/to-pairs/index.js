@@ -1,6 +1,7 @@
 var { 
   assert,
   '@kingjs': {
+    pojo: { Reduce },
     module: { ExportExtension }
   }
 } = require('./dependencies')
@@ -14,12 +15,7 @@ var {
  * @returns Returns an array of `{ key, value }`.
  */
 function toPairs() {
-  var result = []
-
-  for (var key in this)
-    result.push({ key, value: this[key] })
-
-  return result
+  return this[Reduce]((a, key, value) => { a.push({ key, value }) }, [])
 }
 
 module[ExportExtension](Object, toPairs)
