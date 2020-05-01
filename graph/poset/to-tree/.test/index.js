@@ -2,10 +2,6 @@ var ToTree = require('@kingjs/graph.poset.to-tree')
 var Print = require('@kingjs/graph.tree.print')
 var assert = require('assert')
 
-// Given a poset (https://en.wikipedia.org/wiki/Partially_ordered_set) 
-// where `'a'` depends on `'b'` and `'c'` which, in turn, both depend 
-// on `'d'` generate a total ordering like this:
-
 //    a
 //   / \
 //  b   c
@@ -18,14 +14,12 @@ var poset = {
 }
 
 var tree = poset[ToTree]()
-tree[Print]()
-
-assert.deepEqual(tree, {
-  a: [ 'b', 'c' ],
-  b: [ 'd' ],
-})
-
-console.log('---')
+assert.deepEqual(tree[Print](), [
+  '   ┌──▌  d',
+  '┌──▌  b',
+  '▌  a',
+  '└──▌  c',
+])
 
 //    a
 //   / \
@@ -47,26 +41,21 @@ var poset = {
   x: [ 'f' ]
 }
 
-poset[ToTree]()
-  [Print]()
+var tree = poset[ToTree]()
+assert.deepEqual(tree[Print](), [
+  '         ┌──▌  g',
+  '      ┌──▌  e',
+  '   ┌──▌  d',
+  '   │  │  ┌──▌  h',
+  '   │  └──▌  f',
+  '┌──▌  b',
+  '▌  a',
+  '│  ┌──▌  x',
+  '└──▌  c',
+])
 
-console.log('---')
-
-var target = 'e'
-
-poset[ToTree]({ 
-  roots: [ target ],
-})[Print]()
-
-console.log('---')
-
-poset[ToTree]({ 
-  leafs: [ target ],
-})[Print]()
-
-// var maxDepth = 3
-// poset[Reduce](function(_, vertex, stack) {
-//   console.log(' '.repeat(maxDepth - stack.length) + vertex)
-// }, null, { 
-//   leafs: [ target ] 
-// })
+var tree = poset[ToTree]('e')
+assert.deepEqual(tree[Print](), [
+  '┌──▌  g',
+  '▌  e'
+])

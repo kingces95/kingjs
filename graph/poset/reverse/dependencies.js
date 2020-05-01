@@ -2,7 +2,7 @@ module.exports = {
   "@kingjs": {
     graph: {
       poset: {
-        Copy: require("@kingjs/graph.poset.copy")
+        Reduce: require("@kingjs/graph.poset.reduce")
       }
     },
     module: {

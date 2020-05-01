@@ -21,27 +21,26 @@ var Return = '\n'
 var Indent = '   '
 var BarIndent = '│  '
 
-var stdout = process.stdout
-var write = text => stdout.write(text)
-var writeLine = text => write(text + Return)
+var Order = {
+  pre: 'pre',
+  in: 'in',
+  post: 'post'
+}
 
 function toArray(value) {
-  if (!value)
+  if (value === undefined)
     return EmptyArray
   
   if (value instanceof Set)
     return value
   
-  if (is.string(value))
+  if (!is.array(value))
     value = [ value ]
 
   return value
 }
 
 function toSet(value) {
-  if (!value)
-    return EmptySet
-
   return new Set(toArray(value))
 }
 
@@ -49,9 +48,14 @@ function findRoots(graph) {
   return graph[Analyze]().roots
 }
 
-function log(indents, name, depth, position, hasChildren) {
-  if (depth) {
-    // indent for unaccounted for grandparents
+function format(indents, name, depth, position, hasChildren) {
+  var result = ''
+
+  if (!depth) {
+    indents.length = 0
+  }
+  else {
+    // indent for for grandparents
     while (indents.length < depth - 1)
       indents.push(Indent)
 
@@ -60,22 +64,22 @@ function log(indents, name, depth, position, hasChildren) {
 
     // write indents followed by either ┌──, ├──, or └──, capped with ▌
     var elbow = position == 0 ? Middle : position < 0 ? Below : Above
-    write(`${indents.join(EmptyString)}${elbow}${Dash}`)
+    result += `${indents.join(EmptyString)}${elbow}${Dash}`
 
     // if path to parent is ┌── or ├── then the next path at that indent
     // level must be either └──, ├──, or │. If the next line is another
     // sibling of current, then that sibling will emit └──, ├──. 
     // If the next line is grandchild then a │ must be emitted.
     indents.push(position <= 0 ? BarIndent : Indent)
-
-    // if current node has children then the next line must connect the ▌
-    // with either └── if the next line is a child or must be │ if the
-    // next line is a grandchild of the current node.
-    if (hasChildren)
-      indents.push(BarIndent)
   }
 
-  writeLine(`${FatBar}  ${name}`)
+  // if current node has children then the next line must connect the ▌
+  // with either └── if the next line is a child or must be │ if the
+  // next line is a grandchild of the current node.
+  if (hasChildren)
+    indents.push(BarIndent)
+
+  return `${result}${FatBar}  ${name}`
 }
 
 /**
@@ -90,24 +94,45 @@ function log(indents, name, depth, position, hasChildren) {
 function print(options = current) {
   var tree = this
   var indents = []
+  var result = []
 
   var {
     roots = findRoots(tree),
     preOrder = EmptySet,
-    postOrder = EmptySet
+    postOrder = EmptySet,
+    inOrder = EmptySet,
   } = options
+
+  roots = toArray(roots)
 
   preOrder = toSet(preOrder)
   postOrder = toSet(postOrder)
-  roots = toArray(roots)
+  inOrder = toSet(inOrder)
 
+  var getOrder = name => 
+    postOrder.has(name) ? Order.post :
+    preOrder.has(name) ? Order.pre :
+    inOrder.has(name) ? Order.in :
+    null
+
+  var rootOrder = getOrder(null) || Order.in
   for (var name of roots)
-    walk(name)
+    walk(name, rootOrder)
+
+  return result
   
-  function walk(name, depth = 0, position = 0) {
-    var isPost = postOrder.has(name)
-    var isPre = preOrder.has(name)
-    var isIn = !(isPre || isPost)
+  function log(indents, name, depth, position, hasChildren) {
+    var line = format(indents, name, depth, position, hasChildren)
+    console.log(line)
+    result.push(line)
+  }
+
+  function walk(name, order, depth = 0, position = 0) {
+    order = getOrder(name) || order
+
+    var isPre = Order.pre == order
+    var isPost = Order.post == order
+    var isIn = Order.in == order
   
     var leafs = tree[name] || EmptyArray
     var childDepth = depth + 1
@@ -118,7 +143,7 @@ function print(options = current) {
 
     // a single chlid is always first to appear before or after the current node
     if (leafs.length == 1) {
-      walk(leafs[0], childDepth, (isPost || isIn) ? -1 : 1)
+      walk(leafs[0], order, childDepth, (isPost || isIn) ? -1 : 1)
       leafs = EmptyArray
     }
 
@@ -127,23 +152,23 @@ function print(options = current) {
 
     // first child
     if (leafs.length)
-      walk(leafs[i++], childDepth, isPost || isIn ? -1 : 0)
+      walk(leafs[i++], order, childDepth, isPost || isIn ? -1 : 0)
 
     // children before in-order walks processes current node
     for (; i < midPoint; i++)
-      walk(leafs[i], childDepth)
+      walk(leafs[i], order, childDepth)
 
     // in-order walk prosesses the current node between children
     if (isIn)
-      log(indents, name, depth, position, true)
+      log(indents, name, depth, position, leafs.length > 1)
 
     // children after in-order walks processes current node
     for (; i < leafs.length - 1; i++)
-      walk(leafs[i], childDepth)
+      walk(leafs[i], order, childDepth)
 
     // last child
     if (leafs.length > 1)
-      walk(leafs[i], childDepth, isPre || isIn ? 1 : 0)
+      walk(leafs[i], order, childDepth, isPre || isIn ? 1 : 0)
   
     // post-order walk process the current node last
     if (isPost)

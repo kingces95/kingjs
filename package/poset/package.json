@@ -20,6 +20,8 @@
   "capitalize": true,
   "dependencies": {
     "@kingjs/array.promises.map": "file:../../array/promises/map",
+    "@kingjs/graph.poset.to-tree": "file:../../graph/poset/to-tree",
+    "@kingjs/graph.tree.print": "file:../../graph/tree/print",
     "@kingjs/json.file.read": "file:../../json/file/read",
     "@kingjs/module.export-extension": "file:../../module/export-extension",
     "@kingjs/package.find": "file:../find",

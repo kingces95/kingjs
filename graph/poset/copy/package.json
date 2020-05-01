@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs/graph.poset.to-tree",
+  "name": "@kingjs/graph.poset.copy",
   "version": "0.0.0",
-  "description": "Strips edegs from a poset to form a tree whose traversal is a total order of the poset.",
+  "description": "Copies a poset.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -19,7 +19,7 @@
   "author": "Chris King <kingces95@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@kingjs/graph.poset.copy": "file:../copy",
+    "@kingjs/graph.poset.reduce": "file:../reduce",
     "@kingjs/module.export-extension": "file:../../../module/export-extension"
   },
   "nodeDependencies": []

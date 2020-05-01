@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@kingjs/graph.poset.copy": "file:.."
+  }
+}

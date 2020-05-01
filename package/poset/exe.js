@@ -1,6 +1,25 @@
 #!/usr/bin/env node --no-warnings
-var { '@kingjs': { Path } } = require('./dependencies')
+var { 
+  '@kingjs': { 
+    Path,
+    graph: { 
+      poset: { ToTree },
+      tree: { Print }
+    }
+  } 
+} = require('./dependencies')
 var Poset = require('.')
-Path.launch(Poset)
-  .then(o => console.log(o))
-  .catch(e => console.log(e))
+
+process.chdir('../..')
+
+async function run() {
+  try {
+    var poset = await Path.launch(Poset)
+    var tree = poset[ToTree]()
+    tree[Print]({ postOrder: null })
+  }
+  catch(e) {
+    console.log(e)
+  }
+}
+run()

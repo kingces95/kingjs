@@ -1,0 +1,11 @@
+{
+  "description": "Test dependencies.",
+  "repository": { },
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/graph.poset.add": "file:..",
+    "@kingjs/graph.poset.reverse": "file:../../reverse",
+    "@kingjs/graph.poset.to-tree": "file:../../to-tree",
+    "@kingjs/graph.tree.print": "file:../../../tree/print"
+  }
+}

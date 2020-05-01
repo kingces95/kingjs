@@ -1,7 +1,8 @@
 var {
   ['@kingjs']: {
     Exception,
-    module: { ExportExtension }
+    module: { ExportExtension },
+    graph: { Analyze }
   }
 } = require('./dependencies')
 
@@ -26,6 +27,8 @@ class CycleException extends Exception {
  * 
  * @remarks - If a cycle is detected, then an exception is 
  * thrown listing the vertices involved in the cycle.
+ * @remarks - `visitPerParent` will visit each node once for each
+ * of its parents. The default is to visit each node once.
  */
 function reduce(
   callback = o => o, 
@@ -34,63 +37,71 @@ function reduce(
 
   var poset = this
   var accumulator = initialValue
-  var { roots, leafs } = options
+  var { roots, leafs, visitPerParent } = options
 
   if (leafs)
     leafs = new Set(leafs)
 
-  if (!roots)
-    roots = Object.keys(poset)
+  if (!roots) {
+    var analysis = poset[Analyze]()
+    if (analysis.cycle)
+      throw `Poset contains a cycle '${analysis.cycle}'.`
+    roots = analysis.roots
+  }
 
   var stack = []
   var onStack = new Set()
   var visited = new Map()
 
   for (var i = 0; i < roots.length; i++)
-    visit.call(poset, roots[i]) 
+    visit(roots[i]) 
 
   return accumulator
 
-  function visit(current) {
+  function visit(current, parent = null) {
 
     // test for cycles
     if (onStack.has(current))
       throw new CycleException(stack)
 
-    // test for leaf
-    var children = this[current] || EmptyArray
-    var foundLeaf = leafs ? leafs.has(current) : !children.length
-    if (foundLeaf)
-      children = EmptyArray
-  
-    // bail if dependency already processed
-    if (!visited.has(current)) {
+    var firstVisit = !visited.has(current)
 
-      // prolog
-      stack.push(current)
-      onStack.add(current)
+    // process dependencies on first visit
+    if (firstVisit) {
 
+      // test for leaf
+      var children = poset[current] || EmptyArray
+      var foundLeaf = leafs ? leafs.has(current) : !children.length
+      if (foundLeaf)
+        children = EmptyArray
+        
       // traverse adjacent vertices
-      for (var i = 0; i < children.length; i++)
-        foundLeaf = visit.call(this, children[i]) || foundLeaf
+      if (children.length) {
+        stack.push(current)
+        onStack.add(current)
 
-      // epilog
-      stack.pop()
-      onStack.delete(current)
-      
-      // process vertex (if it depends on a leaf)
-      if (foundLeaf) {
-        var previousAccumulator = accumulator
-        callback(accumulator, current, stack, poset)
-        if (accumulator === undefined)
-          accumulator = previousAccumulator
+        for (var i = 0; i < children.length; i++)
+          foundLeaf = visit(children[i], current) || foundLeaf
+
+        stack.pop()
+        onStack.delete(current)
       }
 
       // log if this vertex depends on a leaf
       visited.set(current, foundLeaf)
     }
 
-    return visited.get(current)
+    var foundLeaf = visited.get(current)
+
+    // process vertex (if it depends on a leaf)
+    if (foundLeaf && (firstVisit || visitPerParent)) {
+      var previousAccumulator = accumulator
+      callback(accumulator, current, parent)
+      if (accumulator === undefined)
+        accumulator = previousAccumulator
+    }
+
+    return foundLeaf
   }
 }
 

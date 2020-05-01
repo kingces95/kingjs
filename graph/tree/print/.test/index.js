@@ -1,38 +1,67 @@
 var assert = require('assert')
 var Print = require('..')
 
-//       r
-//    /     \
-//   b       c
-//  / \     / \
-// d   e   f   h
-// |
-// g 
+//   A
+//  / \
+// B   1
+//  \
+//   0
 
 var tree = {
-  'A': [ 'AA', 'AB', 'AC', 'AD' ],
-  'AA': [ '0', '1' ],
-  'AB': [ '2', 'ABA' ],
-  'ABA': [ '3', '4' ],
-  'ACA': [ '5', '6' ],
-  'AC': [ 'ACA', '7' ],
-  'AD': [ '8', '9' ],
+  'A': [ 'B', '1' ],
+  'B': [ '0' ],
 }
-tree[Print]({ roots: 'A' })
 
-console.log('---')
-tree[Print]({
-  preOrder: [ 'AC', 'AD' ],
-  postOrder: [ 'AA', 'AB' ],
-  inOrder: ['A', 'ACA', 'ABA' ],
-})
+assert.deepEqual(tree[Print](), [
+  '   ┌──▌  0',
+  '┌──▌  B',
+  '▌  A',
+  '└──▌  1'
+])
 
-console.log('---')
-var multiTree = {
-  'A': [ 'a0', 'a1' ],
-  'B': [ 'b0', 'b1' ],
-  'C': [ 'c0', 'CA' ],
-  'CA': [ 'c1', 'c2' ],
+assert.deepEqual(
+  tree[Print](), 
+  tree[Print]({ roots: 'A', inOrder: 'A' }), 
+)
+
+assert.deepEqual(tree[Print]({ roots: 'B' }), [
+  '┌──▌  0',
+  '▌  B',
+])
+
+assert.deepEqual(tree[Print]({ postOrder: 'A' }), [
+  '   ┌──▌  0',
+  '┌──▌  B',
+  '├──▌  1',
+  '▌  A'
+])
+
+assert.deepEqual(tree[Print]({ preOrder: 'A' }), [
+  '▌  A',
+  '├──▌  B',
+  '│  └──▌  0',
+  '└──▌  1'
+])
+
+assert.deepEqual(tree[Print]({ preOrder: 'A', postOrder: 'B' }), [
+  '▌  A',
+  '│  ┌──▌  0',
+  '├──▌  B',
+  '└──▌  1',
+])
+
+var tree = {
+  'Z': [ 'a' ],
+  'A': [ 'B', '1' ],
+  'B': [ '0' ],
 }
-multiTree[Print]()
+tree[Print]({ postOrder: null })
 
+assert.deepEqual(tree[Print](), [
+  '┌──▌  a',
+  '▌  Z',
+  '   ┌──▌  0',
+  '┌──▌  B',
+  '▌  A',
+  '└──▌  1',
+])
