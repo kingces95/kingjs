@@ -12,7 +12,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/harvest/metadata"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.builder": "file:../../name/builder",
-    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
+    "@kingjs/package.scope.probe": "file:../../scope/probe",
     "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",
     "@kingjs/path": "file:../../../path",
     "@kingjs/source.get-info": "file:../../../source/get-info",
@@ -30,7 +30,6 @@
     "@kingjs/string-ex.replace-all": "file:../../../string-ex/replace-all"
   },
   "nodeDependencies": [
-    "assert",
-    "path"
+    "assert"
   ]
 }

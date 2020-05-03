@@ -3,7 +3,7 @@
   "template": ".template",
   "npmDir": ".npm",
   "repository": {
-    "url": "https://repository.kingjs.net/",
+    "url": "https://repository.kingjs.net",
     "type": "git"
   },
   "packageDefaults": {

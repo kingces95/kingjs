@@ -1,7 +1,5 @@
 module.exports = {
   assert: require("assert"),
-  fs: require("fs"),
-  Path: require("path"),
   "@kingjs": {
     Path: require("@kingjs/path"),
     fs: {
@@ -11,6 +9,9 @@ module.exports = {
         },
         file: {
           Write: require("@kingjs/fs.promises.file.write")
+        },
+        link: {
+          Write: require("@kingjs/fs.promises.link.write")
         }
       }
     },

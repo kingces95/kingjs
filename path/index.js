@@ -56,7 +56,7 @@ class Path {
     return current
   }
 
-  static get cwd() {
+  static cwd() {
     return Path.current.cwd()
   }
 

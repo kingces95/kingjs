@@ -9,7 +9,7 @@ var {
     array: { promises: { Map: AsyncMap } },
     stringEx: { ReplaceAll },
     package: {
-      resolve: { NpmScope: ResolveNpmScope },
+      scope: { Probe: ResolveNpmScope },
       name: { parse },
       source: {
         parse: {
@@ -37,7 +37,7 @@ var NodeModules = 'node_modules'
  * @param [packageRelDir] The relative path from `npm-scope.json` to the `packageDir`.
  */
 async function harvestDependencies(npmScopePath) {
-  var packageDir = Path.cwd.to(this)
+  var packageDir = this
   var npmScopePath = npmScopePath || await packageDir[ResolveNpmScope]()
   var npmScopeDir = npmScopePath.dir
   packageRelDir = npmScopeDir.toRelative(packageDir)
@@ -65,7 +65,7 @@ async function harvestDependencies(npmScopePath) {
     dependencies: dependencies
       .filter(o => !isBuiltinModule(o))
       .reduce((a, o) => { 
-        var { scope, name, fullName } = parse(o)
+        var { scope, fullName } = parse(o)
         assert(!scope || scope == thisScope, "Packages with external scopes NYI")
 
         var file = scope ?
@@ -84,7 +84,7 @@ async function harvestDependencies(npmScopePath) {
 }
 
 function getPathFromFullName(fullName) {
-  return fullName[ReplaceAll](Period, Path.root)
+  return Path.parse(fullName[ReplaceAll](Period, Path.root))
 }
 
 async function getFileDependencies(path) {

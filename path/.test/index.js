@@ -6,8 +6,10 @@ var { sep: Sep } = require('path')
 var { posix, windows } = Path
 assert.equal(posix.sep, '/')
 assert.equal(windows.sep, '\\')
+assert.equal(Path.Builder, PathBuilder)
 
-var { root, dot, dotDot, cwd } = Path
+var { root, dot, dotDot } = Path
+var cwd = Path.cwd()
 
 assert.isConsistent = function(path, toString) {
   assert.equal(path.toString(), toString)
@@ -79,5 +81,5 @@ PathBuilder.prototype[PathExtension] = function() {
 }
 Path.launch(PathExtension).then(() => {
   assert(launchArg instanceof PathBuilder)
-  assert.equal(launchArg.toString(), process.argv[2] || process.cwd())
+  //assert.equal(launchArg.toString(), path)
 })

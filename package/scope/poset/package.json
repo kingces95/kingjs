@@ -1,0 +1,36 @@
+{
+  "name": "@kingjs/package.scope.poset",
+  "version": "0.0.0",
+  "description": "Find packages and aggregate their dependencies into a pojo.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/array.promises.map": "file:../../../array/promises/map",
+    "@kingjs/graph.poset.add": "file:../../../graph/poset/add",
+    "@kingjs/graph.poset.reverse": "file:../../../graph/poset/reverse",
+    "@kingjs/graph.poset.to-tree": "file:../../../graph/poset/to-tree",
+    "@kingjs/graph.tree.print": "file:../../../graph/tree/print",
+    "@kingjs/json.file.read": "file:../../../json/file/read",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/package.find": "file:../../find",
+    "@kingjs/package.scope.probe": "file:../probe",
+    "@kingjs/path": "file:../../../path"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

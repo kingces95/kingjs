@@ -1,22 +1,14 @@
 module.exports = {
-  fs: require("fs"),
-  Path: require("path"),
   assert: require("assert"),
+  fs: require("fs"),
   "@kingjs": {
-    module: {
-      ExportExtension: require('@kingjs/module.export-extension')
-    },
-    Path: require('@kingjs/path'),
+    Path: require("@kingjs/path"),
     fs: {
       promises: {
-        Exists: require('@kingjs/fs.promises.exists'),
-        WriteFile: require('@kingjs/fs.promises.file.write'),
-      }
-    },
-    pojo: {
-      Map: require('@kingjs/pojo.map'),
-      promises: {
-        Map: require('@kingjs/pojo.promises.map')
+        Exists: require("@kingjs/fs.promises.exists"),
+        file: {
+          Write: require("@kingjs/fs.promises.file.write")
+        }
       }
     },
     json: {
@@ -24,11 +16,20 @@ module.exports = {
         Read: require("@kingjs/json.file.read")
       }
     },
+    module: {
+      ExportExtension: require("@kingjs/module.export-extension")
+    },
     package: {
       source: {
         generate: {
           dependencies: require("@kingjs/package.source.generate.dependencies")
         }
+      }
+    },
+    pojo: {
+      Map: require("@kingjs/pojo.map"),
+      promises: {
+        Map: require("@kingjs/pojo.promises.map")
       }
     }
   }

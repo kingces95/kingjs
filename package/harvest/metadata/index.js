@@ -1,6 +1,5 @@
 #!/usr/bin/env node --no-warnings
 var {
-  Path, 
   assert,
   ['@kingjs']: { 
     Path,
@@ -8,7 +7,7 @@ var {
     stringEx: { ReplaceAll },
     json: { file: { Read: ReadJsonFile } },
     package: {
-      resolve: { NpmScope: ResolveNpmScope },
+      scope: { Probe: ResolveNpmScope },
       source: { parse: { sourceFile: { GetFirstDocumented } } },
       name: { Builder: PackageName }
     },
@@ -54,6 +53,8 @@ async function harvestMetadata(npmScopePath) {
     }
   } = await npmScopePath[ReadJsonFile]()
 
+  url = Path.posix.create(url)
+
   return {
     name: PackageName.fromPath(packageRelDir, scope).toString(),
     version,
@@ -62,7 +63,7 @@ async function harvestMetadata(npmScopePath) {
     license,
     repository: {
       type,
-      url: getRepositoryFromPath(packageRelDir, url)
+      url: url.to(packageRelDir).toString()
     },
   }
 }
@@ -83,12 +84,6 @@ async function getDescription(mainPath) {
     return EmptyString
 
   return functionDeclaration.description
-}
-
-function getRepositoryFromPath(packageRelDir, url) {
-  packageRelDir = packageRelDir.toString()
-  //return `${url}${packageRelDir[ReplaceAll](Path.root, ForwardSlash)}`
-  return ''
 }
 
 module[ExportExtension](Path.Builder, harvestMetadata)

@@ -1,7 +1,7 @@
 {
   "name": "@kingjs/package.create.package-json",
-  "version": "",
-  "description": "",
+  "version": "0.0.0",
+  "description": "Creates or updates fields of `package.json` that can be inferred from the surrounding environment.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/create/package-json"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
@@ -22,17 +22,18 @@
     "@kingjs/fs.promises.dir.copy": "file:../../../fs/promises/dir/copy",
     "@kingjs/fs.promises.dir.make": "file:../../../fs/promises/dir/make",
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
+    "@kingjs/fs.promises.link.write": "file:../../../fs/promises/link/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/json.file.update": "file:../../../json/file/update",
-    "@kingjs/json.file.write": "file:../../../json/file/write",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/package.create.dependencies-js": "file:../dependencies-js",
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata",
-    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
+    "@kingjs/package.name.parse": "file:../../name/parse",
+    "@kingjs/package.scope.probe": "file:../../scope/probe",
     "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [
-    "path",
     "assert"
   ],
   "devDependencies": {

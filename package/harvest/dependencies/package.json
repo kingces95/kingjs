@@ -12,7 +12,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/harvest/dependencies"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
@@ -23,7 +23,7 @@
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.parse": "file:../../name/parse",
-    "@kingjs/package.resolve.npm-scope": "file:../../resolve/npm-scope",
+    "@kingjs/package.scope.probe": "file:../../scope/probe",
     "@kingjs/package.source.parse.object-binding-pattern.to-package-names": "file:../../source/parse/object-binding-pattern/to-package-names",
     "@kingjs/package.source.parse.source-file.get-dependencies": "file:../../source/parse/source-file/get-dependencies",
     "@kingjs/path": "file:../../../path",

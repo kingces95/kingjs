@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/package.scope.probe",
+  "version": "0.0.0",
+  "description": "Search up the path for `npm-scope.json`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/fs.promises.probe": "file:../../../fs/promises/probe",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs/path": "file:../../../path"
+  },
+  "nodeDependencies": []
+}

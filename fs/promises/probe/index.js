@@ -20,12 +20,13 @@ var {
  * @returns Returns the first absolute path found by the probe.
  */
 async function probe(path) {
-  var dir = Path.cwd.to(this)
+  var cwd = Path.cwd()
+  var dir = cwd.to(this)
   
   while (dir) {
     var result = dir.to(path)
     if (await result[Exists]())
-      return result
+      return cwd.toRelative(result)
 
     var dir = dir.dir
   }

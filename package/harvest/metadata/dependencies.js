@@ -1,8 +1,7 @@
 module.exports = {
   assert: require("assert"),
-  fs: require("fs"),
-  Path: require("path"),
   "@kingjs": {
+    Path: require("@kingjs/path"),
     fs: {
       promises: {
         Exists: require("@kingjs/fs.promises.exists")
@@ -20,8 +19,8 @@ module.exports = {
       name: {
         Builder: require("@kingjs/package.name.builder")
       },
-      resolve: {
-        NpmScope: require("@kingjs/package.resolve.npm-scope")
+      scope: {
+        Probe: require("@kingjs/package.scope.probe")
       },
       source: {
         parse: {
@@ -31,7 +30,6 @@ module.exports = {
         }
       }
     },
-    Path: require("@kingjs/path"),
     source: {
       GetInfo: require("@kingjs/source.get-info"),
       Parse: require("@kingjs/source.parse")

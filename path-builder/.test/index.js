@@ -96,6 +96,12 @@ function test(sep, altSep) {
   assert.equal(relFooJs.basename, 'foo')
   assert.equal(relFooJs.ext, '.js')
 
+  var relBarJs = dot.to('bar.js')
+  assert.ok(relFooJs.toRelativeFile(relBarJs).equals(relBarJs))
+
+  var relBar = dot.to('bar')
+  assert.ok(relFoo.toRelative(relBar).equals(dotDot.to(relBar)))
+
   var http = Buffer.from('http://foo.bar')
   var httpRoot = PathBuilder.createRoot(sepBuffer, http)
   assert.isConsistent(httpRoot, `http://foo.bar${sep}`)

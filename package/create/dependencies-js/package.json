@@ -17,13 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/create/dependencies-js"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": true,
   "dependencies": {
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
-    "@kingjs/fs.promises.write-file": "file:../../../fs/promises/write-file",
+    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",

@@ -4,6 +4,7 @@ module.exports = {
   isBuiltinModule: require("is-builtin-module"),
   npmPacklist: require("npm-packlist"),
   "@kingjs": {
+    Path: require("@kingjs/path"),
     array: {
       promises: {
         Map: require("@kingjs/array.promises.map")
@@ -26,8 +27,8 @@ module.exports = {
       name: {
         parse: require("@kingjs/package.name.parse")
       },
-      resolve: {
-        NpmScope: require("@kingjs/package.resolve.npm-scope")
+      scope: {
+        Probe: require("@kingjs/package.scope.probe")
       },
       source: {
         parse: {
@@ -40,7 +41,6 @@ module.exports = {
         }
       }
     },
-    Path: require("@kingjs/path"),
     source: {
       Parse: require("@kingjs/source.parse")
     },

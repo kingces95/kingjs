@@ -8,8 +8,9 @@ var {
         Exists,
         dir: { 
           Copy: CopyDir,
-          Make: MakeDir
-        }
+          Make: MakeDir,
+        },
+        link: { Write: LinkTo }
       }
     },
     json: {
@@ -19,7 +20,9 @@ var {
       }
     },
     package: {
-      resolve: { NpmScope: ResolveNpmScope },
+      name: { parse: parseName },
+      create: { DependenciesJs: CreateDependenciesJs },
+      scope: { Probe: ResolveNpmScope },
       harvest: {
         Dependencies: HarvestDependencies,
         Metadata: HarvestMetadata
@@ -29,6 +32,7 @@ var {
 } = require('./dependencies')
 
 var PackageJson = 'package.json'
+var NodeModule = 'node_module'
 var EmptyPackageJson = {
   name: '', version: '', description: '', main: ''
 }
@@ -47,11 +51,12 @@ async function createPackage() {
   var packageDir = this
   var npmScopePath = await packageDir[ResolveNpmScope]()
   assert(npmScopePath, `Failed to find npm-scope.json starting from '${packageDir}'.`)
+
   var packageJsonPath = packageDir.to(PackageJson)
-  var packageRelDir = npmScopePath.dir.toRelative(packageDir)
 
   // computing dependencies requires knowing the files
-  var { 
+  var {
+    name: scope,
     packageDefaults, 
     template 
   } = await npmScopePath[ReadJsonFile]()
@@ -78,6 +83,14 @@ async function createPackage() {
     ...await packageDir[HarvestDependencies](npmScopePath)
   }
   await packageJsonPath[UpdateJsonFile](package)
+
+  // create dependencies.js
+  await packageDir[CreateDependenciesJs]()
+
+  // link package
+  var nodeModulesScope = npmScopePath.dir.to(NodeModule).to(`@${scope}`)
+  var { fullName } = parseName(package.name)
+  await nodeModulesScope.to(fullName)[LinkTo](this)
 }
 
 module[ExportExtension](Path.Builder, createPackage)

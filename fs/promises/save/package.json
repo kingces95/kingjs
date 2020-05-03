@@ -1,6 +1,6 @@
 {
   "name": "@kingjs/fs.promises.save",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Given a pojo, write files by interpret names without  `.` as directories and otherwise files names whose value is content.",
   "main": "index.js",
   "files": [
@@ -13,22 +13,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/promises/write-files"
+    "url": ""
   },
   "keywords": [],
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/fs.promises.dir.make": "file:../dir/make",
     "@kingjs/fs.promises.file.write": "file:../file/write",
+    "@kingjs/fs.promises.link.write": "file:../link/write",
     "@kingjs/json.stringify": "file:../../../json/stringify",
+    "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path",
     "@kingjs/reflect.is": "file:../../../reflect/is"
   },
   "nodeDependencies": [
-    "assert",
-    "fs",
-    "path"
+    "assert"
   ]
 }

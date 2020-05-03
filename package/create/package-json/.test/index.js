@@ -15,6 +15,7 @@ var DotTemplate = '.template'
 var DotTest = '.test'
 var PackageJson = 'package.json'
 var NpmScopeJson = 'npm-scope.json'
+var DependenciesJs = 'dependencies.js'
 var IndexJs = 'index.js'
 var indexJs = `
 var {
@@ -37,7 +38,7 @@ module.exports = b`
 var npmScopeJson = {
   "name": "acme",
   "repository": {
-    "url": "https://repository.acme.net/",
+    "url": "https://repository.acme.net",
     "type": "git"
   },
   "packageDefaults": {
@@ -61,15 +62,21 @@ async function run() {
   })
 
   var myNs = acme.to(MyNs)
+  await myNs.to(Foo)[CreatePackageJson]()
   await myNs.to(Bar)[CreatePackageJson]()
   await myNs.to(Baz)[CreatePackageJson]()
 
   var {
     [MyNs]: {
-      [Bar]: { [PackageJson]: barPackageJson },
+      [Bar]: { 
+        [PackageJson]: barPackageJson,
+        [DependenciesJs]: barDependenciesJs 
+      },
       [Baz]: { [PackageJson]: bazPackageJson },
     }
   } = await acme[Load]()
+
+  assert(barDependenciesJs)
 
   var defaultPackage = {
     version: "0.0.0",

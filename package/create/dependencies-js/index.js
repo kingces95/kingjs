@@ -6,7 +6,7 @@ var {
     fs: {
       promises: {
         Exists,
-        WriteFile
+        file: { Write: WriteFile }
       }
     },
     pojo: {
@@ -54,12 +54,13 @@ async function createDependencies() {
       if (!FileRegex.test(o))
         throw `Dependency '${k}: ${o}' version not of the form: 'file:...'.`
 
+      var dependencyPath = Path.parse(FileRegex.exec(o)[1])
       var dependentPackageJsonPath = packageDir
-        .to(FileRegex.exec(o)[1])
+        .to(dependencyPath)
         .to(PackageJson)
 
       if (!await dependentPackageJsonPath[Exists]())
-        throw `Dependency '${k}: ${o}' does not exists.`
+        throw `Package '${packageJsonPath}' depends on '${dependentPackageJsonPath}' which does not exists.`
 
       return await dependentPackageJsonPath[ReadJsonFile]()
     })

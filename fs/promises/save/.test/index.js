@@ -4,46 +4,47 @@ var Path = require('@kingjs/path')
 var Save = require('..')
 
 var Acme = 'acme'
-var FooJs = 'foo.js'
-var BarJs = 'bar.js'
-var PackageJson = 'package.json'
-var NodeModules = 'node_modules'
-var IndexJs = 'index.js'
 var Utf8 = 'utf8'
 
 async function run() {
+  await fs.rmdir('acme', { recursive: true })
+
   var files = {
-    [FooJs]: "var assert = require('assert')",
+    foo: {
+      'foo.js': "module.exports = 42",
+      license: "file:../license"
+    },
     bar: {
-      [BarJs]: "var path = require('path')",
-      [PackageJson]: {
+      'bar.js': "var foo = require('foo')",
+      'package.json': {
         name: 'bar'
       },
-      [NodeModules]: {
-        'bar.baz': {
-          [PackageJson]: { name: 'bar.baz' }
-        }
+      'node_modules': {
+        'foo': "dir:../../foo"
       }
-    }
+    },
+    'license': 'Do anything.'
   }
 
-  await Path.parse(Acme)[Save](files)
+  await Path.parse('acme')[Save](files)
 
   assert.deepEqual({
-    [FooJs]: await fs.readFile('acme/foo.js', Utf8),
+    foo: {
+      'foo.js': await fs.readFile('acme/foo.js', Utf8),
+    },
     bar: {
-      [BarJs]: await fs.readFile('acme/bar/bar.js', Utf8),
-      [PackageJson]: JSON.parse(
+      'bar.js': await fs.readFile('acme/bar/bar.js', Utf8),
+      'package.json': JSON.parse(
         await fs.readFile('acme/bar/package.json')
       ),
-      [NodeModules]: {
+      'node_modules': {
         'bar.baz': {
-          [PackageJson]: { name: 'bar.baz' }
+          'package.json': { name: 'bar.baz' }
         }
       }
     }
   }, files)
 
-  await fs.rmdir(Acme, { recursive: true })
+  await fs.rmdir('acme', { recursive: true })
 }
 run().catch(o => console.log(o))

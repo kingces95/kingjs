@@ -1,11 +1,13 @@
 var { 
+  assert,
   '@kingjs': {
     Path,
     fs: {
       promises: {
         dir: { Make: MakeDir },
-        file: { Write: WriteFile}
-      }
+        file: { Write: WriteFile},
+        link: { Write: LinkTo },
+      },
     },
     reflect: { is },
     json: { stringify },
@@ -24,23 +26,48 @@ var DotJson = '.json'
  * @returns Returns comment.
  */
 async function save(pojo) {
-  await this[MakeDir]()
+  await saveDir.call(this, pojo, new Map())
 
-  for (var name in pojo) {
-    var path = this.to(name)
-    var value = pojo[name]
+  async function saveDir(dir) {
 
-    var ext = Path.parse(name).ext
-    if (ext == DotJson)
-      value = stringify(value)
+    // create directory
+    await this[MakeDir]()
 
-    if (is.string(value)) {
-      await path[WriteFile](value)
-      continue
+    for (var name in dir) {
+      var entry = dir[name]
+      var entryPath = this.to(name)
+
+      // create file
+      if (await saveEntry.call(entryPath, entry))
+        continue
+
+      await saveDir.call(entryPath, entry)
     }
-      
-    await save.call(path, value)
   }
+}
+
+async function saveEntry(entry) {
+
+  // entries with '.json' are stringified
+  if (this.ext == DotJson)
+    entry = stringify(entry)
+
+  if (!is.string(entry))
+    return false
+
+  // create symlink file
+  var match = /^(file|dir):(.*)/.exec(entry)
+  if (match) {
+    var isFile = match[1] == 'file'
+    var target = this.dir.to(Path.parse(match[2]))
+    await this[LinkTo](target, isFile)
+    return true
+  }
+
+  // write text to a file
+  assert(is.string(entry))
+  await this[WriteFile](entry)
+  return true
 }
 
 module[ExportExtension](Path.Builder, save)

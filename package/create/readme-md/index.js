@@ -19,7 +19,7 @@ var {
       GetInfo
     },
     package: {
-      resolve: { NpmScope: ResolveNpmScope },
+      scope: { Probe: ResolveNpmScope },
       source: { parse: { sourceFile: { GetFirstDocumented } } },
       name: { parse }
     }
@@ -42,7 +42,7 @@ async function createReadme() {
   // get package scope
   var scopePath = await packageDir[ResolveNpmScope]()
   if (scopePath)
-    var scope = await npmScopePath[ReadJsonFile]()
+    var scope = await scopePath[ReadJsonFile]()
   
   // parse 'package.json'
   var package = await packagePath[ReadJsonFile]()

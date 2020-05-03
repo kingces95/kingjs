@@ -1,8 +1,6 @@
 module.exports = {
   "@kingjs": {
-    array: {
-      Expand: require("@kingjs/array.expand")
-    },
+    Path: require("@kingjs/path"),
     fs: {
       Probe: require("@kingjs/fs.probe"),
       file: {
@@ -28,6 +26,9 @@ module.exports = {
       name: {
         parse: require("@kingjs/package.name.parse")
       },
+      scope: {
+        Probe: require("@kingjs/package.scope.probe")
+      },
       source: {
         parse: {
           sourceFile: {
@@ -36,9 +37,8 @@ module.exports = {
         }
       }
     },
-    Path: require("@kingjs/path"),
     pojo: {
-      ToPairs: require("@kingjs/pojo.to-pairs")
+      Expand: require("@kingjs/pojo.expand")
     },
     source: {
       GetInfo: require("@kingjs/source.get-info"),

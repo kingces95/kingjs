@@ -74,6 +74,13 @@ class PathBuilder {
     return new NamedPathBuilder(this, name)
   }
 
+  toRelativeFile(target, ignoreSeparator) {
+    var sourceDir = this.dir
+    var targetDir = target.dir
+    var link = sourceDir.toRelative(targetDir, ignoreSeparator)
+    return link.to(target.name)
+  }
+
   toRelative(target, ignoreSeparator) {
     assert(target instanceof PathBuilder)
     assert(this.isRelative == target.isRelative)
@@ -131,15 +138,13 @@ class PathBuilder {
     if (path.isDot)
       return this
 
-    if (path.isDotDot)
-      return this.dir
-
-    assert(path instanceof NamedPathBuilder)
-
     var result = this
 
     if (path.parent)
       result = result.to(path.parent)
+
+    if (path.isDotDot)
+      return result.dir
 
     return result._to(path.name)
   }

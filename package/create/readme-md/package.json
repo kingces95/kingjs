@@ -12,11 +12,10 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/package/create/readme-md"
+    "url": ""
   },
   "license": "MIT",
   "dependencies": {
-    "@kingjs/array.expand": "file:../../../array/expand",
     "@kingjs/fs.file.expand": "file:../../../fs/file/expand",
     "@kingjs/fs.file.read": "file:../../../fs/file/read",
     "@kingjs/fs.probe": "file:../../../fs/probe",
@@ -25,9 +24,10 @@
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/module.export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.parse": "file:../../name/parse",
+    "@kingjs/package.scope.probe": "file:../../scope/probe",
     "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",
     "@kingjs/path": "file:../../../path",
-    "@kingjs/pojo.to-pairs": "file:../../../pojo/to-pairs",
+    "@kingjs/pojo.expand": "file:../../../pojo/expand",
     "@kingjs/source.get-info": "file:../../../source/get-info",
     "@kingjs/source.parse": "file:../../../source/parse"
   },
