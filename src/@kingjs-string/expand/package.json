@@ -17,7 +17,7 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../module/export-extension",
     "@kingjs/string-ex.replace-all": "file:../replace-all"
   },
   "capitalize": true

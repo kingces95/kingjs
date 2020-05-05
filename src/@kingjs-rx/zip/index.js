@@ -13,7 +13,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Create an `IObservable` that zips emitted values with

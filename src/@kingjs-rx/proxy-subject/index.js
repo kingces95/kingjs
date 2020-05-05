@@ -11,7 +11,7 @@ var {
       IObserver: { Next, Complete, Error }
     }
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var CreateSubject = createSymbol(module, 'create-subject')
 var Activate = createSymbol(module, 'activate')

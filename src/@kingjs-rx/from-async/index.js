@@ -2,11 +2,11 @@ var {
   assert,
   ['@kingjs']: {
     rx: { 
-      create 
+      create,
       IObserver: { Next, Complete, Error },
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Create an `IObservable` from an async generator.

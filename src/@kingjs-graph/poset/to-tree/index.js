@@ -3,7 +3,7 @@ var {
     graph: { poset: { Copy } },
     module: { ExportExtension }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /** 
  * @description Strips edegs from a poset to form a tree whose

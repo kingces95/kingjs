@@ -5,7 +5,7 @@ var {
     stringEx: { Capitalize },
     reflect: { is, builtInSymbols }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var IInterfaceTag = Symbol.for('@kingjs/IInterface');
 

@@ -12,7 +12,7 @@ var {
       IObservable: { Subscribe }
     },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Count = createSymbol(module, 'count')
 var Id = createSymbol(module, 'id')

@@ -4,7 +4,7 @@ var {
     promise: { sleep },
     rx: { Scheduler, IScheduler: { Schedule } }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description An instance of an `IScheduler` that schedules uses

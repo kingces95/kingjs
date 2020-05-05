@@ -21,7 +21,7 @@
   "dependencies": {
     "@kingjs/exception": "file:../../../exception",
     "@kingjs/graph.analyze": "file:../../analyze",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension"
+    "@kingjs-module/export-extension": "file:../../../module/export-extension"
   },
   "nodeDependencies": []
 }

@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     reflect: { createInterface }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description `IObservable` has a single member `subscribe`.

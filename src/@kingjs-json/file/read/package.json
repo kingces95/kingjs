@@ -21,7 +21,7 @@
   "dependencies": {
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
     "@kingjs/fs.promises.file.read": "file:../../../fs/promises/file/read",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [

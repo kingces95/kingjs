@@ -5,7 +5,7 @@ var {
   rxjs: { Subject },
   osUtils,
   ['@kingjs']: { reflect: { is } },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 var os = require('os');
 
 console.log(os.cpus());

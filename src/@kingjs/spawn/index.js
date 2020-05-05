@@ -7,7 +7,7 @@ var {
   },
   childProcess: { spawn },
   stringDecoder: { StringDecoder }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var SpawnOptions = {
   windowsHide: true

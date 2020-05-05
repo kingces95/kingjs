@@ -10,7 +10,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var DefaultEqual = (l, r) => l == r;
 var DefaultKeySelector = o => o;

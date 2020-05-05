@@ -1,7 +1,4 @@
-var { 
-  assert,
-  Path
-} = require('./dependencies')
+var Path = require('path')
 
 var PackageJson = 'package.json'
 var Function = 'function'

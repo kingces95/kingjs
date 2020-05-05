@@ -8,7 +8,7 @@ var {
     poset: { forEach }
   },
   shelljs 
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var cnj = require('./create-npm-json');
 

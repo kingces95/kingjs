@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     reflect: { createInterface }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description IInterface has no members. It tags 

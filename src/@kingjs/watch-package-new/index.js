@@ -21,7 +21,7 @@ var {
       IGroupedObservable: { Key }
     },
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 
 var DebounceMs = 350

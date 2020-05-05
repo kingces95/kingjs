@@ -3,7 +3,7 @@ var {
   uuid: { v4: uuid },
   path: Path, 
   url: Url,
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var DirNames = {
   downloads: '.downloads',

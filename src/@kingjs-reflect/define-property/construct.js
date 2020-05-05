@@ -1,7 +1,7 @@
 var {
   assert,
   ['@kingjs']: { reflect: { is } }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function createProperty(target, x, y) {
   var name, descriptor;

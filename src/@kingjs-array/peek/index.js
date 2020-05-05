@@ -2,7 +2,7 @@ var {
   '@kingjs-module': {
     ExportExtension
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns the last element of an array.

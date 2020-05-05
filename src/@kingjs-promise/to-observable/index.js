@@ -10,7 +10,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Turns a promise into an IObservable

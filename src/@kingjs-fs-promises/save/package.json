@@ -23,7 +23,7 @@
     "@kingjs/fs.promises.file.write": "file:../file/write",
     "@kingjs/fs.promises.link.write": "file:../link/write",
     "@kingjs/json.stringify": "file:../../../json/stringify",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path",
     "@kingjs/reflect.is": "file:../../../reflect/is"
   },

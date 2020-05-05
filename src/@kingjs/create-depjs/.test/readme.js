@@ -5,7 +5,7 @@ var {
     package: { name: { parse } },
     camelCase: { join }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 assert(parse);
 assert(join);

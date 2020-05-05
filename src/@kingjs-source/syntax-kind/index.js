@@ -2,7 +2,7 @@
 
 var { 
   typescript: ts,
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var rx = {
   AnyList: /List$/,

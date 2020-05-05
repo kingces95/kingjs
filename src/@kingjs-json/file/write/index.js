@@ -16,7 +16,7 @@ var {
       stringify
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 async function writeJsonFile(pojo) {
   var json = stringify(pojo)

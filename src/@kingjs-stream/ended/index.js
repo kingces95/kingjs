@@ -4,7 +4,7 @@ var {
       exportExtension
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Return a promise that is fulfilled when a stream ends.

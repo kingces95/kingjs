@@ -1,10 +1,10 @@
 var { 
   fs,
-  ['@kingjs']: { 
+  '@kingjs': { 
     Path,
-    module: { ExportExtension },
+    '-module': { ExportExtension } 
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Test if a path exists.

@@ -4,7 +4,7 @@ var {
   deepEquals,
   shelljs,
   rxjs: { Observable, Subject, merge }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var { 
   groupBy,

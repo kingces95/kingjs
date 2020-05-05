@@ -11,7 +11,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Call an emitted function and drop any subsequent 

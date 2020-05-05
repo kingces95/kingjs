@@ -3,7 +3,7 @@ var {
   ['@kingjs']: {
     reflect: { is },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns a `generator` given an `iterable`.

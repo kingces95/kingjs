@@ -5,7 +5,7 @@ var {
       createSymbol
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Exports = 'exports'
 

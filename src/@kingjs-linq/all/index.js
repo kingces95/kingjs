@@ -5,7 +5,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns true if all elements of a sequence satisfy a condition.

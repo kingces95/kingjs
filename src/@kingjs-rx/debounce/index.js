@@ -11,7 +11,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Filter values by those followed without

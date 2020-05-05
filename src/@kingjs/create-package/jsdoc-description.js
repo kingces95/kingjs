@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: { parseSource }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var {
   FirstJSDocTagNode

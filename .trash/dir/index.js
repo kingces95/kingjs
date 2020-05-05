@@ -7,7 +7,7 @@ var {
       Expand,
     },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var UTF8 = 'utf8'
 

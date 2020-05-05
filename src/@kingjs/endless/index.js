@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     reflect: { is }
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var constants = {
   zero: () => 0,

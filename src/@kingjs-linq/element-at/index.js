@@ -5,7 +5,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns the element at a specified 

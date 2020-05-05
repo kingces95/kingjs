@@ -6,7 +6,7 @@ var {
       IObserver: { Next }
     }
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Value = 'value'
 

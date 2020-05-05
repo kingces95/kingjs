@@ -13,7 +13,7 @@ var {
       }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var NewLine = '\n'
 var Callback = 'callback'

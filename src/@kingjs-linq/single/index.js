@@ -10,7 +10,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function throwNoSingleMatch() {
   throw "single: sequence does not contain a single elements matching predicate.";

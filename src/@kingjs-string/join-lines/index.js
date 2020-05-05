@@ -2,7 +2,7 @@ var {
   '@kingjs-module': { 
     ExportExtension
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Space = ' '
 var Regex = /[\r\n\x0B\x0C\u0085\u2028\u2029]+/g

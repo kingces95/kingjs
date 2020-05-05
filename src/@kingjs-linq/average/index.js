@@ -4,7 +4,7 @@ var {
     reflect: { exportExtension },
     linq: { Aggregate },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function defaultSelector(x) {
   return x;

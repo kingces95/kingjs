@@ -1,0 +1,40 @@
+{
+  "name": "@kingjs/fs.file.expand",
+  "version": "0.0.0",
+  "main": "index.js",
+  "description": "Expands a source file into a target file.",
+  "files": [
+    "*.js"
+  ],
+  "bin": {
+    "erm": "./exe.js",
+    "expand-readme": "./exe.js"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/file/expand"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "nodeDependencies": [],
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/fs.exists": "file:../../exists",
+    "@kingjs/fs.file.read": "file:../read",
+    "@kingjs/fs.file.write": "file:../write",
+    "@kingjs/fs.probe": "file:../../probe",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
+    "@kingjs/path": "file:../../../path",
+    "@kingjs/string-ex.expand": "file:../../../string-ex/expand"
+  },
+  "devDependencies": {
+    "@kingjs/fs.promises.save": "file:../../promises/save",
+    "@kingjs/array.expand": "file:../../../array/expand",
+    "@kingjs/fs.probe": "file:../../probe",
+    "@kingjs/fs.promises.dir.remove": "file:../../promises/dir/remove",
+    "@kingjs/pojo.to-pairs": "file:../../../pojo/to-pairs"
+  }
+}

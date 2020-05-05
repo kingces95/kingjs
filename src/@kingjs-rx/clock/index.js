@@ -7,7 +7,7 @@ var {
       IObserver: { Next, Error },
     },
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var endlessZero = () => 0;
 

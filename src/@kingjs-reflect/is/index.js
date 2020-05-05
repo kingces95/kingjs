@@ -3,7 +3,7 @@ var {
     Generator,
     AsyncGenerator
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var is = {
   undefined: o => o === undefined,

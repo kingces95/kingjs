@@ -1,7 +1,7 @@
 var {
   path,
   shelljs 
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns the git root directory.

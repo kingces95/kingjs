@@ -22,7 +22,7 @@ var {
   },
   npmPacklist,
   isBuiltinModule,
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Period = '.'
 var DotJs = '.js'

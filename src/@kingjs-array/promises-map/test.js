@@ -1,6 +1,9 @@
-var assert = require('assert')
-var AsyncMap = require('@kingjs-array/promises-map')
-var sleep = require('@kingjs-promise/sleep')
+var { assert,
+  '@kingjs': {
+    '-array': { PromisesMap: AsyncMap },
+    '-promise': { sleep }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 async function test() {
   var runner = [100, 200, 0]

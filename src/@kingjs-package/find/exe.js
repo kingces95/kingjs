@@ -1,5 +1,5 @@
 #!/usr/bin/env node --no-warnings
-var { '@kingjs': { Path } } = require('./dependencies')
+var { '@kingjs': { Path } } = module[require('@kingjs-module/dependencies')]()
 var Symbol = require('.')
 Path.launch(Symbol)
   .then(o => console.log(o.map(x => x.toString())))

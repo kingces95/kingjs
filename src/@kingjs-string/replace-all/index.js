@@ -2,7 +2,7 @@ var {
   '@kingjs-module': { 
     ExportExtension
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns a new string in which all occurrences of a 

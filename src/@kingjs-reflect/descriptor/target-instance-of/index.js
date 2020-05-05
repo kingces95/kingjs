@@ -4,7 +4,7 @@ var {
   ['@kingjs']: { 
     reflect: { is, descriptor: { rename } }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var failedToResolveExtensionTypeError = 'Failed to resolve extension type.';
 var extendsThisError = 'Extension does not extend this object.';

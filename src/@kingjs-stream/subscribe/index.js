@@ -8,7 +8,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Expose a stream as an `IObservable`.

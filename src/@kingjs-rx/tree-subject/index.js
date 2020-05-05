@@ -15,7 +15,7 @@ var {
       IPublishedObservable: { Value },
     }
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var IsNode = createSymbol(module, 'isNode')
 var SelectMany = createSymbol(module, 'selectMany')

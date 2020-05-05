@@ -5,7 +5,7 @@ var {
     reflect: { is },
     module: { ExportExtension },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var current = { }
 var EmptyArray = [ ]

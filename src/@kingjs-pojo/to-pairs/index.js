@@ -5,7 +5,7 @@ var {
   '@kingjs-module': {
     ExportExtension
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an array of objects with key and value properties

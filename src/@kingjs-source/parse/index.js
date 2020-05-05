@@ -11,7 +11,7 @@ var {
       SyntaxKind
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var EmptyObject = { };
 var Parent = 'parent';

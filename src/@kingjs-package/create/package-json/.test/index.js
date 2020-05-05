@@ -25,7 +25,7 @@ var {
       foo: a
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description A description of the package B.

@@ -2,7 +2,7 @@ var assert = require('assert');
 
 var {
   ['@kingjs']: { defineInterface },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var ScopePrefix = '@';
 var ScopeDelimiter = '/';

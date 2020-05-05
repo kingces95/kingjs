@@ -10,7 +10,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns the maximum value in a sequence of values 

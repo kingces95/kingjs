@@ -2,7 +2,7 @@ var {
   '@kingjs-module': { 
     ExportExtension,
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Partition an array into arrays that are assigned to properties of an object.

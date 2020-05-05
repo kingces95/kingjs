@@ -14,7 +14,7 @@ var {
       },
     },
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 async function readJsonFile() {
   if (await this[Exists]() == false)

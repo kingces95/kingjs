@@ -10,7 +10,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var DefaultBufferLength = 1;
 var DefaultBounce = o => (o.shift(), o);

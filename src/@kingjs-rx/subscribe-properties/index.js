@@ -8,7 +8,7 @@ var {
       IObservable,
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Like `Object.defineProperties`, write intermediate 

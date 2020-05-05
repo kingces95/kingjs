@@ -3,7 +3,7 @@ var {
     graph: { poset: { Reduce: ReducePoset } },
     module: { ExportExtension }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var EmptyObject = { }
 

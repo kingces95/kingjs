@@ -5,7 +5,7 @@ var {
     IIterable,
     IIterable: { GetIterator },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 require('../index');
 var DefineExtension = require('./define-extension');

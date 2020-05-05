@@ -17,7 +17,7 @@ var {
       }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var printJoin = require('./print-join')
 

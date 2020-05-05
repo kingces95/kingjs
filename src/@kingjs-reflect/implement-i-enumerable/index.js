@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerator,
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Implements `IEnumerable` given a factory that, given

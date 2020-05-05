@@ -2,7 +2,7 @@ var {
   assert,
   '@kingjs': {
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description The description.

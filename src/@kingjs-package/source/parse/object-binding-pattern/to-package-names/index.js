@@ -8,7 +8,7 @@ var {
     reflect: { is },
     source: { types }
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var { ObjectBindingPattern } = types
 

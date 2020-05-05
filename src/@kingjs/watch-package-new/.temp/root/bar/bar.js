@@ -4,4 +4,4 @@ var {
       Do,
     },
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()

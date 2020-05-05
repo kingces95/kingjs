@@ -3,7 +3,7 @@ var {
   '@kingjs': { 
     Path
   } 
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 var Poset = require('.')
 
 async function run() {

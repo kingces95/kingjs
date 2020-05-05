@@ -8,7 +8,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Generates a sequence identical to another sequence 

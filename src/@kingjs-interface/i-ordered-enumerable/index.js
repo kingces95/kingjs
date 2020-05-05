@@ -3,7 +3,7 @@ var {
     reflect: { createInterface },
     IEnumerable
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description `IOrderedEnumerable` extends

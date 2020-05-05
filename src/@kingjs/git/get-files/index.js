@@ -1,6 +1,6 @@
 var {
   shelljs 
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var AddedSwitch = '--other --exclude-standard'
 var DeletedSwitch = '-d'

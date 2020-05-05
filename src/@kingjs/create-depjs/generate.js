@@ -4,7 +4,7 @@ var {
     camelCase: { join }
   },
   isBuiltinModule
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var path = require('path');
 var fs = require('fs');

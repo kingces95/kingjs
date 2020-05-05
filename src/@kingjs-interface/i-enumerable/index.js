@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     reflect: { createInterface }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description `IEnumerable` has a single member `getEnumerator`.

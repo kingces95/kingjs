@@ -6,7 +6,7 @@ var {
     descriptor: { merge },
     func: { returnArg0: takeLeft }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function wrap(descriptor, action, thisArg) {
 

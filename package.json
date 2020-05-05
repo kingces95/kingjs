@@ -1,6 +1,6 @@
 {
   "description": "External dependencies of this repository.",
-  "repository": { },
+  "repository": {},
   "license": "MIT",
   "dependencies": {
     "chokidar": "latest",

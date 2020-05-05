@@ -6,7 +6,7 @@ var {
       IObserver: { Next, Complete },
     },
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Create an `IObservable` that waits for `timeOut` milliseconds

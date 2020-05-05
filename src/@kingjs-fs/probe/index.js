@@ -1,13 +1,9 @@
 var { 
-  Path,
-  ['@kingjs']: {
-    module: { ExportExtension },
-    Path,
-    fs: {
-      Exists 
-    }
-  }
-} = require('./dependencies')
+  '@kingjs': { Path,
+    '-module': { ExportExtension },
+    '-fs': { Exists }
+  },
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Searches parent directories for a path.

@@ -1,10 +1,10 @@
 var { 
   assert,
   Path: NodePath,
-  ['@kingjs']: {
+  '@kingjs': {
     PathBuilder
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var CallDirOnRoot = 'Root segment has no parent directory.'
 

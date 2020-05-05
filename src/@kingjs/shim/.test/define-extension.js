@@ -5,7 +5,7 @@ var {
     IInterface: { Id },
     reflect: { defineProperty }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function defineExtension(extension) {
   assert(this instanceof Function);

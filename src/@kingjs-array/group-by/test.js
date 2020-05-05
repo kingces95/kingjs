@@ -1,5 +1,8 @@
-var assert = require('assert')
-var GroupBy = require('@kingjs-array/group-by')
+var { assert,
+  '@kingjs': {
+    '-array': { GroupBy }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var result = [
   { i: 0, v: '0' }, 

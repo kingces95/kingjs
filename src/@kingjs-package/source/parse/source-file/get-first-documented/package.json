@@ -21,7 +21,7 @@
     "@kingjs/source.parse": "file:../../../../../source/parse"
   },
   "dependencies": {
-    "@kingjs/module.export-extension": "file:../../../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../../../module/export-extension",
     "@kingjs/source.types": "file:../../../../../source/types"
   },
   "capitalize": true

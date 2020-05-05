@@ -2,7 +2,7 @@ var {
   ['@kingjs']: { 
     reflect: { is, descriptor: { rename } }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Wraps strings found in a descriptor's `value`, `get` or `set`

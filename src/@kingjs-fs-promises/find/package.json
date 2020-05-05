@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@kingjs/fs.promises.dir.list": "file:../dir/list",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [

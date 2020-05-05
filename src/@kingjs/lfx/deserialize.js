@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: { reflect: { is } }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var Pairs = require('./pairs.js');
 

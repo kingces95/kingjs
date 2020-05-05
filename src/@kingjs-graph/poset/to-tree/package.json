@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/graph.poset.copy": "file:../copy",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension"
+    "@kingjs-module/export-extension": "file:../../../module/export-extension"
   },
   "nodeDependencies": []
 }

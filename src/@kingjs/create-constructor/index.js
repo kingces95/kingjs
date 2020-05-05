@@ -1,7 +1,7 @@
 var { 
   assert,
   ['@kingjs']: { reflect: { is } } 
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create a constructor from a base 

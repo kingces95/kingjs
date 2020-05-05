@@ -4,7 +4,7 @@ var {
       Subject,
     }
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function create(callback) {
   return new Subject(callback);

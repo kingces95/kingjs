@@ -10,7 +10,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var DefaultPredicate = o => o;
 var DefaultEqual = (l, r) => l == r;

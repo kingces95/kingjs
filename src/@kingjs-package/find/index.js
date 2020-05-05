@@ -8,7 +8,7 @@ var {
     },
     module: { ExportExtension }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var EmptyArray = []
 var options = { withFileTypes: true }

@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     package: { version: { parse } }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 // Array : IIterable
 require('./shim-array');

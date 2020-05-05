@@ -8,7 +8,7 @@ var {
     IIterable, 
     IIterable: { GetIterator }, 
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 implementInterface(
   Generator.prototype, 

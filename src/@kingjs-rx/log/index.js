@@ -9,7 +9,7 @@ var {
     reflect: { exportExtension },
     stringEx: { Expand }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` that logs life-cycle events.

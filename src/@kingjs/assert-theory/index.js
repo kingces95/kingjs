@@ -3,7 +3,7 @@ var assert = require('assert');
 
 var {
   ['@kingjs']: { fromEach },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Calls a theory with every combination of elements from an array set.

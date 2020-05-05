@@ -10,7 +10,7 @@ var {
     reflect: { is }, 
     parseSource,
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var KingJs = 'kingjs';
 var AtKingJs = '@' + KingJs;

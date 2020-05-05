@@ -9,7 +9,7 @@ var {
       }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Searches parent directories for a path.

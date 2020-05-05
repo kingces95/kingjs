@@ -1,0 +1,29 @@
+{
+  "name": "@kingjs/fs.promises.link.write",
+  "version": "0.0.0",
+  "description": "Links a path to a directory or file target.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/fs.promises.dir.make": "file:../../dir/make",
+    "@kingjs-module/export-extension": "file:../../../../module/export-extension",
+    "@kingjs/path": "file:../../../../path"
+  },
+  "nodeDependencies": [
+    "fs"
+  ]
+}

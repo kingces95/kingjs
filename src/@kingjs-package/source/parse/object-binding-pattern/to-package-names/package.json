@@ -20,7 +20,7 @@
   "dependencies": {
     "@kingjs/camel-case.split": "file:../../../../../camel-case/split",
     "@kingjs/define-extension": "file:../../../../../define-extension",
-    "@kingjs/module.export-extension": "file:../../../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../../../module/export-extension",
     "@kingjs/package.name.construct": "file:../../../../name/construct",
     "@kingjs/reflect.is": "file:../../../../../reflect/is",
     "@kingjs/source.types": "file:../../../../../source/types",

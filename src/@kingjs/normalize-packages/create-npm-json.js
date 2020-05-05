@@ -3,7 +3,7 @@ var fs = require('fs');
 
 var { 
   shelljs 
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var NpmJson = '.npm.json';
 var PackageJson = 'package.json';

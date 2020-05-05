@@ -7,7 +7,7 @@ var {
       IObservable: { Subscribe }
     }
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var Observable = Symbol('@kingjs/shim.promise.observable');
 

@@ -2,7 +2,7 @@ var {
   '@kingjs-module': { 
     ExportExtension
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Test if a character at an index in a string is lower case.

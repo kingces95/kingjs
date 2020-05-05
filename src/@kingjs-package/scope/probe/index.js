@@ -10,7 +10,7 @@ var {
       } 
     } 
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var npmScopeJson = 'npm-scope.json'
 

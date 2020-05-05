@@ -22,7 +22,7 @@ var {
     },
     reflect: { createSymbol }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var DefaultPrune = null
 var DefaultWatcher = o => o[Watch]()

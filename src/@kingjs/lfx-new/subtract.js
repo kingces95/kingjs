@@ -1,6 +1,6 @@
 var { 
   ['@kingjs']: { reflect: { is } },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * Copy a an object replacing any numbers with the difference of

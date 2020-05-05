@@ -8,7 +8,7 @@ var {
       Aggregate 
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var Aggregate = require('@kingjs/linq.aggregate');
 

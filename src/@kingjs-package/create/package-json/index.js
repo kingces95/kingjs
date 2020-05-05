@@ -29,7 +29,7 @@ var {
       },
     },
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var PackageJson = 'package.json'
 var NodeModule = 'node_module'

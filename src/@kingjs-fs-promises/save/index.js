@@ -13,7 +13,7 @@ var {
     json: { stringify },
     module: { ExportExtension }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var DotJson = '.json'
 

@@ -22,7 +22,7 @@ var {
       IGroupedObservable: { Key }
     },
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 process.chdir('.test')
 var cwd = process.cwd()

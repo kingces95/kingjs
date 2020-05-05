@@ -9,7 +9,7 @@ var {
     },
     reflect: { exportExtension },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Event = {
   Change: 'change',

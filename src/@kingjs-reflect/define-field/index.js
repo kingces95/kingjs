@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     reflect: { defineProperty }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var construct = require('./construct');
 

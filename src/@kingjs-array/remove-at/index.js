@@ -2,7 +2,7 @@ var {
   '@kingjs-module': {
     ExportExtension
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Removes an array element at a specific index.

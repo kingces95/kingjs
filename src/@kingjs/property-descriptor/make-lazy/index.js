@@ -4,7 +4,7 @@ var {
   ['@kingjs']: { 
     reflect: { is, descriptor: { rename } }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var unresolvedPromiseError = 'Promise returned undefined value.';
 var undefinedTokenError = 'Cannot set token to undefined value.';

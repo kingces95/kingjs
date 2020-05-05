@@ -8,7 +8,7 @@ var {
     },
     IEnumerable,
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var IndexableEnumerable = require('./indexable-enumerable');
 

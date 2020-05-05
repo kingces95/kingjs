@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/array.remove-at": "file:../remove-at",
-    "@kingjs/module.export-extension": "file:../../module/export-extension"
+    "@kingjs-module/export-extension": "file:../../module/export-extension"
   },
   "nodeDependencies": [],
   "capitalize": true

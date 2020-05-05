@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     reflect: { createInterface }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description `IObserver` has a members `next`, `complete`, and `error`.

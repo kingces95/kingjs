@@ -8,7 +8,7 @@ var {
       syntaxKind
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 class Node { 
 

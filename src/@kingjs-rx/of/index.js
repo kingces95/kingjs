@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     rx: { from },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Create an `IObservable` from `arguments`.

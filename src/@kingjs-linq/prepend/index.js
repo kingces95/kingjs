@@ -9,7 +9,7 @@ var {
     },
     IEnumerable,
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Generates an sequence identical to another 

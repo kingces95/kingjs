@@ -6,7 +6,7 @@ var {
     IEnumerable,
     IOrderedEnumerable: { CreateOrderedEnumerable },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Generates a sequence of elements from a sorted 

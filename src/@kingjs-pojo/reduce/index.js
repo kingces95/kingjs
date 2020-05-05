@@ -3,7 +3,7 @@ var {
   '@kingjs-module': {
     ExportExtension
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Reduces the key/value pairs of a pojo. 

@@ -3,7 +3,7 @@ var {
     is,
     package: { version: { parse } }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Compare if one version is less than another. 

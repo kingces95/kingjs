@@ -3,7 +3,7 @@ var {
     reflect: { implementInterface },
     IEnumerator
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function IndexableEnumerable(indexable) { 
   this.indexable_ = indexable;

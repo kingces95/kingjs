@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/graph.analyze": "file:../../analyze",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/reflect.is": "file:../../../reflect/is"
   },
   "nodeDependencies": [

@@ -2,7 +2,7 @@ var {
   ['@kingjs']: {
     Dictionary
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var Delimiter = '$';
   

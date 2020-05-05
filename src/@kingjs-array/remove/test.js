@@ -1,5 +1,8 @@
-var assert = require('assert')
-var Remove = require('@kingjs-array/remove')
+var { assert,
+  '@kingjs': {
+    '-array': { Remove },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var array = [1, 2, 3]
 array = array[Remove](2)

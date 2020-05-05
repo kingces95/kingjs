@@ -17,7 +17,7 @@ var {
       GetInfo
     }
   },
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var EmptyString = ''
 var Period = '.'

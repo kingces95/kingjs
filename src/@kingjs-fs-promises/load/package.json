@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/fs.promises.dir.list": "file:../dir/list",
     "@kingjs/fs.promises.file.read": "file:../file/read",
     "@kingjs/fs.promises.dir.remove": "file:../dir/remove",

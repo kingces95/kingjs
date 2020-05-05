@@ -3,7 +3,7 @@ var {
     descriptor: { inherit },
     poset: { forEach },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Inherits properties of dependent vertices.

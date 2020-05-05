@@ -1,7 +1,7 @@
 var { 
   typescript: ts,
   ['@kingjs']: { createConstructor }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var rx = require('./rx');
 var kind = ts.SyntaxKind

@@ -2,7 +2,7 @@ var {
   ['@kingjs']: { 
     descriptor: { nested: { update: nestedUpdate } } 
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var children = { '*': undefined };
 

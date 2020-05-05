@@ -21,7 +21,7 @@
   "dependencies": {
     "@kingjs/json.file.read": "file:../read",
     "@kingjs/json.file.write": "file:../write",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [

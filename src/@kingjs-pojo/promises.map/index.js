@@ -5,7 +5,7 @@ var {
   '@kingjs': {
     run
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Maps each promise of a pojo in parallel.

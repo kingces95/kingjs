@@ -9,7 +9,7 @@ var {
       IObserver: { Next, Complete, Error }
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Pump data into iterator and publish results to observations[name]

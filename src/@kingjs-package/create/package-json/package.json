@@ -25,7 +25,7 @@
     "@kingjs/fs.promises.link.write": "file:../../../fs/promises/link/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs/json.file.update": "file:../../../json/file/update",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/package.create.dependencies-js": "file:../dependencies-js",
     "@kingjs/package.harvest.dependencies": "file:../../harvest/dependencies",
     "@kingjs/package.harvest.metadata": "file:../../harvest/metadata",

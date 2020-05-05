@@ -13,7 +13,7 @@ var {
     Path,
     module: { ExportExtension }
   }  
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Utf8 = 'utf8'
 var DotJson = '.json'

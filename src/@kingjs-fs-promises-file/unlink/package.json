@@ -1,0 +1,33 @@
+{
+  "name": "@kingjs/fs.promises.file.unlink",
+  "version": "0.0.0",
+  "description": "Unlinks a file at the path.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs-module/export-extension": "file:../../../../module/export-extension",
+    "@kingjs/path": "file:../../../../path"
+  },
+  "nodeDependencies": [
+    "fs"
+  ],
+  "capitalize": true,
+  "devDependencies": {
+    "@kingjs/fs.promises.exists": "file:../../exists",
+    "@kingjs/fs.promises.file.read": "file:../read",
+    "@kingjs/fs.promises.file.write": "file:../write"
+  }
+}

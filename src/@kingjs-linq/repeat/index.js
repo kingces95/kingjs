@@ -4,7 +4,7 @@ var {
       implementIEnumerable,
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Generate a sequence of a repeated value.

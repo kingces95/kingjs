@@ -12,7 +12,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 class PublishSubject extends Subject {
   constructor(

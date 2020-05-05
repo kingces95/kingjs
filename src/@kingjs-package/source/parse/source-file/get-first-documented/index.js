@@ -3,7 +3,7 @@ var {
     module: { ExportExtension },
     source: { types }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var { SourceFile, FunctionDeclaration } = types
 

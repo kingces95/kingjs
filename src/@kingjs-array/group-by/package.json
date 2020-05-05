@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/array.partition": "file:../partition",
-    "@kingjs/module.export-extension": "file:../../module/export-extension"
+    "@kingjs-module/export-extension": "file:../../module/export-extension"
   },
   "nodeDependencies": [
     "assert"

@@ -1,11 +1,9 @@
 var { 
-  '@kingjs-array': {
-    RemoveAt,
-  },
-  '@kingjs-module': {
-    ExportExtension
+  '@kingjs': {
+    '-array': { RemoveAt },
+    '-module': { ExportExtension }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Removes an element from an array and

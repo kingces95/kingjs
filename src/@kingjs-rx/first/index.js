@@ -8,7 +8,7 @@ var {
       IObservable: { Subscribe },
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var DefaultPredicate = () => true;
 

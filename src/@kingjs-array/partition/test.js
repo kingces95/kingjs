@@ -1,5 +1,8 @@
-var assert = require('assert')
-var Partition = require('@kingjs-array/partition')
+var { assert,
+  '@kingjs': {
+    '-array': { Partition }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var result = [
   { i: 0, v: '0' }, 

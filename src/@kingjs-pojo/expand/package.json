@@ -20,7 +20,7 @@
   "capitalize": "true",
   "dependencies": {
     "@kingjs/array.expand": "file:../../array/expand",
-    "@kingjs/module.export-extension": "file:../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../module/export-extension",
     "@kingjs/pojo.to-pairs": "file:../to-pairs"
   },
   "nodeDependencies": []

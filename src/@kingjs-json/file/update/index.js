@@ -11,7 +11,7 @@ var {
       }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 async function updateJsonFile(pojo) {
   var json = await this[ReadJsonFile]() || { }

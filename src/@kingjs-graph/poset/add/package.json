@@ -21,7 +21,7 @@
   "dependencies": {
     "@kingjs/array.peek": "file:../../../array/peek",
     "@kingjs/graph.poset.reduce": "file:../reduce",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/pojo.reduce": "file:../../../pojo/reduce"
   },
   "nodeDependencies": []

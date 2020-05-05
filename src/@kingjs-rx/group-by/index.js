@@ -13,7 +13,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var DefaultKeySelector = o => o
 var DefaultGroupActivator = (o, k) => new Subject()

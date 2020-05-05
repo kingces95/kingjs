@@ -5,7 +5,7 @@ var {
   '@kingjs-string': {
     IsUpperCaseAt
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Test if a string is capitalized.

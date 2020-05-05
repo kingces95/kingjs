@@ -4,7 +4,7 @@ var {
     pojo: { ToPairs },
     array: { Expand }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Expands the key/value pairs of the source 

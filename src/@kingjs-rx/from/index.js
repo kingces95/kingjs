@@ -9,7 +9,7 @@ var {
       IObserver: { Next, Complete, Error },
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Create an `IObservable` from a generator or 

@@ -1,9 +1,8 @@
 var { 
-  assert,
-  '@kingjs': {
-    stringEx: { Expand }
+  '@kingjs-string': {
+    Expand
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 class Exception extends Error {
   constructor(message, pojo) {

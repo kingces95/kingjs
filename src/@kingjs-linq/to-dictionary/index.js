@@ -9,7 +9,7 @@ var {
       exportExtension 
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Creates a dictionary from a sequence where the 

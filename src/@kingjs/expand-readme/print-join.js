@@ -2,7 +2,7 @@ var {
   ['@kingjs']: { 
     stringEx: { Expand }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var EmptyString = '';
 

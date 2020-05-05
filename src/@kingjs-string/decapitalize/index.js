@@ -5,7 +5,7 @@ var {
   '@kingjs-string': {
     isCapitalized: IsCapitalized
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Decapitalize a string.

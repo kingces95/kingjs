@@ -8,7 +8,7 @@ var {
       define
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var definitions = {
 

@@ -10,7 +10,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var DefaultSelector = o => o;
 

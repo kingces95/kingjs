@@ -1,11 +1,9 @@
 var {
-  '@kingjs-module': { 
-    ExportExtension,
-  },
-  '@kingjs-string': {
-    Expand
+  '@kingjs': {
+    '-module': { ExportExtension },
+    '-string': { Expand }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var EmptyString = ''
 var EmptyObject = { }

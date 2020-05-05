@@ -22,7 +22,7 @@
     "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
     "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
-    "@kingjs/module.export-extension": "file:../../../module/export-extension",
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.parse": "file:../../name/parse",
     "@kingjs/package.scope.probe": "file:../../scope/probe",
     "@kingjs/package.source.parse.source-file.get-first-documented": "file:../../source/parse/source-file/get-first-documented",

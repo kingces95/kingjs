@@ -1,6 +1,6 @@
 var { 
   ['@kingjs-promise']: { sleep }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Return a promise fulfilled when `predicate`, polled

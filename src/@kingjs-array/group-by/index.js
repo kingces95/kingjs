@@ -1,11 +1,9 @@
 var { 
-  '@kingjs-array': { 
-    Partition,
-  },
-  '@kingjs-module': {
-    ExportExtension,
+  '@kingjs': {
+    '-array': { Partition },
+    '-module': { ExportExtension }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Partition an array into groups { key, value } where value is an array.

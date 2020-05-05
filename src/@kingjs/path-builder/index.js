@@ -1,14 +1,11 @@
 var {
   assert,
   Path,
-  ['@kingjs']: {
-    Exception,
-    stringEx: { Builder: StringBuilder },
-    pojo: { ToArray },
-    reflect: { is },
-    buffer: { Append },
-  }
-} = require('./dependencies')
+  '@kingjs': { Exception },
+  '@kingjs-pojo': { ToArray },
+  '@kingjs-reflect': { is },
+  '@kingjs-buffer': { Append },
+} = module[require('@kingjs-module/dependencies')]()
 
 var NoRelativePathExists = "No relative path exists from '${from}' to '${to}'."
 

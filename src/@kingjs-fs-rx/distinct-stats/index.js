@@ -19,7 +19,7 @@ var {
     },
     reflect: { exportExtension },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns the stats for a path that have a different 

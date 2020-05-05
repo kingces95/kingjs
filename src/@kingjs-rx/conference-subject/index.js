@@ -15,7 +15,7 @@ var {
       ProxySubject,
     },
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var throwNextTick = x => process.nextTick(() => { throw x })
 var DefaultActivate = o => o

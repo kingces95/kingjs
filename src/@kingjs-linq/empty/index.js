@@ -3,7 +3,7 @@ var {
     reflect: { exportExtension },
     IEnumerable,
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var EmptyArray = [];
 

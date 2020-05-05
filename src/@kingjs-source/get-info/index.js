@@ -7,7 +7,7 @@ var {
       info: { FunctionInfo }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var { Node, FunctionDeclaration } = types
 

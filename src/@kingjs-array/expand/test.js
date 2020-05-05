@@ -1,5 +1,8 @@
-var assert = require('assert');
-var Expand = require('@kingjs-array/expand');
+var { assert,
+  '@kingjs': {
+    '-array': { Expand },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 assert.equal('', [][Expand]('foo', { }, ',', '(', ')'))
 assert.equal('(foo)', [{ }][Expand]('foo', { }, ',', '(', ')'))

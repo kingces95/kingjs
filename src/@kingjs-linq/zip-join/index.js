@@ -7,7 +7,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var DefaultLessThan = (l, r) => l < r
 var DefaultKeySelector = o => o

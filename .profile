@@ -120,7 +120,7 @@ dbg() {
 }
 
 # npm external 
-export KJS_EXT_DIR="$KJS_DIR/.npm"
+export KJS_EXT_DIR="$KJS_DIR"
 alias cdext="pd $KJS_EXT_DIR"
 
 # npm install external packages
@@ -133,7 +133,7 @@ export KJS_EXT_MOD_DIR="$KJS_EXT_DIR/node_modules"
 
 # c8
 alias c8="node $KJS_EXT_MOD_DIR/c8/bin/c8.js $*"
-alias cov="c8 -o .coverage node .test/index.js && c8 report -o .coverage -r lcov"
+alias cov="c8 -o .coverage node test.js && c8 report -o .coverage -r lcov"
 
 # dogfood
 export KJS_DOGFOOD_STABLE="$KJS_ENV_DIR/kingjs"

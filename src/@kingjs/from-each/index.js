@@ -1,6 +1,6 @@
 var {
   ['@kingjs']: { odometer }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Generates a sequence of arrays or descriptors 

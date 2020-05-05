@@ -3,7 +3,7 @@ var {
     rx: { create },
     promise: { sleep }
   },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var PollingInterval = 100;
 

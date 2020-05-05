@@ -8,7 +8,7 @@ var {
     },
     IEnumerable,
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Generates a sequence composed of the 

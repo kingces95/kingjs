@@ -8,7 +8,7 @@ var {
       IObservable: { Subscribe },
     }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns a promise that resolves with an array containing

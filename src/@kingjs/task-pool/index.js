@@ -6,7 +6,7 @@ var {
       RemoveAt
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var DropEvent = 'drop'
 var StartEvent = 'start'

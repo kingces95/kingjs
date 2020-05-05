@@ -12,7 +12,7 @@ var {
     IEnumerator: { MoveNext, Current },
     IOrderedEnumerable: { CreateOrderedEnumerable },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 function defaultKeySelector(x) {
   return x;

@@ -4,4 +4,4 @@ var {
   fs: fileSystem,
   ['@kingjs']: { promises },
   ['@kingjs']: { fooBar: { baz } },
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();

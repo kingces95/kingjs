@@ -8,7 +8,7 @@ var {
     },
     IEnumerable,
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Computes the sum of a sequence of 

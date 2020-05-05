@@ -12,7 +12,7 @@ var {
       }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var Dash = '-'
 var Underscore = '_'

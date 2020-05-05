@@ -2,7 +2,7 @@ var {
   '@kingjs-module': {
     ExportExtension
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an array of nodes in a link list

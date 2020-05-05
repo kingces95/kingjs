@@ -1,7 +1,7 @@
 var { 
   fs, 
   path
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var generate = require('./generate')
 var PackageJson = './package.json'

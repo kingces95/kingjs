@@ -3,7 +3,7 @@ var {
     rx: { IObservable },
     reflect: { createInterface }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description `IGroupedObservable` extends `IObservable` and 

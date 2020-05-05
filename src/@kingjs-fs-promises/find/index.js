@@ -1,15 +1,8 @@
 var { 
-  Path,
-  ['@kingjs']: {
-    module: { ExportExtension },
-    Path,
-    fs: {
-      promises: {
-        dir: { List } 
-      }
-    }
-  }
-} = require('./dependencies')
+  '@kingjs': { Path },
+  '@kingjs-module': { ExportExtension },
+  '@kingjs-fs-promises-dir': { List }
+} = module[require('@kingjs-module/dependencies')]()
 
 var Options = {
   withFileTypes: true

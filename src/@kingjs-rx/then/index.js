@@ -11,7 +11,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var syncError = 'Synchronous execution detected. Use `@kingjs/rx.timer`.';
 

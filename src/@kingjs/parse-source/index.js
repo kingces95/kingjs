@@ -3,7 +3,7 @@ var {
   ['@kingjs']: {
     reflect: { is }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 var fs = require("fs");
 var types = require('./define-types');

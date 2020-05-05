@@ -1,6 +1,6 @@
 var { 
   shelljs
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Asynchronously executes a shell command and returns

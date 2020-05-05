@@ -4,7 +4,7 @@ var {
     stringEx: { Expand },
     functionEx: { Rename }
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Renames functions found in a descriptor.

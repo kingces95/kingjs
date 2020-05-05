@@ -6,7 +6,7 @@ var {
       IObserver: { Error },
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Create an `IObservable` that emits an error.

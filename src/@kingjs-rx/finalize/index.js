@@ -8,7 +8,7 @@ var {
       exportExtension
     },
   }
-} = require('./dependencies');
+} = module[require('@kingjs-module/dependencies')]();
 
 /**
  * @description Returns an `IObservable` that spies on the `complete` and `error` events.

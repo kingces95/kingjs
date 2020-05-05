@@ -1,0 +1,33 @@
+{
+  "name": "@kingjs/fs.file.write",
+  "version": "0.0.0",
+  "description": "Reads a file at the path.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/file/write"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs-module/export-extension": "file:../../../module/export-extension",
+    "@kingjs/path": "file:../../../path"
+  },
+  "nodeDependencies": [
+    "fs"
+  ],
+  "devDependencies": {
+    "@kingjs/fs.exists": "file:../../exists",
+    "@kingjs/fs.file.read": "file:../read",
+    "@kingjs/fs.file.unlink": "file:../unlink"
+  }
+}

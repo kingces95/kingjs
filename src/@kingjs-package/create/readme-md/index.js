@@ -24,7 +24,7 @@ var {
       name: { parse }
     }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var TemplateDir = '.md'
 var TemplateName = 'readme.t.md'

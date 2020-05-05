@@ -4,7 +4,7 @@ var {
     module: { ExportExtension },
     graph: { Analyze }
   }
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var EmptyObject = { }
 var EmptyArray = [ ]

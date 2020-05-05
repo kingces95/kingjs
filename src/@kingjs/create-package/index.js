@@ -10,7 +10,7 @@ var {
   },
   npmPacklist,
   isBuiltinModule,
-} = require('./dependencies')
+} = module[require('@kingjs-module/dependencies')]()
 
 var getJsdocDescription = require('./jsdoc-description')
 var getJsDependencies = require('./js-dependencies')
