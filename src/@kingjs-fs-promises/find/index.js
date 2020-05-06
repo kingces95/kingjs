@@ -1,7 +1,8 @@
 var { 
-  '@kingjs': { Path },
-  '@kingjs-module': { ExportExtension },
-  '@kingjs-fs-promises-dir': { List }
+  '@kingjs': { Path,
+    '-module': { ExportExtension },
+    '-fs-promises-dir': { List }
+  },
 } = module[require('@kingjs-module/dependencies')]()
 
 var Options = {

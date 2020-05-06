@@ -1,9 +1,7 @@
-var { 
-  fs: { promises: fs },
-  ['@kingjs']: { 
-    Path,
-    fs: { promises: { dir: { Make } } },
-    module: { ExportExtension },
+var { fs: { promises: fs },
+  '@kingjs': { Path,
+    '-fs-promises-dir': { Make },
+    '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

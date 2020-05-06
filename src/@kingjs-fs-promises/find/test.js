@@ -1,8 +1,10 @@
-var assert = require('assert')
-var Path = require('@kingjs/path')
-var Find = require('..')
-var Save = require('@kingjs/fs.promises.save')
-var RemoveDir = require('@kingjs/fs.promises.dir.remove')
+var { assert,
+  '@kingjs': { Path,
+    '-fs-promises': { Save, Find,
+      '-dir': { Remove: RemoveDir }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 async function test() {
   var acme = Path.parse('acme')

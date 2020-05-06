@@ -1,21 +1,17 @@
 var { 
-  '@kingjs': {
-    Path,
-    run,
-    fs: {
-      promises: {
-        file: { 
-          Read: ReadFile,
-          Write: WriteFile,
-          Copy: CopyFile
-        },
-        dir: {
-          Make: MakeDir,
-          List
-        },
-      }
+  '@kingjs': { Path, run,
+    '-fs-promises': {
+      '-file': { 
+        Read: ReadFile,
+        Write: WriteFile,
+        Copy: CopyFile
+      },
+      '-dir': {
+        Make: MakeDir,
+        List
+      },
     },
-    module: { ExportExtension }
+    '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

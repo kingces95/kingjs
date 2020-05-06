@@ -1,10 +1,8 @@
 var { 
-  ['@kingjs']: {
-    reflect: { 
-      exportExtension
-    }
+  '@kingjs': {
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Return a promise that is fulfilled when a stream ends.
@@ -12,21 +10,21 @@ var {
  * @this any The stream.
  */
 function ended() {
-  var stream = this;
+  var stream = this
   var promise = new Promise(function(resolve, reject) {
     var onError = e => {
-      reject(e);
-    };
+      reject(e)
+    }
     stream
       .on('error', onError)
       .once('end', () => {
-        stream.off('error', onError);
-        resolve();
+        stream.off('error', onError)
+        resolve()
       }
-    );
-  });
+    )
+  })
 
-  return promise;
+  return promise
 }
 
-exportExtension(module, Stream, ended);
+module[ExportExtension](Stream, ended)

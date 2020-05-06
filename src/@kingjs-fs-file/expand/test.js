@@ -1,13 +1,14 @@
 var { assert,
-  '@kingjs': Path,
-    '-pogo': { ToPairs }, 
+  '@kingjs': { Path,
+    '-pojo': { ToPairs }, 
     '-array': { Expand: ExpandArray },
     '-fs': {
       '-file': { Expand, Read },
       '-promises': { Save,
         '-dir': { Remove: RemoveDir }
-      },
+      }
     }
+  }
 } = module[require('@kingjs-module/dependencies')]()
 
 async function run() {

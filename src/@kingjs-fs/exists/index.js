@@ -1,7 +1,5 @@
-var { 
-  fs,
-  '@kingjs': { 
-    Path,
+var { fs,
+  '@kingjs': { Path,
     '-module': { ExportExtension } 
   }
 } = module[require('@kingjs-module/dependencies')]()

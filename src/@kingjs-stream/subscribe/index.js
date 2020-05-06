@@ -1,14 +1,11 @@
 var { 
-  ['@kingjs']: {
-    rx: { 
-      create,
-      IObserver: { Next, Complete, Error }
+  '@kingjs': {
+    '-rx': { create,
+      '-i-observer': { Next, Complete, Error }
     },
-    reflect: { 
-      exportExtension
-    },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Expose a stream as an `IObservable`.
@@ -30,7 +27,7 @@ var {
  * be fulfilled with the `drain` event fired. 
  */
 function subscribe(backPressure) {
-  var stream = this;
+  var stream = this
 
   return create(observer => {
     stream
@@ -39,35 +36,35 @@ function subscribe(backPressure) {
       .on('data', data => {
 
         // emit buffer
-        observer[Next](data);
+        observer[Next](data)
 
         // throttle stream
         throttle(backPressure, observer)
       })
-  });
+  })
 }
 
 function throttle(backPressure, observer) {
   var stream = this
 
   if (backPressure.length == 0)
-    return;
+    return
 
   // pump empty buffers to flush back pressure
-  stream.pause();
+  stream.pause()
   process.nextTick(async () => {
     while (backPressure.length) {
-      var promise = Promise.all(backPressure);
-      backPressure.length = 0;
-      await promise;
+      var promise = Promise.all(backPressure)
+      backPressure.length = 0
+      await promise
 
       // iterators reporting back pressure may safely ignore
       // the next buffer yielded to them. This provides iterators
       // a way to 'await' promises (e.g. directory creation)
-      observer.next(EmptyBuffer);
+      observer.next(EmptyBuffer)
     }
-    stream.resume();
+    stream.resume()
   })
 }
 
-exportExtension(module, Stream, subscribe);
+module[ExportExtension](Stream, subscribe)

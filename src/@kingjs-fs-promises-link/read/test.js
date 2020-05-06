@@ -1,8 +1,11 @@
-var assert = require('assert')
-var Path = require('@kingjs/path')
-var WriteLink = require('../../write')
-var ReadLink = require('..')
-var { promises: fs } = require('fs')
+var { assert, fs: { promises: fs },
+  '@kingjs': { Path,
+    '-fs-promises-link': { 
+      Write: WriteLink,
+      Read: ReadLink 
+    },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 async function run() {
   await fs.rmdir('.acme', { recursive: true })

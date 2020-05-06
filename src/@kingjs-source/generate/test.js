@@ -12,6 +12,8 @@ var {
   File
 } = types
 
+process.chdir('.test')
+
 var Source = 'source'
 parse(`${Source}.js`).then(ast => {
   fs.writeFileSync(`${Source}.ast.json`, 

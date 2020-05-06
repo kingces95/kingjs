@@ -1,10 +1,12 @@
-var assert = require('assert')
-var Path = require('@kingjs/path')
-var Probe = require('..')
-var Save = require('@kingjs/fs.promises.save')
-var RemoveDir = require('@kingjs/fs.promises.dir.remove')
-var ReadJsonFile = require('@kingjs/json.file.read')
-var ReadFile = require('@kingjs/fs.promises.file.read')
+var { assert,
+  '@kingjs': { Path,
+    '-json-file': { read: ReadJsonFile },
+    '-fs-promises': { Save, Probe,
+      '-dir': { Remove: RemoveDir },
+      '-file': { Read: ReadFile }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 async function test() {
   var acme = Path.parse('acme')

@@ -1,17 +1,13 @@
-var { 
-  assert,
-  '@kingjs': {
-    Path,
-    fs: {
-      promises: {
-        dir: { Make: MakeDir },
-        file: { Write: WriteFile},
-        link: { Write: LinkTo },
-      },
+var { assert,
+  '@kingjs': { Path,
+    '-fs-promises': {
+      '-dir': { Make: MakeDir },
+      '-file': { Write: WriteFile},
+      '-link': { Write: LinkTo },
     },
-    reflect: { is },
-    json: { stringify },
-    module: { ExportExtension }
+    '-reflect': { is },
+    '-json': { stringify },
+    '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

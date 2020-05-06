@@ -1,13 +1,7 @@
 var { 
-  Path,
-  ['@kingjs']: {
-    module: { ExportExtension },
-    Path,
-    fs: {
-      promises: {
-        Exists 
-      }
-    }
+  '@kingjs': { Path,
+    '-module': { ExportExtension },
+    '-fs-promises': { Exists }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

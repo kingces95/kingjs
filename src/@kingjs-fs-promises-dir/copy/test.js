@@ -1,9 +1,13 @@
-var assert = require('assert')
-var Path = require('@kingjs/path')
-var RemoveDir = require('@kingjs/fs.promises.dir.remove')
-var Save = require('@kingjs/fs.promises.save')
-var Load = require('@kingjs/fs.promises.load')
-var CopyDir = require('..')
+var { assert,
+  '@kingjs': { Path,
+    '-fs-promises': { Save, Load,
+      '-dir': { 
+        Copy: CopyDir,
+        Remove: RemoveDir
+      },
+    },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var Acme = 'acme'
 var Ecma = 'ecma'

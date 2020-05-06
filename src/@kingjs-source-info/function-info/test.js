@@ -15,7 +15,7 @@ function assertDeepEquals(lhs, rhs) {
 }
 
 async function run() {
-  var ast = await parse('./source.js')
+  var ast = await parse('./.test/source.js')
 
   for (var node of ast) {
     if (node instanceof FunctionDeclaration)

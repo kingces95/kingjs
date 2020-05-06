@@ -1,9 +1,14 @@
-var assert = require('assert')
-var Path = require('@kingjs/path')
-var RemoveDir = require('..')
-var Exists = require('@kingjs/fs.promises.exists')
-var WriteFile = require('@kingjs/fs.promises.file.write')
-var MakeDir = require('@kingjs/fs.promises.dir.make')
+var { assert,
+  '@kingjs': { Path,
+    '-fs-promises': { Exists,
+      '-file': { Write: WriteFile },
+      '-dir': { 
+        Remove: RemoveDir,
+        Make: MakeDir 
+      },
+    },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 async function test() {
   var cwd = Path.dot

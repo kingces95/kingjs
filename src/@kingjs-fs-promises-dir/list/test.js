@@ -1,9 +1,15 @@
-var assert = require('assert')
-var Path = require('@kingjs/path')
-var List = require('..')
-var WriteFile = require('@kingjs/fs.promises.file.write')
-var MakeDir = require('@kingjs/fs.promises.dir.make')
-var RemoveDir = require('@kingjs/fs.promises.dir.remove')
+var { assert,
+  '@kingjs': { Path,
+    '-fs-promises': {
+      '-file': { Write: WriteFile },
+      '-dir': { 
+        List: List,
+        Make: MakeDir, 
+        Remove: RemoveDir 
+      },
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var WithFileTypes = { withFileTypes: true }
 

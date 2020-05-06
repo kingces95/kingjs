@@ -1,10 +1,15 @@
-var assert = require('assert')
-var CopyFile = require('..')
-var Path = require('@kingjs/path')
-var Exists = require('@kingjs/fs.promises.exists')
-var Unlink = require('@kingjs/fs.promises.file.unlink')
-var WriteFile = require('@kingjs/fs.promises.file.write')
-var ReadFile = require('@kingjs/fs.promises.file.read')
+var { assert,
+  '@kingjs': { Path,
+    '-fs-promises': { Exists,
+      '-file': { 
+        Unlink,
+        Copy: CopyFile, 
+        Write: WriteFile,
+        Read: ReadFile 
+      },
+    },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 async function test() {
   var cwd = Path.dot
