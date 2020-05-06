@@ -1,6 +1,6 @@
 var { 
   deepEquals,
-  ['@kingjs']: {
+  '@kingjs': {
     rx: { 
       create,
       IObservable,

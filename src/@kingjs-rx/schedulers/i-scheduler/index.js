@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     reflect: { createInterface }
   }
 } = module[require('@kingjs-module/dependencies')]();

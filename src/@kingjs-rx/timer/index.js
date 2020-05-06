@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     promise: { sleep },
     rx: { 
       create,

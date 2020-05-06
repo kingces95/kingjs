@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: { odometer }
+  '@kingjs': { odometer }
 } = module[require('@kingjs-module/dependencies')]();
 
 /**

@@ -1,6 +1,6 @@
 var {
   assert,
-  ['@kingjs']: { 
+  '@kingjs': { 
     stringEx: { JoinLines },
     source: {
       types: {

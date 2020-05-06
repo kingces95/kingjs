@@ -2,7 +2,7 @@ var {
   assert, 
   path,
   isBuiltinModule,
-  ['@kingjs']: { 
+  '@kingjs': { 
     camelCase: { split },
     package: {
       name: { construct },
@@ -114,14 +114,14 @@ function evaluate(obp) {
   for (var element of obp.elements) {
     var name = element.propertyName;
 
-    // leaf; { ['@kingjs']: { package } }
+    // leaf; { '@kingjs': { package } }
     if (!name) {
       name = element.name;
       result[name] = undefined;
       continue;
     }
   
-    // ignore alias; { ['@kingjs']: { package: alias } }
+    // ignore alias; { '@kingjs': { package: alias } }
     if (is.string(element.name)) {
       result[name] = undefined;
       continue;
@@ -133,7 +133,7 @@ function evaluate(obp) {
       continue;
     }
 
-    // namespace; { ['@kingjs']: { ns: { ... } } }
+    // namespace; { '@kingjs': { ns: { ... } } }
     result[name] = evaluate(element.name);
   }
 

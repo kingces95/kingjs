@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: { 
+  '@kingjs': { 
     git: { getDir },
     stringEx: { 
       capitalize,

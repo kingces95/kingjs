@@ -1,18 +1,16 @@
-var assert = require('assert');
-
-var { 
-  ['@kingjs']: {
-    stringEx: { Capitalize },
-    reflect: { is, builtInSymbols }
+var { assert,
+  '@kingjs': {
+    '-string': { Capitalize },
+    '-reflect': { is, builtInSymbols }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var IInterfaceTag = Symbol.for('@kingjs/IInterface');
+var IInterfaceTag = Symbol.for('@kingjs/IInterface')
 
 // interface should throw when activated
-var ActivationError = 'Cannot activate interface.';
-var Delimiter = '.';
-var EmptyObject = { };
+var ActivationError = 'Cannot activate interface.'
+var Delimiter = '.'
+var EmptyObject = { }
 
 /**
  * @description Returns a function whose properties map strings
@@ -60,132 +58,132 @@ var EmptyObject = { };
  * @remarks -- `IMyInterface instanceof IInterface` is `true`
  * */
 function createInterface(name, descriptor) {
-  assert(is.string(name));
+  assert(is.string(name))
 
   if (!descriptor)
-    descriptor = EmptyObject;
+    descriptor = EmptyObject
 
   var {
     members,
     extends: extensions,
-  } = descriptor;
+  } = descriptor
 
   // define interface
   var iface = function() { 
-    assert(false, ActivationError); 
-  };
+    assert(false, ActivationError) 
+  }
 
   // interface name is the keyFor its symbolic id
-  Object.defineProperty(iface, 'name', { value: name });
+  Object.defineProperty(iface, 'name', { value: name })
 
   // remove prototype & ctor (because it's never activated)
-  Object.defineProperty(iface, 'prototype', { value: null });
-  Object.defineProperty(iface, 'constructor', { value: null });
+  Object.defineProperty(iface, 'prototype', { value: null })
+  Object.defineProperty(iface, 'constructor', { value: null })
 
   // support instanceof
   Object.defineProperty(iface, Symbol.hasInstance, {
     value: hasInstance
-  });
+  })
 
   // Tag as an interface
-  iface[IInterfaceTag] = null;
+  iface[IInterfaceTag] = null
 
   // gather extensions
-  iface = Object.create(iface);
+  iface = Object.create(iface)
   if (extensions)
-    inheritExtensions.call(iface, extensions);
+    inheritExtensions.call(iface, extensions)
 
   // gather members
-  iface = Object.create(iface);
+  iface = Object.create(iface)
   if (members)
-    defineMembers.call(iface, members, name);
+    defineMembers.call(iface, members, name)
   else
-    iface[''] = Symbol.for(name);
+    iface[''] = Symbol.for(name)
 
-  return iface;
+  return iface
 }
 
-// intercept instanceof; used by extension stubs to test type
+// intercept instanceof used by extension stubs to test type
 function hasInstance(instance) {
 
   var isObjectStringOrFunction =
-    is.object(instance) || is.string(instance) || is.function(instance);
+    is.object(instance) || is.string(instance) || is.function(instance)
 
   if (!isObjectStringOrFunction)
-    return false;
+    return false
 
-  var prototype = Object.getPrototypeOf(instance);
+  var prototype = Object.getPrototypeOf(instance)
   if (!prototype)
-    return false;
+    return false
 
   // test that declared members are implemented
-  var iface = this;
+  var iface = this
   for (var name of Object.getOwnPropertyNames(iface)) {
-    var symbol = iface[name];
+    var symbol = iface[name]
     if (symbol in prototype == false)
-      return false;    
+      return false    
   }
   
   // test that inherited members are implemented
-  iface = Object.getPrototypeOf(iface);
+  iface = Object.getPrototypeOf(iface)
   for (var name of Object.getOwnPropertyNames(iface)) {
-    var symbolOrSymbols = iface[name];
+    var symbolOrSymbols = iface[name]
 
     // a name may be associated with many members
     if (is.object(symbolOrSymbols)) {
       for (var symbol of Object.getOwnPropertySymbols(symbolOrSymbols)) {
         if (symbol in prototype == false)
-          return false;
+          return false
       }
     }
 
     else if (symbolOrSymbols in prototype == false)
-      return false;    
+      return false    
   }
 
-  return true;
+  return true
 }
 
 function inheritExtensions(extensions) {
   if (!is.array(extensions))
-    extensions = [ extensions ];
+    extensions = [ extensions ]
 
   for (var extension of extensions) {
 
     // extensions must be interfaces
-    assert(IInterfaceTag in extension);
+    assert(IInterfaceTag in extension)
 
-    inherit.call(this, Object.getPrototypeOf(extension));
-    inherit.call(this, extension);
+    inherit.call(this, Object.getPrototypeOf(extension))
+    inherit.call(this, extension)
   }
 }
 function inherit(extension) {
 
     // inherit all members
     for (var name of Object.getOwnPropertyNames(extension)) {
-      var symbol = extension[name];
+      var symbol = extension[name]
 
       // copy
       if (is.object(symbol))
-        symbol = { ...symbol };
+        symbol = { ...symbol }
 
       if (name in this) {
 
         // allocate object to hold overloads
-        var overloads = this[name];
+        var overloads = this[name]
         if (!is.object(overloads))
-          this[name] = overloads = { [overloads]: null };
+          this[name] = overloads = { [overloads]: null }
 
         // merge overloads
         if (is.object(symbol))
-          overloads = { ...overloads, ...symbol };
+          overloads = { ...overloads, ...symbol }
         else
-          overloads[symbol] = null;
+          overloads[symbol] = null
       } 
 
       // no overloads
       else
-        this[name] = symbol;
+        this[name] = symbol
     }
   }
 
@@ -193,22 +191,22 @@ function defineMembers(members, interfaceName) {
 
   // define members
   for (var name in members) {
-    var symbol = members[name];
+    var symbol = members[name]
 
     if (!symbol)
-      symbol = Symbol.for(interfaceName + Delimiter + name);
-    assert(Symbol.keyFor(symbol) || symbol in builtInSymbols);
+      symbol = Symbol.for(interfaceName + Delimiter + name)
+    assert(Symbol.keyFor(symbol) || symbol in builtInSymbols)
 
-    this[name] = symbol;
+    this[name] = symbol
 
-    // provide a capitalized alias; When consuming an interface, deconstructing
+    // provide a capitalized alias When consuming an interface, deconstructing
     // into capitalized locals reflect the fact the value is a constant and the
     // name is less likely to conflict with other local variables names. Consider
     // var { Current, MoveNext } = Symbol.kingjs.IEnumerator
     //   vs
     // var { current, moveNext } = Symbol.kingjs.IEnumerator
-    this[name[Capitalize]()] = this[name];
+    this[name[Capitalize]()] = this[name]
   }
 }
 
-module.exports = createInterface;
+module.exports = createInterface

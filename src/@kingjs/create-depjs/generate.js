@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     package: { name: { parse } },
     camelCase: { join }
   },

@@ -2,7 +2,7 @@ var {
   fs: { promises: fsp }, 
   path: Path,
   minimatch,
-  ['@kingjs']: {
+  '@kingjs': {
     shim,
     exec,
     pathTest: testPath,

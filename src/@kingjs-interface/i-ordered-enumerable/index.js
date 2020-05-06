@@ -1,7 +1,7 @@
 var {
-  ['@kingjs']: {
-    reflect: { createInterface },
-    IEnumerable
+  '@kingjs': {
+    '-reflect': { createInterface },
+    '-interface': IEnumerable
   }
 } = module[require('@kingjs-module/dependencies')]();
 

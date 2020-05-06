@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: { reflect: { is } },
+  '@kingjs': { reflect: { is } },
   chokidar,
   deepEquals,
   shelljs,

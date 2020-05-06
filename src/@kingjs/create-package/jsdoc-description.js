@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: { parseSource }
+  '@kingjs': { parseSource }
 } = module[require('@kingjs-module/dependencies')]();
 
 var {

@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     Path,
     module: {
       ExportExtension

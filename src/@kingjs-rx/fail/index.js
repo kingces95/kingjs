@@ -1,6 +1,6 @@
 var { 
   assert,
-  ['@kingjs']: {
+  '@kingjs': {
     rx: { 
       create,
       IObserver: { Error },

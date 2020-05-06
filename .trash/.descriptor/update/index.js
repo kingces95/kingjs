@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: { 
+  '@kingjs': { 
     descriptor: { nested: { update: nestedUpdate } } 
   }
 } = module[require('@kingjs-module/dependencies')]()

@@ -1,7 +1,7 @@
 var { 
   Path,
   assert,
-  ['@kingjs']: { 
+  '@kingjs': { 
     module: { ExportExtension },
     source: { types }
   }

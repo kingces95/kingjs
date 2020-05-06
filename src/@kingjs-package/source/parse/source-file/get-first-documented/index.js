@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: { 
+  '@kingjs': { 
     module: { ExportExtension },
     source: { types }
   }

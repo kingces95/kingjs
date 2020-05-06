@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     reflect: { is },
     stringEx: { Expand },
     functionEx: { Rename }

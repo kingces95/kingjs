@@ -2,7 +2,7 @@ var ts = require('typescript')
 
 var {
   typescript: ts2,
-  ['@kingjs']: { 
+  '@kingjs': { 
     extendClass,
     source: {
       syntaxKind

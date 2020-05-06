@@ -1,6 +1,6 @@
 var {
   fs, path,
-  ['@kingjs']: { 
+  '@kingjs': { 
     stringEx: { Expand },
     source: { 
       parse: parseSource,

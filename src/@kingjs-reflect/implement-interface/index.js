@@ -2,7 +2,7 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: { reflect: { is } },
+  '@kingjs': { reflect: { is } },
 } = module[require('@kingjs-module/dependencies')]();
 
 var EmptyString = '';

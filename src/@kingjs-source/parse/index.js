@@ -1,7 +1,7 @@
 var { 
   fs,
   typescript: ts,
-  ['@kingjs']: {
+  '@kingjs': {
     Path,
     fs: { promises: { file: { Read: ReadFile } } },
     module: { ExportExtension },

@@ -1,5 +1,5 @@
 {
-  "text": "exports['@kingjs'] = {\n  extendClass: require('@kingjs/extend-class'),\n  source: {\n    syntaxKind: require('@kingjs/source.syntax-kind')\n  },\n}",
+  "text": "exports'@kingjs' = {\n  extendClass: require('@kingjs/extend-class'),\n  source: {\n    syntaxKind: require('@kingjs/source.syntax-kind')\n  },\n}",
   "fileName": "dependencies.js",
   "isDeclarationFile": false,
   "hasNoDefaultLib": false,

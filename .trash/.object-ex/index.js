@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     getOwnPropertyKeys,
     propertyDescriptor: {
       constructProperty, 

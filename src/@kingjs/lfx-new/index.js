@@ -4,7 +4,7 @@ var {
   path: Path, 
   rxjs: { Subject },
   osUtils,
-  ['@kingjs']: { reflect: { is } },
+  '@kingjs': { reflect: { is } },
 } = module[require('@kingjs-module/dependencies')]();
 var os = require('os');
 

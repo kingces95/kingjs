@@ -1,6 +1,6 @@
 var {
   assert, 
-  ['@kingjs']: { 
+  '@kingjs': { 
     Dictionary,
     reflect: { is },
     descriptor: { merge },

@@ -1,6 +1,6 @@
 var {
   fs,
-  ['@kingjs']: {
+  '@kingjs': {
     rx: { 
       create, 
       SelectMany,

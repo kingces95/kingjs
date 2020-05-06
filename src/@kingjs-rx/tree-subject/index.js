@@ -2,7 +2,7 @@
 var {
   assert,
   events: { EventEmitter },
-  ['@kingjs']: { 
+  '@kingjs': { 
     reflect: { 
       createSymbol,
       is 

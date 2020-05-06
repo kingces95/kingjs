@@ -1,7 +1,7 @@
 var { 
   assert,
   isBuiltinModule,
-  ['@kingjs']: { 
+  '@kingjs': { 
     module: { ExportExtension },
     camelCase: { split },
     package: { name: { construct } },

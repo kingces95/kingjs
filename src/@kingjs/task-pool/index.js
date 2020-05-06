@@ -1,6 +1,6 @@
 var { 
   events: { EventEmitter },
-  ['@kingjs']: {
+  '@kingjs': {
     array: {
       Remove,
       RemoveAt

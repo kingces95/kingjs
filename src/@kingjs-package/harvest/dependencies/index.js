@@ -1,7 +1,7 @@
 var {
   Path, 
   assert,
-  ['@kingjs']: { 
+  '@kingjs': { 
     json: { file: { Read: ReadJsonFile } },
     fs: { promises: { Exists } },
     Path,

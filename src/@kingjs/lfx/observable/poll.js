@@ -1,7 +1,7 @@
 var { 
   os,
   rxjs: { Subject, Observable },
-  ['@kingjs']: { reflect: { is } },
+  '@kingjs': { reflect: { is } },
 } = require('../dependencies');
 
 var sleep = require('../promise/sleep');

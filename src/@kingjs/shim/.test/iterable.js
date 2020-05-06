@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     IIterable,
     IIterable: { GetIterator },
   }

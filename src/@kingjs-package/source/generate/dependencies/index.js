@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: { 
+  '@kingjs': { 
     array: {
       GroupBy,
       Partition

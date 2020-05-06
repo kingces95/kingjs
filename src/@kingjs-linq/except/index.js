@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     Dictionary,
     reflect: { 
       implementIEnumerable,

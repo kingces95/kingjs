@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     rx: { from },
   }
 } = module[require('@kingjs-module/dependencies')]();

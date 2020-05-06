@@ -1,6 +1,6 @@
 var { 
   assert,
-  ['@kingjs']: {
+  '@kingjs': {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },

@@ -1,11 +1,9 @@
-var {
-  assert,
-  ['@kingjs']: {
-    reflect: {
-      is,
+var { assert,
+  '@kingjs': {
+    '-reflect': { is,
       descriptor: { targetInstanceOf }
     },
-    propertyDescriptor: {
+    '-propertyDescriptor': {
       lambdize, 
       makeLazy, 
     }

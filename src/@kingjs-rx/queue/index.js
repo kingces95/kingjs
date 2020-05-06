@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     TaskPool,
     array: { Remove },
     rx: { 

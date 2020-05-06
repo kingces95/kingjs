@@ -1,6 +1,6 @@
 var { 
   assert,
-  ['@kingjs']: { reflect: { is } } 
+  '@kingjs': { reflect: { is } } 
 } = module[require('@kingjs-module/dependencies')]()
 
 /**

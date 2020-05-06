@@ -1,6 +1,6 @@
 var {
-  ['@kingjs']: { 
-    reflect: { is, defineProperty }
+  '@kingjs': { 
+    '-reflect': { is, defineProperty }
   }
 } = module[require('@kingjs-module/dependencies')]();
 

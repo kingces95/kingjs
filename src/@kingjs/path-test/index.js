@@ -2,7 +2,7 @@ var {
   assert,
   path: Path,
   minimatch,
-  ['@kingjs']: {
+  '@kingjs': {
     reflect: { is }
   }
 } = module[require('@kingjs-module/dependencies')]();

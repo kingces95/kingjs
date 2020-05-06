@@ -1,6 +1,7 @@
-var {
-  assert,
-  ['@kingjs']: { reflect: { is } }
+var { assert,
+  '@kingjs': { 
+    '-reflect': { is } 
+  }
 } = module[require('@kingjs-module/dependencies')]();
 
 function createProperty(target, x, y) {

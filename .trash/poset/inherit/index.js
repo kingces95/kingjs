@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     descriptor: { inherit },
     poset: { forEach },
   }

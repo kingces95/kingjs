@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     reflect: { exportExtension },    
     rx: { create },
     IEnumerable,

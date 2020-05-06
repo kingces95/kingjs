@@ -1,6 +1,6 @@
 {
   "syntaxKind": "SourceFile",
-  "text": "exports['fs'] = require('fs')\nexports['@kingjs'] = {\n  extendClass: require('@kingjs/extend-class'),\n  source: {\n    syntaxKind: require('@kingjs/source.syntax-kind'),\n    run: require('@kingjs/run'),\n    foo: require('@kingjs/run'),\n  },\n}",
+  "text": "exports['fs'] = require('fs')\nexports'@kingjs' = {\n  extendClass: require('@kingjs/extend-class'),\n  source: {\n    syntaxKind: require('@kingjs/source.syntax-kind'),\n    run: require('@kingjs/run'),\n    foo: require('@kingjs/run'),\n  },\n}",
   "fileName": "source.js",
   "isDeclarationFile": false,
   "hasNoDefaultLib": false,

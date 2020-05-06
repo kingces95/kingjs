@@ -1,6 +1,6 @@
 var { 
   typescript: ts,
-  ['@kingjs']: { createConstructor }
+  '@kingjs': { createConstructor }
 } = module[require('@kingjs-module/dependencies')]();
 
 var rx = require('./rx');

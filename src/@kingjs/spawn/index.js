@@ -1,5 +1,5 @@
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     rx: { 
       Subject,
       IObserver: { Next, Complete, Error }

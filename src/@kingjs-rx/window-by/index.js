@@ -1,7 +1,7 @@
 var { 
   assert,
   deepEquals,
-  ['@kingjs']: {
+  '@kingjs': {
     rx: { 
       Subject,
       IObservable,

@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     Dictionary
   }
 } = module[require('@kingjs-module/dependencies')]();

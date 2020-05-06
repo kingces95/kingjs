@@ -1,6 +1,6 @@
 var { 
   typescript: ts,
-  ['@kingjs']: {
+  '@kingjs': {
     reflect: { is }
   }
 } = module[require('@kingjs-module/dependencies')]();

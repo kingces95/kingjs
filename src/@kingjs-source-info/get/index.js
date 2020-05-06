@@ -1,6 +1,6 @@
 var { 
   assert,
-  ['@kingjs']: { 
+  '@kingjs': { 
     module: { ExportExtension },
     source: { 
       types,

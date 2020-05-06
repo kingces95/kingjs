@@ -1,6 +1,6 @@
 var {
   assert, fs, path: Path,
-  ['@kingjs']: { 
+  '@kingjs': { 
     IObservable: { Subscribe },
     IObserver: { Next },
     IGroupedObservable: { Key },

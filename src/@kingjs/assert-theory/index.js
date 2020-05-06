@@ -2,7 +2,7 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: { fromEach },
+  '@kingjs': { fromEach },
 } = module[require('@kingjs-module/dependencies')]();
 
 /**

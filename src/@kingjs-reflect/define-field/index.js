@@ -1,10 +1,10 @@
 var {
-  ['@kingjs']: {
-    reflect: { defineProperty }
+  '@kingjs': {
+    '-reflect': { defineProperty }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var construct = require('./construct');
+var construct = require('./construct')
 
 /**
  * @description Constrains `kingjs/reflect.define-property` to a single overload
@@ -15,8 +15,8 @@ var construct = require('./construct');
  * @param value The value of the field.
 */
 function defineAccessor() {
-  var { target, name, descriptor } = construct(...arguments);
-  return defineProperty(target, name, descriptor);
+  var { target, name, descriptor } = construct(...arguments)
+  return defineProperty(target, name, descriptor)
 }
 
-module.exports = defineAccessor;
+module.exports = defineAccessor

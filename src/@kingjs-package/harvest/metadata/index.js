@@ -1,7 +1,7 @@
 #!/usr/bin/env node --no-warnings
 var {
   assert,
-  ['@kingjs']: { 
+  '@kingjs': { 
     Path,
     module: { ExportExtension },
     stringEx: { ReplaceAll },

@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 var {
-  ['@kingjs']: { 
+  '@kingjs': { 
     reflect: { is, descriptor: { rename } }
   }
 } = module[require('@kingjs-module/dependencies')]();

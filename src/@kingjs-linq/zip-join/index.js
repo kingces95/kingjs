@@ -1,6 +1,6 @@
 var { 
   assert,
-  ['@kingjs']: {
+  '@kingjs': {
     reflect: { exportExtension },
     linq: { empty },
     IEnumerable,

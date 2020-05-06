@@ -19,7 +19,7 @@ $ cdj
 ```
 Produces a `dependencies.js` like this:
 ```js
-exports['@kingjs'] = {
+exports'@kingjs' = {
   camelCase: {
     join: require('@kingjs/camel-case.join'),
   },
@@ -33,7 +33,7 @@ Which can then be used in like this:
 var assert = require('assert');
 
 var { 
-  ['@kingjs']: {
+  '@kingjs': {
     packageName: { parse },
     camelCase: { join }
   }

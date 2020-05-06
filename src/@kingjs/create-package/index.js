@@ -1,6 +1,6 @@
 var {
   fs, path,
-  ['@kingjs']: { 
+  '@kingjs': { 
     git: { getDir },
     stringEx: { ReplaceAll },
     package: {

@@ -3,7 +3,7 @@ var assert = require('assert');
 require('..');
 
 var {
-  ['@kingjs']: {
+  '@kingjs': {
     IEnumerable,
     IEnumerator,
     IIterable: { GetIterator },

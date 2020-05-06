@@ -1,5 +1,5 @@
 var {
-  ['@kingjs']: { 
+  '@kingjs': { 
     stringEx: { Expand }
   }
 } = module[require('@kingjs-module/dependencies')]();
