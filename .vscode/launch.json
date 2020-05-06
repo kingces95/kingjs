@@ -25,7 +25,7 @@
         "name": "Test",
         "request": "launch",
         "type": "node",
-        "program": "${fileDirname}/.test/index.js",
+        "program": "${fileDirname}/test.js",
         "cwd": "${fileDirname}/.test",
         "console": "integratedTerminal",
       },

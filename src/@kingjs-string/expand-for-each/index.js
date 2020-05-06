@@ -1,9 +1,7 @@
-var {
-  '@kingjs-module': { 
-    ExportExtension,
-  },
-  '@kingjs-string': {
-    Expand
+var { 
+  '@kingjs': { 
+    '-module': { ExportExtension },
+    '-string': { Expand }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

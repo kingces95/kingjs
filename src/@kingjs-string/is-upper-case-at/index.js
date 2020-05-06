@@ -1,8 +1,8 @@
 var { 
-  '@kingjs-module': { 
-    ExportExtension
+  '@kingjs': { 
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Test if a character at an index in a string is upper case.

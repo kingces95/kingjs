@@ -1,5 +1,8 @@
-var assert = require('assert')
-var Expand = require('@kingjs-string/expand')
+var { assert,
+  '@kingjs': { 
+    '-string': { Expand }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var foo = 'bar'
 var result = 'Key "foo" is "${foo}"'[Expand]({ foo })

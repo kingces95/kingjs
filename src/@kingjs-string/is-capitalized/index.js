@@ -1,11 +1,9 @@
 var { 
-  '@kingjs-module': { 
-    ExportExtension,
-  },
-  '@kingjs-string': {
-    IsUpperCaseAt
+  '@kingjs': { 
+    '-module': { ExportExtension },
+    '-string': { IsUpperCaseAt }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Test if a string is capitalized.

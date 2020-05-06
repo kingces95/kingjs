@@ -1,5 +1,8 @@
-var assert = require('assert');
-var ExpandForEach = require('@kingjs-string/expand-for-each');
+var { assert,
+  '@kingjs': { 
+    '-string': { ExpandForEach }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 assert.equal('', 'foo'[ExpandForEach]())
 assert.equal('', 'foo'[ExpandForEach]({ }))

@@ -1,9 +1,7 @@
-var {
-  '@kingjs-module': { 
-    ExportExtension 
-  },
-  '@kingjs-string': {
-    ReplaceAll
+var { 
+  '@kingjs': { 
+    '-module': { ExportExtension },
+    '-string': { ReplaceAll }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

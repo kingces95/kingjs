@@ -1,4 +1,7 @@
-var assert = require('assert');
-var Decapitalize = require('@kingjs-string/decapitalize');
+var { assert, 
+  '@kingjs': { 
+    '-string': { Decapitalize }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 assert('Foo'[Decapitalize]() == 'foo');

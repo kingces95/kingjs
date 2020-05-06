@@ -1,6 +1,8 @@
-var assert = require('assert')
-var os = require('os')
-var JoinLines = require('@kingjs-string/join-lines')
+var { assert, os,
+  '@kingjs': { 
+    '-string': { JoinLines }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
 var EndOfLine = os.EOL
 var NewLine = '\n'
