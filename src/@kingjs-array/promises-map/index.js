@@ -1,9 +1,6 @@
 var { 
-  '@kingjs': { 
-    run
-  },
-  '@kingjs-module': {
-    ExportExtension,
+  '@kingjs': { run,
+    '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

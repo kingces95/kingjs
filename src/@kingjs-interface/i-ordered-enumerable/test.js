@@ -1,15 +1,19 @@
 var { assert,
-  '@kingjs': {
-    '-interface': { IOrderedEnumerable, IEnumerable, IInterface }
+  '@kingjs-interface': { 
+    IOrderedEnumerable, 
+    IEnumerable, 
+    IInterface 
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var id = Symbol.for('@kingjs/IOrderedEnumerable.createOrderedEnumerable');
+var id = Symbol.for('@kingjs-interface/IOrderedEnumerable.createOrderedEnumerable')
 
-assert(IOrderedEnumerable instanceof Function);
-assert(IOrderedEnumerable.name == '@kingjs/IOrderedEnumerable');
+assert.ok(IOrderedEnumerable instanceof Function)
+assert.equal(IOrderedEnumerable.name, '@kingjs-interface/IOrderedEnumerable')
 
-assert(IOrderedEnumerable.getEnumerator == IEnumerable.getEnumerator);
-assert(IOrderedEnumerable.GetEnumerator == IEnumerable.getEnumerator);
-assert(IOrderedEnumerable.createOrderedEnumerable == id);
-assert(IOrderedEnumerable instanceof IInterface);
+assert.ok(IOrderedEnumerable instanceof IInterface)
+
+assert.equal(IOrderedEnumerable.getEnumerator, IEnumerable.getEnumerator)
+assert.equal(IOrderedEnumerable.GetEnumerator, IEnumerable.getEnumerator)
+assert.equal(IOrderedEnumerable.createOrderedEnumerable, id)
+assert.equal(IOrderedEnumerable.CreateOrderedEnumerable, id)

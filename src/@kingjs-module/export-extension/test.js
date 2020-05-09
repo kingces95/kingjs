@@ -1,7 +1,7 @@
 var assert = require('assert')
 var ExportExtension = require('@kingjs-module/export-extension')
 
-module[ExportExtension](
+module[ExportExtension](  
   Array, 
   function getLength() { return this.length }
 )

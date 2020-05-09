@@ -1,17 +1,15 @@
 var {
-  '@kingjs': {
-    '-reflect': { createInterface }
-  }
-} = module[require('@kingjs-module/dependencies')]();
+  '@kingjs-interface': { define: defineInterface }
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IEnumerator` has members `current` and `moveNext`.
  */
-module.exports = createInterface(
-  '@kingjs/IEnumerator', {
+module.exports = defineInterface(
+  '@kingjs-interface/IEnumerator', {
     members: { 
       moveNext: null,
       current: null,
     },
   }
-);
+)

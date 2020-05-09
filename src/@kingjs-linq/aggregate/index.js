@@ -1,11 +1,13 @@
 var { 
   '@kingjs': {
-    reflect: { exportExtension },
-    IEnumerable,
-    IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    '-module': { ExportExtension },
+    '-interface': {
+      IEnumerable,
+      IEnumerable: { GetEnumerator },
+      IEnumerator: { MoveNext, Current }
+    }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Applies an accumulator function over a sequence. 
@@ -22,16 +24,16 @@ var {
  * @returns The transformed final accumulator value.
  */
 function aggregate(seed, aggregator, selector) {
-  var enumerator = this[GetEnumerator]();
+  var enumerator = this[GetEnumerator]()
   
-  var result = seed;
+  var result = seed
   while (enumerator[MoveNext]())
-    result = aggregator.call(result, enumerator[Current]);
+    result = aggregator.call(result, enumerator[Current])
   
   if (selector)
-    result = selector(result);
+    result = selector(result)
 
-  return result;
-};
+  return result
+}
 
-exportExtension(module, IEnumerable, aggregate);
+module[ExportExtension](IEnumerable, aggregate)

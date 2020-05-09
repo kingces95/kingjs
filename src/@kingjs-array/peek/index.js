@@ -1,7 +1,5 @@
 var { 
-  '@kingjs-module': {
-    ExportExtension
-  }
+  '@kingjs-module': { ExportExtension }
 } = module[require('@kingjs-module/dependencies')]();
 
 /**

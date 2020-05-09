@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs/module.create-symbol",
+  "version": "1.0.3",
+  "description": "Creates a symbol with a debug string derived from the module name.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/create-symbol"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@kingjs/assert-shimmed": "^1.0.1",
+    "@kingjs/i-enumerable": "^1.0.6",
+    "@kingjs/i-enumerator": "^1.0.7",
+    "@kingjs/i-iterable": "^1.0.3",
+    "kingjs": "^1.0.47"
+  }
+}

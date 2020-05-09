@@ -1,18 +1,16 @@
 var {
-  '@kingjs': {
-    '-reflect': { createInterface }
-  }
+  '@kingjs-interface': { define: defineInterface }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IObserver` has a members `next`, `complete`, and `error`.
  */
-module.exports = createInterface(
-  '@kingjs/rx.IObserver', {
+module.exports = defineInterface(
+  '@kingjs-interface/IObserver', {
     members: { 
       next: null,
       complete: null,
       error: null
     },
   }
-);
+)

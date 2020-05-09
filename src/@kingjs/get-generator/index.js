@@ -3,7 +3,7 @@ var {
   '@kingjs': {
     reflect: { is },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns a `generator` given an `iterable`.
@@ -18,13 +18,13 @@ function getGenerator(value) {
     
   // function* () { ... }
   if (is.generator(value))
-    return value;
+    return value
 
   // arrays, maps, etc...
   if (Symbol.iterator in value)
-    return value[Symbol.iterator].bind(value);
+    return value[Symbol.iterator].bind(value)
 
-  assert.fail();
+  assert.fail()
 }
 
-module.exports = getGenerator;
+module.exports = getGenerator

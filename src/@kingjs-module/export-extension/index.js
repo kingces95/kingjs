@@ -1,4 +1,5 @@
 var Path = require('path')
+var Module = require('@kingjs-module/type')
 
 var PackageJson = 'package.json'
 var Function = 'function'
@@ -36,6 +37,6 @@ function exportExtension(type, descriptor) {
 
 exportExtension.call(
   module,
-  Object.getPrototypeOf(module).constructor,
+  Module,
   exportExtension
 )

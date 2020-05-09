@@ -1,14 +1,12 @@
 var {
-  '@kingjs': {
-    '-reflect': { createInterface }
-  }
+  '@kingjs-interface': { define: defineInterface }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IIterable` has one member `getIterator`.
  */
-module.exports = createInterface(
-  '@kingjs/IIterable', {
+module.exports = defineInterface(
+  '@kingjs-interface/IIterable', {
     members: {
       getIterator: Symbol.iterator
     }

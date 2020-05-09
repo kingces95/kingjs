@@ -2,11 +2,11 @@ var { assert,
   '@kingjs-interface': { IInterface, IEnumerable }
 } = module[require('@kingjs-module/dependencies')]()
 
-var id = Symbol.for('@kingjs/IEnumerable.getEnumerator')
+var id = Symbol.for('@kingjs-interface/IEnumerable.getEnumerator')
 
-assert(IEnumerable instanceof Function)
-assert(IEnumerable.name == '@kingjs/IEnumerable')
+assert.ok(IEnumerable instanceof Function)
+assert.equal(IEnumerable.name, '@kingjs-interface/IEnumerable')
 
-assert(IEnumerable.getEnumerator == id)
-assert(IEnumerable.GetEnumerator == id)
-assert(IEnumerable instanceof IInterface)
+assert.equal(IEnumerable.getEnumerator, id)
+assert.equal(IEnumerable.GetEnumerator, id)
+assert.ok(IEnumerable instanceof IInterface)
