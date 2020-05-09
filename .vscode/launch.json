@@ -11,6 +11,31 @@
         "program": "${file}",
         "cwd": "${fileDirname}",
         "console": "integratedTerminal",
-      }
+      },
+
+      {
+        "name": "Attach",
+        "request": "attach",
+        "type": "node",
+        "port": 36688,
+      },
+
+      {
+        "name": "Test",
+        "request": "launch",
+        "type": "node",
+        "program": "${fileDirname}/test.js",
+        "cwd": "${fileDirname}/.test",
+        "console": "integratedTerminal",
+      },
+
+      {
+        "name": "Exe",
+        "request": "launch",
+        "type": "node",
+        "program": "${fileDirname}/exe.js",
+        "cwd": "${workspaceFolder}/path",
+        "console": "integratedTerminal",
+      }      
     ]
 }
