@@ -7,13 +7,13 @@ var FooB = Symbol('FooB')
 var Bar = Symbol('Bar')
 
 class IFace extends Interface {
-  static get bar() { return Bar }
-  static get foo() { return [ FooA, FooB ] }
+  static get Bar() { return Bar }
+  static get Foo() { return [ FooA, FooB ] }
 }
 
 assert.deepEqual(
   IFace[Entries](), [
-    { key: 'bar', value: Bar },
-    { key: 'foo', value: [ FooA, FooB ] }
+    { key: 'Bar', value: Bar },
+    { key: 'Foo', value: [ FooA, FooB ] }
   ]
 )

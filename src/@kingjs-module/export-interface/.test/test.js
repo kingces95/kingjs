@@ -8,16 +8,16 @@ var { assert,
 var Bar = Symbol('bar')
 
 class IBar extends Interface {
-  static get bar() { return Bar }
+  static get Bar() { return Bar }
 }
 
 module[ExportInterface]({
-  members: { foo: null }, 
+  members: { Foo: null }, 
   bases: [ IBar ]
 })
 
 var IFoo = module.exports
 
 assert.equal(IFoo.name, 'IFoo')
-assert.equal(IFoo.foo, Symbol.for('IFoo.foo, @acme'))
-assert.equal(IFoo.bar, Bar)
+assert.equal(IFoo.Foo, Symbol.for('IFoo.foo, @acme'))
+assert.equal(IFoo.Bar, Bar)

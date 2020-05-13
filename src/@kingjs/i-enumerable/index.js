@@ -6,5 +6,5 @@ var {
  * @description `IEnumerable` has a single member `getEnumerator`.
  */
 module[ExportInterface]({
-  members: { getEnumerator: null },
+  members: { GetEnumerator: null },
 })

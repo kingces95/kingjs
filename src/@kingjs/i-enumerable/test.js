@@ -5,6 +5,6 @@ var { assert,
 assert.equal(IEnumerable.name, 'IEnumerable')
 
 assert.equal(
-  IEnumerable.getEnumerator, 
+  IEnumerable.GetEnumerator, 
   Symbol.for('IEnumerable.getEnumerator, @kingjs')
 )

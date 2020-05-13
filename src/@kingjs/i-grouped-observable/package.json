@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.i-grouped-observable",
+  "name": "@kingjs/i-grouped-observable",
   "version": "1.0.0",
   "description": "`IGroupedObservable` extends `IObservable` and  adds  a single new member `key`.",
   "main": "index.js",

@@ -1,7 +1,6 @@
 var {
-  '@kingjs-interface': { 
-    IObservable,
-    define: defineInterface
+  '@kingjs': { IObservable,
+    '-module': { ExportInterface }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -9,9 +8,7 @@ var {
  * @description `IPublishedObservable` extends `IObservable` and 
  * adds  a single new member `value`.
  */
-module.exports = defineInterface(
-  '@kingjs-interface/IPublishedObservable', {
-    members: { value: null },
-    extends: IObservable
-  }
-)
+module[ExportInterface]({
+  members: { value: null },
+  extends: [ IObservable ]
+})

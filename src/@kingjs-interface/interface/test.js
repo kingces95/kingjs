@@ -3,7 +3,7 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 class IIterable extends Interface {
-  static get iterator() { return Symbol.iterator }
+  static get Iterator() { return Symbol.iterator }
 }
 
 assert.ok({} instanceof IIterable == false)

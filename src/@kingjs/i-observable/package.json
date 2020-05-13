@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.i-observable",
+  "name": "@kingjs/i-observable",
   "version": "1.0.0",
   "description": "`IObservable` has a single member `subscribe`.",
   "main": "index.js",

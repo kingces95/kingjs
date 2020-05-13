@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.i-observer",
+  "name": "@kingjs/i-observer",
   "version": "1.0.0",
   "description": "`IObserver` has a members `next`, `complete`, and `error`.",
   "main": "index.js",

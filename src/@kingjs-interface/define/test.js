@@ -16,14 +16,14 @@ var XBar = Symbol('xBar')
 //      IB
 
 var IB = define("IB", { 
-  members: { foo: BFoo }
+  members: { Foo: BFoo }
 });
 var IX = define("IX", { 
-  members: { bar: XBar },
+  members: { Bar: XBar },
   bases: [ IB ] 
 })
 var IY = define("IY", { 
-  members: { foo: YFoo },
+  members: { Foo: YFoo },
   bases: [ IB ] 
 })
 var IA = define("IA", {
@@ -31,6 +31,6 @@ var IA = define("IA", {
 })
 
 var aMap = IA[Map]()
-assert.equal(aMap[BFoo], 'foo')
-assert.equal(aMap[YFoo], 'foo')
-assert.equal(aMap[XBar], 'bar')
+assert.equal(aMap[BFoo], 'Foo')
+assert.equal(aMap[YFoo], 'Foo')
+assert.equal(aMap[XBar], 'Bar')

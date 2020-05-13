@@ -4,7 +4,8 @@ var { Path,
     '-pojo': { Map },
     '-module': { Module, ExportExtension },
     '-package-name': { parse },
-    '-camel-case': { Join }
+    '-camel-case': { Join },
+    '-string': { Decapitalize }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -36,7 +37,7 @@ function exportInterface(descriptor) {
     if (value)
       return value
 
-    return Symbol.for(`${name}.${key}, @${scope}`)
+    return Symbol.for(`${name}.${key[Decapitalize]()}, @${scope}`)
   })
 
   this.exports = define(name, { members, bases })

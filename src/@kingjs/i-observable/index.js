@@ -1,12 +1,10 @@
 var {
-  '@kingjs-interface': { define: defineInterface }
+  '@kingjs-module': { ExportInterface }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IObservable` has a single member `subscribe`.
  */
-module.exports = defineInterface(
-  '@kingjs-interface/IObservable', {
-    members: { subscribe: null },
-  }
-)
+module[ExportInterface]({
+  members: { Subscribe: null },
+})

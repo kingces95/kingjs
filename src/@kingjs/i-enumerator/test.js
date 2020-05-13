@@ -1,13 +1,10 @@
 var { assert,
-  '@kingjs-interface': { IInterface, IEnumerator }
+  '@kingjs': { IEnumerator }
 } = module[require('@kingjs-module/dependencies')]()
 
-var MoveNext = Symbol.for('@kingjs-interface/IEnumerator.moveNext')
-var Current = Symbol.for('@kingjs-interface/IEnumerator.current')
+var MoveNext = Symbol.for('IEnumerator.moveNext, @kingjs')
+var Current = Symbol.for('IEnumerator.current, @kingjs')
 
-assert.ok(IEnumerator instanceof Function)
-assert.equal(IEnumerator.name, '@kingjs-interface/IEnumerator')
-
+assert.equal(IEnumerator.name, 'IEnumerator')
 assert.equal(IEnumerator.MoveNext, MoveNext)
 assert.equal(IEnumerator.Current, Current)
-assert.ok(IEnumerator instanceof IInterface)
