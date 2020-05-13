@@ -1,7 +1,7 @@
 var {
   '@kingjs': { 
-    Generator,
-    AsyncGenerator
+    '-generator': { Generator },
+    '-async-generator': { AsyncGenerator }
   },
 } = module[require('@kingjs-module/dependencies')]();
 

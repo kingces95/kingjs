@@ -1,46 +1,36 @@
 var { assert,
-  '@kingjs': {
-    '-interface': { define: defineInterface },
+  '@kingjs': { 
+    '-interface': { Map, define }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-// IA : Foo
-// IB : Foo
-// IC : Foo
-// IC : Foo
+var BFoo = Symbol('bFoo')
+var YFoo = Symbol('yFoo')
+var XBar = Symbol('xBar')
 
-var IA = defineInterface('IA', { members: { foo: null } })
-assertOwnOnlyFoo(IA)
+// demonstrate "The Diamond" where IB is indirectly inherited twice.
+//      IA
+//     /  \
+//   IX    IY
+//     \  /
+//      IB
 
-var IB = defineInterface('IB', { members: { foo: null }, extends: IA })
-assertOwnOnlyFoo(IB)
-var inherited = Object.getPrototypeOf(IB)
-assert(inherited.foo == IA.foo)
+var IB = define("IB", { 
+  members: { foo: BFoo }
+});
+var IX = define("IX", { 
+  members: { bar: XBar },
+  bases: [ IB ] 
+})
+var IY = define("IY", { 
+  members: { foo: YFoo },
+  bases: [ IB ] 
+})
+var IA = define("IA", {
+  bases: [ IX, IY ]
+})
 
-var IC = defineInterface('IC', { members: { foo: null }, extends: IB })
-assertOwnOnlyFoo(IC)
-var inherited = Object.getPrototypeOf(IC)
-assert(IA.foo in inherited.foo)
-assert(IB.foo in inherited.foo)
-
-var ID = defineInterface('ID', { members: { foo: null }, extends: IC })
-assertOwnOnlyFoo(ID)
-var inherited = Object.getPrototypeOf(ID)
-assert(IA.foo in inherited.foo)
-assert(IB.foo in inherited.foo)
-assert(IC.foo in inherited.foo)
-
-var IAll = defineInterface('IAll', { members: { foo: null }, extends: [ IA, IB, IC, ID ] })
-assertOwnOnlyFoo(IAll)
-var inherited = Object.getPrototypeOf(IAll)
-assert(IA.foo in inherited.foo)
-assert(IB.foo in inherited.foo)
-assert(IC.foo in inherited.foo)
-assert(ID.foo in inherited.foo)
-
-function assertOwnOnlyFoo(iface) {
-  var own = Object.getOwnPropertyNames(iface)
-  assert(own.length == 2)
-  assert(own[0] == 'foo')
-  assert(own[1] == 'Foo')
-}
+var aMap = IA[Map]()
+assert.equal(aMap[BFoo], 'foo')
+assert.equal(aMap[YFoo], 'foo')
+assert.equal(aMap[XBar], 'bar')

@@ -1,0 +1,39 @@
+$ Waiting for output...
+OPERATION_ID=9dbde524-e171-4f3e-bca4-a6fbfe7826cb  
+vsonline:~$ OPERATION_ID=9dbde524-e171-4f3e-bca4-a6fbfe7826cb  
+[2020-05-11 21:35:19.773 CLI I] vso v1.0.2119.41740 (pid: 163)
+
+[VS Online][9dbde524-e171-4f3e-bca4-a6fbfe7826cb] Process finished successfully.
+vsonline:~$ OPERATION_ID=666bb177-85b0-4259-b4f9-7330192b4d60  
+[2020-05-11 21:35:20.661 CLI I] vso v1.0.2119.41740 (pid: 182)
+
+[VS Online][666bb177-85b0-4259-b4f9-7330192b4d60] Process finished successfully.
+vsonline:~$ OPERATION_ID=fbbb57db-1fcc-4284-9e27-d7b470b0a4ff  
+[2020-05-11 21:35:21.632 CLI I] vso v1.0.2119.41740 (pid: 200)
+
+[VS Online][fbbb57db-1fcc-4284-9e27-d7b470b0a4ff] Process finished successfully.
+vsonline:~$ OPERATION_ID=267618ff-b9e4-4af9-9999-347b458acaca  
+[2020-05-11 21:35:26.380 CLI I] vso v1.0.2119.41740 (pid: 309)
+
+[VS Online][267618ff-b9e4-4af9-9999-347b458acaca] Process finished successfully.
+vsonline:~$ OPERATION_ID=af972bd6-0c41-4013-b867-93d46b4c2370  
+[2020-05-11 21:35:27.507 CLI I] vso v1.0.2119.41740 (pid: 357)
+
+[VS Online][af972bd6-0c41-4013-b867-93d46b4c2370] Process finished successfully.
+vsonline:~$ OPERATION_ID=a9a7a86c-572a-40fd-90af-813e7b15e3e7  
+[2020-05-11 21:35:28.576 CLI I] vso v1.0.2119.41740 (pid: 375)
+
+[VS Online][a9a7a86c-572a-40fd-90af-813e7b15e3e7] Process finished successfully.
+vsonline:~$ OPERATION_ID=917687cd-8a58-4b73-aec0-b0cd518bb49f  
+[2020-05-12 00:18:38.616 CLI I] vso v1.0.2119.41740 (pid: 9433)
+
+[VS Online][917687cd-8a58-4b73-aec0-b0cd518bb49f] Process finished successfully.
+vsonline:~$ OPERATION_ID=1ed9d794-fae7-4e4c-bcaa-61a21a34910f  
+[2020-05-12 00:18:39.841 CLI I] vso v1.0.2119.41740 (pid: 9538)
+
+[VS Online][1ed9d794-fae7-4e4c-bcaa-61a21a34910f] Process finished successfully.
+vsonline:~$ OPERATION_ID=02ad804b-ab99-4f6e-9bfc-614559eb803c  
+[2020-05-12 00:18:40.784 CLI I] vso v1.0.2119.41740 (pid: 9555)
+
+[VS Online][02ad804b-ab99-4f6e-9bfc-614559eb803c] Process finished successfully.
+vsonline:~$ 

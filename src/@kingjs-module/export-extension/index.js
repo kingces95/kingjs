@@ -1,8 +1,5 @@
-var Path = require('path')
-var Module = require('@kingjs-module/type')
-
-var PackageJson = 'package.json'
-var Function = 'function'
+var Module = require('@kingjs-module/module')
+var ExportStaticExtension = require('@kingjs-module/export-static-extension')
 
 /**
  * @description The description.
@@ -16,27 +13,7 @@ var Function = 'function'
  * module exporting the extension.
  */
 function exportExtension(type, descriptor) {
-
-  if (typeof descriptor == Function)
-    descriptor = { value: descriptor }
-
-  // define symbol
-  var { name, version } = this.require(Path.join(this.path, PackageJson))
-  var symbol = Symbol(`${name}, ${version}`)
-
-  // define extension
-  Object.defineProperty(
-    type.prototype, 
-    symbol, 
-    descriptor
-  )
-
-  // export symbol
-  this.exports = symbol
+  return this[ExportStaticExtension](type.prototype, descriptor)
 }
 
-exportExtension.call(
-  module,
-  Module,
-  exportExtension
-)
+module[ExportStaticExtension](Module.prototype, exportExtension)

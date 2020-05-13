@@ -1,20 +1,28 @@
 {
-  "name": "@kingjs/reflect.create-interface",
-  "version": "1.0.4",
-  "description": "Returns a function whose properties map strings to symbols which, when defined together on an instance, act as an interface.",
+  "name": "@kingjs/reflect.implement-interface",
+  "version": "1.0.2",
+  "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
     "test": "node .test",
-    "build": "cpk && crm && cdj"
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/reflect/create-interface"
+    "url": "https://repository.kingjs.net/reflect/implement-interface"
   },
   "keywords": [],
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@kingjs/reflect.is": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kingjs/i-enumerable": "^1.0.8",
+    "@kingjs/i-enumerator": "^1.0.8",
+    "@kingjs/i-iterable": "^1.0.3",
+    "@kingjs/reflect.create-interface": "^1.0.4"
+  }
 }

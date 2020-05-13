@@ -1,7 +1,5 @@
 var { Path,
-  '@kingjs': {
-    '-module': { ExportExtension, Type: Module }
-  }
+  '@kingjs-module': { ExportExtension, Module }
 } = module[require('@kingjs-module/dependencies')]()
 
 var PackageJson = './package.json'

@@ -1,127 +1,62 @@
 var { assert,
   '@kingjs': { 
-    '-interface': { 
-      define: defineInterface, 
-      implement: implementInterface,
-      IEnumerable, 
-      IEnumerator, 
-      IIterable 
-    }
+    '-interface': { Interface, Implement, define }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var instance = implementInterface(
-  { foo: 0 }, IIterable, {
-    *getIterator() {
+class IIterable extends Interface {
+  static get iterator() { return Symbol.iterator }
+}
+
+assert([] instanceof IIterable)
+
+var instance = IIterable[Implement](
+  { foo: 0 }, {
+    *iterator() {
       for (var name in this)
         yield { name, value: this[name] };
     }
   }
 );
 
-var { GetIterator } = IIterable;
-var iterator = instance[GetIterator]();
+var iterator = instance[IIterable.iterator]();
 var next = iterator.next();
 assert(!next.done);
 assert.deepEqual(next.value, { name: 'foo', value: 0 });
 next = iterator.next();
 assert(next.done);
 
+var GetEnumerator = Symbol()
+class IEnumerable extends Interface {
+  static get getEnumerator() { return GetEnumerator }
+}
+
+var Current = Symbol()
+var MoveNext = Symbol()
+class IEnumerator extends Interface {
+  static get current() { return Current }
+  static get moveNext() { return MoveNext }
+}
+
 // Demonstrate a multi property interfaces like this:
 // `IEnumerable` has a single method `getEnumerator` that returns an
 // `IEnumerable` that has a property `current` and a method `moveNext`
 // which returns `true` if there are more elements or `false` if not.
-implementInterface(Array.prototype, IEnumerable, {
+IEnumerable[Implement](Array.prototype, {
   getEnumerator() {
     var target = this;
     var index = -1;
 
     // return a quick and dirty implementation of `IEnumerator` like this:
     return {
-      [IEnumerator.MoveNext]() { return ++index < target.length },
-      get [IEnumerator.Current]() { return target[index] }
+      [IEnumerator.moveNext]() { return ++index < target.length },
+      get [IEnumerator.current]() { return target[index] }
     }
   }
 });
 
 var instance = [ 1 ];
-var enumerator = instance[IEnumerable.GetEnumerator]();
-assert(enumerator[IEnumerator.MoveNext]());
-assert(enumerator[IEnumerator.Current] == 1);
-assert(!enumerator[IEnumerator.MoveNext]());
-
-// demonstrate "The Diamond" where IB is indirectly inherited twice.
-// IA : IX, IY
-// IX : IB
-// IY : IB
-var IB = defineInterface("IB", {
-  id: '@kingjs/interface.IB',
-  members: { foo: null }
-});
-
-var IX = defineInterface("IX", {
-  id: '@kingjs/interface.IX',
-  members: { foo: null },
-  extends: [ IB ]
-})
-
-var IY = defineInterface("IY", {
-  id: '@kingjs/interface.IY',
-  members: { foo: null },
-  extends: [ IB ]
-})
-
-var IA = defineInterface("IA", {
-  id: '@kingjs/interface.IA',
-  members: { foo: null },
-  extends: [ IX, IY ]
-})
-
-// cannot implement IA without first implementing IY 
-assert.throws(() => 
-  implementInterface({ }, IA, {
-    [IX.foo]() { return null },
-    [IB.foo]() { return null },
-    [IA.foo]() { return null }
-  })
-)
-
-// cannot implement IA without also providing IA.foo
-assert.throws(() => 
-  implementInterface({ }, IA, {
-    [IX.foo]() { return null },
-    [IY.foo]() { return null },
-    [IB.foo]() { return null },
-  })
-)
-
-var instance = { };
-implementInterface(instance, IB, {
-  foo() { return null; }
-});
-implementInterface(instance, IX, {
-  foo() { return null; }
-});
-implementInterface(instance, IY, {
-  foo() { return null }
-});
-implementInterface(instance, IA, {
-  foo() { return null }
-});
-
-var IAll = defineInterface("IAll", {
-  id: '@kingjs/interface.IA',
-  extends: [ IA ]
-})
-
-// implement IAll
-var instance = { };
-implementInterface(instance, IAll, {
-  foo() { return 0; },
-  [IA.foo]() { return 1; }
-});
-assert(Symbol.for('IAll') in instance);
-assert(instance[IA.foo]() == 1);
-assert(instance[IX.foo]() == 0);
-assert(instance[IY.foo]() == 0);
-assert(instance[IB.foo]() == 0);
+var enumerator = instance[IEnumerable.getEnumerator]();
+assert(enumerator[IEnumerator.moveNext]());
+assert(enumerator[IEnumerator.current] == 1);
+assert(!enumerator[IEnumerator.moveNext]());
