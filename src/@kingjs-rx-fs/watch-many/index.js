@@ -5,14 +5,14 @@ var {
       test: testPath
     },
     fs: { 
-      rx: { 
+      '-rx': { 
         Watch,
         DirEntries,
         DistinctStats,
         PathSubject,
       } 
     },
-    rx: {
+    '-rx': {
       Do,
       Publish,
       SelectMany,

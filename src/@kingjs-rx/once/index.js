@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: { 
-      Zip,
-      IObservable,
-    },
+    IObservable,
+    '-rx': { Zip },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var zipper = (l, r) => r;
+var zipper = (l, r) => r
 
 /**
  * @description Create an `IObservable` that emits a single value.
@@ -23,7 +19,7 @@ var zipper = (l, r) => r;
  * and then disposes itself. 
  */
 function once(value) {
-  return this[Zip](value, zipper);
+  return this[Zip](value, zipper)
 }
 
-ExportExtension(module, IObservable, once);
+ExportExtension(module, IObservable, once)

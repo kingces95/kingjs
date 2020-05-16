@@ -1,19 +1,9 @@
 var { 
   '@kingjs': {
-    fs: {
-      rx: {
-        subject: {
-          File,
-          Dir
-        }
-      }
-    },
-    rx: {
-      IObservable: { Subscribe },
-      IObserver: { Complete, Error },
-      Subject,
-      ProxySubject,
-    },
+    IObservable: { Subscribe },
+    IObserver: { Complete, Error },
+    'fs-rx-subject': { File, Dir },
+    '-rx': { Subject, ProxySubject },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

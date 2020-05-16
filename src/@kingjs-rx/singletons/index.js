@@ -1,16 +1,10 @@
 var { 
   assert,
   '@kingjs': {
-    reflect: {
-      createSymbol
-    },
-    rx: {
-      Select,
-      Where,
-      ProxySubject,
-      IObserver: { Complete },
-      IObservable: { Subscribe }
-    },
+    IObserver: { Complete },
+    IObservable: { Subscribe },
+    '-reflect': { createSymbol },
+    '-rx': { Select, Where, ProxySubject },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

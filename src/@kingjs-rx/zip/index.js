@@ -1,19 +1,15 @@
 var {
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: { 
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-      create 
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-rx': { create },
   },
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create an `IObservable` that zips emitted values with
@@ -36,34 +32,34 @@ var {
  * and then dispose itself.
  */
 function zip(value, callback) {
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var enumerator;
-    var dispose;
+    var enumerator
+    var dispose
 
     return dispose = observable[Subscribe](
       o => {
 
         if (!enumerator) {
           if (value instanceof IEnumerable)
-            enumerator = value[GetEnumerator]();
+            enumerator = value[GetEnumerator]()
           else
             observer[Next](callback(o, value))
         }
 
         if (!enumerator || !enumerator[MoveNext]()) {
-          observer[Complete]();
-          dispose();
-          return;
+          observer[Complete]()
+          dispose()
+          return
         }
 
         observer[Next](callback(o, enumerator[Current]))
       },
       () => observer[Complete](),
       o => observer[Error](o)
-    );
-  });
+    )
+  })
 }
 
-ExportExtension(module, IObservable, zip);
+ExportExtension(module, IObservable, zip)

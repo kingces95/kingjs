@@ -1,17 +1,12 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create, 
-      sleep, 
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create, sleep },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Call an emitted function and drop any subsequent 
@@ -25,28 +20,28 @@ var {
  * @returns Returns the result of the function calls.
  */
 function call(timeOut) {
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var paused;
+    var paused
 
     return observable[Subscribe](
       o => {
         if (paused)
-          return;
+          return
 
-        paused = true;
+        paused = true
         process.nextTick(async () => {
-          observer[Next](await o());
+          observer[Next](await o())
           if (timeOut)
-            await sleep(timeOut);
-          paused = false;
+            await sleep(timeOut)
+          paused = false
         })
       },
       () => observer[Complete](),
       o => observer[Error](o)
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, call);
+ExportExtension(module, IObservable, call)

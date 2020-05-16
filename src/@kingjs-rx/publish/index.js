@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    rx: { 
-      Subject,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-      IPublishedObservable: { Value },
-    },
-    reflect: { 
-      is,
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    IPublishedObservable: { Value },
+    '-rx': { Subject },
+    '-reflect': { is },
+    '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

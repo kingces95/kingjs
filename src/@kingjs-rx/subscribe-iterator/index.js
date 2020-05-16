@@ -1,15 +1,9 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: {
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    }
+    IObservable,
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Pump data into iterator and publish results to observations[name]
@@ -32,8 +26,8 @@ var {
  * and the ultimate hash value.
  */
 function subscribeIterator(observations, name) {
-  var iterator = this;
-  var next;
+  var iterator = this
+  var next
 
   return this.subscribe({
     next: o => observe(o),
@@ -42,16 +36,16 @@ function subscribeIterator(observations, name) {
 
   function observe(o) {
     if (!next)
-      next = iterator.next();
+      next = iterator.next()
 
     if (next.done)
-      return;
+      return
 
-    next = iterator.next(o);
+    next = iterator.next(o)
 
     if (observations)
-      observations[name] = next.value;
+      observations[name] = next.value
   }
 }
 
-ExportExtension(module, IObservable, subscribeIterator);
+ExportExtension(module, IObservable, subscribeIterator)

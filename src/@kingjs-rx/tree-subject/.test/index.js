@@ -1,5 +1,0 @@
-require('./readme')
-require('./disposed')
-require('./defaultComplete')
-require('./synchronous')
-//require('./throw')

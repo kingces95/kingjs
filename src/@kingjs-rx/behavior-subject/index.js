@@ -1,10 +1,7 @@
 var {
   assert,
-  '@kingjs': { 
-    rx: {
-      Subject,
-      IObserver: { Next }
-    }
+  '@kingjs': { IObserver: { Next },
+    '-rx': { Subject }
   },
 } = module[require('@kingjs-module/dependencies')]()
 

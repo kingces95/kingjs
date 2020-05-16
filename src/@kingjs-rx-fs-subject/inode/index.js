@@ -1,7 +1,7 @@
 var { 
   assert,
   '@kingjs': {
-    rx: {
+    '-rx': {
       ProxySubject,
     },
   }

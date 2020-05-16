@@ -2,24 +2,20 @@ var {
   assert,
   deepEquals,
   '@kingjs': {
-    rx: { 
-      Subject,
-      IObservable,
-      IGroupedObservable: { Key },
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-      IPublishedObservable: { Value },
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IGroupedObservable: { Key },
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    IPublishedObservable: { Value },
+    '-rx': { Subject },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var DefaultKeySelector = o => o;
-var DefaultKeyEquals = (l, r) => l == r;
-var DefaultResultSelector = (k, o) => o;
-var DefaultWindowActivator = k => new Subject();
+var DefaultKeySelector = o => o
+var DefaultKeyEquals = (l, r) => l == r
+var DefaultResultSelector = (k, o) => o
+var DefaultWindowActivator = k => new Subject()
 
 /**
  * @description Returns an `IObservable` that groups observations 
@@ -58,49 +54,49 @@ function windowBy(
   windowActivator = DefaultWindowActivator
 ) {
 
-  var observable = this;
+  var observable = this
 
   var result = new Subject(observer => {
-    var window;
+    var window
 
     return observable[Subscribe](
       o => {
-        var key = keySelector(o);
+        var key = keySelector(o)
 
         if (!window || !deepEquals(key, window[Key])) {
 
           // complete the previous window!
           if (window)
-            window[Complete]();
+            window[Complete]()
 
           // activate window
-          window = result[Value] = windowActivator(o, key);
+          window = result[Value] = windowActivator(o, key)
 
           // implement IGroupedObservable
-          window[Key] = key; 
+          window[Key] = key 
 
           // emit window
-          observer[Next](window);
+          observer[Next](window)
         }
 
-        window[Next](resultSelector(o, key));
+        window[Next](resultSelector(o, key))
       },
       () => {
         if (window)
-          window[Complete]();
-        window = null;
-        observer[Complete]();
+          window[Complete]()
+        window = null
+        observer[Complete]()
       },
       o => {
         if (window)
-          window[Error](o);
-        window = null;
-        observer[Error](o);
+          window[Error](o)
+        window = null
+        observer[Error](o)
       }
-    );
+    )
   },
   (next, finished) => {
-    var window = result[Value];
+    var window = result[Value]
     if (!window)
       return
     next(window)
@@ -110,4 +106,4 @@ function windowBy(
   return result
 }
 
-ExportExtension(module, IObservable, windowBy);
+ExportExtension(module, IObservable, windowBy)

@@ -1,12 +1,10 @@
 var { 
   assert,
   '@kingjs': {
-    rx: { 
-      create,
-      IObserver: { Next, Complete, Error },
-    },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create an `IObservable` from an async generator.
@@ -17,27 +15,27 @@ var {
  */
 function fromAsync(generator) {
   return create(function(observer) {
-    var stop;
+    var stop
 
     process.nextTick(async () => {
       try {
         for await (var o of generator()) {
           if (stop)
-            break;
-          observer[Next](o);
+            break
+          observer[Next](o)
         }
           
         if (stop)
-          return;
+          return
 
-        observer[Complete]();
+        observer[Complete]()
       } catch(e) { 
-        observer[Error](e);
+        observer[Error](e)
       }
-    });
+    })
 
-    return () => stop = true;
-  });
+    return () => stop = true
+  })
 }
 
-module.exports = fromAsync;
+module.exports = fromAsync

@@ -1,20 +1,15 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create, 
-      Subject,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      is,
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create, Subject },
+    '-reflect': { is },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var Empty = new Subject();
+var Empty = new Subject()
 
 /**
  * @description Returns an `IObservable` that emits values
@@ -35,11 +30,11 @@ var Empty = new Subject();
  * if and when the first emits an error.
  */
 function capture(value) {
-  var sourceObservable = this;
-  var dispose;
+  var sourceObservable = this
+  var dispose
 
   return create(observer => {
-    var dispose;
+    var dispose
 
     function subscribe(observable) {
       dispose = observable[Subscribe](
@@ -48,25 +43,25 @@ function capture(value) {
         e => {
 
           if (observable == sourceObservable) {
-            dispose();
+            dispose()
             if (is.function(value))
-              value = value(e);
+              value = value(e)
 
             if (!value)
-              value = Empty;
+              value = Empty
 
-            dispose = subscribe(value);
-            return;
+            dispose = subscribe(value)
+            return
           }
 
-          observer[Error](e);
+          observer[Error](e)
         },
-      );
+      )
     }
-    subscribe(sourceObservable);
+    subscribe(sourceObservable)
 
-    return () => dispose();
+    return () => dispose()
   })
 }
 
-ExportExtension(module, IObservable, capture);
+ExportExtension(module, IObservable, capture)

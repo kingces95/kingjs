@@ -92,22 +92,32 @@ class Subject extends EventEmitter {
 
     // declare event handlers
     var tryNext = x => { 
-      try { next(x) } 
+      try { 
+        next(x) 
+      } 
       catch(e) { 
         throwNextTick(e) 
         unsubscribe() 
       } 
     }
 
-    var tryComplete = !complete ? null : () => { 
-      try { complete() } 
-      catch(e) { throwNextTick(e) }
+    var tryComplete = () => { 
+      try { 
+        complete()
+      } 
+      catch(e) { 
+        throwNextTick(e) 
+      }
       unsubscribe() 
     }
 
     var tryError = !error ? null : x => { 
-      try { error(x) } 
-      catch(e) { throwNextTick(e) }
+      try { 
+        error(x) 
+      } 
+      catch(e) { 
+        throwNextTick(e) 
+      }
       unsubscribe()
     }
 

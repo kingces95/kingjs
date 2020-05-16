@@ -5,7 +5,7 @@ var {
     IObserver: { Next },
     IGroupedObservable: { Key },
     fs: { Watch },
-    rx: { 
+    '-rx': { 
       create, 
       of, 
       Subject, 

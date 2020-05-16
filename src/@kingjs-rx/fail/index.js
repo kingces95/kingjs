@@ -1,12 +1,10 @@
 var { 
   assert,
   '@kingjs': {
-    rx: { 
-      create,
-      IObserver: { Error },
-    },
+    IObserver: { Error },
+    '-rx': { create },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create an `IObservable` that emits an error.
@@ -17,8 +15,8 @@ var {
  */
 function fail(value) {
   return create(function(observer) {
-    observer[Error](value);
-  });
+    observer[Error](value)
+  })
 }
 
-module.exports = fail;
+module.exports = fail

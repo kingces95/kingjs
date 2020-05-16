@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: {
-      IObservable,
-      IObservable: { Subscribe },
-    }
+    IObservable,
+    IObservable: { Subscribe },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var DefaultPredicate = () => true;
+var DefaultPredicate = () => true
 
 /**
  * @description Returns a promise that resolves with the value of
@@ -28,16 +24,16 @@ var DefaultPredicate = () => true;
  */
 function first(predicate = DefaultPredicate) {
   return new Promise((resolve, reject) => {
-    var resolved;
+    var resolved
     var dispose = this[Subscribe](o => {
       if (resolved)
-        return;
+        return
       if (!predicate(o))
-        return;
-      process.nextTick(dispose);
-      resolve(o);
-    }, resolve, reject);
-  });
+        return
+      process.nextTick(dispose)
+      resolve(o)
+    }, resolve, reject)
+  })
 }
 
-ExportExtension(module, IObservable, first);
+ExportExtension(module, IObservable, first)

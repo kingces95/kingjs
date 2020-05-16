@@ -1,19 +1,15 @@
 var { 
   assert,
   '@kingjs': {
-    rx: { 
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-      create 
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var syncError = 'Synchronous execution detected. Use `@kingjs/rx.timer`.';
+var syncError = 'Synchronous execution detected. Use `@kingjs/rx.timer`.'
 
 /**
  * @description Returns an `IObservable` that emits values
@@ -29,32 +25,32 @@ var syncError = 'Synchronous execution detected. Use `@kingjs/rx.timer`.';
  * of two `IObservable`s, one after the other.
  */
 function then(nextObservable) {
-  var sourceObservable = this;
-  var dispose;
+  var sourceObservable = this
+  var dispose
 
   return create(observer => {
-    var dispose;
+    var dispose
 
     function subscribe(observable) {
       dispose = observable[Subscribe](
         o => observer[Next](o),
         () => {
           if (observable == sourceObservable) {
-            assert(dispose, syncError);
-            dispose();
-            subscribe(nextObservable);
-            return;
+            assert(dispose, syncError)
+            dispose()
+            subscribe(nextObservable)
+            return
           }
 
-          observer[Complete]();
+          observer[Complete]()
         },
         o => observer[Error](o)
-      );
+      )
     }
-    subscribe(sourceObservable);
+    subscribe(sourceObservable)
 
-    return () => dispose();
+    return () => dispose()
   })
 }
 
-ExportExtension(module, IObservable, then);
+ExportExtension(module, IObservable, then)

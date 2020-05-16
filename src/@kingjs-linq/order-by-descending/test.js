@@ -1,9 +1,12 @@
-require('kingjs')
-var OrderByDescending = require('..')
-var assert = require('assert')
-var ToArray = require('@kingjs/linq.to-array')
-var IOrderedEnumerable = require('@kingjs/i-ordered-enumerable')
-var { CreateOrderedEnumerable } = IOrderedEnumerable
+var { assert,
+  '@kingjs': {
+    IOrderedEnumerable: { CreateOrderedEnumerable },
+    '-linq': { OrderByDescending, ToArray },
+    '-array': { ImplementIEnumerable },
+  }
+} = module[require('@kingjs-module/dependencies')]()
+
+Array[ImplementIEnumerable]()
 
 function readme() {
   var numbers = [1, 0, 2]

@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` which skips the
@@ -20,22 +16,22 @@ function skip(
   count
 ) {
 
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var skipped = 0;
+    var skipped = 0
 
     return observable[Subscribe](
       o => {
         if (skipped++ < count)
-          return;
+          return
         
-        observer[Next](o);
+        observer[Next](o)
       },
       () => observer[Complete](),
       o => observer[Error](o)
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, skip);
+ExportExtension(module, IObservable, skip)

@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: {
-      IObservable,
-      IObservable: { Subscribe },
-    }
+    IObservable,
+    IObservable: { Subscribe },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns a promise that resolves with an array containing
@@ -21,13 +17,13 @@ var {
  */
 function toArray() {
   return new Promise((resolve, reject) => {
-    var result = [];
+    var result = []
     var dispose = this[Subscribe](
       o => result.push(o), 
       () => resolve(result), 
       reject
-    );
-  });
+    )
+  })
 }
 
-ExportExtension(module, IObservable, toArray);
+ExportExtension(module, IObservable, toArray)

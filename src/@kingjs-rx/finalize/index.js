@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    rx: { 
-      Do,
-      IObservable
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    '-rx': { Do },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` that spies on the `complete` and `error` events.
@@ -21,7 +17,7 @@ var {
  * `IObservable` modulo any side effects introduced by `callback`.
  */
 function finalize(callback) {
-  return this[Do](null, callback, callback);
+  return this[Do](null, callback, callback)
 }
 
-ExportExtension(module, IObservable, finalize);
+ExportExtension(module, IObservable, finalize)

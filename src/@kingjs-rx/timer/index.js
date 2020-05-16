@@ -1,12 +1,10 @@
 var {
   '@kingjs': {
-    promise: { sleep },
-    rx: { 
-      create,
-      IObserver: { Next, Complete },
-    },
+    IObserver: { Next, Complete },
+    '-promise': { sleep },
+    '-rx': { create },
   },
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create an `IObservable` that waits for `timeOut` milliseconds
@@ -20,22 +18,22 @@ var {
 function timer(timeOut = 0) {
 
   return create(observer => {
-    var cancelled = false;
+    var cancelled = false
 
     process.nextTick(async () => {
       // sleep
-      await sleep(timeOut);
+      await sleep(timeOut)
 
       // externally terminated
       if (cancelled)
-        return;
+        return
 
       // complete
-      observer[Complete]();
-    });
+      observer[Complete]()
+    })
 
-    return () => cancelled = true;
-  });
+    return () => cancelled = true
+  })
 }
 
-module.exports = timer;
+module.exports = timer

@@ -1,8 +1,8 @@
 var { 
   '@kingjs': {
-    rx: { from },
+    '-rx': { from },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create an `IObservable` from `arguments`.
@@ -13,7 +13,7 @@ var {
  * a toy or testing tool with limited practical use.
  */
 function of() {
-  return from([...arguments]);
+  return from([...arguments])
 }
 
-module.exports = of;
+module.exports = of

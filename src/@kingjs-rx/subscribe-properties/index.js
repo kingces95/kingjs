@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: { 
-      SubscribeIterator, 
-      IObservable,
-    },
+    IObservable,
+    '-interface': { ExportExtension },
+    '-rx': { SubscribeIterator },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Like `Object.defineProperties`, write intermediate 
@@ -23,7 +19,7 @@ var {
  */
 function subscribeProperties(observations, descriptor) {
   for (var name in descriptor)
-    this[SubscribeIterator](descriptor[name], observations, name);
+    this[SubscribeIterator](descriptor[name], observations, name)
 }
 
-ExportExtension(module, IObservable, subscribeProperties);
+ExportExtension(module, IObservable, subscribeProperties)

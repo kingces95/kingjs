@@ -2,12 +2,12 @@ var {
   fs: { promises: fsp }, 
   '@kingjs': {
     fs: { 
-      rx: {
+      '-rx': {
         PathSubject,
         StatsSubject 
       } 
     },
-    rx: { 
+    '-rx': { 
       create, 
 
       Pool,

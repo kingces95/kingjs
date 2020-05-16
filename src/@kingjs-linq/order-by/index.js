@@ -63,6 +63,7 @@ function orderBy(keySelector, lessThan, descending_, stack_) {
   var compare = null
   var stack = null
 
+  // TODO: ugly
   return Object.defineProperties({ }, {
     stack_: { 
       get: function() {
@@ -84,7 +85,7 @@ function orderBy(keySelector, lessThan, descending_, stack_) {
 
         return Object.defineProperties({ }, {
           [Current]: { 
-            get: function current() { return current } 
+            get: function() { return current } 
           },
           [MoveNext]: { 
             value: function moveNext() {

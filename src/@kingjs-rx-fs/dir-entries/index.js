@@ -2,8 +2,8 @@ var {
   path: Path,
   fs: { promises: fsp }, 
   '@kingjs': {
-    fs: { rx: { PathSubject } },
-    rx: { 
+    fs: { '-rx': { PathSubject } },
+    '-rx': { 
       Log,
       Pool,
       RollingSelect,

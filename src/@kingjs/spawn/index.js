@@ -1,6 +1,6 @@
 var { 
   '@kingjs': {
-    rx: { 
+    '-rx': { 
       Subject,
       IObserver: { Next, Complete, Error }
     }

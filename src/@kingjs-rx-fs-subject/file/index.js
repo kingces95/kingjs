@@ -1,13 +1,13 @@
 var { 
   '@kingjs': {
     fs: {
-      rx: {
+      '-rx': {
         subject: { 
           Inode: InodeSubject 
         } 
       }
     },
-    rx: {
+    '-rx': {
       Subject,
       Publish,
       DistinctUntilChanged,

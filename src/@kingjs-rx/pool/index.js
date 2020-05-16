@@ -1,15 +1,11 @@
 var {
   '@kingjs': {
     TaskPool,
-    rx: { 
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-      create, 
-    },
-    reflect: {
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

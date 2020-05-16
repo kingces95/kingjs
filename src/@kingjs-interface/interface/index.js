@@ -47,7 +47,7 @@ class Interface {
     // get symbol identifying interface
     var Tag = iface[Id]
     if (!Tag)
-      iface[Id] = Tag = Symbol(`implements ${iface.name}`)
+      iface[Id] = Tag = Symbol(`${iface.name}, (tag)`)
 
     // box primities string & number
     if (typeof instance == 'string')

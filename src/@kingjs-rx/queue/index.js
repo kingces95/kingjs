@@ -1,18 +1,13 @@
 var { 
   '@kingjs': {
     TaskPool,
-    array: { Remove },
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` that asynchronously maps 
@@ -30,36 +25,36 @@ var {
  * @remarks - The pending selection task is replaced by more recent observations.
  */
 function queue(callback) {
-  var observable = this;
+  var observable = this
 
   return create(function(observer) {
-    var pool = new TaskPool();
-    var count = 0;
-    var resolve;
+    var pool = new TaskPool()
+    var count = 0
+    var resolve
 
     return observable[Subscribe](
       o => {
-        count++;
+        count++
         pool.start(async () => {
-          observer[Next](await callback(o));
+          observer[Next](await callback(o))
           count--
 
           if (!count && resolve)
-            resolve();
+            resolve()
         })
       },
       () => {
-        resolve = () => observer[Complete]();
+        resolve = () => observer[Complete]()
         if (!count)
-          resolve();
+          resolve()
       },
       o => {
-        resolve = () => observer[Error](o);
+        resolve = () => observer[Error](o)
         if (!count)
-          resolve();
+          resolve()
       }
-    );
-  });
+    )
+  })
 }
 
-ExportExtension(module, IObservable, queue);
+ExportExtension(module, IObservable, queue)

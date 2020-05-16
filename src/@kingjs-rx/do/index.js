@@ -1,17 +1,13 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      is,
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-reflect': { is },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` that spies on life-cycle events.
@@ -32,10 +28,10 @@ var {
  * function, another `IObservable` is returned.
  */
 function do_(next, complete, error) {
-  var observable = this;
+  var observable = this
 
   if (is.object(next))
-    return do_(next[Next], next[Complete], next[Error]);
+    return do_(next[Next], next[Complete], next[Error])
 
   return create(observer => {
     return observable[Subscribe](
@@ -54,8 +50,8 @@ function do_(next, complete, error) {
           error(o)
         observer[Error](o)
       }
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, do_);
+ExportExtension(module, IObservable, do_)

@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    rx: { 
-      Spy,
-      IObservable
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    '-rx': { Spy },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` that spies on the `error` event.
@@ -21,7 +17,7 @@ var {
  * `IObservable` modulo any side effects introduced by `callback`.
  */
 function rethrow(callback) {
-  return this[Spy](null, null, callback);
+  return this[Spy](null, null, callback)
 }
 
-ExportExtension(module, IObservable, rethrow);
+ExportExtension(module, IObservable, rethrow)

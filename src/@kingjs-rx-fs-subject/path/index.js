@@ -6,7 +6,7 @@ var {
       createSymbol 
     },
     fs: { 
-      rx: { 
+      '-rx': { 
         subject: { 
           Link,
           File,
@@ -14,7 +14,7 @@ var {
         }
       }
     },
-    rx: {
+    '-rx': {
       Pool,
       WindowBy,
       Where,

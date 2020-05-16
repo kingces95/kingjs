@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      ExportExtension
-    },
-    rx: {
-      IObservable,
-      IObservable: { Subscribe },
-    }
+    IObservable,
+    IObservable: { Subscribe },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns a promise that resolves with the value of
@@ -25,10 +21,10 @@ var {
 function toPromise() {
   return new Promise((resolve, reject) => {
     var dispose = this[Subscribe](o => {
-      process.nextTick(dispose);
-      resolve(o);
-    }, resolve, reject);
-  });
+      process.nextTick(dispose)
+      resolve(o)
+    }, resolve, reject)
+  })
 }
 
-ExportExtension(module, IObservable, toPromise);
+ExportExtension(module, IObservable, toPromise)

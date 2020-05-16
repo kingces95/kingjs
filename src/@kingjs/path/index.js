@@ -6,13 +6,9 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var CallDirOnRoot = 'Root segment has no parent directory.'
-
 var EmptyString = ''
 var Dot = '.'
 var DotDot = '..'
-
-var EmptyBuffer = Buffer.from(EmptyString)
 
 var current
 var windows

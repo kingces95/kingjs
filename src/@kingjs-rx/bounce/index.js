@@ -1,19 +1,15 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var DefaultBufferLength = 1;
-var DefaultBounce = o => (o.shift(), o);
+var DefaultBufferLength = 1
+var DefaultBounce = o => (o.shift(), o)
 
 /**
  * @description Returns an `IObservable` which observes a `spaceAvailable` `IObservable`
@@ -35,38 +31,38 @@ function bounce(
   bufferLength = DefaultBufferLength,
   bounce = DefaultBounce
 ) {
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var quota = 0;
-    var buffer = [];
+    var quota = 0
+    var buffer = []
 
     function drain() {
       while (quota && buffer.length) {
-        observer[Next](buffer.shift());
-        quota--;
+        observer[Next](buffer.shift())
+        quota--
       }
     }
 
     spaceAvailable[Subscribe](o => {
       quota += o
-      drain();
-    });
+      drain()
+    })
 
     return observable[Subscribe](
       o => {
-        buffer.push(o);
+        buffer.push(o)
 
         if (buffer.length > bufferLength)
-          buffer = bounce(buffer);
-        assert(buffer.length == bufferLength);
+          buffer = bounce(buffer)
+        assert(buffer.length == bufferLength)
 
-        drain();
+        drain()
       },
       () => observer[Complete](),
       o => observer[Error](o)
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, bounce);
+ExportExtension(module, IObservable, bounce)

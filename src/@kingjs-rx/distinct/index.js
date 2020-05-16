@@ -1,19 +1,15 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var DefaultEqual = (l, r) => l == r;
-var DefaultKeySelector = o => o;
+var DefaultEqual = (l, r) => l == r
+var DefaultKeySelector = o => o
 
 /**
  * @description Returns an `IObservable` whose each value is distinct.
@@ -29,28 +25,28 @@ function distinct(
   keySelector = DefaultKeySelector, 
   equal = DefaultEqual) {
 
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var keys;
+    var keys
 
     return observable[Subscribe](
       o => {
-        var key = keySelector(o);
+        var key = keySelector(o)
 
         if (!keys)
-          keys = { };
+          keys = { }
 
         if (key in keys)
-          return;
+          return
         
-        observer[Next](o);
-        keys[key] = undefined;
+        observer[Next](o)
+        keys[key] = undefined
       },
       () => observer[Complete](),
       o => observer[Error](o)
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, distinct);
+ExportExtension(module, IObservable, distinct)

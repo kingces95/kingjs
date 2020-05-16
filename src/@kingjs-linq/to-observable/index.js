@@ -14,15 +14,12 @@ var {
  * 
  * @this any `this` The enumerable from which elements are pulled.
  * 
- * @param foo `interval` The period at which to pull elements from
- * the enumerable and publish them to the observers.
- * 
  * @returns Returns a cold IObservable.
  */
-function toObservable(interval) {
+function toObservable() {
   var enumerable = this
 
-  return create(interval, function(next) {
+  return create(function(next) {
     var enumerator = this.enumerator
 
     if (!enumerator)

@@ -1,8 +1,8 @@
 var { 
   fs,
   '@kingjs': {
-    fs: { rx: { PathSubject } },
-    rx: {
+    fs: { '-rx': { PathSubject } },
+    '-rx': {
       create,
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error },

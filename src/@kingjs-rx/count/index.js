@@ -1,17 +1,12 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create, 
-      ToPromise,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create, ToPromise },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description The description.
@@ -23,19 +18,19 @@ var {
  * @returns Returns comment.
  */
 function count() {
-  var observable = this;
+  var observable = this
 
   return create(observer => {
-    var i = 0;
+    var i = 0
     return observable[Subscribe](
       () => i++,
       () => { 
-        observer[Next](i);
-        observer[Complete]();
+        observer[Next](i)
+        observer[Complete]()
       },
       o => observer[Error](o)
-    );
+    )
   })[ToPromise]()
 }
 
-ExportExtension(module, IObservable, count);
+ExportExtension(module, IObservable, count)

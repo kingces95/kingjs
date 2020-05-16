@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 // https://jsblog.insiderattack.net/promises-next-ticks-and-immediates-nodejs-event-loop-part-3-9226cbe7a6aa
 
@@ -26,15 +22,15 @@ var {
  * @returns Returns a new `IObservable` that emits mapped values.
  */
 function select(callback) {
-  var observable = this;
+  var observable = this
 
   return create(observer => {
     return observable[Subscribe](
       o => observer[Next](callback(o)),
       o => observer[Complete](),
       o => observer[Error](o)
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, select);
+ExportExtension(module, IObservable, select)

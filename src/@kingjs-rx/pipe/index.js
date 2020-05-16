@@ -1,20 +1,14 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create, 
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Subscribes `subject` to the source `IObservable` and returns
- * the `subject`.
+ * the `subject` (instead of a dispose function).
  * 
  * @this any The `IObservable` to which `subject` will be subscribed.
  * 
@@ -23,8 +17,8 @@ var {
  * @returns Returns `subject`.
  */
 function pipe(subject) {
-  this[Subscribe](subject);
-  return subject;
+  this[Subscribe](subject)
+  return subject
 }
 
-ExportExtension(module, IObservable, pipe);
+ExportExtension(module, IObservable, pipe)

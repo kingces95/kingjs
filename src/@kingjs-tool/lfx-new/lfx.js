@@ -7,8 +7,8 @@ var {
     shim,
     exec,
     pathTest: testPath,
-    fs: { rx: { watchMany } },
-    rx: {
+    fs: { '-rx': { watchMany } },
+    '-rx': {
       Debounce,
       Do,
       Pool,

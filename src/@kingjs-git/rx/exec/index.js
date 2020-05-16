@@ -4,7 +4,7 @@ var {
   stringDecoder: { StringDecoder },
   [`@kingjs`]: {
     spawn,    
-    rx: { 
+    '-rx': { 
       Subject,
       IObserver: { Error },
       IObservable: { Subscribe }

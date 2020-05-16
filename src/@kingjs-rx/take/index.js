@@ -1,42 +1,35 @@
 var { 
   '@kingjs': {
-    rx: { 
-      create,
-      IObservable,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: { 
-      ExportExtension
-    },
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns an `IObservable` which reports the
  * first n observation.
  */
-function take(
-  count
-) {
-
-  var observable = this;
+function take(count) {
+  var observable = this
 
   return create(observer => {
-    var taken = 0;
+    var taken = 0
 
     return observable[Subscribe](
       o => {
         if (taken == count)
-          return;
+          return
         
-        taken++;
-        observer[Next](o);
+        taken++
+        observer[Next](o)
       },
       () => observer[Complete](),
       o => observer[Error](o)
-    );
+    )
   })
 }
 
-ExportExtension(module, IObservable, take);
+ExportExtension(module, IObservable, take)

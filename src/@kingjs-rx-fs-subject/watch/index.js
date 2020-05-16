@@ -2,7 +2,7 @@ var {
   assert, 
   fs,
   '@kingjs': {
-    rx: {
+    '-rx': {
       BehaviorSubject,
       IObserver: { Next, Error },
     },

@@ -1,19 +1,14 @@
 var {
   fs,
   '@kingjs': {
-    rx: { 
-      create, 
-      SelectMany,
-      IObservable,
-      IObserver: { Next, Complete, Error }
-    },
-    reflect: {
-      ExportExtension
-    },
+    IObservable,
+    IObserver: { Next, Complete, Error },
+    '-rx': { create, SelectMany },
+    '-module': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var Options = { withFileTypes: true };
+var Options = { withFileTypes: true }
 
 /**
  * @description Returns an `IObservable` emits values resolved
@@ -25,19 +20,19 @@ function promise(callback) {
       try {
         fs.readdir(dir, Options, (error, entries) => {
           if (error)
-            return observer[Error](error);
+            return observer[Error](error)
 
           for (var e of entries) {
-            e.dir = dir;
-            observer[Next](e);
+            e.dir = dir
+            observer[Next](e)
           }
-        });
+        })
       } 
       catch(e) { 
-        observer[Error](e); 
+        observer[Error](e) 
       }
     })
   })
 }
 
-ExportExtension(module, IObservable, promise);
+ExportExtension(module, IObservable, promise)

@@ -1,13 +1,13 @@
 var { 
   '@kingjs': {
     fs: {
-      rx: { 
+      '-rx': { 
         subject: {
           Dir, File
         }
       }
     },
-    rx: {
+    '-rx': {
       ConferenceSubject,
     },
   }

@@ -1,6 +1,6 @@
 var {
   '@kingjs': {
-    rx: {
+    '-rx': {
       Do,
     },
   },

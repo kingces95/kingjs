@@ -1,11 +1,11 @@
 var {
   '@kingjs': { 
-    rx: { create },
-    promise: { sleep }
+    '-rx': { create },
+    '-promise': { sleep }
   },
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
-var PollingInterval = 100;
+var PollingInterval = 100
 
 /**
  * @description Returns an `IObservable` that emits no events
@@ -13,15 +13,15 @@ var PollingInterval = 100;
  */
 function never() {
   return create((observer) => {
-    var disposed;
+    var disposed
 
     process.nextTick(async () => {
       while(!disposed)
-        await sleep(PollingInterval);
-    });
+        await sleep(PollingInterval)
+    })
 
-    return () => disposed = true;
-  });
+    return () => disposed = true
+  })
 }
 
-module.exports = never;
+module.exports = never
