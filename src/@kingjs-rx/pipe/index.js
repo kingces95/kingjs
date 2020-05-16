@@ -7,7 +7,7 @@ var {
       IObserver: { Next, Complete, Error }
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -27,4 +27,4 @@ function pipe(subject) {
   return subject;
 }
 
-exportExtension(module, IObservable, pipe);
+ExportExtension(module, IObservable, pipe);

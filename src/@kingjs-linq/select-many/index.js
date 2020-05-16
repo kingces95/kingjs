@@ -1,21 +1,19 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 function defaultCollectionSelector(x, i) {
-  return x;
+  return x
 }
 
 function defaultResultSelector(x, y) {
-  return y;
+  return y
 }
 
 /**
@@ -29,40 +27,40 @@ function selectMany(
   collectionSelector,
   resultSelector
 ) {
-  var source = this;
+  var source = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
-      var enumerator = source[GetEnumerator]();
-      var current;
-      var manyEnumerator;
-      var i = 0;
+      var enumerator = source[GetEnumerator]()
+      var current
+      var manyEnumerator
+      var i = 0
 
       if (!collectionSelector)
-        collectionSelector = defaultCollectionSelector;
+        collectionSelector = defaultCollectionSelector
 
       if (!resultSelector)
-        resultSelector = defaultResultSelector;
+        resultSelector = defaultResultSelector
       
       return function moveNext() {
         while (true) {      
           if (manyEnumerator && manyEnumerator[MoveNext]())
-            break;
+            break
           
-          var manyEnumerable = null;
+          var manyEnumerable = null
           if (!enumerator[MoveNext]()) 
-            return false;
+            return false
 
-          current = enumerator[Current];
-          manyEnumerable = collectionSelector(current, i++);
-          manyEnumerator = manyEnumerable[GetEnumerator]();
+          current = enumerator[Current]
+          manyEnumerable = collectionSelector(current, i++)
+          manyEnumerator = manyEnumerable[GetEnumerator]()
         }
 
-        this.current_ = resultSelector(current, manyEnumerator[Current]);
-        return true;
-      };
+        this.current = resultSelector(current, manyEnumerator[Current])
+        return true
+      }
     }
   )
-};
+}
 
-exportExtension(module, IEnumerable, selectMany);
+module[ExportExtension](IEnumerable, selectMany)

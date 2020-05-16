@@ -1,11 +1,11 @@
 var { 
   assert,
   '@kingjs': {
-    reflect: { exportExtension },
-    linq: { empty },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { empty },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -102,4 +102,4 @@ function zipJoin(
   }
 }
 
-exportExtension(module, IEnumerable, zipJoin)
+module[ExportExtension](IEnumerable, zipJoin)

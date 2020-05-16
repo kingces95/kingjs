@@ -1,16 +1,12 @@
 var {
-  '@kingjs-reflect': { 
-    exportExtension,
-  },
-  '@kingjs-rx': {
-    create,
-  },
-  '@kingjs-interface': {
+  '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
+    '-module': { ExportExtension },
+    '-rx': { create }
   },
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Turns a promise into an IObservable
@@ -23,27 +19,27 @@ var {
  */
 function toObservable() {
   return create(subject => {
-    var canceled;
+    var canceled
 
     this.then(
       o => {
         if (canceled)
-          return;
-        subject[Next](o);
+          return
+        subject[Next](o)
         
         if (canceled)
-          return;
-        subject[Complete]();
+          return
+        subject[Complete]()
       },
       o => {
         if (canceled)
-          return;
-        subject[Error](o);
+          return
+        subject[Error](o)
       }
-    );
+    )
 
-    return () => canceled = true;
+    return () => canceled = true
   })
 }
 
-exportExtension(module, Promise, toObservable);
+module[ExportExtension](Promise, toObservable)

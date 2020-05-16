@@ -1,18 +1,16 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
     Dictionary,
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 function defaultSelector(x) {
-  return x;
+  return x
 }
 
 /**
@@ -25,51 +23,51 @@ function union(
   second, 
   idSelector) {
   
-  var first = this;
+  var first = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function makeMoveNext() {
 
       if (!idSelector)
-        idSelector = defaultSelector;
+        idSelector = defaultSelector
 
-      var firstEnumerator = first[GetEnumerator]();
-      var secondEnumerator = second[GetEnumerator]();
+      var firstEnumerator = first[GetEnumerator]()
+      var secondEnumerator = second[GetEnumerator]()
       
-      var set = new Dictionary();
+      var set = new Dictionary()
       
       return function moveNext() { 
         
         while (firstEnumerator && firstEnumerator[MoveNext]()) {
-          var current = firstEnumerator[Current];
+          var current = firstEnumerator[Current]
 
-          var id = idSelector(current);
+          var id = idSelector(current)
           if (id in set)
-            continue;
-          set[id] = undefined;
+            continue
+          set[id] = undefined
 
-          this.current_ = current;
-          return true;
+          this.current = current
+          return true
         }
-        firstEnumerator = null;
+        firstEnumerator = null
         
         while (secondEnumerator && secondEnumerator[MoveNext]()) {   
-          var current = secondEnumerator[Current];
+          var current = secondEnumerator[Current]
 
-          var id = idSelector(current);
+          var id = idSelector(current)
           if (id in set)
-            continue;
-          set[id] = undefined;
+            continue
+          set[id] = undefined
 
-          this.current_ = current;
-          return true;
+          this.current = current
+          return true
         }
-        secondEnumerator = null;
+        secondEnumerator = null
         
-        return false;
+        return false
       }
     }
-  );
-};
+  )
+}
 
-exportExtension(module, IEnumerable, union);
+module[ExportExtension](IEnumerable, union)

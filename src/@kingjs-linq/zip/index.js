@@ -1,14 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence of elements composed 
@@ -18,25 +16,25 @@ var {
  * @param {*} result 
  */
 function zip(other, result) {
-  var source = this;
+  var source = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function makeMoveNext() {
-      var first = source[GetEnumerator]();
-      var second = other[GetEnumerator]();
+      var first = source[GetEnumerator]()
+      var second = other[GetEnumerator]()
       
       return function() {    
         if (!first[MoveNext]() || 
           !second[MoveNext]())
-          return false;
+          return false
         
-        this.current_ = result(
+        this.current = result(
           first[Current], 
-          second[Current]);
-        return true;
+          second[Current])
+        return true
       }
     }
   )
-};
+}
 
-exportExtension(module, IEnumerable, zip);
+module[ExportExtension](IEnumerable, zip)

@@ -1,8 +1,8 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    reflect: { exportExtension },
-    linq: { Aggregate },
+    '-interface': { ExportExtension },
+    '-linq': { Aggregate },
   }
 } = module[require('@kingjs-module/dependencies')]();
 
@@ -31,4 +31,4 @@ function average(selector) {
   return result.sum / result.count;
 }
 
-exportExtension(module, IEnumerable, average);
+module[ExportExtension](IEnumerable, average);

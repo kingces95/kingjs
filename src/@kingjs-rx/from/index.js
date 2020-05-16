@@ -1,13 +1,6 @@
 var { 
-  assert,
-  '@kingjs': {
-    IEnumerable,
-    IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current },
-    rx: { 
-      create,
-      IObserver: { Next, Complete, Error },
-    },
+  '@kingjs': { IObserver,
+    '-rx': { create },
   }
 } = module[require('@kingjs-module/dependencies')]();
 
@@ -26,11 +19,11 @@ function from(value) {
   return create(function(observer) {
     try {
       for (var o of value)
-        observer[Next](o);
+        observer[IObserver.Next](o);
         
-      observer[Complete]();
+      observer[IObserver.Complete]();
     } catch(e) { 
-      observer[Error](e);
+      observer[IObserver.Error](e);
     }
   });
 }

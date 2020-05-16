@@ -1,6 +1,6 @@
 var {
   '@kingjs': { IObservable,
-    '-module': { ExportInterface }
+    '-interface': { Export }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -8,8 +8,7 @@ var {
  * @description `IGroupedObservable` extends `IObservable` and 
  * adds  a single new member `key`.
  */
-module[ExportInterface]({
-    members: { Key: null },
-    extends: [ IObservable ]
-  }
-)
+module[Export]({
+  members: { key: null },
+  extends: [ IObservable ]
+})

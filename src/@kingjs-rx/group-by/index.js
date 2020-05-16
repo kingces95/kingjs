@@ -10,7 +10,7 @@ var {
       IPublishedObservable: { Value },
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -139,4 +139,4 @@ function groupBy(
   )
 }
 
-exportExtension(module, IObservable, groupBy)
+ExportExtension(module, IObservable, groupBy)

@@ -8,7 +8,7 @@ var {
       create, 
     },
     reflect: {
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -103,4 +103,4 @@ function pool(
   })
 }
 
-exportExtension(module, IObservable, pool)
+ExportExtension(module, IObservable, pool)

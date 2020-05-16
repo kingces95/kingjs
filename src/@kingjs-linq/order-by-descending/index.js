@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      OrderBy,
-    },
     IEnumerable,
+    '-interface': { ExportExtension },
+    '-linq': { OrderBy },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence of elements in 
@@ -18,7 +14,7 @@ var {
  * @param {*} lessThan 
  */
 function orderByDescending(keySelector, lessThan) {
-  return this[OrderBy](keySelector, lessThan, true);
+  return this[OrderBy](keySelector, lessThan, true)
 }
 
-exportExtension(module, IEnumerable, orderByDescending);
+module[ExportExtension](IEnumerable, orderByDescending)

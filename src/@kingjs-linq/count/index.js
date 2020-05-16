@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Aggregate
-    },
     IEnumerable,
+    '-interface': { ExportExtension },
+    '-linq': { Aggregate },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns the number of elements in a 
@@ -16,13 +12,13 @@ var {
  */
 function count(predicate) {      
   return this[Aggregate](0, function(x) {
-    var aggregate = this;
+    var aggregate = this
 
     if (!predicate || predicate(x))
-      aggregate++;
+      aggregate++
     
-    return aggregate; 
-  });
-};
+    return aggregate 
+  })
+}
 
-exportExtension(module, IEnumerable, count);
+module[ExportExtension](IEnumerable, count)

@@ -1,6 +1,6 @@
 var {
   '@kingjs': { IEnumerable,
-    '-module': { ExportInterface }
+    '-interface': { Export }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -9,7 +9,7 @@ var {
  * `IEnumerable` with  a single member 
  * `createOrderedEnumerable`.
  */
-module[ExportInterface]({
+module[Export]({
   members: { createOrderedEnumerable: null },
   extends: [ IEnumerable ]
 })

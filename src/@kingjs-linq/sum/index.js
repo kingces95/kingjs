@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Aggregate
-    },
     IEnumerable,
+    '-interface': { ExportExtension },
+    '-linq': { Aggregate },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Computes the sum of a sequence of 
@@ -16,8 +12,8 @@ var {
  */
 function sum() {
   return this[Aggregate](0, function(x) { 
-    return this + x; 
-  });
-};
+    return this + x 
+  })
+}
 
-exportExtension(module, IEnumerable, sum);
+module[ExportExtension](IEnumerable, sum)

@@ -1,14 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence identical to 
@@ -17,21 +15,21 @@ var {
  * @param {*} count 
  */
 function take(count) {
-  var source = this;
+  var source = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
-      var enumerator = source[GetEnumerator]();
+      var enumerator = source[GetEnumerator]()
       
       return function moveNext() {    
         if (!enumerator[MoveNext]() || count-- <= 0)
-          return false;
+          return false
         
-        this.current_ = enumerator[Current];
-        return true;
+        this.current = enumerator[Current]
+        return true
       }
     }
-  );
-};
+  )
+}
 
-exportExtension(module, IEnumerable, take);
+module[ExportExtension](IEnumerable, take)

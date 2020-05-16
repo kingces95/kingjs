@@ -9,7 +9,7 @@ var {
     },
     reflect: { 
       is,
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -69,4 +69,4 @@ function capture(value) {
   })
 }
 
-exportExtension(module, IObservable, capture);
+ExportExtension(module, IObservable, capture);

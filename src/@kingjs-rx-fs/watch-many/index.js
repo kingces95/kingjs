@@ -70,4 +70,4 @@ function watchMany({
     )
   }
 
-var WatchMany = exportExtension(module, PathSubject, watchMany);
+var WatchMany = ExportExtension(module, PathSubject, watchMany);

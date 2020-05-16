@@ -1,14 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence identical to another 
@@ -18,25 +16,25 @@ var {
  * @param {*} predicate 
  */
 function takeWhile(predicate) {
-  var source = this;
+  var source = this
   
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
-      var enumerator = source[GetEnumerator]();
-      var i = 0; 
+      var enumerator = source[GetEnumerator]()
+      var i = 0 
       
       return function moveNext() {    
         
         if (!enumerator[MoveNext]() || 
           !predicate || 
           !predicate(enumerator[Current], i++))
-          return false;
+          return false
         
-        this.current_ = enumerator[Current];
-        return true;
-      };
+        this.current = enumerator[Current]
+        return true
+      }
     }
   )
-};
+}
 
-exportExtension(module, IEnumerable, takeWhile);
+module[ExportExtension](IEnumerable, takeWhile)

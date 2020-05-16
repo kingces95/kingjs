@@ -1,18 +1,16 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
-    linq: {
+    Enumerable,
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': {
       ToLookup,
       empty
     },
-    IEnumerable,
-    IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence of elements composed 
@@ -30,29 +28,29 @@ function groupJoin(
   innerKeySelector, 
   resultSelector) {
 
-  var outerEnumerable = this;
+  var outerEnumerable = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() { 
-      var innerLookup = innerEnumerable[ToLookup](innerKeySelector);
-      var outerEnumerator = outerEnumerable[GetEnumerator]();
+      var innerLookup = innerEnumerable[ToLookup](innerKeySelector)
+      var outerEnumerator = outerEnumerable[GetEnumerator]()
 
       return function moveNext() { 
         
         if (!outerEnumerator[MoveNext]()) {
-          innerLookup = undefined;
-          outerEnumerator = undefined;
-          return false;
+          innerLookup = undefined
+          outerEnumerator = undefined
+          return false
         }
 
-        var outerElement = outerEnumerator[Current];
-        var key = outerKeySelector(outerElement);
-        var innerSequence = innerLookup[key] || empty();
-        this.current_ = resultSelector(outerElement, innerSequence);
-        return true;
+        var outerElement = outerEnumerator[Current]
+        var key = outerKeySelector(outerElement)
+        var innerSequence = innerLookup[key] || empty()
+        this.current = resultSelector(outerElement, innerSequence)
+        return true
       }
     }
-  );
-};
+  )
+}
 
-exportExtension(module, IEnumerable, groupJoin);
+module[ExportExtension](IEnumerable, groupJoin)

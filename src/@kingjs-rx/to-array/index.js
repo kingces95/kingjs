@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: {
       IObservable,
@@ -30,4 +30,4 @@ function toArray() {
   });
 }
 
-exportExtension(module, IObservable, toArray);
+ExportExtension(module, IObservable, toArray);

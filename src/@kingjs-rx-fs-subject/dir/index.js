@@ -15,7 +15,7 @@ var {
       Where,
       Pool
     },
-    linq: { 
+    '-linq': { 
       ZipJoin, 
     },
   }

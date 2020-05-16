@@ -1,19 +1,15 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Where
-    },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { Where },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 function throwNoSingleMatch() {
-  throw "single: sequence does not contain a single elements matching predicate.";
+  throw "single: sequence does not contain a single elements matching predicate."
 }
 
 /**
@@ -23,22 +19,22 @@ function throwNoSingleMatch() {
  * @param {*} predicate 
  */
 function single(predicate) {
-  var enumerable = this;
+  var enumerable = this
   
   if (predicate)
-    enumerable = enumerable[Where](predicate);
+    enumerable = enumerable[Where](predicate)
   
-  var enumerator = enumerable[GetEnumerator]();
+  var enumerator = enumerable[GetEnumerator]()
   
   if (!enumerator[MoveNext]())
-    throwNoSingleMatch();
+    throwNoSingleMatch()
   
-  var result = enumerator[Current];
+  var result = enumerator[Current]
   
   if (enumerator[MoveNext]())
-    throwNoSingleMatch();
+    throwNoSingleMatch()
   
-  return result;
-};
+  return result
+}
 
-exportExtension(module, IEnumerable, single);
+module[ExportExtension](IEnumerable, single)

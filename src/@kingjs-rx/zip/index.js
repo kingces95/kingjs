@@ -1,7 +1,7 @@
 var {
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: { 
       IObservable,
@@ -66,4 +66,4 @@ function zip(value, callback) {
   });
 }
 
-exportExtension(module, IObservable, zip);
+ExportExtension(module, IObservable, zip);

@@ -1,10 +1,10 @@
 var {
-  '@kingjs-module': { ExportInterface }
+  '@kingjs-interface': { Export }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IEnumerable` has a single member `getEnumerator`.
  */
-module[ExportInterface]({
-  members: { GetEnumerator: null },
+module[Export]({
+  members: { getEnumerator: null },
 })

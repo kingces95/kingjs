@@ -1,14 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence of elements composed of 
@@ -17,28 +15,28 @@ var {
  * @param {*} predicate 
  */
 function where(predicate) { 
-  var source = this;
+  var source = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function makeMoveNext() {
-      var enumerator = source[GetEnumerator]();
-      var i = 0;
+      var enumerator = source[GetEnumerator]()
+      var i = 0
       
       return function moveNext() {    
         while (true) {
           if (!enumerator[MoveNext]())
-            return false;
+            return false
           
-          var current = enumerator[Current];
+          var current = enumerator[Current]
           if (!predicate(current, i++))
-            continue;
+            continue
           
-          this.current_ = current;
-          return true;
+          this.current = current
+          return true
         }
-      };
+      }
     }
-  );
-};
+  )
+}
 
-exportExtension(module, IEnumerable, where);
+module[ExportExtension](IEnumerable, where)

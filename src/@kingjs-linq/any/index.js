@@ -1,9 +1,9 @@
 var { 
   '@kingjs': {
-    reflect: { exportExtension },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]();
 
@@ -28,4 +28,4 @@ function any(predicate) {
   return false;
 };
 
-exportExtension(module, IEnumerable, any);
+module[ExportExtension](IEnumerable, any);

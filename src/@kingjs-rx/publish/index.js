@@ -9,7 +9,7 @@ var {
     },
     reflect: { 
       is,
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -65,4 +65,4 @@ function publish(initialValue) {
   )
 }
 
-exportExtension(module, IObservable, publish)
+ExportExtension(module, IObservable, publish)

@@ -1,18 +1,16 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
     Dictionary,
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
  
 function defaultSelector(x) {
-  return x;
+  return x
 }
 
 /**
@@ -24,46 +22,46 @@ function defaultSelector(x) {
 function intersect(
   second,
   idSelector) {
-  var first = this;
+  var first = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
       if (!idSelector)
-        idSelector = defaultSelector;
+        idSelector = defaultSelector
 
-      var firstEnumerator = first[GetEnumerator]();
-      var secondEnumerator = second[GetEnumerator]();
+      var firstEnumerator = first[GetEnumerator]()
+      var secondEnumerator = second[GetEnumerator]()
       
-      var set;
+      var set
       
       return function moveNext() {
 
         if (!set)
-          set = new Dictionary();
+          set = new Dictionary()
         
         if (secondEnumerator) {
           while (secondEnumerator[MoveNext]())
-            set[idSelector(secondEnumerator[Current])] = undefined;
-            secondEnumerator = null;
+            set[idSelector(secondEnumerator[Current])] = undefined
+            secondEnumerator = null
         }
         
         while (firstEnumerator[MoveNext]()) {
-          var current = firstEnumerator[Current];
-          var id = idSelector(current);
+          var current = firstEnumerator[Current]
+          var id = idSelector(current)
           if (!(id in set))
-            continue;
+            continue
           
           // skip future duplicates
-          delete set[id];
+          delete set[id]
 
-          this.current_ = current;
-          return true;
+          this.current = current
+          return true
         }
 
-        return false;
+        return false
       }
     }
   )
-};
+}
 
-exportExtension(module, IEnumerable, intersect);
+module[ExportExtension](IEnumerable, intersect)

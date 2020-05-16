@@ -1,14 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence identical to another 
@@ -18,26 +16,26 @@ var {
  * @param {*} predicate 
  */
 function skipWhile(predicate) {
-  var source = this;
+  var source = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
-      var enumerator = source[GetEnumerator]();
-      var i = 0;
+      var enumerator = source[GetEnumerator]()
+      var i = 0
       
       return function moveNext() {    
         do {      
           if (!enumerator[MoveNext]())
-            return false;
-        } while (predicate && predicate(enumerator[Current], i++));
+            return false
+        } while (predicate && predicate(enumerator[Current], i++))
         
-        predicate = undefined;
+        predicate = undefined
         
-        this.current_ = enumerator[Current];
-        return true;
+        this.current = enumerator[Current]
+        return true
       }
     }
   )
-};
+}
 
-exportExtension(module, IEnumerable, skipWhile);
+module[ExportExtension](IEnumerable, skipWhile)

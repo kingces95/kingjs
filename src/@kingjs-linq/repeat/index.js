@@ -1,10 +1,8 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-    }
+    Enumerable
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generate a sequence of a repeated value.
@@ -14,20 +12,20 @@ var {
  */
 function repeat(element, count) {  
   
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
       return function moveNext() {
         
         if (count-- <= 0) {
-          this.current_ = undefined;
-          return false;
+          this.current = undefined
+          return false
         }
         
-        this.current_ = element;
-        return true;
+        this.current = element
+        return true
       }
     }
   )
 }
 
-module.exports = repeat;
+module.exports = repeat

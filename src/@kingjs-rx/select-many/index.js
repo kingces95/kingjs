@@ -9,7 +9,7 @@ var {
       from,
     },
     reflect: {
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -129,4 +129,4 @@ function selectMany(
   )
 }
 
-exportExtension(module, IObservable, selectMany)
+ExportExtension(module, IObservable, selectMany)

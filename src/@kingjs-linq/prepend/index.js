@@ -1,15 +1,10 @@
 var { 
   '@kingjs': {
-    assertShimmed,
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Concat
-    },
     IEnumerable,
+    '-interface': { ExportExtension },
+    '-linq': { Concat },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates an sequence identical to another 
@@ -18,7 +13,7 @@ var {
  * @param {*} value 
  */
 function prepend(value) {
-  return [value][Concat](this);
-};
+  return [value][Concat](this)
+}
 
-exportExtension(module, IEnumerable, prepend);
+module[ExportExtension](IEnumerable, prepend)

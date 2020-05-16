@@ -17,7 +17,7 @@ var {
       IObservable,
       IGroupedObservable: { Key }
     },
-    reflect: { exportExtension },
+    '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -51,4 +51,4 @@ function distinctStats() {
     )                                                   
 }
 
-exportExtension(module, PathSubject, distinctStats);
+ExportExtension(module, PathSubject, distinctStats);

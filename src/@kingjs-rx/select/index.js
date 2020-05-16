@@ -7,7 +7,7 @@ var {
       IObserver: { Next, Complete, Error },
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -37,4 +37,4 @@ function select(callback) {
   })
 }
 
-exportExtension(module, IObservable, select);
+ExportExtension(module, IObservable, select);

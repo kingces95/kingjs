@@ -8,7 +8,7 @@ var {
       IObserver: { Next, Complete, Error }
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -77,4 +77,4 @@ function toggle(
   })
 }
 
-exportExtension(module, IObservable, toggle)
+ExportExtension(module, IObservable, toggle)

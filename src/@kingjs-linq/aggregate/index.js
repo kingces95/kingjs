@@ -1,11 +1,9 @@
 var { 
   '@kingjs': {
-    '-module': { ExportExtension },
-    '-interface': {
-      IEnumerable,
-      IEnumerable: { GetEnumerator },
-      IEnumerator: { MoveNext, Current }
-    }
+    IEnumerable,
+    IEnumerable: { GetEnumerator },
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

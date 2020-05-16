@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Where
-    },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { Where },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns the only element of a sequence that 
@@ -19,22 +15,22 @@ var {
  * @param {*} predicate 
  */
 function singleOrUndefined(predicate) {
-  var enumerable = this;
+  var enumerable = this
   
   if (predicate)
-    enumerable = enumerable[Where](predicate);
+    enumerable = enumerable[Where](predicate)
   
-  var enumerator = enumerable[GetEnumerator]();
+  var enumerator = enumerable[GetEnumerator]()
   
   if (!enumerator[MoveNext]())
-    return undefined;
+    return undefined
   
-  var result = enumerator[Current];
+  var result = enumerator[Current]
   
   if (enumerator[MoveNext]())
-    result = undefined;
+    result = undefined
   
-  return result;
-};
+  return result
+}
 
-exportExtension(module, IEnumerable, singleOrUndefined);
+module[ExportExtension](IEnumerable, singleOrUndefined)

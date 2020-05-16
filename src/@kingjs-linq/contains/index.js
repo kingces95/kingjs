@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      defaultEqual
-    },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { defaultEqual },
   }
 } = module[require('@kingjs-module/dependencies')]();
 
@@ -31,4 +27,4 @@ function contains(value, equal) {
   return false;
 };
 
-exportExtension(module, IEnumerable, contains);
+module[ExportExtension](IEnumerable, contains);

@@ -1,16 +1,10 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    reflect: {
-       exportExtension
-    },
-    linq: { 
-      Aggregate 
-    }
+    '-interface': { ExportExtension },
+    '-linq': { Aggregate }
   }
-} = module[require('@kingjs-module/dependencies')]();
-
-var Aggregate = require('@kingjs/linq.aggregate');
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Creates an array from a `IEnumerable`.
@@ -19,9 +13,9 @@ var Aggregate = require('@kingjs/linq.aggregate');
  */
 function toArray() {      
   return this[Aggregate]([], function(x) { 
-    this.push(x); 
-    return this; 
-  });
-};
+    this.push(x) 
+    return this 
+  })
+}
 
-exportExtension(module, IEnumerable, toArray);
+module[ExportExtension](IEnumerable, toArray)

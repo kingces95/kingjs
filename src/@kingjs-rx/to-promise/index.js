@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: {
       IObservable,
@@ -31,4 +31,4 @@ function toPromise() {
   });
 }
 
-exportExtension(module, IObservable, toPromise);
+ExportExtension(module, IObservable, toPromise);

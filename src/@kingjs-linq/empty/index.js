@@ -1,15 +1,7 @@
 var { 
-  '@kingjs': {
-    reflect: { exportExtension },
-    IEnumerable,
-  }
-} = module[require('@kingjs-module/dependencies')]();
+  '@kingjs': { Enumerable }
+} = module[require('@kingjs-module/dependencies')]()
 
-var EmptyArray = [];
+var empty = new Enumerable(() => () => false)
 
-/**
- * @description Returns an empty sequence.
- */
-function empty() { return EmptyArray; }
-
-module.exports = empty;
+module.exports = () => empty

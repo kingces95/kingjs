@@ -2,7 +2,8 @@ var { assert,
   '@kingjs': {
     '-reflect': { is },
     '-interface': { Interface },
-    '-module': { ExportStaticExtension }
+    '-module': { ExportStaticExtension },
+    '-string': { Capitalize },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -22,7 +23,7 @@ function implement(target, descriptor) {
   for (var name in descriptor) {
     var member = descriptor[name]
 
-    var symbols = this[name]
+    var symbols = this[name[Capitalize]()]
     assert(symbols)
 
     if (!is.array(symbols))

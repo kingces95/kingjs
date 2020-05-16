@@ -1,14 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Concatenates two sequences.
@@ -20,32 +18,32 @@ var {
  * elements of the two input sequences.
  */
 var concat = function concat(enumerable) {
-  var firstEnumerable = this;
-  var secondEnumerable = enumerable;
+  var firstEnumerable = this
+  var secondEnumerable = enumerable
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() { 
-      var first = firstEnumerable[GetEnumerator]();
-      var second = secondEnumerable[GetEnumerator]();
+      var first = firstEnumerable[GetEnumerator]()
+      var second = secondEnumerable[GetEnumerator]()
 
       return function moveNext() {
         if (first && first[MoveNext]()) {
-          this.current_ = first[Current];
-          return true;
+          this.current = first[Current]
+          return true
         }
-        first = undefined;
+        first = undefined
 
         if (second && second[MoveNext]()) {        
-          this.current_ = second[Current];
-          return true;
+          this.current = second[Current]
+          return true
         }
-        second = undefined;
+        second = undefined
 
-        this.current_ = undefined;
-        return false;
+        this.current = undefined
+        return false
       }
     }
-  );
-};
+  )
+}
 
-exportExtension(module, IEnumerable, concat);
+module[ExportExtension](IEnumerable, concat)

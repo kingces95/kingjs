@@ -6,7 +6,7 @@ var {
       IObservable: { Subscribe },
       IObserver: { Next, Complete, Error }
     },
-    reflect: { exportExtension },
+    '-interface': { ExportExtension },
     stringEx: { Expand }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -48,4 +48,4 @@ function log(
   })
 }
 
-exportExtension(module, IObservable, log)
+ExportExtension(module, IObservable, log)

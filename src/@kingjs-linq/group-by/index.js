@@ -1,18 +1,16 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
+    '-interface': { ExportExtension },
     Dictionary,
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 function defaultSelector(x) {
-  return x;
+  return x
 }
 
 /**
@@ -27,54 +25,54 @@ function groupBy(
   keySelector,
   elementSelector,
   resultSelector) {
-  var source = this;
+  var source = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() { 
       
       if (!elementSelector)
-        elementSelector = defaultSelector;
+        elementSelector = defaultSelector
 
       if (!resultSelector)
-        resultSelector = defaultSelector;
+        resultSelector = defaultSelector
 
-      var enumerator = source[GetEnumerator]();
-      var groupsEnumerator;
+      var enumerator = source[GetEnumerator]()
+      var groupsEnumerator
       
       return function moveNext() {
         
         if (enumerator) {
-          var groups = [];
-          var groupByKey = new Dictionary();
+          var groups = []
+          var groupByKey = new Dictionary()
           
           while (enumerator[MoveNext]()) {
-            var current = enumerator[Current];         
-            var key = keySelector(current);
+            var current = enumerator[Current]         
+            var key = keySelector(current)
             
-            var group = groupByKey[key];
+            var group = groupByKey[key]
             if (!group) {
-              group = [];
-              group.key = key;
-              groupByKey[key] = group;
-              groups.push(group);
+              group = []
+              group.key = key
+              groupByKey[key] = group
+              groups.push(group)
             }
             
             group.push(elementSelector(current))
           }
 
-          groupsEnumerator = groups[GetEnumerator]();
-          enumerator = undefined;
+          groupsEnumerator = groups[GetEnumerator]()
+          enumerator = undefined
         }
         
         if (!groupsEnumerator[MoveNext]())
-          return false;
+          return false
         
-        var current = groupsEnumerator[Current];
-        this.current_ = resultSelector(current);
-        return true;
+        var current = groupsEnumerator[Current]
+        this.current = resultSelector(current)
+        return true
       }
     }
-  );
-};
+  )
+}
 
-exportExtension(module, IEnumerable, groupBy);
+module[ExportExtension](IEnumerable, groupBy)

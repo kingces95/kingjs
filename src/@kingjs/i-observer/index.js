@@ -1,11 +1,11 @@
 var {
-  '@kingjs-module': { ExportInterface }
+  '@kingjs-interface': { Export }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IObserver` has a members `next`, `complete`, and `error`.
  */
-module[ExportInterface]({
+module[Export]({
   members: { 
     next: null,
     complete: null,

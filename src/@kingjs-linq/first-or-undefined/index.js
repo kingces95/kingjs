@@ -1,12 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { exportExtension },
-    linq: { Where },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { Where },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns the first element of a sequence 
@@ -15,17 +15,17 @@ var {
  * @param {*} predicate 
  */
 function firstOrUndefined(predicate) {
-  var enumerable = this;
+  var enumerable = this
   
   if (predicate)
-    enumerable = enumerable[Where](predicate);
+    enumerable = enumerable[Where](predicate)
   
-  var enumerator = enumerable[GetEnumerator]();
+  var enumerator = enumerable[GetEnumerator]()
   
   if (!enumerator[MoveNext]())
-    return undefined;
+    return undefined
   
-  return enumerator[Current];
-};
+  return enumerator[Current]
+}
 
-exportExtension(module, IEnumerable, firstOrUndefined);
+module[ExportExtension](IEnumerable, firstOrUndefined)

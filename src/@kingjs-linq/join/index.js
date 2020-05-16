@@ -1,17 +1,13 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-      exportExtension
-    },
-    linq: {
-      ToLookup
-    },
+    Enumerable,
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { ToLookup },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence of elements composed of elements 
@@ -28,24 +24,24 @@ function join(
   innerKeySelector, 
   resultSelector) {
 
-  var outerEnumerable = this;
+  var outerEnumerable = this
 
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
       
-      var outerEnumerator = undefined;
-      var innerLookup = undefined;
+      var outerEnumerator = undefined
+      var innerLookup = undefined
 
-      var innerEnumerator = undefined;
-      var outerCurrent = undefined;
+      var innerEnumerator = undefined
+      var outerCurrent = undefined
       
       return function moveNext() { 
         
         if (!outerEnumerator)
-          outerEnumerator = outerEnumerable[GetEnumerator]();
+          outerEnumerator = outerEnumerable[GetEnumerator]()
         
         if (!innerLookup) 
-          innerLookup = innerEnumerable[ToLookup](innerKeySelector);
+          innerLookup = innerEnumerable[ToLookup](innerKeySelector)
         
         while (true) {
           
@@ -53,31 +49,31 @@ function join(
           while (!innerEnumerator) {
 
             if (!outerEnumerator[MoveNext]())
-              return false;
+              return false
             
-            outerCurrent = outerEnumerator[Current];
+            outerCurrent = outerEnumerator[Current]
             
-            var key = outerKeySelector(outerCurrent);
-            innerEnumerable = innerLookup[key];  
+            var key = outerKeySelector(outerCurrent)
+            innerEnumerable = innerLookup[key]  
             if (!innerEnumerable)
-              continue;
+              continue
 
-            innerEnumerator = innerEnumerable[GetEnumerator]();
+            innerEnumerator = innerEnumerable[GetEnumerator]()
           }
           
           // test if matches exhausted
           if (!innerEnumerator[MoveNext]()) {
-            innerEnumerator = undefined;
-            continue;
+            innerEnumerator = undefined
+            continue
           }
           
           // yield match
-          this.current_ = resultSelector(outerCurrent, innerEnumerator[Current]);
-          return true;
+          this.current = resultSelector(outerCurrent, innerEnumerator[Current])
+          return true
         }
       }
     }
   )
-};
+}
 
-exportExtension(module, IEnumerable, join);
+module[ExportExtension](IEnumerable, join)

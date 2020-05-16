@@ -1,15 +1,11 @@
 var { 
   '@kingjs': {
+    '-linq': { Aggregate },
+    '-interface': { ExportExtension },
     IEnumerable,
     Dictionary,
-    linq: {
-      Aggregate
-    },
-    reflect: { 
-      exportExtension 
-    },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Creates a dictionary from a sequence where the 
@@ -20,17 +16,17 @@ var {
  */
 function toDictionary(keySelector, valueSelector) {      
   return this[Aggregate](new Dictionary(), function(x) { 
-    var key = keySelector(x);
+    var key = keySelector(x)
     if (key in x)
-      throw "toDictionary: key already exists: " + key;
+      throw "toDictionary: key already exists: " + key
     
-    var value = x;
+    var value = x
     if (valueSelector)
-      value = valueSelector(x);
+      value = valueSelector(x)
     
-    this[key] = value;
-    return this;
-  });
-};
+    this[key] = value
+    return this
+  })
+}
 
-exportExtension(module, IEnumerable, toDictionary);
+module[ExportExtension](IEnumerable, toDictionary)

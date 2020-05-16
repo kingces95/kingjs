@@ -1,15 +1,8 @@
-var {
-  assert,
-  events: { EventEmitter },
+var { assert, events: { EventEmitter },
   '@kingjs': { 
-    reflect: { 
-      is,
-      createSymbol
-    },
-    rx: {
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error }
-    }
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-reflect': { is },
   },
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -25,11 +18,11 @@ var DefaultOnSubscribe = x => undefined
 var throwNextTick = x => process.nextTick(() => { throw x })
 var Noop = () => undefined
 
-var Activate = createSymbol(module, 'activate')
-var Disposed = createSymbol(module, 'disposed')
-var Dispose = createSymbol(module, 'dispose')
-var Epitaph = createSymbol(module, 'epitaph')
-var Exception = createSymbol(module, 'exception')
+var Activate = Symbol('activate')
+var Disposed = Symbol('disposed')
+var Dispose = Symbol('dispose')
+var Epitaph = Symbol('epitaph')
+var Exception = Symbol('exception')
 
 /**
  * @description The Subject.

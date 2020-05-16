@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: { 
       Zip,
@@ -26,4 +26,4 @@ function once(value) {
   return this[Zip](value, zipper);
 }
 
-exportExtension(module, IObservable, once);
+ExportExtension(module, IObservable, once);

@@ -8,7 +8,7 @@ var {
       IObserver: { Next, Complete, Error }
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -38,4 +38,4 @@ function count() {
   })[ToPromise]()
 }
 
-exportExtension(module, IObservable, count);
+ExportExtension(module, IObservable, count);

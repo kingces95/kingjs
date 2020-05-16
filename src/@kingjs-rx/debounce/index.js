@@ -8,7 +8,7 @@ var {
       IObserver: { Next, Complete, Error }
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -104,4 +104,4 @@ function debounce(window) {
   })
 }
 
-exportExtension(module, IObservable, debounce);
+ExportExtension(module, IObservable, debounce);

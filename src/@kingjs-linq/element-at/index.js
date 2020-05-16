@@ -1,11 +1,11 @@
 var { 
   '@kingjs': {
-    reflect: { exportExtension },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns the element at a specified 
@@ -17,17 +17,17 @@ function elementAt(index) {
   if (index < 0)
     throw "elementAt: index < 0"
 
-  var enumerator = this[GetEnumerator]();
+  var enumerator = this[GetEnumerator]()
   
-  var current = 0;
+  var current = 0
 
   while (enumerator[MoveNext]()) {
     if (current++ == index)
-      return enumerator[Current];
+      return enumerator[Current]
   }
 
   throw "elementAt: sequence.count() => " + current + 
-    " < index => " + index;
-};
+    " < index => " + index
+}
 
-exportExtension(module, IEnumerable, elementAt);
+module[ExportExtension](IEnumerable, elementAt)

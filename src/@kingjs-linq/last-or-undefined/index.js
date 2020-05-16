@@ -1,16 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Where
-    },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
+    '-linq': { Where },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 
 /**
@@ -20,18 +16,18 @@ var {
  * @param {*} predicate 
  */
 function lastOrUndefined(predicate) {
-  var enumerable = this;
+  var enumerable = this
       
   if (predicate)
-  enumerable = enumerable[Where](predicate);
+  enumerable = enumerable[Where](predicate)
   
-  var enumerator = enumerable[GetEnumerator]();  
+  var enumerator = enumerable[GetEnumerator]()  
   
-  var current;
+  var current
   while (enumerator[MoveNext]())
-    current = enumerator[Current];
+    current = enumerator[Current]
   
-  return current;
-};
+  return current
+}
 
-exportExtension(module, IEnumerable, lastOrUndefined);
+module[ExportExtension](IEnumerable, lastOrUndefined)

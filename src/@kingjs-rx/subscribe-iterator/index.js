@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: {
       IObservable,
@@ -54,4 +54,4 @@ function subscribeIterator(observations, name) {
   }
 }
 
-exportExtension(module, IObservable, subscribeIterator);
+ExportExtension(module, IObservable, subscribeIterator);

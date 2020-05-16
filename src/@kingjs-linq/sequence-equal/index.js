@@ -1,12 +1,12 @@
 var { 
   '@kingjs': {
-    linq: { defaultEqual },
-    reflect: { exportExtension },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-linq': { defaultEqual },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns true if two sequences contain the same 
@@ -17,23 +17,23 @@ var {
  */
 function sequenceEqual(other, equals) {
   if (equals === undefined)
-    equals = defaultEqual;
+    equals = defaultEqual
   
-  var lhs = this[GetEnumerator]();  
-  var rhs = other[GetEnumerator]();  
+  var lhs = this[GetEnumerator]()  
+  var rhs = other[GetEnumerator]()  
   
   while (lhs[MoveNext]()) {
     if (rhs[MoveNext]() == false)
-      return false;
+      return false
     
-    var lhsValue = lhs[Current];
-    var rhsValue = rhs[Current];
+    var lhsValue = lhs[Current]
+    var rhsValue = rhs[Current]
     
     if (!equals(lhsValue, rhsValue))
-      return false;
+      return false
   }
   
-  return rhs[MoveNext]() == false;
+  return rhs[MoveNext]() == false
 }
 
-exportExtension(module, IEnumerable, sequenceEqual);
+module[ExportExtension](IEnumerable, sequenceEqual)

@@ -1,11 +1,11 @@
 var { 
   '@kingjs': {
-    reflect: { exportExtension },
     IEnumerable,
     IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current }
+    IEnumerator: { MoveNext, Current },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * 
@@ -18,14 +18,14 @@ function elementAtOrDefault(index) {
   if (index < 0)
     throw "elementAt: index < 0"
 
-    var enumerator = this[GetEnumerator]();
+    var enumerator = this[GetEnumerator]()
   
-  var current = 0;
+  var current = 0
 
   while (enumerator[MoveNext]()) {
     if (current++ == index)
-    return enumerator[Current];
+    return enumerator[Current]
   }
-};
+}
 
-exportExtension(module, IEnumerable, elementAtOrDefault);
+module[ExportExtension](IEnumerable, elementAtOrDefault)

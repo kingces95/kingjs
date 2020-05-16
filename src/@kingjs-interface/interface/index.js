@@ -28,9 +28,6 @@ class Interface {
     throw ActivationError
   }
 
-  // static extend(iface, symbol, extension) {
-  // }
-
   /**
    * @description Test if `instance` implements `iface`.
    * 
@@ -51,6 +48,12 @@ class Interface {
     var Tag = iface[Id]
     if (!Tag)
       iface[Id] = Tag = Symbol(`implements ${iface.name}`)
+
+    // box primities string & number
+    if (typeof instance == 'string')
+      instance = String.prototype
+    if (typeof instance == 'number')
+      instance = Number.prototype
 
     // test if instance implements interface
     if (Tag in instance)

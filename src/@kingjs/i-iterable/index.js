@@ -1,12 +1,12 @@
 var {
-  '@kingjs-module': { ExportInterface }
+  '@kingjs-interface': { Export }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `IIterable` has one member `getIterator`.
  */
-module[ExportInterface]({
+module[Export]({
   members: {
-    GetIterator: Symbol.iterator
+    getIterator: Symbol.iterator
   }
 })

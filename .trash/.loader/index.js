@@ -63,22 +63,22 @@ loader.defineChildren({
         func: function(indexable) { this.indexable_ = indexable },
         fields: {
           index_: -1,
-          current_: undefined,
+          current: undefined,
           indexable_: { readOnly: true },
         },
         accessors: {
-          current: 'this.current_'
+          current: 'this.current'
         },
         methods: {
           moveNext: function() {
             var indexable = this.indexable_;
             var index = this.index_ + 1;
             if (index == indexable.length) {
-              this.current_ = undefined;
+              this.current = undefined;
               return false;
             }
       
-            this.current_ = indexable[index];
+            this.current = indexable[index];
             this.index_ = index;
             return true;
           }

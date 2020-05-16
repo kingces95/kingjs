@@ -3,7 +3,8 @@ var {
     '-reflect': { defineClass },
     '-array': { GroupBy, Distinct },
     '-pojo': { ToPairs },
-    '-interface': { Interface, Entries }
+    '-interface': { Interface, Entries },
+    '-string': { Capitalize }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -51,7 +52,7 @@ function define(name, descriptor) {
       symbols = symbols[0]
 
     // assign member a symbol!
-    iface[key] = symbols
+    iface[key[Capitalize]()] = symbols
   }
 
   return iface

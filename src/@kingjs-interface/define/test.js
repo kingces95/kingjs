@@ -16,14 +16,14 @@ var XBar = Symbol('xBar')
 //      IB
 
 var IB = define("IB", { 
-  members: { Foo: BFoo }
+  members: { foo: BFoo }
 });
 var IX = define("IX", { 
-  members: { Bar: XBar },
+  members: { bar: XBar },
   bases: [ IB ] 
 })
 var IY = define("IY", { 
-  members: { Foo: YFoo },
+  members: { foo: YFoo },
   bases: [ IB ] 
 })
 var IA = define("IA", {

@@ -1,14 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
-    linq: {
-      Except
-    },
     IEnumerable,
+    '-interface': { ExportExtension },
+    '-linq': { Except },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence composed of the 
@@ -17,7 +13,7 @@ var {
  * @param {*} selectId 
  */
 function distinct(selectId) {
-  return this[Except](undefined, selectId);
-};
+  return this[Except](undefined, selectId)
+}
 
-exportExtension(module, IEnumerable, distinct);
+module[ExportExtension](IEnumerable, distinct)

@@ -10,10 +10,10 @@ var {
       SelectMany,
       GroupBy,
     },
-    linq: { 
+    '-linq': { 
       ZipJoin, 
     },
-    reflect: { exportExtension },
+    '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -68,4 +68,4 @@ class DirSubject extends PathSubject {
   }
 }
 
-exportExtension(module, PathSubject, dirEntries)
+ExportExtension(module, PathSubject, dirEntries)

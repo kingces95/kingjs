@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: { 
       SubscribeIterator, 
@@ -26,4 +26,4 @@ function subscribeProperties(observations, descriptor) {
     this[SubscribeIterator](descriptor[name], observations, name);
 }
 
-exportExtension(module, IObservable, subscribeProperties);
+ExportExtension(module, IObservable, subscribeProperties);

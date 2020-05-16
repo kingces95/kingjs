@@ -7,7 +7,7 @@ var {
       IObserver: { Next, Complete, Error }
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -50,4 +50,4 @@ function rollingSelect(
   })
 }
 
-exportExtension(module, IObservable, rollingSelect);
+ExportExtension(module, IObservable, rollingSelect);

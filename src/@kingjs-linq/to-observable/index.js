@@ -1,12 +1,12 @@
 var { 
   '@kingjs': {
-    reflect: { exportExtension },    
-    rx: { create },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
+    '-rx': { create },
+    '-interface': { ExportExtension },    
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Returns a cold IObservable of an IEnumerable published
@@ -20,20 +20,20 @@ var {
  * @returns Returns a cold IObservable.
  */
 function toObservable(interval) {
-  var enumerable = this;
+  var enumerable = this
 
   return create(interval, function(next) {
-    var enumerator = this.enumerator;
+    var enumerator = this.enumerator
 
     if (!enumerator)
-      enumerator = this.enumerator = enumerable[GetEnumerator]();
+      enumerator = this.enumerator = enumerable[GetEnumerator]()
 
     if (!enumerator[MoveNext]())
-      return false;
+      return false
 
-    next(enumerator[Current]);
-    return true;
-  });
+    next(enumerator[Current])
+    return true
+  })
 }
 
-exportExtension(module, IEnumerable, toObservable);
+module[ExportExtension](IEnumerable, toObservable)

@@ -1,12 +1,10 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      exportExtension
-    },
     IEnumerable,
     IOrderedEnumerable: { CreateOrderedEnumerable },
+    '-interface': { ExportExtension },
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generates a sequence of elements from a sorted 
@@ -17,7 +15,7 @@ var {
  * @param {*} lessThan 
  */
 function thenBy(keySelector, lessThan) {
-  return this[CreateOrderedEnumerable](keySelector, lessThan, false);
+  return this[CreateOrderedEnumerable](keySelector, lessThan, false)
 }
 
-exportExtension(module, IEnumerable, thenBy);
+module[ExportExtension](IEnumerable, thenBy)

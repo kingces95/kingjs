@@ -11,7 +11,7 @@ var {
       IPublishedObservable: { Value },
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -110,4 +110,4 @@ function windowBy(
   return result
 }
 
-exportExtension(module, IObservable, windowBy);
+ExportExtension(module, IObservable, windowBy);

@@ -1,9 +1,11 @@
-//require('kingjs')
 var { assert,
   '@kingjs': {
     '-linq': { Aggregate },
+    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+Array[ImplementIEnumerable]()
 
 var sequence = [2, 3, 4]
 

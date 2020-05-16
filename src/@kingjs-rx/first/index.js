@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     reflect: { 
-      exportExtension
+      ExportExtension
     },
     rx: {
       IObservable,
@@ -40,4 +40,4 @@ function first(predicate = DefaultPredicate) {
   });
 }
 
-exportExtension(module, IObservable, first);
+ExportExtension(module, IObservable, first);

@@ -1,10 +1,8 @@
 var { 
   '@kingjs': {
-    reflect: { 
-      implementIEnumerable,
-    }
+    Enumerable
   }
-} = module[require('@kingjs-module/dependencies')]();
+} = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Generate a range of numbers.
@@ -14,20 +12,20 @@ var {
  */
 function range(start, count) {
   
-  return implementIEnumerable({ }, 
+  return new Enumerable( 
     function createMoveNext() {
       return function moveNext() {
         
         if (count-- <= 0) {
-          this.current_ = undefined;
-          return false;
+          this.current = undefined
+          return false
         }
         
-        this.current_ = start++;
-        return true;
+        this.current = start++
+        return true
       }
     }
-  );
-};
+  )
+}
 
-module.exports = range;
+module.exports = range

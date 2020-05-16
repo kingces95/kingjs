@@ -5,7 +5,7 @@ var {
       IObservable
     },
     reflect: { 
-      exportExtension
+      ExportExtension
     },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -24,4 +24,4 @@ function rethrow(callback) {
   return this[Spy](null, null, callback);
 }
 
-exportExtension(module, IObservable, rethrow);
+ExportExtension(module, IObservable, rethrow);
