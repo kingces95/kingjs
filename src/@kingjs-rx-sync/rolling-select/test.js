@@ -1,0 +1,26 @@
+var {
+  '@kingjs': {
+    '-rx': {
+      '-static': { of, throws, never },
+      '-sync': { RollingSelect, Then, SubscribeAndAssert }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
+
+of(0, 1, 2, 3, 4)
+  [RollingSelect]()
+  [SubscribeAndAssert]([[0], [1], [2], [3], [4]])
+
+of(0, 1, 2, 3, 4)
+  [RollingSelect](o => o.join(), 2)
+  [SubscribeAndAssert](['0', '1,0', '2,1', '3,2', '4,3'])
+
+throws('error')
+  [RollingSelect]()
+  [SubscribeAndAssert](null, { error: 'error' })
+
+var cancel = of()
+  [RollingSelect]()
+  [Then](never())
+  [SubscribeAndAssert](null, { unfinished: true })
+cancel()

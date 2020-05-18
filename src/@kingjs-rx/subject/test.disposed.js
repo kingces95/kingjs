@@ -1,7 +1,10 @@
-var assert = require('assert')
-var Subject = require('..')
-var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Complete, Error } = require('@kingjs/rx.i-observer')
+var { assert,
+  '@kingjs': { 
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { Subject },
+  },
+} = module[require('@kingjs-module/dependencies')]()
 
 var subject = new Subject()
 subject[Complete]()
@@ -16,16 +19,12 @@ assert(result)
 
 var E = 'E'
 var subject = new Subject()
-subject[Subscribe](null, null, e => null)
-subject[Error](E)
-
-var result
 subject[Subscribe](
-  assert.fail,
-  assert.fail,
-  e => result = e,
+  assert.fail, 
+  assert.fail, 
+  e => assert.equal(e, E)
 )
-assert(result == E)
+subject[Error](E)
 
 var result = []
 var subject = new Subject(null, 

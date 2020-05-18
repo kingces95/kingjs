@@ -1,14 +1,17 @@
-var assert = require('assert')
-var Subject = require('..')
-var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Next, Complete } = require('@kingjs/rx.i-observer')
+var { assert,
+  '@kingjs': { 
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete },
+    '-rx': { Subject },
+  },
+} = module[require('@kingjs-module/dependencies')]()
 
 var i = 0
 var complete = false
 
-new Subject((observer) => {
-  observer[Next](i++)
-  observer[Complete]()
+new Subject((self) => {
+  self[Next](i++)
+  self[Complete]()
 })[Subscribe](
   o => assert(o == 0),
   () => complete = true

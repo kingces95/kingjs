@@ -18,7 +18,7 @@ var {
 function toArray() {
   return new Promise((resolve, reject) => {
     var result = []
-    var dispose = this[Subscribe](
+    this[Subscribe](
       o => result.push(o), 
       () => resolve(result), 
       reject

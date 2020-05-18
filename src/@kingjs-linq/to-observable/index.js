@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-rx': { create },
+    '-rx-static': { create },
     '-interface': { ExportExtension },    
   }
 } = module[require('@kingjs-module/dependencies')]()
