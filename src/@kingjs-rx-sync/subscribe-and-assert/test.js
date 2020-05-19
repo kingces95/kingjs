@@ -1,6 +1,8 @@
 var {
   '@kingjs': {
-    '-rx': { from, SubscribeAndAssert },
+    '-rx-sync': { SubscribeAndAssert,
+      '-static': { from }
+    },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

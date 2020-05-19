@@ -2,8 +2,10 @@ var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
     '-rx': { 
-      '-sync': { SubscribeAndAssert, Select, Then }, 
-      '-static': { of, timer, throws }
+      '-static': { timer },
+      '-sync': { SubscribeAndAssert, Select, Then, 
+        '-static': { of, throws }
+      }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()

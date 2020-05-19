@@ -1,44 +1,49 @@
 var { assert,
   '@kingjs': {
-    IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    '-rx': { 
-      '-sync': { SubscribeAndAssert }, 
+    '-promise': { sleep },
+    '-rx': { SubscribeAndAssert, 
       '-static': { create }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-// minimalist
-var empty = create(() => undefined)
-empty[SubscribeAndAssert](null, { unfinished: true })
+process.nextTick(async () => {
 
-// subscribed
-var subscribed = false
-var never = create(() => { subscribed = true })
-never[SubscribeAndAssert](null, { unfinished: true })
-assert.ok(subscribed)
+  // minimalist
+  var empty = create(function*() { })
+  await empty[SubscribeAndAssert](null, { unfinished: true })
 
-// cancel
-var canceled = false
-var resource = create(() => () => canceled = true)
-var cancel = resource[SubscribeAndAssert](null, { unfinished: true })
-assert.ok(!canceled)
-cancel()
-assert.ok(canceled)
+  // subscribed
+  var subscribed = false
+  var noop = create(function*() { subscribed = true })
+  var cancel = await noop[SubscribeAndAssert](null, { unfinished: true })
+  await sleep()
+  assert.ok(subscribed)
+  cancel()
 
-// empty
-var empty = create(o => { o[Complete]() })
-empty[SubscribeAndAssert]()
+  // cancel
+  var never = create(function*(o) { while(true) { o[Next](0); yield } })
+  var cancel = await never[SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+  await sleep()
 
-// zero
-var zero = create(o => { o[Next](0); o[Complete]() })
-zero[SubscribeAndAssert]([0])
+  // once
+  var once = create(function*(o) { while(true) { o[Next](0); yield } })
+  var cancel = await once[SubscribeAndAssert]([0], { unfinished: true })
+  cancel()
+  await sleep()
 
-// throws
-var throws = create(o => { o[Error]('error') })
-throws[SubscribeAndAssert](null, { error: 'error' })
+  // empty
+  var empty = create(function*(o) { o[Complete]() })
+  await empty[SubscribeAndAssert]()
 
-// bad implementation
-var bad = create(o => { throw 'error' })
-assert.throws(() => bad[Subscribe]())
+  // zero
+  var zero = create(function*(o) { o[Next](0); o[Complete]() })
+  await zero[SubscribeAndAssert]([0])
+
+  // throws
+  var throws = create(function*(o) { o[Error]('error') })
+  var error = await throws[SubscribeAndAssert](null, { error: 'error' })
+  assert.equal('error', error)
+})

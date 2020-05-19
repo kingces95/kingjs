@@ -10,6 +10,6 @@ process.on('uncaughtException', function(err) {
   console.log('Caught exception:', err)
 })
 
-new create((observer) => {
+new create(function*(observer) {
   observer[Error]('unhandled error')
 })[Subscribe]()

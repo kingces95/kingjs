@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
-    '-rx': { timer },
+    '-rx-static': { timer },
   },
 } = module[require('@kingjs-module/dependencies')]()
 

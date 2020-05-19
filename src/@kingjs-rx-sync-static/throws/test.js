@@ -2,8 +2,7 @@ var {
   '@kingjs': {
     IObserver: { Error },
     IObservable: { Subscribe },
-    '-rx': {
-      '-sync': { SubscribeAndAssert }, 
+    '-rx-sync': { SubscribeAndAssert, 
       '-static': { throws }
     },
   }

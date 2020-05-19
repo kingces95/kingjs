@@ -3,7 +3,7 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    '-rx-static': { create },
+    '-rx-sync-static': { create },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()

@@ -1,8 +1,10 @@
 var {
   '@kingjs': {
     '-rx': { 
-      '-sync': { Then, SubscribeAndAssert}, 
-      '-static': { of, timer, throws },
+      '-static': { timer },
+      '-sync': { Then, SubscribeAndAssert, 
+        '-static': { of, throws },
+      }
     }
   },
 } = module[require('@kingjs-module/dependencies')]()

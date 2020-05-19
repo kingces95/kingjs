@@ -1,6 +1,6 @@
 var { 
   '@kingjs': { IObserver: { Error },
-    '-rx-static': { create },
+    '-rx-sync-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

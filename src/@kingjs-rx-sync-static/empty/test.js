@@ -1,7 +1,6 @@
 var {
   '@kingjs': {
-    '-rx': { 
-      '-sync': { SubscribeAndAssert }, 
+    '-rx-sync': { SubscribeAndAssert, 
       '-static': { empty }
     },
   }

@@ -12,9 +12,9 @@ var Count = Number.MAX_VALUE
 
 /**
  * @description Emit `Date.now()` endlessly at a specified interval.
- * @param {*} [tickMs] Milliseconds between emssions. 
- * @param {*} [options] Options are `pollMs` (default 100) to control cacellation 
- * notification polling and `count` to limit number of emissions (default inifinity). 
+ * @param {*} [tickMs] Milliseconds between observations. 
+ * @param {*} [options] Options are `pollMs` (default 100) to control cancellation 
+ * notification polling and `count` to limit number of emissions (default infinity). 
  * @returns A cancellation function.
  */
 function clock(tickMs = TickMs, options) {
@@ -32,14 +32,14 @@ function clock(tickMs = TickMs, options) {
     process.nextTick(async () => {
       while(true) {
         if (canceled || !count)
-          break 
+          break
 
         var now = Date.now()
         if (now - start < tickMs) {
           await sleep(sleepMs)
           continue
         }
-        
+
         observer[Next](now)
         start = now
         count--

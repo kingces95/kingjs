@@ -1,4 +1,4 @@
-var { assert,
+var {
   '@kingjs': {
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
@@ -6,38 +6,17 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-class DataSource {
-  constructor() {
-    let i = 0
-    this.id = setInterval(() => this.emit(i++), 200)
-  }
-  
-  emit(n) {
-    const limit = 10
-    if (this.onData) {
-      this.onData(n)
-    }
-    if (n === limit) {
-      if (this.oncomplete) {
-        this.onComplete()
-      }
-      this.destroy()
-    }
-  }
-  
-  destroy() {
-    console.log('destroy')
-    clearInterval(this.id)
-  }
-}
+var Delay = 200
+var Count = 10
+var Timeout = Delay * Count - (Delay * 3)
 
-var myObservable = create((observer) => {
-  const dataSource = new DataSource()
-  dataSource.onData = (e) => observer[Next](e)
-  dataSource.onError = (err) => observer[Error](err)
-  dataSource.onComplete = () => observer[Complete]()
+var myObservable = create(function*(observer) {
+  for (var i = 0; i < Count; i++) {
+    observer[Next](i)
+    yield Delay
+  }
 
-  return dataSource.destroy.bind(dataSource)
+  observer[Complete]()
 })
 
 var dispose = myObservable[Subscribe]({
@@ -49,4 +28,4 @@ var dispose = myObservable[Subscribe]({
 setTimeout(() => {
   console.log('timeout')
   dispose()
-}, 1000)
+}, Timeout)

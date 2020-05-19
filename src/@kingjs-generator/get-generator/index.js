@@ -7,11 +7,8 @@ var {
 
 /**
  * @description Returns a `generator` given an `iterable`.
- * 
  * @param value The `generator` or `iterable` to get an `iterator` from.
- * 
  * @returns Returns an `iterator`.
- * 
  * @remarks Returns a `generator` if passed a `generator`.
  */
 function getGenerator(value) {
@@ -21,10 +18,8 @@ function getGenerator(value) {
     return value
 
   // arrays, maps, etc...
-  if (Symbol.iterator in value)
-    return value[Symbol.iterator].bind(value)
-
-  assert.fail()
+  assert.ok(Symbol.iterator in value)
+  return value[Symbol.iterator].bind(value)
 }
 
 module.exports = getGenerator

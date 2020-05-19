@@ -1,6 +1,6 @@
 var { 
   '@kingjs': {
-    '-rx-static': { from },
+    '-rx-sync-static': { from },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
