@@ -20,13 +20,13 @@ var Noop = () => undefined
  * @remarks Defaults are provided for missing `Next`, `Complete`, 
  * and/or `Error` handlers.
  */
-function create(subscribe) {
+function create(subscribe, options) {
   assert(subscribe)
 
   return {
     [Subscribe]() {
       var observer = createObserver(...arguments)
-      var checkedObserver = observer[Checked]()
+      var checkedObserver = observer[Checked](options)
       return subscribe(checkedObserver) || Noop
     }
   }

@@ -1,17 +1,25 @@
-require('@kingjs/shim')
-var assert = require('assert')
-var from = require('@kingjs/rx.from')
-var timer = require('@kingjs/rx.timer')
-var Then = require('@kingjs/rx.then')
-var ToArray = require('..')
+var { assert,
+  '@kingjs': {
+    '-rx': { ToArray, Take,
+      '-static': { clock, empty, throws }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
-var value = [0, 1, 2]
-
-async function run() {
-  var promise = await timer()
-    [Then](from(value))
+process.nextTick(async () => {
+  var result = await clock()
+    [Take](3)
     [ToArray]()
+  assert.deepEqual([0, 1, 2], result)
 
-  assert.deepEqual(value, await promise)
-}
-run()
+  var result = await empty()
+    [ToArray]()
+  assert.deepEqual([], result)
+
+  try {
+    await throws('error')
+      [ToArray]()
+  } catch(e) {
+    assert.equal(e, 'error')
+  }
+})

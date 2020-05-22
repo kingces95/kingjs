@@ -10,8 +10,8 @@ var Zero = () => 0
  * @param iterable The iterable.
  * @returns Returns `IObservable` that emits elements in the iterable.
  * 
- * @remarks As all values are emitted synchronously, this is primarily
- * a tool for testing stateless transforms and filters.
+ * @remarks As all values are emitted asynchronously; Between each emission
+ * control is passed to `setTimeout()`.
  */
 function from(iterable, delay = Zero) {
   return create(function*(observer) {

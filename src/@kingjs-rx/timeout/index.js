@@ -1,15 +1,15 @@
 var {
   '@kingjs': {
     IObservable,
-    IObservable: { Subscribe },
-    IObserver: { Next },
     '-interface': { ExportExtension },
-    '-rx-sync-static': { create },
+    '-rx': { Blend, 
+      '-static': { timer },
+      '-sync': { Then,
+        '-static': { throws },
+      }
+    }
   },
 } = module[require('@kingjs-module/dependencies')]()
-
-function *Empty() { }
-var ToKeyValue = (key, value)  => ({ key, value })
 
 /**
  * @description Zip observations with values pulled from a generator.
@@ -27,23 +27,11 @@ var ToKeyValue = (key, value)  => ({ key, value })
  * @remarks - When `iterable` is exhausted the `IObservable` will ignore 
  * additional observations except for `complete` (and `error`).
  */
-function zip(iterable = Empty, callback = ToKeyValue) {
-  return create(observer => {
-    var iterator
-    return this[Subscribe]({
-      ...observer,
-      [Next](o) {
-        if (!iterator)
-          iterator = iterable()
-
-        var { done, value } = iterator.next()
-        if (done) 
-          return
-
-        observer[Next](callback(o, value))
-      },
-    })
-  })
+function timeout(ms, error, options) {
+  return this[Blend](
+    timer(ms, options)
+      [Then](throws(error))
+  )
 }
 
-module[ExportExtension](IObservable, zip)
+module[ExportExtension](IObservable, timeout)

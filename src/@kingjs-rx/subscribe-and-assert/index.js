@@ -15,7 +15,7 @@ function subscribeAndAssert(expectedNext, options = { }) {
   if (!expectedNext)
     expectedNext = [ ]
 
-  var { error, unfinished } = options
+  var { error, unfinished, delay = 0 } = options
   var finished = false
 
   var promise = new Promise(accept => {
@@ -30,8 +30,12 @@ function subscribeAndAssert(expectedNext, options = { }) {
       }
     }
 
+    var start = Date.now()
     var cancel = this[Subscribe]({
       [Next](actualNext) {
+        assert.ok(Date.now() - start >= delay)
+        start = Date.now()
+
         assert.ok(!finished)
         assert.deepEqual(actualNext, expectedNext.shift())
         acceptUnfinished()
@@ -42,7 +46,7 @@ function subscribeAndAssert(expectedNext, options = { }) {
         assert.ok(error === undefined)
         finished = true
         accept()
-      }, 
+      },
       [Error](actualError) {
         assert.ok(!unfinished)
         assert.ok(!finished)

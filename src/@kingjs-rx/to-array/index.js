@@ -2,28 +2,26 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
- * @description Returns a promise that resolves with an array containing
- * emitted values before `complete` or rejects on `error`.
- * 
+ * @description Asynchronously return an array of emissions.
  * @this any The source `IObservable` whose emission are captured.
- * 
  * @returns Returns a promise that that resolves with the value of
  * the `next` emissions before `complete` and rejects on `error`.
  */
 function toArray() {
   return new Promise((resolve, reject) => {
     var result = []
-    this[Subscribe](
-      o => result.push(o), 
-      () => resolve(result), 
-      reject
-    )
+    this[Subscribe]({
+      [Next](o) { result.push(o) }, 
+      [Complete]() { resolve(result) }, 
+      [Error](e) { reject(e) }
+    })
   })
 }
 
-ExportExtension(module, IObservable, toArray)
+module[ExportExtension](IObservable, toArray)

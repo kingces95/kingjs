@@ -48,4 +48,4 @@ function subscribeIterator(observations, name) {
   }
 }
 
-ExportExtension(module, IObservable, subscribeIterator)
+module[ExportExtension](IObservable, subscribeIterator)

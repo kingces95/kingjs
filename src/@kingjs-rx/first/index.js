@@ -9,13 +9,9 @@ var {
 var DefaultPredicate = () => true
 
 /**
- * @description Returns a promise that resolves with the value of
- * the next `next` emission or `complete` and rejects on `error`.
- * 
+ * @description Asynchronously return the first emission.
  * @this any The source `IObservable` whose emission resolves the promise.
- * 
  * @param predicate Ignore emissions that do no satisfy this predicate. 
- * 
  * @returns Returns a promise that that resolves with the value of
  * the next `next` emission or `complete` and rejects on `error`.
  * 
@@ -24,16 +20,14 @@ var DefaultPredicate = () => true
  */
 function first(predicate = DefaultPredicate) {
   return new Promise((resolve, reject) => {
-    var resolved
     var dispose = this[Subscribe](o => {
-      if (resolved)
-        return
       if (!predicate(o))
         return
+
       process.nextTick(dispose)
       resolve(o)
     }, resolve, reject)
   })
 }
 
-ExportExtension(module, IObservable, first)
+module[ExportExtension](IObservable, first)

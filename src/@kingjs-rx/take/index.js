@@ -1,9 +1,7 @@
-var { 
+var {
   '@kingjs': {
     IObservable,
-    IObservable: { Subscribe },
-    IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': { Zip },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -15,19 +13,10 @@ var {
  * observations.
  */
 function take(count) {
-  return create(observer => {
-    var taken = 0
-    return this[Subscribe]({
-      ...observer,
-      [Next](o) {
-        if (taken == count)
-          return
-
-          taken++
-        observer[Next](o)
-      }
-    })
-  })
+  return this[Zip](function*() {
+    for (i = 0; i < count; i++)
+      yield
+  }, (observation, value) => observation)
 }
 
 module[ExportExtension](IObservable, take)

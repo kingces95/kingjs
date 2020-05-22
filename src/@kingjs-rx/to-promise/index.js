@@ -2,29 +2,35 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
     '-interface': { ExportExtension },
+    '-rx-observer': { Checked }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
- * @description Returns a promise that resolves with the value of
- * the next `next` emission or `complete` and rejects on `error`.
- * 
+ * @description Asynchronously return the next emission.
  * @this any The source `IObservable` whose emission resolves the promise.
- * 
  * @returns Returns a promise that that resolves with the value of
- * the next `next` emission or `complete` and rejects on `error`.
+ * the next `next` emission or `undefined` if `complete` and rejects on `error`.
  * 
  * @remarks The subscription used by the promise to resolve upon
  * a `next` emission also schedules a disposal of the subscription.
  */
 function toPromise() {
   return new Promise((resolve, reject) => {
-    var dispose = this[Subscribe](o => {
-      process.nextTick(dispose)
-      resolve(o)
-    }, resolve, reject)
+    var cancel = this[Subscribe]({
+        [Next](o) {
+          resolve(o)
+          cancel()
+        }, 
+        [Complete]: resolve,
+        [Error]: reject
+      }[Checked]({ 
+        assertAsync: true 
+      })
+    )
   })
 }
 
-ExportExtension(module, IObservable, toPromise)
+module[ExportExtension](IObservable, toPromise)

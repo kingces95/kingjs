@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-rx/subscribe-and-assert",
+  "name": "@kingjs/rx.first",
   "version": "1.0.0",
-  "description": "Returns a promise that resolves with an array containing emitted values before `complete` or rejects on `error`.",
+  "description": "Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/to-array"
+    "url": "https://repository.kingjs.net/rx/first"
   },
   "keywords": [],
   "license": "MIT",

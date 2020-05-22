@@ -1,16 +1,13 @@
 var { 
-  assert,
   '@kingjs': {
     IObserver: { Next, Complete, Error },
-    '-rx': { create },
+    '-rx-sync-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Create an `IObservable` from an async generator.
- * 
  * @param generator The generator whose values are to be emitted.
- * 
  * @returns Returns `IObservable` that emits elements returned by an async generator.
  */
 function fromAsync(generator) {
@@ -21,10 +18,11 @@ function fromAsync(generator) {
       try {
         for await (var o of generator()) {
           if (stop)
-            break
+            return
+            
           observer[Next](o)
         }
-          
+
         if (stop)
           return
 

@@ -1,15 +1,21 @@
-require('@kingjs/shim')
-var assert = require('assert')
-var of = require('@kingjs/rx.of')
-var timer = require('@kingjs/rx.timer')
-var Then = require('@kingjs/rx.then')
-var ToPromise = require('..')
+var { assert,
+  '@kingjs': {
+    '-rx': { ToPromise,
+      '-static': { clock, throws, empty }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
-async function run() {
-  var value = await timer()
-    [Then](of(0))
-    [ToPromise]()
-
+process.nextTick(async () => {
+  var value = await clock()[ToPromise]()
   assert(value == 0)
-}
-run()
+
+  var value = await empty()[ToPromise]()
+  assert(value === undefined)
+  
+  try { 
+    await throws('error')[ToPromise]()
+  } catch(e) { 
+    assert.equal(e, 'error')
+  }
+})

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.to-array",
+  "name": "@kingjs-rx-sync/subscribe-and-assert",
   "version": "1.0.0",
   "description": "Returns a promise that resolves with an array containing emitted values before `complete` or rejects on `error`.",
   "main": "index.js",

@@ -2,6 +2,7 @@ var { assert,
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -17,20 +18,20 @@ function subscribeAndAssert(expectedNext, options = {}) {
   var { error, unfinished } = options
   var finished = false
 
-  var cancel = this[Subscribe](
-    actualNext => {
+  var cancel = this[Subscribe]({
+    [Next](actualNext) {
       assert.deepEqual(actualNext, expectedNext.shift())
     }, 
-    () => {
+    [Complete]() {
       assert.ok(error === undefined)
       finished = true
     }, 
-    actualError => {
+    [Error](actualError) {
       assert.ok(error !== undefined)
       assert.equal(actualError, error)
       finished = true
     }
-  )
+  })
 
   assert.equal(expectedNext.length, 0)
   assert.equal(!unfinished, finished)

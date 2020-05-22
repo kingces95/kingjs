@@ -41,3 +41,7 @@ throws[SubscribeAndAssert](null, { error: 'error' })
 // bad implementation
 var bad = create(o => { throw 'error' })
 assert.throws(() => bad[Subscribe]())
+
+// sync
+var sync = create(o => { o[Complete]() }, { assertAsync: true })
+assert.throws(() => sync[Subscribe]())

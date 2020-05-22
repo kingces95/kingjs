@@ -27,7 +27,7 @@ class SelectManySubject extends Subject {
 }
 
 /**
- * @description Returns an `IObservable` emits the elements selected
+ * @description Returns an `IObservable` that emits the elements selected
  * from the many `IObservable`s returned by callback optionally further
  * selecting each resulting element.
  * 
@@ -36,7 +36,7 @@ class SelectManySubject extends Subject {
  * 
  * @param [selector] Selects many elements from each emitted element of the
  * source `IObservable`.
- * @param [resultSelector] Selects each resultiIdentity.
+ * @param [resultSelector] Selects each result.
  * 
  * @callback selector
  * @param value The value from which many values are to be selected.
@@ -124,4 +124,4 @@ function selectMany(
   )
 }
 
-ExportExtension(module, IObservable, selectMany)
+module[ExportExtension](IObservable, selectMany)

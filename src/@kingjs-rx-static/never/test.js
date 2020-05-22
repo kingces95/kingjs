@@ -1,15 +1,15 @@
 var {
   '@kingjs': {
-    '-rx': { 
+    '-promise': { sleep },
+    '-rx': { SubscribeAndAssert,
       '-static': { never },
-      '-sync': { SubscribeAndAssert }, 
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var cancel = never()
-  [SubscribeAndAssert](null, { unfinished: true })
-
-setTimeout(() => {
+process.nextTick(async () => {
+  var cancel = await never()
+    [SubscribeAndAssert](null, { unfinished: true })
+  await sleep(500)
   cancel()
-}, 500)
+})

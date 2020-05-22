@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-rx/to-array",
+  "name": "@kingjs/rx.from",
   "version": "1.0.0",
-  "description": "Returns a promise that resolves with an array containing emitted values before `complete` or rejects on `error`.",
+  "description": "Create an `IObservable` from a generator or  implementor of the iterator protocol.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/to-array"
+    "url": "https://repository.kingjs.net/rx/from"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.i-observable": "latest"
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/i-enumerator": "latest",
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"
-  ],
-  "capitalize": true
+  ]
 }

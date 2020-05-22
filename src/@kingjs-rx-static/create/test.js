@@ -10,6 +10,19 @@ var { assert,
 
 process.nextTick(async () => {
 
+  // next
+  var once = create(function*(o) { o[Next](0); o[Complete]() })
+  await once[SubscribeAndAssert]([0])
+
+  // complete
+  var empty = create(function*(o) { o[Complete]() })
+  await empty[SubscribeAndAssert]()
+
+  // error
+  var throws = create(function*(o) { o[Error]('error') })
+  var error = await throws[SubscribeAndAssert](null, { error: 'error' })
+  assert.equal('error', error)
+
   // minimalist
   var empty = create(function*() { })
   await empty[SubscribeAndAssert](null, { unfinished: true })
@@ -22,28 +35,13 @@ process.nextTick(async () => {
   assert.ok(subscribed)
   cancel()
 
-  // cancel
-  var never = create(function*(o) { while(true) { o[Next](0); yield } })
+  // do not hang if asked to sleep forever; test cancel polling
+  var never = create(function*() { yield Number.MAX_VALUE })
   var cancel = await never[SubscribeAndAssert](null, { unfinished: true })
   cancel()
-  await sleep()
 
-  // once
-  var once = create(function*(o) { while(true) { o[Next](0); yield } })
-  var cancel = await once[SubscribeAndAssert]([0], { unfinished: true })
+  // do not synchronously emit if asked to sleep for 0ms; always yield between emits
+  var zeroForever = create(function*(o) { while(true) { o[Next](0); yield } })
+  var cancel = await zeroForever[SubscribeAndAssert]([0], { unfinished: true })
   cancel()
-  await sleep()
-
-  // empty
-  var empty = create(function*(o) { o[Complete]() })
-  await empty[SubscribeAndAssert]()
-
-  // zero
-  var zero = create(function*(o) { o[Next](0); o[Complete]() })
-  await zero[SubscribeAndAssert]([0])
-
-  // throws
-  var throws = create(function*(o) { o[Error]('error') })
-  var error = await throws[SubscribeAndAssert](null, { error: 'error' })
-  assert.equal('error', error)
 })
