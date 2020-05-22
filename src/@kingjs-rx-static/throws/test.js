@@ -1,16 +1,19 @@
 var { 
   '@kingjs': {
-    IObserver: { Error },
-    IObservable: { Subscribe },
-    '-rx-sync': { SubscribeAndAssert, 
+    '-rx': { SubscribeAndAssert, 
       '-static': { throws }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-throws()
-  [SubscribeAndAssert]([], { error: null })
+process.nextTick(async () => {
+  await throws('error')
+    [SubscribeAndAssert]([], { error: 'error' })
 
-var nada = throws()
-var cancel = nada[Subscribe]({ [Error]: o => null })
-cancel()
+  await throws()
+    [SubscribeAndAssert]([], { error: null })
+
+  var cancel = await throws()
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+})

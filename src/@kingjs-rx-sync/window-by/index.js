@@ -1,6 +1,4 @@
-var { 
-  assert,
-  deepEquals,
+var { deepEquals,
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Key },

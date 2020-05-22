@@ -3,28 +3,15 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    IPublishedObservable: { Value },
-    '-rx': { Subject, from },
+    '-rx': {
+      '-observer': { Checked },
+      '-sync-static': { create }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DefaultSelector = o => o
-var DefaultResultSelector = (o, x) => x
-var DefaultIsSingleton = o => false
-
-class SelectManySubject extends Subject {
-  constructor(
-    activate,
-    onSubscribe) {
-
-    super(activate, onSubscribe)
-
-    this[Value] = { }
-  }
-
-  get values() { return this[Value] }
-}
+var Identity = o => o
 
 /**
  * @description Returns an `IObservable` that emits the elements selected
@@ -34,7 +21,7 @@ class SelectManySubject extends Subject {
  * @this any The source `IObservable` whose each emission will be mapped to
  * an `IObservable` or iterable.
  * 
- * @param [selector] Selects many elements from each emitted element of the
+ * @param [manySelector] Selects many elements from each emitted element of the
  * source `IObservable`.
  * @param [resultSelector] Selects each result.
  * 
@@ -50,78 +37,61 @@ class SelectManySubject extends Subject {
  * value emitted by the source `IObservable`.
  */
 function selectMany(
-  selector = DefaultSelector, 
-  resultSelector = DefaultResultSelector,
-  isSingleton = DefaultIsSingleton) {
+  manySelector = Identity, 
+  resultSelector = Identity) {
 
-  var observable = this
+  return create(observer => {
+    var count = 1
+    var innerSubscriptions = new Map()
 
-  return new SelectManySubject(
-    observer => {
-      var id = 0
-      var count = 1
-      var manyDisposes = { }
+    var checkedObserver = observer
+      [Checked]({ assertAsync: true })
 
-      var manyObservers = observer.values
-
-      var dispose = observable[Subscribe](
-        o => {
-
-          // optimization prevents wrapping singletons
-          if (isSingleton(o)) {
-            observer[Next](resultSelector(o, o))
-            return
-          }
-
-          var many = selector(o)
-
-          if (Symbol.iterator in many)
-            many = from(many)
-
-          count++
-          var manyId = id++
-          manyObservers[manyId] = many
-          manyDisposes[manyId] = many[Subscribe](
-            x => observer[Next](resultSelector(o, x)),
-            () => {
-              delete manyObservers[manyId]
-              delete manyDisposes[manyId]
-              count--
-              if (count)
-                return
-              observer[Complete]()
-            },
-            x => observer[Error](x)
-          )
-        },
-        () => {
-          count--
-          if (count)
-            return
-          observer[Complete]()
-        },
-        o => {
-          for (var key in manyObservers)
-            manyObservers[key][Error](o)
-          observer[Error](o)
-        }
-      )
-
-      return () => {
-        for (var key in manyDisposes)
-          manyDisposes[key]()
-        dispose()
-      }
-    },
-    (self, next, finished) => {
-      if (finished)
-        return
-
-      var manyObservers = self.values
-      for (var key in manyObservers)
-        next(manyObservers[key])
+    var commonObserver = {
+      ...observer,
+      [Complete]() {
+        if (--count)
+          return
+          checkedObserver[Complete]()
+      },
+      [Error](e) {
+        checkedObserver[Error](e)
+        cancel()
+      },
     }
-  )
+
+    var outerSubscription = this[Subscribe]({
+      ...commonObserver,
+      [Next](o) {
+        count++
+
+        process.nextTick(async () => {
+          var innerObservable = await manySelector(o)
+
+          var innerSubscription = innerObservable[Subscribe]({
+            ...commonObserver,
+            [Next](x) {
+              commonObserver[Next](resultSelector(x, o))
+            },
+            [Complete]() { 
+              commonObserver[Complete]()
+              innerSubscriptions.delete(innerObservable)
+            },
+          })
+
+          innerSubscriptions.set(innerObservable, innerSubscription)
+        })
+      },
+    })
+
+    var cancel = () => {
+      for (var innerSubscription of innerSubscriptions.values())
+        innerSubscription()
+      outerSubscription()
+    }
+
+    return cancel
+  })
 }
 
 module[ExportExtension](IObservable, selectMany)

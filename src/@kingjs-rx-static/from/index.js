@@ -15,8 +15,6 @@ var Zero = () => 0
  */
 function from(iterable, delay = Zero) {
   return create(function*(observer) {
-    yield delay()
- 
     for (var o of iterable) {
       observer[Next](o)
       yield delay(o)
