@@ -1,42 +1,34 @@
-require('@kingjs/shim')
-var assert = require('assert')
-var DebounceTime = require('..')
-var clock = require('@kingjs/rx.clock')
-var Zip = require('@kingjs/rx.zip')
-var { Subscribe } = require('@kingjs/rx.i-observable')
+var {
+  '@kingjs': {
+    '-rx': { Debounce, SubscribeAndAssert,
+      '-static': { clock },
+      '-async': { Take, Timeout }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
-var duration = 50
+var ms = 20
+var count = 5
 
-async function run() {
-  var result = []
+process.nextTick(async () => {
 
-  await new Promise((resolve) => {
-    clock(() => duration * 2)
-      [Zip]([0, 1], (l, r) => r)
-      [DebounceTime](duration)
-      [Subscribe](
-        o => result.push(o),
-        resolve,
-      )
-  })
+  await clock(ms)
+    [Take](count)
+    [Debounce](ms * 2)
+    [SubscribeAndAssert]([count - 1])
 
-  assert.deepEqual(result, [0, 1])
-}
-run()
+  await clock(ms)
+    [Take](count)
+    [Debounce](ms / 2)
+    [SubscribeAndAssert]([0, 1, 2, 3, 4])
 
-async function bounce() {
-  var result = []
+  await clock(ms)
+    [Timeout](ms * 3, 'error')
+    [Debounce](ms * 2)
+    [SubscribeAndAssert](null, { error: 'error' })
 
-  await new Promise((resolve) => {
-    clock(() => duration / 2)
-      [Zip]([0, 1], (l, r) => r)
-      [DebounceTime](duration)
-      [Subscribe](
-        o => result.push(o),
-        resolve,
-      )
-  })
-
-  assert.deepEqual(result, [1])
-}
-bounce()
+  var cancel = await clock(ms)
+    [Debounce](ms * 2)
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+})

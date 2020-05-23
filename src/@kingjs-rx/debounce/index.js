@@ -3,8 +3,8 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    '-rx': { create, clock },
-    '-module': { ExportExtension },
+    '-rx-sync-static': { create },
+    '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -20,82 +20,40 @@ var {
  * emissions followed by no emissions for `duration` milliseconds.
  */
 function debounce(window) {
-  var observable = this
+  var lastId = 0
+  var cancelled = false
+
+  function delay(action, id = 0) {
+    setTimeout(() => {
+      if (cancelled)
+        return
+      
+      if (id && id != lastId)
+        return
+
+      action()
+    }, window)
+  }
 
   return create(observer => {
-    var received   // time of last observation & clock running
-    var value      // last observed value
-    var completeOrError
-    var startClock
-    var timeOut
-    var getTimeOut = () => timeOut
-
-    // clock will wait for this promise to be resolved
-    // the promise is resolved when an observation is made
-    // observations reset `received` timestamp
-    // if the clock wakes up after `window` to discover `received` has advanced,
-    // then clock puts itself to sleep `received` is eligible for emission.
-    // the clock will emit a value if a window of time elapsed since the last observation
-    // and then stop itself by awaiting a new promise
-    timeOut = new Promise(o => startClock = o)
-
-    var disposeClock = clock(getTimeOut)[Subscribe](
-      now => {
-
-        // filter values to those followed by `window` ms
-        var elapsed = now - received
-        if (elapsed < window) {
-          timeOut = window - elapsed
-          return
-        }
-
-        // emit value
-        observer[Next](value)
-
-        // check for completed or error
-        if (completeOrError) {
-          completeOrError()
-          return
-        }
-
-        //  reset received time/pause clock
-        received = undefined
-        timeOut = new Promise(o => startClock = o)
-      }
-    )
-
-    var dispose = observable[Subscribe](
-      o => {
-
-        // ignore observations after observing complete/error
-        if (completeOrError)
-          return
-
-        value = o
-
-        // start clock
-        if (!received)
-          startClock(window)
-
-        received = Date.now()
+    var cancel = this[Subscribe]({
+      [Next](o) { 
+        delay(() => observer[Next](o), ++lastId)
       },
-      () => {
-        completeOrError = () => observer[Complete]()
-        if (!received)
-          completeOrError()    
+      [Complete]() {
+        delay(() => observer[Complete]())
       },
-      o => {
-        completeOrError = () => observer[Error](o)
-        if (!received)
-          completeOrError()
+      [Error](e) {
+        observer[Error](e)
+        cancelled = true
       }
-    )
+    })
 
     return () => {
-      dispose()
-      disposeClock()
+      cancelled = true
+      cancel()
     }
   })
 }
 
-ExportExtension(module, IObservable, debounce)
+module[ExportExtension](IObservable, debounce)
