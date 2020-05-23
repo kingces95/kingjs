@@ -2,7 +2,7 @@ var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
     '-rx': { 
-      '-static': { timer },
+      '-static': { never },
       '-sync': { SubscribeAndAssert, Select, Then, 
         '-static': { of, throws }
       }
@@ -10,20 +10,23 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-of(0, 1, 2)
-  [Select](o => o + 1)
-  [SubscribeAndAssert]([1, 2, 3])
+process.nextTick(async () => {
 
-throws('error')
-  [Select]()
-  [SubscribeAndAssert](null, { error: 'error' })
+  of(0, 1, 2)
+    [Select](o => o + 1)
+    [SubscribeAndAssert]([1, 2, 3])
 
-var cancel = timer()
-  [Then](throws('unhandled'))
-  [Select]()
-  [SubscribeAndAssert](null, { unfinished: true })
-cancel()
+  throws('error')
+    [Select]()
+    [SubscribeAndAssert](null, { error: 'error' })
 
-var badSelector = of(1)
-  [Select](() => { throw new Error('lol') })
-assert.throws(() => badSelector[Subscribe]())
+  var cancel = await never()
+    [Then](throws('unhandled'))
+    [Select]()
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+
+  var badSelector = await of(1)
+    [Select](() => { throw new Error('lol') })
+  assert.throws(() => badSelector[Subscribe]())
+})

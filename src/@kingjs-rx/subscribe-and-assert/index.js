@@ -15,7 +15,13 @@ function subscribeAndAssert(expectedNext, options = { }) {
   if (!expectedNext)
     expectedNext = [ ]
 
-  var { error, unfinished, delay = 0 } = options
+  var { 
+    synchronous, 
+    error, 
+    unfinished, 
+    delay = 0 
+  } = options
+
   var finished = false
 
   var promise = new Promise(accept => {
@@ -23,11 +29,15 @@ function subscribeAndAssert(expectedNext, options = { }) {
       if (expectedNext.length != 0)
         return
       
-      if (unfinished) {
-        finished = true
-        assert.ok(cancel instanceof Function)
-        accept(cancel)
-      }
+      if (!unfinished) 
+        return
+
+      finished = true
+      if (synchronous)
+        return
+        
+      assert.ok(cancel instanceof Function)
+      accept(cancel)
     }
 
     var start = Date.now()
@@ -58,6 +68,12 @@ function subscribeAndAssert(expectedNext, options = { }) {
     })
     
     acceptUnfinished()
+
+    if (synchronous) {
+      assert.ok(unfinished || finished)
+      assert.ok(cancel instanceof Function)
+      accept(cancel)
+    }
   })
 
   return promise

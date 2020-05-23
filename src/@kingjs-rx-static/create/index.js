@@ -2,7 +2,7 @@ var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
     '-promise': { sleep },
-    '-rx-observer': { create: createObserver, Checked },
+    '-rx-observer': { create: createObserver, Check },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -33,7 +33,7 @@ function create(subscribe, options = EmptyObject) {
   return {
     [Subscribe]() {
       var observer = createObserver(...arguments)      
-      var checkedObserver = observer[Checked]()
+      var checkedObserver = observer[Check]()
       var cancelled = false
 
       process.nextTick(async () => {

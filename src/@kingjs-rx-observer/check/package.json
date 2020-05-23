@@ -1,0 +1,28 @@
+{
+  "name": "@kingjs-rx-observer/check",
+  "version": "1.0.0",
+  "description": "Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/first"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.i-observable": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

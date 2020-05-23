@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     '-rx': {
-      '-static': { clock },
+      '-static': { clock: never },
       '-sync': { Count, SubscribeAndAssert, 
         '-static': { of, throws }
       },
@@ -9,19 +9,21 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-of(0, 1)
-  [Count]()
-  [SubscribeAndAssert]([2])
+process.nextTick(async () => {
+  of(0, 1)
+    [Count]()
+    [SubscribeAndAssert]([2])
 
-of()
-  [Count]()
-  [SubscribeAndAssert]([0])
+  of()
+    [Count]()
+    [SubscribeAndAssert]([0])
 
-throws('error')
-  [Count]()
-  [SubscribeAndAssert](null, { error: 'error' })
+  throws('error')
+    [Count]()
+    [SubscribeAndAssert](null, { error: 'error' })
 
-var cancel = clock()
-  [Count]()
-  [SubscribeAndAssert](null, { unfinished: true })
-cancel()
+  var cancel = await never()
+    [Count]()
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+})

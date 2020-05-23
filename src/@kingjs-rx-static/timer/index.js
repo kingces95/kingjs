@@ -1,8 +1,9 @@
 var {
   '@kingjs': {
-    '-rx': { Take,
+    '-rx': {
       '-static': { clock },
-      '-sync': { Skip }
+      '-sync': { Skip },
+      '-async': { Take }
     }
   },
 } = module[require('@kingjs-module/dependencies')]()

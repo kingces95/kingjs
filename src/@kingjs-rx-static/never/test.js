@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     '-promise': { sleep },
     '-rx': { SubscribeAndAssert,
-      '-static': { never },
+      '-async-static': { never },
     },
   }
 } = module[require('@kingjs-module/dependencies')]()

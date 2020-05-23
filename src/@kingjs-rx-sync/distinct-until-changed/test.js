@@ -9,15 +9,18 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-of(0, 0, 1, 2, 2, 1)
-  [DistinctUntilChanged]()
-  [SubscribeAndAssert]([0, 1, 2, 1])
+process.nextTick(async () => {
 
-throws('error')
-  [DistinctUntilChanged]()
-  [SubscribeAndAssert](null, { error:'error' })
+  of(0, 0, 1, 2, 2, 1)
+    [DistinctUntilChanged]()
+    [SubscribeAndAssert]([0, 1, 2, 1])
 
-var cancel = never()
-  [DistinctUntilChanged]()
-  [SubscribeAndAssert](null, { unfinished: true })
-cancel()
+  throws('error')
+    [DistinctUntilChanged]()
+    [SubscribeAndAssert](null, { error:'error' })
+
+  var cancel = await never()
+    [DistinctUntilChanged]()
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+})

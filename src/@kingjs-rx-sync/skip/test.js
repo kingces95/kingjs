@@ -9,16 +9,19 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-of(0, 1, 2)
-  [Skip](1)
-  [SubscribeAndAssert]([1, 2])
+process.nextTick(async () => {
 
-throws('error')
-  [Skip]()
-  [SubscribeAndAssert](null, { error: 'error' })
+  of(0, 1, 2)
+    [Skip](1)
+    [SubscribeAndAssert]([1, 2])
 
-var cancel = timer()
-  [Then](throws('unhandled'))
-  [Skip]()
-  [SubscribeAndAssert](null, { unfinished: true })
-cancel()
+  throws('error')
+    [Skip]()
+    [SubscribeAndAssert](null, { error: 'error' })
+
+  var cancel = await timer()
+    [Then](throws('unhandled'))
+    [Skip]()
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+})
