@@ -76,11 +76,7 @@ class ProxySubject {
   }
 
   // IObservable
-  [Subscribe](
-    next, 
-    complete, 
-    error) {
-
+  [Subscribe]() {
     var observable = this[RealObservable]
     if (!observable)
       observable = this[Initialize]()

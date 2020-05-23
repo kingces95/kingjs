@@ -1,9 +1,6 @@
-var { 
-  assert,
+var { assert,
   '@kingjs': {
-    '-rx': {
-      ProxySubject,
-    },
+    '-rx': { ProxySubject },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

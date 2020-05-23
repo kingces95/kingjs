@@ -34,6 +34,7 @@
       "decapitalize",
       "deref",
       "inode",
-      "kingjs"
+      "kingjs",
+      "linq"
     ],
 }

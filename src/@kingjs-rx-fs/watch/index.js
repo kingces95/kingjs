@@ -1,11 +1,9 @@
-var { 
-  fs,
+var { fs,
   '@kingjs': {
-    fs: { '-rx': { PathSubject } },
-    '-rx': {
-      create,
-      IObservable: { Subscribe },
-      IObserver: { Next, Complete, Error },
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': { create,
+      '-fs': { PathSubject },
     },
     '-interface': { ExportExtension },
   }
@@ -24,13 +22,10 @@ var Options = {
 }
 
 /**
- * @description Watch a path.
- * 
- * @param [path] The path to watch. Default is the current working directory.
- * @param [observable] An observable whose completion signals stop watching.
- * 
- * @returns Returns an `IObservable` that emits `null` whenever the content
- * of the path changes. 
+ * @description Emit whenever a change happens to the content of a directory.
+ * @this Path The `PathSubject` of the directory to watch.
+ * @returns Returns an `IObservable` that emits undefined when the content
+ * of the directory changes. 
  * 
  * @remarks - The watcher keeps the process alive until completed.
  **/
@@ -49,15 +44,19 @@ function watch() {
       e => observer[Error](e)
     )
 
-    return this[Subscribe](
-      o => observer[Next](o),
-      () => {
+    return this[Subscribe]({
+      [Next](o) { 
+        observer[Next](o) 
+      },
+      [Complete]() {
         watcher.close()
         observer[Complete]()
       },
-      e => observer[Error](e)
-    )
+      [Error](e) { 
+        observer[Error](e) 
+      }
+    })
   })
 }
 
-ExportExtension(module, PathSubject, watch);
+module[ExportExtension](PathSubject, watch);

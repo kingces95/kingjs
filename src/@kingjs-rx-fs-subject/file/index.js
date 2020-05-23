@@ -1,16 +1,7 @@
 var { 
   '@kingjs': {
-    fs: {
-      '-rx': {
-        subject: { 
-          Inode: InodeSubject 
-        } 
-      }
-    },
-    '-rx': {
-      Subject,
-      Publish,
-      DistinctUntilChanged,
+    '-rx': { Subject, Publish, DistinctUntilChanged,
+      '-fs-subject': { Inode: InodeSubject },
     },
   }
 } = module[require('@kingjs-module/dependencies')]()

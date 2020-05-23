@@ -1,18 +1,9 @@
-var { 
-  path: Path,
-  fs: { promises: fsp }, 
+var { Path, fs: { promises: fsp }, 
   '@kingjs': {
-    fs: { '-rx': { PathSubject } },
-    '-rx': { 
-      Log,
-      Pool,
-      RollingSelect,
-      SelectMany,
-      GroupBy,
+    '-rx': { Log, Pool, RollingSelect, SelectMany, GroupBy,
+      '-fs': { PathSubject }
     },
-    '-linq': { 
-      ZipJoin, 
-    },
+    '-linq': { ZipJoin },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()

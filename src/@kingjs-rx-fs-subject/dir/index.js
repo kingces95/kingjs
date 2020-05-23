@@ -1,23 +1,9 @@
 var { 
   '@kingjs': {
-    fs: {
-      '-rx': { 
-        subject: {
-          Inode: InodeSubject,
-        }
-      }
+    '-rx': { Subject, RollingSelect, SelectMany, GroupBy, Where, Pool,
+      '-fs-subject': { Inode: InodeSubject },
     },
-    '-rx': {
-      Subject,
-      RollingSelect,
-      SelectMany,
-      GroupBy,
-      Where,
-      Pool
-    },
-    '-linq': { 
-      ZipJoin, 
-    },
+    '-linq': { ZipJoin },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

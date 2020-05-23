@@ -1,21 +1,14 @@
 var { 
   fs: { promises: fsp }, 
   '@kingjs': {
-    fs: { 
-      '-rx': {
+    IObservable,
+    IGroupedObservable: { Key },
+    '-rx': { Pool, DistinctUntilChanged, WindowBy,
+      '-fs': { 
         PathSubject,
         StatsSubject 
-      } 
-    },
-    '-rx': { 
-      create, 
-
-      Pool,
-      DistinctUntilChanged,
-      WindowBy,
-
-      IObservable,
-      IGroupedObservable: { Key }
+      },
+      '-static': { create },
     },
     '-interface': { ExportExtension },
   }

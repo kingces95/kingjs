@@ -1,11 +1,7 @@
-var {
-  assert, 
-  fs,
+var { assert, fs,
   '@kingjs': {
-    '-rx': {
-      BehaviorSubject,
-      IObserver: { Next, Error },
-    },
+    IObserver: { Next, Error },
+    '-rx': { BehaviorSubject },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

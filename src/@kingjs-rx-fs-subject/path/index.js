@@ -1,27 +1,11 @@
 var { 
   fs: { promises: fsp }, 
   '@kingjs': {
-    reflect: { 
-      is,
-      createSymbol 
-    },
-    fs: { 
-      '-rx': { 
-        subject: { 
-          Link,
-          File,
-          Dir,
-        }
-      }
-    },
-    '-rx': {
-      Pool,
-      WindowBy,
-      Where,
-      Pipe,
-      Select,
-      ProxySubject,
-      Singletons
+    '-rx': { Singletons,
+      '-subject': { ProxySubject },
+      '-async': { Pool },
+      '-sync': { Where, Pipe, Select, WindowBy },
+      '-fs-subject': { Link, File, Dir },
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -32,7 +16,7 @@ var DefaultCreateSubject = o => new Watch(o.buffer)
 /**
  * @description A `ProxySubject` which composes a `PathBuffer`.
  * 
- * @remarks For each observation, the path is checked and if its linked inode 
+ * @remarks For each observation, the path is checked, and if its linked inode 
  * has changed then a new derivation InodeSubject is emitted after closing
  * the previously emitted InodeSubject, if any.
  * 

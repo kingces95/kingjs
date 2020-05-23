@@ -1,14 +1,7 @@
 var { 
   '@kingjs': {
-    fs: {
-      '-rx': { 
-        subject: {
-          Dir, File
-        }
-      }
-    },
-    '-rx': {
-      ConferenceSubject,
+    '-rx': { ConferenceSubject,
+      '-fs-subject': { Dir, File },
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
