@@ -6,8 +6,8 @@ var {
     IOrderedEnumerable: { CreateOrderedEnumerable },
     '-interface': { ExportExtension },
     '-linq': {
-      ToArray,
-      defaultLessThan
+      '-reduction': { ToArray },
+      '-static': { defaultLessThan }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()

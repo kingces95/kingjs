@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    '-linq': { ThenByDescending, OrderByDescending, ToArray },
+    '-linq': { ThenByDescending, OrderByDescending, 
+      '-aggregate': { ToArray },
+    },
     '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()

@@ -16,8 +16,8 @@ process.nextTick(async () => {
     [SubscribeAndAssert]([[0], [1], [2], [3], [4]])
 
   of(0, 1, 2, 3, 4)
-    [RollingSelect](o => o.join(), 2)
-    [SubscribeAndAssert](['0', '1,0', '2,1', '3,2', '4,3'])
+    [RollingSelect](o => o.join(), 3)
+    [SubscribeAndAssert](['0', '1,0', '2,1,0', '3,2,1', '4,3,2'])
 
   throws('error')
     [RollingSelect]()

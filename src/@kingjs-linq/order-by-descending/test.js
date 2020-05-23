@@ -1,7 +1,9 @@
 var { assert,
   '@kingjs': {
     IOrderedEnumerable: { CreateOrderedEnumerable },
-    '-linq': { OrderByDescending, ToArray },
+    '-linq': { OrderByDescending, 
+      '-reduction': { ToArray },
+    },
     '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()

@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    '-linq': { Distinct, SequenceEqual, ToArray },
+    '-linq': { Distinct, SequenceEqual, 
+      '-reduction': { ToArray },
+    },
     '-array': { ImplementIEnumerable: ShimArray },
     '-string': { ImplementIEnumerable: ShimString },
   }

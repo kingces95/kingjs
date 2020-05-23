@@ -5,7 +5,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     '-interface': { ExportExtension },
-    '-linq': { empty },
+    '-linq-static': { empty },
   }
 } = module[require('@kingjs-module/dependencies')]()
 

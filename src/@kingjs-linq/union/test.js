@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    '-linq': { Union, ToArray },
+    '-linq': { Union, 
+      '-reduction': { ToArray },
+    },
     '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()

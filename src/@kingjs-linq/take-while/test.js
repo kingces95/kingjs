@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    '-linq': { TakeWhile, ToArray },
+    '-linq': { TakeWhile, 
+      '-reduction': { ToArray },
+    },
     '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()

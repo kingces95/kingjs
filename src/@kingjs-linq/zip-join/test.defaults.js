@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    '-linq': { ZipJoin, ToArray },
+    '-linq': { ZipJoin, 
+      '-reduction': { ToArray } 
+    },
     '-array': { ImplementIEnumerable: ShimArray },
     '-generator': { Generator, ImplementIEnumerable: ShimGenerator },
   }
@@ -23,7 +25,11 @@ var inner = [
 ]
 
 var zipJoin = outer
-  [ZipJoin](inner, o => o.name)
+  [ZipJoin](
+    inner, 
+    o => o.name,
+    o => o.name
+  )
   [ToArray]()
 
 console.log(zipJoin)

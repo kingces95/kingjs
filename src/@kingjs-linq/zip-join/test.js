@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    '-linq': { ZipJoin, ToArray },
+    '-linq': { ZipJoin, 
+      '-reduction': { ToArray }
+    },
     '-array': { ImplementIEnumerable: ShimArray },
     '-generator': { Generator, ImplementIEnumerable: ShimGenerator },
   }

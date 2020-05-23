@@ -6,8 +6,8 @@ var {
     IEnumerator: { MoveNext, Current },
     '-interface': { ExportExtension },
     '-linq': {
-      ToLookup,
-      empty
+      '-reduction': { ToLookup },
+      '-static': { empty }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
