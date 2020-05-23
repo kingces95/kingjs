@@ -11,8 +11,8 @@ var {
  * numbers projected from elements of a sequence.
  */
 function sum() {
-  return this[Aggregate](0, function(x) { 
-    return this + x 
+  return this[Aggregate](0, function(a, x) { 
+    return a + x 
   })
 }
 

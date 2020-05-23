@@ -11,9 +11,7 @@ var {
  * sequence that satisfy a condition.
  */
 function count(predicate) {      
-  return this[Aggregate](0, function(x) {
-    var aggregate = this
-
+  return this[Aggregate](0, function(aggregate, x) {
     if (!predicate || predicate(x))
       aggregate++
     

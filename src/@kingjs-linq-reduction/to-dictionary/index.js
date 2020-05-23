@@ -15,17 +15,17 @@ var {
  * @param {*} valueSelector 
  */
 function toDictionary(keySelector, valueSelector) {      
-  return this[Aggregate](new Dictionary(), function(x) { 
-    var key = keySelector(x)
-    if (key in x)
+  return this[Aggregate](new Dictionary(), function(dictionary, o) { 
+    var key = keySelector(o)
+    if (key in dictionary)
       throw "toDictionary: key already exists: " + key
     
-    var value = x
+    var value = o
     if (valueSelector)
-      value = valueSelector(x)
+      value = valueSelector(o)
     
-    this[key] = value
-    return this
+    dictionary[key] = value
+    return dictionary
   })
 }
 

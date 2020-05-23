@@ -12,9 +12,9 @@ var {
  * @this any An `IEnumerable` from which to create an array.
  */
 function toArray() {      
-  return this[Aggregate]([], function(x) { 
-    this.push(x) 
-    return this 
+  return this[Aggregate]([], function(a, x) { 
+    a.push(x) 
+    return a 
   })
 }
 

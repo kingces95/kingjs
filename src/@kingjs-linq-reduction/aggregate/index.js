@@ -15,7 +15,7 @@ var {
  * @this any An `IEnumerable` over which to aggregate.
  * 
  * @param seed The initial accumulator value.
- * @param aggregator An accumulator function toı be invoked on each element.
+ * @param aggregator An accumulator function to be invoked on each element.
  * @param selector A function to transform the final accumulator value 
  * into the result value.
  * 
@@ -26,7 +26,7 @@ function aggregate(seed, aggregator, selector) {
   
   var result = seed
   while (enumerator[MoveNext]())
-    result = aggregator.call(result, enumerator[Current])
+    result = aggregator(result, enumerator[Current])
   
   if (selector)
     result = selector(result)

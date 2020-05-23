@@ -21,10 +21,10 @@ function average(selector) {
   var result = this[Aggregate]({ 
       count: 0, 
       sum: 0
-    }, function(x) { 
-      this.count++; 
-      this.sum += selector(x);
-      return this;
+    }, function(a, x) { 
+      a.count++; 
+      a.sum += selector(x);
+      return a;
     }
   );
 
