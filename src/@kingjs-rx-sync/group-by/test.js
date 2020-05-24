@@ -1,47 +1,58 @@
-require('@kingjs/shim')
-var assert = require('assert')
-var GroupBy = require('..')
-var Subject = require('@kingjs/rx.subject')
-var { Subscribe } = require('@kingjs/rx.i-observable')
-var { Key } = require('@kingjs/rx.i-grouped-observable')
-var { Next, Complete } = require('@kingjs/rx.i-observer')
+var {
+  '@kingjs': {
+    IGroupedObservable: { Key },
+    '-rx': { SubscribeAndAssert: AsyncSubscribeAndAssert,
+      '-static': { never },
+      '-sync': { SubscribeAndAssert, Select, Do, GroupBy, Then,
+        '-static': { of, throws }
+      }
+    },
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
-var subject = new Subject()
-var grouping = subject
-  [GroupBy](
-    o => o % 2 ? 'odd' : 'even', 
-    k => new Subject(),
-  )
+process.nextTick(async () => {
 
-result = { }
-grouping
-  [Subscribe](o => {
-    var values = result[o[Key]] = []
-    o[Subscribe](x => values.push(x))
-  })
+  // basic grouping by key
+  var groups = [['a0', 'a2'], ['b1']]
+  await of('a0', 'b1', 'a2')
+    [GroupBy](o => o[0])
+    [Do](o => o[AsyncSubscribeAndAssert](groups.shift()).then())
+    [Select](o => o[Key])
+    [SubscribeAndAssert](['a', 'b'])
 
-subject[Next](0)
-subject[Next](1)
-subject[Next](2)
-subject[Next](3)
+  // complete and restart a group
+  var groups = [['a0'], ['a1']]
+  await of('a0', 'a', 'a1')
+    [GroupBy](o => o[0], o => !o[1])
+    [Do](o => o[AsyncSubscribeAndAssert](groups.shift()).then())
+    [Select](o => o[Key])
+    [SubscribeAndAssert](['a', 'a'])
 
-assert.deepEqual(result, {
-  even: [ 0, 2 ],
-  odd: [ 1, 3 ]
+  // basic error propagation
+  await throws('error')
+    [GroupBy]()
+    [SubscribeAndAssert](null, { error: 'error' })
+
+  // error propagation through to groups
+  await of('a0')
+    [Then](throws('error'))
+    [GroupBy](o => o[0])
+    [Do](o => o[AsyncSubscribeAndAssert](['a0'], { error: 'error' }).then())
+    [Select](o => o[Key])
+    [SubscribeAndAssert](['a'], { error: 'error' })
+
+  // basic cancel propagation
+  var cancel = await never()
+    [GroupBy]()
+    [SubscribeAndAssert](['a'], { unfinished: true })
+  cancel()
+
+  // cancel propagation through to groups
+  var cancel = await of('a0')
+    [Then](never())
+    [GroupBy](o => o[0])
+    [Do](o => o[AsyncSubscribeAndAssert](['a0'], { unfinished: true }).then())
+    [Select](o => o[Key])
+    [SubscribeAndAssert](['a'], { unfinished: true })
+  cancel()
 })
-assert(grouping.groups.even instanceof Subject)
-assert(grouping.groups.odd instanceof Subject)
-
-// replay groups for subsequent subscriptions
-result = [ ]
-grouping[Subscribe](
-  o => result.push(o[Key])
-)
-assert.deepEqual(result, ['even', 'odd'])
-
-subject[Complete]()
-result = [ ]
-grouping[Subscribe](
-  o => result.push(o[Key])
-)
-assert.deepEqual(result, [ ])
