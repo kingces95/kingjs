@@ -54,6 +54,7 @@ function subscribeAndAssert(expectedNext, options = { }) {
         assert.ok(!unfinished)
         assert.ok(!finished)
         assert.ok(error === undefined)
+        assert.equal(expectedNext.length, 0)
         finished = true
         accept()
       },
@@ -62,6 +63,7 @@ function subscribeAndAssert(expectedNext, options = { }) {
         assert.ok(!finished)
         assert.ok(error !== undefined)
         assert.equal(actualError, error)
+        assert.equal(expectedNext.length, 0)
         finished = true
         accept(actualError)
       }

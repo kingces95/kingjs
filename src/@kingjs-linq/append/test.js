@@ -1,16 +1,13 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Append,
-      '-reduction': { ToArray } 
+    '-linq': { Append, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of()[Append]()
+  [EnumerateAndAssert](undefined)
 
-var source = [ 0, 1, 2 ]
-var enumerable = source[Append](3)
-var result = enumerable[ToArray]()
-
-assert.deepEqual([0, 1, 2, 3], result)
+of(0)[Append](1)
+  [EnumerateAndAssert](0, 1)

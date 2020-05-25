@@ -11,12 +11,10 @@ var {
 
 var DebounceMs = 60
 
-process.nextTick(async () => {
-  var cwd = Path.dot.to('test.js')
-  var watcher = watch(cwd)
-  var stopWatching = watcher
+process.nextTick(async () =>
+  watch(Path.parse(__filename))
     [Debounce](DebounceMs)
     [Subscribe]({
-      [Next](path) { console.log(path) }
+      [Next]() { process.stdout.write('.') }
     })
-})
+)

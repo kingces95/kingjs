@@ -1,47 +1,32 @@
-require('@kingjs/shim')
-var assert = require('assert')
-var { Next, Complete } = require('@kingjs/rx.i-observer')
-var { Subscribe } = require('@kingjs/rx.i-observable')
-var SelectMany = require('@kingjs/rx.select-many')
-var Do = require('@kingjs/rx.do')
-var Log = require('@kingjs/rx.log')
-var PathSubject = require('@kingjs/fs.rx.path-subject')
-var DirEntries = require('..')
+var {
+  '@kingjs': {
+    Path,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete },
+    IGroupedObservable: { Key },
+    '-rx': { Debounce,
+      '-fs': { watch, DirEntries }
+    }
+  }
+} = module[require('@kingjs-module/dependencies')]()
 
-//create testDir/file.txt
-var TempDirName = 'testDir'
-var TempFileName = 'file.txt'
+var Ms = 100
 
-var result = []
-var subject = new PathSubject(TempDirName)
+var path = Path.parse(__dirname)
 
-subject
-  [DirEntries]()
-  [Log]('DIR', '${path}')
-  [Do](o => assert(o.parent == subject))
-  [Do](o => result.push(o))
-  [SelectMany](entry => entry
-    [Do](
-      o => result.push(o),
-      () => result.push('COMPLETE FILE'),
-    )
-  )
-  [Subscribe](
-    null,
-    () => {
-      result.push('COMPLETE DIR')
-
-      var i = 0
-      assert(result[i] instanceof PathSubject)
-      assert(result[i++].basename == TempFileName)
-
-      assert(result[i].constructor.name == 'Dirent')
-      assert(result[i++].name === TempFileName)
-      
-      assert(result[i++] == 'COMPLETE FILE')
-      assert(result[i++] == 'COMPLETE DIR')
+process.nextTick(async () =>
+  watch(path)
+    [Debounce](Ms)
+    [DirEntries](path)
+    [Subscribe]({
+      [Next](o) { 
+        var name = o[Key]
+        console.log(`+ ${name}`)
+        o[Subscribe]({
+          [Next](x) { console.log(`Δ ${name}`); console.log(x) },
+          [Complete]() { console.log(`- ${name}`) }
+        })
       }
+    }
   )
-
-subject[Next](null)
-subject[Complete]()
+)

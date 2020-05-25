@@ -4,7 +4,13 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var id = 0;
+
 class ObserverThunk {
+  constructor() {
+    this.id = id++
+  }
+
   set(observer) { 
     assert(!this.observer)
     this.observer = observer 

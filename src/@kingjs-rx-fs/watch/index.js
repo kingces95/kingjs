@@ -31,7 +31,7 @@ function watch(path) {
     var watcher = fs.watch(path.buffer, Options)
 
     watcher.on(Event.Change, 
-      () => observer[Next](path.toString())
+      () => observer[Next](path)
     )
     watcher.on(Event.Close,
       () => watcher.removeAllListeners()

@@ -14,7 +14,7 @@ var {
  */
 function take(count) {
   return this[Zip](function*() {
-    for (i = 0; i < count; i++)
+    for (var i = 0; i < count; i++)
       yield
   }, (observation, value) => observation)
 }

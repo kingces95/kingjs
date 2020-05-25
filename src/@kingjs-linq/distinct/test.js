@@ -36,6 +36,6 @@ function dictionaryTest() {
   var enumerable = 'toString'
   enumerable = enumerable[Distinct]()
   enumerable = enumerable[ToArray]()
-  assert(enumerable[SequenceEqual]('toSring'))
+  assert(enumerable[SequenceEqual]('toString'))
 }
 dictionaryTest()

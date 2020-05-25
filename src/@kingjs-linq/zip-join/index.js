@@ -5,7 +5,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     '-interface': { ExportExtension },
-    '-linq-static': { empty },
+    '-linq-static': { empty, fromGenerator },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -46,7 +46,7 @@ function zipJoin(
   var outerEnumerable = this
   var innerEnumerable = innerEnumerable || empty()
 
-  return function* zipJoin() {
+  return fromGenerator(function* zipJoin() {
     var outerEnumerator = outerEnumerable[GetEnumerator]()
     var innerEnumerator = innerEnumerable[GetEnumerator]()
 
@@ -99,7 +99,7 @@ function zipJoin(
       innerDone = advanceInner()
       outerDone = advanceOuter()
     }
-  }
+  })
 }
 
 module[ExportExtension](IEnumerable, zipJoin)

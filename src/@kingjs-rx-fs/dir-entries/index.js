@@ -1,62 +1,54 @@
-var { Path, fs: { promises: fsp }, 
+var { fs: { promises: fsp }, 
   '@kingjs': {
-    '-rx': { Log, Pool, RollingSelect, SelectMany, GroupBy,
-      '-fs': { PathSubject }
+    IObservable,
+    '-rx': {
+      '-async': { SelectMany, Latest },
+      '-sync': { GroupBy, RollingSelect, Select,
+        '-static': { from: rx }
+      }
     },
-    '-linq': { ZipJoin },
+    '-linq': { ZipJoin, 
+      '-reduction': { ToArray },
+      '-static': { from: linq }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var WithFileTypes = { 
-  withFileTypes: true,
-  //encoding: 'buffer'
+var Options = { 
+  withFileTypes: true
 }
 
 /**
- * @description Given a directory returns the directories entries.
- * 
- * @this any A directory represented by a `PathSubject` whose contents
- * are to be emitted.
- * 
- * @returns Returns an `IObservable` that emits a `PathSubject`
- * for each directory entry each which in turn emit a `DirEntry` for 
- * every emission of the source `PathSubject`.
- * 
- * @remarks - If a source emission is observed before the `dirEntry`s for
- * the previous emission has been read and reported, then the emission
- * is queued. Source emissions beyond that are dropped. 
- * 
- * @remarks - Promise will need to be shimmed to implement `IObservable`
- * 
- * @remarks - A path unlinked between source `PathSubject` emissions results
- * in completion of the previously emitted `PathSubject` for the unlinked path.
+ * @description Given a directory, emit the current and previous directory entries.
+ * @this any An `IObservable` whose emissions trigger a fresh scan of the directory.
+ * @param Path The directory to scan.
+ * @returns Returns an `IObservable` that emits an `IGroupedObservable` for each
+ * directory entry, which in turn emits `{ name, current, previous }` where `name`
+ * is the file name, and `current` and `previous` and directory entries.
  **/
-function dirEntries() {
+function dirEntries(path) {
   return this
-    [Pool](() => fsp.readdir(this.path, WithFileTypes))     // promise -> dirEntry[]
-    [RollingSelect](o => o[0]                               // dirEntry[] -> {outer, inner, key}[]
-      [ZipJoin](o[1],
+    [Latest](() => fsp.readdir(path.buffer, Options))
+    [Select](o => linq(o))                              // enter linq
+    [RollingSelect](o =>                                // dirEntry[] -> {outer, inner, key}[]
+      o[0][ZipJoin](o[1],
         o => o.name,
-        o => o.name
+        o => o.name,
+        (current, previous, name) => ({ 
+          current,
+          previous,
+          name
+        })
       )
-    )              
-    [SelectMany]()                                          // {outer, inner, key}[] -> {outer, inner, key}
-    [Log]()                                                 // inner = previous, outer = current
-    [GroupBy](                                              // new = link, next = any, complete = unlink
-      o => o.key,                                           // group by entry name
-      name => new PathSubject(name, this),                  // activate group for entry
-      o => o.outer,                                         // select the current dirEnt
-      o => !o.outer                                         // emit `complete` on unlinked
+    )
+    [Select](o => o[ToArray]())                         // exit linq
+    [Select](o => rx(o))                                // enter rx
+    [SelectMany]()                                      // {outer, inner, key}[] -> {outer, inner, key}
+    [GroupBy](                                          // new = link, next = any, complete = unlink
+      o => o.name,                                      // group by entry name
+      o => !o.current                                   // emit `complete` on unlinked
     )
 }
 
-class DirSubject extends PathSubject {
-  constructor(dir, parent) {
-    super(dir, parent, observer => {
-      
-    })
-  }
-}
-
-ExportExtension(module, PathSubject, dirEntries)
+module[ExportExtension](IObservable, dirEntries)

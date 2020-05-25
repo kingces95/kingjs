@@ -13,7 +13,7 @@ process.nextTick(async () => {
 
   of(0, 1, 2, 3, 4)
     [RollingSelect]()
-    [SubscribeAndAssert]([[0], [1], [2], [3], [4]])
+    [SubscribeAndAssert]([[0], [1,0], [2,1], [3,2], [4,3]])
 
   of(0, 1, 2, 3, 4)
     [RollingSelect](o => o.join(), 3)

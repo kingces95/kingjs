@@ -2,7 +2,9 @@ var {
   '@kingjs': {
     IEnumerable,
     '-interface': { ExportExtension },
-    '-linq': { Concat },
+    '-linq': { Concat,
+      '-static': { of }
+    },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -11,7 +13,7 @@ var {
  * sequence but with a value added to the end.
  */
 function append(value) {    
-  return this[Concat]([ value ])
+  return this[Concat](of(value))
 }
 
 module[ExportExtension](IEnumerable, append)

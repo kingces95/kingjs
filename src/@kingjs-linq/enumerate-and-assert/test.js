@@ -1,13 +1,10 @@
 var {
   '@kingjs': {
     '-linq': { EnumerateAndAssert,
-      '-static': { repeat }
+      '-static': { of }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-repeat(0, 0)
-  [EnumerateAndAssert]()
-
-repeat(0, 3)
-  [EnumerateAndAssert](0, 0, 0)
+of(0, 1, 2)
+  [EnumerateAndAssert](0, 1, 2)

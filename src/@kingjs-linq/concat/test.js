@@ -1,27 +1,13 @@
-var { assert,
+var {
   '@kingjs': {
-    IEnumerable: { GetEnumerator },
-    IEnumerator: { MoveNext, Current },
-    '-linq': { Concat },
-    '-array': { ImplementIEnumerable },
+    '-linq': { Concat, EnumerateAndAssert,
+      '-static': { of }
+    },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(0)[Concat](of(1))
+  [EnumerateAndAssert](0, 1)
 
-var result = [0, 1][Concat]([1, 2])
-
-var enumerator = result[GetEnumerator]()
-assert.ok(enumerator[MoveNext]())
-assert.equal(enumerator[Current], 0)
-
-assert.ok(enumerator[MoveNext]())
-assert.equal(enumerator[Current], 1)
-
-assert.ok(enumerator[MoveNext]())
-assert.equal(enumerator[Current], 1)
-
-assert.ok(enumerator[MoveNext]())
-assert.equal(enumerator[Current], 2)
-
-assert.ok(!enumerator[MoveNext]())
+of(0, 1)[Concat](of(2, 3))
+  [EnumerateAndAssert](0, 1, 2, 3)

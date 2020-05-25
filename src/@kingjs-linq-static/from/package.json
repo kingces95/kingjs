@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/linq.empty",
+  "version": "1.0.7",
+  "description": "Returns an empty sequence.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/linq/empty"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/i-enumerable": "latest",
+    "@kingjs/reflect.export-extension": "latest"
+  },
+  "devDependencies": {
+    "kingjs": "^1.0.46"
+  }
+}

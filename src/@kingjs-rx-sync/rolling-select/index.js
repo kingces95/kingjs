@@ -9,7 +9,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 var DefaultSelector = o => o
-var DefaultWindowSize = 1
+var DefaultWindowSize = 2
 
 /**
  * @description Emit a sliding window of values.

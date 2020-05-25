@@ -14,7 +14,7 @@ module[ExportShim](IEnumerable, Generator, {
     return new Enumerator(
       function createMoveNext() {
         var iterator = null
-    
+
         return function moveNext() {
           if (!iterator) {
             var iterable = container()

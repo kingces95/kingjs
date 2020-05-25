@@ -28,7 +28,9 @@ function log(label, options = EmptyObject) {
     writeLine = o => console.log(o)
   } = options
 
-  var log = (message) => writeLine(`${label}: ${message}`)
+  var log = (message) => !label ? 
+    writeLine(message) : 
+    writeLine(`${label}: ${message}`)
 
   return this[Do]({
     [Next](o) {

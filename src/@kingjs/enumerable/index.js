@@ -1,7 +1,6 @@
 var {
   '@kingjs': {
     IEnumerable,
-    IEnumerator,
     Enumerator
   }
 } = module[require('@kingjs-module/dependencies')]()

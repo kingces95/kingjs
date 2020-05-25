@@ -1,14 +1,10 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { 
-      '-reduction': { ToArray },
+    '-linq': { EnumerateAndAssert,
       '-static': { empty }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-var array = empty()[ToArray]()
-assert.equal(array.length, 0)
+empty()
+  [EnumerateAndAssert]()
