@@ -1,54 +1,21 @@
 var { assert,
   '@kingjs': {
-    '-linq': { SequenceEqual },
-    '-array': { ImplementIEnumerable },
+    '-linq': { SequenceEqual,
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+assert.sequenceEqual = (l, r, e) => l[SequenceEqual](r, e)
+assert.sequenceNotEqual = (l, r, e) => !assert.sequenceEqual(l, r, e)
 
-function readme() {
-  var expected = [1, 2, 3]
-  
-  var toFew = [1, 2]
-  var tooMany = [1, 2, 3, 4]
-  var wrongOrder = [3, 2, 1]
-  var justRight = [1, 2, 3]
-  
-  var result = {
-    tooFew: expected[SequenceEqual](toFew),
-    tooMany: expected[SequenceEqual](tooMany),
-    wrongOrder: expected[SequenceEqual](wrongOrder),
-    justRight: expected[SequenceEqual](justRight),
-  }
+assert.sequenceEqual(of(), of())
+assert.sequenceEqual(of(1, 2, 3), of(1, 2, 3))
 
-  assert(result.tooFew == false)
-  assert(result.tooMany == false)
-  assert(result.wrongOrder == false)
-  assert(result.justRight == true)
-}
-readme()
-
-function test(left, right, result, equal) {
-  assert(left[SequenceEqual](right,
-    equal
-  ) == result)
-}
-
-test([ ], [ ], true)
-test([ 0 ], [ 0 ], true)
-test([ 0, 1 ], [ 0, 1 ], true)
-
-test([ 0 ], [ ], false)
-test([ ], [ 0 ], false)
-test([ 0, 1 ], [ 0, 0 ], false)
+assert.sequenceNotEqual(of(1, 2, 3), of(2, 3, 1))
+assert.sequenceNotEqual(of(1, 2, 3), of(1, 2))
+assert.sequenceNotEqual(of(1, 2, 3), of(1, 2, 3, 4))
 
 var myEqual = function(l,r) { return l == -r }
-test([ ], [ ], true, myEqual)
-test([ 0 ], [ 0 ], true, myEqual)
-test([ 0, 1 ], [ 0, 1 ], false, myEqual)
-test([ 0, 1 ], [ 0, -1 ], true, myEqual)
-
-test([ 0 ], [ ], false, myEqual)
-test([ ], [ 0 ], false, myEqual)
-test([ 0, 1 ], [ 0, 0 ], false, myEqual)
+assert.sequenceEqual(of(1), of(-1), myEqual)
+assert.sequenceNotEqual(of(1), of(1), myEqual)

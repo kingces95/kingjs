@@ -1,22 +1,19 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { Contains },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { Contains },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-assert([1, 2, 3][Contains](2))
-
-var people = [
-  { name: 'Alice' },
-  { name: 'Bob' },
-  { name: 'Chris' },
-]
-
-var equal = function(l, r) { 
-  return l.name == r.name 
-}
-
-assert(people[Contains]({ name: 'Chris' }, equal))
+assert(of(1, 2, 3)[Contains](2))
+assert(
+  of(
+    { name: 'Alice' },
+    { name: 'Bob' },
+    { name: 'Chris' }
+  )[Contains]({ name: 'Chris' }, 
+    (l, r) => l.name == r.name
+  )
+)

@@ -1,13 +1,11 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { All },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { All },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-var sequence = [0, 1, 2]
-
-assert(sequence[All](function(o) { return o < 3 }))
-assert(!sequence[All](function(o) { return o < 2 }))
+assert(of(0, 1, 2)[All](function(o) { return o < 3 }))
+assert(!of(0, 1, 2)[All](function(o) { return o < 2 }))

@@ -13,7 +13,7 @@ from([])
   [EnumerateAndAssert]()
 
 from([0])
-  [EnumerateAndAssert](0)
+  [EnumerateAndAssert]([0])
 
 from([0, 1])
-  [EnumerateAndAssert](0, 1)
+  [EnumerateAndAssert]([0, 1])

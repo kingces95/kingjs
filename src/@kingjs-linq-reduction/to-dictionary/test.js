@@ -1,50 +1,42 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { ToDictionary },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { ToDictionary },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-function readme() {
-  var result = [
+assert.deepEqual(
+  of(
     { name: 'Alice', age: 18 },
     { name: 'Bob', age: 19 },
     { name: 'Chris', age: 20 },
-  ][ToDictionary](
+  )[ToDictionary](
     function(x) { return x.name },
     function(x) { return x.age }
-  )
+  ), {
+    Alice: 18,
+    Bob: 19,
+    Chris: 20
+  }
+)
 
-  assert(!('toString' in result))
-  assert(Object.keys(result).length == 3)
-  assert(result.Alice == 18)
-  assert(result.Bob == 19)
-  assert(result.Chris == 20)
-}
-readme()
-
-function defaultValueSelector() {
-  var result = [
+assert.deepEqual(
+  of(
     { name: 'Alice', age: 18 },
     { name: 'Bob', age: 19 },
     { name: 'Chris', age: 20 },
-  ][ToDictionary](
+  )[ToDictionary](
     function(x) { return x.name }
     // test default valueSelector
-  )
+  ), {
+    Alice: { name: 'Alice', age: 18 },
+    Bob: { name: 'Bob', age: 19 },
+    Chris: { name: 'Chris', age: 20 },
+  }
+)
 
-  assert(!('toString' in result))
-  assert(Object.keys(result).length == 3)
-  assert(result.Alice.age == 18)
-  assert(result.Bob.age == 19)
-  assert(result.Chris.age == 20)
-}
-defaultValueSelector()
-
-assert.throws(function() {
-  [0, 0][ToDictionary](
-    function(x) { return x }
-  )
-})
+assert.throws(() => 
+ of(0, 0)[ToDictionary](o => o)
+)

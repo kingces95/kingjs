@@ -1,3 +1,19 @@
+var {
+  '@kingjs': {
+    '-linq': { GroupBy, EnumerateAndAssert,
+      '-static': { of }
+    },
+  }
+} = module[require('@kingjs-module/dependencies')]()
+
+of(0, 0, 1, 2)
+  [GroupBy](o => o % 2)
+  [EnumerateAndAssert]()
+
+of(1, 0)
+  [Intersect](of(0, 0, 1, 2))
+  [EnumerateAndAssert]([1, 0])
+
 var { assert,
   '@kingjs': {
     '-linq': { GroupBy, 

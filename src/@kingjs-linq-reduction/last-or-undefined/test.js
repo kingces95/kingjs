@@ -1,21 +1,15 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { LastOrUndefined },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { LastOrUndefined },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+assert.equal(of(1, 2, 3)[LastOrUndefined](), 3)
+assert.equal(of()[LastOrUndefined](), undefined)
 
-function readme() {
-  assert([1, 2, 3][LastOrUndefined]() == 3)
-  assert([][LastOrUndefined]() == undefined)
-}
-readme()
-
-function readmePredicate() {
-  var isOdd = function(x) { return x % 2 == 1 }
-  assert([0, 1, 2, 3, 4][LastOrUndefined](isOdd) == 3)
-  assert([0, 2][LastOrUndefined](isOdd) == undefined)
-}
-readmePredicate()
+var isOdd = x => x % 2 == 1
+assert.equal(of(0, 1, 2, 3, 4)[LastOrUndefined](isOdd), 3)
+assert.equal(of(0, 2)[LastOrUndefined](isOdd), undefined)

@@ -10,4 +10,4 @@ repeat(0, 0)
   [EnumerateAndAssert]()
 
 repeat(0, 3)
-  [EnumerateAndAssert](0, 0, 0)
+  [EnumerateAndAssert]([0, 0, 0])

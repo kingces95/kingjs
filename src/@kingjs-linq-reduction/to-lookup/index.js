@@ -1,10 +1,13 @@
 var { 
   '@kingjs': {
-    Dictionary,
     IEnumerable,
-    IEnumerable: { GetEnumerator },
+    IGroupedEnumerable: { Key, GetEnumerator },
     IEnumerator: { MoveNext, Current },
+    ILookup: { Get, Has },
     '-interface': { ExportExtension },
+    '-linq': {
+      '-static': { fromIndexable }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -17,28 +20,45 @@ var {
  * @param {*} valueSelector 
  */
 function toLookup(keySelector, valueSelector) {       
-  var lookup = new Dictionary()
-  
-  var enumerator = this[GetEnumerator]()  
+  var map = new Map()
+
+  var enumerator = this[GetEnumerator]()
   while (enumerator[MoveNext]()) {
-    var current = enumerator[Current]
-    
-    var value = current
+    var value = enumerator[Current]
+    var key = keySelector(value)
     if (valueSelector)
-      value = valueSelector(current)
+      value = valueSelector(value)
     
-    var key = keySelector(current)
-    var values = lookup[key]
-    if (!values) {
-      var values = []
-      lookup[key] = values
-      values.key = key
-    }
+    var values = map.get(key)
+    if (!values)
+      map.set(key, values = [])
     
     values.push(value)
   }
   
-  return lookup
+  return from(map)
+}
+
+function from(map) {
+  var groups = { }
+  var groupEnumerable = { }
+  for (var key of map.keys()) {
+    groupEnumerable[key] = fromIndexable(map.get(key))
+
+    groups[key] = {
+      [Key]: key,
+      [GetEnumerator]() {
+        return groupEnumerable[this[Key]][GetEnumerator]()
+      } 
+    }
+  }
+
+  var enumerable = fromIndexable(Object.values(groups))
+  return {
+    [Get]: key => groups[key],
+    [Has]: key => map.has(key),
+    [GetEnumerator]: () => enumerable[GetEnumerator]()
+  }
 }
 
 module[ExportExtension](IEnumerable, toLookup)

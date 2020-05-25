@@ -3,15 +3,27 @@ var { assert,
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
+    IGroupedEnumerable: { Key },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-function enumerateAndAssert() {
+var EmptyArray = []
+var EmptyObject = {}
+
+function enumerateAndAssert(
+  expected = EmptyArray, 
+  options = EmptyObject) {
+
+  var { key } = options
+
+  if (key)
+    assert.equal(key, this[Key])
+
   var enumerator = this[GetEnumerator]()
-  for (var i = 0; i < arguments.length; i++) {
+  for (var i = 0; i < expected.length; i++) {
     assert.ok(enumerator[MoveNext]())
-    assert.equal(enumerator[Current], arguments[i])
+    assert.deepEqual(enumerator[Current], expected[i])
   }
 
   assert.ok(!enumerator[MoveNext]())

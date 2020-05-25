@@ -1,33 +1,17 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Except, SequenceEqual, 
-      '-reduction': { ToArray },
+    '-linq': { Except, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(0, 0, 1, 2)
+  [Except](of(1, 2))
+  [EnumerateAndAssert]([0])
 
-assert(
-  [0, 0, 1, 2]
-    [Except]([1, 2])
-    [SequenceEqual]([0])
-)
-
-var idAndName = [
-  { id: 0, name: 'foo' },
-  { id: 0, name: 'bar' },
-  { id: 1, name: 'baz' },
-]
-
-var distinctIdAndName = 
-  idAndName[Except](
-    [{ id: 1, name: 'baz' }],
-    function selectName(x) { return x.id }
-  )
-  [ToArray]()
-
-assert.deepEqual(distinctIdAndName, [
-  { id: 0, name: 'foo' },
-])
+of({ id: 0, name: 'foo' },
+   { id: 0, name: 'bar' },
+   { id: 1, name: 'baz' })
+  [Except](of({ id: 1 }), o => o.id )
+  [EnumerateAndAssert]([{ id: 0, name: 'foo' }])

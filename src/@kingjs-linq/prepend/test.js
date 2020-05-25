@@ -1,21 +1,13 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Prepend, SequenceEqual, 
-      '-reduction': { ToArray },
+    '-linq': { Prepend, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of()[Prepend]()
+  [EnumerateAndAssert]([undefined])
 
-function readme() {
-  var numbers = [1, 2, 3]
-  var result = numbers[Prepend](0)
-  var array = result[ToArray]()
-
-  assert(
-    [0, 1, 2, 3][SequenceEqual](array)
-  )
-}
-readme()
+of(0)[Prepend](1)
+  [EnumerateAndAssert]([1, 0])

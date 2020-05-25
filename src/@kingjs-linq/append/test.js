@@ -7,7 +7,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 of()[Append]()
-  [EnumerateAndAssert](undefined)
+  [EnumerateAndAssert]([undefined])
 
 of(0)[Append](1)
-  [EnumerateAndAssert](0, 1)
+  [EnumerateAndAssert]([0, 1])

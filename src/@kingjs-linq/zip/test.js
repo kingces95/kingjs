@@ -1,48 +1,25 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Zip, 
-      '-reduction': { ToArray },
+    '-linq': { Zip, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(0, 1, 2)
+  [Zip](of('a', 'b'), function(n, l) { 
+    return { number: n, letter: l } 
+  })
+  [EnumerateAndAssert]([
+    { number: 0, letter: 'a' },
+    { number: 1, letter: 'b' },
+  ])
 
-function readme() {
-  
-  var result = [0, 1, 2][Zip](
-    [`a`, `b`],
-    function(n, l) { 
-      return { number: n, letter: l } 
-    }
-  )
-  
-  var result = result[ToArray]()
-
-  assert(result.length == 2)
-  assert(result[0].number == 0)
-  assert(result[0].letter == 'a')
-  assert(result[1].number == 1)
-  assert(result[1].letter == 'b')
-}
-readme()
-
-function readmeFlipped() {
-  
-  var result = [`a`, `b`][Zip](
-    [0, 1, 2],
-    function(l, n) { 
-      return { number: n, letter: l } 
-    }
-  )
-  
-  var result = result[ToArray]()
-
-  assert(result.length == 2)
-  assert(result[0].number == 0)
-  assert(result[0].letter == 'a')
-  assert(result[1].number == 1)
-  assert(result[1].letter == 'b')
-}
-readmeFlipped()
+of(0, 1)
+  [Zip](of('a', 'b', 'c'), function(n, l) { 
+    return { number: n, letter: l } 
+  })
+  [EnumerateAndAssert]([
+    { number: 0, letter: 'a' },
+    { number: 1, letter: 'b' },
+  ])

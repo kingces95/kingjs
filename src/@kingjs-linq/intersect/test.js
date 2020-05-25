@@ -1,32 +1,19 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Intersect, 
-      '-reduction': { ToArray },
+    '-linq': { Intersect, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(0, 0, 1, 2)
+  [Intersect](of(0, 1))
+  [EnumerateAndAssert]([0, 1])
 
-function readme() {
-  var result = [0, 0, 1, 2][Intersect]([1, 0])
-  
-  var result = result[ToArray]()
+of(1, 0)
+  [Intersect](of(0, 0, 1, 2))
+  [EnumerateAndAssert]([1, 0])
 
-  assert(result.length == 2)
-  assert(result[0] == 0)
-  assert(result[1] == 1)
-}
-readme()
-
-function readmeFlipped() {
-  var result = [1, 0][Intersect]([0, 0, 1, 2])
-  
-  var result = result[ToArray]()
-
-  assert(result.length == 2)
-  assert(result[1] == 0)
-  assert(result[0] == 1)
-}
-readmeFlipped()
+of({ id: 0 }, { id: 1 })
+  [Intersect](of({ id: 0 }, { id: 2 }), o => o.id)
+  [EnumerateAndAssert]([{ id: 0 }])

@@ -10,7 +10,7 @@ of()
   [EnumerateAndAssert]()
 
 of(0)
-  [EnumerateAndAssert](0)
+  [EnumerateAndAssert]([0])
 
 of(0, 1)
-  [EnumerateAndAssert](0, 1)
+  [EnumerateAndAssert]([0, 1])

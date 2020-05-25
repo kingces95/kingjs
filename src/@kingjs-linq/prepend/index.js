@@ -2,7 +2,9 @@ var {
   '@kingjs': {
     IEnumerable,
     '-interface': { ExportExtension },
-    '-linq': { Concat },
+    '-linq': { Concat,
+      '-static': { of }
+    },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -13,7 +15,7 @@ var {
  * @param {*} value 
  */
 function prepend(value) {
-  return [value][Concat](this)
+  return of(value)[Concat](this)
 }
 
 module[ExportExtension](IEnumerable, prepend)

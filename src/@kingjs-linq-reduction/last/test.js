@@ -1,22 +1,14 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { Last },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { Last },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+assert.equal(of(1, 2, 3)[Last](), 3)
 
-function readme() {
-  assert([1, 2, 3][Last]() == 3)
-}
-readme()
-
-function readmePredicate() {
-  var isOdd = function(x) { return x % 2 == 1 }
-  assert([0, 1, 2, 3, 4][Last](isOdd) == 3)
-  assert.throws(function() {
-    [0, 2][Last](isOdd)
-  })
-}
-readmePredicate()
+var isOdd = x => x % 2 == 1
+assert.equal(of(0, 1, 2, 3, 4)[Last](isOdd), 3)
+assert.throws(() => of(0, 2)[Last](isOdd))

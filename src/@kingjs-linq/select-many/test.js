@@ -1,45 +1,25 @@
 var { assert,
   '@kingjs': {
-    '-linq': { SelectMany, SequenceEqual, 
-      '-reduction': { ToArray },
+    '-linq': { SelectMany, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(of(0, 1), of(2, 3))
+  [SelectMany]()
+  [EnumerateAndAssert]([0, 1, 2, 3])
 
-function readme() {
-  var peopleAndPets = [
-    { name: 'Alice', pets: ['Tiger', 'Butch'] },
-    { name: 'Bob', pets: ['Spike', 'Fluffy'] }
-  ]
-
-  var petOwners = peopleAndPets[SelectMany](
-    function(x, i) { 
-      assert(x.name != 'Alice' || i == 0)
-      assert(x.name != 'Bob' || i == 1)
-      return x.pets 
-    },
-    function(x, p) { return x.name + ' owns ' + p }
-  )
-
-  petOwners = petOwners[ToArray]()
-
-  assert(
-    petOwners[SequenceEqual]([
-      'Alice owns Tiger', 
-      'Alice owns Butch', 
-      'Bob owns Spike', 
-      'Bob owns Fluffy'
-    ])
-  )
-}
-readme()
-
-function flatten() {
-  var result = [[0, 1],[2, 3]][SelectMany]()
-  result = result[ToArray]()
-  assert(result[SequenceEqual]([0, 1, 2, 3]))
-}
-flatten()
+of({ name: 'Alice', pets: of('Tiger', 'Butch') },
+   { name: 'Bob', pets: of('Spike', 'Fluffy') })
+  [SelectMany]((x, i) => { 
+    assert(x.name != 'Alice' || i == 0)
+    assert(x.name != 'Bob' || i == 1)
+    return x.pets 
+  }, (x, p) => x.name + ' owns ' + p)
+  [EnumerateAndAssert]([
+    'Alice owns Tiger', 
+    'Alice owns Butch', 
+    'Bob owns Spike', 
+    'Bob owns Fluffy'
+  ])

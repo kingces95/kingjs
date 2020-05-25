@@ -1,15 +1,13 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { ToArray },
-    '-string': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { ToArray },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-String[ImplementIEnumerable]()
-
-var array = '123'[ToArray]()
-
-assert(array.length = 3)
-assert(array[0] === '1')
-assert(array[1] === '2')
-assert(array[2] === '3')
+assert.deepEqual(
+  of(0, 1, 2)[ToArray](),
+  [0, 1, 2]
+)

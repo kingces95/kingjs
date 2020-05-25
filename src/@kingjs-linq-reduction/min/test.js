@@ -1,29 +1,18 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { Min },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { Min },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-function readme() {
-  assert([1, 2, 3][Min]() == 1)
-}
-readme()
-
-function readmePredicate() {
-  var compareAge = function(l, r) {
-     return l.age < r.age 
-  }
-  
-  var person = [
+assert.equal(of(1, 2, 3)[Min](), 1)
+assert.deepEqual(
+  of(
     { name: 'Alice', age: 18 },
-    { name: 'Bob', age: 18 },
+    { name: 'Bob', age: 19 },
     { name: 'Chris', age: 19 },
-  ][Min](compareAge)
-
-  assert(person.name == 'Alice')
-  assert(person.age == 18)
-}
-readmePredicate()
+  )[Min]((l, r) => l.age < r.age),
+  { name: 'Alice', age: 18 }
+)

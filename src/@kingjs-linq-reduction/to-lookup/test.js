@@ -1,50 +1,61 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { ToLookup, ToArray },
-    '-array': { ImplementIEnumerable },
+    ILookup: { Get, Has },
+    IGroupedEnumerable: { Key },
+    '-linq': { Select, EnumerateAndAssert,
+      '-reduction': { ToArray, ToLookup },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-function readme() {
-  var lookup = [
-      { name: 'Alice', pet: 'Fluffy' },
-      { name: 'Alice', pet: 'Spike' },
-      { name: 'Bob', pet: 'Tiger' }
-    ][ToLookup](
+var lookup = 
+  of(
+    { name: 'Alice', pet: 'Fluffy' },
+    { name: 'Alice', pet: 'Spike' },
+    { name: 'Bob', pet: 'Tiger' }
+  )
+  [ToLookup](
     function(x) { return x.name },
     function(x) { return x.pet }
   )
-  assert(!('toString' in lookup))
-  
-  for (var key in lookup)
-    lookup[key] = lookup[key][ToArray]()
 
-  assert(Object.keys(lookup).length == 2)
-  assert(lookup.Alice[0] == 'Fluffy')
-  assert(lookup.Alice[1] == 'Spike')
-  assert(lookup.Bob[0] == 'Tiger')
-}
-readme()
+assert.ok(lookup[Has]('Alice'))
+assert.ok(lookup[Has]('Bob'))
 
-function defaultValueSelector() {
-  var lookup = [
-      { name: 'Alice', pet: 'Fluffy' },
-      { name: 'Alice', pet: 'Spike' },
-      { name: 'Bob', pet: 'Tiger' }
-    ][ToLookup](
+lookup[Get]('Bob')[EnumerateAndAssert](['Tiger'], { key: 'Bob' })
+lookup[Get]('Alice')[EnumerateAndAssert]([
+  'Fluffy', 
+  'Spike'
+], { key: 'Alice' })
+
+lookup
+  [Select](o => ({ 
+    key: o[Key], 
+    value: o[ToArray]() 
+  }))
+  [EnumerateAndAssert]([
+    { key: 'Alice', value: [ 'Fluffy', 'Spike' ] },
+    { key: 'Bob', value: [ 'Tiger' ] }
+  ])
+
+var lookup = of(
+    { name: 'Alice', pet: 'Fluffy' },
+    { name: 'Alice', pet: 'Spike' },
+    { name: 'Bob', pet: 'Tiger' }
+  )[ToLookup](
     function(x) { return x.name }
     // default selector
   )
-  assert(!('toString' in lookup))
-  
-  for (var key in lookup)
-    lookup[key] = lookup[key][ToArray]()
 
-  assert(Object.keys(lookup).length == 2)
-  assert(lookup.Alice[0].pet == 'Fluffy')
-  assert(lookup.Alice[1].pet == 'Spike')
-  assert(lookup.Bob[0].pet == 'Tiger')
-}
-defaultValueSelector()
+assert.ok(lookup[Has]('Alice'))
+assert.ok(lookup[Has]('Bob'))
+
+lookup[Get]('Alice')[EnumerateAndAssert]([
+  { name: 'Alice', pet: 'Fluffy' }, 
+  { name: 'Alice', pet: 'Spike' }
+], { key: 'Alice' })
+
+lookup[Get]('Bob')[EnumerateAndAssert]([
+  { name: 'Bob', pet: 'Tiger' }
+], { key: 'Bob' })

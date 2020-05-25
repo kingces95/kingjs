@@ -1,25 +1,19 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { Average },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { Average },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-function test(array, result) {
-  assert.equal(array[Average](), result)
-}
-
-test([2], 2)
-test([1, 2, 3], 2)
-test([-2, 0, 2], 0)
-
-var empty = []
-assert(Number.isNaN(empty[Average]()))
-
-assert(
-  [{ value: -1 }, { value: 1 }][Average](
+assert.equal(of(2)[Average](), 2)
+assert.equal(of(1, 2, 3)[Average](), 2)
+assert.equal(of(-2, 0, 2)[Average](), 0)
+assert.equal(
+  of({ value: -1 }, { value: 1 })[Average](
     function (x) { return x.value }
-  ) == 0
+  ), 0
 )
+
+assert(Number.isNaN(of()[Average]()))

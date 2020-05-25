@@ -1,80 +1,41 @@
-var { assert,
+var {
   '@kingjs': {
     IOrderedEnumerable: { CreateOrderedEnumerable },
-    '-linq': { OrderByDescending, 
-      '-reduction': { ToArray },
+    '-linq': { OrderByDescending, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(1, 0, 2)
+  [OrderByDescending]()
+  [EnumerateAndAssert]([2, 1, 0])
 
-function readme() {
-  var numbers = [1, 0, 2]
-  var sortedSequence = numbers[OrderByDescending]()
-  var sortedArray = sortedSequence[ToArray]()
+of({ value: 2 }, { value: 0 }, { value: 1 })
+  [OrderByDescending](o => o.value)
+  [EnumerateAndAssert]([{ value: 2 }, { value: 1 }, { value: 0 }])
 
-  assert(sortedArray[0] == 2)
-  assert(sortedArray[1] == 1)
-  assert(sortedArray[2] == 0)
-}
-readme()
+of(1, 0, 2, 'b', 'a')
+  [OrderByDescending](null, (l, r) => {
+    if (typeof l != typeof r)
+      return typeof l == 'string'
+    return l < r
+  })
+  [EnumerateAndAssert]([2, 1, 0, 'b', 'a'])
 
-function readmeWrapped() {
+of(1, 0, 2)
+  [OrderByDescending]()
+  [EnumerateAndAssert]([2, 1, 0])
 
-  var numbers = [{ value: 1 }, { value: 0 }, { value: 2 }]
-  var selectValue = function(x) { return x.value }
-  var sortedSequence = numbers[OrderByDescending](selectValue)
-  var sortedArray = sortedSequence[ToArray]()
-
-  assert(sortedArray[0].value == 2)
-  assert(sortedArray[1].value == 1)
-  assert(sortedArray[2].value == 0)
-}
-readmeWrapped()
-
-function readmeComp() {
-  var numbers = [1, 0, 2, 'b', 'a']
-  var sortedSequence = numbers[OrderByDescending](
-    null, 
-    function(l, r) {
-      if (typeof l != typeof r)
-        return typeof l == 'string'
-      return l < r
-    }
-  )
-  var sortedArray = sortedSequence[ToArray]()
-
-  assert(sortedArray[4] == 'a')
-  assert(sortedArray[3] == 'b')
-  assert(sortedArray[2] == 0)
-  assert(sortedArray[1] == 1)
-  assert(sortedArray[0] == 2)
-}
-readmeComp()
-
-function readmeThen() {
-  var people = [
+var lastSelector = function(x) { return x.last }
+var firstSelector = function(x) { return x.first }
+of({ first: 'Bob', last: 'Smith' },
+   { first: 'Alice', last: 'Smith' },
+   { first: 'Chris', last: 'King' })
+  [OrderByDescending](lastSelector)
+  [CreateOrderedEnumerable](firstSelector, null, true)
+  [EnumerateAndAssert]([
     { first: 'Bob', last: 'Smith' },
     { first: 'Alice', last: 'Smith' },
     { first: 'Chris', last: 'King' },
-  ]
-
-  var lastSelector = function(x) { return x.last }
-  var firstSelector = function(x) { return x.first }
-  var lessThan = null // use default
-
-  var sortedSequence = people
-    [OrderByDescending](lastSelector)
-    [CreateOrderedEnumerable](firstSelector, lessThan, true)
-
-  var sortedArray = sortedSequence[ToArray]()
-  assert(sortedArray[2].last == 'King')
-  assert(sortedArray[2].first == 'Chris')
-  assert(sortedArray[1].last == 'Smith')
-  assert(sortedArray[1].first == 'Alice')
-  assert(sortedArray[0].last == 'Smith')
-  assert(sortedArray[0].first == 'Bob')
-}
-readmeThen()
+  ])

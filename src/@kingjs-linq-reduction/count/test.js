@@ -1,13 +1,11 @@
 var { assert,
   '@kingjs': {
-    '-linq-reduction': { Count },
-    '-array': { ImplementIEnumerable },
+    '-linq': {
+      '-reduction': { Count },
+      '-static': { of }
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
-
-assert(3 == [1, 2, 3][Count]())
-
-var isOdd = function(o) { return o % 2 == 1 }
-assert(2 == [1, 2, 3][Count](isOdd))
+assert.equal(3, of(1, 2, 3)[Count]())
+assert.equal(2, of(1, 2, 3)[Count](o => o % 2 == 1))

@@ -1,31 +1,15 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Select, SequenceEqual },
-    '-array': { ImplementIEnumerable },
+    '-linq': { Select, EnumerateAndAssert,
+      '-static': { of }
+    },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of('A', 'B', 'C')
+  [Select](o => String.prototype.toLowerCase.call(o))
+  [EnumerateAndAssert](['a', 'b', 'c'])
 
-function readme() {
-  function selectLowerCase(x) {
-    return String.prototype.toLowerCase.call(x)
-  }
-
-  assert(
-    ['A', 'B', 'C']
-    [Select](selectLowerCase)
-    [SequenceEqual](['a', 'b', 'c'])
-  )
-}
-readme()
-
-function appendIndex(x, i) {
-  return x + i
-}
-
-assert(
-  ['A', 'B', 'C']
-  [Select](appendIndex)
-  [SequenceEqual](['A0', 'B1', 'C2'])
-)
+of('A', 'B', 'C')
+  [Select]((x, i) => x + i)
+  [EnumerateAndAssert](['A0', 'B1', 'C2'])

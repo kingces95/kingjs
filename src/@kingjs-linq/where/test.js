@@ -1,38 +1,15 @@
-var { assert,
+var {
   '@kingjs': {
-    '-linq': { Where, 
-      '-reduction': { ToArray },
+    '-linq': { Where, EnumerateAndAssert,
+      '-static': { of }
     },
-    '-array': { ImplementIEnumerable },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-Array[ImplementIEnumerable]()
+of(0, 1, 2, 3)
+  [Where](o => o % 2 == 0)
+  [EnumerateAndAssert]([0, 2])
 
-function readme() {
-  var numbers = [0, 1, 2, 3]
-
-  var isEven = function (x) { return x % 2 == 0 }
-
-  var evenNumbers = numbers[Where](isEven)
-
-  var result = evenNumbers[ToArray]()
-  assert(result.length == 2)
-  assert(result[0] == 0)
-  assert(result[1] == 2)
-}
-readme()
-
-function readmeIndex() {
-  var letters = ['a', 'b', 'c', 'd']
-
-  var isEvenIndex = function (x, i) { return i % 2 == 0 }
-  
-  var everyOther = letters[Where](isEvenIndex)
-  
-  var result = everyOther[ToArray]()
-  assert(result.length == 2)
-  assert(result[0] == 'a')
-  assert(result[1] == 'c')
-}
-readmeIndex()
+of('a', 'b', 'c')
+  [Where]((o, i) => i == 1)
+  [EnumerateAndAssert](['b'])

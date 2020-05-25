@@ -13,7 +13,7 @@ from((function*() { })())
   [EnumerateAndAssert]()
 
 from((function*() { yield 0 })())
-  [EnumerateAndAssert](0)
+  [EnumerateAndAssert]([0])
 
 from((function*() { yield 0; yield 1 })())
-  [EnumerateAndAssert](0, 1)
+  [EnumerateAndAssert]([0, 1])
