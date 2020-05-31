@@ -1,14 +1,14 @@
-var {
+var { readline,
   '@kingjs': {
     Path,
     IObservable: { Subscribe },
     IObserver: { Next, Complete },
     IGroupedObservable: { Key },
     '-rx': { Debounce,
-      '-subject': { GroupedSubject },
+      '-subject': { Subject, GroupedSubject },
       '-observer': { Proxy },
       '-sync': { GroupBy, Regroup, Do },
-      '-fs': { watch, ReadDir, Stat }
+      '-fs': { Watch, ReadDir, Stat }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -31,31 +31,34 @@ map.getOrCreate(fileIno)
   [GroupBy](o => o.path, o => !o.stats)
   [Subscribe]({
     [Next](o) {
-      var path = o[Key]
+      var path = o[Key].toString()
 
       if (!last) {
-        console.log(`[+] ${path.toString()}, ino: ${fileIno}`) 
+        console.log(`[+] ${path}, ino: ${fileIno}`) 
       }
       else {
-        console.log(`[o] ${last.toString()} -> ${path.toString()}, ino: ${fileIno}`) 
+        console.log(`[o] ${last} -> ${path}, ino: ${fileIno}`) 
       }
 
       last = path
 
       o[Subscribe]({
         [Next](x) {
-          console.log(`[Δ] ${x.path.toString()}, ino: ${fileIno}`) 
+          console.log(`[Δ] ${x.path}, ino: ${fileIno}`) 
         },
         [Complete]() {
-          console.log(`[-] ${path.name}`)
+          console.log(`[-] ${path}`)
         }
       })
     }
   })
 
 var dir = Path.dot
+var subject = new Subject()
+
 process.nextTick(async () =>
-  watch(dir)
+  subject
+    [Watch](dir)
     [Debounce](Ms)
     [ReadDir](dir)
     [Regroup](o => o
@@ -64,9 +67,11 @@ process.nextTick(async () =>
 
         // simulcast the `Dirent`s to a subject
         [Do](map.getOrCreate(x[Key].ino)[Proxy]({
-          [Complete]: () => this[Next]({ 
-            path: dir.to(o[Key].name) 
-          })
+          [Complete]() { 
+            this[Next]({ 
+              path: dir.to(x[Key].name) 
+            })
+          }
         }))
       )
     )
@@ -104,3 +109,14 @@ process.nextTick(async () =>
     }
   )
 )
+
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
+rl.on('SIGINT', () => {
+  console.log('ctrl-c')
+  subject[Complete]()
+  rl.close()
+})

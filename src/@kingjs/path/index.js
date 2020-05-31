@@ -1,9 +1,5 @@
-var { 
-  assert,
-  Path: NodePath,
-  '@kingjs': {
-    PathBuilder
-  }
+var { assert, Path: NodePath,
+  '@kingjs': { PathBuilder, WeakMapByInternedString }
 } = module[require('@kingjs-module/dependencies')]()
 
 var EmptyString = ''
@@ -93,21 +89,20 @@ class Path {
     this.platform = platform
     this.sep = platform.sep
     this.sepBuffer = Buffer.from(this.sep)
-  }
-
-  get dot() {
-    return PathBuilder.createRelative(this.sepBuffer) 
-  }
-
-  get root() { 
-    return PathBuilder.createRoot(this.sepBuffer) 
+    this.dot = PathBuilder.createRelative(this.sepBuffer)
+    this.root = PathBuilder.createRoot(this.sepBuffer) 
   }
 
   create(prefix) {
-    if ((prefix instanceof Buffer) == false)
-      prefix = Buffer.from(prefix)
+    var buffer = Buffer.from(prefix)
 
-    return PathBuilder.createRoot(this.sepBuffer, prefix) 
+    if (!this.map_)
+      this.map_ = new WeakMapByInternedString()
+
+    var result = this.map_.get(prefix)
+    if (!result)
+      result = this.map_.set(prefix, PathBuilder.createRoot(this.sepBuffer, buffer))
+    return result
   }
 
   cwd() {

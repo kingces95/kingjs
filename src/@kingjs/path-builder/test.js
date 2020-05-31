@@ -53,6 +53,9 @@ function test(sep, altSep) {
   assert.equal(dot.basename, undefined)
   assert.equal(dot.ext, undefined)
 
+  // test interning
+  assert.equal(dot.to('foo'), dot.to('foo'))
+
   var root = PathBuilder.createRoot(sepBuffer)
   var altRoot = PathBuilder.createRoot(altSepBuffer)
   assert.ok(dot.to(root).equals(root))

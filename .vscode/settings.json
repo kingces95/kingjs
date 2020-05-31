@@ -37,6 +37,7 @@
       "iface",
       "inode",
       "kingjs",
-      "linq"
+      "linq",
+      "pojo"
     ],
 }

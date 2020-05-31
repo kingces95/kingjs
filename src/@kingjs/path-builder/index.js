@@ -1,10 +1,11 @@
 var {
   assert,
   Path,
-  '@kingjs': { Exception },
-  '@kingjs-pojo': { ToArray },
-  '@kingjs-reflect': { is },
-  '@kingjs-buffer': { Append },
+  '@kingjs': { Exception, WeakMapByInternedString,
+    '-pojo': { ToArray },
+    '-reflect': { is },
+    '-buffer': { Append }
+  },
 } = module[require('@kingjs-module/dependencies')]()
 
 var NoRelativePathExists = "No relative path exists from '${from}' to '${to}'."
@@ -68,7 +69,13 @@ class PathBuilder {
   }
 
   _to(name) {
-    return new NamedPathBuilder(this, name)
+    if (!this.map_)
+      this.map_ = new WeakMapByInternedString()
+
+    var result = this.map_.get(name)
+    if (!result)
+      result = this.map_.set(name, new NamedPathBuilder(this, name))
+    return result
   }
 
   toRelativeFile(target, ignoreSeparator) {
@@ -197,6 +204,13 @@ class RootPathBuffer extends PathBuilder {
   }
 }
 
+function getDotDotDir() {
+  var cachedDir = this.dir_
+  if (!cachedDir)
+    this.dir_ = cachedDir = new DotDotPathBuilder(this)
+  return cachedDir
+}
+
 class DotPathBuilder extends PathBuilder {
   constructor(sepBuffer) {
     super()
@@ -206,7 +220,7 @@ class DotPathBuilder extends PathBuilder {
   }
 
   get dir() {
-    return new DotDotPathBuilder(this)
+    return getDotDotDir.call(this)
   }
 
   get isDot() {
@@ -247,7 +261,7 @@ class DotDotPathBuilder extends PathBuilder {
   }
   
   get dir() {
-    return new DotDotPathBuilder(this)
+    return getDotDotDir.call(this)
   }
 
   get isRelative() {

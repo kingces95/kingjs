@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/path-builder",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/buffer.append": "file:../buffer/append",
+    "@kingjs/exception": "file:../exception",
+    "@kingjs/pojo.to-array": "file:../pojo/to-array",
+    "@kingjs/reflect.is": "file:../reflect/is",
+    "@kingjs/string-ex.builder": "file:../string-ex/builder"
+  },
+  "nodeDependencies": [
+    "assert",
+    "path"
+  ],
+  "capitalize": true
+}

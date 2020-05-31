@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/string-ex.capitalize",
+  "version": "1.0.1",
+  "description": "Capitalize a string.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/string-ex/capitalize"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs-module/export-extension": "file:../../module/export-extension",
+    "@kingjs/string-ex.is-capitalized": "file:../is-capitalized"
+  },
+  "capitalize": true
+}
