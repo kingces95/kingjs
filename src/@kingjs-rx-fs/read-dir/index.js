@@ -1,9 +1,11 @@
-var { fs: { promises: fsp }, 
+var { fs: { promises: fsp }, fs,
   '@kingjs': {
     IObservable,
+    IGroupedObservable: { Key },
+    '-fs-dir': { Read },
     '-rx': {
       '-async': { SelectMany, Latest },
-      '-sync': { GroupBy, RollingSelect, Select,
+      '-sync': { GroupBy, RollingSelect, Select, Regroup,
         '-static': { from: rx }
       }
     },
@@ -27,9 +29,9 @@ var Options = {
  * directory entry, which in turn emits `{ name, current, previous }` where `name`
  * is the file name, and `current` and `previous` and directory entries.
  **/
-function dirEntries(path) {
+function readDir(dir) {
   return this
-    [Latest](() => fsp.readdir(path.buffer, Options))
+    [Select](() => dir[Read](Options))
     [Select](o => linq(o))                              // enter linq
     [RollingSelect](o =>                                // dirEntry[] -> {outer, inner, key}[]
       o[0][ZipJoin](o[1],
@@ -38,7 +40,7 @@ function dirEntries(path) {
         (current, previous, name) => ({ 
           current,
           previous,
-          name
+          name,
         })
       )
     )
@@ -49,6 +51,9 @@ function dirEntries(path) {
       o => o.name,                                      // group by entry name
       o => !o.current                                   // emit `complete` on unlinked
     )
+    [Regroup](o => o
+      [Select](x => x.current)
+    )
 }
 
-module[ExportExtension](IObservable, dirEntries)
+module[ExportExtension](IObservable, readDir)

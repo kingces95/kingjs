@@ -4,7 +4,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Complete, Error },
     '-rx': {
-      '-observer': { CheckAsync },
+      '-observer': { Proxy, CheckAsync },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
@@ -29,19 +29,20 @@ function blend() {
     var count = 0
 
     var subscriptions = observables
-      .map(x => x[Subscribe]({
-        ...observer,
-        [Complete]() { 
-          if (++count != observables.length)
-            return
-          
-          observer[Complete]()
-        },
-        [Error](o) { 
-          observer[Error](o) 
-          cancel()
-        },
-      }[CheckAsync]()))
+      .map(x => x[Subscribe](
+        observer[Proxy]({
+          [Complete]() { 
+            if (++count != observables.length)
+              return
+
+            this[Complete]()
+          },
+          [Error](o) { 
+            this[Error](o) 
+            cancel()
+          },
+        })[CheckAsync]()
+      ))
 
     var cancel = () => subscriptions.forEach(o => o())
 

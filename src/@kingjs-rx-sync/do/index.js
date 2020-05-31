@@ -3,13 +3,13 @@ var { assert,
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { create: createObserver },
+      '-sync-static': { create },
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
-var Noop = () => undefined
 
 /**
  * @description Returns an `IObservable` that spies on events.
@@ -18,38 +18,21 @@ var Noop = () => undefined
  * @returns Returns a new `IObservable` that behaves like the source
  * `IObservable` modulo any side effects introduced by `observer`.
  */
-function spy(observer = EmptyObject) {
-  assert(observer)
-  var observable = this
+function spy() {
+  var actions = createObserver(...arguments)
 
-  // overload
-  if (observer instanceof Function) {
-    observer = {
-      [Next]: arguments[0],
-      [Complete]: arguments[1],
-      [Error]: arguments[2],
-    } 
-  }
-
-  // defaults
-  var {
-    [Next]: next = Noop,
-    [Complete]: complete = Noop,
-    [Error]: error = Noop
-  } = observer
-  
   return create(observer => {
-    return observable[Subscribe]({
+    return this[Subscribe]({
       [Next](o) {
-        next(o)
+        actions[Next](o)
         observer[Next](o)
       },
       [Complete]() {
-        complete()
+        actions[Complete]()
         observer[Complete]()
       },
       [Error](e) {
-        error(e)
+        actions[Error](e)
         observer[Error](e)
       }
     })

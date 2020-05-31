@@ -18,12 +18,20 @@ var Identity = o => o
  * @returns Returns a new `IObservable` that emits the latest mapped 
  * values.
  */
-function select(callback = Identity) {
+function latest(callback = Identity) {
   return create(observer => {
     var now = 0
     var last = 0
-    var completed = 0
+    var completed = false
     var cancelled = false
+
+    function throws(e) {
+      if (cancelled)
+        return
+
+      observer[Error](e)
+      cancelled = true
+    }
 
     var cancel = this[Subscribe]({
       [Next](o) {
@@ -32,19 +40,25 @@ function select(callback = Identity) {
 
         function run(timestamp) {
           process.nextTick(async () => {
-            var value = await callback(o)
+            try {
+              var value = await callback(o)
 
-            if (timestamp != now)
-              return
+              if (timestamp != now)
+                return
 
-            if (cancelled)
-              return
+              if (cancelled)
+                return
 
-            observer[Next](value)
-            last = now
+              observer[Next](value)
 
-            if (completed)
-              observer[Complete]()
+              last = now
+
+              if (completed)
+                observer[Complete]()
+            } 
+            catch(e) {
+              throws(e)
+            }
           })
         }
       },
@@ -52,18 +66,14 @@ function select(callback = Identity) {
         if (cancelled)
           return
 
-        completed++
+        completed = true
         if (last != now)
           return
 
         observer[Complete]()
       },
       [Error](e) {
-        if (cancelled)
-          return
-
-        observer[Error](e)
-        cancelled = true
+        throws(e)
       }
     })
 
@@ -74,4 +84,4 @@ function select(callback = Identity) {
   })
 }
 
-module[ExportExtension](IObservable, select)
+module[ExportExtension](IObservable, latest)

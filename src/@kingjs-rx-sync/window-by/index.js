@@ -1,107 +1,94 @@
 var { deepEquals,
   '@kingjs': {
     IObservable,
-    IGroupedObservable: { Key },
-    IObservable: { Subscribe },
+    IGroupedObservable: { Subscribe, Key },
     IObserver: { Next, Complete, Error },
-    IPublishedObservable: { Value },
-    '-rx': { Subject },
+    '-rx': {
+      '-subject': { Subject },
+      '-sync-static': { create },
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var DefaultKeySelector = o => o
-var DefaultKeyEquals = (l, r) => l == r
-var DefaultResultSelector = (k, o) => o
-var DefaultWindowActivator = k => new Subject()
+var DefaultGroupCloser = (o, k) => false
 
 /**
- * @description Returns an `IObservable` that groups observations 
- * with matching keys into 'windows' represented by an `IObservable`. 
- * If a new key is observed, then any existing window is closed and 
- * another activated. 
+ * @description Groups observations with a common key into `IGroupedObservables`
+ * which in turn emit the observations. 
  * 
- * @this any The source `IObservable`.
- * 
- * @param [keySelector] A callback that selects a key for each emitted value.
- * @param [keyEquals] A callback to compare keys.
- * @param [resultSelector] A callback that maps each value before being 
- * emitted by its window.
- * @param [windowActivator] A callback to activate a Subject to act as the window.
+ * @this any The `IObservable` to group.
+ * @param [keySelector] Select the key.
+ * @param [groupCloser] Select if a group should be completed. 
  * 
  * @callback keySelector
- * @param value The value emitted by `this`.
- * @returns Returns a primitive key used to group the value.
- * 
- * @callback resultSelector
- * @param key The key.
  * @param value The value.
- * @returns Returns a result emitted by the window.
+ * @returns Returns the key for the value.
  * 
- * @callback windowActivator
- * @param key The key.
- * @param value The value.
- * @returns Returns a Subject to act as the window.
+ * @callback groupCloser
+ * @param key The group's key.
+ * @param value The group's next value.
+ * @returns Returns `true` to complete the group instead of emitting 
+ * `value` or false to emit the `value`.
  * 
- * @returns Returns an `IObservable` that emits `IGroupedObservable` that 
- * then emits source values with equal keys.
+ * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  */
 function windowBy(
-  keySelector = DefaultKeySelector, 
-  resultSelector = DefaultResultSelector,
-  windowActivator = DefaultWindowActivator
+  keySelector = DefaultKeySelector
 ) {
-
-  var observable = this
-
-  var result = new Subject(observer => {
+  return create(observer => {
+    var lastKey
     var window
 
-    return observable[Subscribe](
-      o => {
+    return this[Subscribe]({
+      [Next](o) {
         var key = keySelector(o)
 
-        if (!window || !deepEquals(key, window[Key])) {
+        if (window && !deepEquals(key, lastKey)) {
+          window[Complete]()
+          window = null
+        }
+        lastKey = key
 
-          // complete the previous window!
-          if (window)
-            window[Complete]()
+        // group activation
+        if (!window) {
 
-          // activate window
-          window = result[Value] = windowActivator(o, key)
+          // cache groupObserver
+          window = new Subject()
+
+          // create observable for group and capture the observer upon subscription
+          var windowObservable = create(realWindow => {
+            window[Subscribe](realWindow)
+            return () => window = null 
+          })
 
           // implement IGroupedObservable
-          window[Key] = key
-
-          // emit window
-          observer[Next](window)
+          windowObservable[Key] = key
+          
+          // emit group observable
+          observer[Next](windowObservable)
         }
 
-        window[Next](resultSelector(o, key))
+        // group emission
+        window[Next](o)
       },
-      () => {
+      [Complete]() {
         if (window)
           window[Complete]()
         window = null
+
         observer[Complete]()
       },
-      o => {
+      [Error](o) {
         if (window)
           window[Error](o)
         window = null
+
         observer[Error](o)
       }
-    )
-  },
-  (next, finished) => {
-    var window = result[Value]
-    if (!window)
-      return
-    next(window)
-  }
-)
-
-  return result
+    })
+  })
 }
 
-ExportExtension(module, IObservable, windowBy)
+module[ExportExtension](IObservable, windowBy)

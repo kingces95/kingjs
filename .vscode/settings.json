@@ -1,6 +1,7 @@
 {
     "files.exclude": {
         //"**/.vscode": true,
+        "**/.trash": true,
         "**/.gitattributes": true,
         "**/.gitignore": true,
         "**/.npmignore": true,

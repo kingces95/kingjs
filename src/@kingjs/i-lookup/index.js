@@ -9,6 +9,9 @@ var {
  * `IEnumerable` with members `has` and `get`.
  */
 module[Export]({
-  members: { has: null, get: null },
-  extends: [ IEnumerable ]
+  members: { 
+    has: null, 
+    get: null 
+  },
+  bases: [ IEnumerable ]
 })

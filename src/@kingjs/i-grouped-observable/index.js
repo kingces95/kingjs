@@ -10,5 +10,5 @@ var {
  */
 module[Export]({
   members: { key: null },
-  extends: [ IObservable ]
+  bases: [ IObservable ]
 })

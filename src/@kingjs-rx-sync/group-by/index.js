@@ -1,11 +1,10 @@
 var { 
   '@kingjs': {
     IObservable,
-    IGroupedObservable: { Key },
-    IObservable: { Subscribe },
+    IGroupedObservable: { Subscribe, Key },
     IObserver: { Next, Complete, Error },
     '-rx': {
-      '-observer': { Thunk },
+      '-subject': { Subject },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
@@ -51,11 +50,11 @@ function groupBy(
         if (!group) {
 
           // cache groupObserver
-          groups.set(key, group = new Thunk())
+          groups.set(key, group = new Subject())
 
           // create observable for group and capture the observer upon subscription
           var groupObservable = create(groupObserver => {
-            group.set(groupObserver)
+            group[Subscribe](groupObserver)
             return () => groups.delete(key) 
           })
 

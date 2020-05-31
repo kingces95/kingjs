@@ -5,7 +5,7 @@ var { assert,
     IObserver: { Next, Complete, Error },
     '-interface': { ExportExtension },
     '-rx': { 
-      '-observer': { CheckAsync },
+      '-observer': { Proxy, CheckAsync },
       '-sync-static': { create, empty, throws }
     },
   },
@@ -44,24 +44,25 @@ function zip(iterable = Empty, callback = ToKeyValue) {
       return empty()
     }
 
-    var cancel = this[Subscribe]({
-      ...observer,
-      [Next](o) {
-        observer[Next](callback(o, value))
+    var cancel = this[Subscribe](
+      observer[Proxy]({
+        [Next](o) {
+          this[Next](callback(o, value))
 
-        var next = iterator.next()
-        value = next.value
-        if (!next.done)
-          return
+          var next = iterator.next()
+          value = next.value
+          if (!next.done)
+            return
 
-        if (value) 
-          observer[Error](value)
-        else 
-          observer[Complete]()
+          if (value) 
+            this[Error](value)
+          else 
+            this[Complete]()
 
-        cancel()
-      },
-    }[CheckAsync]())
+          cancel()
+        },
+      })[CheckAsync]()
+    )
 
     return cancel
   })

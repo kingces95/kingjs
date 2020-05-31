@@ -11,7 +11,7 @@ var { fs,
  * 
  * @returns Binary data or text.
  */
-async function writeFile(data) {
+function writeFile(data) {
   return fs.writeFileSync(this.buffer, data)
 }
 

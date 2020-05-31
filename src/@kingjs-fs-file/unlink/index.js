@@ -9,7 +9,7 @@ var {  fs,
  * 
  * @this PathBuilder The path to unlink.
  */
-async function unlink() {
+function unlink() {
   return fs.unlinkSync(this.buffer)
 }
 

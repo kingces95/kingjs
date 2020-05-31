@@ -6,7 +6,6 @@ var { assert,
 
 var EmptyObject = { }
 var Noop = () => undefined
-var ThrowNextTick = o => process.nextTick(() => { throw o })
 
 /**
  * @description Create an observer using provided functions or defaults
@@ -26,13 +25,14 @@ function create(observer = EmptyObject) {
   }
 
   // defaults
-  observer = {
-    [Next]: Noop,
-    [Complete]: Noop,
-    [Error]: ThrowNextTick,
-    ...observer
-  }
+  if (!observer[Next])
+    observer[Next] = Noop
+  if (!observer[Complete])
+    observer[Complete] = Noop
+  if (!observer[Error])
+    observer[Error] = Noop
 
+  // checks
   assert.ok(observer[Next] instanceof Function)
   assert.ok(observer[Complete] instanceof Function)
   assert.ok(observer[Error] instanceof Function)

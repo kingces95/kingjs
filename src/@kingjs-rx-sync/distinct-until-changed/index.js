@@ -4,7 +4,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -16,30 +19,34 @@ var DefaultKeySelector = o => o
  * 
  * @param [keySelector] A callback to select the key used to 
  * determine equality between two emitted values.
- * @param [equal] An call back which determines if two keys
+ * @param [equals] An call back which determines if two keys
  * are equal.
  * 
  * @returns Returns an `IObservable` whose each value is
  * distinct from the previously emitted value.
  */
-function distinctUntilChanged(keySelector = DefaultKeySelector) {
+function distinctUntilChanged(
+  keySelector = DefaultKeySelector,
+  equals = deepEquals) {
+
   return create(observer => {
     var hasLastKey
     var lastKey
 
-    return this[Subscribe]({
-      ...observer,
-      [Next](o) {
-        var key = keySelector(o)
+    return this[Subscribe](
+      observer[Proxy]({
+        [Next](o) {
+          var key = keySelector(o)
 
-        if (hasLastKey && deepEquals(lastKey, key))
-          return
-        
-        observer[Next](o)
-        lastKey = key
-        hasLastKey = true
-      },
-    })
+          if (hasLastKey && equals(lastKey, key))
+            return
+          
+          this[Next](o)
+          lastKey = key
+          hasLastKey = true
+        },
+      })[Check]()
+    )
   })
 }
 

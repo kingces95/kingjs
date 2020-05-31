@@ -3,7 +3,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Complete },
-    '-rx-sync-static': { create, empty },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create, empty }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -25,12 +28,13 @@ function then(next = empty()) {
   return create(observer => {
     var nextCancel
 
-    var cancel = this[Subscribe]({
-      ...observer,
-      [Complete]() {
-        nextCancel = next[Subscribe](observer)
-      }
-    })
+    var cancel = this[Subscribe](
+      observer[Proxy]({
+        [Complete]() {
+          nextCancel = next[Subscribe](this)
+        }
+      })[Check]()
+    )
 
     return () => nextCancel ? nextCancel() : cancel()
   })

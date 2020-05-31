@@ -3,7 +3,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -26,17 +29,18 @@ function rollingSelect(
 
   return create(observer => {
     var window = [ ]
-    return this[Subscribe]({
-      ...observer,
-      [Next](o) {
+    return this[Subscribe](
+      observer[Proxy]({
+        [Next](o) {
 
-        if (window.length == count)
-          window.pop()
-        window.unshift(o)
-        
-        observer[Next](selector(window))
-      },
-    })
+          if (window.length == count)
+            window.pop()
+          window.unshift(o)
+          
+          this[Next](selector(window))
+        },
+      })[Check]()
+    )
   })
 }
 

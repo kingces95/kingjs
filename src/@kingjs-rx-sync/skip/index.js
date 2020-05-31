@@ -3,7 +3,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': { 
+      '-observer': { Check, Proxy },
+      '-sync-static': { create }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -16,15 +19,16 @@ var {
 function skip(count) {
   return create(observer => {
     var skipped = 0
-    return this[Subscribe]({
-      ...observer,
-      [Next](o) {
-        if (skipped++ < count)
-          return
-        
-        observer[Next](o)
-      },
-    })
+    return this[Subscribe](
+      observer[Proxy]({
+        [Next](o) {
+          if (skipped++ < count)
+            return
+          
+          this[Next](o)
+        },
+      })[Check]()
+    )
   })
 }
 

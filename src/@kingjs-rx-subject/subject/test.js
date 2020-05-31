@@ -1,56 +1,30 @@
 var { assert,
-  '@kingjs': { 
-    IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
-    '-rx': { Subject },
-  },
+  '@kingjs': {
+    ISubject,
+    ISubject: { Next, Complete, Error },
+    '-rx': { SubscribeAndAssert,
+      '-subject': { Subject },
+    }
+  }
 } = module[require('@kingjs-module/dependencies')]()
 
-var IntervalMs = 200
-var Timeout = 1000
-var Limit = 10
+process.nextTick(async () => {
 
-class DataSource {
-  constructor() {
-    let i = 0
-    this.token = setInterval(() => this.emit(i++), IntervalMs)
-  }
+  var subject = new Subject()
+  assert(subject instanceof ISubject)
+
+  process.nextTick(() => {
+    subject[Next](0)
+    subject[Complete]()
+  })
+  await subject[SubscribeAndAssert]([0])
   
-  emit(n) {
-    if (this.onData) {
-      this.onData(n)
-    }
-    
-    if (n === Limit) {
-      if (this.oncomplete) {
-        this.onComplete()
-      }
-      this.destroy()
-    }
-  }
+  var subject = new Subject()
+  process.nextTick(() => {
+    subject[Error]('error')
+  })
+  await subject[SubscribeAndAssert](null, { error: 'error' })
   
-  destroy() {
-    console.log('destroy')
-    clearInterval(this.token)
-  }
-}
-
-var myObservable = new Subject((observer) => {
-  const dataSource = new DataSource()
-  dataSource.onData = (o) => observer[Next](o)
-  dataSource.onError = (e) => observer[Error](e)
-  dataSource.onComplete = () => observer[Complete]()
-
-  return dataSource.destroy.bind(dataSource)
+  var subject = new Subject()
+  await subject[SubscribeAndAssert](null, { unfinished: true })
 })
-
-var dispose = myObservable[Subscribe]({
-  [Next](x) { console.log(x) },
-  [Error](err) { console.error(err) },
-  [Complete]() { console.log('done')}
-})
-
-setTimeout(() => {
-  console.log('timeout')
-  dispose()
-}, Timeout)

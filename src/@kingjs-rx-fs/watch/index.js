@@ -1,7 +1,13 @@
 var { fs,
   '@kingjs': {
-    IObserver: { Next, Error },
-    '-rx-sync-static': { create }
+    IObservable,
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete, Error },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create }
+    },
+    '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -31,17 +37,36 @@ function watch(path) {
     var watcher = fs.watch(path.buffer, Options)
 
     watcher.on(Event.Change, 
-      () => observer[Next](path)
+      () => observer[Next](null)
     )
     watcher.on(Event.Close,
       () => watcher.removeAllListeners()
     )
     watcher.on(Event.Error, 
-      e => observer[Error](e)
+      e => {
+        observer[Error](e)
+        cancel()
+      }
     )
 
-    return () => watcher.close()
+    var cancel = this[Subscribe](
+      observer[Proxy]({
+        [Complete]() {
+          watcher.close()
+          this[Complete]()
+        },
+        [Error](e) {
+          watcher.close()
+          this[Error](e)
+        }
+      })[Check]()
+    )
+
+    return () => {
+      cancel()
+      watcher.close()
+    }
   })
 }
 
-module.exports = watch
+module[ExportExtension](IObservable, watch)

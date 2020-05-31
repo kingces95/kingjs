@@ -95,4 +95,9 @@ process.nextTick(async () => {
     [SubscribeAndAssert]([0], { unfinished: true })
   })
   cancel4()
+
+  // synchronous callback error
+  await of(0)
+    [Latest](() => { throw 'error' })
+    [SubscribeAndAssert](null, { error: 'error' })
 })

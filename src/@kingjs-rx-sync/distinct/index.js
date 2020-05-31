@@ -3,7 +3,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': { 
+      '-observer': { Proxy, Check },
+      '-sync-static': { create }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -21,21 +24,22 @@ var DefaultKeySelector = o => o
 function distinct(keySelector = DefaultKeySelector) {
   return create(observer => {
     var keys
-    return this[Subscribe]({
-      ...observer,
-      [Next](o) {
-        var key = keySelector(o)
+    return this[Subscribe](
+      observer[Proxy]({
+        [Next](o) {
+          var key = keySelector(o)
 
-        if (!keys)
-          keys = new Set()
+          if (!keys)
+            keys = new Set()
 
-        if (keys.has(key))
-          return
-        
-        observer[Next](o)
-        keys.add(key)
-      },
-    })
+          if (keys.has(key))
+            return
+          
+          this[Next](o)
+          keys.add(key)
+        },
+      })[Check]()
+    )
   })
 }
 

@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-rx-observer/create",
+  "name": "@kingjs/rx.subject",
   "version": "1.0.0",
-  "description": "Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.",
+  "description": "The Subject.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,16 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/first"
+    "url": "https://repository.kingjs.net/rx/subject"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.i-observable": "latest"
+    "@kingjs/reflect.create-symbol": "latest",
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
-    "assert"
+    "assert",
+    "events"
   ],
   "capitalize": true
 }

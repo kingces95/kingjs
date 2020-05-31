@@ -3,7 +3,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create },
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -18,14 +21,15 @@ var {
 function count() {
   return create(observer => {
     var i = 0
-    return this[Subscribe]({
-      ...observer,
-      [Next]() { i++ },
-      [Complete]() { 
-        observer[Next](i)
-        observer[Complete]()
-      },
-    })
+    return this[Subscribe](
+      observer[Proxy]({
+        [Next]() { i++ },
+        [Complete]() { 
+          this[Next](i)
+          this[Complete]()
+        }
+      })[Check](),
+    )
   })
 }
 

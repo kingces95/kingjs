@@ -4,7 +4,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
     '-rx': {
-      '-observer': { CheckAsync },
+      '-observer': { Proxy, CheckAsync },
       '-sync-static': { create }
     },
     '-interface': { ExportExtension },
@@ -41,42 +41,42 @@ function selectMany(
     var count = 1
     var innerSubscriptions = new Map()
 
-    var commonObserver = {
-      ...observer,
+    var commonObserver = observer[Proxy]({
       [Complete]() {
         if (--count)
           return
-          observer[Complete]()
+        this[Complete]()
       },
       [Error](e) {
-        observer[Error](e)
+        this[Error](e)
         cancel()
       },
-    }
+    })
 
-    var outerSubscription = this[Subscribe]({
-      ...commonObserver,
-      [Next](o) {
-        count++
+    var outerSubscription = this[Subscribe](
+      commonObserver[Proxy]({
+        [Next](o) {
+          count++
 
-        process.nextTick(async () => {
-          var innerObservable = await manySelector(o)
+          process.nextTick(async () => {
+            var innerObservable = await manySelector(o)
 
-          var innerSubscription = innerObservable[Subscribe]({
-            ...commonObserver,
-            [Next](x) {
-              commonObserver[Next](resultSelector(x, o))
-            },
-            [Complete]() { 
-              commonObserver[Complete]()
-              innerSubscriptions.delete(innerObservable)
-            },
-          }[CheckAsync]())
+            var innerSubscription = innerObservable[Subscribe](
+              commonObserver[Proxy]({
+                [Next](x) {
+                  this[Next](resultSelector(x, o))
+                },
+                [Complete]() { 
+                  this[Complete]()
+                  innerSubscriptions.delete(innerObservable)
+                },
+              })[CheckAsync]()
+            )
 
-          innerSubscriptions.set(innerObservable, innerSubscription)
-        })
-      },
-    }[CheckAsync]())
+            innerSubscriptions.set(innerObservable, innerSubscription)
+          })
+        },
+      })[CheckAsync]())
 
     var cancel = () => {
       for (var innerSubscription of innerSubscriptions.values())

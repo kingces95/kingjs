@@ -3,12 +3,15 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create },
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-True = o => true
+var True = o => true
 
 /**
  * @description Filters observations based on `predicate`.
@@ -23,15 +26,16 @@ True = o => true
  */
 function where(predicate = True) {
   return create(observer => {
-    return this[Subscribe]({
-      ...observer,
-      [Next]: o => {
-        if (!predicate(o))
-          return
-        
-        observer[Next](o)
-      },
-    })
+    return this[Subscribe](
+      observer[Proxy]({
+        [Next](o) {
+          if (!predicate(o))
+            return
+          
+          this[Next](o)
+        },
+      })[Check]()
+    )
   })
 }
 

@@ -1,14 +1,10 @@
-var { 
-  fs: { promises: fsp }, 
+var { fs, fs: { promises: fsp }, 
   '@kingjs': {
     IObservable,
-    IGroupedObservable: { Key },
-    '-rx': { Pool, DistinctUntilChanged, WindowBy,
-      '-fs': { 
-        PathSubject,
-        StatsSubject 
-      },
-      '-static': { create },
+    //IGroupedObservable: { Key },
+    '-rx': { 
+      '-async': { Latest }, 
+      '-sync': { DistinctUntilChanged }
     },
     '-interface': { ExportExtension },
   }
@@ -44,4 +40,4 @@ function distinctStats() {
     )                                                   
 }
 
-ExportExtension(module, PathSubject, distinctStats);
+module[ExportExtension](IObservable, distinctStats);

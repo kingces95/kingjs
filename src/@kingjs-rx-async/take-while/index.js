@@ -5,7 +5,7 @@ var {
     IObserver: { Next, Complete },
     '-interface': { ExportExtension },
     '-rx': {
-      '-observer': { CheckAsync },
+      '-observer': { Proxy, CheckAsync },
       '-sync-static': { create },
     }
   }
@@ -24,18 +24,18 @@ var {
 function takeWhile(predicate) {
   return create(observer => {
 
-    var cancel = this[Subscribe]({
-      ...observer,
-      [Next](o) { 
-        if (!predicate(o)) {
-          observer[Complete]()
-          cancel()
-          return
-        }
-        
-        observer[Next](o)
-      },
-    }[CheckAsync]())
+    var cancel = this[Subscribe](
+      observer[Proxy]({
+        [Next](o) { 
+          if (!predicate(o)) {
+            this[Complete]()
+            cancel()
+            return
+          }
+          
+          this[Next](o)
+        },
+      })[CheckAsync]())
 
     return cancel
   })

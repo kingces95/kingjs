@@ -1,20 +1,39 @@
 var {
   '@kingjs': {
     Path,
-    IObservable: { Subscribe },
-    IObserver: { Next },
-    '-rx': { Debounce,
-      '-fs': { watch }
+    '-fs-file': { Write, Unlink },
+    '-rx': { SubscribeAndAssert,
+      '-static': { never },
+      '-sync': { SubscribeAndAssert: SyncSubscribeAndAssert,
+        '-static': { of, throws },
+      },
+      '-fs': { Watch }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DebounceMs = 60
+process.nextTick(async () =>{
+  var path = Path.dot
+  var fooTxt = path.to('foo.txt')
 
-process.nextTick(async () =>
-  watch(Path.parse(__filename))
-    [Debounce](DebounceMs)
-    [Subscribe]({
-      [Next]() { process.stdout.write('.') }
-    })
-)
+  of(0)
+    [Watch](path)
+    [SyncSubscribeAndAssert]([0])
+
+  throws('error')
+    [Watch](path)
+    [SyncSubscribeAndAssert](null, { error: 'error' })
+
+  var cancel = await never()
+    [Watch](path)
+    [SubscribeAndAssert](null, { unfinished: true })
+  cancel()
+
+  process.nextTick(() => fooTxt[Write]())
+  var cancel = await never()
+    [Watch](path)
+    [SubscribeAndAssert]([null], { unfinished: true })
+  cancel()
+
+  fooTxt[Unlink]()
+})

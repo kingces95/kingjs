@@ -3,7 +3,10 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { Proxy, Check },
+      '-sync-static': { create }
+    },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -22,10 +25,11 @@ var {
 function select(callback) {
   var observable = this
   return create(observer => {
-    return observable[Subscribe]({
-      ...observer,
-      [Next]: o => observer[Next](callback(o)),
-    })
+    return observable[Subscribe](
+      observer[Proxy]({
+        [Next](o) { this[Next](callback(o)) },
+      })[Check]()
+    )
   })
 }
 
