@@ -1,10 +1,9 @@
-var { fs: { promises: fsp }, fs,
+var {
   '@kingjs': {
     IObservable,
-    IGroupedObservable: { Key },
     '-fs-dir': { Read },
     '-rx': {
-      '-async': { SelectMany, Latest },
+      '-async': { SelectMany },
       '-sync': { GroupBy, RollingSelect, Select, Regroup,
         '-static': { from: rx }
       }

@@ -2,18 +2,28 @@ var { readline,
   '@kingjs': {
     Path,
     IObservable: { Subscribe },
-    IObserver: { Next, Complete },
+    IObserver: { Next, Complete, Error },
     IGroupedObservable: { Key },
     '-rx': { Debounce,
       '-subject': { Subject, GroupedSubject },
-      '-observer': { Proxy },
-      '-sync': { GroupBy, Regroup, Do },
+      '-sync': { GroupBy, Regroup, Then, Tap,
+        '-static': { of, never }
+      },
       '-fs': { Watch, ReadDir, Stat }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var Ms = 100
+
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
+var last
+var fileIno = 8604171652
+var version = 0
 
 class GroupedSubjectMap extends Map {
   getOrCreate(key) {
@@ -23,15 +33,14 @@ class GroupedSubjectMap extends Map {
     return subject
   }
 }
-var map = new GroupedSubjectMap()
 
-var last
-var fileIno = 8604171652
+var map = new GroupedSubjectMap()
 map.getOrCreate(fileIno)
   [GroupBy](o => o.path, o => !o.stats)
   [Subscribe]({
     [Next](o) {
       var path = o[Key].toString()
+      var current = ++version
 
       if (!last) {
         console.log(`[+] ${path}, ino: ${fileIno}`) 
@@ -47,15 +56,31 @@ map.getOrCreate(fileIno)
           console.log(`[Δ] ${x.path}, ino: ${fileIno}`) 
         },
         [Complete]() {
-          console.log(`[-] ${path}`)
+          delayDelete(current)
         }
       })
+
+      function delayDelete(current) {
+        setTimeout(() => {
+          if (version == current)
+            console.log(`[-] ${path}`)
+        }, Ms)
+      }
     }
   })
 
-var dir = Path.dot
 var subject = new Subject()
+rl.on('SIGINT', () => {
+  console.log('ctrl-c')
+  subject[Complete]()
+  rl.close()
+})
 
+function diff(subject) {
+
+}
+
+var dir = Path.dot
 process.nextTick(async () =>
   subject
     [Watch](dir)
@@ -64,15 +89,11 @@ process.nextTick(async () =>
     [Regroup](o => o
       [Stat](dir)
       [Regroup](x => x
-
-        // simulcast the `Dirent`s to a subject
-        [Do](map.getOrCreate(x[Key].ino)[Proxy]({
-          [Complete]() { 
-            this[Next]({ 
-              path: dir.to(x[Key].name) 
-            })
-          }
-        }))
+        [Tap](y => y
+          [Then](of({ path: dir.to(o[Key]) }))
+          [Then](never())
+          [Subscribe](map.getOrCreate(x[Key]))
+        )
       )
     )
 
@@ -91,7 +112,7 @@ process.nextTick(async () =>
             console.log(`- ${name}`)
           },
           [Next](l) {
-            var ino = l[Key].ino
+            var ino = l[Key]
             console.log(`+ ${name} -> ${ino}`)
 
             // subscribe to link 
@@ -109,14 +130,3 @@ process.nextTick(async () =>
     }
   )
 )
-
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
-
-rl.on('SIGINT', () => {
-  console.log('ctrl-c')
-  subject[Complete]()
-  rl.close()
-})

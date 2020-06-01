@@ -28,10 +28,7 @@ function stat(dir) {
       ms: o.stats.ctimeMs, 
       ino: o.stats.ino 
     }))
-    [WindowBy](x => ({
-      name: x.name,
-      ino: x.stats.ino
-    }))
+    [WindowBy](x => x.stats.ino)
 }
 
 module[ExportExtension](IObservable, stat)
