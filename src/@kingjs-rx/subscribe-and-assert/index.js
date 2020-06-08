@@ -2,83 +2,111 @@ var { assert,
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
+    '-rx-observer': { Check },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+function Noop() { }
 
 /**
  * @description Asserts the sequence of events.
  * @this any The source `IObservable` whose emission are examined.
  */
-function subscribeAndAssert(expectedNext, options = { }) {
-  if (!expectedNext)
-    expectedNext = [ ]
+function subscribeAndAssert(expected, options = { }) {
+  if (!expected)
+    expected = [ ]
 
   var { 
     synchronous, 
     error, 
-    unfinished, 
+    terminate, 
+    abort,
+    abandon, 
     delay = 0 
   } = options
 
-  var finished = false
+  // abandon is terminate without the `cancel` call
+  if (abandon)
+    terminate = true
 
-  var promise = new Promise(accept => {
-    var acceptUnfinished = () => {
-      if (expectedNext.length != 0)
-        return
-      
-      if (!unfinished) 
-        return
+  var start = Date.now()
+  var eventsExpected = true
 
-      finished = true
-      if (synchronous)
-        return
+  function completeOrError() {
+    assert.ok(eventsExpected)
+    eventsExpected = false
+    assert.ok(!terminate)
+    assert.ok(!expected.length)
+  }
+
+  function tryCancel(cancel) {
+    assert(cancel)
+    
+    if (expected.length) 
+      return false
+
+    eventsExpected = false
+    cancel()
+    return true
+  }
+
+  var test = accept => {
+    var cancel
+    var initialized = false
+
+    this[Subscribe]({
+      [Initialize]() {
+        assert(!initialized)
+        initialized = true
         
-      assert.ok(cancel instanceof Function)
-      accept(cancel)
-    }
+        cancel = arguments[0]
+        if (abandon)
+          cancel = Noop
 
-    var start = Date.now()
-    var cancel = this[Subscribe]({
-      [Next](actualNext) {
+        if (abort) {
+          assert(tryCancel(cancel))
+          accept()
+        }
+      },
+      [Next](o) {
+        assert.ok(eventsExpected)
+  
         assert.ok(Date.now() - start >= delay)
         start = Date.now()
-
-        assert.ok(!finished)
-        assert.deepEqual(actualNext, expectedNext.shift())
-        acceptUnfinished()
+  
+        assert.deepEqual(o, expected.shift())
+        if (terminate && tryCancel(cancel))
+          accept()
       }, 
       [Complete]() {
-        assert.ok(!unfinished)
-        assert.ok(!finished)
+        completeOrError()
         assert.ok(error === undefined)
-        assert.equal(expectedNext.length, 0)
-        finished = true
         accept()
       },
-      [Error](actualError) {
-        assert.ok(!unfinished)
-        assert.ok(!finished)
+      [Error](o) {
+        completeOrError()
         assert.ok(error !== undefined)
-        assert.equal(actualError, error)
-        assert.equal(expectedNext.length, 0)
-        finished = true
-        accept(actualError)
+        assert.equal(o, error)
+        accept()
       }
     })
+
+    assert.ok(initialized)
     
-    acceptUnfinished()
+    if (eventsExpected && terminate && tryCancel(cancel))
+      accept()
+  }
 
-    if (synchronous) {
-      assert.ok(unfinished || finished)
-      assert.ok(cancel instanceof Function)
-      accept(cancel)
-    }
-  })
+  if (synchronous) {
+    var accepted = false
+    test(() => accepted = true)
+    assert.ok(accepted)
+    return
+  }
 
-  return promise
+  return new Promise(test)
 }
 
 module[ExportExtension](IObservable, subscribeAndAssert)

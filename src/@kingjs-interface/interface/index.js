@@ -90,7 +90,7 @@ function isImplementedBy(iface, instance) {
     if (is.array(symbol)) {
       for (var overload of symbol) {
         assert(is.symbol(overload))
-        if (overload in instance == false)
+        if (instance[overload] === undefined)
           return false
       }
     }
@@ -98,7 +98,7 @@ function isImplementedBy(iface, instance) {
     else if (!is.symbol(symbol))
       continue
 
-    else if (symbol in instance == false)
+    else if (instance[symbol] === undefined)
       return false
 
     result = true

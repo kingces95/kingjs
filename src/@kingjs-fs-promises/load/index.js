@@ -22,7 +22,7 @@ async function load() {
   var pojo = { }
 
   for (var entry of await this[List]()) {
-    var { name, ext } = entry
+    var { name, ext } = this.to(entry)
 
     if (ext) {
       var value = await this.to(name)[ReadFile](Utf8)

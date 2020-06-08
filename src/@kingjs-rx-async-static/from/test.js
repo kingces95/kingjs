@@ -2,12 +2,16 @@ var {
   '@kingjs': {
     IObservable: { Subscribe },
     '-rx': { SubscribeAndAssert, 
+      '-static': { Select },
       '-async-static': { from }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 process.nextTick(async () => {
+  await from([0, 1, 2])
+    [SubscribeAndAssert]([0, 1, 2])
+
   await from([0, 1, 2])
     [SubscribeAndAssert]([0, 1, 2])
 

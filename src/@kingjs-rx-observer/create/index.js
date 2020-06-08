@@ -1,11 +1,20 @@
 var { assert,
   '@kingjs': {
-    IObserver: { Next, Complete, Error },
+    IObserver,
+    IObserver: { Initialize, Next, Complete, Error },
+    '-rx-observer': { Proxy, construct }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var EmptyObject = { }
-var Noop = () => undefined
+var DefaultObserver = {
+  [Initialize]() { },
+  [Next]() { },
+  [Complete]() { },
+  [Error](e) {
+    process.nextTick(() => { throw e })
+  },
+}
 
 /**
  * @description Create an observer using provided functions or defaults
@@ -16,26 +25,14 @@ var Noop = () => undefined
 function create(observer = EmptyObject) {
 
   // overload
-  if (observer instanceof Function) {
-    observer = {
-      [Next]: arguments[0],
-      [Complete]: arguments[1],
-      [Error]: arguments[2],
-    } 
-  }
+  observer = construct(...arguments)
 
   // defaults
-  if (!observer[Next])
-    observer[Next] = Noop
-  if (!observer[Complete])
-    observer[Complete] = Noop
-  if (!observer[Error])
-    observer[Error] = Noop
+  if (!(observer instanceof IObserver))
+    observer = DefaultObserver[Proxy](observer)
 
   // checks
-  assert.ok(observer[Next] instanceof Function)
-  assert.ok(observer[Complete] instanceof Function)
-  assert.ok(observer[Error] instanceof Function)
+  assert.ok(observer instanceof IObserver)
 
   return observer
 }

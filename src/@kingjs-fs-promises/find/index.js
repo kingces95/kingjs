@@ -1,7 +1,10 @@
 var { 
   '@kingjs': { Path,
     '-module': { ExportExtension },
-    '-fs-promises-dir': { List }
+    '-fs': {
+      '-dir': { Partition },
+      '-promises-dir': { List }
+    }
   },
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -21,18 +24,24 @@ var EmptyArray = []
 async function* find(pattern) {
   var dir = this
 
-  var list = await dir[List](Options)
-  
-  for (var path of list.files || EmptyArray) {
-    if (path.name == pattern)
-      yield path
+  var list = await dir
+    [List](Options)
+
+  list = list
+    [Partition]()
+
+  // search files
+  for (var name of list.files || EmptyArray) {
+    if (name == pattern)
+      yield dir.to(name)
   }
 
-  for (var subDir of list.directories || EmptyArray) {
-    if (subDir.name == pattern)
-      yield subDir
+  // search directories
+  for (var name of list.directories || EmptyArray) {
+    if (name == pattern)
+      yield dir.to(name)
 
-    yield* find.call(subDir, pattern)
+    yield* find.call(dir.to(name), pattern)
   }
 }
 

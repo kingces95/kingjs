@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Subscribe, Key },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
     '-rx': {
       '-subject': { Subject },
       '-sync-static': { create },
@@ -11,8 +11,8 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DefaultKeySelector = o => o
-var DefaultGroupCloser = (o, k) => false
+var Identity = o => o
+var False = () => false
 
 /**
  * @description Groups observations with a common key into `IGroupedObservables`
@@ -35,40 +35,54 @@ var DefaultGroupCloser = (o, k) => false
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  */
 function groupBy(
-  keySelector = DefaultKeySelector, 
-  groupCloser = DefaultGroupCloser
+  keySelector = Identity, 
+  groupCloser = False
 ) {
+
   return create(observer => {
-    var groups = new Map()
+    var groupByKey = new Map()
+    var groups = new Set()
+
+    function deleteGroup(key, group) {
+      // guard against a new group being added with an old key
+      if (group && !groups.has(group))
+        return
+
+      groups.delete(group)
+      groupByKey.delete(key)
+    }
+
+    function clearGroups() {
+      groupByKey.clear()
+      groups.clear()
+    }
 
     return this[Subscribe]({
+      [Initialize](o) { 
+        observer[Initialize](o)
+      },
       [Next](o) {
         var key = keySelector(o)
-        var group = groups.get(key)
+        var group = groupByKey.get(key)
 
         // group activation
         if (!group) {
 
           // cache groupObserver
-          groups.set(key, group = new Subject())
-
-          // create observable for group and capture the observer upon subscription
-          var groupObservable = create(groupObserver => {
-            group[Subscribe](groupObserver)
-            return () => groups.delete(key) 
-          })
+          groupByKey.set(key, group = new Subject(() => deleteGroup(key, group)))
+          groups.add(group)
 
           // implement IGroupedObservable
-          groupObservable[Key] = key
+          group[Key] = key
           
           // emit group observable
-          observer[Next](groupObservable)
+          observer[Next](group)
         }
         
         // group completion
         if (groupCloser(o, key)) {
           group[Complete]()
-          groups.delete(key)
+          deleteGroup(key)
           return
         }
 
@@ -76,15 +90,17 @@ function groupBy(
         group[Next](o)
       },
       [Complete]() {
-        for (var key of groups.keys())
-          groups.get(key)[Complete]()
-        groups.clear()
+        for (var key of groupByKey.keys())
+          groupByKey.get(key)[Complete]()
+        clearGroups()
+
         observer[Complete]()
       },
       [Error](o) {
-        for (var key of groups.keys())
-          groups.get(key)[Error](o)
-        groups.clear()
+        for (var key of groupByKey.keys())
+          groupByKey.get(key)[Error](o)
+        clearGroups()
+
         observer[Error](o)
       }
     })

@@ -4,7 +4,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next },
     '-rx': { 
-      '-observer': { Proxy, Check },
+      '-observer': { Proxy },
       '-sync-static': { create }
     },
     '-interface': { ExportExtension },
@@ -38,7 +38,7 @@ function distinct(keySelector = DefaultKeySelector) {
           this[Next](o)
           keys.add(key)
         },
-      })[Check]()
+      })
     )
   })
 }

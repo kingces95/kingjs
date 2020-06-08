@@ -3,7 +3,7 @@ var { assert,
     '-fs-promises': { Save, Load,
       '-dir': { 
         Copy: CopyDir,
-        Remove: RemoveDir
+        Remove: RemoveDir,
       },
     },
   }
@@ -14,7 +14,7 @@ var Ecma = 'ecma'
 var FooJs = 'foo.js'
 var BarJs = 'bar.js'
 
-async function run() {
+process.nextTick(async () => {
 
   var acme = Path.parse(Acme)
   var ecma = Path.parse(Ecma)
@@ -61,5 +61,4 @@ async function run() {
 
   await acme[RemoveDir]()
   await ecma[RemoveDir]()
-}
-run().catch(e => console.log(e))
+})

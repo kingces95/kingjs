@@ -23,12 +23,11 @@ var {
  * @returns Returns a new `IObservable` that emits mapped values.
  */
 function select(callback) {
-  var observable = this
   return create(observer => {
-    return observable[Subscribe](
+    return this[Subscribe](
       observer[Proxy]({
         [Next](o) { this[Next](callback(o)) },
-      })[Check]()
+      })
     )
   })
 }

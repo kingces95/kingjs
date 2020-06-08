@@ -6,7 +6,7 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-async function test() {
+process.nextTick(async () => {
   var acme = Path.parse('acme')
   await acme[Save]({
     myNs: {
@@ -27,5 +27,4 @@ async function test() {
   assert.ok(actual.equals(expected))
 
   acme[RemoveDir]()
-} 
-test()
+})

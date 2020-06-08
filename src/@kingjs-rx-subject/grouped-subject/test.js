@@ -26,5 +26,5 @@ process.nextTick(async () => {
   await subject[SubscribeAndAssert](null, { error: 'error' })
   
   var subject = new GroupedSubject('key')
-  await subject[SubscribeAndAssert](null, { unfinished: true })
+  await subject[SubscribeAndAssert](null, { terminate: true })
 })

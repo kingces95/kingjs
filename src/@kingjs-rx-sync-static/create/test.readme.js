@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
     '-rx-sync-static': { create }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -33,11 +33,15 @@ class DataSource {
 
 var myObservable = create((observer) => {
   const dataSource = new DataSource()
+  
+  var cancel = dataSource.destroy.bind(dataSource)
+  observer[Initialize](cancel)
+
   dataSource.onData = (e) => observer[Next](e)
   dataSource.onError = (err) => observer[Error](err)
   dataSource.onComplete = () => observer[Complete]()
 
-  return dataSource.destroy.bind(dataSource)
+  return cancel
 })
 
 var dispose = myObservable[Subscribe]({

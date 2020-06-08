@@ -17,6 +17,6 @@ process.nextTick(async () => {
 
   // assert tick happens asynchronously
   var cancel = await timer()
-    [SubscribeAndAssert](null, { unfinished: true })
+    [SubscribeAndAssert](null, { terminate: true })
   cancel()
 })

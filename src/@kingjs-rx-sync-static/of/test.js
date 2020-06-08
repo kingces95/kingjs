@@ -8,3 +8,6 @@ var {
 
 of(0, 1, 2)
   [SubscribeAndAssert]([0, 1, 2])
+
+of(0, 1, 2)
+  [SubscribeAndAssert]([0, 1], { terminate: true })

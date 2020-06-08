@@ -1,51 +1,50 @@
 var {
   '@kingjs': {
-    IObservable: { Subscribe },
     IGroupedObservable: { Key },
     '-rx': { SubscribeAndAssert: AsyncSubscribeAndAssert,
-      '-static': { never },
       '-sync': { SubscribeAndAssert, Select, Do, WindowBy, Then,
-        '-static': { of, throws }
+        '-static': { of, throws, never }
       }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-process.nextTick(async () => {
+// basic grouping by key
+var windows = [['a0', 'a1'], ['b2'], ['a3']]
+of('a0', 'a1', 'b2', 'a3')
+  [WindowBy](o => o[0])
+  [Do](o => o[AsyncSubscribeAndAssert](windows.shift()).then())
+  [Select](o => o[Key])
+  [SubscribeAndAssert](['a', 'b', 'a'])
 
-  // basic grouping by key
-  var windows = [['a0', 'a1'], ['b2'], ['a3']]
-  await of('a0', 'a1', 'b2', 'a3')
-    [WindowBy](o => o[0])
-    [Do](o => o[AsyncSubscribeAndAssert](windows.shift()).then())
-    [Select](o => o[Key])
-    [SubscribeAndAssert](['a', 'b', 'a'])
+// basic error propagation
+throws('error')
+  [WindowBy]()
+  [SubscribeAndAssert](null, { error: 'error' })
 
-  // basic error propagation
-  await throws('error')
-    [WindowBy]()
-    [SubscribeAndAssert](null, { error: 'error' })
+// error propagation through to windows
+of('a0')
+  [Then](throws('error'))
+  [WindowBy](o => o[0])
+  [Do](o => o[AsyncSubscribeAndAssert](['a0'], { error: 'error' }).then())
+  [Select](o => o[Key])
+  [SubscribeAndAssert](['a'], { error: 'error' })
 
-  // error propagation through to groups
-  await of('a0')
-    [Then](throws('error'))
-    [WindowBy](o => o[0])
-    [Do](o => o[AsyncSubscribeAndAssert](['a0'], { error: 'error' }).then())
-    [Select](o => o[Key])
-    [SubscribeAndAssert](['a'], { error: 'error' })
+// self cancelling window subscription
+of('a0')
+  [WindowBy](o => o[0])
+  [Do](o => o[SubscribeAndAssert](null, { abort: true }))
+  [Select](o => o[Key])
+  [SubscribeAndAssert](['a'])
 
-  // basic cancel propagation
-  var cancel = await never()
-    [WindowBy]()
-    [SubscribeAndAssert](['a'], { unfinished: true })
-  cancel()
+// basic cancel propagation
+never()
+  [WindowBy]()
+  [SubscribeAndAssert](null, { abort: true })
 
-  // cancel propagation through to groups
-  var cancel = await of('a0')
-    [Then](never())
-    [WindowBy](o => o[0])
-    [Do](o => o[AsyncSubscribeAndAssert](['a0'], { unfinished: true }).then())
-    [Select](o => o[Key])
-    [SubscribeAndAssert](['a'], { unfinished: true })
-  cancel()
-})
+// cancel propagation through to windows
+of('a0', 'a1')
+  [WindowBy](o => o[0])
+  [Do](o => o[AsyncSubscribeAndAssert](['a0'], { terminate: true }).then())
+  [Select](o => o[Key])
+  [SubscribeAndAssert](['a'], { terminate: true })

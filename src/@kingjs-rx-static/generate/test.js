@@ -20,7 +20,7 @@ process.nextTick(async () => {
   })[SubscribeAndAssert](null, { error: 'error' })
 
   var cancel = await generate(async function *() { })
-    [SubscribeAndAssert](null, { unfinished: true })
+    [SubscribeAndAssert](null, { terminate: true })
   cancel()
 
   var cancel = await generate(async function *() {
@@ -28,7 +28,7 @@ process.nextTick(async () => {
         await sleep(1)
         yield 0
       }
-    })[SubscribeAndAssert](null, { unfinished: true })
+    })[SubscribeAndAssert](null, { terminate: true })
   cancel()
 
 })

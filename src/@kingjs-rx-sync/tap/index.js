@@ -2,9 +2,10 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
     '-rx': {
       '-subject': { Subject },
+      '-observer': { Proxy },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
@@ -28,23 +29,53 @@ var {
 function tap(callback) {
 
   return create(observer => {
-    var subject = new Subject()
+    var tapCancelled = false
+    var cancelTap = () => tapCancelled = true
+    var subject = new Subject(cancelTap)
     callback(subject)
 
-    return this[Subscribe]({
-      [Next](o) {
-        subject[Next](o)
-        observer[Next](o)
-      },
-      [Complete]() {
-        subject[Complete]()
-        observer[Complete]()
-      },
-      [Error](e) {
-        subject[Error](e)
-        observer[Error](e)
-      }
-    })
+    var cancelled = false
+    var cancel
+
+    this[Subscribe](
+      observer[Proxy]({
+        [Initialize](cancelSource) {
+          observer[Initialize](cancel = () => { 
+            cancelled = true
+            cancelSource() 
+          })
+        },
+        [Next](o) {
+          if (!tapCancelled)
+            subject[Next](o)
+
+          if (cancelled)
+            return
+
+          observer[Next](o)
+        },
+        [Complete]() {
+          if (!tapCancelled)
+            subject[Complete]()
+
+          if (cancelled)
+            return
+
+          observer[Complete]()
+        },
+        [Error](e) {
+          if (!tapCancelled)
+            subject[Error](e)
+
+          if (cancelled)
+            return
+
+          observer[Error](e)
+        }
+      })
+    )
+
+    return cancel
   })
 }
 

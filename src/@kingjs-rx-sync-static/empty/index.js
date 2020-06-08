@@ -4,6 +4,8 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+function Noop() { }
+
 /**
  * @description Create an `IObservable` that completes.
  * @returns Returns `IObservable` that completes.
@@ -11,7 +13,7 @@ var {
 function empty() {
   return create(function(observer) {
     observer[Complete]()
-  })
+  }, Noop)
 }
 
 module.exports = empty

@@ -26,13 +26,13 @@ process.nextTick(async () =>{
 
   var cancel = await never()
     [Watch](path)
-    [SubscribeAndAssert](null, { unfinished: true })
+    [SubscribeAndAssert](null, { terminate: true })
   cancel()
 
   process.nextTick(() => fooTxt[Write]())
   var cancel = await never()
     [Watch](path)
-    [SubscribeAndAssert]([null], { unfinished: true })
+    [SubscribeAndAssert]([null], { terminate: true })
   cancel()
 
   fooTxt[Unlink]()

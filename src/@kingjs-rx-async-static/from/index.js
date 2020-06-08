@@ -13,9 +13,9 @@ var {
  * emission control is passed to `setImmediate()`.
  */
 function from(iterable) {
-  return create(function*(observer) {
+  return create(function*(observer, cancel) {
     for (var o of iterable) {
-      observer[Next](o)
+      observer[Next](o, cancel)
       yield
     }
 

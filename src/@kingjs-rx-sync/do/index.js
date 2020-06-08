@@ -1,10 +1,10 @@
-var { assert,
+var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
     '-rx': {
-      '-observer': { create: createObserver },
+      '-observer': { construct },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
@@ -19,23 +19,57 @@ var { assert,
  * `IObservable` modulo any side effects introduced by `observer`.
  */
 function spy() {
-  var actions = createObserver(...arguments)
+  var actions = construct(...arguments)
 
   return create(observer => {
-    return this[Subscribe]({
+    var cancel
+    var cancelled = false
+
+    this[Subscribe]({
+      [Initialize](cancelSource) {
+        cancel = () => { 
+          cancelled = true
+          cancelSource() 
+        }
+
+        if (actions[Initialize])
+          actions[Initialize](cancel)
+        
+        if (cancelled)
+          return
+
+        observer[Initialize](cancel)
+      },
       [Next](o) {
-        actions[Next](o)
+        if (actions[Next])
+          actions[Next](o)
+
+        if (cancelled)
+          return
+
         observer[Next](o)
       },
       [Complete]() {
-        actions[Complete]()
+        if (actions[Complete])
+          actions[Complete]()
+
+        if (cancelled)
+          return
+
         observer[Complete]()
       },
       [Error](e) {
-        actions[Error](e)
+        if (actions[Error])
+          actions[Error](e)
+
+        if (cancelled)
+          return
+
         observer[Error](e)
       }
     })
+
+    return cancel
   })
 }
 

@@ -2,7 +2,7 @@ var { deepEquals,
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Subscribe, Key },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
     '-rx': {
       '-subject': { Subject },
       '-sync-static': { create },
@@ -11,8 +11,7 @@ var { deepEquals,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DefaultKeySelector = o => o
-var DefaultGroupCloser = (o, k) => false
+var Identity = o => o
 
 /**
  * @description Groups observations with a common key into `IGroupedObservables`
@@ -35,13 +34,16 @@ var DefaultGroupCloser = (o, k) => false
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  */
 function windowBy(
-  keySelector = DefaultKeySelector
+  keySelector = Identity
 ) {
   return create(observer => {
     var lastKey
     var window
 
     return this[Subscribe]({
+      [Initialize](o) { 
+        observer[Initialize](o)
+      },
       [Next](o) {
         var key = keySelector(o)
 
@@ -51,26 +53,23 @@ function windowBy(
         }
         lastKey = key
 
-        // group activation
         if (!window) {
 
-          // cache groupObserver
-          window = new Subject()
-
-          // create observable for group and capture the observer upon subscription
-          var windowObservable = create(realWindow => {
-            window[Subscribe](realWindow)
-            return () => window = null 
-          })
+          // activate and cache window
+          window = new Subject(() => window = null)
 
           // implement IGroupedObservable
-          windowObservable[Key] = key
+          window[Key] = key
           
-          // emit group observable
-          observer[Next](windowObservable)
+          // emit window
+          observer[Next](window)
         }
 
-        // group emission
+        // trap for self-cancelling window subscriptions
+        if (!window)
+          return
+ 
+        // window emission
         window[Next](o)
       },
       [Complete]() {

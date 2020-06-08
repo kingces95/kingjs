@@ -25,23 +25,23 @@ process.nextTick(async () => {
 
   // minimalist
   var empty = create(function*() { })
-  await empty[SubscribeAndAssert](null, { unfinished: true })
+  await empty[SubscribeAndAssert](null, { terminate: true })
 
   // subscribed
   var subscribed = false
   var noop = create(function*() { subscribed = true })
-  var cancel = await noop[SubscribeAndAssert](null, { unfinished: true })
+  var cancel = await noop[SubscribeAndAssert](null, { terminate: true })
   await sleep()
   assert.ok(subscribed)
   cancel()
 
   // do not hang if asked to sleep forever; test cancel polling
   var never = create(function*() { yield Number.MAX_VALUE })
-  var cancel = await never[SubscribeAndAssert](null, { unfinished: true })
+  var cancel = await never[SubscribeAndAssert](null, { terminate: true })
   cancel()
 
   // do not synchronously emit if asked to sleep for 0ms; always yield between emits
   var zeroForever = create(function*(o) { while(true) { o[Next](0); yield } })
-  var cancel = await zeroForever[SubscribeAndAssert]([0], { unfinished: true })
+  var cancel = await zeroForever[SubscribeAndAssert]([0], { terminate: true })
   cancel()
 })

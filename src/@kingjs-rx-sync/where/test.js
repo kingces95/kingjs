@@ -1,30 +1,29 @@
 var {
   '@kingjs': {
     '-rx': { 
-      '-static': { never },
       '-sync': { Where, SubscribeAndAssert, 
-        '-static': { of, throws },
+        '-static': { of, throws, never },
       }
     }
   },
 } = module[require('@kingjs-module/dependencies')]()
 
-process.nextTick(async () => {
+of(0, 1)
+  [Where](o => o == 1)
+  [SubscribeAndAssert]([1])
 
-  of(0, 1)
-    [Where](o => o == 1)
-    [SubscribeAndAssert]([1])
+of(0, 1)
+  [Where]()
+  [SubscribeAndAssert]([0, 1])
 
-  of(0, 1)
-    [Where]()
-    [SubscribeAndAssert]([0, 1])
+throws('error')
+  [Where]()
+  [SubscribeAndAssert](null, { error: 'error' })
 
-  throws('error')
-    [Where]()
-    [SubscribeAndAssert](null, { error: 'error' })
+never()
+  [Where]()
+  [SubscribeAndAssert](null, { terminate: true })
 
-  var cancel = await never()
-    [Where]()
-    [SubscribeAndAssert](null, { unfinished: true })
-  cancel()
-})
+of(0, 1)
+  [Where]()
+  [SubscribeAndAssert]([0], { terminate: true })

@@ -2,31 +2,30 @@ var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
     '-rx': { 
-      '-static': { never },
       '-sync': { SubscribeAndAssert, Select, Then, 
-        '-static': { of, throws }
+        '-static': { of, throws, never }
       }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-process.nextTick(async () => {
+of(0, 1, 2)
+  [Select](o => o + 1)
+  [SubscribeAndAssert]([1, 2, 3])
 
-  of(0, 1, 2)
-    [Select](o => o + 1)
-    [SubscribeAndAssert]([1, 2, 3])
+throws('error')
+  [Select]()
+  [SubscribeAndAssert](null, { error: 'error' })
 
-  throws('error')
-    [Select]()
-    [SubscribeAndAssert](null, { error: 'error' })
+never()
+  [Then](throws('unhandled'))
+  [Select]()
+  [SubscribeAndAssert](null, { terminate: true })
 
-  var cancel = await never()
-    [Then](throws('unhandled'))
-    [Select]()
-    [SubscribeAndAssert](null, { unfinished: true })
-  cancel()
+of(0, 1, 2)
+  [Select](o => o + 1)
+  [SubscribeAndAssert]([1, 2], { terminate: true })
 
-  var badSelector = await of(1)
-    [Select](() => { throw new Error('lol') })
-  assert.throws(() => badSelector[Subscribe]())
-})
+var badSelector = of(1)
+  [Select](() => { throw new Error('lol') })
+assert.throws(() => badSelector[Subscribe]())

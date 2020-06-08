@@ -1,10 +1,13 @@
 var {
   '@kingjs': {
     IObservable,
-    '-fs-dir': { Read },
+    '-fs-dir': { 
+      List,
+      typeOf,
+    },
     '-rx': {
       '-async': { SelectMany },
-      '-sync': { GroupBy, RollingSelect, Select, Regroup,
+      '-sync': { GroupBy, RollingSelect, Select, Regroup, Log,
         '-static': { from: rx }
       }
     },
@@ -19,6 +22,10 @@ var {
 var Options = { 
   withFileTypes: true
 }
+var SelectKey = dirent => ({ 
+  name: dirent.name, 
+  type: typeOf(dirent) 
+})
 
 /**
  * @description Given a directory, emit the current and previous directory entries.
@@ -30,28 +37,34 @@ var Options = {
  **/
 function readDir(dir) {
   return this
-    [Select](() => dir[Read](Options))
+    [Select](() => dir[List](Options))
     [Select](o => linq(o))                              // enter linq
-    [RollingSelect](o =>                                // dirEntry[] -> {outer, inner, key}[]
+    [RollingSelect](o =>                                // dirEntry[] -> { cur, prev, key }[]
       o[0][ZipJoin](o[1],
-        o => o.name,
-        o => o.name,
-        (current, previous, name) => ({ 
+        SelectKey, SelectKey,
+        (current, previous, key) => ({
           current,
           previous,
-          name,
-        })
+          key,
+        }),
+        (l, r) => l.name != r.name ?
+          l.name < r.name : l.type < r.type
       )
     )
     [Select](o => o[ToArray]())                         // exit linq
     [Select](o => rx(o))                                // enter rx
-    [SelectMany]()                                      // {outer, inner, key}[] -> {outer, inner, key}
+    [SelectMany]()                                      // { cur, prev, key }[] -> { cur, prev, key }
     [GroupBy](                                          // new = link, next = any, complete = unlink
-      o => o.name,                                      // group by entry name
-      o => !o.current                                   // emit `complete` on unlinked
+      o => o.key.type,                                  // group by entry type
     )
     [Regroup](o => o
-      [Select](x => x.current)
+      [GroupBy](
+        x => x.key.name,
+        x => !x.current                                 // emit `complete` on unlinked
+      )
+      [Regroup](x => x
+        [Select](y => y.current)
+      )
     )
 }
 

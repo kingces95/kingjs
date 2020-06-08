@@ -1,31 +1,54 @@
 var { assert,
   '@kingjs': {
-    IObserver: { Next, Complete, Error },
-    IObservable: { Subscribe }
+    IObserver: { Initialize, Next, Complete, Error },
+    IObservable: { Subscribe },
+    '-rx-observer': { create, Check }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var Noop = () => null
 
+/**
+ * @remarks `Subscribe` can only be called once and must be called
+ * before the `Subject` emits the `Initialize` event. In practice,
+ * this means the `Subject` must be subscribed synchronously.
+ */
 class Subject {
 
-  [Subscribe](observer) { 
-    assert(!this.observer)
-    this.observer = observer 
-    return Noop
+  constructor(cancel) {
+    assert(cancel)
+    this.cancel = cancel
   }
 
-  [Next](o) { 
-    if (this.observer) 
-      this.observer[Next](o) 
+  [Subscribe]() { 
+    assert(!this.observer)
+    this.observer = create(...arguments)[Check]()
+
+    var { cancel } = this
+    this.observer[Initialize](cancel)
+    return cancel
   }
-  [Complete]() { 
-    if (this.observer) 
-      this.observer[Complete]() 
+
+  [Initialize]() {
+    assert.fail()
   }
-  [Error](e) { 
-    if (this.observer) 
-      this.observer[Error](e) 
+  [Next](o) {
+    if (!this.observer)
+      return
+
+    this.observer[Next](o)
+  }
+  [Complete]() {
+    if (!this.observer)
+      return
+
+    this.observer[Complete]()
+  }
+  [Error](e) {
+    if (!this.observer)
+      return
+
+    this.observer[Error](e)
   }
 }
 

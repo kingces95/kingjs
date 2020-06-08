@@ -1,12 +1,10 @@
 var { assert,
   '@kingjs': {
     IObserver,
-    IObserver: { Next, Complete, Error },
+    IObserver: { Initialize, Next, Complete, Error },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Asserts an observers calls are orderly.
@@ -14,23 +12,31 @@ var EmptyObject = { }
  * @returns Returns a proxy `IObserver` which intercepts and asserts
  * that the calls to the original `IObserver` are orderly.
  */
-function proxy(observer) {
+function proxy(actions) {
+  assert(this instanceof IObserver)
+  
   return {
+    [Initialize]: o => {
+      if (actions[Initialize])
+        actions[Initialize].call(this, o)
+      else
+        this[Initialize](o)
+    },
     [Next]: o => {
-      if (observer[Next])
-        observer[Next].call(this, o)
+      if (actions[Next])
+        actions[Next].call(this, o)
       else
         this[Next](o)
     },
     [Complete]: () => {
-      if (observer[Complete])
-        observer[Complete].call(this)
+      if (actions[Complete])
+        actions[Complete].call(this)
       else
         this[Complete]()
     },
     [Error]: e => {
-      if (observer[Error])
-        observer[Error].call(this, e)
+      if (actions[Error])
+        actions[Error].call(this, e)
       else
         this[Error](e)
     }

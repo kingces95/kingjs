@@ -1,14 +1,19 @@
 var { 
   '@kingjs': { Path, run,
-    '-fs-promises': {
-      '-file': { 
-        Read: ReadFile,
-        Write: WriteFile,
-        Copy: CopyFile
-      },
+    '-fs': {
       '-dir': {
-        Make: MakeDir,
-        List
+        Partition,
+      },
+      '-promises': {
+        '-file': { 
+          Read: ReadFile,
+          Write: WriteFile,
+          Copy: CopyFile
+        },
+        '-dir': {
+          List,
+          Make: MakeDir,
+        },
       },
     },
     '-module': { ExportExtension }
@@ -18,6 +23,7 @@ var {
 var UTF8 = 'UTF8'
 var WithFileTypes = { withFileTypes: true }
 var EmptyArray = []
+var Identity = o => o
 
 /**
  * @description Copies a directory's files and sub-directories in parallel.
@@ -29,7 +35,7 @@ var EmptyArray = []
  * 
  * @remarks The target directory is created if it does not exist.
  */
-async function* copyDirGenerator(target, map) {
+async function* copyDirGenerator(target, map = Identity) {
 
   // make directory
   await target[MakeDir]()
@@ -38,34 +44,35 @@ async function* copyDirGenerator(target, map) {
   var { 
     files = EmptyArray,
     directories = EmptyArray
-  } = await this[List](WithFileTypes)
+  } = (await this[List](WithFileTypes))
+    [Partition]()
 
   // process directories
-  for (var dir of directories) {
-    var { name } = dir
+  for (var subDirectory of directories) {
 
     // map target directory name
     if (map) {
       var { name } = map({ 
         path: this, 
-        name: dir.name, 
+        name: subDirectory, 
         isDirectory: true 
       })
     }
 
     // copy sub-directories in parallel
-    yield copyDirGenerator.call(dir, target.to(name), map)
+    yield copyDirGenerator.call(this.to(subDirectory), target.to(name), map)
   }
 
   // process files
   for (var file of files) {
+    var filePath = this.to(file)
 
     // map source file
     if (map) {
-      var text = await file[ReadFile](UTF8)
+      var text = await filePath[ReadFile](UTF8)
       var { text, name } = map({ 
-        path: file, 
-        name: file.name, 
+        path: filePath, 
+        name: file, 
         text, 
         isFile: true 
       })
@@ -76,7 +83,7 @@ async function* copyDirGenerator(target, map) {
     }
 
     // copy file without mapping
-    await file[CopyFile](target.to(file.name))
+    await filePath[CopyFile](target.to(file))
   }
 }
 

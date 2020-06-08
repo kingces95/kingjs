@@ -1,26 +1,25 @@
 var {
   '@kingjs': {
     '-rx': {
-      '-static': { never },
       '-sync': { DistinctUntilChanged, SubscribeAndAssert,
-        '-static': { of, throws },
+        '-static': { of, throws, never },
       }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-process.nextTick(async () => {
+of(0, 0, 1, 2, 2, 1)
+  [DistinctUntilChanged]()
+  [SubscribeAndAssert]([0, 1, 2, 1])
 
-  of(0, 0, 1, 2, 2, 1)
-    [DistinctUntilChanged]()
-    [SubscribeAndAssert]([0, 1, 2, 1])
+throws('error')
+  [DistinctUntilChanged]()
+  [SubscribeAndAssert](null, { error:'error' })
 
-  throws('error')
-    [DistinctUntilChanged]()
-    [SubscribeAndAssert](null, { error:'error' })
+never()
+  [DistinctUntilChanged]()
+  [SubscribeAndAssert](null, { terminate: true })
 
-  var cancel = await never()
-    [DistinctUntilChanged]()
-    [SubscribeAndAssert](null, { unfinished: true })
-  cancel()
-})
+of(0, 0, 1, 2, 2, 1)
+  [DistinctUntilChanged]()
+  [SubscribeAndAssert]([0, 1, 2], { terminate: true })

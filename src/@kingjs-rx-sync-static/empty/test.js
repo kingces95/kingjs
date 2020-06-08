@@ -8,3 +8,6 @@ var {
 
 empty()
   [SubscribeAndAssert]()
+
+empty()
+  [SubscribeAndAssert](null, { abort: true })

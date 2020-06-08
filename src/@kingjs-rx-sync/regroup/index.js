@@ -1,6 +1,7 @@
-var { 
+var { assert,
   '@kingjs': {
     IObservable,
+    IGroupedObservable,
     IGroupedObservable: { Key },
     '-rx-sync': { Select },
     '-interface': { ExportExtension },
@@ -20,6 +21,7 @@ var {
  */
 function regroup(callback) {
   return this[Select](o => {
+    assert(o instanceof IGroupedObservable)
     var group = callback(o)
     group[Key] = o[Key]
     return group

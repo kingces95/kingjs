@@ -7,4 +7,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 never()
-  [SubscribeAndAssert](null, { unfinished: true })
+  [SubscribeAndAssert](null, { abort: true })
+
+never()
+  [SubscribeAndAssert](null, { terminate: true })

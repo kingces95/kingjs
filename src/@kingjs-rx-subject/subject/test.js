@@ -10,21 +10,34 @@ var { assert,
 
 process.nextTick(async () => {
 
-  var subject = new Subject()
-  assert(subject instanceof ISubject)
+  var cancelled = false
+  var cancel = () => { 
+    cancelled = true
+  }
 
+  var subject = new Subject(cancel)
+  assert(subject instanceof ISubject)
   process.nextTick(() => {
-    subject[Next](0)
-    subject[Complete]()
+    if (!cancelled) subject[Next](0)
+    if (!cancelled) subject[Next](1)
+    if (!cancelled) subject[Complete]()
   })
-  await subject[SubscribeAndAssert]([0])
+  await subject[SubscribeAndAssert]([0, 1])
+  assert.ok(!cancelled)
   
-  var subject = new Subject()
+  var subject = new Subject(cancel)
   process.nextTick(() => {
-    subject[Error]('error')
+    if (!cancelled) subject[Error]('error')
   })
   await subject[SubscribeAndAssert](null, { error: 'error' })
-  
-  var subject = new Subject()
-  await subject[SubscribeAndAssert](null, { unfinished: true })
+  assert.ok(!cancelled)
+
+  var subject = new Subject(cancel)
+  process.nextTick(() => {
+    if (!cancelled) subject[Next](0)
+    if (!cancelled) subject[Next](1)
+    if (!cancelled) subject[Complete]()
+  })
+  await subject[SubscribeAndAssert]([0], { terminate: true })
+  assert.ok(cancelled)
 })

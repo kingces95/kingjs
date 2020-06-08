@@ -5,7 +5,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next },
     '-rx': {
-      '-observer': { Proxy, Check },
+      '-observer': { Proxy },
       '-sync-static': { create }
     },
     '-interface': { ExportExtension },
@@ -45,7 +45,7 @@ function distinctUntilChanged(
           lastKey = key
           hasLastKey = true
         },
-      })[Check]()
+      })
     )
   })
 }

@@ -1,5 +1,6 @@
 var { 
-  '@kingjs': { IObserver: { Next, Complete },
+  '@kingjs': { 
+    IObserver: { Next, Complete },
     '-rx-sync-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -13,11 +14,20 @@ var {
  * a tool for testing stateless transforms and filters.
  */
 function from(iterable) {
+  var cancelled = false
+
   return create(function(observer) {
-    for (var o of iterable)
+    for (var o of iterable) {
       observer[Next](o)
+      if (cancelled)
+        return
+    }
+
+    if (cancelled)
+      return
     observer[Complete]()
-  })
+    
+  }, () => cancelled = true)
 }
 
 module.exports = from

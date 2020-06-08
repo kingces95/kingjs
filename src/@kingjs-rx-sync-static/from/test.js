@@ -10,10 +10,13 @@ var { assert,
 from([0, 1, 2])
   [SubscribeAndAssert]([0, 1, 2])
 
+from([0, 1, 2])
+  [SubscribeAndAssert]([0, 1], { terminate: true })
+
 try {
   from({ [Symbol.iterator]: () => { throw 'error' } })
     [Subscribe]()
-} 
+}
 catch(e) {
   assert.equal(e, 'error')
 }

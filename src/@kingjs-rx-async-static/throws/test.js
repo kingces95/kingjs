@@ -14,6 +14,6 @@ process.nextTick(async () => {
     [SubscribeAndAssert]([], { error: null })
 
   var cancel = await throws()
-    [SubscribeAndAssert](null, { unfinished: true })
+    [SubscribeAndAssert](null, { terminate: true })
   cancel()
 })

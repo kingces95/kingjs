@@ -29,6 +29,6 @@ process.nextTick(async () => {
 
   var cancel = await clock(ms)
     [Debounce](ms * 2)
-    [SubscribeAndAssert](null, { unfinished: true })
+    [SubscribeAndAssert](null, { terminate: true })
   cancel()
 })

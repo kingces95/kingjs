@@ -4,7 +4,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next },
     '-rx': {
-      '-observer': { Proxy, Check },
+      '-observer': { Proxy },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
@@ -34,7 +34,7 @@ function where(predicate = True) {
           
           this[Next](o)
         },
-      })[Check]()
+      })
     )
   })
 }

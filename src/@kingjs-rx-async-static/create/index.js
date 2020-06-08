@@ -23,21 +23,23 @@ function create(generator) {
   return {
     [Subscribe]() {
       var observer = createObserver(...arguments)      
-      var checkedObserver = observer[Check]()
+      observer = observer[Check]()
+
       var cancelled = false
+      var cancel = () => cancelled = true
 
       process.nextTick(async () => {
         if (cancelled)
           return
 
-        for (var _ of generator(checkedObserver)) {
+        for (var _ of generator(observer, cancel)) {
           await tick()
           if (cancelled)
             return
         }
       })
 
-      return () => cancelled = true
+      return cancel
     }
   }
 }

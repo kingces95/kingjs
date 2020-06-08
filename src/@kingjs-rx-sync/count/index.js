@@ -4,7 +4,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Next, Complete },
     '-rx': {
-      '-observer': { Proxy, Check },
+      '-observer': { Proxy },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
@@ -28,7 +28,7 @@ function count() {
           this[Next](i)
           this[Complete]()
         }
-      })[Check](),
+      }),
     )
   })
 }

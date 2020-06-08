@@ -1,5 +1,6 @@
 var { 
-  '@kingjs': { IObserver: { Error },
+  '@kingjs': { 
+    IObserver: { Initialize, Error },
     '-rx-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -10,7 +11,7 @@ var {
  * @returns Returns `IObservable` that raises `error`.
  */
 function throws(error = null) {
-  return create(function*(observer) {
+  return create(function(observer) {
     observer[Error](error)
   })
 }

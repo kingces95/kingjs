@@ -9,7 +9,7 @@ var {
 
 process.nextTick(async () => {
   var cancel = await never()
-    [SubscribeAndAssert](null, { unfinished: true })
+    [SubscribeAndAssert](null, { terminate: true })
   await sleep(500)
   cancel()
 })

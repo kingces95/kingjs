@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Complete },
+    IObserver: { Initialize, Complete },
     '-rx': {
       '-observer': { Proxy, Check },
       '-sync-static': { create, empty }
@@ -26,17 +26,33 @@ var {
  */
 function then(next = empty()) {
   return create(observer => {
-    var nextCancel
 
-    var cancel = this[Subscribe](
+    var cancelThunk
+    var cancel = () => cancelThunk()
+
+    this[Subscribe](
       observer[Proxy]({
+        [Initialize](o) { 
+
+          // cancel original IObservable
+          cancelThunk = o 
+          this[Initialize](cancel)
+        },
         [Complete]() {
-          nextCancel = next[Subscribe](this)
+          next[Subscribe](
+            observer[Proxy]({
+              [Initialize](o) { 
+
+                // cancel subsequent IObservable
+                cancelThunk = o
+              }
+            })
+          )
         }
-      })[Check]()
+      })
     )
 
-    return () => nextCancel ? nextCancel() : cancel()
+    return cancel
   })
 }
 
