@@ -1,10 +1,11 @@
 var { 
-  '@kingjs': { IObserver: { Error },
+  '@kingjs': { IObserver: { Subscribed, Error },
     '-rx-sync-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 function Noop() { }
+var Options = { name: 'never' }
 
 /**
  * @description Create an `IObservable` that raises an error.
@@ -12,10 +13,10 @@ function Noop() { }
  * @returns Returns `IObservable` that raises `error`.
  */
 function throws(error = null) {
-  
-  return create(function(observer) {
+  return create(observer => {
+    observer[Subscribed](Noop)
     observer[Error](error)
-  }, Noop)
+  }, Options)
 }
 
 module.exports = throws

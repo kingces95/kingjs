@@ -1,12 +1,19 @@
 var {
   '@kingjs': {
     IObservable,
-    '-rx-sync': {
-      '-static': { empty }
+    IObservable: { Subscribe },
+    IObserver: { Next, Complete },
+    '-rx': {
+      '-observer': { SubscriptionTracker },
+      '-sync': {
+        '-static': { create, empty }
+      },  
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: 'take' }
 
 /**
  * @description Report only the first `count` observation.
@@ -19,30 +26,26 @@ function take(count) {
     return empty()
 
   return create(observer => {
-    var cancelled = false
-    var cancel
+    var subscription = new SubscriptionTracker(observer)
     
     this[Subscribe](
-      observer[Proxy]({
-        [Initialize](o) {
-          cancel = () => { cancelled = true; o() }
-          this[Initialize](cancel)
-        },
+      subscription.track({
         [Next](o) { 
           this[Next](o)
+          if (subscription.cancelled)
+            return
 
-          if (count++) {
+          if (!--count) {
             this[Complete]()
-            cancel()
+            subscription.cancel()
             return
           }
         },
       })
     )
 
-    return cancel
-  })
-
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, take)

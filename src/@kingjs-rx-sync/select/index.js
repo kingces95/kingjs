@@ -11,6 +11,8 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { name: select.name }
+
 /**
  * @description Returns an `IObservable` that maps values emitted
  * from the current `IObservable`.
@@ -29,7 +31,7 @@ function select(callback) {
         [Next](o) { this[Next](callback(o)) },
       })
     )
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, select)

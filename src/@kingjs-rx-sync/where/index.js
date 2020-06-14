@@ -12,6 +12,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 var True = o => true
+var Options = { name: where.name }
 
 /**
  * @description Filters observations based on `predicate`.
@@ -36,7 +37,7 @@ function where(predicate = True) {
         },
       })
     )
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, where)

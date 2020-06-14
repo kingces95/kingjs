@@ -1,10 +1,10 @@
-var { assert,
+var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Next, Complete, Error },
     '-rx': {
-      '-observer': { Proxy, Check },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create }
     },
     '-interface': { ExportExtension },
@@ -12,6 +12,7 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 var Identity = o => o
+var Options = { name: selectMany.name }
 
 /**
  * @description Selects an `IObservable` for each emission, blends the 
@@ -37,20 +38,10 @@ var Identity = o => o
  * `IObservable` is canceled. This behavior requires `SelectMany` be an
  * asynchronous `IObservable`.
  */
-function selectMany(
-  manySelector = Identity) {
-
-  var count = 1
-  var innerSubscriptions = new Map()
-  var outerSubscription
-
-  var cancel = () => {
-    for (var innerSubscription of innerSubscriptions.values())
-      innerSubscription()
-    outerSubscription()
-  }
-
+function selectMany(manySelector = Identity) {
   return create(observer => {
+    var count = 1
+    var subscription = new SubscriptionTracker(observer)
 
     var commonObserver = {
       [Complete]() {
@@ -60,33 +51,27 @@ function selectMany(
       },
       [Error](e) {
         observer[Error](e)
-        cancel()
+        subscription.cancel()
       }
     }
 
-    this[Subscribe]({
-      [Initialize](o) { 
-        outerSubscription = o 
-      },
-      [Next](o) {
-        count++
+    this[Subscribe](
+      subscription.track({
+        [Next](o) {
+          count++
+          var many = manySelector(o)
+          many[Subscribe](
+            subscription.track({
+              ...commonObserver,
+            })
+          )
+        },
+        ...commonObserver,
+      })
+    )
 
-        var innerObservable = manySelector(o)
-
-        var innerSubscription = innerObservable[Subscribe]({
-          [Next](o) { observer[Next](o) },
-          [Complete]() { 
-            innerSubscriptions.delete(innerObservable)
-            observer[Complete]()
-          },
-          ...commonObserver,
-        })
-
-        innerSubscriptions.set(innerObservable, innerSubscription)
-      },
-      ...commonObserver,
-    })
-  }, cancel)
+    return SubscriptionTracker.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, selectMany)

@@ -11,6 +11,8 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { name: skip.name }
+
 /**
  * @description Skips the first `count` observations.
  * @param count The number of observations to skip.
@@ -27,9 +29,9 @@ function skip(count) {
           
           this[Next](o)
         },
-      })[Check]()
+      })
     )
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, skip)

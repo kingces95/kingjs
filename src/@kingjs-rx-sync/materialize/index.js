@@ -1,10 +1,11 @@
 var { assert,
   '@kingjs': {
     IObservable,
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     IGroupedObservable,
     IGroupedObservable: { Subscribe, Key },
     '-rx': {
+      '-observer': { SubscriptionTracker },
       '-sync': { SelectMany,
         '-static': { create, of }
       }
@@ -15,6 +16,7 @@ var { assert,
 
 var EmptyArray = []
 var EmptyObject = {}
+var Options = { name: materialize.name }
 
 /**
  * @description 
@@ -23,6 +25,7 @@ var EmptyObject = {}
  */
 function materialize(keys) {
   return create(observer => {
+    var subscription = new SubscriptionTracker(observer)
 
     // stack of keys identify the group that emitted the observation
     var groupKeys = keys ? { keys } : EmptyObject
@@ -35,6 +38,8 @@ function materialize(keys) {
 
       // materialize group creation
       observer[Next]({ grouping: true, keys: subgroupKeys })
+      if (subscription.cancelled)
+        return
 
       // emit meta-group to be flattened by SelectMany below
       var group = materialize.call(o, subgroupKeys)
@@ -42,33 +47,37 @@ function materialize(keys) {
       observer[Next](group)
     }
 
-    return this[Subscribe]({
-      [Initialize](o) {
-        observer[Initialize](o)
-      },
-      [Next](o) { 
+    return this[Subscribe](
+      subscription.track({
+        [Next](o) { 
+          // recursively materialize group
+          if (o instanceof IGroupedObservable) {
+            materializeGroup(o)
+            return
+          }
 
-        // recursively materialize group
-        if (o instanceof IGroupedObservable) {
-          materializeGroup(o)
-          return
+          // materialize next
+          observer[Next]({ next: true, value: o, ...groupKeys })
+        },
+        [Complete]() {
+          // materialize compete
+          observer[Next]({ complete: true, ...groupKeys })
+          if (subscription.cancelled)
+            return
+
+          observer[Complete]()
+        },
+        [Error](e) {
+          // materialize error
+          observer[Next]({ error: true, value: e, ...groupKeys })
+          if (subscription.cancelled)
+            return
+
+          observer[Complete]()
         }
-
-        // materialize next
-        observer[Next]({ next: true, value: o, ...groupKeys })
-      },
-      [Complete]() {
-        // materialize compete
-        observer[Next]({ complete: true, ...groupKeys })
-        observer[Complete]()
-      },
-      [Error](e) {
-        // materialize error
-        observer[Next]({ error: true, value: e, ...groupKeys })
-        observer[Complete]()
-      }
-    })
-  })
+      })
+    )
+  }, Options)
   [SelectMany](o => o instanceof IGroupedObservable ? o : of(o))
 }
 

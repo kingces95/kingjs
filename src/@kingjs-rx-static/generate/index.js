@@ -1,38 +1,63 @@
 var { 
   '@kingjs': {
     IObserver: { Next, Complete, Error },
-    '-rx-sync-static': { create },
+    '-rx': {
+      '-observer': { create: createObserver, Check, TryInitialize },
+      '-sync-static': { create },
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
- * @description Create an `IObservable` from an async generator.
- * @param generator The generator whose values are to be emitted.
- * @returns Returns `IObservable` that emits elements returned by an async generator.
+ * @description Convert an asynchronous generator into a `IObservable`.
+ * @param generator The asynchronous generator.
+ * @returns Returns `IObservable` that emits elements returned by `generator`.
+ * 
+ * @remarks If `generator` exits normally, complete is emitted.
+ * @remarks If `generator` throws an exception, the exception is caught and
+ * emitted as an error. Note, exceptions thrown while processing events are unhandled.
+ * @remarks Cancellation is checked before emitting any event.
  */
 function generate(generator) {
   return create(function(observer) {
-    var stop
+    var observer = createObserver(...arguments)      
+    var checkedObserver = observer[Check]()
+
+    var cancelled = false
+    var cancel = () => cancelled = true
+    if (!checkedObserver[TryInitialize](cancel))
+      return cancel
 
     process.nextTick(async () => {
-      try {
-        for await (var o of generator()) {
-          if (stop)
+      var iterator = generator()
+      
+      while (true) {
+        var next = iterator.next()
+
+        try {
+          next = await next
+        }
+        catch (e) {
+          if (cancelled) 
             return
             
-          observer[Next](o)
+          observer[Error](e)
+          return
         }
 
-        if (stop)
+        if (cancelled) 
           return
 
-        observer[Complete]()
-      } catch(e) { 
-        observer[Error](e)
+        if (next.done) 
+          break
+
+        observer[Next](next.value)
       }
+
+      observer[Complete]()
     })
 
-    return () => stop = true
+    return cancel
   })
 }
 

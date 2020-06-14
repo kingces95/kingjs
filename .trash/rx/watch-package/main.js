@@ -97,12 +97,12 @@ of(PackagesGlob)
       subject
         [Watch]({ cwd: dir, ignoreInitial: true }, o => o.files)
         [DebounceTime](DebounceMs)
-        [Spy](dispose)
+        [Tap](dispose)
         [Last]()
         [Pipe](result);
     }
   })
-  [Spy](o => log(2, o.event, Path.join(dir, o.path)))
+  [Tap](o => log(2, o.event, Path.join(dir, o.path)))
   [Call](PostCallSleepMs);
 
 function tryParsePackage(path) {

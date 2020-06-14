@@ -1,11 +1,12 @@
-var { 
+var { assert,
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Subscribe, Key },
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Next, Complete, Error },
     '-rx': {
       '-subject': { Subject },
       '-sync-static': { create },
+      '-observer': { SubscriptionTracker },
     },
     '-interface': { ExportExtension },
   }
@@ -13,6 +14,7 @@ var {
 
 var Identity = o => o
 var False = () => false
+var Options = { name: groupBy.name }
 
 /**
  * @description Groups observations with a common key into `IGroupedObservables`
@@ -33,6 +35,9 @@ var False = () => false
  * `value` or false to emit the `value`.
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
+ * 
+ * @remarks Calling `cancel` inside the `keySelector` or `groupCloser`
+ * is disallowed. 
  */
 function groupBy(
   keySelector = Identity, 
@@ -40,71 +45,80 @@ function groupBy(
 ) {
 
   return create(observer => {
+    var subscription = new SubscriptionTracker(observer)
     var groupByKey = new Map()
-    var groups = new Set()
 
-    function deleteGroup(key, group) {
-      // guard against a new group being added with an old key
-      if (group && !groups.has(group))
-        return
-
-      groups.delete(group)
-      groupByKey.delete(key)
-    }
-
-    function clearGroups() {
-      groupByKey.clear()
-      groups.clear()
-    }
-
-    return this[Subscribe]({
-      [Initialize](o) { 
-        observer[Initialize](o)
-      },
-      [Next](o) {
-        var key = keySelector(o)
-        var group = groupByKey.get(key)
-
-        // group activation
-        if (!group) {
-
-          // cache groupObserver
-          groupByKey.set(key, group = new Subject(() => deleteGroup(key, group)))
-          groups.add(group)
-
-          // implement IGroupedObservable
-          group[Key] = key
-          
-          // emit group observable
-          observer[Next](group)
-        }
-        
-        // group completion
-        if (groupCloser(o, key)) {
-          group[Complete]()
-          deleteGroup(key)
-          return
-        }
-
-        // group emission
-        group[Next](o)
-      },
-      [Complete]() {
-        for (var key of groupByKey.keys())
-          groupByKey.get(key)[Complete]()
-        clearGroups()
-
-        observer[Complete]()
-      },
-      [Error](o) {
-        for (var key of groupByKey.keys())
-          groupByKey.get(key)[Error](o)
-        clearGroups()
-
-        observer[Error](o)
+    function finalizeGroups(action) {
+      for (var key of groupByKey.keys()) {
+        action(groupByKey.get(key))
+        if (subscription.cancelled)
+          break
       }
-    })
-  })
+
+      groupByKey.clear()
+    }
+
+    this[Subscribe](
+      subscription.track({
+        [Next](o) {
+          var key = keySelector(o)
+          assert.ok(!subscription.cancelled)
+
+          var group = groupByKey.get(key)
+
+          // group activation
+          if (!group) {
+            group = new Subject(() => {
+              if (groupByKey.get(key) != group)
+                return
+
+                groupByKey.delete(key)
+            })
+
+            // cache groupObserver
+            groupByKey.set(key, group)
+
+            // implement IGroupedObservable
+            group[Key] = key
+            
+            // emit group observable
+            observer[Next](group)
+            if (subscription.cancelled)
+              return
+          }
+          
+          // group completion
+          var closeGroup = groupCloser(o, key)
+          assert.ok(!subscription.cancelled)
+
+          if (closeGroup) {
+            group[Complete]()
+            groupByKey.delete(key)
+            return
+          }
+
+          // emit observation
+          group[Next](o)
+        },
+        [Complete]() {
+          finalizeGroups(x => x[Complete]())
+          if (subscription.cancelled)
+            return
+          
+          observer[Complete]()
+        },
+        [Error](o) {
+          finalizeGroups(x => x[Error](o))
+          if (subscription.cancelled)
+            return
+          
+          observer[Error](o)
+        }
+      })
+    )
+
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, groupBy)

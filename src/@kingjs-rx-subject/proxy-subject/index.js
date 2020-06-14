@@ -12,7 +12,7 @@ var CreateSubject = createSymbol(module, 'create-subject')
 var Activate = createSymbol(module, 'activate')
 var RealObserver = createSymbol(module, 'real-observer')
 var RealObservable = createSymbol(module, 'real-observable')
-var Initialize = createSymbol(module, 'initialize')
+var Subscribed = createSymbol(module, 'initialize')
 
 var DefaultActivate = o => o
 var DefaultCreateSubject = o => new Subject()
@@ -43,7 +43,7 @@ class ProxySubject {
     this[Activate] = activate
   }
 
-  [Initialize]() {
+  [Subscribed]() {
     var createSubject = this[CreateSubject]
     var activate = this[Activate]
 
@@ -66,12 +66,12 @@ class ProxySubject {
   }
   [Complete]() { 
     if (!this[RealObserver])
-      this[Initialize]()
+      this[Subscribed]()
     this[RealObserver][Complete]()
   }
   [Error](e) { 
     if (!this[RealObserver])
-      this[Initialize]()
+      this[Subscribed]()
     this[RealObserver][Error](e)
   }
 
@@ -79,7 +79,7 @@ class ProxySubject {
   [Subscribe]() {
     var observable = this[RealObservable]
     if (!observable)
-      observable = this[Initialize]()
+      observable = this[Subscribed]()
 
     return observable[Subscribe].apply(observable, arguments)
   }

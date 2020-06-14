@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IObserver,
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -17,11 +17,14 @@ function check() {
   var finished = false
   
   return {
-    [Initialize]: (o) => {
-      assert.ok(!initialized)
+    [Subscribed]: (o) => {
       assert.ok(o instanceof Function)
+      assert.ok(!initialized)
       initialized = true
-      this[Initialize](o)
+
+      var cancelled = false
+      this[Subscribed](() => { cancelled = true; o() })
+      assert.ok(!cancelled)
     },
     [Next]: (o) => {
       assert.ok(initialized)

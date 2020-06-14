@@ -1,9 +1,14 @@
 var { 
   '@kingjs': { 
-    IObserver: { Next, Complete },
-    '-rx-sync-static': { create },
+    IObserver: { Error, Next, Complete },
+    '-rx': {
+      '-observer': { SubscriptionTracker },
+      '-sync-static': { create },
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: 'from' }
 
 /**
  * @description Create an `IObservable` from an interable.
@@ -14,20 +19,35 @@ var {
  * a tool for testing stateless transforms and filters.
  */
 function from(iterable) {
-  var cancelled = false
-
-  return create(function(observer) {
-    for (var o of iterable) {
-      observer[Next](o)
-      if (cancelled)
-        return
+  return create(observer => {
+    var subscription = new SubscriptionTracker(observer)
+    var iterator = iterable[Symbol.iterator]()
+  
+    function advance() {
+      try { return iterator.next() }
+      catch(e) {
+        return { error: true, value: e }
+      }
     }
 
-    if (cancelled)
-      return
-    observer[Complete]()
-    
-  }, () => cancelled = true)
+    while (true) {
+      var { done, value, error } = advance()
+      if (subscription.cancelled)
+        return
+
+      if (done || error) {
+        if (done)
+          observer[Complete]()
+        else
+          observer[Error](value)
+        break 
+      }
+
+      observer[Next](value)
+      if (subscription.cancelled)
+        return
+    }
+  }, Options)
 }
 
 module.exports = from

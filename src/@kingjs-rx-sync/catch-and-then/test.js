@@ -24,8 +24,3 @@ throws('error')
 throws('error')
   [CatchAndThen](of(0))
   [SubscribeAndAssert]([0], { terminate: true })
-
-throws('error')
-  [CatchAndThen](of(0))
-  [SubscribeAndAssert](null, { abort: true })
-

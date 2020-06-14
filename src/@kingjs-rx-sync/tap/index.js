@@ -2,54 +2,50 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Next, Complete, Error },
     '-rx': {
       '-subject': { Subject },
-      '-observer': { Proxy },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { name: tap.name }
+
 /**
- * @description Tap into an event stream by copying events to another `IObservable`.
- * @this any The source `IObservable` whose events are copied.
- * @param callback The action to take on tapped stream.
+ * @description Tap on an `IObservable` with another `IObservable`.
  * 
- * @returns Returns a new `IObservable` that behaves like the source
- * `IObservable`.
+ * @this any The source `IObservable` whose events are spied on.
+ * @param callback Callback providing the `IObservable` spy.
+ * 
+ * @returns Returns an `IObservable` that behaves like 
+ * the source `IObservable`.
  * 
  * @callback 
- * @param observable A copy of the source `IObservable`
+ * @param observable An `IObservable` that emits the same 
+ * events as the source `IObservable`.
  * 
- * @remarks Cancelling a subscription to a tapped `IObservable` does not 
- * cancel the subscription to the tap itself.
+ * @remarks Cancelling the subscription of the tapped `IObservable`
+ * will not cancel the subscription to the source `IObservable`.
  */
 function tap(callback) {
-
   return create(observer => {
     var tapCancelled = false
     var cancelTap = () => tapCancelled = true
     var subject = new Subject(cancelTap)
     callback(subject)
 
-    var cancelled = false
-    var cancel
+    var subscription = new SubscriptionTracker(observer)
 
     this[Subscribe](
-      observer[Proxy]({
-        [Initialize](cancelSource) {
-          observer[Initialize](cancel = () => { 
-            cancelled = true
-            cancelSource() 
-          })
-        },
+      subscription.track({
         [Next](o) {
           if (!tapCancelled)
             subject[Next](o)
 
-          if (cancelled)
+          if (subscription.cancelled)
             return
 
           observer[Next](o)
@@ -58,7 +54,7 @@ function tap(callback) {
           if (!tapCancelled)
             subject[Complete]()
 
-          if (cancelled)
+          if (subscription.cancelled)
             return
 
           observer[Complete]()
@@ -67,7 +63,7 @@ function tap(callback) {
           if (!tapCancelled)
             subject[Error](e)
 
-          if (cancelled)
+          if (subscription.cancelled)
             return
 
           observer[Error](e)
@@ -75,8 +71,8 @@ function tap(callback) {
       })
     )
 
-    return cancel
-  })
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, tap)

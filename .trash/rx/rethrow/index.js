@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IObservable,
-    '-rx': { Spy },
+    '-rx': { Tap },
     '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -17,7 +17,7 @@ var {
  * `IObservable` modulo any side effects introduced by `callback`.
  */
 function rethrow(callback) {
-  return this[Spy](null, null, callback)
+  return this[Tap](null, null, callback)
 }
 
 ExportExtension(module, IObservable, rethrow)

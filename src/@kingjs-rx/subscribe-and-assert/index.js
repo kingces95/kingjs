@@ -2,13 +2,15 @@ var { assert,
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Next, Complete, Error },
-    '-rx-observer': { Check },
+    IObserver: { Subscribed, Next, Complete, Error },
+    '-promise': { sleep },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 function Noop() { }
+var PollMs = 20
+var DefaultTimeout = 1000
 
 /**
  * @description Asserts the sequence of events.
@@ -22,8 +24,8 @@ function subscribeAndAssert(expected, options = { }) {
     synchronous, 
     error, 
     terminate, 
-    abort,
     abandon, 
+    timeout = DefaultTimeout,
     delay = 0 
   } = options
 
@@ -33,6 +35,7 @@ function subscribeAndAssert(expected, options = { }) {
 
   var start = Date.now()
   var eventsExpected = true
+  var accepted = false
 
   function completeOrError() {
     assert.ok(eventsExpected)
@@ -53,25 +56,27 @@ function subscribeAndAssert(expected, options = { }) {
   }
 
   var test = accept => {
-    var cancel
     var initialized = false
 
-    this[Subscribe]({
-      [Initialize]() {
+    var cancel = this[Subscribe]({
+      [Subscribed]() {
         assert(!initialized)
         initialized = true
         
-        cancel = arguments[0]
-        if (abandon)
-          cancel = Noop
-
-        if (abort) {
-          assert(tryCancel(cancel))
-          accept()
+        var syncCancel = arguments[0]
+        if (abandon) {
+          if (abandon instanceof Function)
+            abandon(syncCancel)
+          syncCancel = Noop
         }
+
+        // async observables must yield before their first observation
+        if (synchronous)
+          cancel = syncCancel
       },
       [Next](o) {
         assert.ok(eventsExpected)
+        assert.ok(cancel)
   
         assert.ok(Date.now() - start >= delay)
         start = Date.now()
@@ -81,11 +86,13 @@ function subscribeAndAssert(expected, options = { }) {
           accept()
       }, 
       [Complete]() {
+        assert.ok(cancel)
         completeOrError()
         assert.ok(error === undefined)
         accept()
       },
       [Error](o) {
+        assert.ok(cancel)
         completeOrError()
         assert.ok(error !== undefined)
         assert.equal(o, error)
@@ -93,6 +100,7 @@ function subscribeAndAssert(expected, options = { }) {
       }
     })
 
+    assert.ok(cancel instanceof Function)
     assert.ok(initialized)
     
     if (eventsExpected && terminate && tryCancel(cancel))
@@ -100,13 +108,19 @@ function subscribeAndAssert(expected, options = { }) {
   }
 
   if (synchronous) {
-    var accepted = false
     test(() => accepted = true)
     assert.ok(accepted)
     return
   }
 
-  return new Promise(test)
+  var start = Date.now()
+  process.nextTick(async () => {
+    while (Date.now() - start < timeout && !accepted)
+      await sleep(PollMs)
+    assert.ok(accepted)
+  })
+
+  return new Promise(test).then(() => accepted = true)
 }
 
 module[ExportExtension](IObservable, subscribeAndAssert)

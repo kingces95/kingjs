@@ -2,14 +2,16 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Complete },
+    IObserver: { Complete },
     '-rx': {
-      '-observer': { Proxy, Check },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create, empty }
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: then.name }
 
 /**
  * @description Returns an `IObservable` that emits values
@@ -24,36 +26,20 @@ var {
  * @returns Returns a new `IObservable` that emits the values
  * of two `IObservable`s, one after the other.
  */
-function then(next = empty()) {
+function then(next = empty()) {  
   return create(observer => {
-
-    var cancelThunk
-    var cancel = () => cancelThunk()
+    var subscription = new SubscriptionTracker(observer)
 
     this[Subscribe](
-      observer[Proxy]({
-        [Initialize](o) { 
-
-          // cancel original IObservable
-          cancelThunk = o 
-          this[Initialize](cancel)
-        },
+      subscription.track({
         [Complete]() {
           next[Subscribe](
-            observer[Proxy]({
-              [Initialize](o) { 
-
-                // cancel subsequent IObservable
-                cancelThunk = o
-              }
-            })
+            subscription.track({ })
           )
         }
       })
     )
-
-    return cancel
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, then)

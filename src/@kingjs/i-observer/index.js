@@ -3,12 +3,12 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
- * @description `IObserver` has a members `initialize`, 
+ * @description `IObserver` has a members `subscribed`, 
  * `next`, `complete`, and `error`.
  */
 module[Export]({
   members: {
-    initialize: null,
+    subscribed: null,
     next: null,
     complete: null,
     error: null

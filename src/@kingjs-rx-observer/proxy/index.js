@@ -1,26 +1,29 @@
 var { assert,
   '@kingjs': {
     IObserver,
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var EmptyObject = { }
+
 /**
- * @description Asserts an observers calls are orderly.
- * @this any The `IObserver`.
- * @returns Returns a proxy `IObserver` which intercepts and asserts
- * that the calls to the original `IObserver` are orderly.
+ * @description Overrides `IObserver` functions.
+ * @this any The source `IObserver` whose functions will be overridden.
+ * @param actions Overrides of select `IObserver` functions.
+ * 
+ * @description Overrides are passed the source `IObservable` as `this`.
  */
-function proxy(actions) {
+function proxy(actions = EmptyObject) {
   assert(this instanceof IObserver)
   
   return {
-    [Initialize]: o => {
-      if (actions[Initialize])
-        actions[Initialize].call(this, o)
+    [Subscribed]: o => {
+      if (actions[Subscribed])
+        actions[Subscribed].call(this, o)
       else
-        this[Initialize](o)
+        this[Subscribed](o)
     },
     [Next]: o => {
       if (actions[Next])

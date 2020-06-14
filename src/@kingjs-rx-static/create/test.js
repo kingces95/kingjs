@@ -8,10 +8,12 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+function Noop() { }
+
 process.nextTick(async () => {
 
   // next
-  var once = create(function*(o) { o[Next](0); o[Complete]() })
+  var once = create(function*(o) { o[Next](0); yield; o[Complete]() })
   await once[SubscribeAndAssert]([0])
 
   // complete
@@ -20,28 +22,17 @@ process.nextTick(async () => {
 
   // error
   var throws = create(function*(o) { o[Error]('error') })
-  var error = await throws[SubscribeAndAssert](null, { error: 'error' })
-  assert.equal('error', error)
+  await throws[SubscribeAndAssert](null, { error: 'error' })
 
-  // minimalist
-  var empty = create(function*() { })
-  await empty[SubscribeAndAssert](null, { terminate: true })
-
-  // subscribed
-  var subscribed = false
-  var noop = create(function*() { subscribed = true })
-  var cancel = await noop[SubscribeAndAssert](null, { terminate: true })
-  await sleep()
-  assert.ok(subscribed)
-  cancel()
+  // terminate
+  var term = create(function*(o) { o[Next](0); yield; o[Complete]() })
+  await term[SubscribeAndAssert]([0], { terminate: true })
 
   // do not hang if asked to sleep forever; test cancel polling
-  var never = create(function*() { yield Number.MAX_VALUE })
-  var cancel = await never[SubscribeAndAssert](null, { terminate: true })
-  cancel()
+  var never = create(function*(o) { o[Next](0); yield Number.MAX_VALUE })
+  await never[SubscribeAndAssert]([0], { terminate: true })
 
   // do not synchronously emit if asked to sleep for 0ms; always yield between emits
   var zeroForever = create(function*(o) { while(true) { o[Next](0); yield } })
-  var cancel = await zeroForever[SubscribeAndAssert]([0], { terminate: true })
-  cancel()
+  zeroForever[SubscribeAndAssert]([0], { terminate: true })
 })

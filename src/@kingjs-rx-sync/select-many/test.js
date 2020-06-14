@@ -1,11 +1,8 @@
-var { assert,
+var {
   '@kingjs': {
-    IGroupedObservable: { Key },
-    '-promise': { tick },
     '-rx': { 
-      '-static': { clock, never },
-      '-sync': { Select, GroupBy, SelectMany, SubscribeAndAssert,
-        '-static': { of, throws },
+      '-sync': { SelectMany, SubscribeAndAssert,
+        '-static': { of, throws, never },
       },
     },
   }
@@ -46,8 +43,6 @@ of(of(0, 1), throws('error'), of(2))
 of(of(0), never(), of(1))
   [SelectMany]()
   [SubscribeAndAssert]([0, 1], { terminate: true })
-
-return
 
 // of('a0', 'a1', 'b0', 'c0')
 //   [GroupBy](o => o[0])

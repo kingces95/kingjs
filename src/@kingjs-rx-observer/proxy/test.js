@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IObserver,
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     '-rx': { 
       '-observer': { Proxy }
     },
@@ -9,7 +9,7 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 var observer = {
-  [Initialize]() { },
+  [Subscribed]() { },
   [Next]() { },
   [Complete]() { },
   [Error]() { }
@@ -21,13 +21,13 @@ var complete
 var error
 
 var proxy = observer[Proxy]({
-  [Initialize](o) { assert.equal(this, observer); initialized = o },
+  [Subscribed](o) { assert.equal(this, observer); initialized = o },
   [Next](o) { assert.equal(this, observer); next = o },
   [Complete]() { assert.equal(this, observer); complete = true },
   [Error](o) { assert.equal(this, observer); error = o }
 })
 
-proxy[Initialize](0)
+proxy[Subscribed](0)
 proxy[Next](1)
 proxy[Complete]()
 proxy[Error](2)

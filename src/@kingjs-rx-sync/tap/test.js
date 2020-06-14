@@ -1,11 +1,9 @@
 var { assert,
   '@kingjs': {
-    IObservable: { Subscribe },
-    IObserver: { Initialize },
     '-rx': {
       SubscribeAndAssert: AsyncSubscribeAndAssert,
-      '-sync': { Tap, Finalize, SubscribeAndAssert, Do, CatchAndThen, Where,
-        '-static': { of, throws },
+      '-sync': { Tap, Finalize, SubscribeAndAssert, Do, Where,
+        '-static': { of, throws, empty },
       }
     }
   }
@@ -27,8 +25,7 @@ of(0, 1, 2)
 
 of(0, 1, 2)
   [Tap](o =>
-    // `Complete` is never observed because the tapped IObservable is canceled
-    o[Finalize](assert.fail)
+    o[AsyncSubscribeAndAssert]([0, 1], { abandon: true })
   )
   [SubscribeAndAssert]([0, 1], { terminate: true })
 
@@ -37,29 +34,25 @@ var cancel
 of(0, 1, 2)
   [Tap](o => o
     [Where](o => o == 1)
-    [Do](() => cancel())
-    [Subscribe]()
+    [Do](() => { cancel() })
+    [AsyncSubscribeAndAssert]([1], { abandon: true })
   )
-  [Do]({ [Initialize](o) { cancel = o } })
-  [SubscribeAndAssert]([0], { abandon: true })
-
-// tap cancels source, prevents complete
-var cancel
-of(0, 1, 2)
-  [Tap](o => o
-    [Finalize](() => cancel())
-    [Subscribe]()
-  )
-  [Do]({ [Initialize](o) { cancel = o } })
-  [SubscribeAndAssert]([0, 1, 2], { abandon: true })
+  [SubscribeAndAssert]([0], { abandon: o => cancel = o })
 
 // tap cancels source, prevents error
 var cancel = () => null
 throws('error')
   [Tap](o => o
     [Finalize](() => cancel())
-    [CatchAndThen]()
-    [Subscribe]()
+    [AsyncSubscribeAndAssert](null, { error: 'error' })
   )
-  [Do]({ [Initialize](o) { cancel = o } })
-  [SubscribeAndAssert](null, { abandon: true })
+  [SubscribeAndAssert](null, { abandon: o => cancel = o })
+
+// tap cancels source, prevents complete
+var cancel
+empty()
+  [Tap](o => o
+    [Finalize](() => cancel())
+    [AsyncSubscribeAndAssert]()
+  )
+  [SubscribeAndAssert](null, { abandon: o => cancel = o })

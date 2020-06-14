@@ -1,13 +1,9 @@
 var {
   '@kingjs': {
     IObservable,
-    '-fs-dir': { 
-      List,
-      typeOf,
-    },
+    '-fs-dir': { List, typeOf },
     '-rx': {
-      '-async': { SelectMany },
-      '-sync': { GroupBy, RollingSelect, Select, Regroup, Log,
+      '-sync': { SelectMany, GroupBy, RollingSelect, Select, Regroup, Log,
         '-static': { from: rx }
       }
     },
@@ -37,11 +33,16 @@ var SelectKey = dirent => ({
  **/
 function readDir(dir) {
   return this
-    [Select](() => dir[List](Options))
+    [Select](o => {
+      var list = dir[List](Options)
+      list.forEach(x => x.value = o)
+      return list
+    })
     [Select](o => linq(o))                              // enter linq
     [RollingSelect](o =>                                // dirEntry[] -> { cur, prev, key }[]
       o[0][ZipJoin](o[1],
-        SelectKey, SelectKey,
+        SelectKey, 
+        SelectKey,
         (current, previous, key) => ({
           current,
           previous,
@@ -63,7 +64,7 @@ function readDir(dir) {
         x => !x.current                                 // emit `complete` on unlinked
       )
       [Regroup](x => x
-        [Select](y => y.current)
+        [Select](y => y.current.value)
       )
     )
 }

@@ -18,7 +18,7 @@ function finalize(callback) {
   return this[Do]({
     [Complete]: callback, 
     [Error]: callback
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, finalize)

@@ -9,7 +9,7 @@ var { Subscribe } = require('@kingjs/rx.i-observable')
 var { Key } = require('@kingjs/rx.i-grouped-observable')
 var Finalize = require('@Kingjs/rx.finalize')
 var Select = require('@Kingjs/rx.select')
-var Spy = require('@Kingjs/rx.spy')
+var Tap = require('@Kingjs/rx.spy')
 var Log = require('@Kingjs/rx.log')
 var Subject = require('@Kingjs/rx.subject')
 var DistinctStats = require('..')
@@ -23,7 +23,7 @@ var stats = subject
   [DistinctStats](TempFileName)
 
 stats
-  [Spy](
+  [Tap](
     // assert Key looks like a stats.ino
     o => {
       assert(is.number(o[Key]))
@@ -41,7 +41,7 @@ stats
   [Subscribe]()
 
 stats
-  [Spy](
+  [Tap](
     o => result.push(
       `LINK PATH`
     ),

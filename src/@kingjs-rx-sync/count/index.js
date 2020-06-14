@@ -2,14 +2,16 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Next, Complete },
+    IObserver: { Subscribed, Next, Complete },
     '-rx': {
-      '-observer': { Proxy },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: count.name }
 
 /**
  * @description Counts the number of next events.
@@ -20,17 +22,24 @@ var {
  */
 function count() {
   return create(observer => {
+    var subscription = new SubscriptionTracker(observer)
+  
     var i = 0
-    return this[Subscribe](
-      observer[Proxy]({
+    this[Subscribe](
+      subscription.track({
         [Next]() { i++ },
         [Complete]() { 
           this[Next](i)
+          if (subscription.cancelled)
+            return
+
           this[Complete]()
         }
       }),
     )
-  })
+
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, count)

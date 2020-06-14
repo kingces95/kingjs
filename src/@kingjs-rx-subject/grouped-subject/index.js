@@ -8,8 +8,8 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 class GroupedSubject extends Subject {
-  constructor(key) {
-    super()
+  constructor(key, cancel) {
+    super(cancel)
     this[Key] = key
   }
 }

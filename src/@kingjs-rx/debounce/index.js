@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     '-rx-sync-static': { create },
     '-interface': { ExportExtension },
   }
@@ -22,6 +22,7 @@ var {
 function debounce(window) {
   var lastId = 0
   var cancelled = false
+  var cancel
 
   function delay(action, id = 0) {
     setTimeout(() => {
@@ -36,7 +37,14 @@ function debounce(window) {
   }
 
   return create(observer => {
-    var cancel = this[Subscribe]({
+    this[Subscribe]({
+      [Subscribed](cancelSource) {
+        cancel = () => {
+          cancelled = true
+          cancelSource()
+        }
+        observer[Subscribed](cancel)
+      },
       [Next](o) { 
         delay(() => observer[Next](o), ++lastId)
       },
@@ -49,10 +57,7 @@ function debounce(window) {
       }
     })
 
-    return () => {
-      cancelled = true
-      cancel()
-    }
+    return cancel
   })
 }
 

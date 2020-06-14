@@ -12,7 +12,8 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DefaultKeySelector = o => o
+var Identity = o => o
+var Options = { name: distinctUntilChanged.name }
 
 /**
  * @description Emit values that are different than that last emitted value.
@@ -26,7 +27,7 @@ var DefaultKeySelector = o => o
  * distinct from the previously emitted value.
  */
 function distinctUntilChanged(
-  keySelector = DefaultKeySelector,
+  keySelector = Identity,
   equals = deepEquals) {
 
   return create(observer => {
@@ -47,7 +48,7 @@ function distinctUntilChanged(
         },
       })
     )
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, distinctUntilChanged)

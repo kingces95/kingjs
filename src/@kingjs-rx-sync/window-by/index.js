@@ -1,9 +1,10 @@
-var { deepEquals,
+var { deepEquals, assert,
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Subscribe, Key },
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Next, Complete, Error },
     '-rx': {
+      '-observer': { SubscriptionTracker },
       '-subject': { Subject },
       '-sync-static': { create },
     },
@@ -12,6 +13,7 @@ var { deepEquals,
 } = module[require('@kingjs-module/dependencies')]()
 
 var Identity = o => o
+var Options = { name: windowBy.name }
 
 /**
  * @description Groups observations with a common key into `IGroupedObservables`
@@ -33,61 +35,67 @@ var Identity = o => o
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  */
-function windowBy(
-  keySelector = Identity
-) {
+function windowBy(keySelector = Identity) {
   return create(observer => {
+    var subscription = new SubscriptionTracker(observer)
     var lastKey
     var window
 
-    return this[Subscribe]({
-      [Initialize](o) { 
-        observer[Initialize](o)
-      },
-      [Next](o) {
-        var key = keySelector(o)
+    this[Subscribe](
+      subscription.track({
+        [Next](o) {
+          var key = keySelector(o)
 
-        if (window && !deepEquals(key, lastKey)) {
-          window[Complete]()
-          window = null
+          if (window && !deepEquals(key, lastKey)) {
+            window[Complete]()
+            if (subscription.cancelled)
+              return
+
+            window = null
+          }
+          lastKey = key
+
+          if (!window) {
+
+            // activate and cache window
+            window = new Subject(() => window = null)
+
+            // implement IGroupedObservable
+            window[Key] = key
+            
+            // emit window
+            observer[Next](window)
+            if (subscription.cancelled)
+              return
+          }
+
+          // window emission
+          assert(window)
+          window[Next](o)
+        },
+        [Complete]() {
+          if (window) {
+            window[Complete]()
+            if (subscription.cancelled)
+              return
+          }
+
+          observer[Complete]()
+        },
+        [Error](e) {
+          if (window) {
+            window[Error](e)
+            if (subscription.cancelled)
+              return
+          }
+
+          observer[Error](e)
         }
-        lastKey = key
+      })
+    )
 
-        if (!window) {
-
-          // activate and cache window
-          window = new Subject(() => window = null)
-
-          // implement IGroupedObservable
-          window[Key] = key
-          
-          // emit window
-          observer[Next](window)
-        }
-
-        // trap for self-cancelling window subscriptions
-        if (!window)
-          return
- 
-        // window emission
-        window[Next](o)
-      },
-      [Complete]() {
-        if (window)
-          window[Complete]()
-        window = null
-
-        observer[Complete]()
-      },
-      [Error](o) {
-        if (window)
-          window[Error](o)
-        window = null
-
-        observer[Error](o)
-      }
-    })
-  })
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, windowBy)

@@ -2,16 +2,17 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Next },
+    IObserver: { Subscribed, Next },
     '-rx': { 
-      '-observer': { Proxy },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create }
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DefaultKeySelector = o => o
+var Identity = o => o
+var Options = { name: distinct.name }
 
 /**
  * @description Skips values previously emitted.
@@ -21,11 +22,13 @@ var DefaultKeySelector = o => o
  * 
  * @returns Returns an `IObservable` of distinct values.
  */
-function distinct(keySelector = DefaultKeySelector) {
+function distinct(keySelector = Identity) {
   return create(observer => {
+    var subscription = new SubscriptionTracker(observer)
+
     var keys
-    return this[Subscribe](
-      observer[Proxy]({
+    this[Subscribe](
+      subscription.track({
         [Next](o) {
           var key = keySelector(o)
 
@@ -40,7 +43,9 @@ function distinct(keySelector = DefaultKeySelector) {
         },
       })
     )
-  })
+
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, distinct)

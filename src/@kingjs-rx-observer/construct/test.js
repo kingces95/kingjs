@@ -1,6 +1,6 @@
 var { assert,
   '@kingjs': {
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     '-rx-observer': { construct }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -17,4 +17,4 @@ var observer = construct(next, complete, error, initialize)
 assert.equal(observer[Next], next)
 assert.equal(observer[Complete], complete)
 assert.equal(observer[Error], error)
-assert.equal(observer[Initialize], initialize)
+assert.equal(observer[Subscribed], initialize)

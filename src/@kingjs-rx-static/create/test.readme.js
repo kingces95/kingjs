@@ -1,4 +1,4 @@
-var {
+var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
@@ -15,6 +15,9 @@ var myObservable = create(function*(observer) {
     observer[Next](i)
     yield Delay
   }
+
+  // test for cancellation by yielding
+  yield
 
   observer[Complete]()
 })

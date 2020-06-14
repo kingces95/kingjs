@@ -1,9 +1,7 @@
-var { assert,
+var {
   '@kingjs': {
-    IObserver: { Next, Complete, Error },
-    IObservable: { Subscribe },
     '-rx': {
-      '-sync': { GroupBy, Log, Regroup, SubscribeAndAssert, SelectMany, Materialize,
+      '-sync': { GroupBy, Regroup, SubscribeAndAssert, Materialize,
         '-static': { of, throws, never }
       }, 
     },
@@ -23,6 +21,13 @@ of(0, 1, 2)
     { ...next, value: 2 },
     complete
   ])
+
+of(0)
+  [Materialize]()
+  [SubscribeAndAssert]([
+    { ...next, value: 0 },
+    complete
+  ], { terminate: true })
 
 of('a0', 'a1', 'b0')
   [GroupBy](o => o[0])
@@ -62,11 +67,27 @@ of('a!0', 'b!0', 'a!1', 'a?0')
     { ...complete },
   ])
 
+of('a!0', 'b!0', 'a!1', 'a?0')
+  [GroupBy](o => o[0])
+  [Regroup](o => o
+    [GroupBy](x => x[1])
+  )
+  [Materialize]()
+  [SubscribeAndAssert]([
+    { ...grouping, keys: [ 'a' ] },
+  ], { terminate: true })
+
 throws('error')
   [Materialize]()
   [SubscribeAndAssert]([
     { ...error, value: 'error' }
   ])
+
+throws('error')
+  [Materialize]()
+  [SubscribeAndAssert]([
+    { ...error, value: 'error' }
+  ], { terminate: true })
 
 never()
   [Materialize]()

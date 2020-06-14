@@ -26,9 +26,7 @@ function first() {
         }, 
         [Complete]: resolve,
         [Error]: reject
-      }[Check]({ 
-        assertAsync: true 
-      })
+      }
     )
   })
 }

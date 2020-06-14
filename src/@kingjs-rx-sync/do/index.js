@@ -1,15 +1,17 @@
-var {
+var { assert,
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     '-rx': {
-      '-observer': { construct },
+      '-observer': { construct, SubscriptionTracker },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: 'do' }
 
 /**
  * @description Returns an `IObservable` that spies on events.
@@ -22,55 +24,42 @@ function spy() {
   var actions = construct(...arguments)
 
   return create(observer => {
-    var cancel
-    var cancelled = false
+    var subscription = new SubscriptionTracker(observer)
 
-    this[Subscribe]({
-      [Initialize](cancelSource) {
-        cancel = () => { 
-          cancelled = true
-          cancelSource() 
+    this[Subscribe](
+      subscription.track({
+        [Next](o) {
+          if (actions[Next])
+            actions[Next](o)
+
+          if (subscription.cancelled)
+            return
+
+          observer[Next](o)
+        },
+        [Complete]() {
+          if (actions[Complete])
+            actions[Complete]()
+
+          if (subscription.cancelled)
+            return
+
+          observer[Complete]()
+        },
+        [Error](e) {
+          if (actions[Error])
+            actions[Error](e)
+
+          if (subscription.cancelled)
+            return
+
+          observer[Error](e)
         }
-
-        if (actions[Initialize])
-          actions[Initialize](cancel)
-        
-        if (cancelled)
-          return
-
-        observer[Initialize](cancel)
-      },
-      [Next](o) {
-        if (actions[Next])
-          actions[Next](o)
-
-        if (cancelled)
-          return
-
-        observer[Next](o)
-      },
-      [Complete]() {
-        if (actions[Complete])
-          actions[Complete]()
-
-        if (cancelled)
-          return
-
-        observer[Complete]()
-      },
-      [Error](e) {
-        if (actions[Error])
-          actions[Error](e)
-
-        if (cancelled)
-          return
-
-        observer[Error](e)
       }
-    })
+    ))
 
-    return cancel
-  })
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, spy)

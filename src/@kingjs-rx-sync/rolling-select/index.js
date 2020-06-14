@@ -13,6 +13,7 @@ var {
 
 var DefaultSelector = o => o
 var DefaultWindowSize = 2
+var Options = { name: rollingSelect.name }
 
 /**
  * @description Emit a sliding window of values.
@@ -39,9 +40,9 @@ function rollingSelect(
           
           this[Next](selector(window))
         },
-      })[Check]()
+      })
     )
-  })
+  }, Options)
 }
 
 module[ExportExtension](IObservable, rollingSelect)

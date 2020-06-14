@@ -1,6 +1,6 @@
 var {
   '@kingjs': {
-    IObserver: { Next, Complete, Error, Initialize },
+    IObserver: { Next, Complete, Error, Subscribed },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -20,7 +20,7 @@ function create(observer = EmptyObject) {
       [Next]: arguments[0],
       [Complete]: arguments[1],
       [Error]: arguments[2],
-      [Initialize]: arguments[3]
+      [Subscribed]: arguments[3]
     } 
   }
 

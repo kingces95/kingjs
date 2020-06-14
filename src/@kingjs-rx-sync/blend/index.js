@@ -2,14 +2,16 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Complete, Error },
+    IObserver: { Complete, Error },
     '-rx': {
-      '-observer': { Proxy },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create },
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: blend.name }
 
 /**
  * @description Returns an `IObservable` that blends this `IObservable`
@@ -23,43 +25,32 @@ var {
  * all the other `IObservable`s will be canceled. 
  */
 function blend() {
-  var observables = [this, ...arguments]
-
   return create(observer => {
-    var count = 0
-    var subscriptions = []
+    var subscription = new SubscriptionTracker(observer)
 
-    var cancelled = false
-    var cancel = () => {
-      cancelled = true
-      subscriptions.forEach(o => o())
-    }
-    observer[Initialize](cancel)
-
+    var completed = 0
+    var observables = [this, ...arguments]
     for (var observable of observables) {
-      if (cancelled)
-        break;
+      if (subscription.cancelled)
+        break
 
       observable[Subscribe](
-        observer[Proxy]({
-          [Initialize](cancelSource) {
-            subscriptions.push(cancelSource)
-          },
+        subscription.track({
           [Complete]() { 
-            if (++count != observables.length)
+            if (++completed != observables.length)
               return
 
             this[Complete]()
           },
           [Error](o) { 
             this[Error](o) 
-            cancel()
+            subscription.cancel()
           },
         }))
     }
 
-    return cancel
-  })
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, blend)

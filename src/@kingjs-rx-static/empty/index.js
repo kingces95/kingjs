@@ -9,15 +9,14 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
- * @description Create an `IObservable` that waits for `timeOut` 
- * milliseconds and then emits `completed`.
+ * @description Wait for a time before completing.
  * @param {*} [timeOut] The milliseconds before emitting `complete`. 
- * @returns A function which can be called to cancel the timer.
+ * @returns Returns a subscription.
  */
-function timer(timeOut, options) {
+function empty(timeOut, options) {
   return clock(timeOut, options)
     [Take](1)
     [Skip](1)
 }
 
-module.exports = timer
+module.exports = empty

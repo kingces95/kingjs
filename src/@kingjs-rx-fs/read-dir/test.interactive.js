@@ -1,4 +1,4 @@
-var { readline,
+var { readline, assert,
   '@kingjs': {
     Path,
     IObservable: { Subscribe },
@@ -6,7 +6,7 @@ var { readline,
     IGroupedObservable: { Key },
     '-rx': { Debounce,
       '-subject': { Subject, GroupedSubject },
-      '-sync': { GroupBy, Regroup, Then, Tap,
+      '-sync': { GroupBy, Regroup, Then, Tap, SelectMany,
         '-static': { of, never }
       },
       '-fs': { Watch, ReadDir, Stat }
@@ -29,7 +29,7 @@ class GroupedSubjectMap extends Map {
   getOrCreate(key) {
     var subject = this.get(key)
     if (!subject)
-      this.set(key, subject = new GroupedSubject(key))
+      this.set(key, subject = new GroupedSubject(key, assert.fail))
     return subject
   }
 }
@@ -69,16 +69,12 @@ map.getOrCreate(fileIno)
     }
   })
 
-var subject = new Subject()
+var subject = new Subject(assert.fail)
 rl.on('SIGINT', () => {
   console.log('ctrl-c')
   subject[Complete]()
   rl.close()
 })
-
-function diff(subject) {
-
-}
 
 var dir = Path.dot
 process.nextTick(async () =>
@@ -86,6 +82,7 @@ process.nextTick(async () =>
     [Watch](dir)
     [Debounce](Ms)
     [ReadDir](dir)
+    [SelectMany]()
     [Regroup](o => o
       [Stat](dir)
       [Regroup](x => x

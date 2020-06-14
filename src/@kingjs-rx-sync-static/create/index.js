@@ -1,49 +1,48 @@
 var { assert,
   '@kingjs': {
-    IObserver: { Initialize },
     IObservable: { Subscribe },
+    '-string': { Capitalize },
     '-rx-observer': { create: createObserver, Check }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { }
+var Epilog = 'Epilog'
 
 /**
  * @description Returns an object that implements `IObservable` using
  * the provided `subscribe` callback. 
  * 
- * @param subscribe The implementation of `Subscribe`.
+ * @param generator A callback that emits events via a supplied `IObserver`.
  * @param [cancel] Cancels the subscription.
  * 
- * @callback subscribe
- * @param observer A partial implementation of `IObserver` as an object
- * or as arguments `Next`, `Complete`, and `Error`.
- * 
- * @remarks When `cancel` is provided, then `subscribe` need not call 
- * `Initialize` on its `IObserver`.
+ * @callback generator
+ * @param observer The `IObserver` to raise events with.
+ * @returns A cancel function or, if synchronous, undefined which is
+ * replaced by `assert.fail`.
  */
-function create(subscribe, cancel) {
-  assert(subscribe)
-  
-  return {
+function create(generator, options = Options) {
+  assert(generator)
+  rename(generator, options.name)
+
+  var result = {
     [Subscribe]() {
       var observer = createObserver(...arguments)
       var checkedObserver = observer[Check]()
-
-      // subscribe is responsible for calling `Initialize`
-      if (!cancel) 
-        return subscribe(checkedObserver)
-      
-      // create is responsible for calling `Initialize`
-      var aborted = false
-      var cancelProxy = () => aborted = true  
-      checkedObserver[Initialize](() => cancelProxy())
-      if (aborted)
-        return cancelProxy
-
-      cancelProxy = cancel
-      subscribe(checkedObserver)
-      return cancel
+      return generator(checkedObserver) || assert.fail
     }
   }
+
+  rename(result[Subscribe], `${generator.name} [${Epilog}]`)
+  return result
 }
+
+function rename(target, value) {
+  if (!value)
+    return
+
+  Object.defineProperty(target, 'name', { value })
+}
+
 
 module.exports = create

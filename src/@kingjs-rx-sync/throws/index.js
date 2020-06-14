@@ -1,9 +1,11 @@
 var { 
   '@kingjs': { 
-    IObserver: { Initialize, Error },
+    IObserver: { Error },
     '-rx-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var Options = { name: selectMany.name }
 
 /**
  * @description Create an `IObservable` that raises an error.
@@ -13,7 +15,7 @@ var {
 function throws(error = null) {
   return create(function(observer) {
     observer[Error](error)
-  })
+  }, Options)
 }
 
 module.exports = throws

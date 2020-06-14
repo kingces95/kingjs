@@ -1,11 +1,11 @@
-var { assert,
+var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Next, Complete, Error },
     '-interface': { ExportExtension },
     '-rx': { 
-      '-observer': { Proxy },
+      '-observer': { SubscriptionTracker },
       '-sync-static': { create, empty, throws }
     },
   },
@@ -13,6 +13,7 @@ var { assert,
 
 function *Empty() { }
 var ToKeyValue = (key, value)  => ({ key, value })
+var Options = { name: windowBy.name }
 
 /**
  * @description Zip observations with values pulled from a generator.
@@ -35,54 +36,61 @@ var ToKeyValue = (key, value)  => ({ key, value })
  * @remarks - If `iterable` returns a value, then that value is converted
  * into an error. 
  */
-function zip(
-  iterable = Empty, 
-  callback = ToKeyValue) {
+function zip(iterable = Empty, callback = ToKeyValue) {
 
   return create(observer => {
     var iterator = iterable()
 
-    // empty iterables have thing to zip
-    var { done, value } = iterator.next()
-    if (done) {
-      if (value)
-        return throws(value)[Subscribe](observer)
-
-      return empty()[Subscribe](observer)
+    function advance() {
+      try {
+        return iterator.next()
+      }
+      catch(e) {
+        return { error: true, value: e }
+      }
     }
 
-    var cancelled = false
-    var cancel
+    var { done, value, error } = advance()
+    if (error)
+      return throws(value)[Subscribe](observer)
 
-    this[Subscribe](
-      observer[Proxy]({
-        [Initialize](o) { 
-          cancel = () => { cancelled = true; o() }
-          this[Initialize](cancel)
-        },
+    if (done)
+      return empty()[Subscribe](observer)
+
+      var subscription = new SubscriptionTracker(observer)
+      this[Subscribe](
+      subscription.track({
         [Next](o) {
-          assert(cancel)
-          this[Next](callback(o, value))
 
-          if (cancelled)
+          // zip iterator with observation
+          this[Next](callback(o, value))
+          if (subscription.cancelled)
             return
 
-          var next = iterator.next()
-          value = next.value
-          if (next.done) {
-            if (value) 
-              this[Error](value)
-            else 
-              this[Complete]()
+          // advance iterator
+          var next = advance()
+          if (subscription.cancelled)
+            return
 
-            cancel()
+          // the observable is canceled when the iterator is exhausted or throws
+          value = next.value
+          if (next.done || next.error) {
+
+            // finalize observable
+            if (next.done) 
+              this[Complete]()
+            else
+              this[Error](next.value)
+
+            // cancel the observable source
+            subscription.cancel()
           }
         },
       })
     )
 
-    return cancel
-  })
+    return subscription.cancel
+  }, Options)
 }
 
 module[ExportExtension](IObservable, zip)

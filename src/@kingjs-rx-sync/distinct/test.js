@@ -8,6 +8,10 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+of(0)
+  [Distinct]()
+  [SubscribeAndAssert]([0], { terminate: true })
+  
 of(0, 1, 2, 0, 1, 2)
   [Distinct]()
   [SubscribeAndAssert]([0, 1, 2])

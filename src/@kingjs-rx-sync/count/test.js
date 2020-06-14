@@ -23,3 +23,11 @@ throws('error')
 never()
   [Count]()
   [SubscribeAndAssert](null, { terminate: true })
+
+of(0)
+  [Count]()
+  [SubscribeAndAssert]([1], { terminate: true })
+
+of(0)
+  [Count]()
+  [SubscribeAndAssert]([1], { terminate: true })

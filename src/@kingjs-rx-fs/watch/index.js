@@ -59,7 +59,7 @@ function watch(path) {
           watcher.close()
           this[Error](e)
         }
-      })[Check]()
+      })
     )
 
     return () => {

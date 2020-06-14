@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
-    IObserver: { Initialize, Error },
+    IObserver: { Subscribed, Error },
     '-rx-sync-static': { create }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -11,6 +11,6 @@ process.on('uncaughtException', function(err) {
 })
 
 new create((observer) => {
-  observer[Initialize](assert.fail)
+  observer[Subscribed](assert.fail)
   observer[Error]('test missing error handler')
 })[Subscribe]()

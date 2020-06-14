@@ -1,6 +1,6 @@
 var { assert,
   '@kingjs': {
-    IObserver: { Initialize, Next, Complete, Error },
+    IObserver: { Subscribed, Next, Complete, Error },
     IObservable: { Subscribe },
     '-rx-observer': { create, Check }
   }
@@ -10,7 +10,7 @@ var Noop = () => null
 
 /**
  * @remarks `Subscribe` can only be called once and must be called
- * before the `Subject` emits the `Initialize` event. In practice,
+ * before the `Subject` emits the `Subscribed` event. In practice,
  * this means the `Subject` must be subscribed synchronously.
  */
 class Subject {
@@ -25,13 +25,11 @@ class Subject {
     this.observer = create(...arguments)[Check]()
 
     var { cancel } = this
-    this.observer[Initialize](cancel)
+    this.observer[Subscribed](cancel)
     return cancel
   }
 
-  [Initialize]() {
-    assert.fail()
-  }
+  [Subscribed]() { }
   [Next](o) {
     if (!this.observer)
       return

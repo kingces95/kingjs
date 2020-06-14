@@ -1,19 +1,21 @@
 var { 
-  '@kingjs': { IObserver: { Complete },
+  '@kingjs': { IObserver: { Subscribed, Complete },
     '-rx-sync-static': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 function Noop() { }
+var Options = { name: 'empty' }
 
 /**
  * @description Create an `IObservable` that completes.
  * @returns Returns `IObservable` that completes.
  */
 function empty() {
-  return create(function(observer) {
+  return create(observer => {
+    observer[Subscribed](Noop)
     observer[Complete]()
-  }, Noop)
+  }, Options)
 }
 
 module.exports = empty

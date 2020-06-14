@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     '-rx': { Debounce, SubscribeAndAssert,
       '-static': { clock },
-      '-async': { Take, Timeout }
+      '-sync': { Take, Timeout }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
