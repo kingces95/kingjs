@@ -11,36 +11,30 @@ var {
 
 var DefaultLessThan = (l, r) => l < r
 var DefaultKeySelector = o => o
-var DefaultResultSelector = (outer, inner, key) => ({ outer, inner, key })
+var ResultSelector = (outer, inner, key) => ({ outer, inner, key })
  
 /**
- * @description Selects pairs of values from two ordered 
- * `IEnumerable`'s with matching keys or `null` if there is no match.
+ * @description An full outer join of two ordered sequences of unique elements.
  * 
  * @this any The outer `IEnumerable`.
  * @param innerEnumerable The inner `IEnumerable`.
- * @param [outerKeySelector] Callback to select the key 
- * from a value pulled from the outer `IEnumerable`.
- * Default is identity.
- * @param [innerKeySelector] Callback to select the key 
- * from a value pulled from the inner `IEnumerable`. 
- * Default is identity.
- * @param [resultSelector] Callback to select the result
- * given an outer and inner value sharing a key. Default
- * is produces objects of the form `{ outer, inner }`.
+ * @param [outerKeySelector] Selects the outer key. Default is identity.
+ * @param [innerKeySelector] Selects the inner key. Default is identity.
+ * @param [resultSelector] Selects the result. Default is `{ outer, inner }`.
  * @param [keyLessThan] Operator to compare two keys.
+ * @returns Returns a sequence of values as selected by `resultSelector`.
  * 
  * @callback resultSelector
  * @param outer An element from the outer `IEnumerable` or null
  * @param inner An element from the inner `IEnumerable` or null
- * @param key A key common to `outer` and `inner` when neither are null
+ * @param key A key shared by `outer` and `inner` or, if either is null, than
+ * the key of the other value.
  * @returns Returns the "zipped" value.
  */
 function zipJoin(
   innerEnumerable, 
   outerKeySelector = DefaultKeySelector,
   innerKeySelector = DefaultKeySelector,
-  resultSelector = DefaultResultSelector,
   keyLessThan = DefaultLessThan) {
 
   var outerEnumerable = this
@@ -76,14 +70,14 @@ function zipJoin(
 
       // inner behind outer
       if (!innerDone && (outerDone || keyLessThan(innerKey, outerKey))) {
-        yield resultSelector(null, inner, innerKey)
+        yield ResultSelector(null, inner, innerKey)
         innerDone = advanceInner()
         continue
       }
 
       // outer behind inner
       if (!outerDone && (innerDone || keyLessThan(outerKey, innerKey))) {
-        yield resultSelector(outer, null, outerKey)
+        yield ResultSelector(outer, null, outerKey)
         outerDone = advanceOuter()
         continue
       }
@@ -95,7 +89,7 @@ function zipJoin(
       // outer and inner share a common key
       assert(!keyLessThan(innerKey, outerKey))
       assert(!keyLessThan(outerKey, innerKey))
-      yield resultSelector(outer, inner, innerKey)
+      yield ResultSelector(outer, inner, innerKey)
       innerDone = advanceInner()
       outerDone = advanceOuter()
     }

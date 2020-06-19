@@ -12,6 +12,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 var Options = { name: select.name }
+var Identity = o => o
 
 /**
  * @description Returns an `IObservable` that maps values emitted
@@ -24,7 +25,7 @@ var Options = { name: select.name }
  * 
  * @returns Returns a new `IObservable` that emits mapped values.
  */
-function select(callback) {
+function select(callback = Identity) {
   return create(observer => {
     return this[Subscribe](
       observer[Proxy]({

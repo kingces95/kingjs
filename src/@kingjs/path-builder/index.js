@@ -1,7 +1,7 @@
 var {
   assert,
   Path,
-  '@kingjs': { Exception, WeakMapByInternedString,
+  '@kingjs': { Exception, WeakMapByInternedString, Singleton,
     '-pojo': { ToArray },
     '-reflect': { is },
     '-buffer': { Append }
@@ -52,7 +52,7 @@ class NoRelativePathExistsException extends Exception {
  * @remarks -- `sepBuffer`: the path separator
  * @remarks -- `prefixBuffer`: the prefix to the path root. e.g. `c:`
  */
-class PathBuilder {
+class PathBuilder extends Singleton {
 
   static createRelative(sepBuffer) {
     return new DotPathBuilder(sepBuffer)
@@ -62,7 +62,9 @@ class PathBuilder {
     return new RootPathBuffer(sepBuffer, prefixBuffer)
   }
 
-  constructor() { }
+  constructor() { 
+    super()
+  }
 
   get __toString() {
     return this.toString()

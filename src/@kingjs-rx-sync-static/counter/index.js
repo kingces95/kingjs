@@ -8,7 +8,7 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Options = { name: 'counter' }
+var Options = { name: counter.name }
 
 /**
  * @description Emit an ever incrementing count starting at zero.

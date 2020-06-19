@@ -6,7 +6,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 function Noop() { }
-var Options = { name: 'never' }
+var Options = { name: never.name }
 
 /**
  * @description Emits nothing.
@@ -15,6 +15,7 @@ var Options = { name: 'never' }
 function never() {
   return create(observer => {
     observer[Subscribed](Noop)
+    return Noop
   }, Options)
 }
 

@@ -8,6 +8,8 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Identity = o => o
+
 /**
  * @description Returns an `IObservable` that maps values emitted
  * from the current `IObservable`.
@@ -19,7 +21,7 @@ var { assert,
  * 
  * @returns Returns a new `IObservable` that emits mapped values.
  */
-function regroup(callback) {
+function regroup(callback = Identity) {
   return this[Select](o => {
     assert(o instanceof IGroupedObservable)
     var group = callback(o)

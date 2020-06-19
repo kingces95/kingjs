@@ -10,7 +10,7 @@ var { assert,
 
 function Noop() { }
 var PollMs = 20
-var DefaultTimeout = 1000
+var DefaultTimeout = 100000
 
 /**
  * @description Asserts the sequence of events.
@@ -23,7 +23,8 @@ function subscribeAndAssert(expected, options = { }) {
   var { 
     synchronous, 
     error, 
-    terminate, 
+    terminate,
+    asyncTerminate,
     abandon, 
     timeout = DefaultTimeout,
     delay = 0 
@@ -31,6 +32,9 @@ function subscribeAndAssert(expected, options = { }) {
 
   // abandon is terminate without the `cancel` call
   if (abandon)
+    terminate = true
+
+  if (asyncTerminate)
     terminate = true
 
   var start = Date.now()
@@ -51,7 +55,10 @@ function subscribeAndAssert(expected, options = { }) {
       return false
 
     eventsExpected = false
-    cancel()
+    if (asyncTerminate)
+      setImmediate(cancel)
+    else
+      cancel()
     return true
   }
 

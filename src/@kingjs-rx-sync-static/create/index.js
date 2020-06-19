@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
-    '-string': { Capitalize },
+    '-function': { Rename },
     '-rx-observer': { create: createObserver, Check }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -23,26 +23,23 @@ var Epilog = 'Epilog'
  */
 function create(generator, options = Options) {
   assert(generator)
-  rename(generator, options.name)
+  var { name } = options
+
+  if (name)
+    generator[Rename](name)
 
   var result = {
     [Subscribe]() {
       var observer = createObserver(...arguments)
       var checkedObserver = observer[Check]()
-      return generator(checkedObserver) || assert.fail
+      var cancel = generator(checkedObserver)
+      return cancel || (() => assert.fail(`Cannot cancel a finalized ${name || 'IObservable'}.`))
     }
   }
 
-  rename(result[Subscribe], `${generator.name} [${Epilog}]`)
+  if (name)
+    result[Subscribe][Rename](`${name} [${Epilog}]`)
   return result
 }
-
-function rename(target, value) {
-  if (!value)
-    return
-
-  Object.defineProperty(target, 'name', { value })
-}
-
 
 module.exports = create

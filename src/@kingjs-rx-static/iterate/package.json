@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/rx.from-async",
+  "version": "1.0.0",
+  "description": "Create an `IObservable` from an async generator.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/from-async"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observer": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

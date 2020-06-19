@@ -1,5 +1,6 @@
 var assert = require('assert')
 var PathBuilder = require('@kingjs/path-builder')
+var Singleton = require('@kingjs/singleton')
 
 var ForwardSlash = '/'
 var BackSlash = '\\'
@@ -12,6 +13,7 @@ function test(sep, altSep) {
 
   assert.isConsistent = function(path, toString) {
     paths.push(path)
+    assert.ok(path instanceof Singleton)
     assert.equal(path.to(undefined), path)
     assert.equal(path.to(null), path)
     assert.equal(path.to(''), path)

@@ -39,6 +39,8 @@ function then(next = empty()) {
         }
       })
     )
+
+    return subscription.cancel
   }, Options)
 }
 

@@ -44,13 +44,6 @@ of(of(0), never(), of(1))
   [SelectMany]()
   [SubscribeAndAssert]([0, 1], { terminate: true })
 
-// of('a0', 'a1', 'b0', 'c0')
-//   [GroupBy](o => o[0])
-//   [SelectMany](o => o, (o, g) => `${g[Key]}.${o}`)
-//   [SubscribeAndAssert](['a.a0', 'a.a1', 'b.b0', 'c.c0'])
-
-// assert.throws(() => {
-//   ofSync()
-//     [SelectMany]()
-//     [SubscribeAndAssert]()
-// })
+never() 
+  [SelectMany]()
+  [SubscribeAndAssert](null, { terminate: true })

@@ -3,6 +3,7 @@ var { assert,
     IObservable,
     IGroupedObservable: { Subscribe, Key },
     IObserver: { Next, Complete, Error },
+    '-collections': { Dictionary: Map },
     '-rx': {
       '-subject': { Subject },
       '-sync-static': { create },
@@ -50,6 +51,8 @@ function groupBy(
 
     function finalizeGroups(action) {
       for (var key of groupByKey.keys()) {
+        assert(key !== undefined)
+
         action(groupByKey.get(key))
         if (subscription.cancelled)
           break

@@ -1,12 +1,14 @@
 var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
+    '-function': { Rename },
     '-promise': { sleep },
-    '-rx-observer': { create: createObserver, TryInitialize, Check },
+    '-rx-observer': { create: createObserver, SubscriptionTracker, Check },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var PollMs = 100
+var Scheduler = 'Scheduler'
 var EmptyObject = { }
 
 /**
@@ -24,43 +26,46 @@ var EmptyObject = { }
 function create(generator, options = EmptyObject) {
   assert(generator)
   var { 
+    name,
     pollMs = PollMs,
   } = options
 
+  if (name)
+    generator[Rename](`${name}`)
+
   return {
     [Subscribe]() {
-      var observer = createObserver(...arguments)      
-      var checkedObserver = observer[Check]()
+      var uncheckedObserver = createObserver(...arguments)      
+      var observer = uncheckedObserver[Check]()
+      var subscription = new SubscriptionTracker(observer)
 
-      var cancelled = false
-      var cancel = () => cancelled = true
-      if (!checkedObserver[TryInitialize](cancel))
-        return cancel
-
-      process.nextTick(async () => {
-        if (cancelled)
-          return
-
-        for (var ms of generator(checkedObserver)) {
-          if (cancelled)
+      var task = async () => {
+        for (var ms of generator(observer)) {
+          if (subscription.cancelled)
             return
 
-          var start = Date.now()
           if (ms === undefined)
             ms = 0
 
+          var start = Date.now()
           do {
             await sleep(Math.min(pollMs, ms))
-            if (cancelled)
+            if (subscription.cancelled)
               return
           } 
           while (Date.now() - start < ms)
         }
-      })
+      }
 
-      return cancel
+      if (name)
+        task[Rename](`${name} [${Scheduler}]`)
+      process.nextTick(task)
+
+      return subscription.cancel
     }
   }
+
+  return result
 }
 
 module.exports = create

@@ -47,8 +47,6 @@ class SubscriptionTracker {
         cancel()
     }
 
-    this.cancel.foo = 'HI!'
-
     observer[Subscribed](this.cancel)
   }
 

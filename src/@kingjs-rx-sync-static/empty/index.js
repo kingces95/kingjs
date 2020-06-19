@@ -5,7 +5,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 function Noop() { }
-var Options = { name: 'empty' }
+var Options = { name: empty.name }
 
 /**
  * @description Create an `IObservable` that completes.

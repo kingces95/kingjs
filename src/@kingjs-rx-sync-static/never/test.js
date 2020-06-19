@@ -1,4 +1,4 @@
-var {
+var { assert,
   '@kingjs': {
     '-rx-sync': { SubscribeAndAssert, 
       '-static': { never }

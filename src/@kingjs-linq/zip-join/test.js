@@ -1,6 +1,6 @@
 var {
   '@kingjs': {
-    '-linq': { ZipJoin, EnumerateAndAssert,
+    '-linq': { ZipJoin, EnumerateAndAssert, Select,
       '-static': { of }
     }
   }
@@ -40,9 +40,10 @@ of(
   ), 
   o => o.outerName,
   o => o.innerName,
-  (o, i) => ({ ...o, ...i }),
   (l, r) => l < r
-)[EnumerateAndAssert]([
+)
+[Select](o => ({ ...o.outer, ...o.inner }))
+[EnumerateAndAssert]([
   { outer: 1,            outerName: 'a'                 },
   { outer: 2, inner: -1, outerName: 'b', innerName: 'b' },
   {           inner: -2,                 innerName: 'c' },

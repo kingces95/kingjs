@@ -70,7 +70,7 @@ function selectMany(manySelector = Identity) {
       })
     )
 
-    return SubscriptionTracker.cancel
+    return subscription.cancel
   }, Options)
 }
 

@@ -63,7 +63,7 @@ class Interface {
     // the interface as having implemented the interface
     var prototype = instance
     while (isImplementedBy(iface, prototype)) {
-      prototype[Tag] = null
+      Object.defineProperty(prototype, Tag, { value: null })
       prototype = Object.getPrototypeOf(prototype)
     }
 

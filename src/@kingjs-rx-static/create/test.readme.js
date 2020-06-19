@@ -9,20 +9,18 @@ var { assert,
 var Delay = 200
 var Count = 10
 var Timeout = Delay * Count - (Delay * 3)
+//Timeout *= 2
 
-var myObservable = create(function*(observer) {
+var counter = create(function*(observer) {
   for (var i = 0; i < Count; i++) {
     observer[Next](i)
     yield Delay
   }
 
-  // test for cancellation by yielding
-  yield
-
   observer[Complete]()
 })
 
-var dispose = myObservable[Subscribe]({
+var cancel = counter[Subscribe]({
   [Next](x) { console.log(x) },
   [Error](err) { console.error(err) },
   [Complete]() { console.log('done')}
@@ -30,5 +28,5 @@ var dispose = myObservable[Subscribe]({
 
 setTimeout(() => {
   console.log('timeout')
-  dispose()
+  cancel()
 }, Timeout)

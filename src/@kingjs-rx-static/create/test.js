@@ -30,7 +30,7 @@ process.nextTick(async () => {
 
   // do not hang if asked to sleep forever; test cancel polling
   var never = create(function*(o) { o[Next](0); yield Number.MAX_VALUE })
-  await never[SubscribeAndAssert]([0], { terminate: true })
+  await never[SubscribeAndAssert]([0], { asyncTerminate: true })
 
   // do not synchronously emit if asked to sleep for 0ms; always yield between emits
   var zeroForever = create(function*(o) { while(true) { o[Next](0); yield } })

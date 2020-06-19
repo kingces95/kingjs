@@ -51,7 +51,7 @@ function materialize(keys) {
       subscription.track({
         [Next](o) { 
           // recursively materialize group
-          if (o instanceof IGroupedObservable) {
+          if (o && o instanceof IGroupedObservable) {
             materializeGroup(o)
             return
           }

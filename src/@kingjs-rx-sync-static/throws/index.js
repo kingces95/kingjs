@@ -5,7 +5,7 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 function Noop() { }
-var Options = { name: 'never' }
+var Options = { name: throws.name }
 
 /**
  * @description Create an `IObservable` that raises an error.

@@ -1,12 +1,13 @@
 var { 
   '@kingjs': {
-    IObserver: { Next, Complete, Error },
+    '-function': { Rename },
     '-rx': {
-      '-observer': { create: createObserver, Check, TryInitialize },
-      '-sync-static': { create },
+      '-static': { iterate },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var EmptyObject = { }
 
 /**
  * @description Convert an asynchronous generator into a `IObservable`.
@@ -18,47 +19,14 @@ var {
  * emitted as an error. Note, exceptions thrown while processing events are unhandled.
  * @remarks Cancellation is checked before emitting any event.
  */
-function generate(generator) {
-  return create(function(observer) {
-    var observer = createObserver(...arguments)      
-    var checkedObserver = observer[Check]()
+function generate(generator, options = EmptyObject) {
+  var { name } = options
 
-    var cancelled = false
-    var cancel = () => cancelled = true
-    if (!checkedObserver[TryInitialize](cancel))
-      return cancel
+  if (name)
+    generator[Rename](name)
 
-    process.nextTick(async () => {
-      var iterator = generator()
-      
-      while (true) {
-        var next = iterator.next()
-
-        try {
-          next = await next
-        }
-        catch (e) {
-          if (cancelled) 
-            return
-            
-          observer[Error](e)
-          return
-        }
-
-        if (cancelled) 
-          return
-
-        if (next.done) 
-          break
-
-        observer[Next](next.value)
-      }
-
-      observer[Complete]()
-    })
-
-    return cancel
-  })
+  var iterator = generator()
+  return iterate(iterator, options)
 }
 
 module.exports = generate

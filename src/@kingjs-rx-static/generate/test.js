@@ -14,7 +14,7 @@ process.nextTick(async () => {
     yield 0; await sleep(1)
     yield 1; await sleep(1)
     yield 2; await sleep(1)
-  })[SubscribeAndAssert]([0, 1, 2])
+  }, { name: 'test' })[SubscribeAndAssert]([0, 1, 2])
 
   await generate(async function *() { throw 'error' })
     [SubscribeAndAssert](null, { error: 'error' })

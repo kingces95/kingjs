@@ -1,9 +1,8 @@
 var {
   '@kingjs': {
     '-rx': {
-      '-static': { clock },
-      '-sync': { Skip },
-      '-async': { Take }
+      '-static': { counter },
+      '-sync': { Skip, Take },
     }
   },
 } = module[require('@kingjs-module/dependencies')]()
@@ -14,7 +13,7 @@ var {
  * @returns Returns a subscription.
  */
 function empty(timeOut, options) {
-  return clock(timeOut, options)
+  return counter(timeOut, options)
     [Take](1)
     [Skip](1)
 }

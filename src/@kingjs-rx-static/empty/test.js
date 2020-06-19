@@ -1,22 +1,24 @@
 var {
   '@kingjs': {
     '-rx': { SubscribeAndAssert, 
-      '-static': { timer }
+      '-static': { empty }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Ms = 100
+
 process.nextTick(async () => {
 
-  await timer()
+  await empty()
     [SubscribeAndAssert]()
 
-  var ms = 50
-  await timer(50)
-    [SubscribeAndAssert](null, { delay: ms })
-
-  // assert tick happens asynchronously
-  var cancel = await timer()
+  await empty()
     [SubscribeAndAssert](null, { terminate: true })
-  cancel()
+
+  await empty(Ms)
+    [SubscribeAndAssert](null, { delay: Ms })
+
+  await empty(Ms)
+    [SubscribeAndAssert](null, { asyncTerminate: true })
 })
