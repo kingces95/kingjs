@@ -23,14 +23,16 @@ var Options = { name: where.name }
  * 
  * @callback predicate
  * @param value The value to test.
+ * @param index The number of values returned prior to `value`.
  * @returns Return `true` if the value should be emitted.
  */
 function where(predicate = True) {
   return create(observer => {
+    var i = 0
     return this[Subscribe](
       observer[Proxy]({
         [Next](o) {
-          if (!predicate(o))
+          if (!predicate(o, i++))
             return
           
           this[Next](o)

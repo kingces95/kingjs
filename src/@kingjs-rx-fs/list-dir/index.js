@@ -5,16 +5,13 @@ var {
     '-string': { GetHashcode: GetStringHashcode },
     '-fs-dir': { List, typeOf },
     '-rx': {
-      '-sync': { SelectManyGroups, Regroup, Select }
+      '-sync': { GroupSetBy, Regroup, Select }
     },
     '-interface': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Options = { withFileTypes: true }
-var CompareName = (l, r) => l.name < r.name
-var CompareNameAndType = (l, r) => 
-  l.name != r.name ? l.name < r.name : l.type < r.type
+var EmptyObject = { }
 
 /**
  * @description Observe changes to a directory listing.
@@ -26,35 +23,13 @@ var CompareNameAndType = (l, r) =>
  * 
  * @remarks The `IGroupedObservable` key is `IEquatable`.
  **/
-function listDir(dir) {
+function listDir(dir, options = EmptyObject) {
+  options = { ...options, withFileTypes: true }
   return this
-    [SelectManyGroups](
-      value => {
-        var dirents = dir[List](Options)
-        dirents.forEach(o => o.value = value)
-        dirents.forEach(o => o.type = typeOf(o))
-        dirents.sort(CompareName)
-        return dirents
-      },
-      dirent => new Key(dirent.name, dirent.type),
-      CompareNameAndType
-    )
+    [Select](() => dir[List](options))
+    [GroupSetBy]()
     [Regroup](dirent => dirent[Select](x => x.value))
 }
 
-class Key {
-  constructor(name, type) {
-    this.name = name
-    this.type = type
-  }
-  [Equals](o) { 
-    return o.name == this.name && 
-      o.type == this.type 
-  }
-  [GetHashcode]() { 
-    return this.name[GetStringHashcode]() ^ 
-      this.type[GetStringHashcode]() 
-  }
-}
 
 module[ExportExtension](IObservable, listDir)

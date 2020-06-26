@@ -1,6 +1,7 @@
 var { 
   assert,
   '@kingjs': {
+    LessThan,
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
@@ -9,7 +10,6 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DefaultLessThan = (l, r) => l < r
 var DefaultKeySelector = o => o
 var ResultSelector = (outer, inner, key) => ({ outer, inner, key })
  
@@ -21,7 +21,7 @@ var ResultSelector = (outer, inner, key) => ({ outer, inner, key })
  * @param [outerKeySelector] Selects the outer key. Default is identity.
  * @param [innerKeySelector] Selects the inner key. Default is identity.
  * @param [resultSelector] Selects the result. Default is `{ outer, inner }`.
- * @param [keyLessThan] Operator to compare two keys.
+ * @param [keyComparer] Compare if one key is less than the other.
  * @returns Returns a sequence of values as selected by `resultSelector`.
  * 
  * @callback resultSelector
@@ -35,7 +35,7 @@ function zipJoin(
   innerEnumerable, 
   outerKeySelector = DefaultKeySelector,
   innerKeySelector = DefaultKeySelector,
-  keyLessThan = DefaultLessThan) {
+  keyComparer = LessThan) {
 
   var outerEnumerable = this
   var innerEnumerable = innerEnumerable || empty()
@@ -69,14 +69,14 @@ function zipJoin(
     while (true) {
 
       // inner behind outer
-      if (!innerDone && (outerDone || keyLessThan(innerKey, outerKey))) {
+      if (!innerDone && (outerDone || keyComparer(innerKey, outerKey))) {
         yield ResultSelector(null, inner, innerKey)
         innerDone = advanceInner()
         continue
       }
 
       // outer behind inner
-      if (!outerDone && (innerDone || keyLessThan(outerKey, innerKey))) {
+      if (!outerDone && (innerDone || keyComparer(outerKey, innerKey))) {
         yield ResultSelector(outer, null, outerKey)
         outerDone = advanceOuter()
         continue
@@ -87,8 +87,8 @@ function zipJoin(
         break
 
       // outer and inner share a common key
-      assert(!keyLessThan(innerKey, outerKey))
-      assert(!keyLessThan(outerKey, innerKey))
+      assert(!keyComparer(innerKey, outerKey))
+      assert(!keyComparer(outerKey, innerKey))
       yield ResultSelector(outer, inner, innerKey)
       innerDone = advanceInner()
       outerDone = advanceOuter()

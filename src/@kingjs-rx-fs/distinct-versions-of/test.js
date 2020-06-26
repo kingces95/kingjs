@@ -25,8 +25,7 @@ acme[Make]()
 
 function execute(commands, expected) {
 
-  counter()
-    [Take](commands.length)
+  counter(commands.length)
     [Do](o => commands[o].forEach(x => x()))
     [DistinctVersionsOf](bar)
     [Materialize]()

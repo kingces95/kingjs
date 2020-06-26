@@ -6,7 +6,7 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Ms = 100
+var ms = 100
 
 process.nextTick(async () => {
 
@@ -16,9 +16,9 @@ process.nextTick(async () => {
   await empty()
     [SubscribeAndAssert](null, { terminate: true })
 
-  await empty(Ms)
-    [SubscribeAndAssert](null, { delay: Ms })
+  await empty({ ms })
+    [SubscribeAndAssert](null, { delay: ms })
 
-  await empty(Ms)
+  await empty({ ms })
     [SubscribeAndAssert](null, { asyncTerminate: true })
 })

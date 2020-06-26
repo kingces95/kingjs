@@ -8,10 +8,10 @@ var { readline, assert,
       '-subject': { Subject, GroupedSubject },
       '-sync': { 
         GroupBy, Regroup, Then, Tap, ThenAbandon, Where, 
-        Materialize, Rekey, Select, SelectMany,
+        Materialize, Rekey, Select, SelectMany, DistinctUntilChanged, WindowBy,
         '-static': { of }
       },
-      '-fs': { Watch, ListDir, DistinctVersionsOf }
+      '-fs': { Watch, ListDir, Stat }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -21,13 +21,8 @@ var InoModulo = 1000
 var Root = Path.dot
 var Directory = 'directory'
 var File = 'file'
-
-var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
-
 var i = 0
+var subject = new Subject(assert.fail)
 
 class GroupedSubjectMap extends Map {
   getOrCreate(key) {
@@ -50,7 +45,8 @@ function trackFile(ino) {
   trackedFiles.add(ino)
   var result = map.getOrCreate(ino)
   var version = 0
-  var last
+  var lastPath
+  var lastTime
   
   result
     [GroupBy](o => o.path, o => o.done)
@@ -59,18 +55,21 @@ function trackFile(ino) {
         var path = o[Key].toString()
         var current = ++version
 
-        if (!last) {
+        if (!lastPath) {
           console.log(`+ ${path}, ino: ${ino}`) 
         }
         else {
-          console.log(`~ ${last} -> ${path}, ino: ${ino}`) 
+          console.log(`~ ${lastPath} -> ${path}, ino: ${ino}`) 
         }
 
-        last = path
+        lastPath = path
 
-        o[Subscribe]({
+        o[DistinctUntilChanged](x => x.mtimeMs)
+        [Subscribe]({
           [Next](x) {
-            console.log(`Δ ${x.path}, ino: ${ino}`) 
+            if (lastTime != x.mtimeMs)
+              console.log(`Δ ${x.path}, ino: ${ino}, mtime: ${x.mtimeMs}`) 
+            lastTime = x.mtimeMs
           },
           [Complete]() {
             delayDelete(current)
@@ -104,9 +103,10 @@ function watchDir(observable, dir) {
     [Regroup](link => {
       var path = dir.to(link[Key])
       return link
-        [DistinctVersionsOf](path)
+        [Stat](path)
+        [WindowBy](x => x.stat.ino)
         [Regroup](file => file
-          [Select](value => ({ value, path }))
+          [Select](o => ({ value: o.value, mtimeMs: o.stat.mtimeMs, path }))
           [Then](of({ path, done: true }))
           [ThenAbandon]()
           //[Subscribe](o => console.log(`${o.value}: ${o.path.toString()}, ${o.file}`))
@@ -117,7 +117,11 @@ function watchDir(observable, dir) {
     [Subscribe]()
 }
 
-var subject = new Subject(assert.fail)
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
 rl.on('SIGINT', () => {
   console.log('ctrl-c')
   subject[Complete]()
@@ -153,7 +157,7 @@ process.nextTick(async () => {
     //         // subscribe to link 
     //         l[Subscribe]({
     //           [Next](x) { 
-    //             console.log(`Δ ${x.name}, ino: ${x.stats.ino}, time: ${x.stats.ctimeMs}`)
+    //             console.log(`Δ ${x.name}, ino: ${x.stats.ino}, time: ${x.stats.mtimeMs}`)
     //           },
     //           [Complete]() { 
     //             console.log(`- ${name} -> ${ino}`) 

@@ -8,14 +8,14 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Options = { name: generate.name }
+var Options = { name: iterate.name }
 
 /**
  * @description Create an `IObservable` from an iterator.
  * @param iterator The iterator.
  * @returns Returns `IObservable` that emits values pulled from the `iterator`.
  */
-function generate(iterator) {
+function iterate(iterator) {
   return create(observer => {
     var subscription = new SubscriptionTracker(observer)
   
@@ -48,4 +48,4 @@ function generate(iterator) {
   }, Options)
 }
 
-module.exports = generate
+module.exports = iterate

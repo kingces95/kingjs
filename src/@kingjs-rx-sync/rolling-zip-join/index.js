@@ -1,5 +1,6 @@
 var { 
   '@kingjs': {
+    LessThan,
     IObservable,
     '-rx': {
       '-sync': { SelectMany, RollingBuffer, Select,
@@ -19,10 +20,10 @@ var LessThan = (l,r) => l < r
 
 /**
  * @description Emit changes over time to versions of an ordered iterable. 
- * @param [selectKey] Selects the key by which the iterable is ordered. Default is identity.
+ * @param [keySelector] Selects the key by which the iterable is ordered. Default is identity.
  * @param [selectResult] Select the difference between two 
  * versions. Default is { previous, current, key }.
- * @param [compareKeys] Compares two keys. Default is `l < r`.
+ * @param [keyComparer] Compares two keys. Default is `l < r`.
  * @returns Returns an `IObservable` which emits full outer joins 
  * of an ordered iterable and its previous version.
  * 
@@ -41,17 +42,17 @@ var LessThan = (l,r) => l < r
  * @returns Returns true if the left key is less than the right key.
  */
 function rollingZipJoin(
-  selectKey = Identity,
-  compareKeys = LessThan) {
+  keySelector = Identity,
+  keyComparer = LessThan) {
 
   return this
     [Select](o => linq(o))
     [RollingBuffer]()
     [Select](o =>
       o[0][ZipJoin](o[1],
-        selectKey, 
-        selectKey,
-        compareKeys
+        keySelector, 
+        keySelector,
+        keyComparer
       )
     )
     [Select](o => o[ToArray]())

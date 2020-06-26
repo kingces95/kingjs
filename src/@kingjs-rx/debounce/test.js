@@ -1,7 +1,7 @@
 var {
   '@kingjs': {
     '-rx': { Debounce, SubscribeAndAssert,
-      '-static': { clock },
+      '-static': { counter },
       '-sync': { Take, Timeout }
     }
   }
@@ -12,13 +12,11 @@ var count = 5
 
 process.nextTick(async () => {
 
-  await clock(ms)
-    [Take](count)
+  await counter(count, { ms })
     [Debounce](ms * 2)
     [SubscribeAndAssert]([count - 1])
 
-  await clock(ms)
-    [Take](count)
+  await counter(count, , { ms })
     [Debounce](ms / 2)
     [SubscribeAndAssert]([0, 1, 2, 3, 4])
 

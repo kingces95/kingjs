@@ -1,7 +1,7 @@
 var {
   '@kingjs': {
-    '-rx': {
-      '-sync': { Take, SubscribeAndAssert,
+    '-rx': { SubscribeAndAssert: SubscribeAndAssertAsync,
+      '-sync': { Take, SubscribeAndAssert, Tap,
         '-static': { of, throws }
       },
     },
@@ -18,7 +18,7 @@ of(0, 1)
 
 throws('error')
   [Take]()
-  [SubscribeAndAssert]()
+  [SubscribeAndAssert](null, { error: 'error' })
 
 throws('error')
   [Take](1)
@@ -27,3 +27,9 @@ throws('error')
 of(0, 1)
   [Take](1)
   [SubscribeAndAssert]([0], { terminate: true })
+
+// take does not cancel it's subscription
+of(0, 1)
+  [Tap](o => o[SubscribeAndAssertAsync]([0, 1]))
+  [Take](1)
+  [SubscribeAndAssert]([0])

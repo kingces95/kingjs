@@ -6,8 +6,7 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-counter()
-  [Take](3)
+counter(3)
   [SubscribeAndAssert]([0, 1, 2])
 
 counter()

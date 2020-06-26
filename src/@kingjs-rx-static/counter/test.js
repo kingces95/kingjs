@@ -8,14 +8,17 @@ var {
 
 process.nextTick(async () => {
 
+  await counter(3)
+    [SubscribeAndAssert]([0, 1, 2])
+
   await counter()
     [SubscribeAndAssert](null, { terminate: true })
 
-  await counter()
+  await counter(10)
     [SubscribeAndAssert]([ 0, 1, 2 ], { terminate: true })
 
   var ms = 50
-  await counter(ms)
+  await counter(10, { ms })
     [SubscribeAndAssert]([ 0, 1, 2 ], { terminate: true, delay: ms })
 
   await counter(Number.MAX_VALUE, { pollMs: 50 })

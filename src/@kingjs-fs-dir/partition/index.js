@@ -1,11 +1,9 @@
 var {
   '@kingjs': {
-    '-array': { typeOf, Partition },
+    '-array': { Partition },
     '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var CompareDirent = (l, r) => l.name < r.name
 
 var typeOfPlurals = {
   file: 'files',
@@ -24,9 +22,8 @@ var typeOfPlurals = {
  */
 function partition() {
   return this
-    .sort(CompareDirent)
     [Partition](
-      o => typeOfPlurals[typeOf(o)],
+      o => typeOfPlurals[o.type],
       o => o.name
     )
 }

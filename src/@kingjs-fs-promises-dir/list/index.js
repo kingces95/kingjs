@@ -1,5 +1,6 @@
-var { fs: { promises: fs },
+var {
   '@kingjs': { Path,
+    '-fs-dir': { DirEntry },
     '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -12,7 +13,7 @@ var EmptyObject = { }
  * @this PathBuilder The path to check.
  */
 async function list(options = EmptyObject) {
-  return await fs.readdir(this.buffer, options)
+  return DirEntry.listAsync(this, options)
 }
 
 module[ExportExtension](Path.Builder, list)

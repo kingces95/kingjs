@@ -24,12 +24,16 @@ var Epilog = 'Epilog'
 function create(generator, options = Options) {
   assert(generator)
   var { name } = options
+  var subscribed = false
 
   if (name)
     generator[Rename](name)
 
   var result = {
     [Subscribe]() {
+      assert.ok(!subscribed)
+      subscribed = true
+      
       var observer = createObserver(...arguments)
       var checkedObserver = observer[Check]()
       var cancel = generator(checkedObserver)

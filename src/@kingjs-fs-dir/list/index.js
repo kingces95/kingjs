@@ -1,5 +1,6 @@
 var { fs,
   '@kingjs': { Path,
+    '-fs-dir': { DirEntry },
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -15,7 +16,7 @@ var EmptyObject = { }
  * @returns An array of `DirEnt` for the path.
  */
 function list(options = EmptyObject) {
-  return fs.readdirSync(this.buffer, options)
+  return DirEntry.list(this, options)
 }
 
 module[ExportExtension](Path.Builder, list)

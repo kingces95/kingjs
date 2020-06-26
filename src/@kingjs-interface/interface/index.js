@@ -13,7 +13,7 @@ var ActivationError = 'Cannot activate interface.'
  * 
  * @remarks - `Interface` supports the `instanceof` operator.
  * @remarks -- An instance is an `instanceof` an `Interface` if it 
- * defined a proeprty for every symbol exposed by static properties 
+ * defined a property for every symbol exposed by static properties 
  * of the interface.
  * @remarks - An interface cannot be activated.
  * @remarks - By convention derivations of `Interface`
@@ -49,7 +49,7 @@ class Interface {
     if (!Tag)
       iface[Id] = Tag = Symbol(`${iface.name}, (tag)`)
 
-    // box primities string & number
+    // box primitive string & number
     if (typeof instance == 'string')
       instance = String.prototype
     if (typeof instance == 'number')

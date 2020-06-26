@@ -8,9 +8,7 @@ var {
   },
 } = module[require('@kingjs-module/dependencies')]()
 
-var Options = {
-  withFileTypes: true
-}
+var Options = { withFileTypes: true }
 var EmptyArray = []
 
 /**

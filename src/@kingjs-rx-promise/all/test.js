@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     '-rx': { 
-      '-static': { clock },
+      '-static': { counter },
       '-promise': { All },
       '-async': { Take,
         '-static': { empty, throws }
@@ -11,8 +11,7 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 process.nextTick(async () => {
-  var result = await clock()
-    [Take](3)
+  var result = await counter(3)
     [All]()
   assert.deepEqual([0, 1, 2], result)
 

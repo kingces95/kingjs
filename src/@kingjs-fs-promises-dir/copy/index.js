@@ -44,8 +44,7 @@ async function* copyDirGenerator(target, map = Identity) {
   var { 
     files = EmptyArray,
     directories = EmptyArray
-  } = (await this[List](WithFileTypes))
-    [Partition]()
+  } = (await this[List](WithFileTypes))[Partition]()
 
   // process directories
   for (var subDirectory of directories) {

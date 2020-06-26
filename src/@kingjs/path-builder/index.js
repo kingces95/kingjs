@@ -18,6 +18,8 @@ var EmptyBuffer = Buffer.from(EmptyString)
 var DotBuffer = Buffer.from(Dot)
 var DotDotBuffer = Buffer.from(DotDot)
 
+var Descriptor = { writable: true }
+
 class NoRelativePathExistsException extends Exception {
   constructor(from, to) {
     from = from.toString()
@@ -64,6 +66,13 @@ class PathBuilder extends Singleton {
 
   constructor() { 
     super()
+
+    Object.defineProperties(this, { 
+      //parent: Descriptor, 
+      //name: Descriptor, 
+      _buffer: Descriptor,
+      _map: Descriptor,
+    })
   }
 
   get __toString() {
@@ -71,12 +80,12 @@ class PathBuilder extends Singleton {
   }
 
   _to(name) {
-    if (!this.map_)
-      this.map_ = new WeakMapByInternedString()
+    if (!this._map)
+      this._map = new WeakMapByInternedString()
 
-    var result = this.map_.get(name)
+    var result = this._map.get(name)
     if (!result)
-      result = this.map_.set(name, new NamedPathBuilder(this, name))
+      result = this._map.set(name, new NamedPathBuilder(this, name))
     return result
   }
 

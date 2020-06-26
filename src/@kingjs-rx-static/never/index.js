@@ -1,20 +1,20 @@
 var {
   '@kingjs': { 
-    '-rx-static': { create },
+    '-rx-static': { counter },
   },
 } = module[require('@kingjs-module/dependencies')]()
 
-var MAX_SAFE_INTEGER_32 = 0x7FFFFFFF
-var Options = { name: never.name }
+var EmptyObject = { }
 
 /**
  * @description Returns an `IObservable` that emits no events
  * yet keeps the process alive until disposed.
+ * @param [options] Options { pollMs } to specify the polling interval.
+ * @returns Returns a subscription.
  */
-function never() {
-  return create(function*() { 
-    yield MAX_SAFE_INTEGER_32
-  }, Options)
+function never(options = EmptyObject) {
+  var { pollMs } = options
+  return counter(0, { ms: Number.MAX_SAFE_INTEGER_32, pollMs })
 }
 
 module.exports = never

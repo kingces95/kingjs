@@ -1,7 +1,6 @@
 var { assert,
   '@kingjs': { Path,
     '-fs': {
-      '-dir': { typeOf },
       '-promises': {
         '-file': { Write: WriteFile },
         '-dir': { 
@@ -30,8 +29,8 @@ async function test() {
   var file = entries.filter(o => o.name == 'foo.txt')[0]
   var dir = entries.filter(o => o.name == 'bar')[0]
 
-  assert.equal(typeOf(file), 'file')
-  assert.equal(typeOf(dir), 'directory')
+  assert.ok(file.isFile)
+  assert.ok(dir.isDirectory)
   
   await acme[RemoveDir]()
 }

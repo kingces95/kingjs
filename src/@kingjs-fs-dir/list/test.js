@@ -26,7 +26,7 @@ var list = acme[List]()
 assert.deepEqual([ 'bar', 'foo.txt' ], list)
 
 var dirent = acme[List](WithFileTypes)
-assert.deepEqual([ 'bar' ], dirent.filter(o => o.isDirectory()).map(o => o.name))
-assert.deepEqual([ 'foo.txt' ], dirent.filter(o => o.isFile()).map(o => o.name))
+assert.deepEqual([ 'bar' ], dirent.filter(o => o.isDirectory).map(o => o.name))
+assert.deepEqual([ 'foo.txt' ], dirent.filter(o => o.isFile).map(o => o.name))
 
 acme[RemoveDir]()

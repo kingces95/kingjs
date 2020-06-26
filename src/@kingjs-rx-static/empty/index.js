@@ -2,20 +2,18 @@ var {
   '@kingjs': {
     '-rx': {
       '-static': { counter },
-      '-sync': { Skip, Take },
     }
   },
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Wait for a time before completing.
- * @param {*} [timeOut] The milliseconds before emitting `complete`. 
+ * @param [options] Options { ms, pollMs } to specify the 
+ * milliseconds before emitting `complete` and the polling interval. 
  * @returns Returns a subscription.
  */
-function empty(timeOut, options) {
-  return counter(timeOut, options)
-    [Take](1)
-    [Skip](1)
+function empty(options) {
+  return counter(0, options)
 }
 
 module.exports = empty

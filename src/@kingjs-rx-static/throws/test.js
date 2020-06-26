@@ -6,7 +6,7 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Ms = 100
+var ms = 100
 
 process.nextTick(async () => {
 
@@ -16,9 +16,9 @@ process.nextTick(async () => {
   await throws('error')
     [SubscribeAndAssert](null, { terminate: true })
 
-  await throws('error', Ms)
-    [SubscribeAndAssert](null, { error: 'error', delay: Ms })
+  await throws('error', { ms })
+    [SubscribeAndAssert](null, { error: 'error', delay: ms })
 
-  await throws('error', Ms)
+  await throws('error', { ms })
     [SubscribeAndAssert](null, { error: 'error', asyncTerminate: true })
 })

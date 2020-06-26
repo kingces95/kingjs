@@ -1,0 +1,35 @@
+{
+  "name": "@kingjs/fs.rx.dir-entries",
+  "version": "1.0.0",
+  "description": "Given a directory returns the directories entries.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/fs/rx/dir-entries"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/fs.rx.path-subject": "latest",
+    "@kingjs/linq.zip-join": "latest",
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.group-by": "latest",
+    "@kingjs/rx.log": "latest",
+    "@kingjs/rx.pool": "latest",
+    "@kingjs/rx.rolling-select": "latest",
+    "@kingjs/rx.select-many": "latest"
+  },
+  "nodeDependencies": [
+    "fs",
+    "path"
+  ],
+  "capitalize": true
+}

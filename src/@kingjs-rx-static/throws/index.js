@@ -1,8 +1,8 @@
 var {
   '@kingjs': {
     '-rx': {
-      '-static': { counter },
-      '-sync': { Skip, Take, Then,
+      '-static': { empty },
+      '-sync': { Then,
         '-static': { throws: syncThrows }
       },
     }
@@ -11,13 +11,12 @@ var {
 
 /**
  * @description Wait for a time before throwing.
- * @param {*} [timeOut] The milliseconds before emitting `error`. 
+ * @param [options] Options { ms, pollMs } to specify the 
+ * milliseconds before emitting `complete` and the polling interval. 
  * @returns Returns a subscription.
  */
-function throws(error, timeOut, options) {
-  return counter(timeOut, options)
-    [Take](1)
-    [Skip](1)
+function throws(error, options) {
+  return empty(options)
     [Then](syncThrows(error))
 }
 

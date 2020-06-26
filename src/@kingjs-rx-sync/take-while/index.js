@@ -6,12 +6,12 @@ var {
     '-interface': { ExportExtension },
     '-rx': {
       '-observer': { SubscriptionTracker },
-      '-sync-static': { create },
+      '-sync': { Where,
+        '-static': { create },
+      }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var Options = { name: takeWhile.name }
 
 /**
  * @description Emit while a predicate is satisfied.
@@ -24,25 +24,9 @@ var Options = { name: takeWhile.name }
  * time the predicate is not satisfied.
  */
 function takeWhile(predicate) {
-  return create(observer => {
-    var subscription = new SubscriptionTracker(observer)
-    
-    this[Subscribe](
-      subscription.track({
-        [Next](o) { 
-          if (!predicate(o)) {
-            this[Complete]()
-            subscription.cancel()
-            return
-          }
-          
-          this[Next](o)
-        },
-      })
-    )
-
-    return subscription.cancel
-  }, Options)
+  var taking = true
+  return this
+    [Where](o => taking && (taking = predicate(o)))
 }
 
 module[ExportExtension](IObservable, takeWhile)

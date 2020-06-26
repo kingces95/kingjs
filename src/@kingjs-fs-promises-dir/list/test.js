@@ -27,8 +27,8 @@ async function test() {
   assert.deepEqual([ 'bar', 'foo.txt' ], list)
 
   var dirent = await acme[List](WithFileTypes)
-  assert.deepEqual([ 'bar' ], dirent.filter(o => o.isDirectory()).map(o => o.name))
-  assert.deepEqual([ 'foo.txt' ], dirent.filter(o => o.isFile()).map(o => o.name))
+  assert.deepEqual([ 'bar' ], dirent.filter(o => o.isDirectory).map(o => o.name))
+  assert.deepEqual([ 'foo.txt' ], dirent.filter(o => o.isFile).map(o => o.name))
     
   await acme[RemoveDir]()
 }

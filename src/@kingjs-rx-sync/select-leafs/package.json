@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs/rx.select-many",
+  "version": "1.0.0",
+  "description": "Returns an `IObservable` emits the elements selected from the many `IObservable`s returned by callback optionally further selecting each resulting element.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/select-many"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.from": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest",
+    "@kingjs/rx.i-published-observable": "latest",
+    "@kingjs/rx.subject": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

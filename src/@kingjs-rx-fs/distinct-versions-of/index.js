@@ -15,8 +15,8 @@ var {
  * see the file has changed.
  * @param path The path whose file is observed for changes.
  * @returns Returns an `IObservable` that emits a `IGroupedObservable` 
- * with key `ino` that in turn emits the value that triggered the scan, 
- * but only if the file content changed.
+ * with key { ino } which in turn emits the value that triggered the scan, 
+ * but only if the file modified time has changed.
  * 
  * @remarks The lifetime of `IGroupedObservables` no not overlap.
  * @remarks Will also work with directory entries other than files.
