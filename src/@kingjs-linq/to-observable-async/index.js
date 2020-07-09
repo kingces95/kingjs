@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },    
+    '-module': { ExportInterfaceExtension },    
     '-rx': { create },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -47,4 +47,4 @@ function toObservable(interval) {
   })
 }
 
-module[ExportExtension](IEnumerable, toObservable)
+module[ExportInterfaceExtension](IEnumerable, toObservable)

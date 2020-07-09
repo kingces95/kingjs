@@ -3,7 +3,7 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -24,4 +24,4 @@ function all() {
   })
 }
 
-module[ExportExtension](IObservable, all)
+module[ExportInterfaceExtension](IObservable, all)

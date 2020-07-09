@@ -8,7 +8,7 @@ var {
       '-observer': { Proxy },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -51,4 +51,4 @@ function distinctUntilChanged(
   }, Options)
 }
 
-module[ExportExtension](IObservable, distinctUntilChanged)
+module[ExportInterfaceExtension](IObservable, distinctUntilChanged)

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.is-upper-case-at",
+  "name": "@kingjs-string/is-upper-case-at",
   "version": "1.0.1",
   "description": "Test if a character at an index in a string is upper case.",
   "main": "index.js",

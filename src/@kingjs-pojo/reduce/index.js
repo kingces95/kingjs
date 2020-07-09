@@ -1,5 +1,4 @@
 var { 
-  assert,
   '@kingjs-module': {
     ExportExtension
   }
@@ -10,7 +9,9 @@ var {
  * 
  * @this any The object whose properties will be reduced.
  * @param callback The reduction callback.
- * @param [initialValue] The initial value of the accumulation.
+ * @param [options] A pojo of the form `{ initialValue = { }, 
+ * nonEnumerable = false, enumerable = true }`.
+ * @returns Returns the reduction of the pojo.
  * 
  * @callback
  * @param accumulator The accumulated value.
@@ -19,17 +20,30 @@ var {
  * @param pojo The pojo being reduced.
  * @returns The accumulated value.
  * 
- * @returns Returns the reduction of the pojo.
- * 
  * @remarks If the callback returns `undefined` the previous
  * accumulator value will be passed to the next reduction.
  */
-function reduce(callback, initialValue = { }) {
-  var accumulator = initialValue
+function reduce(callback, options = { }) {
+  var { 
+    initialValue: accumulator = { }, 
+    nonEnumerable = false,
+    enumerable = true,
+    valueFilter = o => true,
+  } = options
 
-  for (var key in this) {
+  var keys = []
+  if (nonEnumerable)
+    keys.push(...Object.getOwnPropertyNames(this))
+  if (enumerable)
+    keys.push(...Object.keys(this))
+
+  for (var key of keys) {
     var previousAccumulator = accumulator
-    accumulator = callback(accumulator, key, this[key], this) 
+    var value = this[key]
+    if (!valueFilter(value))
+      continue
+
+    accumulator = callback(accumulator, key, value, this) 
     if (accumulator === undefined)
       accumulator = previousAccumulator
   }

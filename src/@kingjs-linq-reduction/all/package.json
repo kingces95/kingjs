@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.all",
+  "name": "@kingjs-linq/all",
   "version": "1.0.12",
   "description": "Returns true if all elements of a sequence satisfy a condition.",
   "main": "index.js",

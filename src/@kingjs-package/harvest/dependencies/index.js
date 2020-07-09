@@ -3,7 +3,7 @@ var {
   assert,
   '@kingjs': { 
     json: { file: { Read: ReadJsonFile } },
-    fs: { promises: { Exists } },
+    fs: { Exists },
     Path,
     module: { ExportExtension }, 
     array: { promises: { Map: AsyncMap } },
@@ -24,6 +24,7 @@ var {
   isBuiltinModule,
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { async: true }
 var Period = '.'
 var DotJs = '.js'
 var PackageJson = 'package.json'
@@ -47,7 +48,7 @@ async function harvestDependencies(npmScopePath) {
 
   // get .js files in package
   var files = [ ]
-  if (await packageDir.to(PackageJson)[Exists]()) {
+  if (await packageDir.to(PackageJson)[Exists](Options)) {
     var packList = await npmPacklist({ path: packageDir.toString() })
     files = packList.map(o => Path.parse(o))
   }

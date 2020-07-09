@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.aggregate",
+  "name": "@kingjs-linq/aggregate",
   "version": "1.0.21",
   "description": "Applies an accumulator function over a sequence.  The specified seed value is used as the initial accumulator value,  and the specified function is used to select the result value.",
   "main": "index.js",

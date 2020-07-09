@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.builder",
+  "name": "@kingjs-string/builder",
   "version": "0.0.0",
   "description": "A base class for classes that build strings.",
   "main": "index.js",

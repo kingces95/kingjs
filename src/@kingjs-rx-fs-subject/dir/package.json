@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.rx.subject.inode": "latest",
-    "@kingjs/linq.zip-join": "latest",
+    "@kingjs-linq/zip-join": "latest",
     "@kingjs/rx.group-by": "latest",
     "@kingjs/rx.pool": "latest",
     "@kingjs/rx.rolling-select": "latest",

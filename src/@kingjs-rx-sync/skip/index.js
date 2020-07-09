@@ -7,7 +7,7 @@ var {
       '-observer': { Check, Proxy },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -34,4 +34,4 @@ function skip(count) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, skip)
+module[ExportInterfaceExtension](IObservable, skip)

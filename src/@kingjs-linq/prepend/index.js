@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': { Concat,
       '-static': { of }
     },
@@ -18,4 +18,4 @@ function prepend(value) {
   return of(value)[Concat](this)
 }
 
-module[ExportExtension](IEnumerable, prepend)
+module[ExportInterfaceExtension](IEnumerable, prepend)

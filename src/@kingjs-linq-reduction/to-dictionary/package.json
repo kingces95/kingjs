@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.to-dictionary",
+  "name": "@kingjs-linq/to-dictionary",
   "version": "1.0.6",
   "description": "Creates a dictionary from a sequence where the  dictionary keys and values are projected from each element.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@kingjs/dictionary": "latest",
     "@kingjs/i-enumerable": "latest",
-    "@kingjs/linq.aggregate": "latest",
+    "@kingjs-linq/aggregate": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

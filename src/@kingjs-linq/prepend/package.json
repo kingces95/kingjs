@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.prepend",
+  "name": "@kingjs-linq/prepend",
   "version": "1.0.6",
   "description": "Generates an sequence identical to another  sequence but with a value added to the start.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@kingjs/assert-shimmed": "latest",
     "@kingjs/i-enumerable": "latest",
-    "@kingjs/linq.concat": "latest",
+    "@kingjs-linq/concat": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

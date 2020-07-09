@@ -4,12 +4,19 @@ var { fs,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var EmptyObject = { }
+
 /**
  * @description Test if a path exists.
  * 
  * @this PathBuilder The path to check.
  */
-function exists() {
+function exists(options = EmptyObject) {
+  var { async } = options
+
+  if (async)
+    return new Promise(resolve => fs.exists(this.buffer, o => resolve(o)))
+
   return fs.existsSync(this.buffer)
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.default-less-than",
+  "name": "@kingjs-linq/default-less-than",
   "version": "1.0.6",
   "description": "Default lessThan operator.",
   "main": "index.js",

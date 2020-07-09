@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.then-by-descending",
+  "name": "@kingjs-linq/then-by-descending",
   "version": "1.0.7",
   "description": "Generates a sequence of elements from a sorted  sequence where elements previously considered equal are put  in descending order according to a key.",
   "main": "index.js",

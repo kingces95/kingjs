@@ -5,7 +5,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -69,4 +69,4 @@ function except(
   )
 }
 
-module[ExportExtension](IEnumerable, except)
+module[ExportInterfaceExtension](IEnumerable, except)

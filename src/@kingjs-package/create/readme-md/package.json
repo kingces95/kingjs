@@ -16,11 +16,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.file.expand": "file:../../../fs/file/expand",
-    "@kingjs/fs.file.read": "file:../../../fs/file/read",
+    "@kingjs-fs-file/expand": "file:../../../fs/file/expand",
+    "@kingjs-fs-file/read": "file:../../../fs/file/read",
     "@kingjs/fs.probe": "file:../../../fs/probe",
-    "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
-    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
+    "@kingjs-fs-promises/exists": "file:../../../fs/promises/exists",
+    "@kingjs-fs-promises-file/write": "file:../../../fs/promises/file/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/package.name.parse": "file:../../name/parse",
@@ -34,8 +34,8 @@
   "nodeDependencies": [],
   "description": "",
   "devDependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",
-    "@kingjs/fs.promises.file.read": "file:../../../fs/promises/file/read",
-    "@kingjs/fs.promises.save": "file:../../../fs/promises/save"
+    "@kingjs-fs-promises-dir/remove": "file:../../../fs/promises/dir/remove",
+    "@kingjs-fs-promises-file/read": "file:../../../fs/promises/file/read",
+    "@kingjs-fs-promises/save": "file:../../../fs/promises/save"
   }
 }

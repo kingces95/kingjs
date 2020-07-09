@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.group-by",
+  "name": "@kingjs-linq/group-by",
   "version": "1.0.11",
   "description": "Generates a sequence of groups composed of  elements of another sequence which share a common key.",
   "main": "index.js",

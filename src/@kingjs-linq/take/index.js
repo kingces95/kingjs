@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -32,4 +32,4 @@ function take(count) {
   )
 }
 
-module[ExportExtension](IEnumerable, take)
+module[ExportInterfaceExtension](IEnumerable, take)

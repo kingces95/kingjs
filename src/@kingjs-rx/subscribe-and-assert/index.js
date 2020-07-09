@@ -4,7 +4,7 @@ var { assert,
     IObservable: { Subscribe },
     IObserver: { Subscribed, Next, Complete, Error },
     '-promise': { sleep },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -130,4 +130,4 @@ function subscribeAndAssert(expected, options = { }) {
   return new Promise(test).then(() => accepted = true)
 }
 
-module[ExportExtension](IObservable, subscribeAndAssert)
+module[ExportInterfaceExtension](IObservable, subscribeAndAssert)

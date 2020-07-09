@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.take-while",
+  "name": "@kingjs-linq/take-while",
   "version": "1.0.9",
   "description": "Generates a sequence identical to another  sequence so long as the elements continue to satisfy  a specified condition.",
   "main": "index.js",

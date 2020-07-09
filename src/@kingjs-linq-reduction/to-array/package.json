@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.to-array",
+  "name": "@kingjs-linq/to-array",
   "version": "1.0.8",
   "description": "Creates an array from a `IEnumerable`.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
-    "@kingjs/linq.aggregate": "latest",
+    "@kingjs-linq/aggregate": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

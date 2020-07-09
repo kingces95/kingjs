@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -39,4 +39,4 @@ function where(predicate) {
   )
 }
 
-module[ExportExtension](IEnumerable, where)
+module[ExportInterfaceExtension](IEnumerable, where)

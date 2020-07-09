@@ -4,8 +4,8 @@ var {
     module: { ExportExtension },
     Path,
     fs: {
+      Exists,
       promises: { 
-        Exists,
         dir: { 
           Copy: CopyDir,
           Make: MakeDir,
@@ -31,6 +31,7 @@ var {
   },
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { async: true }
 var PackageJson = 'package.json'
 var NodeModule = 'node_module'
 var EmptyPackageJson = {
@@ -62,12 +63,12 @@ async function createPackage() {
   } = await npmScopePath[ReadJsonFile]()
 
   // make package directory
-  if (!await packageDir[Exists]()) {
+  if (!await packageDir[Exists](Options)) {
     packageDir[MakeDir]()
 
     // expand template
     var templatePath = npmScopePath.dir.to(template)
-    if (template && await templatePath[Exists]())
+    if (template && await templatePath[Exists](Options))
       templatePath[CopyDir](packageDir)
   } 
 

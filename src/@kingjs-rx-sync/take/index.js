@@ -4,7 +4,7 @@ var {
     '-rx': {
       '-sync': { Where },  
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -19,4 +19,4 @@ function take(count) {
     [Where]((o, i) => i < count)
 }
 
-module[ExportExtension](IObservable, take)
+module[ExportInterfaceExtension](IObservable, take)

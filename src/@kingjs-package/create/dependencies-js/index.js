@@ -4,8 +4,8 @@ var {
     module: { ExportExtension },
     Path,
     fs: {
+      Exists,
       promises: {
-        Exists,
         file: { Write: WriteFile }
       }
     },
@@ -28,6 +28,7 @@ var PackageJson = 'package.json'
 var DependenciesJs = 'dependencies.js'
 var EmptyArray = []
 var FileRegex = /file:(.*)/
+var Options = { async: true }
 
 /**
  * @description The description.
@@ -59,7 +60,7 @@ async function createDependencies() {
         .to(dependencyPath)
         .to(PackageJson)
 
-      if (!await dependentPackageJsonPath[Exists]())
+      if (!await dependentPackageJsonPath[Exists](Options))
         throw `Package '${packageJsonPath}' depends on '${dependentPackageJsonPath}' which does not exists.`
 
       return await dependentPackageJsonPath[ReadJsonFile]()

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.select",
+  "name": "@kingjs-linq/select",
   "version": "1.0.7",
   "description": "Generates a sequence of elements composed of  elements of another sequence subject to a transform.",
   "main": "index.js",

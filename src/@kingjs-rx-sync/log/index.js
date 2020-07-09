@@ -4,7 +4,7 @@ var {
     IObserver: { Next, Complete, Error },
     '-rx-sync': { Do },
     '-string': { Expand },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -48,4 +48,4 @@ function log(label, options = EmptyObject) {
   })
 }
 
-module[ExportExtension](IObservable, log)
+module[ExportInterfaceExtension](IObservable, log)

@@ -10,7 +10,7 @@ var { assert,
         '-static': { create, of }
       }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -81,4 +81,4 @@ function materialize(keys) {
   [SelectMany](o => o instanceof IGroupedObservable ? o : of(o))
 }
 
-module[ExportExtension](IObservable, materialize)
+module[ExportInterfaceExtension](IObservable, materialize)

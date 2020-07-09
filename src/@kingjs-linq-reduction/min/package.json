@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.min",
+  "name": "@kingjs-linq/min",
   "version": "1.0.6",
   "description": "Returns the minimum value in a sequence of values  projected from elements of a sequence.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/linq.default-less-than": "latest",
+    "@kingjs-linq/default-less-than": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

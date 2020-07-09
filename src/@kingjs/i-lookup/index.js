@@ -1,6 +1,6 @@
 var {
   '@kingjs': { IEnumerable,
-    '-interface': { Export }
+    '-module': { ExportInterface }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -8,7 +8,7 @@ var {
  * @description `ILookup` extends
  * `IEnumerable` with members `has` and `get`.
  */
-module[Export]({
+module[ExportInterface]({
   members: { 
     has: null, 
     get: null 

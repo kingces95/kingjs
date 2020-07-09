@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.append",
+  "name": "@kingjs-linq/append",
   "version": "1.0.6",
   "description": "Generates an sequence identical to another  sequence but with a value added to the end.",
   "main": "index.js",
@@ -18,11 +18,11 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
-    "@kingjs/linq.concat": "latest",
+    "@kingjs-linq/concat": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {
-    "@kingjs/linq.to-array": "^1.0.8",
+    "@kingjs-linq/to-array": "^1.0.8",
     "kingjs": "^1.0.48"
   },
   "capitalize": true

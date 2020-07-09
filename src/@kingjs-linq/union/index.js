@@ -5,7 +5,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -70,4 +70,4 @@ function union(
   )
 }
 
-module[ExportExtension](IEnumerable, union)
+module[ExportInterfaceExtension](IEnumerable, union)

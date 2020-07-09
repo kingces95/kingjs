@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.is-lower-case-at",
+  "name": "@kingjs-string/is-lower-case-at",
   "version": "1.0.1",
   "description": "Test if a character at an index in a string is lower case.",
   "main": "index.js",

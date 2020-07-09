@@ -28,8 +28,8 @@
     "fs"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.dir.make": "file:../make",
-    "@kingjs/fs.promises.dir.remove": "file:../remove",
-    "@kingjs/fs.promises.file.write": "file:../../file/write"
+    "@kingjs-fs-promises-dir/make": "file:../make",
+    "@kingjs-fs-promises-dir/remove": "file:../remove",
+    "@kingjs-fs-promises-file/write": "file:../../file/write"
   }
 }

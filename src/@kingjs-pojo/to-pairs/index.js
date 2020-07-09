@@ -16,7 +16,12 @@ var {
  * @returns Returns an array of `{ key, value }`.
  */
 function toPairs() {
-  return this[Reduce]((a, key, value) => { a.push({ key, value }) }, [])
+  return this[Reduce](
+    (a, key, value) => { 
+      a.push({ key, value }) 
+    }, {
+      initialValue: []
+    })
 }
 
 module[ExportExtension](Object, toPairs)

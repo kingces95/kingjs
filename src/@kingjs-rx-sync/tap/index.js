@@ -8,7 +8,7 @@ var {
       '-observer': { SubscriptionTracker },
       '-sync-static': { create },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -75,4 +75,4 @@ function tap(callback) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, tap)
+module[ExportInterfaceExtension](IObservable, tap)

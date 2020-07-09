@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.element-at",
+  "name": "@kingjs-linq/element-at",
   "version": "1.0.9",
   "description": "Returns the element at a specified  index in a sequence.",
   "main": "index.js",

@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": "true",
   "dependencies": {
-    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
+    "@kingjs-fs-promises-file/write": "file:../../../fs/promises/file/write",
     "@kingjs/json.stringify": "file:../../stringify",
     "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path"

@@ -1,6 +1,6 @@
 var { assert,
   '@kingjs': {
-    IComparable: { CompareTo },
+    IComparable: { IsLessThan },
     lessThan
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -15,7 +15,7 @@ class Key {
     this.value = value
   }
 
-  [CompareTo](other) {
+  [IsLessThan](other) {
     return this.value < other.value
   }
 }

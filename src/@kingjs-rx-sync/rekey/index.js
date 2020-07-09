@@ -4,7 +4,7 @@ var { assert,
     IGroupedObservable,
     IGroupedObservable: { Key },
     '-rx-sync': { Select },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -35,4 +35,4 @@ function rekey(callback = Identity) {
   })
 }
 
-module[ExportExtension](IObservable, rekey)
+module[ExportInterfaceExtension](IObservable, rekey)

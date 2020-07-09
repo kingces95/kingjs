@@ -6,7 +6,7 @@ var {
         '-static': { never }
       }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -21,4 +21,4 @@ function thenAbandon() {
     [Then](never())
 }
 
-module[ExportExtension](IObservable, thenAbandon)
+module[ExportInterfaceExtension](IObservable, thenAbandon)

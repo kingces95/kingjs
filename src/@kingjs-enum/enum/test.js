@@ -1,51 +1,38 @@
 var { assert,
   '@kingjs': { 
-    '-enum': { 
-      Enum, EnumValue,
-      '-static': { define },
-    }    
-   }
+    IEquatable, 
+    IComparable,
+    IEquatable: { Equals, GetHashcode },
+    IComparable: { IsLessThan },
+    '-enum': { Enum },
+    '-reflect': { isNumber }
+  }
 } = module[require('@kingjs-module/dependencies')]()
 
-var AbcEnum = define('test', {
-  a: 1 << 0,
-  b: 1 << 1,
-  c: 1 << 2,
-  ab: [ 'a', a << 1 ],
-  abc: 1 << 0 | 1 << 1 | 1 << 2,
-  bc: [ 'b', 'c' ],
-  aMask: [ 'a' ],
-  abMask: [ 'a', 'b' ],
-  bcMsk: { value: [ 'b', 'c' ], isMask: true },
-})
+assert.ok(Enum.prototype instanceof Number)
 
-var { a, b, c, ab, abc, bc, aMask, abMask, bcMask } = AbcEnum
+class MyEnum extends Enum {
+  constructor(value, name) {
+    super(value, name)
+  }
+}
 
-assert.ok(AbcEnum instanceof Enum)
-assert.ok(a instanceof Number)
-assert.ok(a instanceof EnumValue)
-assert.ok(a instanceof AbcEnum)
-assert.ok(a == 1)
-assert.ok(a !== 1)
-assert.ok(a | 1 === 1)
+MyEnum.Foo = new MyEnum(1, 'Foo')
+MyEnum.Bar = new MyEnum(2, 'Bar')
 
-assert.equal(a, 1 << 0)
-assert.equal(b, 1 << 1)
-assert.equal(c, 1 << 2)
-assert.equal(ab, a | b)
-assert.equal(abc, a | b | c)
-assert.equal(bc, b | c)
-assert.equal(aMask, a)
-assert.equal(abMask, a | b)
-assert.equal(bcMask, b | c)
+var { Foo, Bar } = MyEnum
 
-var values = [ a, b, c, ab, abc, bc ]
-var masks = [ aMask, abMask, bcMask ]
-var enums = values.concat(masks)
+assert.ok(Foo instanceof MyEnum)
+assert.equal(Foo.name, 'Foo')
+assert.equal(Foo.toString(), 'Foo')
 
-enums.forEach(o => assert(o instanceof Number))
-enums.forEach(o => assert(o instanceof EnumValue))
-enums.forEach(o => assert(o instanceof AbcEnum))
+assert.ok(Foo instanceof IEquatable)
+assert.ok(Foo[Equals](Foo))
+assert.ok(!Foo[Equals](Bar))
+assert.ok(!Foo[Equals]())
+assert.ok(isNumber(Foo[GetHashcode]()))
+assert.notEqual(Foo[GetHashcode](), Bar[GetHashcode]())
 
-values.forEach(o => assert(!o.isMask))
-masks.forEach(o => assert(o.isMask))
+assert.ok(Foo instanceof IComparable)
+assert.ok(Foo[IsLessThan](Bar))
+assert.ok(!Bar[IsLessThan](Foo))

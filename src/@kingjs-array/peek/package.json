@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/array.peek",
+  "name": "@kingjs-array/peek",
   "version": "0.0.0",
   "description": "Removes an array element at a specific index.",
   "main": "index.js",

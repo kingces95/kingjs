@@ -41,7 +41,7 @@ class IEnumerator extends Interface {
 
 // Demonstrate a multi property interfaces like this:
 // `IEnumerable` has a single method `getEnumerator` that returns an
-// `IEnumerable` that has a property `current` and a method `moveNext`
+// `IEnumerator` that has a property `current` and a method `moveNext`
 // which returns `true` if there are more elements or `false` if not.
 IEnumerable[Implement](Array.prototype, {
   GetEnumerator() {

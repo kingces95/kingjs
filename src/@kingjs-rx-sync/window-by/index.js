@@ -8,7 +8,7 @@ var { deepEquals, assert,
       '-subject': { Subject },
       '-sync-static': { create },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -98,4 +98,4 @@ function windowBy(keySelector = Identity) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, windowBy)
+module[ExportInterfaceExtension](IObservable, windowBy)

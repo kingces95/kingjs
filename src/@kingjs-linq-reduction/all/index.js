@@ -1,6 +1,6 @@
 var { 
   '@kingjs': {
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current }
@@ -27,4 +27,4 @@ function all(predicate) {
   return true;
 }
 
-module[ExportExtension](IEnumerable, all)
+module[ExportInterfaceExtension](IEnumerable, all)

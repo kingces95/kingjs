@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.count",
+  "name": "@kingjs-linq/count",
   "version": "1.0.6",
   "description": "Returns the number of elements in a  sequence that satisfy a condition.",
   "main": "index.js",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
-    "@kingjs/linq.aggregate": "latest",
+    "@kingjs-linq/aggregate": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

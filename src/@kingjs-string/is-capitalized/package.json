@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.is-capitalized",
+  "name": "@kingjs-string/is-capitalized",
   "version": "1.0.1",
   "description": "Test if a string is capitalized.",
   "main": "index.js",

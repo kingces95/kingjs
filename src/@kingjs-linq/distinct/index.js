@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': { Except },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -16,4 +16,4 @@ function distinct(selectId) {
   return this[Except](undefined, selectId)
 }
 
-module[ExportExtension](IEnumerable, distinct)
+module[ExportInterfaceExtension](IEnumerable, distinct)

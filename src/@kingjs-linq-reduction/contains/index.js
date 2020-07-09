@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-static': { defaultEqual },
   }
 } = module[require('@kingjs-module/dependencies')]();
@@ -27,4 +27,4 @@ function contains(value, equal) {
   return false;
 };
 
-module[ExportExtension](IEnumerable, contains);
+module[ExportInterfaceExtension](IEnumerable, contains);

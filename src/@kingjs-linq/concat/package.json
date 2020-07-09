@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.concat",
+  "name": "@kingjs-linq/concat",
   "version": "1.0.10",
   "description": "Concatenates two sequences.",
   "main": "index.js",

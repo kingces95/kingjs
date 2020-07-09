@@ -2,7 +2,7 @@ var { assert,
   '@kingjs': {
     IObserver,
     IObserver: { Subscribed, Next, Complete, Error },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -46,4 +46,4 @@ function check() {
   }
 }
 
-module[ExportExtension](IObserver, check)
+module[ExportInterfaceExtension](IObserver, check)

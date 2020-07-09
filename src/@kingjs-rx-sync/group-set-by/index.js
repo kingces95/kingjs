@@ -5,7 +5,7 @@ var {
     '-rx': {
       '-sync': { Select, RollingZipJoin, GroupBy, Regroup, Log }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -49,4 +49,4 @@ function groupSetBy(
     [Regroup](group => group[Select](o => o.outer))
 }
 
-module[ExportExtension](IObservable, groupSetBy)
+module[ExportInterfaceExtension](IObservable, groupSetBy)

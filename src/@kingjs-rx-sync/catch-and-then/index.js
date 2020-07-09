@@ -7,7 +7,7 @@ var {
       '-observer': { SubscriptionTracker },
       '-sync-static': { create, empty }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -44,4 +44,4 @@ function catchAndThen(next = empty()) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, catchAndThen)
+module[ExportInterfaceExtension](IObservable, catchAndThen)

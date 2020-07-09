@@ -1,20 +1,16 @@
-var { assert,
-  '@kingjs': {
-    '-reflect': { is },
-  }
-} = module[require('@kingjs-module/dependencies')]()
+var assert = require('assert')
+var isArray = require('@kingjs-reflect/is-array')
+var isSymbol = require('@kingjs-reflect/is-symbol')
 
 var Id = Symbol.for('Interface.Id')
 var ActivationError = 'Cannot activate interface.'
 
 /**
- * @description An interface is a mapping from  
- * a member name to a set of one or more symbols.
+ * @description A map from a string name to a symbol or array of symbols.
  * 
- * @remarks - `Interface` supports the `instanceof` operator.
- * @remarks -- An instance is an `instanceof` an `Interface` if it 
- * defined a property for every symbol exposed by static properties 
- * of the interface.
+ * @remarks - `Interface` supports the `instanceof` operator. An instance 
+ * defining properties for every symbol of an `Interface` is an `instanceof` 
+ * that `Interface`.
  * @remarks - An interface cannot be activated.
  * @remarks - By convention derivations of `Interface`
  * @remarks -- have names starting with a capital `I`.
@@ -37,6 +33,8 @@ class Interface {
    * @result Returns `true` if each symbol of `iface` is used
    * as a key for a property in `instance`, otherwise `false.
    * 
+   * @remarks Primitive strings and numbers are boxed, and their 
+   * prototypes substituted for the instance.
    * @remarks If `true`, then the instance and any of it's prototypes
    * which implement the interface will be tagged with the id of the
    * interface.
@@ -72,30 +70,21 @@ class Interface {
   }
 }
 
-/**
- * @description Test if `instance` implements `iface`.
- * 
- * @param iface The interface.
- * @param instance The instance to test.
- * 
- * @result Returns `true` if each symbol of `iface` is used
- * as a key for a property in `instance`, otherwise `false.
- */
 function isImplementedBy(iface, instance) {
   var result = false
 
   for (var name of Object.getOwnPropertyNames(iface)) {
     var symbol = iface[name]
 
-    if (is.array(symbol)) {
+    if (isArray(symbol)) {
       for (var overload of symbol) {
-        assert(is.symbol(overload))
+        assert(isSymbol(overload))
         if (instance[overload] === undefined)
           return false
       }
     }
 
-    else if (!is.symbol(symbol))
+    else if (!isSymbol(symbol))
       continue
 
     else if (instance[symbol] === undefined)

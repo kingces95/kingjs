@@ -6,7 +6,7 @@ var {
         '-static': { of }
       }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -33,5 +33,5 @@ function selectLeafs(nodeSelector) {
   )
 }
 
-module[ExportExtension](IObservable, selectLeafs)
+module[ExportInterfaceExtension](IObservable, selectLeafs)
 var SelectLeafs = module.exports

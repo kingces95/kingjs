@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -18,4 +18,4 @@ function pipe(subject) {
   return subject
 }
 
-module[ExportExtension](IObservable, pipe)
+module[ExportInterfaceExtension](IObservable, pipe)

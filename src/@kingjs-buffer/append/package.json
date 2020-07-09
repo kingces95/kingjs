@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/buffer.append",
+  "name": "@kingjs-buffer/append",
   "version": "1.0.0",
   "description": "Append buffers to a buffer.",
   "main": "index.js",

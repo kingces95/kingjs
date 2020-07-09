@@ -1,14 +1,18 @@
 var {
   '@kingjs': { Path,
     '-module': { ExportExtension },
-    '-fs-promises': { Exists,
-      '-file': { Read: ReadFile }
+    '-fs': { Exists,
+      '-promises': {
+        '-file': { Read: ReadFile }
+      },
     },
   },
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { async: true }
+
 async function readJsonFile() {
-  if (await this[Exists]() == false)
+  if (await this[Exists](Options) == false)
     return
 
   var json = await this[ReadFile]()

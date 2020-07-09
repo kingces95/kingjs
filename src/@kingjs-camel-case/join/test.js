@@ -1,8 +1,6 @@
-var { assert,
-  '@kingjs': {
-    '-camel-case': { Split, Join },
-  }
-} = module[require('@kingjs-module/dependencies')]()
+var assert = require('assert')
+var Split = require('@kingjs-camel-case/split')
+var Join = require('@kingjs-camel-case/join')
 
 var apart = 'fooBar'[Split]()
 var together = apart[Join]()
@@ -12,7 +10,7 @@ var apart = 'FooBar'[Split]()
 var together = apart[Join]()
 assert.equal('fooBar', together)
 
-var together = apart[Join](true)
+var together = apart[Join]({ capitalize: true })
 assert.equal('FooBar', together)
 
 var apart = 'FBar'[Split]()

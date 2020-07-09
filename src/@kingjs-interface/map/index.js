@@ -9,27 +9,26 @@ var {
 var toArray = o => is.array(o) ? o : [o]
 
 /**
- * @description Return a mapping from symbols to member names.
+ * @description Return an map from symbol to member.
  * @param iface The interface. 
- * @returns Returns a pojo where each property key is a symbol
- * of the interface and each property value is the name associated
- * with the corrisponding property's key.
- * @remarks Capitalized member aliases are ignored.
+ * @returns Returns a pojo where each key/value is a mapping to
+ * interface symbol/name.
+ * 
+ * @remarks The member names returned are not capitalized.
  */
 function map() {
   return this[Entries]()
-    .map(entry => toArray(entry.value)
-      .map(value => ({ 
-        key: entry.key, 
-        value 
+    .map(entry => toArray(entry.symbol)
+      .map(symbol => ({ 
+        member: entry.member, 
+        symbol 
       }))
     )
     .flat()
     .reduce((result, o) => { 
-      result[o.value] = o.key; 
+      result[o.symbol] = o.member; 
       return result
     }, { })
 }
-
 
 module[ExportStaticExtension](Interface, map)

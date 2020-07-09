@@ -3,7 +3,7 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Subscribed, Next, Complete },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-rx': {
       '-observer': { SubscriptionTracker },
       '-sync': { Where,
@@ -29,4 +29,4 @@ function takeWhile(predicate) {
     [Where](o => taking && (taking = predicate(o)))
 }
 
-module[ExportExtension](IObservable, takeWhile)
+module[ExportInterfaceExtension](IObservable, takeWhile)

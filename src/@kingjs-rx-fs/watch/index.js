@@ -7,7 +7,7 @@ var { fs,
       '-observer': { Proxy, Check },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -24,10 +24,11 @@ var Options = {
 }
 
 /**
- * @description Watch `Path` for events.
- * @this Path The `Path` to watch.
- * @returns Returns an `IObservable` that emits `Path` when the
- * files system watcher detects a change at that path.
+ * @description Blends file system change events into the event stream.
+ * @this Path The path to watch for changes.
+ * @returns Returns an `IObservable` that blends `null` into the
+ * event stream whenever the files system watcher detects a change 
+ * at `path`.
  * 
  * @remarks The watcher keeps the process alive until completed.
  **/
@@ -69,4 +70,4 @@ function watch(path) {
   })
 }
 
-module[ExportExtension](IObservable, watch)
+module[ExportInterfaceExtension](IObservable, watch)

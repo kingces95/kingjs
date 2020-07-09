@@ -7,13 +7,14 @@ var { assert,
 var BFoo = Symbol('bFoo')
 var YFoo = Symbol('yFoo')
 var XBar = Symbol('xBar')
+var ZFoo = Symbol('zFoo')
 
 // demonstrate "The Diamond" where IB is indirectly inherited twice.
-//      IA
-//     /  \
-//   IX    IY
-//     \  /
-//      IB
+//        IA
+//      /    \
+//   IX - bar  IY - foo
+//      \    /
+//        IB - foo
 
 var IB = define("IB", { 
   members: { foo: BFoo }
@@ -30,7 +31,8 @@ var IA = define("IA", {
   bases: [ IX, IY ]
 })
 
+
 var aMap = IA[Map]()
-assert.equal(aMap[BFoo], 'Foo')
-assert.equal(aMap[YFoo], 'Foo')
-assert.equal(aMap[XBar], 'Bar')
+assert.equal(aMap[BFoo], 'foo')
+assert.equal(aMap[YFoo], 'foo')
+assert.equal(aMap[XBar], 'bar')

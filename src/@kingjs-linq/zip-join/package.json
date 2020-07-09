@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.zip-join",
+  "name": "@kingjs-linq/zip-join",
   "version": "1.0.12",
   "description": "Selects pairs of values from two ordered  `IEnumerable`'s with matching keys or `null` if there is no match.",
   "main": "index.js",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/linq.empty": "latest",
+    "@kingjs-linq/empty": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

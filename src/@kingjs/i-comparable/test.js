@@ -1,10 +1,9 @@
-var { assert,
-  '@kingjs': { IEnumerable },
-} = module[require('@kingjs-module/dependencies')]()
+var assert = require('assert')
+var IComparable = require('@kingjs/i-comparable')
 
-assert.equal(IEnumerable.name, 'IEnumerable')
+assert.equal(IComparable.name, 'IComparable')
 
 assert.equal(
-  IEnumerable.GetEnumerator, 
-  Symbol.for('IEnumerable.getEnumerator, @kingjs')
+  IComparable.IsLessThan, 
+  Symbol.for('IComparable.compareTo, @kingjs')
 )

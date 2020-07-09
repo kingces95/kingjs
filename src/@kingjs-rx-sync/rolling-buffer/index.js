@@ -8,7 +8,7 @@ var {
         '-static': { create }
       }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -36,4 +36,4 @@ function rollingBuffer(size = DefaultBufferSize) {
   )
 }
 
-module[ExportExtension](IObservable, rollingBuffer)
+module[ExportInterfaceExtension](IObservable, rollingBuffer)

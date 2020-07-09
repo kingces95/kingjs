@@ -4,7 +4,7 @@ var { assert,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     IGroupedEnumerable: { Key },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -30,4 +30,4 @@ function enumerateAndAssert(
 }
 
 
-module[ExportExtension](IEnumerable, enumerateAndAssert)
+module[ExportInterfaceExtension](IEnumerable, enumerateAndAssert)

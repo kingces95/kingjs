@@ -1,12 +1,12 @@
 var {
   '@kingjs': { IObservable, IObserver,
-    '-interface': { Export }
+    '-module': { ExportInterface }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description `ISubject` extends `IObservable` and `IObserver`.
  */
-module[Export]({
+module[ExportInterface]({
   bases: [ IObservable, IObserver ]
 })

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.file.write",
+  "name": "@kingjs-fs-file/write",
   "version": "0.0.0",
   "description": "Reads a file at the path.",
   "main": "index.js",
@@ -27,7 +27,7 @@
   ],
   "devDependencies": {
     "@kingjs/fs.exists": "file:../../exists",
-    "@kingjs/fs.file.read": "file:../read",
-    "@kingjs/fs.file.unlink": "file:../unlink"
+    "@kingjs-fs-file/read": "file:../read",
+    "@kingjs-fs-file/unlink": "file:../unlink"
   }
 }

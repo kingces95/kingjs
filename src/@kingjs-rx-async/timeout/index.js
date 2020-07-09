@@ -1,7 +1,7 @@
 var {
   '@kingjs': {
     IObservable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-rx': {
       '-static': { timer },
       '-async': { Blend },
@@ -35,4 +35,4 @@ function timeout(ms, error, options) {
   )
 }
 
-module[ExportExtension](IObservable, timeout)
+module[ExportInterfaceExtension](IObservable, timeout)

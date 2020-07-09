@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     '-linq-reduction': { Aggregate },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     IEnumerable,
     Dictionary,
   }
@@ -29,4 +29,4 @@ function toDictionary(keySelector, valueSelector) {
   })
 }
 
-module[ExportExtension](IEnumerable, toDictionary)
+module[ExportInterfaceExtension](IEnumerable, toDictionary)

@@ -11,7 +11,7 @@ var {
       source: { parse: { sourceFile: { GetFirstDocumented } } },
       name: { Builder: PackageName }
     },
-    fs: { promises: { Exists } },
+    fs: { Exists },
     source: {
       Parse: ParseSource,
       GetInfo
@@ -24,6 +24,7 @@ var Period = '.'
 var ForwardSlash = '/'
 var At = '@'
 var ZeroVersion = '0.0.0'
+var Options = { async: true }
 
 /**
  * @description Creates or updates fields of `package.json`
@@ -69,7 +70,7 @@ async function harvestMetadata(npmScopePath) {
 }
 
 async function getDescription(mainPath) {
-  if (await mainPath[Exists]() == false) 
+  if (await mainPath[Exists](Options) == false) 
     return EmptyString
 
   var ast = await mainPath[ParseSource]()

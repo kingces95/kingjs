@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.join-lines",
+  "name": "@kingjs-string/join-lines",
   "version": "1.0.0",
   "description": "Join lines in a string with a separator.",
   "main": "index.js",

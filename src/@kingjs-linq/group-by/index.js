@@ -1,6 +1,6 @@
 var { 
   '@kingjs': {
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     Dictionary,
     Enumerable,
     IEnumerable,
@@ -75,4 +75,4 @@ function groupBy(
   )
 }
 
-module[ExportExtension](IEnumerable, groupBy)
+module[ExportInterfaceExtension](IEnumerable, groupBy)

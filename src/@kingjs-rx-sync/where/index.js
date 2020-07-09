@@ -7,7 +7,7 @@ var {
       '-observer': { Proxy },
       '-sync-static': { create },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -42,4 +42,4 @@ function where(predicate = True) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, where)
+module[ExportInterfaceExtension](IObservable, where)

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.link.write",
+  "name": "@kingjs-fs-promises-link/write",
   "version": "0.0.0",
   "description": "Links a path to a directory or file target.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/fs.promises.dir.make": "file:../../dir/make",
+    "@kingjs-fs-promises-dir/make": "file:../../dir/make",
     "@kingjs-module/export-extension": "file:../../../../module/export-extension",
     "@kingjs/path": "file:../../../../path"
   },

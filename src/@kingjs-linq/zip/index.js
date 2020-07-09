@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -37,4 +37,4 @@ function zip(other, result) {
   )
 }
 
-module[ExportExtension](IEnumerable, zip)
+module[ExportInterfaceExtension](IEnumerable, zip)

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.range",
+  "name": "@kingjs-linq/range",
   "version": "1.0.11",
   "description": "Generate a range of numbers.",
   "main": "index.js",

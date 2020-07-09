@@ -4,7 +4,7 @@ var {
     IGroupedEnumerable: { Key, GetEnumerator },
     IEnumerator: { MoveNext, Current },
     ILookup: { Get, Has },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': {
       '-static': { fromIndexable }
     }
@@ -61,4 +61,4 @@ function from(map) {
   }
 }
 
-module[ExportExtension](IEnumerable, toLookup)
+module[ExportInterfaceExtension](IEnumerable, toLookup)

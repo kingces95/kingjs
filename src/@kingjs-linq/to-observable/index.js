@@ -4,7 +4,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     '-rx-static': { create },
-    '-interface': { ExportExtension },    
+    '-module': { ExportInterfaceExtension },    
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -33,4 +33,4 @@ function toObservable() {
   })
 }
 
-module[ExportExtension](IEnumerable, toObservable)
+module[ExportInterfaceExtension](IEnumerable, toObservable)

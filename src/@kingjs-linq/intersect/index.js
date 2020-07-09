@@ -5,7 +5,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
  
@@ -64,4 +64,4 @@ function intersect(
   )
 }
 
-module[ExportExtension](IEnumerable, intersect)
+module[ExportInterfaceExtension](IEnumerable, intersect)

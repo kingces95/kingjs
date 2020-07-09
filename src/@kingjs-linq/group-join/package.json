@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.group-join",
+  "name": "@kingjs-linq/group-join",
   "version": "1.0.7",
   "description": "Generates a sequence of elements composed  of an element in one sequence and a group of elements  in another sequence all of which share a common key.",
   "main": "index.js",
@@ -19,8 +19,8 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/linq.empty": "latest",
-    "@kingjs/linq.to-lookup": "latest",
+    "@kingjs-linq/empty": "latest",
+    "@kingjs-linq/to-lookup": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/reflect.implement-i-enumerable": "latest"
   },

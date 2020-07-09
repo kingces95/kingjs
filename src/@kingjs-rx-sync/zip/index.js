@@ -3,7 +3,7 @@ var {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-rx': { 
       '-observer': { SubscriptionTracker },
       '-sync-static': { create, empty, throws }
@@ -93,4 +93,4 @@ function zip(iterable = Empty, callback = ToKeyValue) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, zip)
+module[ExportInterfaceExtension](IObservable, zip)

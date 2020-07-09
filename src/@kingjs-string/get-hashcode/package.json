@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.capitalize",
+  "name": "@kingjs-string/get-hashcode",
   "version": "1.0.1",
   "description": "Capitalize a string.",
   "main": "index.js",

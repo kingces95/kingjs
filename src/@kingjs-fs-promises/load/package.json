@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.load",
+  "name": "@kingjs-fs-promises/load",
   "version": "1.0.0",
   "description": "Build a pojo of simple directory names and text files.",
   "main": "index.js",
@@ -20,9 +20,9 @@
   "capitalize": true,
   "dependencies": {
     "@kingjs-module/export-extension": "file:../../../module/export-extension",
-    "@kingjs/fs.promises.dir.list": "file:../dir/list",
-    "@kingjs/fs.promises.file.read": "file:../file/read",
-    "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
+    "@kingjs-fs-promises-dir/list": "file:../dir/list",
+    "@kingjs-fs-promises-file/read": "file:../file/read",
+    "@kingjs-fs-promises-dir/remove": "file:../dir/remove",
     "@kingjs/path": "file:../../../path"
   },
   "nodeDependencies": [
@@ -30,7 +30,7 @@
     "path"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.load": "file:../load",
-    "@kingjs/fs.promises.save": "file:../save"
+    "@kingjs-fs-promises/load": "file:../load",
+    "@kingjs-fs-promises/save": "file:../save"
   }
 }

@@ -1,36 +1,34 @@
 var { assert,
   '@kingjs': { 
-    '-interface': { Map, define }
+    IEquatable, 
+    IComparable,
+    IEquatable: { Equals, GetHashcode },
+    IComparable: { IsLessThan },
+    '-enum': { define },
+    '-reflect': { isNumber },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var BFoo = Symbol('bFoo')
-var YFoo = Symbol('yFoo')
-var XBar = Symbol('xBar')
+var MyEnum = define("MyEnum", [ 'Foo', 'Bar' ])
 
-// demonstrate "The Diamond" where IB is indirectly inherited twice.
-//      IA
-//     /  \
-//   IX    IY
-//     \  /
-//      IB
+assert.ok(MyEnum instanceof Function)
 
-var IB = define("IB", { 
-  members: { foo: BFoo }
-});
-var IX = define("IX", { 
-  members: { bar: XBar },
-  bases: [ IB ] 
-})
-var IY = define("IY", { 
-  members: { foo: YFoo },
-  bases: [ IB ] 
-})
-var IA = define("IA", {
-  bases: [ IX, IY ]
-})
+var { Foo, Bar } = MyEnum
 
-var aMap = IA[Map]()
-assert.equal(aMap[BFoo], 'Foo')
-assert.equal(aMap[YFoo], 'Foo')
-assert.equal(aMap[XBar], 'Bar')
+assert.ok(Foo instanceof MyEnum)
+assert.equal(Foo.name, 'Foo')
+assert.equal(Foo.toString(), 'Foo')
+
+assert.ok(Foo == 0)
+assert.ok(Bar == 1)
+
+assert.ok(Foo instanceof IEquatable)
+assert.ok(Foo[Equals](Foo))
+assert.ok(!Foo[Equals](Bar))
+assert.ok(!Foo[Equals]())
+assert.ok(isNumber(Foo[GetHashcode]()))
+assert.notEqual(Foo[GetHashcode](), Bar[GetHashcode]())
+
+assert.ok(Foo instanceof IComparable)
+assert.ok(Foo[IsLessThan](Bar))
+assert.ok(!Bar[IsLessThan](Foo))

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.to-observable-async",
+  "name": "@kingjs-linq/to-observable-async",
   "version": "1.0.0",
   "description": "Returns a cold IObservable of an IEnumerable published at a specified `interval` until exhausted.",
   "main": "index.js",

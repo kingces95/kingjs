@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -30,4 +30,4 @@ function elementAt(index) {
     " < index => " + index
 }
 
-module[ExportExtension](IEnumerable, elementAt)
+module[ExportInterfaceExtension](IEnumerable, elementAt)

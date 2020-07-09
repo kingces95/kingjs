@@ -1,6 +1,6 @@
 var {
   '@kingjs': { IEnumerable,
-    '-interface': { Export }
+    '-module': { ExportInterface }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -8,7 +8,7 @@ var {
  * @description `IGroupedEnumerable` extends `IEnumerable` and 
  * adds a single new member `key`.
  */
-module[Export]({
+module[ExportInterface]({
   members: { key: null },
   bases: [ IEnumerable ]
 })

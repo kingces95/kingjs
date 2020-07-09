@@ -7,7 +7,7 @@ var { assert,
       '-observer': { construct, SubscriptionTracker },
       '-sync-static': { create },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -62,4 +62,4 @@ function spy() {
   }, Options)
 }
 
-module[ExportExtension](IObservable, spy)
+module[ExportInterfaceExtension](IObservable, spy)

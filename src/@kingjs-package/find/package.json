@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/fs.promises.dir.list": "file:../../fs/promises/dir/list",
+    "@kingjs-fs-promises-dir/list": "file:../../fs/promises/dir/list",
     "@kingjs-module/export-extension": "file:../../module/export-extension",
     "@kingjs/path": "file:../../path",
     "@kingjs/run": "file:../../run"
@@ -28,7 +28,7 @@
     "assert"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../../fs/promises/dir/remove",
-    "@kingjs/fs.promises.save": "file:../../fs/promises/save"
+    "@kingjs-fs-promises-dir/remove": "file:../../fs/promises/dir/remove",
+    "@kingjs-fs-promises/save": "file:../../fs/promises/save"
   }
 }

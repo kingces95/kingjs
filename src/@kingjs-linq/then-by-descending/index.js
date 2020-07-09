@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     IEnumerable,
     IOrderedEnumerable: { CreateOrderedEnumerable },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -18,4 +18,4 @@ function thenByDescending(keySelector, lessThan) {
   return this[CreateOrderedEnumerable](keySelector, lessThan, true)
 }
 
-module[ExportExtension](IEnumerable, thenByDescending)
+module[ExportInterfaceExtension](IEnumerable, thenByDescending)

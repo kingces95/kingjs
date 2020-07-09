@@ -4,7 +4,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     '-linq-static': { defaultEqual },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -36,4 +36,4 @@ function sequenceEqual(other, equals) {
   return rhs[MoveNext]() == false
 }
 
-module[ExportExtension](IEnumerable, sequenceEqual)
+module[ExportInterfaceExtension](IEnumerable, sequenceEqual)

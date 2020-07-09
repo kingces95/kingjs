@@ -2,7 +2,7 @@
  * @description Create a class that extends another class
  * and invokes an optional body function in the constructor.
  */
-function defineClass(name, extension, body) {
+function defineClass(name, extension = Object, body = null) {
   class Class extends extension { 
     constructor(...args) {
       super(...args)

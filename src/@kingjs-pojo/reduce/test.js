@@ -3,7 +3,7 @@ var Reduce = require('@kingjs-pojo/reduce')
 
 var pojo = {
   foo: 0,
-  bar: 0,
+  bar: 1,
 }
 
 var result = { }
@@ -12,7 +12,7 @@ pojo[Reduce](
     assert.equal(accumulator, result)
     assert.equal(o, pojo)
     accumulator[name] = value
-  }, result
+  }, { initialValue: result }
 )
 assert.deepEqual(result, pojo)
 
@@ -23,3 +23,22 @@ var result = pojo[Reduce](
   }
 )
 assert.deepEqual(result, pojo)
+
+class FooBar {
+  static get foo() { return 0 }
+}
+FooBar.bar = 1
+
+FooBar[Reduce](
+  function reducer(accumulator, name, value) {
+    accumulator[name] = value
+  }, { nonEnumerable: true }
+)
+assert.deepEqual(result, pojo)
+
+var result = FooBar[Reduce](
+  function reducer(accumulator, name, value) {
+    accumulator[name] = value
+  }, { nonEnumerable: true, enumerable: false }
+)
+assert.deepEqual(result, { foo: 0 })

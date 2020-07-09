@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.order-by",
+  "name": "@kingjs-linq/order-by",
   "version": "1.0.7",
   "description": "Generates a sequence of elements in ascending  order according to a key.",
   "main": "index.js",
@@ -21,8 +21,8 @@
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
     "@kingjs/i-ordered-enumerable": "latest",
-    "@kingjs/linq.default-less-than": "latest",
-    "@kingjs/linq.to-array": "latest",
+    "@kingjs-linq/default-less-than": "latest",
+    "@kingjs-linq/to-array": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

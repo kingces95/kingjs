@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/array.group-by",
+  "name": "@kingjs-array/distinct",
   "version": "1.0.0",
   "description": "Partition an array into arrays that are assigned to properties of an object.",
   "main": "index.js",

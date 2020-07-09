@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.expand",
+  "name": "@kingjs-string/expand",
   "version": "1.0.0",
   "description": "Given a string with the format of a template literal,  expand its placeholders with the values corresponding to a descriptor's keys.",
   "main": "index.js",

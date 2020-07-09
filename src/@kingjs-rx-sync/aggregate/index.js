@@ -7,7 +7,7 @@ var {
       '-observer': { Proxy, Check },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -43,4 +43,4 @@ function aggregate(selector = Selector, seed = EmptyObject) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, aggregate)
+module[ExportInterfaceExtension](IObservable, aggregate)

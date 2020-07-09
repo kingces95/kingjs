@@ -7,7 +7,7 @@ var {
       '-observer': { SubscriptionTracker },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -74,4 +74,4 @@ function selectMany(manySelector = Identity) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, selectMany)
+module[ExportInterfaceExtension](IObservable, selectMany)

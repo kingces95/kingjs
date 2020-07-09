@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/reflect.built-in-symbols",
+  "name": "@kingjs-reflect/built-in-symbols",
   "version": "1.0.0",
   "description": "A mapping from symbol to name for  each `Symbol` property whose value is a symbol.",
   "main": "index.js",

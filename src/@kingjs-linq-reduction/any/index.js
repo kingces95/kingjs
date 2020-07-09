@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]();
 
@@ -28,4 +28,4 @@ function any(predicate) {
   return false;
 };
 
-module[ExportExtension](IEnumerable, any);
+module[ExportInterfaceExtension](IEnumerable, any);

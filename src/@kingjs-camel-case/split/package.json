@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/camel-case.split",
+  "name": "@kingjs-camel-case/split",
   "version": "1.0.0",
   "description": "Splits a string on its capital letters.",
   "main": "index.js",

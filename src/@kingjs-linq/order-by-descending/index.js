@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': { OrderBy },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -17,4 +17,4 @@ function orderByDescending(keySelector, lessThan) {
   return this[OrderBy](keySelector, lessThan, true)
 }
 
-module[ExportExtension](IEnumerable, orderByDescending)
+module[ExportInterfaceExtension](IEnumerable, orderByDescending)

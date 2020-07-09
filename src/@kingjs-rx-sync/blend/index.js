@@ -7,7 +7,7 @@ var {
       '-observer': { SubscriptionTracker },
       '-sync-static': { create },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -53,4 +53,4 @@ function blend() {
   }, Options)
 }
 
-module[ExportExtension](IObservable, blend)
+module[ExportInterfaceExtension](IObservable, blend)

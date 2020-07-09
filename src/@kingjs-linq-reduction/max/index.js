@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-static': { defaultLessThan },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -32,4 +32,4 @@ function max(lessThan) {
   return result
 }
 
-module[ExportExtension](IEnumerable, max)
+module[ExportInterfaceExtension](IEnumerable, max)

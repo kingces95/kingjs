@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.expand-for-each",
+  "name": "@kingjs-string/expand-for-each",
   "version": "1.0.0",
   "description": "Joins the expansions of `template` for each key/value pair of `source` with optional `separator`, `prefix`, and `suffix` while also introducing loop iteration variable `i`.",
   "main": "index.js",

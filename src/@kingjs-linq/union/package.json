@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.union",
+  "name": "@kingjs-linq/union",
   "version": "1.0.10",
   "description": "Generates the set union of two sequences.",
   "main": "index.js",

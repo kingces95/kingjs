@@ -1,5 +1,7 @@
 var { assert,
-  '@kingjs-interface': { Interface, Entries }
+  '@kingjs': { 
+    '-interface': { Interface, Entries }
+  }
 } = module[require('@kingjs-module/dependencies')]()
 
 var FooA = Symbol('FooA')
@@ -13,7 +15,7 @@ class IFace extends Interface {
 
 assert.deepEqual(
   IFace[Entries](), [
-    { key: 'Bar', value: Bar },
-    { key: 'Foo', value: [ FooA, FooB ] }
+    { member: 'bar', symbol: Bar },
+    { member: 'foo', symbol: [ FooA, FooB ] }
   ]
 )

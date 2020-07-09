@@ -11,7 +11,7 @@ var {
       '-reduction': { ToArray },
       '-static': { from: linq }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -60,4 +60,4 @@ function rollingZipJoin(
     [SelectMany]()
 }
 
-module[ExportExtension](IObservable, rollingZipJoin)
+module[ExportInterfaceExtension](IObservable, rollingZipJoin)

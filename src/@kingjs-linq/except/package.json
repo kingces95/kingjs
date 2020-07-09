@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.except",
+  "name": "@kingjs-linq/except",
   "version": "1.0.12",
   "description": "Generates the set difference of two sequences.",
   "main": "index.js",

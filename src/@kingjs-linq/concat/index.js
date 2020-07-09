@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension }
+    '-module': { ExportInterfaceExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -46,4 +46,4 @@ var concat = function concat(enumerable) {
   )
 }
 
-module[ExportExtension](IEnumerable, concat)
+module[ExportInterfaceExtension](IEnumerable, concat)

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/reflect.implement-interface",
+  "name": "@kingjs-interface/define",
   "version": "1.0.2",
   "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
   "main": "index.js",

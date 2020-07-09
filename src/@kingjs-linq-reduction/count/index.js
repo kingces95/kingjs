@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-reduction': { Aggregate },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -19,4 +19,4 @@ function count(predicate) {
   })
 }
 
-module[ExportExtension](IEnumerable, count)
+module[ExportInterfaceExtension](IEnumerable, count)

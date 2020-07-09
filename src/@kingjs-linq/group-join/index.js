@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': {
       '-reduction': { ToLookup },
       '-static': { empty }
@@ -53,4 +53,4 @@ function groupJoin(
   )
 }
 
-module[ExportExtension](IEnumerable, groupJoin)
+module[ExportInterfaceExtension](IEnumerable, groupJoin)

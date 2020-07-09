@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/array.promises.map",
+  "name": "@kingjs-array/promises-map",
   "version": "1.0.0",
   "description": "Asynchronously map promises in an array.",
   "main": "index.js",

@@ -23,8 +23,8 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/fs.promises.exists": "file:../../../fs/promises/exists",
-    "@kingjs/fs.promises.file.write": "file:../../../fs/promises/file/write",
+    "@kingjs-fs-promises/exists": "file:../../../fs/promises/exists",
+    "@kingjs-fs-promises-file/write": "file:../../../fs/promises/file/write",
     "@kingjs/json.file.read": "file:../../../json/file/read",
     "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/package.source.generate.dependencies": "file:../../source/generate/dependencies",
@@ -37,8 +37,8 @@
     "fs"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../../../fs/promises/dir/remove",
-    "@kingjs/fs.promises.load": "file:../../../fs/promises/load",
-    "@kingjs/fs.promises.save": "file:../../../fs/promises/save"
+    "@kingjs-fs-promises-dir/remove": "file:../../../fs/promises/dir/remove",
+    "@kingjs-fs-promises/load": "file:../../../fs/promises/load",
+    "@kingjs-fs-promises/save": "file:../../../fs/promises/save"
   }
 }

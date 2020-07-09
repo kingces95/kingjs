@@ -4,7 +4,7 @@
   "repository": {},
   "license": "MIT",
   "dependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../../../../fs/promises/dir/remove",
-    "@kingjs/fs.promises.save": "file:../../../../fs/promises/save"
+    "@kingjs-fs-promises-dir/remove": "file:../../../../fs/promises/dir/remove",
+    "@kingjs-fs-promises/save": "file:../../../../fs/promises/save"
   }
 }

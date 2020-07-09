@@ -7,7 +7,7 @@ var {
     '-rx': {
       '-sync': { GroupSetBy, Regroup, Select }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -32,4 +32,4 @@ function listDir(dir, options = EmptyObject) {
 }
 
 
-module[ExportExtension](IObservable, listDir)
+module[ExportInterfaceExtension](IObservable, listDir)

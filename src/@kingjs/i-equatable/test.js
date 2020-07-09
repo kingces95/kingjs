@@ -1,10 +1,14 @@
-var { assert,
-  '@kingjs': { IEnumerable },
-} = module[require('@kingjs-module/dependencies')]()
+var assert = require('assert')
+var IEquatable = require('@kingjs/i-equatable')
 
-assert.equal(IEnumerable.name, 'IEnumerable')
+assert.equal(IEquatable.name, 'IEquatable')
 
 assert.equal(
-  IEnumerable.GetEnumerator, 
-  Symbol.for('IEnumerable.getEnumerator, @kingjs')
+  IEquatable.Equals, 
+  Symbol.for('IEquatable.equals, @kingjs')
+)
+
+assert.equal(
+  IEquatable.GetHashcode, 
+  Symbol.for('IEquatable.getHashcode, @kingjs')
 )

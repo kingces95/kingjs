@@ -7,7 +7,7 @@ var {
       '-sync': { Select, Take, GroupSetBy, SelectLeafs, Log },
       '-fs': { Watch },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -31,4 +31,4 @@ function watchFiles(root, glob) {
     })
 }
 
-module[ExportExtension](IObservable, watchFiles)
+module[ExportInterfaceExtension](IObservable, watchFiles)

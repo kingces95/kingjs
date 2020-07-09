@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.exists",
+  "name": "@kingjs-fs/exists",
   "version": "0.0.0",
   "description": "Test if a path exists.",
   "main": "index.js",
@@ -26,8 +26,8 @@
     "fs"
   ],
   "devDependencies": {
-    "@kingjs/fs.file.read": "file:../file/read",
-    "@kingjs/fs.file.unlink": "file:../file/unlink",
-    "@kingjs/fs.file.write": "file:../file/write"
+    "@kingjs-fs-file/read": "file:../file/read",
+    "@kingjs-fs-file/unlink": "file:../file/unlink",
+    "@kingjs-fs-file/write": "file:../file/write"
   }
 }

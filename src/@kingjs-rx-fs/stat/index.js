@@ -5,7 +5,7 @@ var {
     '-rx': { 
       '-sync': { Select }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -24,4 +24,4 @@ function selectStat(path) {
     }))
 }
 
-module[ExportExtension](IObservable, selectStat)
+module[ExportInterfaceExtension](IObservable, selectStat)

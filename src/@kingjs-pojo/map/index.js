@@ -20,7 +20,7 @@ var {
  * 
  * @returns Returns a new pojo with mapped values.
  */
-function map(callback = o => o) {
+function map(callback) {
   return this[Reduce]((a, k, v) => { a[k] = callback(v, k) }, { })
 }
 

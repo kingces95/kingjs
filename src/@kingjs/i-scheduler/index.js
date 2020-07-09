@@ -1,11 +1,11 @@
 var {
-  '@kingjs-interface': { Export }
+  '@kingjs-module': { ExportInterface }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
  * @description Asynchronously executes a callback deffed by a time span.
  */
-module[Export]({
+module[ExportInterface]({
   members: { 
     time: null,
     schedule: null,

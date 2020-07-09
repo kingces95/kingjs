@@ -5,7 +5,7 @@ var {
     '-rx': { 
       '-sync': { Select, WindowBy, DistinctUntilChanged, Regroup }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -35,4 +35,4 @@ function distinctVersionsOf(path) {
     )
 }
 
-module[ExportExtension](IObservable, distinctVersionsOf)
+module[ExportInterfaceExtension](IObservable, distinctVersionsOf)

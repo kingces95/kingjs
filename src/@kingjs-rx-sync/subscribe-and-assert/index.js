@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     IObservable,
     '-rx': { SubscribeAndAssert },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -17,4 +17,4 @@ function subscribeAndAssert(expectedNext, options = { }) {
   })
 }
 
-module[ExportExtension](IObservable, subscribeAndAssert)
+module[ExportInterfaceExtension](IObservable, subscribeAndAssert)

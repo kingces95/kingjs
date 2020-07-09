@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-reduction': { ToLookup },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -76,4 +76,4 @@ function join(
   )
 }
 
-module[ExportExtension](IEnumerable, join)
+module[ExportInterfaceExtension](IEnumerable, join)

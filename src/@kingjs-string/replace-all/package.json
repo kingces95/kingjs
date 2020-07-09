@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/string-ex.replace-all",
+  "name": "@kingjs-string/replace-all",
   "version": "1.0.0",
   "description": "Returns a new string in which all occurrences of a  substring are replaced with another string.",
   "main": "index.js",

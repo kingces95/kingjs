@@ -26,6 +26,7 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Options = { async: true }
 var TemplateDir = '.md'
 var TemplateName = 'readme.t.md'
 var ReadmeName = 'readme.md'
@@ -36,7 +37,7 @@ async function createReadme() {
 
   // are we in a package dir? if not, bail
   var packagePath = packageDir.to(PackageJson)
-  if (!await packagePath[Exists]())
+  if (!await packagePath[Exists](Options))
     return
 
   // get package scope

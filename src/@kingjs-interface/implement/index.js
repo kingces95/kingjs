@@ -10,7 +10,7 @@ var { assert,
 /**
  * 
  * @this any The interface
- * @param {*} target The object on which to implement the interface
+ * @param {*} target The object on which to implement the interface.
  * @param {*} descriptor A descriptor of properties with 
  * function values or get and/or set functions. 
  */
@@ -18,7 +18,7 @@ function implement(target, descriptor) {
 
   // implement the interface with the members found
   // on the descriptor by using the interface to map 
-  // the desciptor names to symbols before copying them
+  // the descriptor names to symbols before copying them
   // to the prototype
   for (var name in descriptor) {
     var member = descriptor[name]

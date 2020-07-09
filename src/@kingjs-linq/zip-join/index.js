@@ -5,7 +5,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-static': { empty, fromGenerator },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -96,4 +96,4 @@ function zipJoin(
   })
 }
 
-module[ExportExtension](IEnumerable, zipJoin)
+module[ExportInterfaceExtension](IEnumerable, zipJoin)

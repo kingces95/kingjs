@@ -13,8 +13,8 @@ class IFace extends Interface {
 
 assert.deepEqual(
   IFace[Map](), {
-    [FooA]: 'Foo',
-    [FooB]: 'Foo',
-    [Bar]: 'Bar'
+    [FooA]: 'foo',
+    [FooB]: 'foo',
+    [Bar]: 'bar'
   }
 )

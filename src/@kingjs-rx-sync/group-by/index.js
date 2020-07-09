@@ -9,7 +9,7 @@ var { assert,
       '-sync-static': { create },
       '-observer': { SubscriptionTracker },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -124,4 +124,4 @@ function groupBy(
   }, Options)
 }
 
-module[ExportExtension](IObservable, groupBy)
+module[ExportInterfaceExtension](IObservable, groupBy)

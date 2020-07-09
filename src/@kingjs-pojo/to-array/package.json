@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/pojo.to-array",
+  "name": "@kingjs-pojo/to-array",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",

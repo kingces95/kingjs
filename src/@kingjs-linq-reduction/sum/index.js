@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-reduction': { Aggregate },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -16,4 +16,4 @@ function sum() {
   })
 }
 
-module[ExportExtension](IEnumerable, sum)
+module[ExportInterfaceExtension](IEnumerable, sum)

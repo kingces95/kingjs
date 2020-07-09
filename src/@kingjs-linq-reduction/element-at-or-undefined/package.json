@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.element-at-or-undefined",
+  "name": "@kingjs-linq/element-at-or-undefined",
   "version": "1.0.6",
   "description": "Returns the element at a specified index in a  sequence or undefined if the index is out of range.",
   "main": "index.js",

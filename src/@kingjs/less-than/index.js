@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IComparable, 
-    IComparable: { CompareTo },
+    IComparable: { IsLessThan },
     '-reflect': { is }    
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -20,7 +20,7 @@ function lessThan(left, right) {
     return left < right
 
   assert(left instanceof IComparable)
-  return left[CompareTo](right)
+  return left[IsLessThan](right)
 }
 
 module.exports = lessThan

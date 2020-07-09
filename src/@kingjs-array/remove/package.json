@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/array.remove",
+  "name": "@kingjs-array/remove",
   "version": "0.0.0",
   "description": "Removes an element from an array and shifts the other elements down.",
   "main": "index.js",

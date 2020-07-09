@@ -3,7 +3,7 @@ var {
     IObservable,
     IObserver: { Complete, Error },
     '-rx-sync': { Do },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -21,4 +21,4 @@ function finalize(callback) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, finalize)
+module[ExportInterfaceExtension](IObservable, finalize)

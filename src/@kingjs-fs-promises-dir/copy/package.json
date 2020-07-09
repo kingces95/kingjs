@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.dir.copy",
+  "name": "@kingjs-fs-promises-dir/copy",
   "version": "0.0.0",
   "description": "Copies a directory's files and sub-directories in parallel.",
   "main": "index.js",
@@ -20,19 +20,19 @@
   "capitalize": true,
   "dependencies": {
     "@kingjs/array.partition": "file:../../../../array/partition",
-    "@kingjs/fs.promises.dir.list": "file:../list",
-    "@kingjs/fs.promises.dir.make": "file:../make",
-    "@kingjs/fs.promises.file.copy": "file:../../file/copy",
-    "@kingjs/fs.promises.file.read": "file:../../file/read",
-    "@kingjs/fs.promises.file.write": "file:../../file/write",
+    "@kingjs-fs-promises-dir/list": "file:../list",
+    "@kingjs-fs-promises-dir/make": "file:../make",
+    "@kingjs-fs-promises-file/copy": "file:../../file/copy",
+    "@kingjs-fs-promises-file/read": "file:../../file/read",
+    "@kingjs-fs-promises-file/write": "file:../../file/write",
     "@kingjs-module/export-extension": "file:../../../../module/export-extension",
     "@kingjs/path": "file:../../../../path",
     "@kingjs/run": "file:../../../../run"
   },
   "nodeDependencies": [],
   "devDependencies": {
-    "@kingjs/fs.promises.load": "file:../../load",
-    "@kingjs/fs.promises.dir.remove": "file:../../dir/remove",
-    "@kingjs/fs.promises.save": "file:../../save"
+    "@kingjs-fs-promises/load": "file:../../load",
+    "@kingjs-fs-promises-dir/remove": "file:../../dir/remove",
+    "@kingjs-fs-promises/save": "file:../../save"
   }
 }

@@ -8,7 +8,7 @@ var { assert,
       },
       '-fs': { ListDir, Watch },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -49,5 +49,5 @@ function listFiles(dir, where = Filter) {
     })
 }
 
-module[ExportExtension](IObservable, listFiles)
+module[ExportInterfaceExtension](IObservable, listFiles)
 var ListFiles = module.exports

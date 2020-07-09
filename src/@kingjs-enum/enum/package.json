@@ -1,24 +1,28 @@
 {
-  "name": "@kingjs-interface/interface",
-  "version": "1.0.4",
-  "description": "IInterface has no members. It tags  functions representing interfaces.",
+  "name": "@kingjs-enum/enum",
+  "version": "1.0.2",
+  "description": "Extends `kingjs/reflect.define-property` to map names to symbols according to iface.",
   "main": "index.js",
   "files": [
     "*.js"
   ],
   "scripts": {
     "test": "node .test",
-    "prepublishOnly": "npm .test",
-    "build": "cpk && crm && cdj"
+    "prepublishOnly": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/i-interface"
+    "url": "https://repository.kingjs.net/reflect/implement-interface"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/reflect.create-interface": "latest"
+    "@kingjs/reflect.is": "^1.0.0"
   },
-  "capitalize": true
+  "devDependencies": {
+    "@kingjs/i-enumerable": "^1.0.8",
+    "@kingjs/i-enumerator": "^1.0.8",
+    "@kingjs/i-iterable": "^1.0.3",
+    "@kingjs/reflect.create-interface": "^1.0.4"
+  }
 }

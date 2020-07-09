@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.first",
+  "name": "@kingjs-linq/first",
   "version": "1.0.7",
   "description": "Returns the first element of a sequence  that satisfies a specified condition.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
     "@kingjs/i-enumerator": "latest",
-    "@kingjs/linq.where": "latest",
+    "@kingjs-linq/where": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

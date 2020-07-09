@@ -1,9 +1,9 @@
+var Module = require("@kingjs-module/module")
 var ExportExtension = require("@kingjs-module/export-extension")
 var Split = require("@kingjs-camel-case/split")
 var Append = require("@kingjs-buffer/append")
 
 var EmptyBuffer = Buffer.from('')
-var EmptyObject = { }
 var At = '@'
 var Dash = '-'
 var ForwardSlash = '/'
@@ -36,7 +36,4 @@ function dependencies(prefix = EmptyBuffer) {
   })
 }
 
-module[ExportExtension](
-  Object.getPrototypeOf(module).constructor, 
-  dependencies
-)
+module[ExportExtension](Module, dependencies)

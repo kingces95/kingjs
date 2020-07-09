@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -37,4 +37,4 @@ function takeWhile(predicate) {
   )
 }
 
-module[ExportExtension](IEnumerable, takeWhile)
+module[ExportInterfaceExtension](IEnumerable, takeWhile)

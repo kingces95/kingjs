@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.distinct",
+  "name": "@kingjs-linq/distinct",
   "version": "1.0.10",
   "description": "Generates a sequence composed of the  distinct elements of another sequence.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/i-enumerable": "latest",
-    "@kingjs/linq.except": "latest",
+    "@kingjs-linq/except": "latest",
     "@kingjs/reflect.export-extension": "latest"
   },
   "devDependencies": {

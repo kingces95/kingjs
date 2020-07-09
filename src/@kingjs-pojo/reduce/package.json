@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/pojo.reduce",
+  "name": "@kingjs-pojo/reduce",
   "version": "0.0.0",
   "description": "Reduces the name/value pairs of a pojo.",
   "main": "index.js",

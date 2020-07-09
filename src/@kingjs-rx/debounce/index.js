@@ -4,7 +4,7 @@ var {
     IObservable: { Subscribe },
     IObserver: { Subscribed, Next, Complete, Error },
     '-rx-sync-static': { create },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -61,4 +61,4 @@ function debounce(window) {
   })
 }
 
-module[ExportExtension](IObservable, debounce)
+module[ExportInterfaceExtension](IObservable, debounce)

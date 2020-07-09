@@ -7,7 +7,7 @@ var {
       '-observer': { SubscriptionTracker },
       '-sync-static': { create },
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -42,4 +42,4 @@ function count() {
   }, Options)
 }
 
-module[ExportExtension](IObservable, count)
+module[ExportInterfaceExtension](IObservable, count)

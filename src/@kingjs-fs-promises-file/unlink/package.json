@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.file.unlink",
+  "name": "@kingjs-fs-promises-file/unlink",
   "version": "0.0.0",
   "description": "Unlinks a file at the path.",
   "main": "index.js",
@@ -26,8 +26,8 @@
   ],
   "capitalize": true,
   "devDependencies": {
-    "@kingjs/fs.promises.exists": "file:../../exists",
-    "@kingjs/fs.promises.file.read": "file:../read",
-    "@kingjs/fs.promises.file.write": "file:../write"
+    "@kingjs-fs-promises/exists": "file:../../exists",
+    "@kingjs-fs-promises-file/read": "file:../read",
+    "@kingjs-fs-promises-file/write": "file:../write"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.probe",
+  "name": "@kingjs-fs/probe",
   "version": "0.0.0",
   "description": "Searches parent directories for a path.",
   "main": "index.js",
@@ -27,9 +27,9 @@
     "path"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../promises/dir/remove",
-    "@kingjs/fs.promises.file.read": "file:../promises/file/read",
-    "@kingjs/fs.promises.save": "file:../promises/save",
+    "@kingjs-fs-promises-dir/remove": "file:../promises/dir/remove",
+    "@kingjs-fs-promises-file/read": "file:../promises/file/read",
+    "@kingjs-fs-promises/save": "file:../promises/save",
     "@kingjs/json.file.read": "file:../../json/file/read"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.find",
+  "name": "@kingjs-fs-promises/find",
   "version": "0.0.0",
   "description": "Searches parent directories for a path.",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "url": ""
   },
   "dependencies": {
-    "@kingjs/fs.promises.dir.list": "file:../dir/list",
+    "@kingjs-fs-promises-dir/list": "file:../dir/list",
     "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path"
   },
@@ -20,7 +20,7 @@
     "path"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
-    "@kingjs/fs.promises.save": "file:../save"
+    "@kingjs-fs-promises-dir/remove": "file:../dir/remove",
+    "@kingjs-fs-promises/save": "file:../save"
   }
 }

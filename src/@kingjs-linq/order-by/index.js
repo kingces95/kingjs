@@ -4,7 +4,7 @@ var {
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     IOrderedEnumerable: { CreateOrderedEnumerable },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': {
       '-reduction': { ToArray },
       '-static': { defaultLessThan }
@@ -115,4 +115,4 @@ function orderBy(keySelector, lessThan, descending_, stack_) {
   })
 }
 
-module[ExportExtension](IEnumerable, orderBy)
+module[ExportInterfaceExtension](IEnumerable, orderBy)

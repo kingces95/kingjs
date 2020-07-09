@@ -7,7 +7,7 @@ var {
       '-observer': { Proxy, Check },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -35,4 +35,4 @@ function select(callback = Identity) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, select)
+module[ExportInterfaceExtension](IObservable, select)

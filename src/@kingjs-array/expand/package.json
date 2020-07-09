@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/array.expand",
+  "name": "@kingjs-array/expand",
   "version": "1.0.0",
   "description": "Joins the expansions of `template` for each key/value pair of `source` with optional `separator`, `prefix`, and `suffix` while also introducing loop iteration variable `i`.",
   "main": "index.js",

@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs-package/package",
+  "version": "1.0.0",
+  "description": "The description.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/.template"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+  },
+  "nodeDependencies": [
+  ],
+  "devDependencies": {
+  }
+}

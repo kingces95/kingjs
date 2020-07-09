@@ -1,6 +1,16 @@
-var ExportExtension = require("@kingjs-module/export-extension")
+var For = require('@kingjs-symbol/for')
 
 var EmptyString = ''
+var EmptyObject = { }
+
+var Name = 'join'
+var Scope = 'kingjs-camel-case'
+var Version = { major: 1, minor: 0, patch: 0 }
+
+var Join = Symbol[For](Name, { 
+  scope: Scope,
+  version: Version
+})
 
 function toUpperFirst(name) {
   if (!name)
@@ -13,11 +23,13 @@ function toUpperFirst(name) {
  * @description Capitalizes an array of strings and joins them together.
  * 
  * @this Array Array of names to join together into a camel case string.
- * @param [capitalize] True if the result should be capitalized.
+ * @param [options] Options of the form { capitalize } where if capitalize is
+ * true, then then the result is capitalized.
  * 
  * @returns Returns a camel case string, optionally capitalized, or null.
  */
-function join(capitalize) {
+function join(options = EmptyObject) {
+  var { capitalize } = options
   if (this.length == 0)
     return null
 
@@ -28,4 +40,5 @@ function join(capitalize) {
   return result
 }
 
-module[ExportExtension](Array, join)
+Array.prototype[Join] = join
+module.exports = Join

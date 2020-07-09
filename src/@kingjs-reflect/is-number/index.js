@@ -1,0 +1,1 @@
+module.exports = o => typeof o == 'number' && o != NaN

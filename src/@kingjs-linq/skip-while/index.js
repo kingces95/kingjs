@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -38,4 +38,4 @@ function skipWhile(predicate) {
   )
 }
 
-module[ExportExtension](IEnumerable, skipWhile)
+module[ExportInterfaceExtension](IEnumerable, skipWhile)

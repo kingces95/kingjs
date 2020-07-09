@@ -3,7 +3,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq': { Where },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -30,4 +30,4 @@ function lastOrUndefined(predicate) {
   return current
 }
 
-module[ExportExtension](IEnumerable, lastOrUndefined)
+module[ExportInterfaceExtension](IEnumerable, lastOrUndefined)

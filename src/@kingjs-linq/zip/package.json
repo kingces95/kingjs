@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.zip",
+  "name": "@kingjs-linq/zip",
   "version": "1.0.5",
   "description": "Generates a sequence of elements composed  of elements of two sequences which share the same index.",
   "main": "index.js",

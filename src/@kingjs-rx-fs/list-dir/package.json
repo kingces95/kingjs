@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.rx.path-subject": "latest",
-    "@kingjs/linq.zip-join": "latest",
+    "@kingjs-linq/zip-join": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.group-by": "latest",
     "@kingjs/rx.log": "latest",

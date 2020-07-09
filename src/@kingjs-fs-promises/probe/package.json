@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.probe",
+  "name": "@kingjs-fs-promises/probe",
   "version": "0.0.0",
   "description": "Searches parent directories for a path.",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs/fs.promises.exists": "file:../exists",
+    "@kingjs-fs-promises/exists": "file:../exists",
     "@kingjs-module/export-extension": "file:../../../module/export-extension",
     "@kingjs/path": "file:../../../path"
   },
@@ -27,9 +27,9 @@
     "path"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.dir.remove": "file:../dir/remove",
-    "@kingjs/fs.promises.file.read": "file:../file/read",
-    "@kingjs/fs.promises.save": "file:../save",
+    "@kingjs-fs-promises-dir/remove": "file:../dir/remove",
+    "@kingjs-fs-promises-file/read": "file:../file/read",
+    "@kingjs-fs-promises/save": "file:../save",
     "@kingjs/json.file.read": "file:../../../json/file/read"
   }
 }

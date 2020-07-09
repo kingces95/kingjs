@@ -7,7 +7,7 @@ var {
       '-observer': { SubscriptionTracker },
       '-sync-static': { create }
     },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -48,4 +48,4 @@ function distinct(keySelector = Identity) {
   }, Options)
 }
 
-module[ExportExtension](IObservable, distinct)
+module[ExportInterfaceExtension](IObservable, distinct)

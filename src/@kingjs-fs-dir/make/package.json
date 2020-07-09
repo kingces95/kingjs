@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.promises.dir.make",
+  "name": "@kingjs-fs-dir/make",
   "version": "1.0.0",
   "description": "Partition an array into arrays that are assigned to properties of an object.",
   "main": "index.js",
@@ -27,8 +27,8 @@
     "fs"
   ],
   "devDependencies": {
-    "@kingjs/fs.promises.exists": "file:../../exists",
-    "@kingjs/fs.promises.dir.remove": "file:../remove",
-    "@kingjs/fs.promises.file.write": "file:../../file/write"
+    "@kingjs-fs-promises/exists": "file:../../exists",
+    "@kingjs-fs-promises-dir/remove": "file:../remove",
+    "@kingjs-fs-promises-file/write": "file:../../file/write"
   }
 }

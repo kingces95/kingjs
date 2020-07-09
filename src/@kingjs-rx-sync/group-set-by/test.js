@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     Singleton,
-    IComparable: { CompareTo },
+    IComparable: { IsLessThan },
     IEquatable: { Equals, GetHashcode },
     '-string': { GetHashcode: GetStringHashcode },
     '-rx': { 
@@ -37,7 +37,7 @@ class Key {
     this.name = name
     this.type = type
   }
-  [CompareTo](other) {
+  [IsLessThan](other) {
     assert.ok(other instanceof Key)
     return this.name < other.name
   }

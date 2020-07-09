@@ -1,7 +1,7 @@
 var { 
   '@kingjs': {
     IEnumerable,
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
     '-linq-reduction': { Aggregate }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -18,4 +18,4 @@ function toArray() {
   })
 }
 
-module[ExportExtension](IEnumerable, toArray)
+module[ExportInterfaceExtension](IEnumerable, toArray)

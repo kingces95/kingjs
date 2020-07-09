@@ -3,7 +3,7 @@ var { assert,
     Path,
     IComparable,
     IEquatable,
-    IComparable: { CompareTo },
+    IComparable: { IsLessThan },
     IEquatable: { Equals, GetHashcode },
     '-fs': {
       '-dir': { DirEntry },
@@ -11,6 +11,7 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+// mock dirent types
 class Dirent {
   constructor(name) {
     this.name = name
@@ -53,40 +54,46 @@ class FifoEnt extends Dirent {
   isFIFO() { return true }
 }
 
-var name = 'foo.txt'
-
+// activate stub with mock path
 var activate = o => new DirEntry(o, Path.dot)
+
+var name = 'foo.txt'
 var file = activate(new FileEnt(name))
 var otherFile = activate(new FileEnt('bar'))
-var directory = activate(new DirectoryEnt(name))
-var socket = activate(new SocketEnt(name))
-var symbolicLink = activate(new SymbolicLinkEnt(name))
-var blockDevice = activate(new BlockDeviceEnt(name))
-var characterDevice = activate(new CharacterDeviceEnt(name))
-var fifo = activate(new FifoEnt(name))
-
-assert.equal(file.name, name)
-assert.equal(file.path, Path.dot)
-
 assert.ok(file.isFile)
 assert.ok(!file.isDirectory)
-assert.ok(directory.isDirectory)
-assert.ok(socket.isSocket)
-assert.ok(symbolicLink.isSymbolicLink)
-assert.ok(blockDevice.isBlockDevice)
-assert.ok(characterDevice.isCharacterDevice)
-assert.ok(fifo.isFifo)
-
 assert.ok(file instanceof IEquatable)
 assert.ok(file[Equals](file))
 assert.ok(!file[Equals](otherFile))
-assert.ok(!file[Equals](directory))
+assert.ok(!file[Equals]())
 assert.equal(file[GetHashcode](), file[GetHashcode]())
 assert.notEqual(file[GetHashcode](), otherFile[GetHashcode]())
-
 assert.ok(file instanceof IComparable)
-assert.ok(!file[CompareTo](file))
-assert.ok(!file[CompareTo](otherFile))
-assert.ok(otherFile[CompareTo](file))
-assert.ok(directory[CompareTo](file))
-assert.ok(!file[CompareTo](directory))
+assert.ok(!file[IsLessThan](file))
+assert.ok(!file[IsLessThan](otherFile))
+assert.ok(otherFile[IsLessThan](file))
+assert.equal(file.name, name)
+assert.equal(file.path, Path.dot)
+
+var directory = activate(new DirectoryEnt(name))
+assert.ok(!file[Equals](directory))
+assert.ok(directory.isDirectory)
+assert.ok(!directory[IsLessThan](file))
+assert.ok(file[IsLessThan](directory))
+
+var socket = activate(new SocketEnt(name))
+assert.ok(socket.isSocket)
+
+var symbolicLink = activate(new SymbolicLinkEnt(name))
+assert.ok(symbolicLink.isSymbolicLink)
+
+var blockDevice = activate(new BlockDeviceEnt(name))
+assert.ok(blockDevice.isBlockDevice)
+
+var characterDevice = activate(new CharacterDeviceEnt(name))
+assert.ok(characterDevice.isCharacterDevice)
+
+var fifo = activate(new FifoEnt(name))
+assert.ok(fifo.isFifo)
+
+

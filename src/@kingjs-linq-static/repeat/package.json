@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/linq.repeat",
+  "name": "@kingjs-linq/repeat",
   "version": "1.0.6",
   "description": "Generate a sequence of a repeated value.",
   "main": "index.js",

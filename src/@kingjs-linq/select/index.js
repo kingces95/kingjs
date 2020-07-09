@@ -4,7 +4,7 @@ var {
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-interface': { ExportExtension },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -33,4 +33,4 @@ function select(selector) {
   )
 }
 
-module[ExportExtension](IEnumerable, select)
+module[ExportInterfaceExtension](IEnumerable, select)
