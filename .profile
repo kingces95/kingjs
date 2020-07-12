@@ -44,6 +44,8 @@ set_default_aliases() {
   pod() { popd > /dev/null; }
 
   alias ports="lsof -i -P -n | grep LISTEN"
+
+  alias buildnode="pushd $" 
 }
 
 load_nvm() {
@@ -95,12 +97,19 @@ export KJS_ARCH_DIR="$KJS_OS_DIR/$PLATFORM"
 alias cdarch="pd $KJS_ARCH_DIR"
 
 # nodejs version
-export NODE_VERSION=v12.16.1
+# export NODE_VERSION=v12.16.1
+export NODE_VERSION=v13.13.0
 
 # nvm
 load_nvm "$KJS_ARCH_DIR/nvm"
 export KJS_NVM_DIR="$KJS_ARCH_DIR/nvm"
 alias cdnvm="pd $NVM_DIR"
+
+# custom node build
+export KJS_NODE="$KJS_DIR/node"
+alias pnode="pd $KJS_NODE"
+alias bnode="pnode && ./configure && make -j4 && p"
+alias tnode="pnode && make test-only && p"
 
 # install nodejs itself
 echo installing nodejs $NODE_VERSION

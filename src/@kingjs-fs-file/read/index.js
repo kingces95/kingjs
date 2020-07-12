@@ -1,8 +1,12 @@
-var { fs,
+var { fs, fs: { promises: fsp },
   '@kingjs': { Path,
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var EmptyObject = { }
+var readSync = fs.readFileSync.bind(fs)
+var readAsync = fsp.readFile.bind(fsp)
 
 /**
  * @description Reads a file at the path.
@@ -12,8 +16,8 @@ var { fs,
  * 
  * @returns Binary data or text.
  */
-function readFile(options) {
-  return fs.readFileSync(this.buffer, options)
+function readFile(options = EmptyObject) {
+  return (options.async ? readAsync : readSync)(this.buffer, options)
 }
 
 module[ExportExtension](Path.Builder, readFile)

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-promises/exists",
+  "name": "@kingjs-fs-file/copy",
   "version": "1.0.0",
   "description": "Partition an array into arrays that are assigned to properties of an object.",
   "main": "index.js",
@@ -18,8 +18,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "@kingjs/path": "file:../../../path",
-    "@kingjs-module/export-extension": "file:../../../module/export-extension"
+    "@kingjs/path": "file:../../../../path",
+    "@kingjs-module/export-extension": "file:../../../../module/export-extension"
   },
   "nodeDependencies": [
     "assert",
@@ -27,8 +27,9 @@
   ],
   "capitalize": true,
   "devDependencies": {
-    "@kingjs-fs-promises-file/read": "file:../file/read",
-    "@kingjs-fs-promises-file/unlink": "file:../file/unlink",
-    "@kingjs-fs-promises-file/write": "file:../file/write"
+    "@kingjs-fs-promises/exists": "file:../../exists",
+    "@kingjs-fs-promises-file/read": "file:../read",
+    "@kingjs-fs-promises-file/unlink": "file:../unlink",
+    "@kingjs-fs-promises-file/write": "file:../write"
   }
 }

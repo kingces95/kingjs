@@ -25,4 +25,17 @@ function probe(path) {
   }
 }
 
+async function probe(path) {
+  var cwd = Path.cwd()
+  var dir = cwd.to(this)
+  
+  while (dir) {
+    var result = dir.to(path)
+    if (await result[Exists]())
+      return cwd.toRelative(result)
+
+    var dir = dir.dir
+  }
+}
+
 module[ExportExtension](Path.Builder, probe)

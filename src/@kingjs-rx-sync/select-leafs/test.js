@@ -48,15 +48,15 @@ process.nextTick(async () => {
     ['root.txt']: 'root',
   })
 
-  var options = { withFileTypes: true }
-  var utf8 = 'utf8'
+  var Options = { withFileTypes: true }
+  var Utf8 = 'utf8'
 
-  from(acme[List](options))
+  from(acme[List](Options))
     [SelectLeafs](o => o.isDirectory ?
-       from(o.path[List](options)) : null 
+       from(o.path[List](Options)) : null 
     )
     [Select](
-      o => o.path[Read](utf8)
+      o => o.path[Read](Utf8)
     )
     [SubscribeAndAssert](['bar', 'foo', 'root'])
 })

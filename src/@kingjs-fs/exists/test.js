@@ -6,13 +6,18 @@ var { assert,
   },
 } = module[require('@kingjs-module/dependencies')]()
 
-var Async = { async: true }
+var Async = { }
+var Sync = { sync: true }
 
 async function test(options) {
+  var { sync = false } = options
+
   var path = Path.parse('acme.txt')
 
   path[Write]('Hello World!')
-  assert.ok(await path[Exists](options))
+  var result = path[Exists](options)
+  assert.ok((result instanceof Promise) != sync)
+  assert.ok(await result)
 
   var actual = path[Read]('utf8')
   assert.equal('Hello World!', actual)
@@ -22,6 +27,6 @@ async function test(options) {
 }
 
 process.nextTick(async() => {
-  await test()
+  await test(Sync)
   await test(Async)
 })
