@@ -18,7 +18,7 @@ var EmptyBuffer = Buffer.from(EmptyString)
 var DotBuffer = Buffer.from(Dot)
 var DotDotBuffer = Buffer.from(DotDot)
 
-var Descriptor = { writable: true }
+var NonEnumerable = { writable: true }
 
 class NoRelativePathExistsException extends Exception {
   constructor(from, to) {
@@ -68,10 +68,8 @@ class PathBuilder extends Singleton {
     super()
 
     Object.defineProperties(this, { 
-      //parent: Descriptor, 
-      //name: Descriptor, 
-      _buffer: Descriptor,
-      _map: Descriptor,
+      _buffer: NonEnumerable,
+      _map: NonEnumerable,
     })
   }
 

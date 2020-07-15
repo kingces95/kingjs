@@ -3,7 +3,7 @@ var {
     IObservable,
     IEquatable: { GetHashcode, Equals },
     '-string': { GetHashcode: GetStringHashcode },
-    '-fs-dir': { List, typeOf },
+    '-fs-dir': { List },
     '-rx': {
       '-sync': { GroupSetBy, Regroup, Select }
     },

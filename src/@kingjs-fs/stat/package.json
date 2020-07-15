@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-file/read",
+  "name": "@kingjs-fs/stat",
   "version": "0.0.0",
   "description": "Reads a file at the path.",
   "main": "index.js",

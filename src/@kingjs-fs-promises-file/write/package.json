@@ -1,0 +1,10 @@
+{
+  "name": "@kingjs-fs-promises-file/write",
+  "version": "0.0.0",
+  "description": "Test if a path exists.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "capitalize": true
+}

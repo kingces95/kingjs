@@ -17,7 +17,8 @@ var readAsync = fsp.readFile.bind(fsp)
  * @returns Binary data or text.
  */
 function readFile(options = EmptyObject) {
-  return (options.async ? readAsync : readSync)(this.buffer, options)
+  var { async } = options
+  return (async ? readAsync : readSync)(this.buffer, options)
 }
 
 module[ExportExtension](Path.Builder, readFile)

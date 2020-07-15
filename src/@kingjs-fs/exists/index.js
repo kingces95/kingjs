@@ -14,7 +14,7 @@ var existsAsync = path => new Promise(resolve => fs.exists(path, o => resolve(o)
  * @this PathBuilder The path to check.
  */
 function exists(options = EmptyObject) {
-  return (options.sync ? existsSync : existsAsync)(this.buffer)
+  return (options.async ? existsAsync : existsSync)(this.buffer)
 }
 
 module[ExportExtension](Path.Builder, exists)

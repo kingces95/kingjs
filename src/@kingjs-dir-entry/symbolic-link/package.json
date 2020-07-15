@@ -1,0 +1,8 @@
+{
+  "name": "@kingjs-dir-entry/symbolic-link",
+  "version": "1.0.0",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ]
+}

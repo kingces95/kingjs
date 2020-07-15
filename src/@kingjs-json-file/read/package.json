@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/json.file.read",
+  "name": "@kingjs-json-file/read",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",

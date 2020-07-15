@@ -6,6 +6,7 @@ var Append = require("@kingjs-buffer/append")
 var EmptyBuffer = Buffer.from('')
 var At = '@'
 var Dash = '-'
+var Dot = '.'
 var ForwardSlash = '/'
 var KnownNames = new Map()
 
@@ -16,7 +17,8 @@ function dependencies(prefix = EmptyBuffer) {
   return new Proxy(prefix, {
     get: (prefix, key) => {
 
-      if (key[0] == At || key[0] == Dash) 
+      var keyZero = key[0]
+      if (keyZero == At || keyZero == Dash || keyZero == Dot) 
         return dependencies.call(this, prefix[Append](key))
       
       if (prefix.length == 0) {

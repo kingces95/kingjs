@@ -1,20 +1,15 @@
 var { assert,
   '@kingjs': { Path,
-    '-fs': { Probe, 
+    '-fs': { Probe: ProbeSync, 
       '-dir': { Remove }, 
       '-file': { Read },
-      '-promises': { Save }
+      '-promises': { Save, Probe: ProbeAsync }
     },
     '-json-file': { Read: ReadJsonFile }
   },
 } = module[require('@kingjs-module/dependencies')]()
 
-var Async = { async: true }
-var Sync = { }
-
-async function test(options) {
-  var { async = false } = options
-
+async function test(Probe) {
   var acme = Path.parse('acme')
   await acme[Save]({
     myNs: {
@@ -34,24 +29,24 @@ async function test(options) {
 
   var myPkg = acme.to('root').to('myNs').to('myPkg')
 
-  var npmScopePath = myPkg[Probe]('npm-scope.json', options)
-  assert.ok((result instanceof Promise) == async)
+  var npmScopePath = myPkg[Probe]('npm-scope.json')
+  assert.ok((npmScopePath instanceof Promise) == (Probe == ProbeAsync))
   npmScopePath = await npmScopePath
 
-  var { name } = npmScopePath[ReadJsonFile]()
+  var { name } = await npmScopePath[ReadJsonFile]()
   assert.equal(name, 'acme')
 
   var readmeTemplate = Path.parse('.md').to('readme.t.md')
-  var templatePath = myPkg[Probe](readmeTemplate)
+  var templatePath = await myPkg[Probe](readmeTemplate)
   var text = templatePath[Read]('utf8')
   assert.equal(text, "#name ${pkg.name}")
 
-  assert(await myPkg[Probe]('no.such.file', options) === undefined)
+  assert(await myPkg[Probe]('no.such.file') === undefined)
 
   acme[Remove]()
 } 
 
 process.nextTick(async() => {
-  await test(Async)
-  await test(Sync)
+  await test(ProbeSync)
+  await test(ProbeAsync)
 })

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/json.file.write",
+  "name": "@kingjs-json-file/write",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",

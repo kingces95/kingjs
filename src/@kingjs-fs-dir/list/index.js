@@ -1,47 +1,37 @@
-var { fs,
+var { fs, fs: { promises: fsPromises },
   '@kingjs': { Path,
-    '-fs-dir': { DirEntry },
+    '-dir-entry': { DirEntry },
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Compare = (l, r) => l.name < r.name
-
 var EmptyObject = { }
+var Options = { withFileTypes: true }
+var Compare = (l, r) => l.name < r.name
+var ReadDirAsync = fsPromises.readdir.bind(fsPromises)
+var ReadDirSync = fs.readdirSync.bind(fs)
 
 /**
  * @description Reads a directory at the path.
  * 
  * @this PathBuilder The path to read.
- * @param options The `readdirSync` options 
+ * @param options A pojo of the form `{ async }` where async specifies
+ * if a promise to return the results.
  * 
- * @returns An array of `DirEnt` for the path.
+ * @returns An array of `DirEntry` objects found at the path.
  */
 function list(options = EmptyObject) {
-  var { withFileTypes, sort, async } = options
+  var { async } = options
 
-  // sync/async
-  var dirents = async ?
-    fsPromises.readdir(path.buffer, options) :
-    fs.readdirSync(path.buffer, options)
+  var dirents = (async ? ReadDirAsync : ReadDirSync)(this.buffer, Options)
 
-  function callback() {
-
-    // DirEntry/string
-    if (withFileTypes)
-      dirents = dirents.map(o => new DirEntry(o, path.to(o.name)))
-
-    // sort/unsorted
-    if (sort) 
-      dirents.sort(withFileTypes ? Compare : undefined)
-
-    return dirents
+  var epilog = result => {
+    return result
+      .map(o => DirEntry.create(o, this.to(o.name)))
+      .sort(Compare)
   }
 
-  if (async)
-    return dirents.then(callback)
-
-  return callback()
+  return async ? dirents.then(epilog) : epilog(dirents)
 }
 
 module[ExportExtension](Path.Builder, list)

@@ -5,6 +5,8 @@ var {
   },
 } = module[require('@kingjs-module/dependencies')]()
 
+var EmptyObject = { }
+
 /**
  * @description Searches parent directories for a path.
  * 
@@ -13,22 +15,17 @@ var {
  * 
  * @returns Returns the first absolute path found by the probe.
  */
-function probe(path) {
-  var dir = Path.cwd().to(this)
-  
+function probeSync(path, cwd, dir) {
   while (dir) {
     var result = dir.to(path)
     if (result[Exists]())
-      return result
+      return cwd.toRelative(result)
 
     var dir = dir.dir
   }
 }
 
-async function probe(path) {
-  var cwd = Path.cwd()
-  var dir = cwd.to(this)
-  
+async function probeAsync(path, cwd, dir) {  
   while (dir) {
     var result = dir.to(path)
     if (await result[Exists]())
@@ -36,6 +33,14 @@ async function probe(path) {
 
     var dir = dir.dir
   }
+}
+
+function probe(path, options = EmptyObject) {
+  var { async = false } = options  
+  var cwd = Path.cwd()
+  var dir = cwd.to(this)
+
+  return (async ? probeAsync : probeSync).call(this, path, cwd, dir)
 }
 
 module[ExportExtension](Path.Builder, probe)
