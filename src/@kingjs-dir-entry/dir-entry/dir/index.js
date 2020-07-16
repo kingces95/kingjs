@@ -3,15 +3,17 @@ var {
   '@kingjs': {
     '-dir-entry': { Kind },
     '-fs': { 
-      '-dir': { List, Remove, Make },
+      '-dir': { Remove, Make },
       '-promises-dir': {
-        List: ListAsync,
         Remove: RemoveAsync,
         Make: MakeAsync
       }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+var List
+var ListAsync
 
 class Dir extends DirEntry {
 
@@ -31,11 +33,19 @@ class Dir extends DirEntry {
 
   get isDirectory() { return true }
 
-  List() { return this.path[List]() }
-  Remove() { this.path[Remove]() }
+  list() { 
+    if (!List)
+      List = require('@kingjs-fs-dir/list')
+    return this.path[List]() 
+  }
+  remove() { this.path[Remove]() }
 
-  ListAsync() { return this.path[ListAsync]() }
-  RemoveAsync() { return this.path[RemoveAsync]() }
+  listAsync() { 
+    if (!ListAsync)
+      ListAsync = require('@kingjs-fs-promises-dir/list')
+    return this.path[ListAsync]() 
+  }
+  removeAsync() { return this.path[RemoveAsync]() }
 }
 
 module.exports = Dir

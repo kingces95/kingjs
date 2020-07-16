@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.select",
+  "name": "@kingjs-rx-sync/regroup",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that maps values emitted from the current `IObservable`.",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.skip",
+  "name": "@kingjs-rx-sync/skip",
   "version": "1.0.0",
   "description": "Returns an `IObservable` which skips the first n observations.",
   "main": "index.js",

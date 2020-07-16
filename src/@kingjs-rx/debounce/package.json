@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.debounce",
+  "name": "@kingjs-rx/debounce",
   "version": "1.0.0",
   "description": "Filter values by those followed without emissions for `duration` milliseconds.",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.from-async",
+  "name": "@kingjs-rx-static/generate",
   "version": "1.0.0",
   "description": "Create an `IObservable` from an async generator.",
   "main": "index.js",

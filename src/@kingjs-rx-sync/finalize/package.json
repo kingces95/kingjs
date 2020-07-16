@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.finalize",
+  "name": "@kingjs-rx-sync/finalize",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that spies on the `complete` and `error` events.",
   "main": "index.js",

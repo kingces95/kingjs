@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.proxy-subject",
+  "name": "@kingjs-rx-subject/subject",
   "version": "1.0.0",
   "description": "A class that that proxies events to a private `IObserver` and subscribes clients to a  private `IObservable`.",
   "main": "index.js",

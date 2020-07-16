@@ -34,6 +34,9 @@ class DirEntry {
   existsAsync() { return this.path[ExistsAsync]() }
   statAsync() { return this.path[StatAsync]() }
 
+  toString() { return this.path.toString() }
+  get __toString() { return this.toString() }
+
   [Equals](o) { 
     if (!(o instanceof DirEntry))
       return false

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.rolling-select",
+  "name": "@kingjs-rx-sync/rolling-buffer",
   "version": "1.0.0",
   "description": "Returns an `IObservable` whose each value is an array containing the current value followed by previously emitted values.",
   "main": "index.js",

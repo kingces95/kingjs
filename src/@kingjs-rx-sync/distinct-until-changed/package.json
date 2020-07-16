@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.distinct-until-changed",
+  "name": "@kingjs-rx-sync/distinct-until-changed",
   "version": "1.0.0",
   "description": "Returns an `IObservable` whose each value is distinct from the previously emitted value.",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.never",
+  "name": "@kingjs-rx-static/never",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that emits no events yet keeps the process alive until disposed.",
   "main": "index.js",

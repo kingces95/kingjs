@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.watch",
+  "name": "@kingjs-fs-rx/watch",
   "version": "1.0.0",
   "description": "Watch a path.",
   "main": "index.js",

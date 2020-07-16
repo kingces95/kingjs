@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.select-many",
+  "name": "@kingjs-rx-sync/group-set-by",
   "version": "1.0.0",
   "description": "Returns an `IObservable` emits the elements selected from the many `IObservable`s returned by callback optionally further selecting each resulting element.",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.singletons",
+  "name": "@kingjs-rx/singletons",
   "version": "1.0.0",
   "description": "A subject factory which is also a subject.",
   "main": "index.js",

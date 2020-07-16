@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.window-by",
+  "name": "@kingjs-rx-sync/windows-by",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that groups observations  with matching keys into 'windows' represented by an `IObservable`.  If a new key is observed, then any existing window is closed and  another activated.",
   "main": "index.js",

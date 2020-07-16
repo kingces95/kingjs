@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.pipe",
+  "name": "@kingjs-rx-sync/pipe",
   "version": "1.0.0",
   "description": "Subscribes `subject` to the source `IObservable` and returns the `subject`.",
   "main": "index.js",

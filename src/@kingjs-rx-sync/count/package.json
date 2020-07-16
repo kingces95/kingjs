@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.count",
+  "name": "@kingjs-rx-sync/count",
   "version": "1.0.0",
   "description": "The description.",
   "main": "index.js",

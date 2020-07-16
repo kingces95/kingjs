@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.log",
+  "name": "@kingjs-rx-sync/log",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that logs life-cycle events.",
   "main": "index.js",

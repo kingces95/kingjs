@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.from",
+  "name": "@kingjs-rx-sync-static/never",
   "version": "1.0.0",
   "description": "Create an `IObservable` from a generator or  implementor of the iterator protocol.",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.conference-subject",
+  "name": "@kingjs-rx-subject/conference-subject",
   "version": "1.0.0",
   "description": "A proxy subject that lazily gets its real subject and unsubscribes from its real proxy on complete.",
   "main": "index.js",

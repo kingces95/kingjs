@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.do",
+  "name": "@kingjs-rx-sync/tap",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that spies on life-cycle events.",
   "main": "index.js",

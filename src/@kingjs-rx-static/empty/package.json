@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.timer",
+  "name": "@kingjs-rx-static/empty",
   "version": "1.0.0",
   "description": "Create an `IObservable` that waits for `timeOut` milliseconds and then emits `completed`.",
   "main": "index.js",

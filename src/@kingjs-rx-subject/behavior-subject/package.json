@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.behavior-subject",
+  "name": "@kingjs-rx-subject/behavior-subject",
   "version": "1.0.0",
   "description": "A subject that tracks the last value emitted  and exposes it as `Value` and will upon subscription will  replay that value.",
   "main": "index.js",

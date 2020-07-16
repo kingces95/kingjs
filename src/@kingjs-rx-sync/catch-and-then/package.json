@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.then",
+  "name": "@kingjs-rx-sync/catch-and-then",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that emits values from the source `IObservable` followed by the values of another `IObservable`.",
   "main": "index.js",

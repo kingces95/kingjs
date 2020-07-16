@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.group-by",
+  "name": "@kingjs-rx-sync/group-by",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that emits an `IGroupedObservable` for each group identified by `keySelector`.",
   "main": "index.js",

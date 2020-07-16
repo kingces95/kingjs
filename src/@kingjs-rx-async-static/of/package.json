@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.of",
+  "name": "@kingjs-rx/of",
   "version": "1.0.0",
   "description": "Create an `IObservable` from `arguments`.",
   "main": "index.js",

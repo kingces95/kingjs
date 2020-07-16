@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.zip",
+  "name": "@kingjs-rx-sync/zip",
   "version": "1.0.0",
   "description": "Create an `IObservable` that zips emitted values with an `IEnumerable` of values.",
   "main": "index.js",

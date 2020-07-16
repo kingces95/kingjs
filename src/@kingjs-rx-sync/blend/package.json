@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.blend",
+  "name": "@kingjs-rx-sync/blend",
   "version": "1.0.0",
   "description": "Returns an `IObservable` that blends this `IObservable` with those passed as arguments.",
   "main": "index.js",

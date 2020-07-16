@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.first",
+  "name": "@kingjs-rx-sync/take-while",
   "version": "1.0.0",
   "description": "Returns a promise that resolves with the value of the next `next` emission or `complete` and rejects on `error`.",
   "main": "index.js",

@@ -33,8 +33,15 @@ async function test(List, Make, Remove) {
   assert.ok((listResult instanceof Promise) == (List == ListAsync))
   var dirent = await listResult
 
-  assert.deepEqual([ 'bar' ], dirent.filter(o => o.isDirectory).map(o => o.name))
-  assert.deepEqual([ 'foo.txt' ], dirent.filter(o => o.isFile).map(o => o.name))
+  var directories = dirent.filter(o => o.isDirectory)
+  assert.deepEqual([ 'bar' ], directories.map(o => o.name))
+  var barDir = directories[0]
+  assert.equal(barDir.toString(), 'acme/bar')
+
+  var files = dirent.filter(o => o.isFile)
+  assert.deepEqual([ 'foo.txt' ], files.map(o => o.name))
+  var fooFile = files[0]
+  assert.equal(fooFile.toString(), 'acme/foo.txt')
   
   var removeResult = acme[Remove]()
   assert.ok((removeResult instanceof Promise) == (Remove == RemoveAsync))

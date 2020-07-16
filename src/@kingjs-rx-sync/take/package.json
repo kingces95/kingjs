@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.take",
+  "name": "@kingjs-rx-sync/take",
   "version": "1.0.0",
   "description": "Returns an `IObservable` which reports the first n observation.",
   "main": "index.js",

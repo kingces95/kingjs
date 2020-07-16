@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/fs.rx.distinct-stats",
+  "name": "@kingjs-fs-rx/watch-files",
   "version": "1.0.0",
   "description": "Returns the stats for a path that have a different  `ctime` than the last observed stats for the path.",
   "main": "index.js",

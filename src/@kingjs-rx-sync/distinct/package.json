@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.distinct",
+  "name": "@kingjs-rx-sync/distinct",
   "version": "1.0.0",
   "description": "Returns an `IObservable` whose each value is distinct.",
   "main": "index.js",

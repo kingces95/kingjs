@@ -27,7 +27,7 @@ function list(options = EmptyObject) {
 
   var epilog = result => {
     return result
-      .map(o => DirEntry.create(o, this.to(o.name)))
+      .map(o => DirEntry.create(o, this))
       .sort(Compare)
   }
 

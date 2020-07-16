@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.publish",
+  "name": "@kingjs-rx/publish",
   "version": "1.0.0",
   "description": "Returns an `IPublishedObservable` that saves its last  observed value and will emit that value to any new subscribers.",
   "main": "index.js",

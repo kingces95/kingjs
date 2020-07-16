@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.subject",
+  "name": "@kingjs-rx-subject/multicast-subject",
   "version": "1.0.0",
   "description": "The Subject.",
   "main": "index.js",

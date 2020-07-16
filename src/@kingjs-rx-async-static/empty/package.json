@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/rx.clock",
+  "name": "@kingjs-rx/empty",
   "version": "1.0.0",
   "description": "Create an `IObservable` that asynchronously emits `Date.now()` endlessly.",
   "main": "index.js",
