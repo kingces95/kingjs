@@ -1,5 +1,6 @@
 var {
   '@kingjs': {
+    IEquatable: { Equals, GetHashcode },
     '-rx': {
       '-sync': { DistinctUntilChanged, SubscribeAndAssert,
         '-static': { of, throws, never },
@@ -7,6 +8,9 @@ var {
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+Number.prototype[Equals] = function(o) { return o == this }
+Number.prototype[GetHashcode] = () => 0
 
 of(0, 0, 1, 2, 2, 1)
   [DistinctUntilChanged]()

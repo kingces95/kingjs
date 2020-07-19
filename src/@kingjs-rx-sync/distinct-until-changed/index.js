@@ -1,9 +1,11 @@
-var { 
+var { assert,
   deepEquals,
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
+    IEquatable,
+    IEquatable: { Equals },
     '-rx': {
       '-observer': { Proxy },
       '-sync-static': { create }
@@ -20,15 +22,11 @@ var Options = { name: distinctUntilChanged.name }
  * 
  * @param [keySelector] A callback to select the key used to 
  * determine equality between two emitted values.
- * @param [equals] An call back which determines if two keys
- * are equal.
  * 
  * @returns Returns an `IObservable` whose each value is
  * distinct from the previously emitted value.
  */
-function distinctUntilChanged(
-  keySelector = Identity,
-  equals = deepEquals) {
+function distinctUntilChanged(keySelector = Identity) {
 
   return create(observer => {
     var hasLastKey
@@ -38,8 +36,9 @@ function distinctUntilChanged(
       observer[Proxy]({
         [Next](o) {
           var key = keySelector(o)
+          assert.ok(key instanceof IEquatable)
 
-          if (hasLastKey && equals(lastKey, key))
+          if (hasLastKey && lastKey[Equals](key))
             return
           
           this[Next](o)

@@ -1,0 +1,1 @@
+module.exports = o => (typeof o == 'object' && o !== null)

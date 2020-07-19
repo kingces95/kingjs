@@ -15,6 +15,8 @@ var { assert,
  * forwarded. Instead the `cancel` function supplied by `Subscribed` is captured
  * by `SubscriptionTracker` and called by the master cancellation function.
  * 
+ * So it is: many observables -> subscription tracker -> observer
+ * 
  * @constructor 
  * @param observer The observer whose `Subscribed` event is managed by the tracker.
  * @param onCancel A callback that occurs if the subscription is canceled.

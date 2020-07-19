@@ -1,4 +1,4 @@
-var {
+var { assert,
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
@@ -31,6 +31,8 @@ function blend() {
     var completed = 0
     var observables = [this, ...arguments]
     for (var observable of observables) {
+      assert.ok(observable)
+      
       if (subscription.cancelled)
         break
 

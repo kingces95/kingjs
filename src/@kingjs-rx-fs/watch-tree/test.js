@@ -2,6 +2,7 @@ var { assert,
   '@kingjs': {
     IObservable: { Subscribe },
     Path,
+    '-dir-entry': { DirEntry: { Dir }, Kind },
     '-fs': { Exists,
       '-dir': { Make, Remove },
       '-file': { Write, Unlink },
@@ -11,7 +12,7 @@ var { assert,
       '-sync': { SubscribeAndAssert, Materialize, Do, Select, Rekey, Log,
         '-static': { counter },
       },
-      '-fs': { WatchFiles }
+      '-fs': { WatchTree, Watch }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -28,14 +29,26 @@ var dir = dot.to('d')
 var foo = dot.to('f')
 var bar = dir.to('b')
 
+function watchFiles(observer, root) {
+  var rootDir = new Dir(root)
+
+  return observer[WatchTree](rootDir, {
+    debounceMs: 100,
+    isNode: dirEntry => dirEntry.isDirectory,
+    watchNode: (o, dir) => o[Watch](dir.path),
+    selectChildren: dir => dir.list() 
+  })
+}
+
 function execute(commands, expected) {
 
-  counter(commands.length)
+  var observable = counter(commands.length)
     [Do](o => commands[o].forEach(x => x()))
-    [WatchFiles](dot)
+
+  watchFiles(observable, dot)
     [Rekey](o => {
       assert.equal(o.name, o.path.name)
-      assert.equal(o.type, 'file')
+      assert.equal(o.type, Kind.File)
       return o.path.toString()
     })
     [Materialize]()
