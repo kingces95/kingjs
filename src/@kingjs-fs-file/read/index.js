@@ -1,10 +1,13 @@
 var { fs, fs: { promises: fsp },
   '@kingjs': { Path,
-    '-module': { ExportExtension }
+    '-module': { ExportExtension },
+    '-fs-link': { Read: ReadLink }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var EmptyObject = { }
+var Utf8 = 'utf8'
+var Buffer = 'buffer'
 var readSync = fs.readFileSync.bind(fs)
 var readAsync = fsp.readFile.bind(fsp)
 
@@ -16,9 +19,16 @@ var readAsync = fsp.readFile.bind(fsp)
  * 
  * @returns Binary data or text.
  */
-function readFile(options = EmptyObject) {
-  var { async } = options
-  return (async ? readAsync : readSync)(this.buffer, options)
+function read(options = EmptyObject) {
+  var { async, link, encoding = Utf8 } = options
+
+  if (encoding == Buffer)
+    encoding = null
+
+  if (link)
+    return this[ReadLink](options)
+
+  return (async ? readAsync : readSync)(this.buffer, { encoding })
 }
 
-module[ExportExtension](Path.Builder, readFile)
+module[ExportExtension](Path.Builder, read)

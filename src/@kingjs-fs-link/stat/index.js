@@ -1,13 +1,12 @@
 var { fs, fs: { promises: fsp },
   '@kingjs': { Path,
-    '-module': { ExportExtension },
-    '-fs-link': { Stat: LinkStat },
+    '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var EmptyObject = { }
-var statSync = fs.statSync.bind(fs)
-var statAsync = fsp.stat.bind(fsp)
+var statSync = fs.lstatSync.bind(fs)
+var statAsync = fsp.lstat.bind(fsp)
 
 /** 
  * @description Reads the stats for a path.
@@ -18,12 +17,7 @@ var statAsync = fsp.stat.bind(fsp)
  * @returns A 'Stat' for the path.
  */
 function stat(options = EmptyObject) {
-  var { async, link } = options
-
-  if (link)
-    return this[LinkStat](options)
-
-  return (async ? statAsync : statSync)(this.buffer, options)
+  return (options.async ? statAsync : statSync)(this.buffer, options)
 }
 
 module[ExportExtension](Path.Builder, stat)

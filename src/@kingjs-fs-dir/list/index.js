@@ -1,6 +1,5 @@
 var { fs, fs: { promises: fsPromises },
   '@kingjs': { Path,
-    '-dir-entry': { DirEntry },
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -24,13 +23,7 @@ function list(options = EmptyObject) {
   var { async } = options
 
   var dirents = (async ? ReadDirAsync : ReadDirSync)(this.buffer, Options)
-
-  var epilog = result => {
-    return result
-      .map(o => DirEntry.create(o, this))
-      .sort(Compare)
-  }
-
+  var epilog = result => result.sort(Compare)
   return async ? dirents.then(epilog) : epilog(dirents)
 }
 

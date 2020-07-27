@@ -1,6 +1,7 @@
 var { fs, fs: { promises: fsp },
   '@kingjs': { Path,
-    '-module': { ExportExtension }
+    '-module': { ExportExtension },
+    '-fs-link': { Write: WriteLink },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -15,7 +16,12 @@ var writeAsync = fsp.writeFile.bind(fsp)
  * @returns Binary data or text.
  */
 function writeFile(data, options = EmptyObject) {
-  return (options.async ? writeAsync : writeSync)(this.buffer, data, options)
+  var { async, link } = options
+
+  if (link)
+    return this[WriteLink](data, options)
+
+  return (async ? writeAsync : writeSync)(this.buffer, data, options)
 }
 
 module[ExportExtension](Path.Builder, writeFile)

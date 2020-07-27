@@ -85,7 +85,7 @@ assert.shifted = function() {
 }
 
 // expect creation and `next` events for each leaf
-subjects.M[Next]()
+subjects.R[Next]()
 assert.shifted('+x', 'Δx1')
 
 // expect creation and `next` events for leafs on new internal node

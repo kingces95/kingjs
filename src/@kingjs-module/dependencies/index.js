@@ -18,7 +18,7 @@ function dependencies(prefix = EmptyBuffer) {
     get: (prefix, key) => {
 
       var keyZero = key[0]
-      if (keyZero == At || keyZero == Dash || keyZero == Dot) 
+      if (keyZero == At || keyZero == Dash || keyZero == Dot || keyZero == ForwardSlash) 
         return dependencies.call(this, prefix[Append](key))
       
       if (prefix.length == 0) {

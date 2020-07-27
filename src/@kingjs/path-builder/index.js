@@ -1,7 +1,7 @@
-var {
-  assert,
-  Path,
+var { assert, Path,
   '@kingjs': { Exception, WeakMapByInternedString, Singleton,
+    'IEquatable': { Equal, GetHashcode },
+    'IComparable': { IsLessThan },
     '-pojo': { ToArray },
     '-reflect': { is },
     '-buffer': { Append }

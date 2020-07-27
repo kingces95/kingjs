@@ -1,8 +1,0 @@
-{
-  "name": "@kingjs-dir-entry/file",
-  "version": "1.0.0",
-  "main": "index.js",
-  "files": [
-    "*.js"
-  ]
-}

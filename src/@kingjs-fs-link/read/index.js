@@ -18,16 +18,12 @@ var readLinkAsync = fsp.readlink.bind(fsp)
  * @returns Returns the target path of the link.
  */
 function read(options = EmptyObject) {
-  var { raw, async } = options
+  var { async } = options
 
   var link = (async ? readLinkAsync : readLinkSync)(this.buffer, Utf8)
 
   var epilog = link => {
-    var path = Path.parse(link)
-  
-    if (raw)
-      return path
-  
+    var path = Path.parse(link)  
     return this.dir.to(path)
   }
 

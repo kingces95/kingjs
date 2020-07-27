@@ -1,4 +1,4 @@
-var {
+var { assert,
   '@kingjs': { Path,
     '-package': { Package },
     '-module': { ExportExtension }
@@ -16,7 +16,9 @@ function stub(module, optionsIndex) {
   module[ExportExtension](Path.Builder, function() {
     var args = [...arguments]
     args[optionsIndex] = { ...args[optionsIndex], async: true }
-    return this[target].call(this, ...args)
+    var result = this[target].call(this, ...args)
+    assert(result instanceof Promise)
+    return result
   })
 
   return module.exports

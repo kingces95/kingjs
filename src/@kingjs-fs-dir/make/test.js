@@ -1,1 +1,1 @@
-../list/test.js
+require('../../@kingjs-fs/exists/test')
