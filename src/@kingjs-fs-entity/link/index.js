@@ -6,18 +6,18 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Async = { async: true }
+var EmptyObject = { }
+var Utf8 = 'utf8'
+
 class Link {
 
   static create(dirEntry, iso) {
-    if (dirEntry.isFile()) return new File(dirEntry, iso)
-    if (dirEntry.isDirectory()) return new Dir(dirEntry, iso)
-    if (dirEntry.isSymbolicLink()) return new SymbolicLink(dirEntry, iso)
-    if (dirEntry.isSocket()) return new Socket(dirEntry, iso)
-    if (dirEntry.isBlockDevice()) return new BlockDevice(dirEntry, iso)
-    if (dirEntry.isCharacterDevice()) return new CharacterDevice(dirEntry, iso)
+    if (dirEntry.isFile) return new File(dirEntry, iso)
+    if (dirEntry.isDirectory) return new Dir(dirEntry, iso)
 
-    assert.ok(dirEntry.isFIFO())
-    return new Fifo(dirEntry, iso)  
+    assert.ok(dirEntry.isSymbolicLink)
+    if (dirEntry.isSymbolicLink) return new SymbolicLink(dirEntry, iso)
   }
 
   constructor(dirEntry, iso) {
@@ -32,95 +32,89 @@ class Link {
   get kind() { return dirEntry.kind }
   get name() { return dirEntry.name }
 
-  exists() { return this.path[Exists]() }
-  stat() { return this.path[Stat]() }
+  exists() { return this.dirEntry.exists() }
+  existsAsync() { return this.dirEntry.existsAsync() }
 
-  existsAsync() { return this.path[ExistsAsync]() }
-  statAsync() { return this.path[StatAsync]() }
+  stat(options) { return this.dirEntry.stat(options) }
+  statAsync(options) { return this.dirEntry.statAsync(options) }
 
-  toString() { return this.path.toString() }
+  rename(name) { 
+    return new this.constructor(this.dirEntry.rename(name)) 
+  }
+  renameAsync(name) { 
+    return this.dirEntry.renameAsync(name)
+      .then(o => new this.constructor(o)) 
+  }
+
+  toString() { return `${this.dirEntry.toString()}, iso=${this.iso}` }
   get __toString() { return this.toString() }
 
   [Equals](o) { 
     return o instanceof Link && this.dirEntry[Equals](o.dirEntry) && this.iso == o.iso
   }
-
   [GetHashcode]() { 
-    return this.dirEntry[GetStringHashcode]() ^ this.iso
+    return this.dirEntry[GetHashcode]() ^ this.iso
   }
-
   [IsLessThan](other) {
     assert(other instanceof Link)
-    if (this.name == other.name)
-      return this.type < other.type
-    return this.name < other.name 
+    return this.dirEntry[IsLessThan](other.dirEntry)
   }
 }
 
 class Dir extends Link {
-  static get dot() { 
-    return Link.create(DirEntry.dot) 
-  }
-  static create(path) { 
-    return Link.create(DirEntry.create(path)) 
-  }
-  static async createAsync(path) { 
-    return Link.create(await DirEntry.createAsync(path)) 
-  }
+  static get dot() { return new Dir(DirEntry.dot) }
 
   constructor(dirEntry, iso) { super(dirEntry, iso) }
   get isDirectory() { return true }
 
-  list() { return this.dirEntry.list() }
-  remove() { this.dirEntry.remove() }
+  create(name) { 
+    return new Dir(this.dirEntry.create(name))
+  }
+  async createAsync(name) { 
+    return new Dir(await this.dirEntry.createAsync(name))
+  }
 
+  list() { return this.dirEntry.list() }
   listAsync() { return this.dirEntry.listAsync() }
+
+  remove() { this.dirEntry.remove() }
   removeAsync() { return this.dirEntry.removeAsync() }
+
+  write(name, data, options) { 
+    this.dirEntry.write(name, data, options) 
+  }
+  writeAsync(name, data, options) { 
+    return this.dirEntry.writeAsync(name, data, options) 
+  }
 }
 
-class File extends Link {
-  static create(path, data, options) { 
-    return Link.create(FileEntry.create(path, data, options))
+class FileOrLink extends Link {
+  constructor(dirEntry, iso) { super(dirEntry, iso) }
+
+  copy(dir) { 
+    return new this.constructor(
+      this.dirEntry.copy(dir.dirEntry)
+    )
   }
-  static async createAsync(path, data, options) { 
-    return Link.create(await FileEntry.createAsync(path, data, options))
+  async copyAsync(dir) { 
+    return new this.constructor(
+      await this.dirEntry.copyAsync(dir.dirEntry)
+    )
   }
 
+  read(options) { this.dirEntry.read(options) }
+  readAsync(options) { return this.dirEntry.readAsync(options) }
+
+  unlink() { this.dirEntry.unlink() }
+  unlinkAsync() { return this.dirEntry.unlinkAsync() }
+}
+
+class File extends FileOrLink {
   constructor(dirEntry, iso) { super(dirEntry, iso) }
   get isFile() { return true }
-
-  copy(path) { return this.path[Copy](path) }
-  read() { return this.path[Read]() }
-  unlink() { return this.path[Unlink]() }
-  write(data, options) { return this.path[Write](data, options) }
-
-  copyAsync(path) { return this.path[CopyAsync](path) }
-  readAsync() { return this.path[ReadAsync]() }
-  unlinkAsync() { return this.path[UnlinkAsync]() }
-  writeAsync(data, options) { return this.path[WriteAsync](data, options) }
 }
 
-class BlockDevice extends Link {
-  constructor(dirEntry, iso) { super(dirEntry, iso) }
-  get isBlockDevice() { return true }
-}
-
-class CharacterDevice extends Link {
-  constructor(dirEntry, iso) { super(dirEntry, iso) }
-  get isCharacterDevice() { return true }
-}
-
-class Fifo extends Link {
-  constructor(dirEntry, iso) { super(dirEntry, iso) }
-  get isFifo() { return true }
-}
-
-class Socket extends Link {
-  constructor(dirEntry, iso) { super(dirEntry, iso) }
-  get isSocket() { return true }
-}
-
-class SymbolicLink extends Link {
+class SymbolicLink extends FileOrLink {
   constructor(dirEntry, iso) { super(dirEntry, iso) }
   get isSymbolicLink() { return true }
 }
@@ -128,9 +122,5 @@ class SymbolicLink extends Link {
 Link.File = File
 Link.Dir = Dir
 Link.SymbolicLink = SymbolicLink
-Link.CharacterDevice = CharacterDevice
-Link.BlockDevice = BlockDevice
-Link.Socket = Socket
-Link.File = Fifo
 
 module.exports = Link

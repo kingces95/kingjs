@@ -18,12 +18,15 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 var dot = Path.dot
-var acme = dot.to('acme')
 
-if (acme[Exists]())
-  acme[Remove]()
-acme[Make]()
-process.chdir(acme.toString())
+var acme = 'acme'
+
+var root = dot.to(acme)
+if (root[Exists]())
+  root[Remove]()
+
+root[Make]()
+process.chdir(root.toString())
 
 var dir = dot.to('d')
 var foo = dot.to('f')
@@ -52,7 +55,7 @@ var expected = [
 ]
 
 process.chdir('..')
-acme[Remove]()
+root[Remove]()
 
 // function serialize(o) {
 //   var result = ''

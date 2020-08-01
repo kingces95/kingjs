@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-promises/rename",
+  "name": "@kingjs-fs-promises/move",
   "version": "0.0.0",
   "description": "Test if a path exists.",
   "main": "index.js",

@@ -1,6 +1,10 @@
-var assert = require('assert')
-var PathBuilder = require('@kingjs/path-builder')
-var Singleton = require('@kingjs/singleton')
+var { assert,
+  '@kingjs': {
+    PathBuilder, Singleton,
+    'IEquatable': { Equals, GetHashcode },
+    'IComparable': { IsLessThan },
+  },
+} = module[require('@kingjs-module/dependencies')]()
 
 var ForwardSlash = '/'
 var BackSlash = '\\'
@@ -18,13 +22,13 @@ function test(sep, altSep) {
     assert.equal(path.to(null), path)
     assert.equal(path.to(''), path)
     assert.equal(path.toString(), toString)
-    assert.ok(path.equals(path))
+    assert.ok(path[Equals](path))
     assert.ok(path.isAbsolute || path.isRelative)
     assert.notEqual(path.isAbsolute, path.isRelative)
     assert.equal(path.toString(), path.buffer.toString())
-    assert.ok(path.to('foo').dir.equals(path))
-    assert.ok(path.toRelative(path).equals(dot))
-    assert.ok(path.toRelative(path).equals(dot))
+    assert.ok(path.to('foo').dir[Equals](path))
+    assert.ok(path.toRelative(path)[Equals](dot))
+    assert.ok(path.toRelative(path)[Equals](dot))
     assert.equal(path.to('baz.js').name, 'baz.js')
 
     // cover debug functions
@@ -35,16 +39,16 @@ function test(sep, altSep) {
     assert.isConsistent(path, toString)
     assert.equal(path.name, name)
     assert.ok(path.isNamed)
-    assert.ok(path.dir.equals(parent))
+    assert.ok(path.dir[Equals](parent))
     assert.equal(path.isRelative, parent.isRelative)
     assert.equal(path.isAbsolute, parent.isAbsolute)
-    assert.ok(path.toRelative(path.dir).equals(dotDot))
-    assert.ok(path.toRelative(path.dir.to('moo')).equals(dotDot.to('moo')))
+    assert.ok(path.toRelative(path.dir)[Equals](dotDot))
+    assert.ok(path.toRelative(path.dir.to('moo'))[Equals](dotDot.to('moo')))
   }
 
   assert.isMultiParent = function(path, name, toString, parent, grandParent) {
     assert.isNamed(path, name, toString, parent)
-    assert.ok(path.dir.dir.equals(grandParent))
+    assert.ok(path.dir.dir[Equals](grandParent))
   }
 
   var dot = PathBuilder.createRelative(sepBuffer)
@@ -60,7 +64,7 @@ function test(sep, altSep) {
 
   var root = PathBuilder.createRoot(sepBuffer)
   var altRoot = PathBuilder.createRoot(altSepBuffer)
-  assert.ok(dot.to(root).equals(root))
+  assert.ok(dot.to(root)[Equals](root))
   assert.isConsistent(root, sep)
   assert.ok(root.isRoot)
   assert.ok(root.isAbsolute)
@@ -83,7 +87,7 @@ function test(sep, altSep) {
 
   var relFoo = dot.to('foo')
   assert.isNamed(relFoo, 'foo', 'foo', dot)
-  assert.ok(relFoo.to(dotDot).equals(dot))
+  assert.ok(relFoo.to(dotDot)[Equals](dot))
 
   var foo = root.to('foo')
   assert.isNamed(foo, 'foo', `${sep}foo`, root)
@@ -91,7 +95,7 @@ function test(sep, altSep) {
 
   var fooBar = foo.to('bar')
   assert.isMultiParent(fooBar, 'bar', `${sep}foo${sep}bar`, foo, root)
-  assert.ok(fooBar.equals(root.to('foo').to('bar')))
+  assert.ok(fooBar[Equals](root.to('foo').to('bar')))
 
   var relFooBar = dot.to('foo').to('bar')
   assert.isMultiParent(relFooBar, 'bar', `foo${sep}bar`, relFoo, dot)
@@ -102,10 +106,10 @@ function test(sep, altSep) {
   assert.equal(relFooJs.ext, '.js')
 
   var relBarJs = dot.to('bar.js')
-  assert.ok(relFooJs.toRelativeFile(relBarJs).equals(relBarJs))
+  assert.ok(relFooJs.toRelativeFile(relBarJs)[Equals](relBarJs))
 
   var relBar = dot.to('bar')
-  assert.ok(relFoo.toRelative(relBar).equals(dotDot.to(relBar)))
+  assert.ok(relFoo.toRelative(relBar)[Equals](dotDot.to(relBar)))
 
   var http = Buffer.from('http://foo.bar')
   var httpRoot = PathBuilder.createRoot(sepBuffer, http)
@@ -122,25 +126,12 @@ function test(sep, altSep) {
   // absolute to absolute
   var rootToFooBar = root.toRelative(fooBar)
   assert.ok(rootToFooBar.isRelative)
-  assert.ok(root.to(rootToFooBar).equals(fooBar))
+  assert.ok(root.to(rootToFooBar)[Equals](fooBar))
 
   // relative to relative
   var relFooBarToRelFoo = relFooBar.toRelative(relFoo)
   assert.ok(relFooBarToRelFoo.isRelative)
-  assert.ok(relFooBarToRelFoo.equals(dotDot))
-
-  var altFooBar = altRoot.to('foo').to('bar')
-  var altRelFoo = altDot.to('foo')
-
-  // absolute to absolute ignoring separator
-  var rootToFooBar = root.toRelative(altFooBar, true)
-  assert.ok(rootToFooBar.isRelative)
-  assert.ok(root.to(rootToFooBar).equals(fooBar))
-
-  // relative to relative ignoring separator
-  var relFooBarToRelFoo = relFooBar.toRelative(altRelFoo, true)
-  assert.ok(relFooBarToRelFoo.isRelative)
-  assert.ok(relFooBarToRelFoo.equals(dotDot))
+  assert.ok(relFooBarToRelFoo[Equals](dotDot))
 
   // cover exceptions
   var { NoRelativePathExistsException } = PathBuilder
@@ -162,17 +153,10 @@ for (var i = 0; i < paths.length; i++) {
     var left = paths[i]
     var right = paths[j]
 
-    assert.equal(i == j, left.equals(right))
-    assert.equal(i == j, right.equals(left))
-    
-    if (left.isAbsolute) {
-      assert.equal(i == j, left.equals(right), true)
-      assert.equal(i == j, right.equals(left), true)
-    }
-    else {
-      var m = paths.length / 2
-      assert.equal(i % m == j % m, left.equals(right, true))
-      assert.equal(i % m == j % m, right.equals(left, true))
-    }
+    assert.equal(i == j, left[Equals](right))
+    assert.equal(i == j, right[Equals](left))
+
+    assert.equal(left[IsLessThan](right), (left.toString() < right.toString()))
+    assert.equal(right[IsLessThan](left), (right.toString() < left.toString()))
   }
 }

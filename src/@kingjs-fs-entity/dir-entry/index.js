@@ -4,11 +4,12 @@ var { assert,
     IEquatable: { Equals, GetHashcode },
     IComparable: { IsLessThan },
     '-string': { GetHashcode: GetStringHashcode },
-    '-fs': { Exists, Stat, Rename,
+    '-fs': { Exists, Stat, Move,
       '-entity': { Kind },
       '-file': { Copy, Read, Unlink, Write },
       '-dir': { Remove, Make, List },
-      '-promises': { Rename: RenameAsync,
+      '-promises': {
+        Move: MoveAsync,
         Exists: ExistsAsync,
         Stat: StatAsync,
         '-file': {
@@ -32,16 +33,13 @@ var EmptyObject = { }
 var Utf8 = 'utf8'
 
 class DirEntry {
+  static get dot() { return new Dir(Path.dot) }
 
   static create(path, direntOrStat) {
-    if (direntOrStat.isFile()) return new File(path)
-    if (direntOrStat.isDirectory()) return new Dir(path)
-    // if (direntOrStat.isSocket()) return new Socket(path)
-    // if (direntOrStat.isBlockDevice()) return new BlockDevice(path)
-    // if (direntOrStat.isCharacterDevice()) return new CharacterDevice(path)
-    // if (direntOrStat.isFIFO()) return new isFIFO(path)
+    if (direntOrStat.isFile) return new File(path)
+    if (direntOrStat.isDirectory) return new Dir(path)
   
-    assert.ok(direntOrStat.isSymbolicLink())
+    assert.ok(direntOrStat.isSymbolicLink)
     return new SymbolicLink(path)
   }
 
@@ -58,14 +56,13 @@ class DirEntry {
   stat(options) { return this.path[Stat](options) }
   statAsync(options) { return this.path[StatAsync](options) }
 
-  rename(name, options) { 
-    var { async } = options
-    var path = this.path.dir.to(name)
-    var promise = this.path[async ? RenameAsync : Rename](path) 
-    var epilog = () => new File(path)
-    return async ? promise.then(epilog) : epilog()
+  move(dir, options = EmptyObject) { 
+    var { async, name } = options
+    var promise = this.path[async ? MoveAsync : Move](dir.path, { name }) 
+    var epilog = path => new this.constructor(path)
+    return async ? promise.then(epilog) : epilog(promise)
   }
-  renameAsync(name) { return this.rename(name, Async) }
+  moveAsync(dir, options) { return this.move(dir, { ...options, ...Async }) }
 
   toString() { return this.path.toString() }
   get __toString() { return this.toString() }
@@ -78,43 +75,39 @@ class DirEntry {
   }
   [IsLessThan](other) {
     assert(other instanceof DirEntry)
-    if (this.name == other.name)
-      return this.kind < other.kind
-    return this.name < other.name 
+    if (this.path[IsLessThan](other.path))
+      return true
+
+    if (other.path[IsLessThan](this.path))
+      return false
+
+    return this.kind < other.kind
   }
 }
 
 class Dir extends DirEntry {
-
-  static get dot() { 
-    return new Dir(Path.dot)
-  }
-
-  constructor(path) {
-    super(path)
-  }
-
+  constructor(path) { super(path) }
   get kind() { return Kind.Directory }
   get isDirectory() { return true }
 
-  create(name, options = EmptyObject) {
+  make(name, options = EmptyObject) {
     var { async } = options 
     var path = this.path.to(name)
 
     var promise = path[async ? MakeAsync : Make]()
 
     var epilog = () => new Dir(path)
-    return async ? promise.then(epilog) : epilog()
+    return async ? promise.then(epilog) : epilog(promise)
   }
-  createAsync(name) {
-    return this.create(name, Async)
+  makeAsync(name) {
+    return this.make(name, Async)
   }
 
-  list(options) { 
+  list(options = EmptyObject) { 
     var { async } = options
     var promise = this.path[async ? ListAsync : List]()
     var epilog = o => o.map(o => DirEntry.create(this.path.to(o.name), o))
-    return async ? promise.then(epilog) : epilog()
+    return async ? promise.then(epilog) : epilog(promise)
   }
   listAsync() { 
     return this.list(Async)
@@ -135,31 +128,28 @@ class Dir extends DirEntry {
     var promise = path[async ? WriteAsync : Write](data, options) 
 
     var epilog = () => new (link ? SymbolicLink : File)(path)
-    return async ? promise.then(epilog) : epilog()
+    return async ? promise.then(epilog) : epilog(promise)
   }
-  writeAsync(name, data, options) { 
+  writeAsync(name, data, options = EmptyObject) { 
     return this.write(name, data, { ...options, ...Async }) 
   }
 }
 
 class FileOrLink extends DirEntry {
-  constructor(path) {
-    super(path)
-  }
+  constructor(path) { super(path) }
 
-  copy(dir, options) { 
+  copy(dir, options = EmptyObject) { 
+    assert.ok(dir instanceof Dir)
     var { name, async } = options
-    var path = name ? dir.to(name) : dir.to(this.path.name)
-    var promise = this.path[async ? CopyAsync : Copy](path) 
-
-    var epilog = () => new File(path)
-    return async ? promise.then(epilog) : epilog()
+    var promise = this.path[async ? CopyAsync : Copy](dir.path, { name })
+    var epilog = o => new this.constructor(o)
+    return async ? promise.then(epilog) : epilog(promise)
   }
-  copyAsync(dir, options) { 
+  copyAsync(dir, options = EmptyObject) { 
     return this.copy(dir, { ...options, ...Async })
   }
 
-  read(options) { 
+  read(options = EmptyObject) { 
     var { async, link, encoding = Utf8 } = options
     var promise = this.path[async ? ReadAsync : Read]({ encoding, link, async }) 
 
@@ -171,11 +161,11 @@ class FileOrLink extends DirEntry {
       var promise = content[async ? StatAsync : Stat]()
       
       var epilog = stat => DirEntry.create(content, stat)
-      return async ? promise.then(epilog) : epilog()
+      return async ? promise.then(epilog) : epilog(promise)
     }
-    return async ? promise.then(epilog) : epilog()
+    return async ? promise.then(epilog) : epilog(promise)
   }
-  readAsync(options) { 
+  readAsync(options = EmptyObject) { 
     return this.read({ ...options, ...Async }) 
   }
 
@@ -195,36 +185,8 @@ class SymbolicLink extends FileOrLink {
   get isSymbolicLink() { return true }
 }
 
-class BlockDevice extends DirEntry {
-  constructor(path) { super(path) }
-  get kind() { return Kind.BlockDevice }
-  get isBlockDevice() { return true }
-}
-
-class CharacterDevice extends DirEntry {
-  constructor(path) { super(path) }
-  get kind() { return Kind.CharacterDevice }
-  get isCharacterDevice() { return true }
-}
-
-class Fifo extends DirEntry {
-  constructor(path) { super(path) }
-  get fifo() { return Kind.Fifo }
-  get isFifo() { return true }
-}
-
-class Socket extends DirEntry {
-  constructor(path) { super(path) }
-  get kind() { return Kind.Socket }
-  get isSocket() { return true }
-}
-
 DirEntry.File = File
 DirEntry.Dir = Dir
 DirEntry.SymbolicLink = SymbolicLink
-DirEntry.CharacterDevice = CharacterDevice
-DirEntry.BlockDevice = BlockDevice
-DirEntry.Socket = Socket
-DirEntry.File = Fifo
 
 module.exports = DirEntry

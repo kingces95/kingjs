@@ -21,7 +21,8 @@ function writeFile(data, options = EmptyObject) {
   if (link)
     return this[WriteLink](data, options)
 
-  return (async ? writeAsync : writeSync)(this.buffer, data, options)
+  var promise = (async ? writeAsync : writeSync)(this.buffer, data, options)
+  return async ? promise.then(() => this) : this
 }
 
 module[ExportExtension](Path.Builder, writeFile)

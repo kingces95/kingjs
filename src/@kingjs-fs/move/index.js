@@ -16,8 +16,15 @@ var renameAsync = fsp.rename.bind(fsp)
  * 
  * @returns A 'Stat' for the path.
  */
-function rename(target, options = EmptyObject) {
-  return (options.async ? renameAsync : renameSync)(this.buffer, target.buffer)
+function move(dir, options = EmptyObject) {
+  var { async, name } = options
+
+  var target = dir
+  if (name)
+    target = dir.to(name)
+
+  var promise = (async ? renameAsync : renameSync)(this.buffer, target.buffer)
+  return async ? promise.then(() => target) : target
 }
 
-module[ExportExtension](Path.Builder, rename)
+module[ExportExtension](Path.Builder, move)

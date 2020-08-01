@@ -27,7 +27,8 @@ function write(target, options = EmptyObject) {
   var { isFile, async } = options
   var link = this.toRelativeFile(target)
 
-  return (async ? writeAsync : writeSync).call(this, link, isFile)
+  var promise = (async ? writeAsync : writeSync).call(this, link, isFile)
+  return async ? promise.then(() => this) : this
 }
 
 async function writeAsync(link, isFile) {

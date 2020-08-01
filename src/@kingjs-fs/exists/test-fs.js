@@ -1,7 +1,7 @@
 var { assert,
   '@kingjs': {
     IEquatable: { Equals, GetHashcode },
-    IComparable: { LessThan },
+    IComparable: { IsLessThan },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -11,13 +11,12 @@ var FileName = 'myFile.txt'
 var FileLinkName = 'myFileLink.txt'
 var FileCopyName = 'myFileCopy.txt'
 var LinkOptions = { link: true }
-var RawLinkOptions = { raw: true, ...LinkOptions }
 var BufferOptions = { encoding: 'buffer' }
 
 module.exports = async function test(options) {
 
   var { dot } = options
-  var { exists, rename, getMTime, getIno } = options
+  var { exists, move, getMTime, getIno } = options
   var { list, make, remove, isDirectory, isFile, isSymbolicLink, getName } = options
   var { copy, read, write, unlink } = options
 
@@ -52,7 +51,7 @@ module.exports = async function test(options) {
   var linkedFile = await read(link, LinkOptions)
   assert.ok(linkedFile[Equals](file))
   assert.equal(linkedFile[GetHashcode](), file[GetHashcode]())
-  //assert.ok(!linkedFile[LessThan](file))
+  assert.ok(!linkedFile[IsLessThan](file))
 
   // list directory
   var dirents = await list(acme)
@@ -74,7 +73,7 @@ module.exports = async function test(options) {
   assert.ok(!await exists(dir))
 
   // copy file, verify it exists, and its content matches original
-  var fileCopy = await copy(file, FileCopyName)
+  var fileCopy = await copy(file, acme, FileCopyName)
   assert.ok(await exists(fileCopy))
   var fileCopyText = await read(fileCopy)
   assert.equal(fileCopyText, Text)
@@ -96,7 +95,7 @@ module.exports = async function test(options) {
   assert.ok(!await exists(fileCopy))
 
   // rename copy to original file, check for the swap
-  fileCopy = await rename(file, FileCopyName)
+  fileCopy = await move(file, acme, FileCopyName)
   assert.ok(!await exists(file))
   assert.ok(await exists(fileCopy))
 
