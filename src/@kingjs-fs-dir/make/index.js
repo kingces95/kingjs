@@ -19,11 +19,11 @@ var MkdirAsync = fsPromises.mkdir.bind(fsPromises)
  * @remarks The directory the new directory will be created if it does not exists.
  */
 function make(name, options = EmptyObject) {
-  var { async, name } = options
+  var { async } = options
   
   var target = this
   if (name)
-    target = target.to(this)
+    target = target.to(name)
 
   var promise = (async ? MkdirAsync : MkdirSync)(target.buffer, Recursive)
   return async ? promise.then(() => target) : target

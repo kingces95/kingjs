@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-promises-file/write",
+  "name": "@kingjs-fs-promises-dir/write",
   "version": "0.0.0",
   "description": "Test if a path exists.",
   "main": "index.js",

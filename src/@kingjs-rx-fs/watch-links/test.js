@@ -32,7 +32,7 @@ var dir = dot.to('d')
 var foo = dot.to('f')
 var bar = dir.to('b')
 
-of(() => foo[Write](), () => dir[Make](), () => bar[Write]())
+of(() => dot[Write](foo.name), () => root[Make](dir.name), () => dir[Write](bar.name))
   [Do](o => o())
   [WatchLinks]()
   // [Rekey](o => {

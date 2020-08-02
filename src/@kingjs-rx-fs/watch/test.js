@@ -14,7 +14,6 @@ var {
 
 process.nextTick(async () =>{
   var path = Path.dot
-  var fooTxt = path.to('foo.txt')
 
   of(0)
     [Watch](path)
@@ -24,16 +23,15 @@ process.nextTick(async () =>{
     [Watch](path)
     [SyncSubscribeAndAssert](null, { error: 'error' })
 
-  var cancel = await never()
+  await never()
     [Watch](path)
     [SubscribeAndAssert](null, { terminate: true })
-  cancel()
 
-  process.nextTick(() => fooTxt[Write]())
-  var cancel = await never()
+  var fooTxt = path.to('foo.txt')
+  process.nextTick(() => foo = path[Write](fooTxt.name))
+  await never()
     [Watch](path)
     [SubscribeAndAssert]([null], { terminate: true })
-  cancel()
 
   fooTxt[Unlink]()
 })

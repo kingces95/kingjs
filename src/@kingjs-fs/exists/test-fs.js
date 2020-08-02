@@ -43,15 +43,19 @@ module.exports = async function test(options) {
   assert.ok(buffer instanceof Buffer)
 
   // link to file, read as a link and a file
-  var link = await write(acme, FileLinkName, file, LinkOptions)
+  var link = await write(acme, FileLinkName, acme, { name: file.name, ...LinkOptions })
   assert.ok(await exists(link))
   assert.equal(await read(link), Text)
+  assert.notEqual(link[GetHashcode](), file[GetHashcode]())
+  assert.ok(!link[Equals](file))
+  assert.ok(link[IsLessThan](file) != file[IsLessThan](link))
 
   // reflect on the link itself
   var linkedFile = await read(link, LinkOptions)
-  assert.ok(linkedFile[Equals](file))
   assert.equal(linkedFile[GetHashcode](), file[GetHashcode]())
+  assert.ok(linkedFile[Equals](file))
   assert.ok(!linkedFile[IsLessThan](file))
+  assert.ok(!file[IsLessThan](linkedFile))
 
   // list directory
   var dirents = await list(acme)

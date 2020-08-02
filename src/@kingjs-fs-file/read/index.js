@@ -1,7 +1,6 @@
 var { fs, fs: { promises: fsp },
   '@kingjs': { Path,
     '-module': { ExportExtension },
-    '-fs-link': { Read: ReadLink }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -10,6 +9,8 @@ var Utf8 = 'utf8'
 var Buffer = 'buffer'
 var readSync = fs.readFileSync.bind(fs)
 var readAsync = fsp.readFile.bind(fsp)
+var readLinkSync = fs.readlinkSync.bind(fs)
+var readLinkAsync = fsp.readlink.bind(fsp)
 
 /**
  * @description Reads a file at the path.
@@ -26,9 +27,22 @@ function read(options = EmptyObject) {
     encoding = null
 
   if (link)
-    return this[ReadLink](options)
+    return readLink.call(this, options)
 
   return (async ? readAsync : readSync)(this.buffer, { encoding })
+}
+
+function readLink(options) {
+  var { async } = options
+
+  var link = (async ? readLinkAsync : readLinkSync)(this.buffer, Utf8)
+
+  var epilog = link => {
+    var path = Path.parse(link)  
+    return this.dir.to(path)
+  }
+
+  return async ? link.then(epilog) : epilog(link)
 }
 
 module[ExportExtension](Path.Builder, read)

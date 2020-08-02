@@ -22,7 +22,7 @@ var UTF8 = 'utf8'
  * @param substitutions The substitutions providing context during expansion.
  * 
  * @remarks An `expand` callback is added to `substitutions` to allow a 
- * template to probe for and expand sub-templates. 
+ * template to probe for, and expand sub-templates. 
  */
 function expand(targetRelPath, templateRelPath, probeRelDir, substitutions) {
   var dir = this

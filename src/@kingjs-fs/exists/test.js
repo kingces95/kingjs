@@ -5,17 +5,17 @@ var { assert,
       Move: MoveSync,
       Exists: ExistsSync, 
       Stat: StatSync, 
-      '-entity': { DirEntry },
+      '-entity': { DirEntry, InoLink, InoVersionLink },
       '-dir': { 
         List: ListSync, 
         Make: MakeSync, 
         Remove: RemoveSync, 
+        Write: WriteSync, 
       },
       '-file': { 
         Copy: CopySync, 
         Read: ReadSync, 
         Unlink: UnlinkSync, 
-        Write: WriteSync, 
       },
       '-link': { },
       '-promises': { 
@@ -26,23 +26,31 @@ var { assert,
           List: ListAsync, 
           Make: MakeAsync, 
           Remove: RemoveAsync, 
+          Write: WriteAsync, 
         },
         '-file': { 
           Copy: CopyAsync, 
           Read: ReadAsync, 
           Unlink: UnlinkAsync, 
-          Write: WriteAsync, 
         },
         '-link': { }
       } 
     },
   }
 } = module[require('@kingjs-module/dependencies')]()
+
 var testFs = require('./test-fs')
 
-function getCommon(type, Exists, Move, Stat, List, Make, Remove, Copy, Read, Write, Unlink) {
+var names = ['exists', 'move', 'stat', 'list', 'make', 'remove', 'copy', 'read', 'write', 'unlink']
+var capitalizedNames = names.map(o => o[Capitalize]())
+var asyncNames = names.map(o => o + 'Async')
+var syncSymbols = capitalizedNames.map(o => eval(o + 'Sync'))
+var asyncSymbols = capitalizedNames.map(o => eval(o + 'Async'))
+
+async function test(dot, type, Exists, Move, Stat, List, Make, Remove, Copy, Read, Write, Unlink) {
   isType = o => { assert.ok(o instanceof type); return o }
-  return {
+  await testFs({
+    dot,
 
     // tests
     getName: o => o.name,
@@ -57,55 +65,38 @@ function getCommon(type, Exists, Move, Stat, List, Make, Remove, Copy, Read, Wri
     getIno: async (o, opt) => { isType(o); return (await o[Stat](opt)).ino },
 
     // directory
-    list: async o => { isType(o); return await o[List]() }, 
+    list: async o => { 
+      isType(o); 
+      var result = await o[List]()
+      result.forEach(o => type == PathBuilder || isType(o))
+      return result
+    }, 
     remove: async o => { isType(o); await o[Remove]() },
     make: async (o, n) => { isType(o); return isType(await o[Make](n)) }, 
+    write: async (o, n, d, opt) => { isType(o); return isType(await o[Write](n, d, opt)) },
 
     // file
-    read: async (o, opt) => { isType(o); return await o[Read](opt) },
+    read: async (o, opt) => { 
+      isType(o); 
+      var result = await o[Read](opt)
+      if (opt && opt.link) isType(result)
+      return result
+    },
     unlink: async o => { isType(o); await o[Unlink]() },
     copy: async (o, d, n) => { isType(o); return isType(await o[Copy](d, { name: n })) },
-  }
-}
-
-async function testPath(Exists, Move, Stat, List, Make, Remove, Copy, Read, Write, Unlink) {
-  isPath = o => assert.ok(o instanceof PathBuilder)
-
-  // Path, PathBuilder
-  await testFs({
-    ...getCommon(PathBuilder, Exists, Move, Stat, List, Make, Remove, Copy, Read, Write, Unlink),
-
-    dot: Path.dot,
-  
-    // directory
-    write: async (o, n, t, opt) => { isPath(o); return await o.to(n)[Write](t, opt) },
   })
 }
-
-async function testEntry(Exists, Move, Stat, List, Make, Remove, Copy, Read, Write, Unlink) {
-  isEntry = o => { assert.ok(o instanceof DirEntry); return o }
-
-  // DirEntry
-  await testFs({
-    ...getCommon(DirEntry, Exists, Move, Stat, List, Make, Remove, Copy, Read, Write, Unlink),
-
-    dot: DirEntry.dot,
-
-    // directory
-    write: async (o, n, t, opt) => { isEntry(o); return isEntry(await o[Write](n, t, opt)) },
-  })
-}
-
-var names = ['exists', 'move', 'stat', 'list', 'make', 'remove', 'copy', 'read', 'write', 'unlink']
-var capitalizedNames = names.map(o => o[Capitalize]())
-var asyncNames = names.map(o => o + 'Async')
-var syncSymbols = capitalizedNames.map(o => eval(o + 'Sync'))
-var asyncSymbols = capitalizedNames.map(o => eval(o + 'Async'))
 
 process.nextTick(async () => {
-  await testPath(...syncSymbols)
-  await testPath(...asyncSymbols)
+  await test(Path.dot, PathBuilder, ...syncSymbols)
+  await test(Path.dot, PathBuilder, ...asyncSymbols)
 
-  await testEntry(...names)
-  await testEntry(...asyncNames)
+  await test(DirEntry.dot, DirEntry, ...names)
+  await test(DirEntry.dot, DirEntry, ...asyncNames)
+
+  await test(InoLink.dot, InoLink, ...names)
+  await test(InoLink.dot, InoLink, ...asyncNames)
+
+  await test(InoVersionLink.dot, InoVersionLink, ...names)
+  await test(InoVersionLink.dot, InoVersionLink, ...asyncNames)
 })

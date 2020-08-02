@@ -93,13 +93,6 @@ class PathBuilder extends Singleton {
     return null
   }
 
-  toRelativeFile(target) {
-    var sourceDir = this.dir
-    var targetDir = target.dir
-    var link = sourceDir.toRelative(targetDir)
-    return link.to(target.name)
-  }
-
   toRelative(target) {
     assert(target instanceof PathBuilder)
     assert(this.isRelative == target.isRelative)

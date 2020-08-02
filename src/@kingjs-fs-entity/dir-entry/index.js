@@ -6,8 +6,8 @@ var { assert,
     '-string': { GetHashcode: GetStringHashcode },
     '-fs': { Exists, Stat, Move,
       '-entity': { Kind },
-      '-file': { Copy, Read, Unlink, Write },
-      '-dir': { Remove, Make, List },
+      '-file': { Copy, Read, Unlink },
+      '-dir': { Remove, Make, List, Write },
       '-promises': {
         Move: MoveAsync,
         Exists: ExistsAsync,
@@ -16,12 +16,12 @@ var { assert,
           Copy: CopyAsync,
           Read: ReadAsync,
           Unlink: UnlinkAsync,
-          Write: WriteAsync
         },
         '-dir': {
           Remove: RemoveAsync,
           Make: MakeAsync,
           List: ListAsync,
+          Write: WriteAsync,
         },
       },
     }
@@ -49,6 +49,7 @@ class DirEntry {
     this.name = path.name
     this.path = path
   }
+  get isDirEntry() { return true }
 
   exists() { return this.path[Exists]() }
   existsAsync() { return this.path[ExistsAsync]() }
@@ -62,7 +63,9 @@ class DirEntry {
     var epilog = path => new this.constructor(path)
     return async ? promise.then(epilog) : epilog(promise)
   }
-  moveAsync(dir, options) { return this.move(dir, { ...options, ...Async }) }
+  moveAsync(dir, options) { 
+    return this.move(dir, { ...options, ...Async }) 
+  }
 
   toString() { return this.path.toString() }
   get __toString() { return this.toString() }
@@ -118,16 +121,10 @@ class Dir extends DirEntry {
 
   write(name, data, options = EmptyObject) { 
     var { async, link } = options 
-    var path = this.path.to(name)
-
-    if (link) {
-      assert.ok(data instanceof DirEntry)
+    if (link)
       data = data.path
-    }
-
-    var promise = path[async ? WriteAsync : Write](data, options) 
-
-    var epilog = () => new (link ? SymbolicLink : File)(path)
+    var promise = this.path[async ? WriteAsync : Write](name, data, options) 
+    var epilog = path => new (link ? SymbolicLink : File)(path)
     return async ? promise.then(epilog) : epilog(promise)
   }
   writeAsync(name, data, options = EmptyObject) { 

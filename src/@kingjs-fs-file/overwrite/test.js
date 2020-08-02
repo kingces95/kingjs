@@ -1,0 +1,1 @@
+require('../../@kingjs-fs/exists/test')
