@@ -1,27 +1,31 @@
-var { assert, 
+var {
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Key },
-    '-rx-sync': { Select, Take, GroupSetBy, Augment, SelectLeafs, Regroup, DistinctUntilChanged },
+    '-rx-sync': { Select, Take, GroupSetBy, Augment, SelectLeafs },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 /**
+ * @description Preform an initial scan of the leafs of a tree and 
+ * subsequent scans of leafs of a node triggered by a node watcher.
  * 
  * @param {*} root The root node. Must be `isNode`.
  * @param {*} options A pojo like { isLeaf, selectWatcher, selectChildren, 
  * selectState } where each property is a function that takes a node.
+ * @return Returns a group for each leaf whose key is a leaf and whose
+ * emissions are also equivalent representations of the leaf.
  * 
- * @remarks The collection of children returned by `selectChildren` 
- * should be immutable.
+ * @remarks The result of `selectState` should be immutable as one version
+ * is compared against subsequent versions to skip adjacent equivalent
+ * emissions.
  */
-function watchTree(root, options) {
+function scanTree(root, options) {
   var { 
     isLeaf, 
     selectWatcher, 
     selectChildren, 
-    selectState 
   } = options
 
   function groupNodes(observable, node) {
@@ -38,9 +42,6 @@ function watchTree(root, options) {
       if (!isLeaf(node))
         return groupNodes(o, node) 
     })
-    [Regroup](o =>
-      o[DistinctUntilChanged](selectState)
-    )
 }
 
-module[ExportInterfaceExtension](IObservable, watchTree)
+module[ExportInterfaceExtension](IObservable, scanTree)

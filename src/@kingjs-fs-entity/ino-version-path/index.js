@@ -3,7 +3,7 @@ var { assert,
     IEquatable: { Equals, GetHashcode },
     IComparable: { IsLessThan },
     '-fs': {
-      '-entity': { InoLink },
+      '-entity': { InoPath },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -12,32 +12,27 @@ var Async = { async: true }
 var EmptyObject = { }
 
 class InoVersionLink {
-  static get dot() { return InoVersionLink.create(InoLink.dot) }
+  static get dot() { return InoVersionLink.create(InoPath.dot) }
 
-  static create(inoLink, mtime) {
-    if (!mtime)
-      mtime = inoLink.stat().mtimeMs
-
-    if (inoLink.isFile) return new File(inoLink, mtime)
-    if (inoLink.isDirectory) return new Dir(inoLink, mtime)
+  static create(inoLink) {
+    if (inoLink.isFile) return new File(inoLink)
+    if (inoLink.isDirectory) return new Dir(inoLink)
 
     assert.ok(inoLink.isSymbolicLink)
-    if (inoLink.isSymbolicLink) return new SymbolicLink(inoLink, mtime)
+    if (inoLink.isSymbolicLink) return new SymbolicLink(inoLink)
   }
 
-  constructor(inoLink, mtime) {
+  constructor(inoLink) {
     assert.ok(inoLink)
-    assert.ok(mtime)
-
     this.inoLink = inoLink
-    this.mtime = mtime
   }
-  get isInoVersionLink() { return true }
+  get isInoVersionPath() { return true }
 
   get path() { return this.inoLink.path }
   get kind() { return this.inoLink.kind }
   get name() { return this.inoLink.name }
   get ino() { return this.inoLink.ino }
+  get mtime() { return this.inoLink._stat.mtimeMs }
 
   exists(options) { return this.inoLink.exists(options) }
   existsAsync() { return this.exists(Async) }
@@ -76,7 +71,7 @@ class InoVersionLink {
 }
 
 class Dir extends InoVersionLink {
-  static get dot() { return new Dir(InoLink.dot) }
+  static get dot() { return new Dir(InoPath.dot) }
 
   constructor(inoLink, mtime) { super(inoLink, mtime) }
   get isDirectory() { return true }

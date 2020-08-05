@@ -4,7 +4,7 @@ var { fs,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
     '-rx': {
-      '-observer': { Proxy, Check },
+      '-observer': { Proxy },
       '-sync-static': { create }
     },
     '-module': { ExportInterfaceExtension },
@@ -22,7 +22,7 @@ var Options = {
   recursive: false,
   encoding: 'utf8'
 }
-
+var i = 0
 /**
  * @description Blends file system change events into the event stream.
  * @this Path The path to watch for changes.
@@ -33,6 +33,7 @@ var Options = {
  * @remarks The watcher keeps the process alive until completed.
  **/
 function watch(path) {
+  i++
 
   return create(observer => {
     var watcher = fs.watch(path.buffer, Options)

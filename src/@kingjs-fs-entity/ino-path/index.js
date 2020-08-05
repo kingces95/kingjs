@@ -11,32 +11,32 @@ var { assert,
 var Async = { async: true }
 var EmptyObject = { }
 
-class InoLink {
-  static get dot() { return InoLink.create(DirEntry.dot) }
+class InoPath {
+  static get dot() { return InoPath.create(DirEntry.dot) }
 
-  static create(dirEntry, ino) {
-    if (!ino)
-      ino = dirEntry.stat().ino
+  static create(dirEntry) {
+    var stat = dirEntry.stat()
 
-    if (dirEntry.isFile) return new File(dirEntry, ino)
-    if (dirEntry.isDirectory) return new Dir(dirEntry, ino)
+    if (dirEntry.isFile) return new File(dirEntry, stat)
+    if (dirEntry.isDirectory) return new Dir(dirEntry, stat)
 
     assert.ok(dirEntry.isSymbolicLink)
-    if (dirEntry.isSymbolicLink) return new SymbolicLink(dirEntry, ino)
+    if (dirEntry.isSymbolicLink) return new SymbolicLink(dirEntry, stat)
   }
 
-  constructor(dirEntry, ino) {
+  constructor(dirEntry, stat) {
     assert.ok(dirEntry)
-    assert.ok(ino)
+    assert.ok(stat)
 
+    Reflect.defineProperty(this, '_stat', { value: stat })
     this.dirEntry = dirEntry
-    this.ino = ino
   }
-  get isInoLink() { return true }
+  get isInoPath() { return true }
 
   get path() { return this.dirEntry.path }
   get kind() { return this.dirEntry.kind }
   get name() { return this.dirEntry.name }
+  get ino() { return this._stat.ino }
 
   exists(options) { return this.dirEntry.exists(options) }
   existsAsync() { return this.exists(Async) }
@@ -46,7 +46,7 @@ class InoLink {
 
   move(dir, options = EmptyObject) { 
     var result = this.dirEntry.move(dir, options)
-    var epilog = o => InoLink.create(o)
+    var epilog = o => InoPath.create(o)
     return result instanceof Promise ? result.then(epilog) : epilog(result)
   }
   moveAsync(dir, options = EmptyObject) { 
@@ -57,13 +57,13 @@ class InoLink {
   get __toString() { return this.toString() }
 
   [Equals](o) {
-    return o instanceof InoLink && this.dirEntry[Equals](o.dirEntry) && this.ino == o.ino
+    return o instanceof InoPath && this.dirEntry[Equals](o.dirEntry) && this.ino == o.ino
   }
   [GetHashcode]() { 
     return this.dirEntry[GetHashcode]() ^ this.ino
   }
   [IsLessThan](other) {
-    assert(other instanceof InoLink)
+    assert(other instanceof InoPath)
     if (this.dirEntry[IsLessThan](other.dirEntry))
       return true
   
@@ -74,7 +74,7 @@ class InoLink {
   }
 }
 
-class Dir extends InoLink {
+class Dir extends InoPath {
   static get dot() { return new Dir(DirEntry.dot) }
 
   constructor(dirEntry, ino) { super(dirEntry, ino) }
@@ -82,7 +82,7 @@ class Dir extends InoLink {
 
   make(name, options) { 
     var result = this.dirEntry.make(name, options)
-    var epilog = o => InoLink.create(o)
+    var epilog = o => InoPath.create(o)
     return result instanceof Promise ? result.then(epilog) : epilog(result)
   }
   makeAsync(name) { 
@@ -91,7 +91,7 @@ class Dir extends InoLink {
 
   list(options) { 
     var result = this.dirEntry.list(options)
-    var epilog = o => o.map(x => InoLink.create(x))
+    var epilog = o => o.map(x => InoPath.create(x))
     return result instanceof Promise ? result.then(epilog) : epilog(result)
   }
   listAsync() { 
@@ -107,7 +107,7 @@ class Dir extends InoLink {
 
   write(name, data, options) { 
     var result = this.dirEntry.write(name, data, options)
-    var epilog = o => InoLink.create(o)
+    var epilog = o => InoPath.create(o)
     return result instanceof Promise ? result.then(epilog) : epilog(result)
   }
   async writeAsync(name, data, options = EmptyObject) { 
@@ -115,12 +115,12 @@ class Dir extends InoLink {
   }
 }
 
-class FileOrSymbolicLink extends InoLink {
+class FileOrSymbolicLink extends InoPath {
   constructor(dirEntry, ino) { super(dirEntry, ino) }
 
   copy(dir, options) { 
     var result = this.dirEntry.copy(dir.dirEntry, options)
-    var epilog = o => InoLink.create(o)
+    var epilog = o => InoPath.create(o)
     return result instanceof Promise ? result.then(epilog) : epilog(result)
   }
   async copyAsync(dir, options = EmptyObject) { 
@@ -130,7 +130,7 @@ class FileOrSymbolicLink extends InoLink {
   read(options = EmptyObject) {
     var { link } = options 
     var result = this.dirEntry.read(options) 
-    var epilog = o => link ? InoLink.create(o) : o
+    var epilog = o => link ? InoPath.create(o) : o
     return result instanceof Promise ? result.then(epilog) : epilog(result)
   }
   readAsync(options = EmptyObject) { 
@@ -155,8 +155,8 @@ class SymbolicLink extends FileOrSymbolicLink {
   get isSymbolicLink() { return true }
 }
 
-InoLink.File = File
-InoLink.Dir = Dir
-InoLink.SymbolicLink = SymbolicLink
+InoPath.File = File
+InoPath.Dir = Dir
+InoPath.SymbolicLink = SymbolicLink
 
-module.exports = InoLink
+module.exports = InoPath

@@ -15,11 +15,10 @@ class Node extends String {
   constructor(value) {
     super(value)
 
-    this.version = 1
     if (arguments.length > 1)
       this.children = [...arguments].slice(1)
   }
-  [Equals](other) { return this.toString() == other.toString() }
+  [Equals](other) { return this == other }
   [GetHashcode]() { return 0 }
   [IsLessThan](other) { return this < other }
 }
@@ -34,6 +33,10 @@ var z = new Node('z')
 var tree = new Node('R', x)
 var internal = new Node('I', y)
 
+// R - x, z
+// |
+// I - y
+
 function serialize(o) {
   var { value, grouping, next, complete, keys } = o
   
@@ -46,7 +49,7 @@ function serialize(o) {
   if (next) {
     var [ key ] = keys
     assert.equal(key, value)
-    return `Δ${value.toString()}${value.version}`
+    return `Δ${value.toString()}`
   }
 
   if (complete) {
@@ -73,7 +76,6 @@ subjects.M[WatchTree](tree, {
   isLeaf: node => !node.children,
   selectWatcher: node => subjects[node],
   selectChildren: node => [...node.children],
-  selectState: node => node.version
 })
 [Materialize]()
 [Select](o => serialize(o))
@@ -86,37 +88,33 @@ assert.shifted = function() {
 
 // expect creation and `next` events for each leaf
 subjects.R[Next]()
-assert.shifted('+x', 'Δx1')
+assert.shifted('+x', 'Δx')
 
 // expect creation and `next` events for leafs on new internal node
 tree.children.push(internal)
 subjects.R[Next]()
-assert.shifted('+y', 'Δy1')
+assert.shifted('Δx', '+y', 'Δy')
 
 // expect creation and `next` event for new leaf
 tree.children.push(z)
 subjects.R[Next]()
-assert.shifted('+z', 'Δz1')
+assert.shifted('Δx', '+z', 'Δz')
 
-// expect `next` event for leaf state change...
-y.version++
-z.version++
-
-// ...but only when their respective watchers trigger a scan
+// scan leafs when their respective watchers trigger a scan
 subjects.I[Next]()
-assert.shifted('Δy2')
+assert.shifted('Δy')
 subjects.R[Next]()
-assert.shifted('Δz2')
+assert.shifted('Δx', 'Δz')
 
 // expect complete event for leaf
 tree.children.pop()
 subjects.R[Next]()
-assert.shifted('-z')
+assert.shifted('Δx', '-z')
 
 // expect complete event for internal node
 tree.children.pop()
 subjects.R[Next]()
-assert.shifted('-y')
+assert.shifted('Δx', '-y')
 
 // expect complete events for all nodes
 subjects.M[Complete]()

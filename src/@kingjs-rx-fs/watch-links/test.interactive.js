@@ -2,20 +2,20 @@ var { assert, readline,
   '@kingjs': {
     IObserver: { Next, Complete },
     IGroupedObservable: { Key, Subscribe },
-    Path,
-    '-fs': { Exists,
-      '-dir': { Make, Remove },
-      '-file': { Write, Unlink },
-    },
+    '-fs-entity': { InoPath, InoVersionPath },
     '-rx': {
-      '-subject': { Subject, GroupedSubject },
-      '-sync': { SubscribeAndAssert, Materialize, Do, Select, Rekey, Log, Where, Regroup,
+      '-subject': { Subject },
+      '-sync': { 
+        SubscribeAndAssert, Materialize, Do, Select, Rekey, Log, 
+        Where, Regroup, WindowBy, DistinctUntilChanged,
         '-static': { counter },
       },
-      '-fs': { WatchFiles }
+      '-fs': { WatchLinks, Watch }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
+
+//process.chdir('foo')
 
 var subject = new Subject(() => null)
 
@@ -30,8 +30,9 @@ rl.on('SIGINT', () => {
   rl.close()
 })
 
+var i = 100
 function serialize(o) {
-  var result = ''
+  var result = `${i++}: `
   if (o.grouping) result += '+'
   if (o.complete) result +=  '-'
   if (o.next) result +=  'Δ'
@@ -39,16 +40,26 @@ function serialize(o) {
   result += ' '
   result += o.keys[0].path.toString()
 
+  if (o.keys.length > 1) {
+    result += ' -> ino:' + o.keys[1].ino
+
+    if (o.next)
+      result += ', mtime:' + o.value.mtime
+  }
+
   return result
 }
 
 subject
-  [WatchFiles](Path.dot, {
-    selectWatcher: o => 
-      [Watch]()
-      [Debounce](debounceMs)
-  })
-  //[Where](o => o[Key].isFile)
+  [WatchLinks]()
+  [Regroup](dirEntry => dirEntry
+    [Select](o => InoPath.create(o))
+    [WindowBy]()
+    [Regroup](inoPath => inoPath
+      [Select](o => InoVersionPath.create(o))
+      [DistinctUntilChanged]()  
+    )
+  )
   [Materialize]()
   [Select](o => serialize(o))
   [Subscribe](o => console.log(o))

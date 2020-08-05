@@ -1,12 +1,10 @@
-var { assert, 
+var {
   '@kingjs': {
     IObservable,
-    IGroupedObservable: { Key },
-    IEquatable: { Equals, GetHashcode },
-    '-dir-entry': { DirEntry: { Dir } },
+    '-fs-entity': { DirEntry: { Dir } },
     '-rx': { Debounce,
       '-subject': { Subject },
-      '-sync': { WatchTree },
+      '-sync': { ScanTree },
       '-fs': { Watch },
     },
     '-module': { ExportInterfaceExtension },
@@ -17,38 +15,32 @@ var EmptyObject = { }
 var Noop = () => null
 
 var DebounceMs = 100
-var CreateSubject = new Subject(Noop)
+var CreateSubject = () => new Subject(Noop)
+var Dot = Dir.dot
 
-class State {
-  static create(dirEntry) {
-    return new State(dirEntry.stat())
-  }
-
-  constructor(stat) {
-    this.ino = stat.ino
-    this.mtimeMs = stat.mtimeMs
-  }
-
-  [Equals](o) {
-    return o instanceof State && 
-      this.ino == o.ino && 
-      this.mtimeMs == o.mtimeMs
-  }
-  [GetHashcode]() {
-    return this.ino ^ this.mtimeMs
-  }
-}
-
-function watchLinks(dir = Dir.dot, options = EmptyObject) {
+/**
+ * @description Watches a directory tree for changes.
+ * @param {*} options A pojo of the form `{ dir, debounceMs, selectWatcher }` where
+ * by default `dir` is the working directory, `debounceMs` is 100ms, and `selectWatcher`
+ * activates a new `Subject`.
+ * @returns Emits a group with `DirEntry` key for each file 
+ * (or symbolicLink) which in turn emit an equivalent `DirEntry` 
+ * when the the file system watcher reports the entry may have changed.
+ * 
+ * @remarks The file system watcher economically and reliably reports when the content
+ * of a directory has been added, removed, or otherwise touched. When that happens, the
+ * directory content is scanned and groups are created, completed, or emit next.
+ * @remarks When a group is created, the group will immediately emit a next event.
+ */
+function watchLinks(options = EmptyObject) {
   var { 
+    dir = Dot,
     debounceMs = DebounceMs,
-    selectWatcher = () => CreateSubject,
-    selectState = State.create
+    selectWatcher = CreateSubject,
   } = options
 
   return this
-    [WatchTree](dir, {
-      selectState,
+    [ScanTree](dir, {
       isLeaf: o => !o.isDirectory,
       selectChildren: dir => dir.list(),
       selectWatcher: o => selectWatcher(o)

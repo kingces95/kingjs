@@ -5,7 +5,7 @@ var { assert,
       Move: MoveSync,
       Exists: ExistsSync, 
       Stat: StatSync, 
-      '-entity': { DirEntry, InoLink, InoVersionLink },
+      '-entity': { DirEntry, InoPath, InoVersionPath },
       '-dir': { 
         List: ListSync, 
         Make: MakeSync, 
@@ -94,9 +94,9 @@ process.nextTick(async () => {
   await test(DirEntry.dot, DirEntry, ...names)
   await test(DirEntry.dot, DirEntry, ...asyncNames)
 
-  await test(InoLink.dot, InoLink, ...names)
-  await test(InoLink.dot, InoLink, ...asyncNames)
+  await test(InoPath.dot, InoPath, ...names)
+  await test(InoPath.dot, InoPath, ...asyncNames)
 
-  await test(InoVersionLink.dot, InoVersionLink, ...names)
-  await test(InoVersionLink.dot, InoVersionLink, ...asyncNames)
+  await test(InoVersionPath.dot, InoVersionPath, ...names)
+  await test(InoVersionPath.dot, InoVersionPath, ...asyncNames)
 })
