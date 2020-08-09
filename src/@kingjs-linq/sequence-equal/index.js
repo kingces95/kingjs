@@ -1,9 +1,9 @@
 var { 
   '@kingjs': {
+    equal: defaultEqual,
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
-    '-linq-static': { defaultEqual },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()

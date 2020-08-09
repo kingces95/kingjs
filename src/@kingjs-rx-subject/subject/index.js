@@ -15,7 +15,7 @@ var Noop = () => null
  */
 class Subject {
 
-  constructor(cancel) {
+  constructor(cancel = Noop) {
     assert(cancel)
     this.cancel = cancel
   }

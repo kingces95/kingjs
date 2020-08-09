@@ -1,6 +1,8 @@
 var { assert,
   '@kingjs': {
-    PathBuilder, Singleton,
+    Path,
+    PathBuilder,
+    'ISingleton': { IsSingleton },
     'IEquatable': { Equals, GetHashcode },
     'IComparable': { IsLessThan },
   },
@@ -12,12 +14,9 @@ var BackSlash = '\\'
 var paths = []
 
 function test(sep, altSep) {
-  var sepBuffer = Buffer.from(sep)
-  var altSepBuffer = Buffer.from(altSep)
-
   assert.isConsistent = function(path, toString) {
     paths.push(path)
-    assert.ok(path instanceof Singleton)
+    assert.ok(path[IsSingleton]())
     assert.equal(path.to(undefined), path)
     assert.equal(path.to(null), path)
     assert.equal(path.to(''), path)
@@ -51,8 +50,10 @@ function test(sep, altSep) {
     assert.ok(path.dir.dir[Equals](grandParent))
   }
 
-  var dot = PathBuilder.createRelative(sepBuffer)
-  var altDot = PathBuilder.createRelative(altSepBuffer)
+  var dot = PathBuilder.createRelative(sep)
+  var altDot = PathBuilder.createRelative(altSep)
+  assert.ok(dot == PathBuilder.createRelative(sep))
+  assert.ok(altDot != dot)
   assert.isConsistent(dot, '.', '.')
   assert.ok(dot.isDot)
   assert.ok(dot.isRelative)
@@ -62,8 +63,10 @@ function test(sep, altSep) {
   // test interning
   assert.equal(dot.to('foo'), dot.to('foo'))
 
-  var root = PathBuilder.createRoot(sepBuffer)
-  var altRoot = PathBuilder.createRoot(altSepBuffer)
+  var root = PathBuilder.createRoot(sep)
+  var altRoot = PathBuilder.createRoot(altSep)
+  assert.ok(root == PathBuilder.createRoot(sep))
+  assert.ok(altRoot != root)
   assert.ok(dot.to(root)[Equals](root))
   assert.isConsistent(root, sep)
   assert.ok(root.isRoot)
@@ -80,56 +83,67 @@ function test(sep, altSep) {
   //assert.ok(dotDot.toRelative('foo') === undefined)
 
   var backFoo = dotDot.to('foo')
+  assert.ok(backFoo == dotDot.to('foo'))
   assert.isNamed(backFoo, 'foo', `..${sep}foo`, dotDot)
 
   var grandParent = dotDot.dir
+  assert.ok(grandParent == dotDot.dir)
   assert.isConsistent(grandParent, `..${sep}..`, dotDot)
 
   var relFoo = dot.to('foo')
+  assert.ok(relFoo == dot.to('foo'))
   assert.isNamed(relFoo, 'foo', 'foo', dot)
   assert.ok(relFoo.to(dotDot)[Equals](dot))
 
   var foo = root.to('foo')
+  assert.ok(foo == root.to('foo'))
   assert.isNamed(foo, 'foo', `${sep}foo`, root)
   assert.ok(!foo.prefixBuffer)
 
   var fooBar = foo.to('bar')
+  assert.ok(fooBar == foo.to('bar'))
   assert.isMultiParent(fooBar, 'bar', `${sep}foo${sep}bar`, foo, root)
   assert.ok(fooBar[Equals](root.to('foo').to('bar')))
 
   var relFooBar = dot.to('foo').to('bar')
+  assert.ok(relFooBar == dot.to('foo').to('bar'))
   assert.isMultiParent(relFooBar, 'bar', `foo${sep}bar`, relFoo, dot)
 
   var relFooJs = dot.to('foo.js')
+  assert.ok(relFooJs == dot.to('foo.js'))
   assert.isNamed(relFooJs, 'foo.js', 'foo.js', dot)
   assert.equal(relFooJs.basename, 'foo')
   assert.equal(relFooJs.ext, '.js')
 
-  var relBarJs = dot.to('bar.js')
-  assert.ok(relFooJs.toRelativeFile(relBarJs)[Equals](relBarJs))
-
   var relBar = dot.to('bar')
+  assert.ok(relBar == dot.to('bar'))
   assert.ok(relFoo.toRelative(relBar)[Equals](dotDot.to(relBar)))
 
-  var http = Buffer.from('http://foo.bar')
-  var httpRoot = PathBuilder.createRoot(sepBuffer, http)
+  var http = 'http://foo.bar'
+  var httpRoot = PathBuilder.createRoot(sep, http)
   assert.isConsistent(httpRoot, `http://foo.bar${sep}`)
 
-  var fileColon = Buffer.from('file:')
-  var fileRoot = PathBuilder.createRoot(sepBuffer, fileColon)
+  var fileColon = 'file:'
+  var fileRoot = PathBuilder.createRoot(sep, fileColon)
+  assert.ok(fileRoot == PathBuilder.createRoot(sep, fileColon))
+
   var fileFoo = fileRoot.to('foo')
+  assert.ok(fileFoo == fileRoot.to('foo'))
+
   assert.isConsistent(fileRoot, `file:${sep}`)
-  assert.ok(fileRoot.prefixBuffer.equals(fileColon))
-  assert.ok(fileFoo.prefixBuffer.equals(fileColon))
+  assert.ok(fileRoot.prefix == fileColon)
+  assert.ok(fileFoo.prefix == fileColon)
   assert.isNamed(fileFoo, 'foo', `file:${sep}foo`, fileRoot, fileColon)
 
   // absolute to absolute
   var rootToFooBar = root.toRelative(fooBar)
+  assert.ok(rootToFooBar == root.toRelative(fooBar))
   assert.ok(rootToFooBar.isRelative)
   assert.ok(root.to(rootToFooBar)[Equals](fooBar))
 
   // relative to relative
   var relFooBarToRelFoo = relFooBar.toRelative(relFoo)
+  assert.ok(relFooBarToRelFoo == relFooBar.toRelative(relFoo))
   assert.ok(relFooBarToRelFoo.isRelative)
   assert.ok(relFooBarToRelFoo[Equals](dotDot))
 

@@ -1,6 +1,6 @@
 var { assert,
   '@kingjs': {
-    Singleton,
+    ISingleton: { IsSingleton },
     IComparable: { IsLessThan },
     IEquatable: { Equals, GetHashcode },
     '-string': { GetHashcode: GetStringHashcode },
@@ -71,11 +71,12 @@ of([new Key('n', 't')], [new Key('n', 't')])
     { complete: true }
   ])
 
-class SKey extends Singleton {
+class SKey {
   constructor(key) {
-    super()
     this.value = key
   }
+
+  [IsSingleton]() { return true}
 }
 class SVal {
   constructor(key) {

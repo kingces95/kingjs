@@ -8,6 +8,7 @@
         "**/.npmrc": true,
         "**/.coverage": true,
         "**/node_modules": true,
+        "**/node": true,
         "**/package-lock.json": true,
         //"**/package.json": true,
         //"**/test.js": true,

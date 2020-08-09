@@ -1,5 +1,9 @@
 var { assert, Path: NodePath,
-  '@kingjs': { PathBuilder, WeakMapByInternedString }
+  '@kingjs': { 
+    PathBuilder, 
+    WeakMapByInternedString,
+    '-reflect': { isString },
+  }
 } = module[require('@kingjs-module/dependencies')]()
 
 var EmptyString = ''
@@ -89,8 +93,8 @@ class Path {
     this.platform = platform
     this.sep = platform.sep
     this.sepBuffer = Buffer.from(this.sep)
-    this.dot = PathBuilder.createRelative(this.sepBuffer)
-    this.root = PathBuilder.createRoot(this.sepBuffer) 
+    this.dot = PathBuilder.createRelative(this.sep)
+    this.root = PathBuilder.createRoot(this.sep) 
   }
 
   create(prefix) {
@@ -110,6 +114,8 @@ class Path {
   }
 
   parse(path, base) {
+    assert.ok(isString(path))
+
     if (path == this.sep)
       return this.root
 
@@ -123,7 +129,7 @@ class Path {
       return base.dir
 
     if (path.indexOf(this.sep) == -1)
-      return base._to(path)
+      return base.to(path)
 
     base = this.parse(this.platform.dirname(path))
     return this.parse(this.platform.basename(path), base)

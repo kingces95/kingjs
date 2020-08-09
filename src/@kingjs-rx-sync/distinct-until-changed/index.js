@@ -1,11 +1,9 @@
 var { assert,
-  deepEquals,
   '@kingjs': {
+    equal,
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
-    IEquatable,
-    IEquatable: { Equals },
     '-rx': {
       '-observer': { Proxy },
       '-sync-static': { create }
@@ -36,9 +34,8 @@ function distinctUntilChanged(keySelector = Identity) {
       observer[Proxy]({
         [Next](o) {
           var key = keySelector(o)
-          assert.ok(key instanceof IEquatable)
 
-          if (hasLastKey && lastKey[Equals](key))
+          if (hasLastKey && equal(lastKey, key))
             return
           
           this[Next](o)

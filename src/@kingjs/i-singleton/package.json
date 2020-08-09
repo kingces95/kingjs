@@ -1,0 +1,27 @@
+{
+  "name": "@kingjs/i-singleton",
+  "version": "1.0.8",
+  "description": "`IEnumerable` has a single member `getEnumerator`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-enumerable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "latest"
+  },
+  "devDependencies": {
+    "@kingjs/i-interface": "^1.0.4"
+  },
+  "capitalize": true
+}

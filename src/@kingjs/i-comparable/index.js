@@ -1,5 +1,6 @@
 var Interface = require('@kingjs-interface/interface')
 var For = require('@kingjs-symbol/for')
+var { Equals, GetHashcode } = require('@kingjs/i-equatable')
 
 var KingJs = 'kingjs'
 var IsLessThan = 'compareTo'
@@ -13,5 +14,9 @@ IComparable.IsLessThan = Symbol[For](IComparable.name, {
   member: IsLessThan, 
   scope: KingJs 
 })
+
+// extends IEquatable
+IComparable.Equals = Equals
+IComparable.GetHashcode = GetHashcode
 
 module.exports = IComparable

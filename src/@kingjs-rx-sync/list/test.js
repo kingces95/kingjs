@@ -6,7 +6,7 @@ var { assert,
     IComparable: { IsLessThan },
     '-rx': {
       '-subject': { Subject },
-      '-sync': { Select, WatchTree, Materialize },
+      '-sync': { Select, List, Materialize },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()

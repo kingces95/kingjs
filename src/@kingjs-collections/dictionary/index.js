@@ -2,7 +2,7 @@ var { assert,
   '@kingjs': { 
     IEquatable,
     IEquatable: { Equals, GetHashcode },
-    Singleton,
+    ISingleton,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -10,7 +10,7 @@ var EmptyArray = [ ]
 var Iterator = Symbol.iterator
 
 function isPrimitiveOrSingleton(key) {
-  if (key instanceof Singleton) return true
+  if (key instanceof ISingleton) return true
 
   var type = typeof(key)
   if (type == 'string') return true

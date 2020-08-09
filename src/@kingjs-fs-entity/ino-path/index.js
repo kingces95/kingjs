@@ -28,6 +28,7 @@ class InoPath {
     assert.ok(dirEntry)
     assert.ok(stat)
 
+    // TODO: Remove
     Reflect.defineProperty(this, '_stat', { value: stat })
     this.dirEntry = dirEntry
   }

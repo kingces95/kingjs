@@ -1,6 +1,6 @@
 var { assert,
   '@kingjs': {
-    IComparable: { IsLessThan },
+    IComparable: { Equals, GetHashcode, IsLessThan },
     lessThan
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -15,6 +15,8 @@ class Key {
     this.value = value
   }
 
+  [Equals]() { }
+  [GetHashcode]() { }
   [IsLessThan](other) {
     return this.value < other.value
   }
@@ -23,4 +25,5 @@ class Key {
 assert.test(0, 1)
 assert.test('a', 'b')
 assert.test(false, true)
+assert.test(Buffer.from('a'), Buffer.from('b'))
 assert.test(new Key(0), new Key(1))

@@ -4,7 +4,7 @@ var {
     '-fs-entity': { DirEntry: { Dir } },
     '-rx': { Debounce,
       '-subject': { Subject },
-      '-sync': { ScanTree },
+      '-path-sync': { List },
       '-fs': { Watch },
     },
     '-module': { ExportInterfaceExtension },
@@ -40,7 +40,7 @@ function watchLinks(options = EmptyObject) {
   } = options
 
   return this
-    [ScanTree](dir, {
+    [List](dir, {
       isLeaf: o => !o.isDirectory,
       selectChildren: dir => dir.list(),
       selectWatcher: o => selectWatcher(o)

@@ -1,13 +1,13 @@
 var { 
   '@kingjs': {
+    lessThan: defaultLessThan,
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     IOrderedEnumerable: { CreateOrderedEnumerable },
     '-module': { ExportInterfaceExtension },
     '-linq': {
-      '-reduction': { ToArray },
-      '-static': { defaultLessThan }
+      '-reduction': { ToArray }
     },
   }
 } = module[require('@kingjs-module/dependencies')]()

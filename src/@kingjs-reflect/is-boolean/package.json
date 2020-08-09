@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs-reflect/is-boolean",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/reflect/is"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/async-generator": "file:../../async-generator",
+    "@kingjs/generator": "file:../../generator"
+  }
+}

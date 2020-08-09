@@ -1,10 +1,10 @@
 var { 
   '@kingjs': {
+    equal: defaultEqual,
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
     '-module': { ExportInterfaceExtension },
-    '-linq-static': { defaultEqual },
   }
 } = module[require('@kingjs-module/dependencies')]();
 

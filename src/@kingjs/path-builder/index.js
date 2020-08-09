@@ -1,23 +1,23 @@
 var { assert, Path,
-  '@kingjs': { Exception, WeakMapByInternedString, Singleton,
+  '@kingjs': { Exception,
+    'ISingleton': { IsSingleton },
     'IEquatable': { Equals, GetHashcode },
     'IComparable': { IsLessThan },
-    '-string': { GetHashcode: GetStringHashcode },
     '-pojo': { ToArray },
-    '-reflect': { is, isNumber },
-    '-buffer': { Append }
+    '-reflect': { isString },
+    '-string': { StringBuilder },
   },
 } = module[require('@kingjs-module/dependencies')]()
 
 var NoRelativePathExists = "No relative path exists from '${from}' to '${to}'."
 
-var EmptyString = ''
 var Dot = '.'
 var DotDot = '..'
+var EmptyString = ''
 
-var EmptyBuffer = Buffer.from(EmptyString)
-var DotBuffer = Buffer.from(Dot)
-var DotDotBuffer = Buffer.from(DotDot)
+var EmptyBuffer = StringBuilder.empty
+var DotBuffer = EmptyBuffer.append(Dot)
+var DotDotBuffer = EmptyBuffer.append(DotDot)
 
 var NonEnumerable = { writable: true }
 
@@ -28,6 +28,27 @@ class NoRelativePathExistsException extends Exception {
 
     super(NoRelativePathExists, { from, to })
   }
+}
+
+var weakMap = new WeakMap()
+
+function getOrAdd(target, key, create) {
+  assert.ok(target instanceof PathBuilder || target == DotPathBuilder || target == RootPathBuilder)
+  assert.ok(isString(key))
+
+  var map = weakMap.get(target)
+  if (!map) {
+    map = new Map()
+    weakMap.set(target, map)
+  }
+
+  var result = map.get(key)
+  if (!result) {
+    result = create(key)
+    map.set(key, result)
+  }
+
+  return result
 }
 
 /**
@@ -55,42 +76,35 @@ class NoRelativePathExistsException extends Exception {
  * @remarks -- `sepBuffer`: the path separator
  * @remarks -- `prefixBuffer`: the prefix to the path root. e.g. `c:`
  */
-class PathBuilder extends Singleton {
+class PathBuilder {
+  static createRelative(sep) {
+    assert.ok(isString(sep))
 
-  static createRelative(sepBuffer) {
-    return DotPathBuilder.create(sepBuffer)
+    return getOrAdd(DotPathBuilder, sep, o => new DotPathBuilder(o))
   }
 
-  static createRoot(sepBuffer, prefixBuffer) {
-    return RootPathBuffer.create(sepBuffer, prefixBuffer)
+  static createRoot(sep, prefix) {
+    assert.ok(isString(sep))
+    assert.ok(!prefix || isString(prefix))
+
+    return getOrAdd(RootPathBuilder, (prefix || EmptyString) + sep, 
+      () => new RootPathBuilder(sep, prefix)
+    )
   }
 
-  constructor() { 
-    super()
+  constructor(buffer, sepBuffer) { 
+    assert.ok(buffer instanceof StringBuilder)
+    assert.ok(sepBuffer instanceof StringBuilder)
+
+    this._builder = buffer
+    this._sepBuffer = sepBuffer
 
     Object.defineProperties(this, { 
-      _buffer: NonEnumerable,
+      _hashcode: NonEnumerable,
+      _builder: NonEnumerable,
+      _sepBuffer: NonEnumerable,
       _map: NonEnumerable,
     })
-  }
-
-  get __toString() {
-    return this.toString()
-  }
-
-  _to(name) {
-    var map = this._map
-    if (!map)
-      this._map = map = new WeakMapByInternedString()
-
-    var result = map.get(name)
-    if (!result)
-      result = map.set(name, new NamedPathBuilder(this, name))
-    return result
-  }
-
-  get root() {
-    return null
   }
 
   toRelative(target) {
@@ -118,7 +132,7 @@ class PathBuilder extends Singleton {
     if (i < sourceParts.length && sourceParts[i].isDotDot)
       throw new NoRelativePathExistsException(source, target)
 
-    var result = PathBuilder.createRelative(this.sepBuffer)
+    var result = PathBuilder.createRelative(this.sep)
 
     // back out of source to common ancestor
     for (var j = i; j < sourceParts.length; j++)
@@ -135,11 +149,11 @@ class PathBuilder extends Singleton {
     if (!path)
       return this;
 
-    if (is.string(path)) {
-      assert(path.indexOf(this.sepBuffer.toString()) == -1)
+    if (isString(path)) {
+      assert(path.indexOf(this._sepBuffer.toString()) == -1)
       assert(path != Dot)
       assert(path != DotDot)
-      return this._to(path)
+      return NamedPathBuilder.create(this, path)
     } 
 
     assert(path instanceof PathBuilder)
@@ -158,220 +172,120 @@ class PathBuilder extends Singleton {
     if (path.isDotDot)
       return result.dir
 
-    return result._to(path.name)
+    return NamedPathBuilder.create(result, path.name)
   }
 
-  toString() {
-    return this.buffer.toString()
-  }
+  get sep() { return this._sepBuffer.toString() }
+  get builder() { return this._builder }
+  get buffer() { return this.builder.buffer }
+  toString() { return this._builder.toString() }
+  get __toString() { return this.toString() }
 
-  [Equals](other) {
-    return this == other
-  }
+  [IsSingleton]() { return true }
 
-  [GetHashcode]() {
-    var hashcode = this._hashcode
-    if (!hashcode) {
-      this._hashcode = hashcode = Array.prototype.reduce.call(
-        this.buffer, 
-        (a, o, i) => a ^ o << (i % 32), 
-        0
-      )
-    
-    }return hashcode
-  }
+  [Equals](other) { return this == other }
+  [GetHashcode]() { return this._builder[GetHashcode]()}
 
   [IsLessThan](other) { 
     assert.ok(other instanceof PathBuilder)
-    return this.buffer.compare(other.buffer) == -1
+    return this._builder[IsLessThan](other._builder)
   }
 }
 
-class RootPathBuffer extends PathBuilder {
+class RootPathBuilder extends PathBuilder {
+  constructor(sep, prefix) {
+    assert.ok(isString(sep))
+    assert.ok(!prefix || isString(prefix))
 
-  static create(sepBuffer, prefixBuffer) {
-    var map = RootPathBuffer._map
-    if (!map)
-      RootPathBuffer._map = map = new WeakMapByInternedString()
+    super(new StringBuilder((prefix || EmptyString) + sep), new StringBuilder(sep))
 
-    var buffer = (prefixBuffer || EmptyBuffer)[Append](sepBuffer)
-    var key = buffer.toString()
-    var result = map.get(key)
-    if (!result)
-      result = map.set(key, new RootPathBuffer(sepBuffer, prefixBuffer, key, buffer))
-    return result
-  }
-
-  constructor(sepBuffer, prefixBuffer, toString, buffer) {
-    assert(sepBuffer instanceof Buffer)
-    assert(!prefixBuffer || prefixBuffer instanceof Buffer)
-
-    super()
-    
-    this.sepBuffer = sepBuffer
-    this.buffer = buffer
-    this._toString = toString
-
-    if (prefixBuffer) {
-      this.prefixBuffer = prefixBuffer
-      this.hasPrefixBuffer = true
+    if (prefix) {
+      assert.ok(isString(prefix))
+      this._prefixBuilder = new StringBuilder(prefix)
     }
   }
 
-  get root() {
-    return this
-  }
-
-  get isRoot() {
-    return true
-  }
-
-  get isAbsolute() {
-    return true
-  }
-
-  toString() {
-    return this._toString
-  }
+  get root() { return this }
+  get prefix() { return this._prefixBuilder ? this._prefixBuilder.toString() : undefined }
+  get isRoot() { return true }
+  get isAbsolute() { return true }
 }
 
 class NamedPathBuilder extends PathBuilder {
 
+  static create(parent, name) {
+    assert.ok(parent instanceof PathBuilder)
+    assert.ok(isString(name))
+    
+    return getOrAdd(parent, name, o => new NamedPathBuilder(parent, o))
+  }
+
   constructor(parent, name) {
-    assert(parent)
-    super()
+    assert.ok(parent instanceof PathBuilder)
+    assert.ok(isString(name))
+
+    var sepBuffer = parent._sepBuffer
+
+    if (parent instanceof RootPathBuilder)
+      super(parent._builder.append(name), sepBuffer)
+
+    else if (parent instanceof DotPathBuilder)
+      super(new StringBuilder(name), sepBuffer)
+
+    else
+      super(parent._builder.append(parent._sepBuffer, name), sepBuffer)
     
     this.name = name
     this.parent = parent
   }
 
-  get prefixBuffer() {
-    return this.parent.prefixBuffer
-  }
+  get prefix() { return this.parent.prefix }
 
-  get sepBuffer() {
-    return this.parent.sepBuffer
-  }
+  get isNamed() { return true }
+  get isAbsolute() { return this.parent.isAbsolute }
+  get isRelative() { return this.parent.isRelative }
 
-  get buffer() {
-    if (!this._buffer) {
-      var { parent, sepBuffer, name } = this
-
-      if (parent instanceof RootPathBuffer)
-        this._buffer = parent.buffer[Append](name)
-
-      else if (parent instanceof DotPathBuilder)
-        this._buffer = Buffer.from(name)
-
-      else
-        this._buffer = parent.buffer[Append](sepBuffer, name)
-    }
-
-    return this._buffer
-  }
-
-  get dir() {
-    return this.parent
-  }
-
-  get isNamed() {
-    return true
-  }
-
-  get root() {
-    return this.parent.root
-  }
-
-  get isAbsolute() {
-    return this.parent.isAbsolute
-  }
-
-  get isRelative() {
-    return this.parent.isRelative
-  }
-
-  get ext() {
-    return Path.extname(this.name)
-  }
-
-  get basename() {
-    return Path.basename(this.name, this.ext)
-  }
+  get dir() { return this.parent }
+  get root() { return this.parent.root }
+  get ext() { return Path.extname(this.name) }
+  get basename() { return Path.basename(this.name, this.ext) }
 }
 
 class RelativePathBuilder extends PathBuilder {
-
-  constructor() {
-    super()
-  }
-
   get dir() {
-    var result = this._dir
-    if (!result)
-      this._dir = result = new DotDotPathBuilder(this)
-    return result
+    var dir = this._dir
+    if (!dir)
+      this._dir = dir = new DotDotPathBuilder(this)
+    return dir
   }
 }
 
 class DotPathBuilder extends RelativePathBuilder {
-
-  static create(sepBuffer) {
-    var map = DotPathBuilder._map
-    if (!map)
-      DotPathBuilder._map = map = new WeakMapByInternedString()
-    
-    var key = sepBuffer.toString()
-    var result = map.get(key)
-    if (!result)
-      result = map.set(key, new DotPathBuilder(sepBuffer))
-    return result
-  }
-  
-  constructor(sepBuffer) {
-    super()
-    
-    this.sepBuffer = sepBuffer
-    this.buffer = DotBuffer
+  constructor(sep) {
+    super(DotBuffer, new StringBuilder(sep))
   }
 
-  get isDot() {
-    return true
-  }
-
-  get isRelative() {
-    return true
-  }
-
-  toString() {
-    return Dot
-  }
+  get isDot() { return true }
+  get isRelative() { return true }
 }
 
 class DotDotPathBuilder extends RelativePathBuilder {
   constructor(parent) {
     assert(parent instanceof DotPathBuilder || parent instanceof DotDotPathBuilder)
 
-    super()
-    
+    var sepBuffer = parent._sepBuffer
+
+    if (parent instanceof DotPathBuilder)
+      super(DotDotBuffer, sepBuffer)
+
+    else
+      super(parent._builder.append(parent._sepBuffer, DotDotBuffer), sepBuffer)
+
     this.parent = parent
-    this.sepBuffer = parent.sepBuffer
   }
 
-  get buffer() {
-    if (!this._buffer) 
-      this._buffer = this.parent instanceof DotPathBuilder ? DotDotBuffer :
-        this.parent.buffer[Append](this.sepBuffer, DotDotBuffer)
-
-    return this._buffer
-  }
-
-  get isRelative() {
-    return true
-  }
-
-  get isDotDot() {
-    return true
-  }
+  get isRelative() { return true }
+  get isDotDot() { return true }
 }
 
 PathBuilder.NoRelativePathExistsException = NoRelativePathExistsException

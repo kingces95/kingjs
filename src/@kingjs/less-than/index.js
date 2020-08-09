@@ -2,7 +2,7 @@ var { assert,
   '@kingjs': {
     IComparable, 
     IComparable: { IsLessThan },
-    '-reflect': { is }    
+    '-reflect': { isNumber, isString, isBoolean, isBuffer }    
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -16,8 +16,11 @@ var { assert,
  * and `IComparable.compare` if the values implement `IComparable`.  
  */
 function lessThan(left, right) {
-  if (is.number(left) || is.string(left) || is.boolean(left))
+  if (isNumber(left) || isString(left) || isBoolean(left))
     return left < right
+
+  if (isBuffer(left) && isBuffer(right))
+    return left.compare(right) == -1
 
   assert(left instanceof IComparable)
   return left[IsLessThan](right)

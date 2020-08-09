@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs/less-than",
+  "name": "@kingjs/equal",
   "version": "1.0.8",
   "description": "Generates a sequence of arrays or descriptors  composed of a single element each from a set of arrays.",
   "main": "index.js",
