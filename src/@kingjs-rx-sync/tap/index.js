@@ -13,6 +13,8 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 var Options = { name: tap.name }
+var EmptyObject = { }
+var False = () => false
 
 /**
  * @description Tap on an `IObservable` with another `IObservable`.
@@ -30,7 +32,9 @@ var Options = { name: tap.name }
  * @remarks Cancelling the subscription of the tapped `IObservable`
  * will not cancel the subscription to the source `IObservable`.
  */
-function tap(callback) {
+function tap(callback, options = EmptyObject) {
+  var { siphon = False } = options
+
   return create(observer => {
     var tapCancelled = false
     var cancelTap = () => tapCancelled = true
@@ -42,8 +46,11 @@ function tap(callback) {
     this[Subscribe](
       subscription.track({
         [Next](o) {
-          if (!tapCancelled)
+          if (!tapCancelled) 
             subject[Next](o)
+
+          if (siphon(o))
+            return
 
           if (subscription.cancelled)
             return

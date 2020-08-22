@@ -1,5 +1,6 @@
-var { deepEquals, assert,
+var { assert,
   '@kingjs': {
+    equal,
     IObservable,
     IGroupedObservable: { Subscribe, Key },
     IObserver: { Next, Complete, Error },
@@ -12,6 +13,7 @@ var { deepEquals, assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var EmptyObject = { }
 var Identity = o => o
 var Options = { name: windowBy.name }
 
@@ -35,7 +37,15 @@ var Options = { name: windowBy.name }
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  */
-function windowBy(keySelector = Identity) {
+function windowBy(
+  keySelector = Identity,
+  options = EmptyObject) {
+
+  var { 
+    windowCloser,
+    
+  } = options
+
   return create(observer => {
     var subscription = new SubscriptionTracker(observer)
     var lastKey
@@ -46,7 +56,7 @@ function windowBy(keySelector = Identity) {
         [Next](o) {
           var key = keySelector(o)
 
-          if (window && !deepEquals(key, lastKey)) {
+          if (window && !equal(key, lastKey)) {
             window[Complete]()
             if (subscription.cancelled)
               return

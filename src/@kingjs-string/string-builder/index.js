@@ -42,7 +42,7 @@ class StringBuilder {
   }
 
   [Equals](other) {
-    return other instanceof Buffer && this.buffer.compare(other._buffer) == 1
+    return other instanceof StringBuilder && this._buffer.compare(other._buffer) == 0
   }
 
   [GetHashcode]() {

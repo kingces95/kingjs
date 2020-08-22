@@ -65,6 +65,11 @@ function groupBy(
       subscription.track({
         [Next](o) {
           var key = keySelector(o)
+          assert(key !== undefined)
+          assert.ok(!subscription.cancelled)
+
+          var closeGroup = groupCloser(o, key)
+          var emitNext = !closeGroup
           assert.ok(!subscription.cancelled)
 
           var group = groupByKey.get(key)
@@ -83,25 +88,28 @@ function groupBy(
 
             // implement IGroupedObservable
             group[Key] = key
-            
+
             // emit group observable
             observer[Next](group)
             if (subscription.cancelled)
               return
-          }
-          
-          // group completion
-          var closeGroup = groupCloser(o, key)
-          assert.ok(!subscription.cancelled)
 
+            emitNext = true
+          }
+
+          // emit observation
+          if (emitNext) {
+            group[Next](o)
+            if (subscription.cancelled)
+              return
+          }
+
+          // group completion
           if (closeGroup) {
             group[Complete]()
             groupByKey.delete(key)
             return
           }
-
-          // emit observation
-          group[Next](o)
         },
         [Complete]() {
           finalizeGroups(x => x[Complete]())

@@ -1,32 +1,44 @@
 var {
   '@kingjs': {
     '-rx': { Debounce, SubscribeAndAssert,
-      '-static': { counter },
-      '-sync': { Take, Timeout }
+      '-static': { counter, throws },
+      '-sync': { Blend, SubscribeAndAssert: SyncSubscribeAndAssert,
+        '-static': { of }
+      }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var ms = 20
-var count = 5
+
+of(0)
+  [Debounce](ms)
+  [SyncSubscribeAndAssert]()
 
 process.nextTick(async () => {
 
+  var count = 2
   await counter(count, { ms })
     [Debounce](ms * 2)
     [SubscribeAndAssert]([count - 1])
 
-  await counter(count, , { ms })
+  await counter(count, { ms })
     [Debounce](ms / 2)
-    [SubscribeAndAssert]([0, 1, 2, 3, 4])
+    [SubscribeAndAssert]([...Array(count).keys()])
 
-  await clock(ms)
-    [Timeout](ms * 3, 'error')
+  await counter(count, { ms })
+    [Blend](throws('error'))
     [Debounce](ms * 2)
     [SubscribeAndAssert](null, { error: 'error' })
 
-  var cancel = await clock(ms)
+  await counter(2, { ms })
+    [Debounce](ms / 2)
+    [SubscribeAndAssert]([0], { asyncTerminate: true })
+
+  // complete while debounce has an emission pending and then have
+  // the observer synchronously cancel the observable during the 
+  // handling of that pending emission which should suppress the complete
+  await counter(1, { ms })
     [Debounce](ms * 2)
-    [SubscribeAndAssert](null, { terminate: true })
-  cancel()
+    [SubscribeAndAssert]([0], { terminate: true })
 })

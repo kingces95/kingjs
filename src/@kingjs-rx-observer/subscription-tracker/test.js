@@ -32,9 +32,12 @@ var complete = new Subject(assert.fail)
 var error = new Subject(assert.fail)
 
 // track the observables used to generate the observations
-var tracker = new SubscriptionTracker(observer)
+var cancelled
+var onCancel = () => cancelled = true
+var tracker = new SubscriptionTracker(observer, onCancel)
 assert.ok(!tracker.cancelled)
 assert.equal(tracker.cancel, cancel)
+assert.ok(!cancelled)
 
 // observables which generate the observations
 source[Subscribe](tracker.track({ [Next](o) { this[Next](o) } }))
@@ -46,6 +49,7 @@ error[Subscribe](tracker.track({ [Error]() { /* ignore */ } }))
 source[Next](false)
 assert.ok(!tracker.cancelled)
 assert.ok(!sourceCancelled)
+assert.ok(!cancelled)
 
 // finish two observables so their cancel functions are released
 complete[Complete]()
@@ -57,3 +61,4 @@ source[Next](true)
 assert.ok(tracker.cancelled)
 assert.ok(sourceCancelled)
 assert.ok(ignoreCancelled)
+assert.ok(cancelled)

@@ -7,12 +7,14 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var EmptyObject = { }
+
 /**
  * @description Preform an initial scan of the leafs of a tree and 
  * subsequent scans of leafs of a node triggered by a node watcher.
  * 
  * @param {*} root The root node.
- * @param {*} options A pojo like { isLeaf, selectWatcher, selectChildren } 
+ * @param {*} options A pojo like { isLeaf, selectWatcher, selectEntries } 
  * where each property is a function that takes a node.
  * @return Returns a group for each leaf whose key is the leaf and whose
  * emissions are also equivalent representations of the leaf.

@@ -39,6 +39,15 @@ of('a0', 'a', 'a1')
   [SubscribeAndAssert](['a', 'a'])
 assert.ok(!groups.length)
 
+// create and complete a group in one message
+var groups = [['a0']]
+of('a0')
+  [GroupBy](o => o[0], o => true)
+  [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
+  [Select](o => o[Key])
+  [SubscribeAndAssert](['a'])
+assert.ok(!groups.length)
+
 // basic error propagation
 throws('error')
   [GroupBy]()

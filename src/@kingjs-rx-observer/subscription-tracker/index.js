@@ -5,6 +5,8 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+function Noop() { }
+
 /**
  * @description Given an observer, `SubscriptionTracker` raises its
  * `Subscribed` event supplying a master cancellation function that will cancel
@@ -34,13 +36,14 @@ var { assert,
  * and should be made eligible for garbage collection.
  */
 class SubscriptionTracker {
-  constructor(observer) {
+  constructor(observer, onCancel = Noop) {
     this.observer = observer
     this.cancelled = false
     this.map = null
     this.cancel = () => {
       assert(!this.cancelled)
       this.cancelled = true
+      onCancel()
 
       if (!this.map)
         return

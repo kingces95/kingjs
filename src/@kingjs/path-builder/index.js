@@ -1,6 +1,5 @@
 var { assert, Path,
   '@kingjs': { Exception,
-    'ISingleton': { IsSingleton },
     'IEquatable': { Equals, GetHashcode },
     'IComparable': { IsLessThan },
     '-pojo': { ToArray },
@@ -28,27 +27,6 @@ class NoRelativePathExistsException extends Exception {
 
     super(NoRelativePathExists, { from, to })
   }
-}
-
-var weakMap = new WeakMap()
-
-function getOrAdd(target, key, create) {
-  assert.ok(target instanceof PathBuilder || target == DotPathBuilder || target == RootPathBuilder)
-  assert.ok(isString(key))
-
-  var map = weakMap.get(target)
-  if (!map) {
-    map = new Map()
-    weakMap.set(target, map)
-  }
-
-  var result = map.get(key)
-  if (!result) {
-    result = create(key)
-    map.set(key, result)
-  }
-
-  return result
 }
 
 /**
@@ -80,16 +58,14 @@ class PathBuilder {
   static createRelative(sep) {
     assert.ok(isString(sep))
 
-    return getOrAdd(DotPathBuilder, sep, o => new DotPathBuilder(o))
+    return new DotPathBuilder(sep)
   }
 
   static createRoot(sep, prefix) {
     assert.ok(isString(sep))
     assert.ok(!prefix || isString(prefix))
 
-    return getOrAdd(RootPathBuilder, (prefix || EmptyString) + sep, 
-      () => new RootPathBuilder(sep, prefix)
-    )
+    return new RootPathBuilder(sep, prefix)
   }
 
   constructor(buffer, sepBuffer) { 
@@ -181,11 +157,8 @@ class PathBuilder {
   toString() { return this._builder.toString() }
   get __toString() { return this.toString() }
 
-  [IsSingleton]() { return true }
-
-  [Equals](other) { return this == other }
+  [Equals](other) { return other instanceof PathBuilder && this._builder[Equals](other._builder) }
   [GetHashcode]() { return this._builder[GetHashcode]()}
-
   [IsLessThan](other) { 
     assert.ok(other instanceof PathBuilder)
     return this._builder[IsLessThan](other._builder)
@@ -217,7 +190,7 @@ class NamedPathBuilder extends PathBuilder {
     assert.ok(parent instanceof PathBuilder)
     assert.ok(isString(name))
     
-    return getOrAdd(parent, name, o => new NamedPathBuilder(parent, o))
+    return new NamedPathBuilder(parent, name)
   }
 
   constructor(parent, name) {

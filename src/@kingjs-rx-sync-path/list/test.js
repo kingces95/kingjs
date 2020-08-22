@@ -5,8 +5,9 @@ var { assert,
     '-reflect': { isString },
     '-rx': {
       '-subject': { Subject, SubjectProxy: Node },
-      '-sync': { Select, Materialize, DistinctUntilChanged, Regroup },
-      '-path-sync': { List },
+      '-sync': { Select, Materialize, DistinctUntilChanged, Regroup,
+        '-path': { List }
+      },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()

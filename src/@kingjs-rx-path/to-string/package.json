@@ -1,0 +1,30 @@
+{
+  "name": "@kingjs-rx-path/to-string",
+  "version": "1.0.0",
+  "description": "Subscribes `subject` to the source `IObservable` and returns the `subject`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/pipe"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.create": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

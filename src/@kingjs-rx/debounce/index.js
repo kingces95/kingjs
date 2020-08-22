@@ -2,8 +2,11 @@ var {
   '@kingjs': {
     IObservable,
     IObservable: { Subscribe },
-    IObserver: { Subscribed, Next, Complete, Error },
-    '-rx-sync-static': { create },
+    IObserver: { Next, Complete, Error },
+    '-rx': {
+      '-observer': { SubscriptionTracker },
+      '-sync-static': { create },
+    },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -15,49 +18,43 @@ var {
  * @param window The time in milliseconds an emission must
  * be followed by no additional emission to pass through this 
  * filter.
- * 
  * @returns Returns an observable whose values are filtered by
  * emissions followed by no emissions for `duration` milliseconds.
+ * 
+ * @remarks Upon `this` completing, the last pending `next` event,
+ * assuming there is one, is immediately emitted, followed immediately 
+ * by the `complete` event. 
  */
 function debounce(window) {
-  var lastId = 0
-  var cancelled = false
-  var cancel
-
-  function delay(action, id = 0) {
-    setTimeout(() => {
-      if (cancelled)
-        return
-      
-      if (id && id != lastId)
-        return
-
-      action()
-    }, window)
-  }
-
   return create(observer => {
-    this[Subscribe]({
-      [Subscribed](cancelSource) {
-        cancel = () => {
-          cancelled = true
-          cancelSource()
-        }
-        observer[Subscribed](cancel)
-      },
-      [Next](o) { 
-        delay(() => observer[Next](o), ++lastId)
-      },
-      [Complete]() {
-        delay(() => observer[Complete]())
-      },
-      [Error](e) {
-        observer[Error](e)
-        cancelled = true
-      }
-    })
+    var timeout
+    var value
 
-    return cancel
+    var clear = () => { clearTimeout(timeout); timeout = null }
+    var subscription = new SubscriptionTracker(observer, clear)
+
+    this[Subscribe](
+      subscription.track({
+        [Next](o) { 
+          value = o
+          clear()
+          timeout = setTimeout(() => {
+            timeout = null
+            observer[Next](value)
+          }, window)
+        },
+        [Complete]() {
+          clear()
+          observer[Complete]()
+        },
+        [Error](e) {
+          clear()
+          observer[Error](e)
+        }
+      })
+    )
+
+    return subscription.cancel
   })
 }
 
