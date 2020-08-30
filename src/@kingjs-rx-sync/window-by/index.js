@@ -1,8 +1,8 @@
 var { assert,
-  '@kingjs': {
-    equal,
+  '@kingjs': { equal,
+    EmptyObject,
     IObservable,
-    IGroupedObservable: { Subscribe, Key },
+    IWindowedObservable: { Subscribe, Key, PreviousKey },
     IObserver: { Next, Complete, Error },
     '-rx': {
       '-observer': { SubscriptionTracker },
@@ -13,7 +13,6 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Identity = o => o
 var Options = { name: windowBy.name }
 
@@ -37,46 +36,39 @@ var Options = { name: windowBy.name }
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  */
-function windowBy(
-  keySelector = Identity,
-  options = EmptyObject) {
-
-  var { 
-    windowCloser,
-    
-  } = options
+function windowBy(keySelector = Identity) {
 
   return create(observer => {
     var subscription = new SubscriptionTracker(observer)
-    var lastKey
-    var window
+    var window = new Subject()
+    window[Key] = null
 
     this[Subscribe](
       subscription.track({
         [Next](o) {
-          var key = keySelector(o)
+          var key = window[Key]
+          var nextKey = keySelector(o)
+          assert.ok(nextKey !== undefined)
 
-          if (window && !equal(key, lastKey)) {
+          if (!equal(nextKey, key)) {
+
+            // activate next window
+            var nextWindow = new Subject(() => window = new Subject())
+
+            // implement IWindowedObservable
+            nextWindow[Key] = nextKey
+            nextWindow[PreviousKey] = key
+            
+            // close current window
             window[Complete]()
             if (subscription.cancelled)
               return
 
-            window = null
-          }
-          lastKey = key
+            // swap windows
+            window = nextWindow
 
-          if (!window) {
-
-            // activate and cache window
-            window = new Subject(() => window = null)
-
-            // implement IGroupedObservable
-            window[Key] = key
-            
-            // emit window
+            // emit next window
             observer[Next](window)
-            if (subscription.cancelled)
-              return
           }
 
           // window emission
@@ -84,20 +76,16 @@ function windowBy(
           window[Next](o)
         },
         [Complete]() {
-          if (window) {
-            window[Complete]()
-            if (subscription.cancelled)
-              return
-          }
+          window[Complete]()
+          if (subscription.cancelled)
+            return
 
           observer[Complete]()
         },
         [Error](e) {
-          if (window) {
-            window[Error](e)
-            if (subscription.cancelled)
-              return
-          }
+          window[Error](e)
+          if (subscription.cancelled)
+            return
 
           observer[Error](e)
         }

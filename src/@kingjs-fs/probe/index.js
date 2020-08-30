@@ -1,11 +1,9 @@
 var { 
-  '@kingjs': { Path,
+  '@kingjs': { EmptyObject, Path,
     '-module': { ExportExtension },
     '-fs': { Exists }
   },
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Searches parent directories for a path.

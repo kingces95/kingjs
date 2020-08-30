@@ -1,6 +1,6 @@
 var { assert,
   '@kingjs': {
-    Path, PathBuilder,
+    Path, PathBuilder, EmptyObject, 
     IEquatable: { Equals, GetHashcode },
     IComparable: { IsLessThan },
     '-string': { GetHashcode: GetStringHashcode },
@@ -29,7 +29,6 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 var Async = { async: true }
-var EmptyObject = { }
 var Utf8 = 'utf8'
 
 class DirEntry {

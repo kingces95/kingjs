@@ -1,5 +1,6 @@
 var { assert,
   '@kingjs': {
+    EmptyObject,
     IObservable: { Subscribe },
     '-function': { Rename },
     '-promise': { sleep },
@@ -9,7 +10,6 @@ var { assert,
 
 var PollMs = 100
 var Scheduler = 'Scheduler'
-var EmptyObject = { }
 
 /**
  * @description Transforms a generator into an `IObservable`.
@@ -26,12 +26,8 @@ var EmptyObject = { }
 function create(generator, options = EmptyObject) {
   assert(generator)
   var { 
-    name,
     pollMs = PollMs,
   } = options
-
-  if (name)
-    generator[Rename](`${name}`)
 
   return {
     [Subscribe]() {
@@ -57,8 +53,6 @@ function create(generator, options = EmptyObject) {
         }
       }
 
-      if (name)
-        task[Rename](`${name} [${Scheduler}]`)
       process.nextTick(task)
 
       return subscription.cancel

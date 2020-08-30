@@ -1,10 +1,9 @@
 var { fs, fs: { promises: fsPromises },
-  '@kingjs': { Path,
+  '@kingjs': { EmptyObject, Path,
     '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Recursive = { recursive: true }
 var MkdirSync = fs.mkdirSync.bind(fs)
 var MkdirAsync = fsPromises.mkdir.bind(fsPromises)

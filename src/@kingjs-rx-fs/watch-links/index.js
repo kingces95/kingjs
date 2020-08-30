@@ -1,5 +1,6 @@
 var {
   '@kingjs': {
+    EmptyObject,
     IObservable,
     '-fs-entity': { DirEntry: { Dir } },
     '-rx': { Debounce,
@@ -11,7 +12,6 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Noop = () => null
 
 var DebounceMs = 100

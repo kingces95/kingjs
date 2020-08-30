@@ -1,8 +1,8 @@
 var Path = require('path')
 var Id = require('@kingjs-package/id')
 var Join = require('@kingjs-camel-case/join')
+var EmptyObject = require('@kingjs/empty-object')
 
-var EmptyObject = { }
 var PackageJson = 'package.json'
 var Dash = '-'
 

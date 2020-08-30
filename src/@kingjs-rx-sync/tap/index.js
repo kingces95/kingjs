@@ -1,5 +1,6 @@
 var {
   '@kingjs': {
+    EmptyObject,
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next, Complete, Error },
@@ -13,7 +14,6 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 var Options = { name: tap.name }
-var EmptyObject = { }
 var False = () => false
 
 /**

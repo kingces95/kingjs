@@ -1,10 +1,9 @@
 var { fs, fs: { promises: fsp },
-  '@kingjs': { Path,
+  '@kingjs': { EmptyObject, Path,
     '-module': { ExportExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Utf8 = 'utf8'
 var Buffer = 'buffer'
 var readSync = fs.readFileSync.bind(fs)

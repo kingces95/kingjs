@@ -1,11 +1,14 @@
 var { assert,
   '@kingjs': {
+    EmptyObject,
     IObservable,
-    IGroupedObservable: { Subscribe, Key },
+    IObservable: { Subscribe },
+    IGroupedObservable: { Key },
+    ICollectibleSubject: { IsEligible },
     IObserver: { Next, Complete, Error },
     '-collections': { Dictionary: Map },
     '-rx': {
-      '-subject': { Subject },
+      '-subject': { Subject, CollectibleSubject },
       '-sync-static': { create },
       '-observer': { SubscriptionTracker },
     },
@@ -14,8 +17,14 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 var Identity = o => o
-var False = () => false
 var Options = { name: groupBy.name }
+var Timeout = Symbol('timeout')
+var Debounce = 0
+var Async = false
+
+function createCollectibleSubject(closeGroup) {
+  return cancel => new CollectibleSubject(cancel, closeGroup)
+} 
 
 /**
  * @description Groups observations with a common key into `IGroupedObservables`
@@ -32,18 +41,32 @@ var Options = { name: groupBy.name }
  * @callback groupCloser
  * @param key The group's key.
  * @param value The group's next value.
- * @returns Returns `true` to complete the group instead of emitting 
- * `value` or false to emit the `value`.
+ * @returns Returns `true` to complete the group synchronously or the 
+ * number of milliseconds after which the group will be asynchronously
+ * closed. In either case, the message will not be emitted by the group.
+ * Any other value will keep the group open.
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  * 
  * @remarks Calling `cancel` inside the `keySelector` or `groupCloser`
- * is disallowed. 
+ * is disallowed.
+ * @remarks Any message received after an asynchronous group close 
+ * message will clear the asynchronous group closure.
  */
 function groupBy(
-  keySelector = Identity, 
-  groupCloser = False
+  keySelector = Identity,
+  options = EmptyObject
 ) {
+  if (options instanceof Function)
+    options = { createSubject: createCollectibleSubject(options) }
+
+  var { 
+    async = Async,
+    debounce = Debounce,
+    createSubject = cancel => new Subject(cancel),
+  } = options
+
+  assert.ok(!debounce || async)
 
   return create(observer => {
     var subscription = new SubscriptionTracker(observer)
@@ -51,9 +74,12 @@ function groupBy(
 
     function finalizeGroups(action) {
       for (var key of groupByKey.keys()) {
-        assert(key !== undefined)
+        var group = groupByKey.get(key)
+        assert(group)
 
-        action(groupByKey.get(key))
+        clearTimeout(group[Timeout])
+
+        action(group)
         if (subscription.cancelled)
           break
       }
@@ -68,19 +94,16 @@ function groupBy(
           assert(key !== undefined)
           assert.ok(!subscription.cancelled)
 
-          var closeGroup = groupCloser(o, key)
-          var emitNext = !closeGroup
-          assert.ok(!subscription.cancelled)
-
           var group = groupByKey.get(key)
+          var newGroup = !group
 
           // group activation
-          if (!group) {
-            group = new Subject(() => {
+          if (newGroup) {
+            group = createSubject(() => {
               if (groupByKey.get(key) != group)
                 return
 
-                groupByKey.delete(key)
+              groupByKey.delete(key)
             })
 
             // cache groupObserver
@@ -93,24 +116,35 @@ function groupBy(
             observer[Next](group)
             if (subscription.cancelled)
               return
-
-            emitNext = true
           }
+
+          // any message clears an async group closing
+          clearTimeout(group[Timeout])
 
           // emit observation
-          if (emitNext) {
-            group[Next](o)
-            if (subscription.cancelled)
-              return
-          }
+          group[Next](o)
+          if (subscription.cancelled)
+            return
 
-          // group completion
-          if (closeGroup) {
+          // continue accepting next events
+          if (!group[IsEligible])
+            return
+
+          // complete group
+          var close = () => {
             group[Complete]()
             groupByKey.delete(key)
+          }
+
+          // async
+          if (async) {
+            group[Timeout] = setTimeout(close, debounce)
             return
           }
+
+          close()
         },
+
         [Complete]() {
           finalizeGroups(x => x[Complete]())
           if (subscription.cancelled)
@@ -118,6 +152,7 @@ function groupBy(
           
           observer[Complete]()
         },
+
         [Error](o) {
           finalizeGroups(x => x[Error](o))
           if (subscription.cancelled)

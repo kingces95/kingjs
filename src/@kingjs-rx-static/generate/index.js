@@ -1,13 +1,10 @@
 var { 
-  '@kingjs': {
-    '-function': { Rename },
+  '@kingjs': { EmptyObject,
     '-rx': {
       '-static': { iterate },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Convert an asynchronous generator into a `IObservable`.
@@ -20,11 +17,6 @@ var EmptyObject = { }
  * @remarks Cancellation is checked before emitting any event.
  */
 function generate(generator, options = EmptyObject) {
-  var { name } = options
-
-  if (name)
-    generator[Rename](name)
-
   var iterator = generator()
   return iterate(iterator, options)
 }

@@ -1,10 +1,9 @@
 var {
   '@kingjs': {
+    EmptyObject,
     IObserver: { Next, Complete, Error, Subscribed },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Construct a partial `IObservable` from arguments.

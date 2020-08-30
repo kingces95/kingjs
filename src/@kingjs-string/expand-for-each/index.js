@@ -1,12 +1,11 @@
 var { 
-  '@kingjs': { 
+  '@kingjs': { EmptyObject,
     '-module': { ExportExtension },
     '-string': { Expand }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
 var EmptyString = ''
-var EmptyObject = { }
 
 /**
  * @description Joins the expansions of `template` for each key/value pair of `source`

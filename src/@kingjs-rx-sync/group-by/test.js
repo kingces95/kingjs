@@ -3,8 +3,11 @@ var { assert,
     IObservable: { Subscribe },
     IObserver: { Subscribed, Next, Complete, Error },
     IGroupedObservable: { Key },
-    '-rx': { SubscribeAndAssert: AsyncSubscribeAndAssert,
-      '-sync': { SubscribeAndAssert, Select, Do, GroupBy, Regroup, Then,
+    ICollectibleSubject: { IsEligible },
+    '-rx': { GroupBy: GroupByAsync, SubscribeAndAssert: AsyncSubscribeAndAssert,
+      '-subject': { CollectibleSubject },
+      '-static': { of: asyncOf, throws: asyncThrows },
+      '-sync': { SubscribeAndAssert, Select, Do, Regroup, Then, GroupBy, Where,
         '-static': { of, throws, never }
       }
     },
@@ -32,18 +35,28 @@ assert.ok(!groups.length)
 
 // complete and restart a group
 var groups = [['a0'], ['a1']]
-of('a0', 'a', 'a1')
-  [GroupBy](o => o[0], o => !o[1])
+of('a0', 'a', 'a1', 'a')
+  [GroupBy](o => o[0], o => o.length == 1)
+  [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
+  [Select](o => o[Key])
+  [SubscribeAndAssert](['a', 'a'])
+assert.ok(!groups.length)
+
+var createSubject = o => new CollectibleSubject(o, o => o.length == 1)
+
+// complete and restart a group
+var groups = [['a0'], ['a1']]
+of('a0', 'a', 'a1', 'a')
+  [GroupBy](o => o[0], { createSubject })
   [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
   [Select](o => o[Key])
   [SubscribeAndAssert](['a', 'a'])
 assert.ok(!groups.length)
 
 // create and complete a group in one message
-var groups = [['a0']]
-of('a0')
-  [GroupBy](o => o[0], o => true)
-  [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
+of('a')
+  [GroupBy](o => o[0], { createSubject })
+  [Do](o => o[AsyncSubscribeAndAssert](null))
   [Select](o => o[Key])
   [SubscribeAndAssert](['a'])
 assert.ok(!groups.length)
@@ -103,8 +116,8 @@ of('a0')
 // call cancel for a closed group does not affect new groups
 // even if they both share the same key 
 var cancel
-of('a0', 'a', 'a1', 'a2')
-  [GroupBy](o => o[0], o => !o[1])
+of('a0', 'a', 'a1', 'a2', 'a')
+  [GroupBy](o => o[0], { createSubject })
   [Do](o => o[Subscribe]({ 
     [Subscribed](o) { 
       if (!cancel) 
@@ -120,3 +133,27 @@ of('a0', 'a', 'a1', 'a2')
   [Select](o => o[Key])
   [SubscribeAndAssert](['a', 'a'])
 cancel = undefined
+
+process.nextTick(async () => {
+
+  var createSubject = o => new CollectibleSubject(o, {
+    isAddRef: o => o[2] == '+',
+    isRelease: o => o[2] == '-',
+  })
+
+  // use control messages to create and close the same group twice
+  var groups = [['xa0'], ['xb0']]
+  await asyncOf('xa+', 'xa0', 'xa-', 'xb+', 'xb0', 'xb-')
+    [GroupByAsync](o => o[0], { createSubject })
+    [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
+    [Select](o => o[Key])
+    [AsyncSubscribeAndAssert](['x', 'x'])
+
+  // use control messages to create and close a group and debounce to resurrect it
+  var debounce = 50
+  await asyncOf('xa+', 'xa0', 'xa-', 'xb+', 'xb0', 'xb-')
+    [GroupByAsync](o => o[0], { createSubject, debounce })
+    [Do](o => o[AsyncSubscribeAndAssert](['xa0', 'xb0']))
+    [Select](o => o[Key])
+    [AsyncSubscribeAndAssert](['x'])
+})

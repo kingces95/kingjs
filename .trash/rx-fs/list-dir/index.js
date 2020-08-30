@@ -1,5 +1,6 @@
 var {
   '@kingjs': {
+    EmptyObject,
     IObservable,
     IEquatable: { GetHashcode, Equals },
     '-string': { GetHashcode: GetStringHashcode },
@@ -10,8 +11,6 @@ var {
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Observe changes to a directory listing.

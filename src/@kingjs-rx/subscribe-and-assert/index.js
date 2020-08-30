@@ -27,7 +27,7 @@ function subscribeAndAssert(expected, options = { }) {
     asyncTerminate,
     abandon, 
     timeout = DefaultTimeout,
-    delay = 0 
+    delay = 0,
   } = options
 
   // abandon is terminate without the `cancel` call
@@ -96,6 +96,7 @@ function subscribeAndAssert(expected, options = { }) {
         assert.ok(cancel)
         completeOrError()
         assert.ok(error === undefined)
+        assert.ok(Date.now() - start >= delay)
         accept()
       },
       [Error](o) {

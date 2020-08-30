@@ -1,10 +1,9 @@
 var { assert, fs, fs: { promises: fsPromises },
-  '@kingjs': { Path,
+  '@kingjs': { EmptyObject, Path,
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Options = { withFileTypes: true }
 var Compare = (l, r) => l.name < r.name
 var ReadDirAsync = fsPromises.readdir.bind(fsPromises)

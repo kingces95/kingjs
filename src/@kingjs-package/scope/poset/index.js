@@ -1,7 +1,7 @@
 var { 
   assert,
   '@kingjs': {
-    Path,
+    Path, EmptyObject,
     json: { file: { Read: ReadJsonFile } },
     array: { promises: { Map } },
     graph: { 
@@ -17,7 +17,6 @@ var {
 } = module[require('@kingjs-module/dependencies')]()
 
 var PackageJson = 'package.json'
-var EmptyObject = { }
 
 /**
  * @description Find packages and aggregate their dependencies into a pojo.

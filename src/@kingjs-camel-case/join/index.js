@@ -1,7 +1,7 @@
 var For = require('@kingjs-symbol/for')
+var EmptyObject = require('@kingjs/empty-object')
 
 var EmptyString = ''
-var EmptyObject = { }
 
 var Name = 'join'
 var Scope = 'kingjs-camel-case'

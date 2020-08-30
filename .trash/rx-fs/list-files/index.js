@@ -2,17 +2,16 @@ var { assert,
   '@kingjs': {
     IObservable,
     IGroupedObservable: { Key },
-    '-rx': { Debounce,
-      '-sync': { Where, SelectMany, Log,
+    '-rx': {
+      '-sync': { SelectMany,
         '-static': { of }
       },
-      '-fs': { ListDir, Watch },
+      '-fs': { ListDir },
     },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Directory = 'directory'
 var File = 'file'
 var Filter = (dir, o) => o

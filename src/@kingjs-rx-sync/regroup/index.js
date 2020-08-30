@@ -3,6 +3,7 @@ var { assert,
     IObservable,
     IGroupedObservable,
     IGroupedObservable: { Key },
+    IWindowedObservable: { PreviousKey },
     '-rx-sync': { Select },
     '-module': { ExportInterfaceExtension },
   }
@@ -26,6 +27,10 @@ function regroup(callback = Identity) {
     assert(o instanceof IGroupedObservable)
     var group = callback(o)
     group[Key] = o[Key]
+
+    if (PreviousKey in o)
+      group[PreviousKey] = o[PreviousKey]
+
     return group
   })
 }

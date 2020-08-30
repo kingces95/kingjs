@@ -1,6 +1,6 @@
 var assert = require('assert')
+var EmptyObject = require('@kingjs/empty-object')
 
-var EmptyObject = { }
 var EmptyString = ''
 var At = '@'
 var V = 'v'

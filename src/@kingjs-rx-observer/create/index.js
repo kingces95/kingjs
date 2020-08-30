@@ -1,12 +1,12 @@
 var { assert,
   '@kingjs': {
+    EmptyObject,
     IObserver,
     IObserver: { Subscribed, Next, Complete, Error },
     '-rx-observer': { Proxy, construct }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var DefaultObserver = {
   [Subscribed]() { },
   [Next]() { },

@@ -1,6 +1,6 @@
 var {
   '@kingjs': {
-    IGroupedObservable: { Subscribe, Key },
+    IWindowedObservable: { Subscribe, Key, PreviousKey },
     IObserver: { Complete, Error },
     '-rx': { SubscribeAndAssert: AsyncSubscribeAndAssert,
       '-sync': { SubscribeAndAssert, Select, Do, WindowBy, Then,
@@ -15,8 +15,15 @@ var windows = [['a0', 'a1'], ['b2'], ['a3']]
 of('a0', 'a1', 'b2', 'a3')
   [WindowBy](o => o[0])
   [Do](o => o[AsyncSubscribeAndAssert](windows.shift()))
-  [Select](o => o[Key])
-  [SubscribeAndAssert](['a', 'b', 'a'])
+  [Select](o => ({ 
+    key: o[Key], 
+    previousKey: o[PreviousKey] 
+  }))
+  [SubscribeAndAssert]([
+    { key: 'a', previousKey: undefined }, 
+    { key: 'b', previousKey: 'a' }, 
+    { key: 'a', previousKey: 'b' }
+  ])
 
 // no window created in the first place
 empty()

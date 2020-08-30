@@ -2,8 +2,10 @@ var {
   '@kingjs': {
     LessThan,
     IObservable,
+    IObservable: { Next },
     '-rx': {
-      '-sync': { Select, RollingZipJoin, GroupBy, Regroup, Log }
+      '-sync': { Select, RollingZipJoin, GroupBy, Regroup, Log },
+      '-subject': { Subject },
     },
     '-module': { ExportInterfaceExtension },
   }
@@ -43,7 +45,7 @@ function groupSetBy(
   return this
     [RollingZipJoin](keySelector, keyComparer)
     [GroupBy](
-      o => keySelector(o.outer !== null ? o.outer : o.inner), 
+      o => keySelector(o.outer !== null ? o.outer : o.inner),
       o => o.outer === null
     )
     [Regroup](group => group[Select](o => o.outer))

@@ -1,0 +1,26 @@
+{
+  "name": "@kingjs-rx-static/of",
+  "version": "1.0.0",
+  "description": "Create an `IObservable` from `arguments`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/of"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/rx.from": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

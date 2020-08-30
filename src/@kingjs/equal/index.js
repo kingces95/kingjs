@@ -16,8 +16,11 @@ var { assert,
  * and `IComparable.compare` if the values implement `IComparable`.  
  */
 function equal(left, right) {
+  if (left === right)
+    return true
+
   if (isNumber(left) || isString(left) || isBoolean(left))
-    return left === right
+    return false
 
   if (isBuffer(left) && isBuffer(right))
     return left.compare(right) == 0

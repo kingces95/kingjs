@@ -1,10 +1,8 @@
 var {
-  '@kingjs': { 
+  '@kingjs': { EmptyObject,
     '-rx-static': { counter },
   },
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Returns an `IObservable` that emits no events

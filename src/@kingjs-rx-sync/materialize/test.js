@@ -1,7 +1,7 @@
 var {
   '@kingjs': {
     '-rx': {
-      '-sync': { GroupBy, Regroup, SubscribeAndAssert, Materialize,
+      '-sync': { GroupBy, WindowBy, Regroup, SubscribeAndAssert, Materialize, Log,
         '-static': { of, throws, never }
       }, 
     },
@@ -12,6 +12,20 @@ var grouping = { grouping: true }
 var next = { next: true }
 var complete = { complete: true }
 var error = { error: true }
+
+of('a0', 'a1', 'b0')
+  [WindowBy](o => o[0])
+  [Materialize]()
+  [SubscribeAndAssert]([
+    { ...grouping, keys: [ 'a' ] },
+    { ...next, value: 'a0', keys: [ 'a' ] },
+    { ...next, value: 'a1', keys: [ 'a' ] },
+    { ...complete, keys: [ 'a' ] },
+    { ...grouping, keys: [ 'b' ] },
+    { ...next, value: 'b0', keys: [ 'b' ] },
+    { ...complete, keys: [ 'b' ] },
+    { ...complete }
+  ])
 
 of(0, 1, 2)
   [Materialize]()

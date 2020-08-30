@@ -6,7 +6,7 @@ var {
 
 /**
  * @description `IGroupedObservable` extends `IObservable` and 
- * adds  a single new member `key`.
+ * adds a single new member `key`.
  */
 module[ExportInterface]({
   members: { key: null },

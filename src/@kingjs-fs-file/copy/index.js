@@ -1,10 +1,9 @@
 var { fs, fs: { promises: fsp },
-  '@kingjs': { Path,
+  '@kingjs': { EmptyObject, Path,
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var copySync = fs.copyFileSync.bind(fs)
 var copyAsync = fsp.copyFile.bind(fsp)
 

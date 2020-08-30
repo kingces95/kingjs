@@ -1,11 +1,10 @@
 var {
-  '@kingjs': { Exception,
+  '@kingjs': { EmptyObject, Exception,
     '-module': { ExportExtension },
     '-graph': { Analyze }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var EmptyArray = [ ]
 
 class CycleException extends Exception {

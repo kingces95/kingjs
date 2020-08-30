@@ -1,12 +1,11 @@
 var { assert,
   '@kingjs': {
+    EmptyObject,
     IObserver,
     IObserver: { Subscribed, Next, Complete, Error },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Overrides `IObserver` functions.

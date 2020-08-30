@@ -3,9 +3,8 @@ var {
   path: Path,
   minimatch,
   '@kingjs': {
-    shim,
-    exec,
-    pathTest: testPath,
+    EmptyObject,
+    shim, exec, pathTest: testPath,
     fs: { '-rx': { watchMany } },
     '-rx': {
       Debounce,
@@ -27,7 +26,6 @@ var {
 var DebounceMs = 350
 var Task = 'build'
 var EmptyArray = [ ]
-var EmptyObject = { }
 var EmptyProjectJson = "{ }"
 
 var DotDirGlob = [

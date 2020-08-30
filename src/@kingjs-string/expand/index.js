@@ -1,11 +1,9 @@
 var { 
-  '@kingjs': { 
+  '@kingjs': { EmptyObject,
     '-module': { ExportExtension },
     '-string': { ReplaceAll }
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Given a string with the format of a template literal, 

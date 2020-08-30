@@ -1,11 +1,9 @@
 var {
   '@kingjs': {
     IObservable,
-    '-rx': { Debounce,
-      '-subject': { Subject },
-      '-sync': { Select, Augment, Do, Tap, Regroup, Materialize, 
-                 Where, GroupBy, Pipe, WindowBy, CatchAndAbandon, ThenAbandon,
-        '-static': { never },
+    '-rx': { GroupBy,
+      '-subject': { CollectibleSubject },
+      '-sync': { Select, Regroup, Materialize, Where, WindowBy,
         '-path': { Watch },
       },
     },
@@ -15,7 +13,7 @@ var {
 
 var PathIndex = 0
 var IdentityIndex = 1
-var Timeout = 200 
+var Debounce = 200 
 
 /**
  * @description Observes nodes as they move between paths.
@@ -36,10 +34,13 @@ function select(root, options) {
     selectEntity,
     selectIdentity,
     selectVersion,
-    timeout = Timeout,
+    debounce = Debounce,
   } = options
 
-  var feedback = new Subject()
+  var createSubject = o => new CollectibleSubject(o, {
+    isAddRef: o => o.grouping,
+    isRelease: o => o.complete,
+  })
 
   return this
     [Watch](root, { 
@@ -52,21 +53,11 @@ function select(root, options) {
     })
     [Materialize]()
     [Where](o => o.keys && o.keys.length > 1)
-    [Augment](feedback)
-    [GroupBy](o => o.keys[IdentityIndex], o => o.close)
+    [GroupBy](o => o.keys[IdentityIndex], { createSubject, debounce })
     [Regroup](o => o
-      [Tap](x => x
-        [Debounce](timeout)
-        [Where](y => y.complete)
-        [Do](y => y.close = true)
-        [CatchAndAbandon]()
-        [ThenAbandon]()
-        [Pipe](feedback), { 
-        siphon: x => !x.next
-      })
       [WindowBy](x => x.keys[PathIndex])
-      [Regroup](y => y
-        [Select](z => z.value)
+      [Regroup](x => x
+        [Select](y => y.value)
       )
     )
 }

@@ -1,13 +1,12 @@
 var {
   '@kingjs': {
+    EmptyObject,
     IObservable,
     IGroupedObservable: { Key },
     '-rx-sync': { Select, Take, GroupSetBy, Augment, SelectLeafs },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /**
  * @description Preform an initial scan of the leafs of a tree and 
@@ -19,7 +18,7 @@ var EmptyObject = { }
  * @return Returns a group for each leaf whose key is the leaf and whose
  * emissions are also equivalent representations of the leaf.
  */
-function list(root, options) {
+function list(root, options = EmptyObject) {
   var { 
     isLeaf, 
     selectWatcher, 

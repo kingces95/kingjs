@@ -1,0 +1,31 @@
+{
+  "name": "@kingjs-rx-subject/collectible-subject",
+  "version": "1.0.0",
+  "description": "A class that that proxies events to a private `IObserver` and subscribes clients to a  private `IObservable`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/proxy-subject"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-symbol": "latest",
+    "@kingjs/reflect.is": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest",
+    "@kingjs/rx.subject": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

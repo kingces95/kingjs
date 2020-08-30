@@ -1,0 +1,32 @@
+{
+  "name": "@kingjs-rx/group-by",
+  "version": "1.0.0",
+  "description": "Returns an `IObservable` that emits an `IGroupedObservable` for each group identified by `keySelector`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/rx/group-by"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.export-extension": "latest",
+    "@kingjs/rx.i-grouped-observable": "latest",
+    "@kingjs/rx.i-observable": "latest",
+    "@kingjs/rx.i-observer": "latest",
+    "@kingjs/rx.i-published-observable": "latest",
+    "@kingjs/rx.subject": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ],
+  "capitalize": true
+}

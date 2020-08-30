@@ -1,5 +1,6 @@
 var { assert,
   '@kingjs': {
+    EmptyObject,
     IEquatable: { Equals, GetHashcode },
     IComparable: { IsLessThan },
     '-fs': {
@@ -9,7 +10,6 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
 
 var Async = { async: true }
-var EmptyObject = { }
 
 class InoVersionLink {
   static get dot() { return InoVersionLink.create(InoPath.dot) }

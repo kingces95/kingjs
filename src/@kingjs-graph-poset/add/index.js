@@ -4,8 +4,6 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
-
 /** 
  * @description Adds edges and vertices to this poset.
  * 

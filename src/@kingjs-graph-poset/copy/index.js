@@ -5,8 +5,6 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
-
 /** 
  * @description Copies a poset. 
  * 

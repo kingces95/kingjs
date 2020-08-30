@@ -1,11 +1,9 @@
 var {
-  '@kingjs': {
+  '@kingjs': { EmptyObject,
     '-graph-poset': { Reduce: ReducePoset },
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
 
 /** 
  * @description Reverses the links of the poset.

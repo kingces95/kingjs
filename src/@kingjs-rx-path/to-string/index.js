@@ -1,21 +1,37 @@
 var { assert,
   '@kingjs': {
     IObservable,
-    IObservable: { Subscribe },
-    '-module': { ExportInterfaceExtension },
+    IObserver: { Next, Complete, Error },
+    IGroupedObservable,
+    IGroupedObservable: { Subscribe, Key },
     '-rx': {
-      '-sync': { Materialize, Select },
-    }
+      '-observer': { SubscriptionTracker },
+      '-sync': {
+        '-static': { create, of }
+      }
+    },
+    '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
+var Minus = '-'
+var Plus = '+'
+var Delta = 'Δ'
+var Exclamation = '!'
+
 /**
+ * @description 
+ * @this any The source `IObservable` whose emitted value are mapped.
+ * @returns Returns a new `IObservable` that emits mapped values.
  */
-function materialize() {
+function toString() {
   return this
     [Select](o => {
-      o[Subscribe]()
+      var { found, lost, error, change, move, id, version, path, value } = o
+      
+      if (o.found)
+        return `${Plus} ${path}, id=${id}, version=${version}`
     })
 }
 
-module[ExportInterfaceExtension](IObservable, materialize)
+module[ExportInterfaceExtension](IObservable, toString)

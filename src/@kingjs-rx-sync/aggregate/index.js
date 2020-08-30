@@ -1,5 +1,6 @@
 var { 
   '@kingjs': {
+    EmptyObject,
     IObservable,
     IObservable: { Subscribe },
     IObserver: { Next },
@@ -11,7 +12,6 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Selector = (a, o) => o
 var Options = { name: aggregate.name }
 

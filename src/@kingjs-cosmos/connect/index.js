@@ -1,10 +1,10 @@
 var { mongodb: { MongoClient: Client },
   '@kingjs': {
+    EmptyObject,
     '-pojo': { ToPairs }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var Mongodb = 'mongodb'
 var AzureDomain = 'mongo.cosmos.azure.com'
 var Options = { useUnifiedTopology: true }

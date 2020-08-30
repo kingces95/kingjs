@@ -1,10 +1,10 @@
 var { fs,
   '@kingjs': { Path,
+    EmptyObject,
     '-module': { ExportExtension } 
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyObject = { }
 var existsSync = fs.existsSync.bind(fs)
 var existsAsync = path => new Promise(resolve => fs.exists(path, o => resolve(o)))
 

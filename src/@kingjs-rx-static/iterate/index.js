@@ -1,16 +1,13 @@
 var { 
   '@kingjs': {
     IObserver: { Next, Complete, Error },
-    '-function': { Rename },
+    '-promise': { sleep },
     '-rx': {
       '-observer': { create: createObserver, Check, SubscriptionTracker },
       '-sync-static': { create },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var EmptyObject = { }
-var Scheduler = 'Scheduler'
 
 /**
  * @description Convert an asynchronous iterator into a `IObservable`.
@@ -22,9 +19,7 @@ var Scheduler = 'Scheduler'
  * emitted as an error. Note, exceptions thrown while processing events are unhandled.
  * @remarks Cancellation is checked before emitting any event.
  */
-function iterate(iterator, options = EmptyObject) {
-  var { name } = options
-  
+function iterate(iterator) {
   return create(function(uncheckedObserver) {
     var uncheckedObserver = createObserver(...arguments)      
     var observer = uncheckedObserver[Check]()
@@ -56,9 +51,6 @@ function iterate(iterator, options = EmptyObject) {
 
       observer[Complete]()
     }
-
-    if (name)
-      task[Rename](`${name} [${Scheduler}]`)
 
     process.nextTick(task)
     return subscription.cancel
