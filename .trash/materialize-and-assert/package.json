@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-rx-path/to-string",
+  "name": "@kingjs-rx/materialize-and-assert",
   "version": "1.0.0",
-  "description": "Subscribes `subject` to the source `IObservable` and returns the `subject`.",
+  "description": "Returns a promise that resolves with an array containing emitted values before `complete` or rejects on `error`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,15 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/pipe"
+    "url": "https://repository.kingjs.net/rx/to-array"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.create": "latest",
-    "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest"
+    "@kingjs/rx.i-observable": "latest"
   },
   "nodeDependencies": [
     "assert"

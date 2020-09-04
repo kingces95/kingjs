@@ -19,33 +19,30 @@ var Identity = o => o
  * as elements come, go and/or are retained, groups are created, completed, and/or will emit 
  * the element whose key currently matches the group. 
  * 
- * @this any An `IObservable` of sets.
- * @param [keySelector] Selects an element's key.
- * @param [keyComparer] Compares if one key is less than another.
- * @returns Returns an `IObservable` that emits an `IGroupedObservable` for each element's key 
+ * @this any An `IObservable` of sets where a set is a sorted container which
+ * implements `IEnumerable`.
+ * @param [selectKey] Selects an element's key.
+ * @param [compareKey] Compares if one key is less than another.
+ * @returns Returns an `IObservable` that emits an `IGroupedObservable` for each element's 
  * key which in turn emits the element itself.
  * 
- * @callback setSelector
- * @param value The observation to project into a set.
- * @returns Returns a set as represented as a sorted iterable (e.g. a sorted array).
- * 
- * @callback comparableKeySelector
+ * @callback selectKey
  * @param element An element of the set.
  * @returns Returns a key for `element`.
  * 
- * @callback keyComparer
+ * @callback compareKey
  * @param left An element key.
  * @param right Another element key.
  * @returns Returns true if `left` is less than `right`, otherwise false. 
  */
 function groupSetBy(
-  keySelector = Identity,
-  keyComparer = LessThan) {
+  selectKey = Identity,
+  compareKey = LessThan) {
 
   return this
-    [RollingZipJoin](keySelector, keyComparer)
+    [RollingZipJoin](selectKey, compareKey)
     [GroupBy](
-      o => keySelector(o.outer !== null ? o.outer : o.inner),
+      o => selectKey(o.outer !== null ? o.outer : o.inner),
       o => o.outer === null
     )
     [Regroup](group => group[Select](o => o.outer))

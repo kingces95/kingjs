@@ -53,7 +53,9 @@ class InoVersionLink {
   get __toString() { return this.toString() }
 
   [Equals](o) {
-    return o instanceof InoVersionLink && this.inoLink[Equals](o.inoLink) && this.mtime == o.mtime
+    return o instanceof InoVersionLink && 
+      this.inoLink[Equals](o.inoLink) && 
+      this.mtime == o.mtime
   }
   [GetHashcode]() { 
     return this.inoLink[GetHashcode]() ^ this.mtime

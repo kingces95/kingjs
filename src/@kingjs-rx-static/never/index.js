@@ -12,7 +12,7 @@ var {
  */
 function never(options = EmptyObject) {
   var { pollMs } = options
-  return counter(0, { ms: Number.MAX_SAFE_INTEGER_32, pollMs })
+  return counter(0, { ms: Number.MAX_SAFE_INTEGER, pollMs })
 }
 
 module.exports = never

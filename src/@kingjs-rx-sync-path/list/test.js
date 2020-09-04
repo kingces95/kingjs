@@ -1,84 +1,69 @@
-var { assert,
+var {
   '@kingjs': {
-    IObservable: { Subscribe },
     IObserver: { Next, Complete },
-    '-reflect': { isString },
     '-rx': {
-      '-subject': { Subject, SubjectProxy: Node },
-      '-sync': { Select, Materialize, DistinctUntilChanged, Regroup,
+      '-subject': { Subject },
+      '-sync': { SubscribeAndAssert, Materialize,
         '-path': { List }
       },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-function serialize(o) {
-  var { value, grouping, next, complete, keys } = o
-  
-  if (grouping) {
-    assert.ok(!value)
-    var [ key ] = keys
-    return `+${key}`
-  }
-  
-  if (next) {
-    var [ key ] = keys
-    assert.equal(key, value)
-    return `Δ${value.toString()}`
-  }
-
-  if (complete) {
-    assert.ok(!value)
-    if (!keys)
-      return `-`
-
-    var [ key ] = keys
-    return `-${key}`
-  }
-
-  assert.fail()
-}
-
-var actual = []
-assert.shifted = function() {
-  assert.deepEqual(actual, [...arguments])
-  actual.length = 0
-}
-
-var R = Node({
-  x: null,
-  A: Node({
-    z: null,
-    B: Node({ 
-      z: null
-    })
-  })
-})
-
 var subject = new Subject()
-var names = o => Object.getOwnPropertyNames(o).sort()
 
-subject[List]('R', {
-  isLeaf: path => !eval(path),
-  selectWatcher: path => eval(path),
-  selectChildren: path => names(eval(path)).map(name => `${path}.${name}`),
-})
-[Regroup](o => o[DistinctUntilChanged]())
-[Materialize]()
-[Select](o => serialize(o))
-[Subscribe](o => { console.log(o); actual.push(o) })
+var watchers = {
+  ['a']: new Subject(),
+  ['ab']: new Subject(),
+}
 
-subject[Next]()
-assert.shifted('+R.x', 'ΔR.x', '+R.A.z', 'ΔR.A.z', '+R.A.B.z', 'ΔR.A.B.z')
+var children = {
+  ['a']: [ 'a.x', 'ab' ],
+  ['ab']: [ 'ab.y' ],
+}
 
-R.A.m = null
-assert.shifted('+R.A.m', 'ΔR.A.m')
+subject
+  [List]('a', {
+      isLeaf: path => !watchers[path],
+      selectWatcher: path => watchers[path],
+      selectChildren: path => [...children[path]],
+    })
+  [Materialize]()
+  [SubscribeAndAssert]([
+    () => subject[Next](),
+    { grouping: true, keys: [ 'a.x' ] },
+    { next: true, value: 'a.x', keys: [ 'a.x' ] },
+    { grouping: true, keys: [ 'ab.y' ] },
+    { next: true, value: 'ab.y', keys: [ 'ab.y' ] },
 
-delete R.x
-assert.shifted('-R.x')
+    () => subject[Next](),
 
-delete R.A.B
-assert.shifted('-R.A.B.z')
+    () => watchers['a'][Next](),
+    { next: true, value: 'a.x', keys: [ 'a.x' ] },
 
-subject[Complete]()
-assert.shifted('-R.A.z', '-R.A.m', '-')
+    () => {
+      children['ab'].push('ab.z')
+      watchers['ab'][Next]()
+    },
+    { next: true, value: 'ab.y', keys: [ 'ab.y' ] },
+    { grouping: true, keys: [ 'ab.z' ] },
+    { next: true, value: 'ab.z', keys: [ 'ab.z' ] },
+
+    () => {
+      children['ab'].shift()
+      watchers['ab'][Next]()
+    },
+    { complete: true, keys: [ 'ab.y' ] },
+    { next: true, value: 'ab.z', keys: [ 'ab.z' ] },
+
+    () => {
+      children['a'].pop()
+      watchers['a'][Next]()
+    },
+    { next: true, value: 'a.x', keys: [ 'a.x' ] },
+    { complete: true, keys: [ 'ab.z' ] },
+
+    () => subject[Complete](),
+    { complete: true, keys: [ 'a.x' ] },
+    { complete: true },
+  ], { log: false })

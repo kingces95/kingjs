@@ -8,10 +8,6 @@ var { assert,
 
 var Noop = () => null
 
-// function create(target = { }) {
-//   return create2(target)
-// }
-
 function create(target = { }) {
   var subject = new Subject(Noop)
 

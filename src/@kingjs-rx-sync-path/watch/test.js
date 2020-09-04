@@ -1,115 +1,87 @@
-var { assert,
+var {
   '@kingjs': {
-    IObservable: { Subscribe },
     IObserver: { Next, Complete },
     '-rx': {
-      '-subject': { Subject, SubjectProxy: Wrap },
-      '-sync': { Materialize, Where,
+      '-subject': { Subject },
+      '-sync': { Materialize, SubscribeAndAssert,
         '-path': { Watch }
       },
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-function serialize(o) {
-  var { value, grouping, next, complete, keys } = o
-  
-  if (grouping) {
-    assert.ok(!value)
-    var [ key ] = keys
-    return `+${key}`
-  }
-  
-  if (next) {
-    var [ key ] = keys
-    assert.equal(key, value)
-    return `Δ${value.toString()}`
-  }
-
-  if (complete) {
-    assert.ok(!value)
-    if (!keys)
-      return `-`
-
-    var [ key ] = keys
-    return `-${key}`
-  }
-
-  assert.fail()
-}
-
-class Leaf {
-  constructor(ino, version, path) {
-    this.ino = ino
-    this.version = version
-    this.path = path
-  }
-}
-
-var actual = []
-assert.shifted = function() {
-  assert.deepEqual(actual, [...arguments])
-  actual.length = 0
-}
-
-// This is a tree where nodes are objects and leafs are numbers. 
-// `eval` coupled with property enumeration is used to read "paths" 
-// to nodes like a file system API would list a directory at a path. 
-// Each nodes implement IObservable and report create, read, update, 
-// and delete (CRUD) events as a file system watcher API would report 
-// directory events.
-
-var R = Wrap({
-  x: new Leaf(0, 0, 'R.x'),
-  // A: Wrap({
-  //   z: 1,
-  //   B: Wrap({ 
-  //     z: 2
-  //   })
-  // })
-})
-
 var subject = new Subject()
-var names = o => Object.getOwnPropertyNames(o).sort()
-var i = 100
 
-subject[Watch]('R', {
-  isLeaf: path => eval(path) instanceof Leaf,
-  selectWatcher: path => eval(path)[Where](o => !o.isRead),
-  selectChildren: path => names(eval(path)).map(name => `${path}.${name}`),
-  selectEntity: path => eval(path),
-  selectIdentity: entity => entity.ino,
-  selectVersion: entity => entity.version
-})
-[Materialize]()
-[Subscribe](o => { 
-  process.stdout.write(`${i++}: `)
-  console.log(o)
-  actual.push(o) 
-})
+var watchers = {
+  ['a']: new Subject(),
+  ['ab']: new Subject(),
+}
 
-subject[Next]()
-R.x = new Leaf(0, 0, 'R.x')
-R.x = new Leaf(0, 1, 'R.x')
-delete R.x
-R.new_x = new Leaf(0, 0, 'R.new_x')
-// R.A.B.new_z = 2
-// delete R.A.B.z
-//subject[Next]()
+var children = {
+  ['a']: [ 'a.x', 'ab' ],
+  ['ab']: [ 'ab.y' ],
+}
 
-subject[Complete]()
-return
+var entity = {
+  ['a.x']: 'x0',
+  ['ab.y']: 'y0',
+  ['ab.z']: 'z0',
+}
 
-assert.shifted('+R.x', 'ΔR.x', '+R.A.z', 'ΔR.A.z', '+R.A.B.z', 'ΔR.A.B.z')
+subject
+  [Watch]('a', {
+    isLeaf: path => !watchers[path],
+    selectWatcher: path => watchers[path],
+    selectChildren: path => [...children[path]],
+    selectEntity: path => entity[path],
+    selectIdentity: entity => entity[0],
+    selectVersion: entity => entity[1],
+  })
+  [Materialize]()
+  [SubscribeAndAssert]([
+    () => subject[Next](),
+    { grouping: true, keys: [ 'a.x' ] },
+    { grouping: true, keys: [ 'a.x', 'x' ] },
+    { next: true, value: 'x0', keys: [ 'a.x', 'x' ] },
+    { grouping: true, keys: [ 'ab.y' ] },
+    { grouping: true, keys: [ 'ab.y', 'y' ] },
+    { next: true, value: 'y0', keys: [ 'ab.y', 'y' ] },
 
-R.A.m = null
-assert.shifted('+R.A.m', 'ΔR.A.m')
+    () => subject[Next](),
 
-delete R.x
-assert.shifted('-R.x')
+    () => watchers['a'][Next](),
 
-delete R.A.B
-assert.shifted('-R.A.B.z')
+    () => {
+      entity['a.x'] = 'x1',
+      watchers['a'][Next]()
+    },
+    { next: true, value: 'x1', keys: [ 'a.x', 'x' ] },
 
-subject[Complete]()
-assert.shifted('-R.A.z', '-R.A.m', '-')
+    () => {
+      children['ab'].push('ab.z')
+      watchers['ab'][Next]()
+    },
+    { grouping: true, keys: [ 'ab.z' ] },
+    { grouping: true, keys: [ 'ab.z', 'z' ] },
+    { next: true, value: 'z0', keys: [ 'ab.z', 'z' ] },
+
+    () => {
+      children['ab'].shift()
+      watchers['ab'][Next]()
+    },
+    { complete: true, keys: [ 'ab.y', 'y' ] },
+    { complete: true, keys: [ 'ab.y' ] },
+
+    () => {
+      children['a'].pop()
+      watchers['a'][Next]()
+    },
+    { complete: true, keys: [ 'ab.z', 'z' ] },
+    { complete: true, keys: [ 'ab.z' ] },
+
+    () => subject[Complete](),
+    { complete: true, keys: [ 'a.x', 'x' ] },
+    { complete: true, keys: [ 'a.x' ] },
+    { complete: true }
+
+  ], { log: false })

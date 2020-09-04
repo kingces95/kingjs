@@ -1,133 +1,119 @@
-var { assert,
+var {
   '@kingjs': {
-    EmptyObject,
-    IObservable: { Subscribe },
     IObserver: { Next, Complete },
     '-promise': { sleep },
-    '-rx': {
-      '-path': { Watch, Materialize },
-      '-subject': { Subject, SubjectProxy: Wrap },
-      '-sync': { Where, Select, SubscribeAndLog },
-    }
+    '-rx': { SubscribeAndAssert,
+      '-path': { Watch },
+      '-subject': { Subject },
+      '-sync': { Materialize },
+    },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-// This is a tree where nodes are objects and leafs are numbers. 
-// `eval` coupled with property enumeration is used to read "paths" 
-// to nodes like a file system API would list a directory at a path. 
-// Each nodes implement IObservable and report create, read, update, 
-// and delete (CRUD) events as a file system watcher API would report 
-// directory events.
+var subject = new Subject()
 
-class Leaf {
-  constructor(id, path, version) {
-    this.id = id
-    this.path = path
-    this.version = version
-  }
+var watchers = {
+  ['a']: new Subject(),
+  ['ab']: new Subject(),
 }
 
-Array.prototype.popAndAssert = function() {
-  var args = [...arguments]
-  if (!args.length) {
-    assert.ok(this.length == 0)
-    return
-  }
-
-  assert.deepEqual(this, args)
-  this.length = 0
-}
-Array.prototype.popAndAssertComplete = function() {
-  this.popAndAssert({ complete: true })
-}
-Array.prototype.popAndAssertValue = function(type, id, path, version, options = EmptyObject) {
-  if (type != 'lost')
-    options = { ...options, value: new Leaf(id, path, version) }
-  this.popAndAssert({ [type]: true, id, path, ...options })
-}
-Array.prototype.popAndAssertFound = function(id, path, version) {
-  this.popAndAssertValue('found', id, path, version)
-}
-Array.prototype.popAndAssertChange = function(id, path, version) {
-  this.popAndAssertValue('change', id, path, version)
-}
-Array.prototype.popAndAssertLost = function(id, path, version) {
-  this.popAndAssertValue('lost', id, path, version)
-}
-Array.prototype.popAndAssertMove = function(id, previousPath, path, version) {
-  this.popAndAssertValue('move', id, path, version, { previousPath })
+var children = {
+  ['a']: [ 'a.x', 'ab' ],
+  ['ab']: [ 'ab.y' ],
 }
 
-// var R = Wrap({
-//   x: new Leaf(1, 0, 'R.x'),
-//   // A: Wrap({
-//   //   z: new Leaf(2, 0, 'R.A.z'),
-//   //   B: Wrap({ 
-//   //     z: new Leaf(3, 0, 'R.A.B.z')
-//   //   })
-//   // })
-// })
-
-var names = o => Object.getOwnPropertyNames(o).sort()
-var selectVersion = entity => entity.version
-
-function options(root) {
-  var R = root
-  return {
-    isLeaf: path => eval(path) instanceof Leaf,
-    selectWatcher: path => eval(path)[Where](o => !o.isRead),
-    selectChildren: path => names(eval(path)).map(name => `${path}.${name}`),
-    selectEntity: path => eval(path),
-    selectIdentity: entity => entity.id,
-    selectVersion,
-    debounce: 200,
-  }
+var entity = {
+  ['a.x']: 'x0',
+  ['ab.y']: 'y0',
+  ['ab.z']: 'z0',
+  ['a.z']: 'z0',
 }
 
-process.nextTick(async () => {
-  var id = 1
-  var path = 'R.x'
-  var previousPath = null
-  var version = 0
+subject
+  [Watch]('a', {
+    isLeaf: path => !watchers[path],
+    selectWatcher: path => watchers[path],
+    selectChildren: path => [...children[path]],
+    selectEntity: path => entity[path],
+    selectIdentity: entity => entity[0],
+    selectVersion: entity => entity[1],
+    debounce: 20,
+  })
+  [Materialize]()
+  [SubscribeAndAssert]([
+    () => subject[Next](),
+    { grouping: true, keys: [ 'x' ] },
+    { grouping: true, keys: [ 'x', 'a.x' ] },
+    { next: true, value: 'x0', keys: [ 'x', 'a.x' ] },
+    { grouping: true, keys: [ 'y' ] },
+    { grouping: true, keys: [ 'y', 'ab.y' ] },
+    { next: true, value: 'y0', keys: [ 'y', 'ab.y' ] },
 
-  var R = Wrap({ x: new Leaf(id, path, version) })
+    () => subject[Next](),
 
-  var actual = []
-  var subject = new Subject()
-  subject[Watch]('R', options(R))
-    [Materialize]()
-    [Subscribe](o => actual.push(o))
-  
-  // test found
-  subject[Next]()
-  actual.popAndAssertFound(id, path, version)
+    () => watchers['a'][Next](),
 
-  // test change
-  R.x = new Leaf(id, path, ++version)
-  actual.popAndAssertChange(id, path, version)
+    () => {
+      entity['a.x'] = 'x1',
+      watchers['a'][Next]()
+    },
+    { next: true, value: 'x1', keys: [ 'x', 'a.x' ] },
 
-  // suppress matching version
-  R.x = new Leaf(id, path, version)
-  actual.popAndAssert()
+    () => {
+      // create z
+      children['ab'].push('ab.z')
+      watchers['ab'][Next]()
+    },
+    { grouping: true, keys: [ 'z' ] },
+    { grouping: true, keys: [ 'z', 'ab.z' ] },
+    { next: true, value: 'z0', keys: [ 'z', 'ab.z' ] },
 
-  // test move
-  delete R.x
-  actual.popAndAssert()
-  previousPath = path
-  R.new_x = new Leaf(id, path = 'R.new_x', version)
-  actual.popAndAssertMove(id, previousPath, path, version)
+    () => {
+      // delete z
+      children['ab'].pop()
+      watchers['ab'][Next]()
+    },
+    () => sleep(100),
+    { complete: true, keys: [ 'z', 'ab.z' ] },
+    { complete: true, keys: [ 'z' ] },
 
-  // test debounced delete
-  delete R.new_x
-  actual.popAndAssert()
+    () => {
+      // create z
+      children['ab'].push('ab.z')
+      watchers['ab'][Next]()
+    },
+    { grouping: true, keys: [ 'z' ] },
+    { grouping: true, keys: [ 'z', 'ab.z' ] },
+    { next: true, value: 'z0', keys: [ 'z', 'ab.z' ] },
 
-  // test lost
-  await sleep(500)
-  actual.popAndAssertLost(id, path, version)
-  
-  // test complete
-  subject[Complete]()
-  actual.popAndAssertComplete()
+    () => {
+      // rename ab.z -> a.z
+      children['ab'].pop()
+      watchers['ab'][Next]()
 
-  console.log(actual)
-})
+      children['a'].push('a.z')
+      watchers['a'][Next]()
+    },
+    { complete: true, keys: [ 'z', 'ab.z' ] },
+    // { complete: true, keys: [ 'z' ] } // that this is missing => move
+    { grouping: true, keys: [ 'z', 'a.z' ] },
+    { next: true, value: 'z0', keys: [ 'z', 'a.z' ] },
+
+    () => {
+      children['a'].pop()
+      children['a'].pop()
+      watchers['a'][Next]()
+    },
+    () => sleep(100),
+    { complete: true, keys: [ 'y', 'ab.y' ] },
+    { complete: true, keys: [ 'y' ] },
+    { complete: true, keys: [ 'z', 'a.z' ] },
+    { complete: true, keys: [ 'z' ] },
+
+    () => subject[Complete](),
+    { complete: true, keys: [ 'x', 'a.x' ] },
+    { complete: true, keys: [ 'x' ] },
+    { complete: true },
+  ], { 
+    log: false
+  })

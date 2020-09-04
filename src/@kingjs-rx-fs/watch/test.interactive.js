@@ -1,34 +1,70 @@
-var { readline,
+var { assert, readline,
   '@kingjs': {
-    Path,
-    IObservable: { Subscribe },
-    IObserver: { Next, Error },
-    '-rx': { Debounce,
+    IObserver: { Next, Complete },
+    IGroupedObservable: { Key, Subscribe },
+    '-fs-entity': { InoPath, InoVersionPath },
+    '-rx': {
       '-subject': { Subject },
-      '-fs': { Watch }
+      '-sync': { 
+        SubscribeAndAssert, Materialize, Do, Select, Rekey, Log, 
+        Where, Regroup, WindowBy, DistinctUntilChanged,
+        '-static': { counter },
+      },
+      '-fs': { WatchLinks, Watch }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var DebounceMs = 60
+//process.chdir('foo')
 
-process.nextTick(async () =>{
+var subject = new Subject(() => null)
 
-  var subject = new Subject()
-  subject
-    [Watch](Path.parse(__filename))
-    [Debounce](DebounceMs)
-    [Subscribe]({
-      [Next]() { process.stdout.write('.') }
-    })
-
-  var rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
-
-  rl.on('SIGINT', () => {
-    subject[Error]()
-    rl.close()
-  })
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
 })
+
+rl.on('SIGINT', () => {
+  console.log('ctrl-c')
+  subject[Complete]()
+  rl.close()
+})
+
+var i = 100
+function serialize(o) {
+  var result = `${i++}: `
+  if (o.grouping) result += '+'
+  if (o.complete) result +=  '-'
+  if (o.next) result +=  'Δ'
+
+  result += ' '
+  result += o.keys[0].path.toString()
+
+  if (o.keys.length > 1) {
+    result += ' -> ino:' + o.keys[1].ino
+
+    if (o.next)
+      result += ', mtime:' + o.value.mtime
+  }
+
+  return result
+}
+
+subject
+  [WatchLinks]()
+  [Regroup](dirEntry => dirEntry
+    [Select](o => InoPath.create(o))
+    [WindowBy]()
+    [Regroup](inoPath => inoPath
+      [Select](o => InoVersionPath.create(o))
+      [DistinctUntilChanged]()  
+    )
+  )
+  [Materialize]()
+  [Select](o => serialize(o))
+  [Subscribe](o => console.log(o))
+
+subject[Next]()
+
+// FileVersion, DirVersion, LinkVersion
+// FileLink, DirLink, LinkLink

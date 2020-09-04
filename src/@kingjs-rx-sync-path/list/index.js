@@ -16,13 +16,14 @@ var {
  * @param {*} options A pojo like { isLeaf, selectWatcher, selectEntries } 
  * where each property is a function that takes a node.
  * @return Returns a group for each leaf whose key is the leaf and whose
- * emissions are also equivalent representations of the leaf.
+ * emissions are equivalent representations of the leaf.
  */
 function list(root, options = EmptyObject) {
   var { 
     isLeaf, 
     selectWatcher, 
     selectChildren, 
+    selectIdentity,
   } = options
 
   function groupNodes(observable, node) {

@@ -1,37 +1,79 @@
-var {
+var { assert,
   '@kingjs': {
     Path,
-    '-fs-file': { Write, Unlink },
-    '-rx': { SubscribeAndAssert,
-      '-static': { never },
-      '-sync': { SubscribeAndAssert: SyncSubscribeAndAssert,
-        '-static': { of, throws },
+    IObservable: { Subscribe },
+    '-fs': { Exists,
+      '-dir': { Make, Remove },
+      '-file': { Overwrite, Unlink },
+    },
+    '-rx': {
+      '-sync': { SubscribeAndAssert, Do, Select,
+        '-static': { of, never },
       },
+      '-path': { Materialize },
       '-fs': { Watch }
     }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-process.nextTick(async () =>{
-  var path = Path.dot
+var dot = Path.dot
 
-  of(0)
-    [Watch](path)
-    [SyncSubscribeAndAssert]([0])
+var acme = 'acme'
 
-  throws('error')
-    [Watch](path)
-    [SyncSubscribeAndAssert](null, { error: 'error' })
+var root = dot.to(acme)
+if (root[Exists]())
+  root[Remove]()
 
-  await never()
-    [Watch](path)
-    [SubscribeAndAssert](null, { terminate: true })
+root[Make]()
+process.chdir(root.toString())
 
-  var fooTxt = path.to('foo.txt')
-  process.nextTick(() => foo = path[Write](fooTxt.name))
-  await never()
-    [Watch](path)
-    [SubscribeAndAssert]([null], { terminate: true })
+var dir = dot.to('d')
+var foo = dot.to('f')
+var bar = dir.to('b')
 
-  fooTxt[Unlink]()
-})
+foo[Overwrite]()
+
+never()
+  [Watch]()
+  [Materialize]()
+  [Select](o => o.toString())
+  [Subscribe](o => console.log(o))
+return
+
+of(() => foo[Overwrite]())
+  [Do](o => o())
+  [Watch]()
+  // [Rekey](o => {
+  //   assert.equal(o.name, o.path.name)
+  //   assert.equal(o.type, Kind.File)
+  //   return o.path.toString()
+  // })
+  [Materialize]()
+  //[Select](o => serialize(o))
+  //[Subscribe]()
+  [Subscribe](o => console.log(o.toString()))
+  //[SubscribeAndAssert](expected)
+return
+
+var expected = [ 
+  '+f', 'Δf0', 
+  'Δf1', 
+  '+d/b', 'Δd/b2', 'Δf2', 
+  '-d/b', 'Δf3', 
+  '-f', '-' 
+]
+
+process.chdir('..')
+root[Remove]()
+
+// function serialize(o) {
+//   var result = ''
+//   if (o.grouping) result += '+'
+//   if (o.complete) result +=  '-'
+//   if (o.next) result +=  'Δ'
+
+//   var keys = o.keys || []
+//   result += keys.join('')
+//   //if (o.next) result += o.value
+//   return result
+// }

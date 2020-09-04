@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-fs-rx/watch-links",
+  "name": "@kingjs-fs-rx/watch-path",
   "version": "1.0.0",
-  "description": "Returns the stats for a path that have a different  `ctime` than the last observed stats for the path.",
+  "description": "Watch a path.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,20 +13,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/rx/distinct-stats"
+    "url": "https://repository.kingjs.net/fs/rx/watch"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/fs.rx.path-subject": "latest",
-    "@kingjs/fs.rx.stats-subject": "latest",
     "@kingjs/reflect.export-extension": "latest",
     "@kingjs/rx.create": "latest",
-    "@kingjs/rx.distinct-until-changed": "latest",
-    "@kingjs/rx.i-grouped-observable": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.pool": "latest",
-    "@kingjs/rx.window-by": "latest"
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "fs"

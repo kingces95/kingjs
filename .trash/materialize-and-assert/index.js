@@ -1,8 +1,9 @@
 var {
   '@kingjs': {
+    EmptyObject,
     IObservable,
     '-rx': { 
-      '-sync': { SubscribeAndAssert }
+      '-sync': { MaterializeAndAssert },
     },
     '-module': { ExportInterfaceExtension },
   }
@@ -12,11 +13,11 @@ var {
  * @description Asserts the sequence of events.
  * @this any The source `IObservable` whose emission are examined.
  */
-function subscribeAndAssert(expectedNext, options = { }) {
-  return this[SubscribeAndAssert](expectedNext, {
+function materializeAndAssert(expected, options = EmptyObject) {
+  return this[MaterializeAndAssert](expected, {
     ...options,
     async: true
   })
 }
 
-module[ExportInterfaceExtension](IObservable, subscribeAndAssert)
+module[ExportInterfaceExtension](IObservable, materializeAndAssert)

@@ -9,8 +9,6 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-function isOdd(o) { return o % 2 }
-
 process.nextTick(async () => {
 
   var cancelled = false

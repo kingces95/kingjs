@@ -1,5 +1,5 @@
 var { fs, fs: { promises: fsp },
-  '@kingjs': { EmptyObject, Path,
+  '@kingjs': { EmptyObject, EmptyBuffer, Path,
     '-module': { ExportExtension }
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -29,7 +29,7 @@ var writeLinkAsync = fsp.symlink.bind(fsp)
  * is also passed, then the symbolic link will target a file of that name in that 
  * directory instead of the directory itself.
  */
-function write(name, data, options = EmptyObject) {
+function write(name, data = EmptyBuffer, options = EmptyObject) {
   var { async, link } = options
   var path = this.to(name)
 

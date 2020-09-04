@@ -48,8 +48,7 @@ function create(generator, options = EmptyObject) {
             await sleep(Math.min(pollMs, ms))
             if (subscription.cancelled)
               return
-          } 
-          while (Date.now() - start < ms)
+          } while (Date.now() - start < ms)
         }
       }
 
