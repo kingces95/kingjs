@@ -19,7 +19,7 @@ var { assert,
 var Plus = '+'
 var Minus = '-'
 var Delta = 'Δ'
-var Arrow = '↺'
+var Arrow = '~'
 var Exclamation = '!'
 
 class Event {

@@ -3,10 +3,10 @@ var { assert,
     IObserver: { Next, Complete },
     IGroupedObservable: { Key },
     '-promise': { sleep },
-    '-rx': {
+    '-rx': { SubscribeAndAssert: SubscribeAndAssertAsync,
       '-path': { Watch, Materialize },
       '-subject': { Subject },
-      '-sync': { SubscribeAndAssert, Then, Do,
+      '-sync': { Then, Do, SubscribeAndAssert,
         '-static': { of, from, throws, empty },
       },
     }
@@ -78,60 +78,73 @@ of(
   ])
 
 process.nextTick(async () => {
-  var subject = new Subject()
+
+  class Node {
+    constructor(path) { this.path = path }
+  }
+  class Leaf extends Node {
+    constructor(path, id, v) {
+      super(path)
+      this.id = id
+      this.v = v
+    }
+  }
+
+  var a = new Node('a')
+  var b = new Node('ab')
+  var x0 = new Leaf('a.x', 'x', 0)
+  var x1 = new Leaf('a.x', 'x', 1)
+  var y0 = new Leaf('ab.y', 'y', 0)
+  var z0 = new Leaf('ab.z', 'z', 0)
+  var Z0 = new Leaf('a.z', 'z', 0)
 
   var watchers = {
     ['a']: new Subject(),
     ['ab']: new Subject(),
   }
-  
+
   var children = {
-    ['a']: [ 'a.x', 'ab' ],
-    ['ab']: [ 'ab.y' ],
+    ['a']: [ x0, b ],
+    ['ab']: [ y0 ],
   }
-  
-  var entity = {
-    ['a.x']: 'x0',
-    ['ab.y']: 'y0',
-    ['ab.z']: 'z0',
-    ['a.z']: 'z0',
-  }
-  
+
+  var subject = new Subject()
+
   var result = []
 
   await subject
-    [Watch]('a', {
-      isLeaf: path => !watchers[path],
-      selectWatcher: path => watchers[path],
-      selectChildren: path => [...children[path]],
-      selectEntity: path => entity[path],
-      selectIdentity: entity => entity[0],
-      selectVersion: entity => entity[1],
+    [Watch](a, {
+      isLeaf: o => o instanceof Leaf,
+      selectWatcher: o => watchers[o.path],
+      selectChildren: o => [...children[o.path]],
+      selectPath: o => o.path,
+      selectIdentity: o => o.id,
+      selectVersion: o => o.v,
       debounce: 20,
     })
     [Materialize]()
     [Do](o => result.push(o))
-    [SubscribeAndAssert]([
+    [SubscribeAndAssertAsync]([
       () => subject[Next](),
-      { found: true, id: 'x', path: 'a.x', value: 'x0' },
-      { found: true, id: 'y', path: 'ab.y', value: 'y0' },
+      { found: true, id: 'x', path: 'a.x', value: x0 },
+      { found: true, id: 'y', path: 'ab.y', value: y0 },
   
       () => subject[Next](),
   
       () => watchers['a'][Next](),
   
       () => {
-        entity['a.x'] = 'x1',
+        children['a'][0] = x1,
         watchers['a'][Next]()
       },
-      { change: true, id: 'x', path: 'a.x', value: 'x1' } ,
+      { change: true, id: 'x', path: 'a.x', value: x1 } ,
   
       () => {
         // create z
-        children['ab'].push('ab.z')
+        children['ab'].push(z0)
         watchers['ab'][Next]()
       },
-      { found: true, id: 'z', path: 'ab.z', value: 'z0' },
+      { found: true, id: 'z', path: 'ab.z', value: z0 },
   
       () => {
         // delete z
@@ -143,20 +156,20 @@ process.nextTick(async () => {
   
       () => {
         // create z
-        children['ab'].push('ab.z')
+        children['ab'].push(z0)
         watchers['ab'][Next]()
       },
-      { found: true, id: 'z', path: 'ab.z', value: 'z0' },
+      { found: true, id: 'z', path: 'ab.z', value: z0 },
   
       () => {
         // rename ab.z -> a.z
         children['ab'].pop()
         watchers['ab'][Next]()
   
-        children['a'].push('a.z')
+        children['a'].push(Z0)
         watchers['a'][Next]()
       },
-      { move: true, id: 'z', path: 'a.z', previousPath: 'ab.z', value: 'z0' },
+      { move: true, id: 'z', path: 'a.z', previousPath: 'ab.z', value: Z0 },
   
       () => {
         children['a'].pop()
@@ -169,9 +182,7 @@ process.nextTick(async () => {
   
       () => subject[Complete](),
       { lost: true, id: 'x', path: 'a.x' }, 
-    ], { 
-      async: true
-    })
+    ], { log: false })
 
     result = result.map(o => o.toString())
     assert.deepEqual(result, [

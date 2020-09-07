@@ -31,7 +31,7 @@ function select(root, options) {
     isLeaf,
     selectWatcher,
     selectChildren,
-    selectEntity,
+    selectPath,
     selectIdentity,
     selectVersion,
     debounce = Debounce,
@@ -47,7 +47,7 @@ function select(root, options) {
       isLeaf, 
       selectWatcher, 
       selectChildren,
-      selectEntity,
+      selectPath,
       selectIdentity,
       selectVersion,
     })

@@ -42,11 +42,12 @@ function watch(options = EmptyObject) {
   return this
     [Watch](dir, {
       isLeaf: o => !o.isDirectory,
-      selectWatcher: o => selectWatcher(o)
-        [WatchPath](o.path)
-        [Debounce](debounceMs),
+      selectWatcher: o => 
+        selectWatcher(o)
+          [WatchPath](o.path)
+          [Debounce](debounceMs),
       selectChildren: o => o.list(),
-      selectEntity: o => o,
+      selectPath: o => o.path,
       selectIdentity: o => o.ino,
       selectVersion: o => o.mtime,
       debounce: debounceMs,

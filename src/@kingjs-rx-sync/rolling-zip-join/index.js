@@ -1,7 +1,9 @@
-var { 
+var { assert,
   '@kingjs': {
-    LessThan,
+    Identity,
+    Comparer: { default: Comparer },
     IObservable,
+    IComparer,
     '-rx': {
       '-sync': { SelectMany, RollingBuffer, Select,
         '-static': { from: rx }
@@ -14,9 +16,6 @@ var {
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
-
-var Identity = o => o
-var LessThan = (l,r) => l < r
 
 /**
  * @description Emit changes over time to versions of an ordered iterable. 
@@ -43,7 +42,9 @@ var LessThan = (l,r) => l < r
  */
 function rollingZipJoin(
   keySelector = Identity,
-  keyComparer = LessThan) {
+  keyComparer = Comparer) {
+
+  assert.ok(keyComparer instanceof IComparer)
 
   return this
     [Select](o => linq(o))

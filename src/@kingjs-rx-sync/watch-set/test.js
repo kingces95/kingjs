@@ -1,11 +1,12 @@
 var { assert,
   '@kingjs': {
+    Comparer,
     ISingleton: { IsSingleton },
     IComparable: { IsLessThan },
     IEquatable: { Equals, GetHashcode },
     '-string': { GetHashcode: GetStringHashcode },
     '-rx': { 
-      '-sync': { GroupSetBy, Materialize, SubscribeAndAssert, Regroup, Rekey, Select,
+      '-sync': { WatchSet, Materialize, SubscribeAndAssert,
         '-static': { of, throws, never },
       },
     },
@@ -15,7 +16,7 @@ var { assert,
 // group sets expressed as ordered integer arrays 
 // where the integer element is the group key
 of([0, 1], [0, 2], [2])
-  [GroupSetBy]()
+  [WatchSet]()
   [Materialize]()
   [SubscribeAndAssert]([
     { grouping: true, keys: [ 0 ] }, // new element 0
@@ -53,7 +54,7 @@ class Key {
 
 // test composite key
 of([new Key('n', 't')], [new Key('n', 't')])
-  [GroupSetBy]()
+  [WatchSet]()
   [Materialize]()
   [SubscribeAndAssert]([
     { grouping: true, keys: [{ name: 'n', type: 't' }] },
@@ -73,10 +74,10 @@ of([new Key('n', 't')], [new Key('n', 't')])
 
 class SKey {
   constructor(key) {
-    this.value = key
+    this.id = key
   }
 
-  [IsSingleton]() { return true}
+  [IsSingleton]() { return true }
 }
 class SVal {
   constructor(key) {
@@ -88,41 +89,49 @@ var v0 = new SVal(0)
 var v1 = new SVal(1)
 var v2 = new SVal(2)
 
+var k0 = v0.key
+var k1 = v1.key
+var k2 = v2.key
+
 of(
   [v0, v1], 
   [v0, v2], 
   [v2]
 )
 // custom key selector and comparer
-[GroupSetBy](o => o.key, (l, r) => l.value < r.value)
-[Rekey](o => o.value)
-[Regroup](o => o[Select](x => x.key.value))
+[WatchSet]({
+  keySelector: o => o.key, 
+  keyComparer: new Comparer((l, r) => l.id < r.id)
+})
 [Materialize]()
 [SubscribeAndAssert]([
-  { grouping: true, keys: [ 0 ] },
-  { next: true, value: 0, keys: [ 0 ] },
-  { grouping: true, keys: [ 1 ] },
-  { next: true, value: 1, keys: [ 1 ] },
-  { next: true, value: 0, keys: [ 0 ] },
-  { complete: true, keys: [ 1 ] },
-  { grouping: true, keys: [ 2 ] },
-  { next: true, value: 2, keys: [ 2 ] },
-  { complete: true, keys: [ 0 ] },
-  { next: true, value: 2, keys: [ 2 ] },
-  { complete: true, keys: [ 2 ] },
+  { grouping: true, keys: [ k0 ] },
+  { next: true, value: v0, keys: [ k0 ] },
+  { grouping: true, keys: [ k1 ] },
+  { next: true, value: v1, keys: [ k1 ] },
+
+  { next: true, value: v0, keys: [ k0 ] },
+  { complete: true, keys: [ k1 ] },
+  { grouping: true, keys: [ k2 ] },
+  { next: true, value: v2, keys: [ k2 ] },
+
+  { complete: true, keys: [ k0 ] },
+  { next: true, value: v2, keys: [ k2 ] },
+
+  { complete: true, keys: [ k2 ] },
   { complete: true }
 ])
 
 never()
-  [GroupSetBy]()
+  [WatchSet]()
   [SubscribeAndAssert](null, { terminate: true })
 
 throws('error')
-  [GroupSetBy]()
+  [WatchSet]()
   [SubscribeAndAssert](null, { error: 'error' })
 
 of([0])
-  [GroupSetBy]()
+  [WatchSet]()
   [Materialize]()
   [SubscribeAndAssert]([
     { grouping: true, keys: [ 0 ] },

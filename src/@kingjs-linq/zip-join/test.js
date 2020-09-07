@@ -1,5 +1,6 @@
 var {
   '@kingjs': {
+    Comparer,
     '-linq': { ZipJoin, EnumerateAndAssert, Select,
       '-static': { of }
     }
@@ -28,25 +29,25 @@ of(
 ])
 
 of(
-  { outer: 1, outerName: 'a' },
-  { outer: 2, outerName: 'b' },
-  { outer: 3, outerName: 'd' },
-  { outer: 4, outerName: 'e' },
+  { outer: 1, outerName: { key: 'a' } },
+  { outer: 2, outerName: { key: 'b' } },
+  { outer: 3, outerName: { key: 'd' } },
+  { outer: 4, outerName: { key: 'e' } },
 )[ZipJoin](
   of(
-    { inner: -1, innerName: 'b' },
-    { inner: -2, innerName: 'c' },
-    { inner: -3, innerName: 'd' },
+    { inner: -1, innerName: { key: 'b' } },
+    { inner: -2, innerName: { key: 'c' } },
+    { inner: -3, innerName: { key: 'd' } },
   ), 
   o => o.outerName,
   o => o.innerName,
-  (l, r) => l < r
+  new Comparer((l, r) => l.key < r.key)
 )
 [Select](o => ({ ...o.outer, ...o.inner }))
 [EnumerateAndAssert]([
-  { outer: 1,            outerName: 'a'                 },
-  { outer: 2, inner: -1, outerName: 'b', innerName: 'b' },
-  {           inner: -2,                 innerName: 'c' },
-  { outer: 3, inner: -3, outerName: 'd', innerName: 'd' },
-  { outer: 4,            outerName: 'e'                 },
+  { outer: 1,            outerName: { key: 'a' }                          },
+  { outer: 2, inner: -1, outerName: { key: 'b' }, innerName: { key: 'b' } },
+  {           inner: -2,                          innerName: { key: 'c' } },
+  { outer: 3, inner: -3, outerName: { key: 'd' }, innerName: { key: 'd' } },
+  { outer: 4,            outerName: { key: 'e' }                          },
 ])

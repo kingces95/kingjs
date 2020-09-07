@@ -1,69 +1,40 @@
 var { assert,
   '@kingjs': { 
-    IEquatable,
-    IEquatable: { Equals, GetHashcode },
-    ISingleton,
+    EmptyObject,
+    EqualityComparer,
+    IEqualityComparer,
+    IEqualityComparer: { Equals, GetHashcode },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var EmptyArray = [ ]
 var Iterator = Symbol.iterator
 
-function isPrimitiveOrSingleton(key) {
-  if (key instanceof ISingleton) return true
-
-  var type = typeof(key)
-  if (type == 'string') return true
-  if (type == 'number') return true
-  if (type == 'boolean') return true
-  return false
-}
-
 class Dictionary {
+  constructor(options = EmptyObject) {
+    var { comparer = EqualityComparer } = options
+    assert(comparer instanceof IEqualityComparer)
+    this.comparer = comparer
 
-  initialize(key) {
-    if (this.dictionary)
-      return this.dictionary
-
-    if (isPrimitiveOrSingleton(key))
-      return this.dictionary = new Map()
-
-    assert(key instanceof IEquatable)
-    return this.dictionary = new ScanDictionary()
-  }
-
-  get size() { return this.dictionary ? this.dictionary.size : 0 }
-
-  get(key) { return this.dictionary ? this.dictionary.get(key) : undefined }
-  delete(key) { return this.dictionary ? this.dictionary.delete(key) : undefined }
-  has(key) { return this.dictionary ? this.dictionary.has(key) : false }
-  set(key, value) { return this.initialize(key).set(key, value) }
-
-  clear() { this.dictionary ? this.dictionary.clear() : undefined }
-  keys() { return this.dictionary ? this.dictionary.keys() : EmptyArray }
-  values() { return this.dictionary ? this.dictionary.values() : EmptyArray }
-  entries() { return this.dictionary ? this.dictionary.entries() : EmptyArray }
-
-  [Iterator]() { return this.dictionary ? this.dictionary[Iterator]() : EmptyArray[Iterator]() }
-}
-
-class ScanDictionary {
-
-  constructor() {
     this.clear()
   }
 
   getIndex(key) {
-    assert(key instanceof IEquatable)
+    var { comparer } = this
+
+    // TODO: Actually implement instead of scanning
     for (var i = 0; i < this.keys_.length; i ++) {
       var keyAtSlot = this.keys_[i]
       if (keyAtSlot === undefined)
         continue
 
-      if (!keyAtSlot[Equals](key))
+      if (!comparer[Equals](keyAtSlot, key))
         continue
         
-      assert(key[GetHashcode]() == keyAtSlot[GetHashcode]())
+      assert.equal(
+        comparer[GetHashcode](key), 
+        comparer[GetHashcode](keyAtSlot)
+      )
+
       return i
     }
 

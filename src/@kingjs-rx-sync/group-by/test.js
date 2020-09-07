@@ -1,12 +1,12 @@
 var { assert,
   '@kingjs': {
+    EqualityComparer,
     IObservable: { Subscribe },
-    IObserver: { Subscribed, Next, Complete, Error },
+    IObserver: { Subscribed, Complete, Error },
     IGroupedObservable: { Key },
-    ICollectibleSubject: { IsEligible },
     '-rx': { GroupBy: GroupByAsync, SubscribeAndAssert: AsyncSubscribeAndAssert,
       '-subject': { CollectibleSubject },
-      '-static': { of: asyncOf, throws: asyncThrows },
+      '-static': { of: asyncOf },
       '-sync': { SubscribeAndAssert, Select, Do, Regroup, Then, GroupBy, Where,
         '-static': { of, throws, never }
       }
@@ -15,13 +15,28 @@ var { assert,
 } = module[require('@kingjs-module/dependencies')]()
   
 // basic grouping selection
-var groups = [['a0!', 'a2!'], ['b1!']]
-of('a0', 'b1', 'a2')
-  [GroupBy](o => o[0])
-  [Regroup](o => o[Select](x => x + '!'))
+// var groups = [['a0!', 'a2!'], ['b1!']]
+// of('a0', 'b1', 'a2')
+//   [GroupBy](o => o[0])
+//   [Regroup](o => o[Select](x => x + '!'))
+//   [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
+//   [Select](o => o[Key])
+//   [SubscribeAndAssert](['a', 'b'])
+// assert.ok(!groups.length)
+
+// basic grouping selection
+var a0 = { key: 'a', value: 0 }
+var a2 = { key: 'a', value: 2 }
+var b1 = { key: 'b', value: 1 }
+var options = { 
+  keyEqualityComparer: new EqualityComparer((l, r) => l.key == r.key) 
+}
+var groups = [[a0, a2], [b1]]
+of(a0, b1, a2)
+  [GroupBy](o => o, options)
   [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
   [Select](o => o[Key])
-  [SubscribeAndAssert](['a', 'b'])
+  [SubscribeAndAssert]([a0, b1])
 assert.ok(!groups.length)
 
 // basic grouping by key
@@ -34,17 +49,7 @@ of('a0', 'b1', 'a2')
 assert.ok(!groups.length)
 
 // complete and restart a group
-var groups = [['a0'], ['a1']]
-of('a0', 'a', 'a1', 'a')
-  [GroupBy](o => o[0], o => o.length == 1)
-  [Do](o => o[AsyncSubscribeAndAssert](groups.shift()))
-  [Select](o => o[Key])
-  [SubscribeAndAssert](['a', 'a'])
-assert.ok(!groups.length)
-
-var createSubject = o => new CollectibleSubject(o, o => o.length == 1)
-
-// complete and restart a group
+var createSubject = cancel => new CollectibleSubject(cancel, o => o.length == 1)
 var groups = [['a0'], ['a1']]
 of('a0', 'a', 'a1', 'a')
   [GroupBy](o => o[0], { createSubject })

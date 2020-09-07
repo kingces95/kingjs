@@ -1,9 +1,8 @@
 var {
   '@kingjs': {
     IObservable,
-    IGroupedObservable: { Key },
     '-rx': {
-      '-sync': { Select, Regroup, WindowBy, DistinctUntilChanged,
+      '-sync': { Regroup, WindowBy, DistinctUntilChanged,
         '-path': { List }
       },
     },
@@ -29,15 +28,19 @@ function select(root, options) {
     isLeaf,
     selectWatcher,
     selectChildren,
-    selectEntity,
+    selectPath,
     selectIdentity,
     selectVersion,
   } = options
 
   return this
-    [List](root, { isLeaf, selectWatcher, selectChildren })
+    [List](root, { 
+      isLeaf, 
+      selectWatcher, 
+      selectChildren, 
+      selectPath 
+    })
     [Regroup](o => o
-      [Select](selectEntity)
       [WindowBy](selectIdentity)
       [Regroup](x => x
         [DistinctUntilChanged](selectVersion)  

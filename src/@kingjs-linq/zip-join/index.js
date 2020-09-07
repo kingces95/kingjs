@@ -1,7 +1,9 @@
 var { 
   assert,
   '@kingjs': {
-    LessThan,
+    Comparer: { default: Comparer },
+    IComparer,
+    IComparer: { IsLessThan },
     IEnumerable,
     IEnumerable: { GetEnumerator },
     IEnumerator: { MoveNext, Current },
@@ -35,7 +37,9 @@ function zipJoin(
   innerEnumerable, 
   outerKeySelector = DefaultKeySelector,
   innerKeySelector = DefaultKeySelector,
-  keyComparer = LessThan) {
+  keyComparer = Comparer) {
+
+  assert.ok(keyComparer instanceof IComparer)
 
   var outerEnumerable = this
   var innerEnumerable = innerEnumerable || empty()
@@ -69,14 +73,14 @@ function zipJoin(
     while (true) {
 
       // inner behind outer
-      if (!innerDone && (outerDone || keyComparer(innerKey, outerKey))) {
+      if (!innerDone && (outerDone || keyComparer[IsLessThan](innerKey, outerKey))) {
         yield ResultSelector(null, inner, innerKey)
         innerDone = advanceInner()
         continue
       }
 
       // outer behind inner
-      if (!outerDone && (innerDone || keyComparer(outerKey, innerKey))) {
+      if (!outerDone && (innerDone || keyComparer[IsLessThan](outerKey, innerKey))) {
         yield ResultSelector(outer, null, outerKey)
         outerDone = advanceOuter()
         continue
@@ -87,8 +91,8 @@ function zipJoin(
         break
 
       // outer and inner share a common key
-      assert(!keyComparer(innerKey, outerKey))
-      assert(!keyComparer(outerKey, innerKey))
+      assert(!keyComparer[IsLessThan](innerKey, outerKey))
+      assert(!keyComparer[IsLessThan](outerKey, innerKey))
       yield ResultSelector(outer, inner, innerKey)
       innerDone = advanceInner()
       outerDone = advanceOuter()

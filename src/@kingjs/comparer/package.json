@@ -1,0 +1,25 @@
+{
+  "name": "@kingjs/equality-comparer",
+  "version": "1.0.8",
+  "description": "Generates a sequence of arrays or descriptors  composed of a single element each from a set of arrays.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/from-each"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/odometer": "latest"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

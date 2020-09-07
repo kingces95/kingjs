@@ -1,5 +1,6 @@
 var {
   '@kingjs': {
+    Comparer,
     '-rx': {
       '-sync': { RollingZipJoin, Select, SubscribeAndAssert,
         '-static': { of, throws, never },
@@ -34,17 +35,17 @@ of([0, 1], [1], [])
     { current: null, previous: 1, key: 1 },
   ])
 
-of([{ key:1 }, { key:0 }], [{ key: 0 }])
+of([ { key: { id: 1 } }, { key: { id: 0 } }], [{ key: { id: 0 } }])
   [RollingZipJoin](
     o => o.key, 
-    (l, r) => l > r
+    new Comparer((l, r) => l.id > r.id)
   )
   [Select](selector)
   [SubscribeAndAssert]([
-    { current: { key:1 }, previous: null, key: 1 },
-    { current: { key:0 }, previous: null, key: 0 },
-    { current: null, previous: { key:1 }, key: 1 },
-    { current: { key:0 }, previous: { key:0 }, key: 0 },
+    { current: { key: { id: 1 } }, previous: null,               key: { id: 1 } },
+    { current: { key: { id: 0 } }, previous: null,               key: { id: 0 } },
+    { current: null,               previous: { key: { id: 1 } }, key: { id: 1 } },
+    { current: { key: { id: 0 } }, previous: { key: { id: 0 } }, key: { id: 0 } },
   ])
 
 throws('error')

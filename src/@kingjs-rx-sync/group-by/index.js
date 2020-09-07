@@ -1,12 +1,15 @@
 var { assert,
   '@kingjs': {
+    Identity,
     EmptyObject,
+    EqualityComparer: { default: EqualityComparer },
+    IEqualityComparer,
     IObservable,
     IObservable: { Subscribe },
     IGroupedObservable: { Key },
     ICollectibleSubject: { IsEligible },
     IObserver: { Next, Complete, Error },
-    '-collections': { Dictionary: Map },
+    '-collections': { Dictionary },
     '-rx': {
       '-subject': { Subject, CollectibleSubject },
       '-sync-static': { create },
@@ -16,15 +19,10 @@ var { assert,
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Identity = o => o
 var Options = { name: groupBy.name }
 var Timeout = Symbol('timeout')
 var Debounce = 0
 var Async = false
-
-function createCollectibleSubject(closeGroup) {
-  return cancel => new CollectibleSubject(cancel, closeGroup)
-} 
 
 /**
  * @description Groups observations with a common key into `IGroupedObservables`
@@ -32,7 +30,8 @@ function createCollectibleSubject(closeGroup) {
  * 
  * @this any The `IObservable` to group.
  * @param [keySelector] Select the key.
- * @param [groupCloser] Select if a group should be completed. 
+ * @param [options] A `groupCloser` or a pojo of the form 
+ * `{ async, debounce, keyComparer, createSubject }`
  * 
  * @callback keySelector
  * @param value The value.
@@ -41,36 +40,36 @@ function createCollectibleSubject(closeGroup) {
  * @callback groupCloser
  * @param key The group's key.
  * @param value The group's next value.
- * @returns Returns `true` to complete the group synchronously or the 
- * number of milliseconds after which the group will be asynchronously
- * closed. In either case, the message will not be emitted by the group.
- * Any other value will keep the group open.
+ * @returns Returns `true` to complete the group.
  * 
  * @returns Returns an `IObservable` that emits `IGroupedObservable`.
  * 
- * @remarks Calling `cancel` inside the `keySelector` or `groupCloser`
- * is disallowed.
- * @remarks Any message received after an asynchronous group close 
- * message will clear the asynchronous group closure.
+ * @remarks If `createSubject` returns an `ICollectibleSubject`, then that group
+ * will be completed when it declares itself eligible to be collected.
+ * @remarks If `async`, then groups will be completed after `debounce` milliseconds 
+ * unless a subsequent event with matching group key is observed in which case the 
+ * completion timer is cancelled.
+ * @remarks Calling `cancel` inside the `keySelector` or `groupCloser` is disallowed.
  */
 function groupBy(
   keySelector = Identity,
   options = EmptyObject
 ) {
-  if (options instanceof Function)
-    options = { createSubject: createCollectibleSubject(options) }
+  assert.ok((options instanceof Function) == false)
 
   var { 
     async = Async,
     debounce = Debounce,
+    keyEqualityComparer = EqualityComparer,
     createSubject = cancel => new Subject(cancel),
   } = options
 
   assert.ok(!debounce || async)
+  assert.ok(keyEqualityComparer instanceof IEqualityComparer)
 
   return create(observer => {
     var subscription = new SubscriptionTracker(observer)
-    var groupByKey = new Map()
+    var groupByKey = new Dictionary({ comparer: keyEqualityComparer })
 
     function finalizeGroups(action) {
       for (var key of groupByKey.keys()) {

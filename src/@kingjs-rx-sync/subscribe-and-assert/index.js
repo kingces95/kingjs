@@ -91,7 +91,7 @@ async function subscribeAndAssert(expected, options = { }) {
 
         assert.ok(Date.now() - start >= delay)
         start = Date.now()
-  
+
         assert.deepEqual(o, expected.shift())
         if (terminate && tryCancel(cancel))
           accept()
@@ -118,6 +118,8 @@ async function subscribeAndAssert(expected, options = { }) {
     while (expected[0] instanceof Function) {
       var action = expected.shift()
       var promise = action()
+
+      assert(!(promise instanceof Promise) || async)
       if (async)
         await promise
     }

@@ -38,7 +38,7 @@ function intersect(
 
         if (!set)
           set = new Dictionary()
-        
+          
         if (secondEnumerator) {
           while (secondEnumerator[MoveNext]())
             set[idSelector(secondEnumerator[Current])] = undefined

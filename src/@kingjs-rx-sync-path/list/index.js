@@ -1,9 +1,10 @@
 var {
-  '@kingjs': {
+  '@kingjs': { identity,
     EmptyObject,
+    Comparer,
     IObservable,
     IGroupedObservable: { Key },
-    '-rx-sync': { Select, Take, GroupSetBy, Augment, SelectLeafs },
+    '-rx-sync': { Select, Take, WatchSet, Augment, SelectLeafs, Rekey },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -23,15 +24,17 @@ function list(root, options = EmptyObject) {
     isLeaf, 
     selectWatcher, 
     selectChildren, 
-    selectIdentity,
+    selectPath = identity,
   } = options
+
+  var keyComparer = Comparer.createUsingKeySelector(selectPath)
 
   function groupNodes(observable, node) {
     return observable
       [Take](1)
       [Augment](selectWatcher(node))
       [Select](() => selectChildren(node))
-      [GroupSetBy]()
+      [WatchSet]({ keyComparer })
   }
 
   return groupNodes(this, root)
@@ -40,6 +43,7 @@ function list(root, options = EmptyObject) {
       if (!isLeaf(node))
         return groupNodes(o, node) 
     })
+    [Rekey](o => selectPath(o))
 }
 
 module[ExportInterfaceExtension](IObservable, list)
