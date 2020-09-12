@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-file/copy",
+  "name": "@kingjs-fs/inode",
   "version": "1.0.0",
   "description": "Partition an array into arrays that are assigned to properties of an object.",
   "main": "index.js",
@@ -17,19 +17,19 @@
   },
   "keywords": [],
   "license": "MIT",
+  "capitalize": true,
   "dependencies": {
-    "@kingjs/path": "file:../../../../path",
-    "@kingjs-module/export-extension": "file:../../../../module/export-extension"
+    "@kingjs/array.partition": "file:../../../../array/partition",
+    "@kingjs-module/export-extension": "file:../../../../module/export-extension",
+    "@kingjs/path": "file:../../../../path"
   },
   "nodeDependencies": [
     "assert",
     "fs"
   ],
-  "capitalize": true,
   "devDependencies": {
-    "@kingjs-fs-promises/exists": "file:../../exists",
-    "@kingjs-fs-promises-file/read": "file:../read",
-    "@kingjs-fs-promises-file/unlink": "file:../unlink",
-    "@kingjs-fs-promises-file/write": "file:../write"
+    "@kingjs-fs-promises-dir/make": "file:../make",
+    "@kingjs-fs-promises-dir/remove": "file:../remove",
+    "@kingjs-fs-promises-file/write": "file:../../file/write"
   }
 }

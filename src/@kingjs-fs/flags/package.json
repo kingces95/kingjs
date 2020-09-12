@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-fs-promises-link/read",
-  "version": "0.0.0",
-  "description": "Links a path to a directory or file target.",
+  "name": "@kingjs-fs/flags",
+  "version": "1.0.0",
+  "description": "An enumeration of DirEnt kinds.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,17 +13,23 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://repository.kingjs.net/array/remove"
   },
   "keywords": [],
   "license": "MIT",
   "capitalize": true,
   "dependencies": {
-    "@kingjs-fs-promises-dir/make": "file:../../dir/make",
+    "@kingjs/array.partition": "file:../../../../array/partition",
     "@kingjs-module/export-extension": "file:../../../../module/export-extension",
     "@kingjs/path": "file:../../../../path"
   },
   "nodeDependencies": [
+    "assert",
     "fs"
-  ]
+  ],
+  "devDependencies": {
+    "@kingjs-fs-promises-dir/make": "file:../make",
+    "@kingjs-fs-promises-dir/remove": "file:../remove",
+    "@kingjs-fs-promises-file/write": "file:../../file/write"
+  }
 }

@@ -2,7 +2,7 @@ var {
   '@kingjs': {
     EmptyObject,
     IObservable,
-    '-fs-entity': { InoVersionPath: { Dir } },
+    '-fs': { Link },
     '-rx': { Debounce,
       '-subject': { Subject },
       '-path': { Watch },
@@ -16,7 +16,7 @@ var Noop = () => null
 
 var DebounceMs = 100
 var CreateSubject = () => new Subject(Noop)
-var Dot = Dir.dot
+var Dot = Link.dot
 
 /**
  * @description Watches a directory tree for changes.

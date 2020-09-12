@@ -15,7 +15,7 @@ var copyAsync = fsp.copyFile.bind(fsp)
 function copyFile(dir, options = EmptyObject) {
   var { async, name } = options
   var target = dir.to(name ? name : this.name)
-  var promise = (async ? copyAsync : copySync)(this.buffer, target.buffer, options)
+  var promise = (async ? copyAsync : copySync)(this.buffer, target.buffer)
   return async ? promise.then(() => target) : target
 }
 

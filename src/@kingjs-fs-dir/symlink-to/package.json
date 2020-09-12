@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-dir/write",
+  "name": "@kingjs-fs-dir/symlink-to",
   "version": "0.0.0",
   "description": "Reads a file at the path.",
   "main": "index.js",

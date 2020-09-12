@@ -18,12 +18,12 @@ var linkStatAsync = fsp.lstat.bind(fsp)
  * @returns A 'Stat' for the path.
  */
 function stat(options = EmptyObject) {
-  var { async, link } = options
+  var { async, follow } = options
 
-  if (link)
-    return (async ? linkStatAsync : linkStatSync)(this.buffer, options)
+  if (follow)
+    return (async ? statAsync : statSync)(this.buffer)
 
-  return (async ? statAsync : statSync)(this.buffer, options)
+  return (async ? linkStatAsync : linkStatSync)(this.buffer)
 }
 
 module[ExportExtension](Path.Builder, stat)

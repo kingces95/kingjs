@@ -1,5 +1,5 @@
 {
-  "name": "@kingjs-fs-promises-file/unlink",
+  "name": "@kingjs-fs-promises-leaf/unlink",
   "version": "0.0.0",
   "description": "Test if a path exists.",
   "main": "index.js",

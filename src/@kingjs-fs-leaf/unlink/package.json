@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-fs-dir/write",
+  "name": "@kingjs-fs-leaf/unlink",
   "version": "0.0.0",
-  "description": "Reads a file at the path.",
+  "description": "Unlinks a file at the path.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/fs/file/write"
+    "url": "https://repository.kingjs.net/fs/file/unlink"
   },
   "keywords": [],
   "license": "MIT",
@@ -28,6 +28,6 @@
   "devDependencies": {
     "@kingjs/fs.exists": "file:../../exists",
     "@kingjs-fs-file/read": "file:../read",
-    "@kingjs-fs-file/unlink": "file:../unlink"
+    "@kingjs-fs-file/write": "file:../write"
   }
 }

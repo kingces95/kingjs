@@ -3,8 +3,8 @@ var { assert,
     Path,
     IObservable: { Subscribe },
     '-fs': { Exists,
-      '-dir': { Make, Remove },
-      '-file': { Overwrite, Unlink },
+      '-dir': { Make, Remove, Write },
+      '-file': { Overwrite },
     },
     '-rx': {
       '-sync': { SubscribeAndAssert, Do, Select,
@@ -27,11 +27,7 @@ if (root[Exists]())
 root[Make]()
 process.chdir(root.toString())
 
-var dir = dot.to('d')
-var foo = dot.to('f')
-var bar = dir.to('b')
-
-foo[Overwrite]()
+var foo = dot[Write]('f')
 
 never()
   [Watch]()

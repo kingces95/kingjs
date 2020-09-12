@@ -1,7 +1,9 @@
 var {
   '@kingjs': { EmptyObject, Path,
     '-module': { ExportExtension },
-    '-fs-dir': { Write },
+    '-fs': { Flags,
+      '-dir': { Write },
+    }
   }
 } = module[require('@kingjs-module/dependencies')]()
 
@@ -13,7 +15,10 @@ var {
  * @returns Binary data or text.
  */
 function overwrite(data, options = EmptyObject) {
-  return this.dir[Write](this.name, data, options)
+  var { async, encoding } = options
+  return this.dir[Write](this.name, data, { 
+    async, encoding, flag: Flags.OpenExistingForReadingAndWriting 
+  })
 }
 
 module[ExportExtension](Path.Builder, overwrite)

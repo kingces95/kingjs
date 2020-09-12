@@ -1,0 +1,35 @@
+{
+  "name": "@kingjs-fs/inode",
+  "version": "1.0.0",
+  "description": "Partition an array into arrays that are assigned to properties of an object.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm .test",
+    "build": "cpk && crm && cdj && clk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/array/remove"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {
+    "@kingjs/array.partition": "file:../../../../array/partition",
+    "@kingjs-module/export-extension": "file:../../../../module/export-extension",
+    "@kingjs/path": "file:../../../../path"
+  },
+  "nodeDependencies": [
+    "assert",
+    "fs"
+  ],
+  "devDependencies": {
+    "@kingjs-fs-promises-dir/make": "file:../make",
+    "@kingjs-fs-promises-dir/remove": "file:../remove",
+    "@kingjs-fs-promises-file/write": "file:../../file/write"
+  }
+}
