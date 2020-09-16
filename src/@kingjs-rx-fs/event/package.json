@@ -1,7 +1,7 @@
 {
-  "name": "@kingjs-rx-sync/select-leafs",
+  "name": "@kingjs-rx-fs/event",
   "version": "1.0.0",
-  "description": "Returns an `IObservable` emits the elements selected from the many `IObservable`s returned by callback optionally further selecting each resulting element.",
+  "description": "Subscribes `subject` to the source `IObservable` and returns the `subject`.",
   "main": "index.js",
   "files": [
     "*.js"
@@ -13,17 +13,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://repository.kingjs.net/rx/select-many"
+    "url": "https://repository.kingjs.net/rx/pipe"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
     "@kingjs/reflect.export-extension": "latest",
-    "@kingjs/rx.from": "latest",
+    "@kingjs/rx.create": "latest",
     "@kingjs/rx.i-observable": "latest",
-    "@kingjs/rx.i-observer": "latest",
-    "@kingjs/rx.i-published-observable": "latest",
-    "@kingjs/rx.subject": "latest"
+    "@kingjs/rx.i-observer": "latest"
   },
   "nodeDependencies": [
     "assert"

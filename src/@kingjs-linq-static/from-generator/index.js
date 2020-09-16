@@ -1,6 +1,5 @@
 var { 
   '@kingjs': {
-    IIterable: { GetIterator },
     Enumerable
   }
 } = module[require('@kingjs-module/dependencies')]()

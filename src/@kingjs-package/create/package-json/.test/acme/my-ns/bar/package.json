@@ -1,0 +1,20 @@
+{
+  "name": "@acme/my-ns.bar",
+  "version": "0.0.0",
+  "description": "A description of the package B.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://repository.acme.net/my-ns/bar"
+  },
+  "dependencies": {
+    "@acme/my-ns.foo": "file:../foo"
+  },
+  "nodeDependencies": [
+    "assert"
+  ]
+}

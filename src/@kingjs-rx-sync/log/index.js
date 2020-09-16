@@ -16,7 +16,7 @@ function log() {
   return this[Do]({
     [Next](o) { console.log(o) },
     [Complete]() { },
-    [Error](e) { console.log(e) }
+    [Error](e) { console.error(e) }
   })
 }
 

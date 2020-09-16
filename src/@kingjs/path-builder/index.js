@@ -2,6 +2,7 @@ var { assert, Path,
   '@kingjs': { Exception,
     'IEquatable': { Equals, GetHashcode },
     'IComparable': { IsLessThan },
+    'IInspectable': { Inspect },
     '-pojo': { ToArray },
     '-reflect': { isString },
     '-string': { StringBuilder },
@@ -72,17 +73,27 @@ class PathBuilder {
     assert.ok(buffer instanceof StringBuilder)
     assert.ok(sepBuffer instanceof StringBuilder)
 
-    this._builder = buffer
-    this._sepBuffer = sepBuffer
-
     Object.defineProperties(this, { 
       _hashcode: NonEnumerable,
       _builder: NonEnumerable,
       _sepBuffer: NonEnumerable,
       _map: NonEnumerable,
     })
+
+    this._builder = buffer
+    this._sepBuffer = sepBuffer
   }
 
+  isOrIsAncestorOf(other) {
+    assert(other instanceof PathBuilder)
+    assert(!this.isDotDot && !other.isDotDot)
+    var path = this.toRelative(other)
+
+    while (path.parent)
+      path = path.parent
+
+    return !path.isDotDot
+  }
   toRelative(target) {
     assert(target instanceof PathBuilder)
     assert(this.isRelative == target.isRelative)
@@ -151,11 +162,15 @@ class PathBuilder {
     return NamedPathBuilder.create(result, path.name)
   }
 
+  get __toString() { return this.toString() }
+  
+  toString() { return this._builder.toString() }
+  toJSON() { return this.toString() }
+  [Inspect]() { return this.toString() }
+
   get sep() { return this._sepBuffer.toString() }
   get builder() { return this._builder }
   get buffer() { return this.builder.buffer }
-  toString() { return this._builder.toString() }
-  get __toString() { return this.toString() }
 
   [Equals](other) { return other instanceof PathBuilder && this._builder[Equals](other._builder) }
   [GetHashcode]() { return this._builder[GetHashcode]()}
@@ -245,16 +260,15 @@ class DotPathBuilder extends RelativePathBuilder {
 class DotDotPathBuilder extends RelativePathBuilder {
   constructor(parent) {
     assert(parent instanceof DotPathBuilder || parent instanceof DotDotPathBuilder)
+    var { _sepBuffer, _builder } = parent
 
-    var sepBuffer = parent._sepBuffer
-
-    if (parent instanceof DotPathBuilder)
-      super(DotDotBuffer, sepBuffer)
-
-    else
-      super(parent._builder.append(parent._sepBuffer, DotDotBuffer), sepBuffer)
-
-    this.parent = parent
+    if (parent instanceof DotPathBuilder) {
+      super(DotDotBuffer, _sepBuffer)
+    }    
+    else {
+      super(_builder.append(_sepBuffer, DotDotBuffer), _sepBuffer)
+      this.parent = parent
+    }
   }
 
   get isRelative() { return true }

@@ -6,8 +6,8 @@ var {
 
 var EmptyArray = []
 
-function from(indexable = EmptyArray) {
+function fromIndexable(indexable = EmptyArray) {
   return new Enumerable(indexable)
 }
 
-module.exports = from
+module.exports = fromIndexable

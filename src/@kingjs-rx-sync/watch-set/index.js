@@ -23,8 +23,7 @@ function createSubject(cancel) {
  * as elements come, go and/or are retained, groups are created, completed, and/or will emit 
  * the element whose key currently matches the group. 
  * 
- * @this any An `IObservable` of sets where a set is a sorted container which
- * implements `IEnumerable`.
+ * @this any An `IObservable` of sets where a set is a sorted `IEnumerable`.
  * @param [options] Pojo of the form { keySelector, keyComparer } where the 
  * later implements `IComparer` and is `EqualityComparer.default` by default.
  * @returns Returns an `IObservable` that emits an `IGroupedObservable` for 

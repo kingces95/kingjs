@@ -1,0 +1,15 @@
+{
+  "name": "acme",
+  "repository": {
+    "url": "https://repository.acme.net",
+    "type": "git"
+  },
+  "packageDefaults": {
+    "main": "index.js",
+    "files": [
+      "*.js"
+    ],
+    "license": "MIT"
+  },
+  "template": ".template"
+}

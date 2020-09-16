@@ -7,9 +7,9 @@ var {
 
 var EmptyArray = []
 
-function from(iterable = EmptyArray) {
+function fromIterable(iterable = EmptyArray) {
   var generator = iterable[GetIterator].bind(iterable)
   return fromGenerator(generator)
 }
 
-module.exports = from
+module.exports = fromIterable

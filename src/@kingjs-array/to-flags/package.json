@@ -1,0 +1,22 @@
+{
+  "name": "@kingjs-as/to-flags",
+  "version": "1.0.6",
+  "description": "A dictionary.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/dictionary"
+  },
+  "keywords": [],
+  "author": "Chris King <kingces95@gmail.com>",
+  "license": "MIT",
+  "capitalize": true,
+  "dependencies": {}
+}

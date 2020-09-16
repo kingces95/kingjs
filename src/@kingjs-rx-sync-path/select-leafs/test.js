@@ -1,12 +1,12 @@
 var {
   '@kingjs': { Path,
-    '-fs': { 
-      '-dir': { List },
-      '-file': { Read },
+    '-fs': { Link,
+      '-dir': { Make, Remove },
       '-promises': { Save }
     },
     '-rx': { 
-      '-sync': { SelectLeafs, SubscribeAndAssert, Materialize, Select,
+      '-sync': { SubscribeAndAssert, Materialize, Select,
+        '-path': { SelectLeafs },
         '-static': { of, from, throws, never },
       },
     },
@@ -37,7 +37,12 @@ throws('error')
 
 process.nextTick(async () => {
   var dot = Path.dot
-  var acme = dot.to('acme')
+  var temp = dot.to('.temp')
+  temp[Remove]()
+  temp[Make]()
+
+  process.chdir('.temp')
+  var acme = temp.to('acme')
   await acme[Save]({
     ['foo']: {
       ['bar']: {
@@ -48,15 +53,16 @@ process.nextTick(async () => {
     ['root.txt']: 'root',
   })
 
-  var Options = { withFileTypes: true }
-  var Utf8 = 'utf8'
-
-  from(acme[List](Options))
-    [SelectLeafs](o => o.isDirectory ?
-       from(o.path[List](Options)) : null 
-    )
+  of(Link.dot)
+    [SelectLeafs](o => {
+      if (o.isDirectory)
+        return from(o.list())
+    })
     [Select](
-      o => o.path[Read](Utf8)
+      o => o.read()
     )
     [SubscribeAndAssert](['bar', 'foo', 'root'])
+
+  process.chdir('..')
+  temp[Remove]()
 })

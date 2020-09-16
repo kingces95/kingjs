@@ -4,11 +4,11 @@ var { assert, fs: { promises: fs },
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Acme = 'acme'
+var Temp = '.temp'
 var Utf8 = 'utf8'
 
-async function run() {
-  await fs.rmdir('acme', { recursive: true })
+process.nextTick(async () => {
+  await fs.rmdir(Temp, { recursive: true })
 
   var files = {
     foo: {
@@ -27,31 +27,30 @@ async function run() {
     license: 'Do anything.'
   }
 
-  await Path.parse('acme')[Save](files)
+  await Path.parse(Temp)[Save](files)
 
-  assert.equal('Do anything.', await fs.readFile('acme/foo/license'))
+  assert.equal('Do anything.', await fs.readFile('.temp/foo/license'))
   assert.deepEqual(
     [ 'foo.js', 'license' ], 
-    (await fs.readdir('acme/bar/node_modules/foo')).sort()
+    (await fs.readdir('.temp/bar/node_modules/foo')).sort()
   )
 
   assert.deepEqual({
     foo: {
-      'foo.js': await fs.readFile('acme/foo/foo.js', Utf8),
-      license: `file:${await fs.readlink('acme/foo/license', 'utf8')}`
+      'foo.js': await fs.readFile('.temp/foo/foo.js', Utf8),
+      license: `file:${await fs.readlink('.temp/foo/license', 'utf8')}`
     },
     bar: {
-      'bar.js': await fs.readFile('acme/bar/bar.js', Utf8),
+      'bar.js': await fs.readFile('.temp/bar/bar.js', Utf8),
       'package.json': JSON.parse(
-        await fs.readFile('acme/bar/package.json')
+        await fs.readFile('.temp/bar/package.json')
       ),
       'node_modules': {
-        'foo': `dir:${await fs.readlink('acme/bar/node_modules/foo', 'utf8')}`
+        'foo': `dir:${await fs.readlink('.temp/bar/node_modules/foo', 'utf8')}`
       }
     },
     license: 'Do anything.'
   }, files)
 
-  await fs.rmdir('acme', { recursive: true })
-}
-run().catch(o => console.log(o))
+  await fs.rmdir('.temp', { recursive: true })
+})

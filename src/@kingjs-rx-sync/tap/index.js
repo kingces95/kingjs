@@ -33,7 +33,6 @@ var False = () => false
  * will not cancel the subscription to the source `IObservable`.
  */
 function tap(callback, options = EmptyObject) {
-  var { siphon = False } = options
 
   return create(observer => {
     var tapCancelled = false
@@ -48,9 +47,6 @@ function tap(callback, options = EmptyObject) {
         [Next](o) {
           if (!tapCancelled) 
             subject[Next](o)
-
-          if (siphon(o))
-            return
 
           if (subscription.cancelled)
             return

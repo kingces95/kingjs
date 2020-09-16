@@ -4,7 +4,12 @@ var {
     Comparer,
     IObservable,
     IGroupedObservable: { Key },
-    '-rx-sync': { Select, Take, WatchSet, Augment, SelectLeafs, Rekey },
+    '-linq': { OrderBy,
+      '-static': { from }
+    },
+    '-rx-sync': { Select, Take, WatchSet, Augment, Rekey,
+      '-path': { SelectLeafs }
+    },
     '-module': { ExportInterfaceExtension },
   }
 } = module[require('@kingjs-module/dependencies')]()
@@ -18,6 +23,7 @@ var {
  * where each property is a function that takes a node.
  * @return Returns a group for each leaf whose key is the leaf and whose
  * emissions are equivalent representations of the leaf.
+ * 
  */
 function list(root, options = EmptyObject) {
   var { 
@@ -34,6 +40,9 @@ function list(root, options = EmptyObject) {
       [Take](1)
       [Augment](selectWatcher(node))
       [Select](() => selectChildren(node))
+      [Select](o => from(o)
+        [OrderBy](x => !isLeaf(x))
+      )
       [WatchSet]({ keyComparer })
   }
 

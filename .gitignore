@@ -5,4 +5,4 @@
 **/.downloads
 **/.coverage
 .env/kingjs
-**/acme
+**/.temp

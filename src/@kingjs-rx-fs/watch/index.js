@@ -3,6 +3,9 @@ var {
     EmptyObject,
     IObservable,
     '-fs': { Link },
+    '-linq': { Where,
+      '-static': { from }
+    },
     '-rx': { Debounce,
       '-subject': { Subject },
       '-path': { Watch },
@@ -12,11 +15,10 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Noop = () => null
-
-var DebounceMs = 100
-var CreateSubject = () => new Subject(Noop)
+var Blink = 100
 var Dot = Link.dot
+var createSubject = () => new Subject()
+var filterStartsWithDot = o => o.name[0] != '.'
 
 /**
  * @description Watches a directory tree for changes.
@@ -35,22 +37,25 @@ var Dot = Link.dot
 function watch(options = EmptyObject) {
   var { 
     dir = Dot,
-    debounceMs = DebounceMs,
-    selectWatcher = CreateSubject,
+    debounce = Blink,
+    selectWatcher = createSubject,
+    filterChildren = filterStartsWithDot
   } = options
 
   return this
     [Watch](dir, {
       isLeaf: o => !o.isDirectory,
       selectWatcher: o => 
-        selectWatcher(o)
+        selectWatcher(o.path)
           [WatchPath](o.path)
-          [Debounce](debounceMs),
-      selectChildren: o => o.list(),
+          [Debounce](debounce),
+      selectChildren: o => 
+        from(o.list())
+          [Where](filterChildren),
       selectPath: o => o.path,
       selectIdentity: o => o.ino,
       selectVersion: o => o.mtime,
-      debounce: debounceMs,
+      debounce,
     })
 }
 

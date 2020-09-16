@@ -1,8 +1,8 @@
 var { 
   '@kingjs': {
-    module: { ExportExtension },
-    pojo: { ToPairs },
-    array: { Expand }
+    '-module': { ExportExtension },
+    '-pojo': { ToPairs },
+    '-array': { Expand }
   }
 } = module[require('@kingjs-module/dependencies')]()
 

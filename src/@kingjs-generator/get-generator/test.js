@@ -7,7 +7,7 @@ function test(generator) {
   assert(iterator.next().done);
 
   for (var o of generator())
-    assert(o == 1);
+    assert(o == 1)
 }
 
 test(getGenerator([1]));

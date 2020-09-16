@@ -1,9 +1,7 @@
 var { assert,
   '@kingjs': { Path,
     '-fs-promises': {
-      '-dir': { Make: MakeDir },
-      '-file': { Write: WriteFile},
-      '-link': { Write: LinkTo },
+      '-dir': { Make, Write, SymlinkTo },
     },
     '-reflect': { is },
     '-json': { stringify },
@@ -27,25 +25,25 @@ async function save(pojo) {
   async function saveDir(dir) {
 
     // create directory
-    await this[MakeDir]()
+    await this[Make]()
 
     for (var name in dir) {
       var entry = dir[name]
-      var entryPath = this.to(name)
 
       // create file
-      if (await saveEntry.call(entryPath, entry))
+      if (await saveEntry.call(this, name, entry))
         continue
 
-      await saveDir.call(entryPath, entry)
+      await saveDir.call(this.to(name), entry)
     }
   }
 }
 
-async function saveEntry(entry) {
+async function saveEntry(name, entry) {
+  var path = this.to(name)
 
   // entries with '.json' are stringified
-  if (this.ext == DotJson)
+  if (path.ext == DotJson)
     entry = stringify(entry)
 
   if (!is.string(entry))
@@ -55,14 +53,16 @@ async function saveEntry(entry) {
   var match = /^(file|dir):(.*)/.exec(entry)
   if (match) {
     var isFile = match[1] == 'file'
-    var target = this.dir.to(Path.parse(match[2]))
-    await this[LinkTo](target, isFile)
+    var targetPath = this.to(Path.parse(match[2]))
+    var targetDir = isFile ? targetPath.dir : targetPath
+    var targetName = isFile ? targetPath.name : null
+    await this[SymlinkTo](name, targetDir, { name: targetName })
     return true
   }
 
   // write text to a file
   assert(is.string(entry))
-  await this[WriteFile](entry)
+  await this[Write](name, entry)
   return true
 }
 

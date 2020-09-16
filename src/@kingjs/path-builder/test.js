@@ -1,8 +1,6 @@
-var { assert,
+var { assert, util: { inspect },
   '@kingjs': {
-    Path,
     PathBuilder,
-    'ISingleton': { IsSingleton },
     'IEquatable': { Equals, GetHashcode },
     'IComparable': { IsLessThan },
   },
@@ -50,8 +48,17 @@ function test(sep, altSep) {
   }
 
   var dot = PathBuilder.createRelative(sep)
+  var json = JSON.stringify(dot)
+  assert.equal(json, '"."')
+  assert.ok(dot.isOrIsAncestorOf(dot))
+  assert.equal(dot.parent, undefined)
+
+  var inspected = inspect(dot)
+  assert.equal(inspected, '.')
+
   var altDot = PathBuilder.createRelative(altSep)
   assert.ok(altDot[Equals](dot))
+  assert.equal(altDot[GetHashcode](), dot[GetHashcode]())
   assert.isConsistent(dot, '.', '.')
   assert.ok(dot.isDot)
   assert.ok(dot.isRelative)
@@ -67,6 +74,7 @@ function test(sep, altSep) {
   assert.ok(root.isAbsolute)
   assert.equal(root.basename, undefined)
   assert.equal(root.ext, undefined)
+  assert.equal(root.parent, undefined)
 
   var dotDot = dot.dir
   assert.isConsistent(dotDot, '..', '..')
@@ -74,6 +82,7 @@ function test(sep, altSep) {
   assert.ok(dotDot.isDotDot)
   assert.equal(dotDot.basename, undefined)
   assert.equal(dotDot.ext, undefined)
+  assert.equal(dot.parent, undefined)
   //assert.ok(dotDot.toRelative('foo') === undefined)
 
   var backFoo = dotDot.to('foo')
@@ -85,6 +94,8 @@ function test(sep, altSep) {
   var relFoo = dot.to('foo')
   assert.isNamed(relFoo, 'foo', 'foo', dot)
   assert.ok(relFoo.to(dotDot)[Equals](dot))
+  assert.ok(dot.isOrIsAncestorOf(relFoo))
+  assert.ok(!relFoo.isOrIsAncestorOf(dot))
 
   var foo = root.to('foo')
   assert.isNamed(foo, 'foo', `${sep}foo`, root)

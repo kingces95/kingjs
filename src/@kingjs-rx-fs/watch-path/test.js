@@ -1,7 +1,10 @@
 var {
   '@kingjs': {
     Path,
-    '-fs-file': { Overwrite, Unlink },
+    '-fs': {
+      '-leaf': { Unlink },
+      '-dir': { Write },
+    },
     '-rx': { SubscribeAndAssert,
       '-static': { never },
       '-sync': { SubscribeAndAssert: SyncSubscribeAndAssert,
@@ -27,8 +30,8 @@ process.nextTick(async () =>{
     [WatchPath](path)
     [SubscribeAndAssert](null, { terminate: true })
 
-  var fooTxt = path.to('foo.txt')
-  process.nextTick(() => fooTxt[Overwrite]())
+  var fooTxt = null
+  process.nextTick(() => fooTxt = path[Write]('foo.txt'))
   await never()
     [WatchPath](path)
     [SubscribeAndAssert]([null], { terminate: true })

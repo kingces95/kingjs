@@ -42,8 +42,7 @@ class Link {
     assert.ok(ino)
     assert.ok(mtime)
 
-    Reflect.defineProperty(this, 'path', { value: path })
-
+    this.path = path
     this.mtime = mtime
     this.ino = ino
   }

@@ -1,0 +1,24 @@
+{
+  "name": "@kingjs/i-inspectable",
+  "version": "1.0.3",
+  "description": "`IIterable` has one member `getIterator`.",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "scripts": {
+    "test": "node .test",
+    "prepublishOnly": "npm test",
+    "build": "cpk && crm && cdj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://repository.kingjs.net/i-iterable"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "@kingjs/reflect.create-interface": "latest"
+  },
+  "capitalize": true
+}

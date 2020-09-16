@@ -34,8 +34,6 @@ function define(name, descriptor) {
   // define the new interface
   var iface = defineClass(name, Interface)
 
-  var d = bases.map(o => o[Entries](o)).flat()
-
   // key to symbols or arrays of symbols
   var entries = [
     ...members[ToPairs]().map(o => ({ 

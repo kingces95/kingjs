@@ -8,11 +8,11 @@
   "dependencies": {
     "chokidar": "latest",
     "deep-equals": "latest",
-    "eslint": "^7.1.0",
+    "eslint": "latest",
     "is-builtin-module": "latest",
-    "js-beautify": "^1.10.3",
+    "js-beautify": "latest",
     "minimatch": "latest",
-    "mongodb": "^3.5.8",
+    "mongodb": "latest",
     "npm-api": "latest",
     "npm-packlist": "latest",
     "os-utils": "latest",
@@ -20,9 +20,10 @@
     "shelljs": "latest",
     "typescript": "latest",
     "uuid": "latest",
+    "yargs": "latest",
     "which": "latest"
   },
   "devDependencies": {
-    "c8": "^7.1.0"
+    "c8": "latest"
   }
 }

@@ -26,7 +26,6 @@ class Event {
   constructor(id, path, value, previousPath) {
     var name = this.constructor.name[Decapitalize]()
     if (name == 'err') name = 'error'
-    if (name == 'done') name = 'complete'
     this[name] = true
 
     if (id !== undefined) this.id = id

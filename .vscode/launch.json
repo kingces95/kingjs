@@ -12,7 +12,8 @@
         "cwd": "${fileDirname}",
         "console": "integratedTerminal",
         "skipFiles": ["<node_internals>/**/*.js"],
-        "runtimeVersion": "14.8.0"
+        "runtimeVersion": "14.8.0",
+        "autoAttachChildProcesses": true
       },
       {
         "name": "Launch Pri",

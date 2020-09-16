@@ -10,8 +10,6 @@ var {
   }
 } = module[require('@kingjs-module/dependencies')]()
 
-var Identity = o => o
-
 /**
  * @description Observes nodes as they move between paths.
  * 
